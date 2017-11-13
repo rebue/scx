@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: config-server
+
+#encrypt:
+#  failOnError: false
+#  keyStore:
+#    location: classpath:keystore.jks
+#    password: ${KEYSTORE_PASSWORD:foobar}
+#    alias: test

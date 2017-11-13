@@ -1,0 +1,20 @@
+debug: true
+
+logging:
+  config: classpath:config/log4j2.xml
+  level:
+    org.springframework.context.event.SimpleApplicationEventMulticaster: 'INFO'
+    org.springframework.cloud: 'DEBUG'
+#    com.netflix.discovery: 'OFF'
+#    com.netflix.eureka.registry: 'OFF'
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          # git仓库地址
+          uri: http://127.0.0.1:10080/zbz/config-center.git
+          username: zbz
+          password: zbz123456
+  

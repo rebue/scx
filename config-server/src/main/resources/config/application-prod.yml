@@ -1,0 +1,12 @@
+# # 此配置主要用于集群的eureka服务器，一般在生产中使用
+server:
+  # eureka服务端启动的端口号
+  port: 8761
+
+eureka:
+  client:
+    serviceUrl:
+      # 这里指向的是集群的另两台节点
+      defaultZone: http://192.168.1.201:8762/eureka/,http://192.168.1.201:8763/eureka/
+#  instance:
+#    hostname: 192.168.1.201
