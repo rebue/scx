@@ -84,12 +84,15 @@
 				</executions>
 				<configuration>
 					<!-- ${my-docker.host}在settins.xml中统一配置 -->
-					<repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository>
+					<!-- <repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository> -->
+					<repository>nnzbz/eureka-server</repository>
 					<tag>${project.version}</tag>
 					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 					<buildArgs>
 						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>
+					<!-- <verbose>true</verbose> -->
+					<googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
 				</configuration>
 			</plugin>
 		</plugins>
