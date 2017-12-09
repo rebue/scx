@@ -8,13 +8,12 @@ MAINTAINER zbz <nnzbz@163.com>
 # 2. 在docker build命令中以--build-arg a_name=a_value形式赋值
 ARG JAR_FILE
 
-# 加入jar
+# 加入jav
 COPY target/${JAR_FILE} /usr/local/myservice/myservice.jar
 # 加入资源
 COPY src/main/resources/config/bootstrap.yml /usr/local/myservice/config/bootstrap.yml
-COPY src/main/resources/config/application.yml /usr/local/myservice/config/application.yml
-COPY src/main/resources/config/application-prod.yml /usr/local/myservice/config/application-prod.yml
+COPY src/main/resources/config/bootstrap-prod.yml /usr/local/myservice/config/bootstrap-prod.yml
 COPY src/main/resources/config/log4j2.xml /usr/local/myservice/config/log4j2.xml
 
 # 修改为生产模式
-RUN sed -i 's/active: dev/active: prod/' config/application.yml
+RUN sed -i 's/active: dev/active: prod/' config/bootstrap.yml

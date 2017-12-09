@@ -1,10 +1,24 @@
+server:
+  port: 0
+
+eureka:
+  instance:
+    # 客户端注册时使用IP而不是hostname(在客户端配置)
+    prefer-ip-address: true
+    # 将Instance ID设置成IP:端口的形式(在客户端配置)
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+
 spring:
   application:
     name: config-server
-
-#encrypt:
-#  failOnError: false
-#  keyStore:
-#    location: classpath:keystore.jks
-#    password: ${KEYSTORE_PASSWORD:foobar}
-#    alias: test
+  cloud:
+    bus:
+      enabled: true
+      trace:
+        enabled: true # 开启消息跟踪
+      refresh:
+        enabled: true 
+    
+endpoints:
+  bus-refresh:
+    enabled: true

@@ -1,3 +1,6 @@
+server:
+  port: 0
+
 logging:
   config: config/log4j2.xml
   level:
@@ -13,7 +16,13 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/
-    
+
+zuul:
+  debug:
+    #默认所有的请求都会debug
+    request: true
+  include-debug-header: true
+
 spring:
   rabbitmq:
       host: 127.0.0.1
@@ -22,12 +31,10 @@ spring:
       password: guest
   cloud:
     config:
-      server:
-        git:
-          # git仓库地址
-          uri: https://git.coding.net/rebue/config-center.git
-          username: rebue@qq.com
-          password: bbbc8760b9655f96b879c25209483233
+      profile: prod
+      discovery:
+        enabled: true #开启通过服务来访问Config Server的功能
+        service-id: config-server
     bus:
       enabled: true
       trace:
@@ -38,4 +45,4 @@ spring:
 endpoints:
   bus-refresh:
     enabled: true
-      
+

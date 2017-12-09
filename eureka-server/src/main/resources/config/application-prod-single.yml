@@ -1,0 +1,14 @@
+## 此配置为单机版
+server:
+  port: 8761
+
+logging:
+  config: config/log4j2.xml
+  level:
+    root: info
+
+eureka:
+  client:
+    # 下面两项实为关闭eureka客户端，表示是eureka的独立服务端，如果是集群就要删除这两行
+    register-with-eureka: false
+    fetch-registry: false

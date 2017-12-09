@@ -1,19 +1,14 @@
 debug: true
 
+server:
+  port: 8761
+
 logging:
   config: classpath:config/log4j2.xml
   level:
-    org.springframework.context.event.SimpleApplicationEventMulticaster: 'INFO'
-#    com.netflix.discovery: 'OFF'
-#    com.netflix.eureka.registry: 'OFF'
-#    org.springframework.cloud: 'DEBUG'
+    root: info
 
 eureka:
-#  server:
-    # Eureka服务器获取不到其它服务器上的实例时，需要等待的时间，单位为毫秒，默认为0，在集群中需改为合适的值
-#    wait-time-in-ms-when-sync-empty: 0
-    # 踢出超时未响应的客户端
-#    eviction-interval-timer-in-ms: 0
   client:
     # 下面两项实为关闭eureka客户端，表示是eureka的独立服务端
     register-with-eureka: false

@@ -8,12 +8,14 @@ MAINTAINER zbz <nnzbz@163.com>
 # 2. 在docker build命令中以--build-arg a_name=a_value形式赋值
 ARG JAR_FILE
 
-# 加入服务
+# 加入jar
 COPY target/${JAR_FILE} /usr/local/myservice/myservice.jar
-COPY src/main/resources /usr/local/myservice
-# 修改为生产模式
-RUN sed -i 's/active: dev/active: prod/' config/application.yml
+# 加入资源
+COPY src/main/resources/config/bootstrap.yml /usr/local/myservice/config/bootstrap.yml
+COPY src/main/resources/config/application.yml /usr/local/myservice/config/application.yml
+COPY src/main/resources/config/application-prod-single.yml /usr/local/myservice/config/application-prod-single.yml
+COPY src/main/resources/config/application-prod-cluster.yml /usr/local/myservice/config/application-prod-cluster.yml
+COPY src/main/resources/config/log4j2.xml /usr/local/myservice/config/log4j2.xml
 
-
-# 定义eureka server启动的端口号的缺省值到环境变量中（在ENTRYPOINT中使用）
-ENV SERVER_PORT 8761
+# 修改为生产模式(默认单机版的配置)
+RUN sed -i 's/active: dev/active: prod-single/' config/application.yml

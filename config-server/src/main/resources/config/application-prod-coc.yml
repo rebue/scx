@@ -25,9 +25,9 @@ spring:
       server:
         git:
           # git仓库地址
-          uri: https://git.coding.net/rebue/config-center.git
-          username: rebue@qq.com
-          password: bbbc8760b9655f96b879c25209483233
+          uri: https://git.coding.net/cocmis/config-server.git
+          username: cocmis
+          password: CNBZT_cocmis.123#789
     bus:
       enabled: true
       trace:

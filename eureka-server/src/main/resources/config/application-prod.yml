@@ -1,5 +1,0 @@
-logging:
-  config: config/log4j2.xml
-  level:
-    org.springframework.context.event.SimpleApplicationEventMulticaster: 'INFO'
-  
