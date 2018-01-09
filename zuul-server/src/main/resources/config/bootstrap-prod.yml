@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 80
 
 logging:
   config: config/log4j2.xml
@@ -10,7 +10,7 @@ logging:
     com.netflix.discovery: off
     org.springframework.context.event.SimpleApplicationEventMulticaster: info
     org.springframework.dao: debug
-    org.springframework.cloud: debug
+    org.springframework.cloud: warn
 
 eureka:
   client:

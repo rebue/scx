@@ -7,7 +7,7 @@ logging:
     com.netflix.discovery: off
     org.springframework.context.event.SimpleApplicationEventMulticaster: info
     org.springframework.dao: debug
-    org.springframework.cloud: debug
+    org.springframework.cloud: warn
 
 eureka:
   client:

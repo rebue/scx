@@ -25,9 +25,9 @@ spring:
       server:
         git:
           # git仓库地址
-          uri: https://git.coding.net/cocmis/config-server.git
-          username: cocmis
-          password: CNBZT_cocmis.123#789
+          uri: https://git.coding.net/wboly/config-server.git
+          username: wboly
+          password: wbl123#345#456
     bus:
       enabled: true
       trace:
@@ -37,5 +37,4 @@ spring:
     
 endpoints:
   bus-refresh:
-    enabled: true
-      
+    enabled: true      
