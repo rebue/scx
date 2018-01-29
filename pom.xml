@@ -5,12 +5,12 @@
 
 	<parent>
 		<groupId>rebue.common-pom</groupId>
-		<artifactId>common-aggregator</artifactId>
+		<artifactId>sb-parent</artifactId>
 		<version>1.0.3-SNAPSHOT</version>
 	</parent>
 
 	<groupId>rebue.scx</groupId>
-	<artifactId>scx-aggregator</artifactId>
+	<artifactId>scx</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
