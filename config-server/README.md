@@ -25,7 +25,13 @@ docker rm config-server
 ## 4. 创建并运行容器(单机版)
 
 ```sh
+# 创建并运行容器
 docker run -d --net=host --name config-server --restart=always nnzbz/config-server
+# 进入容器
+docker exec -it config-server /bin/bash
+# 修改配置文件
+vi /usr/local/myservice/config/application-prod.yml
+# 主要修改spring:cloud:config:server:git:下的配置项....
 ```
 
 ## 5. 开启防火墙

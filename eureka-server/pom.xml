@@ -50,12 +50,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
 		<!-- 热部署 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.boot</groupId> -->
+		<!-- <artifactId>spring-boot-devtools</artifactId> -->
+		<!-- <scope>runtime</scope> -->
+		<!-- </dependency> -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -87,8 +89,9 @@
 					</execution>
 				</executions>
 				<configuration>
-					<!-- ${my-docker.host}在settins.xml中统一配置 -->
+					<!-- 部署到私服，${my-docker.host}在settins.xml中统一配置 -->
 					<!-- <repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository> -->
+					<!-- 部署到hub.docker.com -->
 					<repository>nnzbz/eureka-server</repository>
 					<tag>${project.version}</tag>
 					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
