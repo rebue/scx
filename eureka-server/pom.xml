@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>rebue.scx</groupId>
+		<groupId>com.github.rebue.scx</groupId>
 		<artifactId>scx</artifactId>
 		<version>1.0.5</version>
 	</parent>

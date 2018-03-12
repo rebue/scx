@@ -4,14 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>rebue.common-pom</groupId>
+		<groupId>com.github.rebue.common-pom</groupId>
 		<artifactId>sb-parent</artifactId>
 		<version>1.0.5</version>
 	</parent>
 
-	<groupId>rebue.scx</groupId>
+	<groupId>com.github.rebue.scx</groupId>
 	<artifactId>scx</artifactId>
 	<packaging>pom</packaging>
+	<description>Spring Cloud的常用服务</description>
 
 	<modules>
 		<module>eureka-server</module>

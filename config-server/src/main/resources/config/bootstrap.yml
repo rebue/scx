@@ -11,6 +11,8 @@ eureka:
 spring:
   application:
     name: config-server
+  profiles:
+    active: dev
   cloud:
     bus:
       enabled: true

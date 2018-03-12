@@ -2,36 +2,22 @@
 
 [TOC]
 
-## 1. 删除之前的容器
+## 1. 上传latest
 
 ```sh
-docker stop eureka-server
-docker rm eureka-server
-docker rmi eureka-server
-```
-
-## 2. Maven Deploy
-
-```sh
-mvn clean deploy
-```
-
-## 3. 上传latest
-
-```sh
-docker tag nnzbz/eureka-server:1.0.3-SNAPSHOT nnzbz/eureka-server:latest
+docker tag nnzbz/eureka-server:1.0.5 nnzbz/eureka-server:latest
 docker push nnzbz/eureka-server:latest
 ```
 
-## 4. 创建并运行容器(单机版)
+## 2. 创建并运行容器(单机版)
 
-### 4.1. 单机版
+### 2.1. 单机版
 
 ```sh
 docker run -dp8761:8761 --name eureka-server --restart=always nnzbz/eureka-server
 ```
 
-### 4.2. 集群版
+### 2.2. 集群版
 
 - 修改hosts文件
 
@@ -93,7 +79,7 @@ docker restart eureka-server-b
 docker restart eureka-server-c
 ```
 
-## 5. 开启防火墙端口
+## 3. 开启防火墙端口
 
 ```sh
 firewall-cmd --zone=dmz --permanent --add-port=8761/tcp

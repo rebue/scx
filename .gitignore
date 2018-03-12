@@ -4,3 +4,5 @@ target
 .settings
 logs
 .springBeans
+bootstrap-prod-*
+application-prod-*

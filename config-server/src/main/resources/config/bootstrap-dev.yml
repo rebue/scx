@@ -11,3 +11,16 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/
+
+spring:
+  rabbitmq:
+      host: 127.0.0.1
+      port: 5672
+      username: guest
+      password: guest
+  cloud:
+    config:
+      server:
+        git:
+          # git仓库地址
+          uri: https://git.coding.net/rebue/config-center.git

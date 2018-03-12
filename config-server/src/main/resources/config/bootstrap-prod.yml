@@ -25,16 +25,6 @@ spring:
       server:
         git:
           # git仓库地址
-          uri: https://git.coding.net/wboly/config-server.git
-          username: wboly
-          password: wbl123#345#456
-    bus:
-      enabled: true
-      trace:
-        enabled: true # 开启消息跟踪
-      refresh:
-        enabled: true 
-    
-endpoints:
-  bus-refresh:
-    enabled: true      
+          uri: https://git.coding.net/rebue/config-center.git
+          #username: rebue@qq.com
+          #password: 12345678

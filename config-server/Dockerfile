@@ -12,9 +12,8 @@ ARG JAR_FILE
 COPY target/${JAR_FILE} /usr/local/myservice/myservice.jar
 # 加入资源
 COPY src/main/resources/config/bootstrap.yml /usr/local/myservice/config/bootstrap.yml
-COPY src/main/resources/config/application.yml /usr/local/myservice/config/application.yml
-COPY src/main/resources/config/application-prod.yml /usr/local/myservice/config/application-prod.yml
+COPY src/main/resources/config/bootstrap-prod.yml /usr/local/myservice/config/bootstrap-prod.yml
 COPY src/main/resources/config/log4j2.xml /usr/local/myservice/config/log4j2.xml
 
 # 修改为生产模式
-RUN sed -i 's/active: dev/active: prod/' config/application.yml
+RUN sed -i 's/active: dev/active: prod/' config/bootstrap.yml
