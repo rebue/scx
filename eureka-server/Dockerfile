@@ -1,5 +1,5 @@
 # 基础镜像
-FROM nnzbz/spring-boot-app:1.0.0
+FROM nnzbz/spring-boot-app
 # 作者及邮箱
 MAINTAINER zbz <nnzbz@163.com>
 
@@ -11,7 +11,6 @@ ARG JAR_FILE
 # 加入jar
 COPY target/${JAR_FILE} /usr/local/myservice/myservice.jar
 # 加入资源
-COPY src/main/resources/config/bootstrap.yml /usr/local/myservice/config/bootstrap.yml
 COPY src/main/resources/config/application.yml /usr/local/myservice/config/application.yml
 COPY src/main/resources/config/application-prod-single.yml /usr/local/myservice/config/application-prod-single.yml
 COPY src/main/resources/config/application-prod-cluster.yml /usr/local/myservice/config/application-prod-cluster.yml

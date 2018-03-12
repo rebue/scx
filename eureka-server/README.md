@@ -93,7 +93,7 @@ docker restart eureka-server-b
 docker restart eureka-server-c
 ```
 
-## 5. 开启防火墙
+## 5. 开启防火墙端口
 
 ```sh
 firewall-cmd --zone=dmz --permanent --add-port=8761/tcp

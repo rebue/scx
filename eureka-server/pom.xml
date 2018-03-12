@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>rebue.scx</groupId>
 		<artifactId>scx</artifactId>
-		<version>1.0.3-SNAPSHOT</version>
+		<version>1.0.5</version>
 	</parent>
 
 	<artifactId>eureka-server</artifactId>
@@ -45,18 +45,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
-		<!-- 热部署 -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.boot</groupId> -->
-		<!-- <artifactId>spring-boot-devtools</artifactId> -->
-		<!-- <scope>runtime</scope> -->
-		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

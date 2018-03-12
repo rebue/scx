@@ -17,5 +17,5 @@ eureka:
   client:
     service-url:
       # 这里填写其它节点的链接
-      defaultZone: http://eureka-server-b:8762/eureka/,http://eureka-server-c:8763/eureka/  
+      defaultZone: http://eureka-server-b:8762/eureka/,http://eureka-server-c:8763/eureka/
   
