@@ -6,3 +6,4 @@ logs
 .springBeans
 bootstrap-prod-*
 application-prod-*
+pom.xml.versionsBackup
