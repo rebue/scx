@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -96,6 +97,14 @@
 					<!-- 部署到hub.docker.com -->
 					<repository>nnzbz/config-server</repository>
 					<tag>${project.version}</tag>
+					<!-- 此选项指定在settings.xml文件中设置的server -->
+					<!-- <servers> -->
+					<!-- <server> -->
+					<!-- <id>docker.io</id> -->
+					<!-- <username>username</username> -->
+					<!-- <password>password</password> -->
+					<!-- </server> -->
+					<!-- </servers> -->
 					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 					<buildArgs>
 						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>

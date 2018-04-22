@@ -5,7 +5,7 @@
 ## 1. 上传latest
 
 ```sh
-docker tag nnzbz/eureka-server:1.0.5 nnzbz/eureka-server:latest
+docker tag nnzbz/eureka-server:1.0.7 nnzbz/eureka-server:latest
 docker push nnzbz/eureka-server:latest
 ```
 

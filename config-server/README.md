@@ -6,7 +6,7 @@
 ## 1. 上传latest
 
 ```sh
-docker tag nnzbz/config-server:1.0.5 nnzbz/config-server:latest
+docker tag nnzbz/config-server:1.0.7 nnzbz/config-server:latest
 docker push nnzbz/config-server:latest
 ```
 

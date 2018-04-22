@@ -5,7 +5,7 @@
 ## 1. 上传latest
 
 ```sh
-docker tag nnzbz/zuul-server:1.0.5 nnzbz/zuul-server:latest
+docker tag nnzbz/zuul-server:1.0.7 nnzbz/zuul-server:latest
 docker push nnzbz/zuul-server:latest
 ```
 
