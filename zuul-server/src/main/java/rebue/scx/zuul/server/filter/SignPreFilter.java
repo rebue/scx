@@ -24,39 +24,41 @@ import com.netflix.zuul.context.RequestContext;
 import rebue.wheel.turing.SignUtils;
 
 @Component
-@ConfigurationProperties(prefix = "zuul.sign")// 让yml配置文件中的List类的节点自动注入本bean中相应的属性
+//让yml配置文件中的List类的节点自动注入本bean中相应的属性(注意如果配置文件里是小驼峰命名，这里却要对应写成小写并下划线隔开的规则)
+@ConfigurationProperties(prefix = "zuul.filter.sign-pre-filter")
 public class SignPreFilter extends ZuulFilter implements ApplicationListener<ApplicationStartedEvent> {
-    private final static Logger _log         = LoggerFactory.getLogger(SignPreFilter.class);
+    private final static Logger _log = LoggerFactory.getLogger(SignPreFilter.class);
 
-    /**
-     * 启动标志，防止多次启动
-     */
-    private boolean             bStartedFlag = false;
-
-    @Value("${zuul.sign.signKey}")
-    private String              signKey;
     @Value("${zuul.filter.signPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
     @Value("${zuul.filter.signPreFilter.filterOrder:2147483647}")
     private Integer             filterOrder;
+    @Value("${zuul.filter.signPreFilter.signKey}")
+    private String              signKey;
 
     /**
-     * 读取yml配置文件中的属性
+     * 需要过滤的URL
+     * (读取yml配置文件中的属性)
      */
-    private List<String>        signUrls;
+    private List<String>        filterUrls;
 
-    public List<String> getSignUrls() {
-        return signUrls;
+    public List<String> getFilterUrls() {
+        return filterUrls;
     }
 
-    public void setSignUrls(List<String> signUrls) {
-        this.signUrls = signUrls;
+    public void setFilterUrls(List<String> filterUrls) {
+        this.filterUrls = filterUrls;
     }
 
     /**
      * 将配置的signUrls放入字符串中作为判断是否匹配url请求正则表达式的字符串
      */
-    private String _sSignUrls;
+    private String  _sFilterUrls;
+
+    /**
+     * 启动标志，防止多次启动
+     */
+    private boolean bStartedFlag = false;
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
@@ -66,14 +68,14 @@ public class SignPreFilter extends ZuulFilter implements ApplicationListener<App
         bStartedFlag = true;
 
         _log.info("SignPreFilter初始化");
-        if (signUrls != null && !signUrls.isEmpty()) {
+        if (filterUrls != null && !filterUrls.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for (String url : signUrls) {
+            for (String url : filterUrls) {
                 _log.info(url);
                 sb.append(url).append("\r\n");
             }
-            _sSignUrls = sb.toString();
-            _log.info("需要签名的url有:\r\n{}", _sSignUrls);
+            _sFilterUrls = sb.toString();
+            _log.info("需要签名的url有:\r\n{}", _sFilterUrls);
         }
     }
 
@@ -101,10 +103,10 @@ public class SignPreFilter extends ZuulFilter implements ApplicationListener<App
         HttpServletRequest req = ctx.getRequest();
         String url = req.getMethod() + ":" + req.getRequestURI();
         _log.debug("接收到请求：{}", url);
-        if (_sSignUrls != null) {
-            _log.debug("判断是否匹配要验证签名的url: {}", url);
+        if (_sFilterUrls != null) {
+            _log.debug("判断是否匹配需要过滤的url: {}", url);
             Pattern pattern = Pattern.compile(url);
-            Matcher mathcer = pattern.matcher(_sSignUrls);
+            Matcher mathcer = pattern.matcher(_sFilterUrls);
             if (mathcer.find()) {
                 _log.debug("此url需要验证签名");
                 if (!SignUtils.verify1(ctx.getRequestQueryParams(), signKey)) {
@@ -120,7 +122,6 @@ public class SignPreFilter extends ZuulFilter implements ApplicationListener<App
                     } catch (IOException e) {
                         ReflectionUtils.rethrowRuntimeException(e);
                     }
-                    return null;
                 }
             } else {
                 _log.debug("此url不需要验证签名");
