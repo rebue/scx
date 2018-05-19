@@ -20,6 +20,10 @@ docker exec -it config-server /bin/bash
 # 修改配置文件
 vi /usr/local/myservice/config/bootstrap-prod.yml
 # 主要修改spring:cloud:config:server:git:下的配置项....
+#...
+# Ctrl+d退出
+# 重启
+docker restart config-server
 ```
 
 ## 3. 开启防火墙
