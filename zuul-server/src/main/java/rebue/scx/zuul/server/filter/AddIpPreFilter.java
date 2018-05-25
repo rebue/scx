@@ -2,7 +2,6 @@ package rebue.scx.zuul.server.filter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.Map;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,21 +25,18 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.http.ServletInputStreamWrapper;
 
-import rebue.wheel.MapUtils;
-import rebue.wheel.turing.SignUtils;
+import rebue.wheel.AgentUtils;
 
 @Component
 //让yml配置文件中的List类的节点自动注入本bean中相应的属性(注意如果配置文件里是小驼峰命名，这里却要对应写成小写并下划线隔开的规则)
-@ConfigurationProperties(prefix = "zuul.filter.sign-pre-filter")
-public class SignPreFilter extends ZuulFilter implements ApplicationListener<ApplicationStartedEvent> {
-    private final static Logger _log = LoggerFactory.getLogger(SignPreFilter.class);
+@ConfigurationProperties(prefix = "zuul.filter.add-ip-pre-filter")
+public class AddIpPreFilter extends ZuulFilter implements ApplicationListener<ApplicationStartedEvent> {
+    private final static Logger _log = LoggerFactory.getLogger(AddIpPreFilter.class);
 
-    @Value("${zuul.filter.signPreFilter.shouldFilter:false}")
+    @Value("${zuul.filter.addIpPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.signPreFilter.filterOrder:2147483647}")
+    @Value("${zuul.filter.addIpPreFilter.filterOrder:2147483647}")
     private Integer             filterOrder;
-    @Value("${zuul.filter.signPreFilter.signKey}")
-    private String              signKey;
 
     /**
      * 需要过滤的URL
@@ -72,34 +67,34 @@ public class SignPreFilter extends ZuulFilter implements ApplicationListener<App
             return;
         bStartedFlag = true;
 
-        _log.info("SignPreFilter初始化");
+        _log.info("AddIpPreFilter初始化");
         if (filterUrls != null && !filterUrls.isEmpty()) {
-            _log.info("SignPreFilter需要过滤的url有:\r\n{}", filterUrls);
+            _log.info("AddIpPreFilter需要过滤的url有:\r\n{}", filterUrls);
             _matcher = new AntPathMatcher();
         }
     }
 
     @Override
     public String filterType() {
-        _log.info("设置SignPreFilter的过滤器类型为pre");
+        _log.info("设置AddIpPreFilter的过滤器类型为pre");
         return "pre";
     }
 
     @Override
     public int filterOrder() {
-        _log.info("设置SignPreFilter的排序号为{}(数字越大，优先级越高)", filterOrder);
+        _log.info("设置AddIpPreFilter的排序号为{}(数字越大，优先级越高)", filterOrder);
         return filterOrder;
     }
 
     @Override
     public boolean shouldFilter() {
-        _log.info("设置是否需要执行SignPreFilter过滤器: {}", shouldFilter);
+        _log.info("设置是否需要执行AddIpPreFilter过滤器: {}", shouldFilter);
         return shouldFilter;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object run() {
+        _log.info("运行AddIpPreFilter过滤器");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest req = ctx.getRequest();
         String url = req.getMethod() + ":" + req.getRequestURI();
@@ -107,34 +102,26 @@ public class SignPreFilter extends ZuulFilter implements ApplicationListener<App
         if (filterUrls != null && !filterUrls.isEmpty()) {
             _log.debug("判断是否匹配需要过滤的url: {}", url);
             if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
-                _log.debug("此url需要验证签名");
+                _log.debug("此url需要添加IP参数");
                 try {
                     InputStream in = (InputStream) ctx.get("requestEntity");
                     if (in == null) {
                         in = req.getInputStream();
                     }
                     String body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
-                    _log.debug("需要验证签名的body: {}", body);
-                    Map<String, ?> paramMap = null;
+                    _log.debug("添加IP前的body: {}", body);
+                    String ip = AgentUtils.getIpAddr(req);
+                    String mac = "不再获取MAC地址";
                     if (body.charAt(0) == '{') {
-                        paramMap = _objectMapper.readValue(body, Map.class);
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> paramMap = _objectMapper.readValue(body, Map.class);
+                        paramMap.put("ip", ip);
+                        paramMap.put("mac", mac);
+                        body = _objectMapper.writeValueAsString(paramMap);
                     } else {
-                        paramMap = MapUtils.urlParams2Map(body);
+                        body += "&ip=" + ip + "&mac=" + mac;
                     }
-
-                    if (!SignUtils.verify1(paramMap, signKey)) {
-                        ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                        ctx.setResponseStatusCode(403); // 返回错误码
-                        // 响应错误信息
-                        HttpServletResponse resp = ctx.getResponse();
-                        resp.setCharacterEncoding("utf-8");
-                        PrintWriter writer = resp.getWriter();
-                        writer.println("请求参数中的签名验证不正确");
-                        writer.close();
-                        return null;
-                    }
-
-                    // 还原
+                    _log.debug("添加IP后的body: {}", body);
                     byte[] bodyBytes = body.getBytes("UTF-8");
                     ctx.setRequest(new HttpServletRequestWrapper(req) {
                         @Override
@@ -157,9 +144,8 @@ public class SignPreFilter extends ZuulFilter implements ApplicationListener<App
                     _log.error(msg, e);
                     throw new RuntimeException(e);
                 }
-
             } else {
-                _log.debug("此url不需要验证签名");
+                _log.debug("此url不需要添加IP参数");
             }
         }
         return null;

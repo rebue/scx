@@ -36,3 +36,7 @@ server:
 firewall-cmd --zone=dmz --permanent --add-port=端口号/tcp
 firewall-cmd --reload
 ```
+
+## 5. 过滤器官方示例
+
+https://github.com/spring-cloud-samples/sample-zuul-filters
