@@ -1,10 +1,13 @@
 package rebue.scx.zuul.server.filter;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +19,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StreamUtils;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.http.ServletInputStreamWrapper;
+
+import rebue.scx.zuul.server.co.ZuulCo;
+import rebue.scx.zuul.server.dic.RequestParamsTypeDic;
 
 @Component
 //让yml配置文件中的List类的节点自动注入本bean中相应的属性(注意如果配置文件里是小驼峰命名，这里却要对应写成小写并下划线隔开的规则)
@@ -30,7 +35,7 @@ public class UrlDecoderPreFilter extends ZuulFilter {
 
     @Value("${zuul.filter.urlDecoderPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.urlDecoderPreFilter.filterOrder:2147483647}")
+    @Value("${zuul.filter.urlDecoderPreFilter.filterOrder:3}")
     private Integer             filterOrder;
     /**
      * 需要过滤的URL
@@ -72,21 +77,29 @@ public class UrlDecoderPreFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest req = ctx.getRequest();
         String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("接收到请求：{}", url);
+        _log.debug("处理请求的URL：{}", url);
         if (filterUrls != null && !filterUrls.isEmpty()) {
             _log.debug("判断是否匹配需要过滤的url: {}", url);
             if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
                 _log.debug("此url需要URLDecoder解码");
-                try {
-                    InputStream in = (InputStream) ctx.get("requestEntity");
-                    if (in == null) {
-                        in = req.getInputStream();
+                switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
+                case BODY:
+                    _log.debug("开始解码Body类型的参数");
+                    byte[] bodyBytes;
+                    String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
+                    try {
+                        _log.debug("解码前queryString: {}", body);
+                        body = URLDecoder.decode(body, "utf-8");
+                        _log.debug("解码后queryString: {}", body);
+                        bodyBytes = body.getBytes("UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        String msg = "不支持utf-8的编码";
+                        _log.error(msg, e);
+                        throw new RuntimeException(e);
                     }
-                    String body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
-                    _log.debug("解码前body: {}", body);
-                    body = URLDecoder.decode(body, "utf-8");
-                    _log.debug("解码后body: {}", body);
-                    byte[] bodyBytes = body.getBytes("UTF-8");
+                    _log.debug("将新Body字符串加入到ctx中传递给其它过滤器");
+                    ctx.set(ZuulCo.REQUEST_PARAMS_STRING, body);
+                    _log.debug("将新Body请求加入到ctx中传递给其它过滤器");
                     ctx.setRequest(new HttpServletRequestWrapper(req) {
                         @Override
                         public ServletInputStream getInputStream() throws IOException {
@@ -103,10 +116,34 @@ public class UrlDecoderPreFilter extends ZuulFilter {
                             return bodyBytes.length;
                         }
                     });
-                } catch (IOException e) {
-                    String msg = "获取请求body出现异常";
-                    _log.error(msg, e);
-                    throw new RuntimeException(e);
+                    return null;
+                case QUERY:
+                    _log.debug("开始解码Query类型的参数");
+                    Map<String, List<String>> newParams = new HashMap<>();
+                    for (Entry<String, List<String>> entry : ctx.getRequestQueryParams().entrySet()) {
+                        List<String> oldValues = entry.getValue();
+                        if (oldValues != null && !oldValues.isEmpty()) {
+                            List<String> newValues = new LinkedList<>();
+                            for (String oldValue : oldValues) {
+                                try {
+                                    String newValue = URLDecoder.decode(oldValue, "utf-8");
+                                    _log.debug(oldValue + ":" + newValue);
+                                    newValues.add(newValue);
+                                } catch (UnsupportedEncodingException e) {
+                                    String msg = "不支持utf-8的编码";
+                                    _log.error(msg, e);
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            newParams.put(entry.getKey(), newValues);
+                        }
+                    }
+                    _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
+                    ctx.setRequestQueryParams(newParams);
+                    return null;
+                default:
+                    _log.warn("没有参数，不需要解码");
+                    return null;
                 }
             } else {
                 _log.debug("此url不需要URLDecoder解码");

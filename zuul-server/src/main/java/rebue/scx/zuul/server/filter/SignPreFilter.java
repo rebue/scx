@@ -1,16 +1,10 @@
 package rebue.scx.zuul.server.filter;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +12,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StreamUtils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.netflix.zuul.http.ServletInputStreamWrapper;
 
+import rebue.scx.zuul.server.co.ZuulCo;
+import rebue.scx.zuul.server.dic.RequestParamsTypeDic;
 import rebue.wheel.MapUtils;
 import rebue.wheel.turing.SignUtils;
 
@@ -40,7 +35,7 @@ public class SignPreFilter extends ZuulFilter {
 
     @Value("${zuul.filter.signPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.signPreFilter.filterOrder:2147483647}")
+    @Value("${zuul.filter.signPreFilter.filterOrder:4}")
     private Integer             filterOrder;
     @Value("${zuul.filter.signPreFilter.signKey}")
     private String              signKey;
@@ -81,67 +76,50 @@ public class SignPreFilter extends ZuulFilter {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest req = ctx.getRequest();
         String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("接收到请求：{}", url);
+        _log.debug("处理请求的URL：{}", url);
         if (filterUrls != null && !filterUrls.isEmpty()) {
             _log.debug("判断是否匹配需要过滤的url: {}", url);
             if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
                 _log.debug("此url需要验证签名");
-                try {
-                    InputStream in = (InputStream) ctx.get("requestEntity");
-                    if (in == null) {
-                        in = req.getInputStream();
-                    }
-                    String body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
+                Map<String, ?> paramMap = null;
+                switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
+                case BODY:
+                    String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
                     _log.debug("需要验证签名的body: {}", body);
-                    Map<String, ?> paramMap = null;
                     if (body.charAt(0) == '{') {
-                        paramMap = _objectMapper.readValue(body, Map.class);
+                        try {
+                            paramMap = _objectMapper.readValue(body, new TypeReference<Map<String, Object>>() {
+                            });
+                        } catch (IOException e) {
+                            String msg = "按json格式解析参数失败";
+                            ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                            ctx.setResponseStatusCode(403); // 返回错误码
+                            _log.error(msg);
+                            throw new RuntimeException(msg);
+                        }
                     } else {
                         paramMap = MapUtils.urlParams2Map(body);
                     }
-
-                    if (!SignUtils.verify1(paramMap, signKey)) {
-                        String msg = "请求参数中的签名验证不正确";
-                        ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                        ctx.setResponseStatusCode(403); // 返回错误码
-                        // 响应错误信息
-                        HttpServletResponse resp = ctx.getResponse();
-                        resp.setCharacterEncoding("utf-8");
-                        PrintWriter writer = resp.getWriter();
-                        writer.println(msg);
-                        writer.close();
-                        throw new RuntimeException(msg);
-                    }
-
-                    // 还原
-                    byte[] bodyBytes = body.getBytes("UTF-8");
-                    ctx.setRequest(new HttpServletRequestWrapper(req) {
-                        @Override
-                        public ServletInputStream getInputStream() throws IOException {
-                            return new ServletInputStreamWrapper(bodyBytes);
-                        }
-
-                        @Override
-                        public int getContentLength() {
-                            return bodyBytes.length;
-                        }
-
-                        @Override
-                        public long getContentLengthLong() {
-                            return bodyBytes.length;
-                        }
-                    });
-                } catch (IOException e) {
-                    String msg = "获取请求body出现异常";
-                    _log.error(msg, e);
-                    throw new RuntimeException(e);
+                    break;
+                case QUERY:
+                    paramMap = ctx.getRequestQueryParams();
+                    break;
+                default:
+                    String msg = "没有请求参数，不能验证签名";
+                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                    ctx.setResponseStatusCode(403); // 返回错误码
+                    throw new RuntimeException(msg);
                 }
-
+                if (!SignUtils.verify1(paramMap, signKey)) {
+                    String msg = "请求参数中的签名验证不正确";
+                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                    ctx.setResponseStatusCode(403); // 返回错误码
+                    throw new RuntimeException(msg);
+                }
             } else {
                 _log.debug("此url不需要验证签名");
             }

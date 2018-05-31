@@ -7,9 +7,13 @@ public class ZuulCo {
     /**
      * 浏览器客户端的IP
      */
-    public final static String AGENT_IP    = "agentIp";
+    public static final String AGENT_IP              = "agentIp";
     /**
-     * 不用检查的请求
+     * 请求参数类型
      */
-    public final static String NOT_CHECKED = "notChecked";
+    public static final String REQUEST_PARAMS_TYPE   = "requestParamsType";
+    /**
+     * 请求参数字符串
+     */
+    public static final String REQUEST_PARAMS_STRING = "requestParamsString";
 }

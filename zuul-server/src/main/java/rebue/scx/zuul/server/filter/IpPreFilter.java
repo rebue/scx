@@ -32,7 +32,7 @@ public class IpPreFilter extends ZuulFilter {
 
     @Value("${zuul.filter.ipPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.ipPreFilter.filterOrder:2147483647}")
+    @Value("${zuul.filter.ipPreFilter.filterOrder:1}")
     private Integer             filterOrder;
     /**
      * 经过的反向代理(noproxy/nginx/apache/weblogic，默认noproxy没有经过代理)
@@ -77,7 +77,7 @@ public class IpPreFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest req = ctx.getRequest();
         String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("接收到请求：{}", url);
+        _log.debug("处理请求的URL：{}", url);
         // 获取浏览器客户端IP
         String agentIp = AgentUtils.getIpAddr(req, passProxy);
         // 是否局域网IP
