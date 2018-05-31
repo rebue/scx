@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StreamUtils;
@@ -25,12 +23,16 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.http.ServletInputStreamWrapper;
 
-import rebue.wheel.AgentUtils;
+import rebue.scx.zuul.server.co.ZuulCo;
 
+/**
+ * 加入IP过滤器
+ * 将浏览器客户端IP加入到请求参数中
+ */
 @Component
 //让yml配置文件中的List类的节点自动注入本bean中相应的属性(注意如果配置文件里是小驼峰命名，这里却要对应写成小写并下划线隔开的规则)
 @ConfigurationProperties(prefix = "zuul.filter.add-ip-pre-filter")
-public class AddIpPreFilter extends ZuulFilter implements ApplicationListener<ApplicationStartedEvent> {
+public class AddIpPreFilter extends ZuulFilter {
     private final static Logger _log = LoggerFactory.getLogger(AddIpPreFilter.class);
 
     @Value("${zuul.filter.addIpPreFilter.shouldFilter:false}")
@@ -52,27 +54,8 @@ public class AddIpPreFilter extends ZuulFilter implements ApplicationListener<Ap
         this.filterUrls = filterUrls;
     }
 
-    private AntPathMatcher _matcher;
+    private AntPathMatcher _matcher      = new AntPathMatcher();
     private ObjectMapper   _objectMapper = new ObjectMapper();
-
-    /**
-     * 启动标志，防止多次启动
-     */
-    private boolean        bStartedFlag  = false;
-
-    @Override
-    public void onApplicationEvent(ApplicationStartedEvent event) {
-        // 防止多次启动
-        if (bStartedFlag)
-            return;
-        bStartedFlag = true;
-
-        _log.info("AddIpPreFilter初始化");
-        if (filterUrls != null && !filterUrls.isEmpty()) {
-            _log.info("AddIpPreFilter需要过滤的url有:\r\n{}", filterUrls);
-            _matcher = new AntPathMatcher();
-        }
-    }
 
     @Override
     public String filterType() {
@@ -109,8 +92,8 @@ public class AddIpPreFilter extends ZuulFilter implements ApplicationListener<Ap
                         in = req.getInputStream();
                     }
                     String body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
-                    _log.debug("添加IP前的body: {}", body);
-                    String ip = AgentUtils.getIpAddr(req);
+                    _log.debug("加入IP前的body: {}", body);
+                    String ip = (String) ctx.get(ZuulCo.AGENT_IP);
                     String mac = "不再获取MAC地址";
                     if (body.charAt(0) == '{') {
                         @SuppressWarnings("unchecked")
@@ -121,7 +104,7 @@ public class AddIpPreFilter extends ZuulFilter implements ApplicationListener<Ap
                     } else {
                         body += "&ip=" + ip + "&mac=" + mac;
                     }
-                    _log.debug("添加IP后的body: {}", body);
+                    _log.debug("加入IP后的body: {}", body);
                     byte[] bodyBytes = body.getBytes("UTF-8");
                     ctx.setRequest(new HttpServletRequestWrapper(req) {
                         @Override

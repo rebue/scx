@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StreamUtils;
@@ -27,7 +25,7 @@ import com.netflix.zuul.http.ServletInputStreamWrapper;
 @Component
 //让yml配置文件中的List类的节点自动注入本bean中相应的属性(注意如果配置文件里是小驼峰命名，这里却要对应写成小写并下划线隔开的规则)
 @ConfigurationProperties(prefix = "zuul.filter.url-decoder-pre-filter")
-public class UrlDecoderPreFilter extends ZuulFilter implements ApplicationListener<ApplicationStartedEvent> {
+public class UrlDecoderPreFilter extends ZuulFilter {
     private final static Logger _log = LoggerFactory.getLogger(UrlDecoderPreFilter.class);
 
     @Value("${zuul.filter.urlDecoderPreFilter.shouldFilter:false}")
@@ -48,27 +46,7 @@ public class UrlDecoderPreFilter extends ZuulFilter implements ApplicationListen
         this.filterUrls = filterUrls;
     }
 
-    private AntPathMatcher _matcher;
-
-    /**
-     * 启动标志，防止多次启动
-     */
-    private boolean        bStartedFlag = false;
-
-    @Override
-    public void onApplicationEvent(ApplicationStartedEvent event) {
-        // 防止多次启动
-        if (bStartedFlag)
-            return;
-        bStartedFlag = true;
-
-        _log.info("UrlDecoderPreFilter初始化");
-        if (filterUrls != null && !filterUrls.isEmpty()) {
-            _log.info("UrlDecoderPreFilter需要过滤的url有:\r\n{}", filterUrls);
-            _matcher = new AntPathMatcher();
-        }
-
-    }
+    private AntPathMatcher _matcher = new AntPathMatcher();
 
     @Override
     public String filterType() {
