@@ -77,53 +77,59 @@ public class SignPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest req = ctx.getRequest();
-        String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("处理请求的URL：{}", url);
-        if (filterUrls != null && !filterUrls.isEmpty()) {
-            _log.debug("判断是否匹配需要过滤的url: {}", url);
-            if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
-                _log.debug("此url需要验证签名");
-                Map<String, ?> paramMap = null;
-                switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
-                case BODY:
-                    String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
-                    _log.debug("需要验证签名的body: {}", body);
-                    if (body.charAt(0) == '{') {
-                        try {
-                            paramMap = _objectMapper.readValue(body, new TypeReference<Map<String, Object>>() {
-                            });
-                        } catch (IOException e) {
-                            String msg = "按json格式解析参数失败";
-                            ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                            ctx.setResponseStatusCode(403); // 返回错误码
-                            _log.error(msg);
-                            throw new RuntimeException(msg);
+        _log.info("\r\n-----------------运行SignPreFilter过滤器-----------------\r\n");
+        try {
+            RequestContext ctx = RequestContext.getCurrentContext();
+            HttpServletRequest req = ctx.getRequest();
+            String url = req.getMethod() + ":" + req.getRequestURI();
+            _log.debug("处理请求的URL：{}", url);
+            if (filterUrls != null && !filterUrls.isEmpty()) {
+                _log.debug("判断是否匹配需要过滤的url: {}", url);
+                if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
+                    _log.debug("此url需要验证签名");
+                    Map<String, ?> paramMap = null;
+                    switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
+                    case BODY:
+                        String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
+                        _log.debug("需要验证签名的body: {}", body);
+                        if (body.charAt(0) == '{') {
+                            try {
+                                paramMap = _objectMapper.readValue(body, new TypeReference<Map<String, Object>>() {
+                                });
+                            } catch (IOException e) {
+                                String msg = "按json格式解析参数失败";
+                                ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                                ctx.setResponseStatusCode(403); // 返回错误码
+                                _log.error(msg);
+                                throw new RuntimeException(msg);
+                            }
+                        } else {
+                            paramMap = MapUtils.urlParams2Map(body);
                         }
-                    } else {
-                        paramMap = MapUtils.urlParams2Map(body);
+                        break;
+                    case QUERY:
+                        paramMap = ctx.getRequestQueryParams();
+                        break;
+                    default:
+                        String msg = "没有请求参数，不能验证签名";
+                        ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                        ctx.setResponseStatusCode(403); // 返回错误码
+                        throw new RuntimeException(msg);
                     }
-                    break;
-                case QUERY:
-                    paramMap = ctx.getRequestQueryParams();
-                    break;
-                default:
-                    String msg = "没有请求参数，不能验证签名";
-                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                    ctx.setResponseStatusCode(403); // 返回错误码
-                    throw new RuntimeException(msg);
+                    if (!SignUtils.verify1(paramMap, signKey)) {
+                        String msg = "请求参数中的签名验证不正确";
+                        ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                        ctx.setResponseStatusCode(403); // 返回错误码
+                        throw new RuntimeException(msg);
+                    }
+                } else {
+                    _log.debug("此url不需要验证签名");
                 }
-                if (!SignUtils.verify1(paramMap, signKey)) {
-                    String msg = "请求参数中的签名验证不正确";
-                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                    ctx.setResponseStatusCode(403); // 返回错误码
-                    throw new RuntimeException(msg);
-                }
-            } else {
-                _log.debug("此url不需要验证签名");
             }
+            return null;
+        } finally {
+            _log.info("\r\n=================结束SignPreFilter过滤器=================\r\n");
         }
-        return null;
+
     }
 }

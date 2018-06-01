@@ -73,32 +73,36 @@ public class IpPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("运行IpPreFilter过滤器");
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest req = ctx.getRequest();
-        String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("处理请求的URL：{}", url);
-        // 获取浏览器客户端IP
-        String agentIp = AgentUtils.getIpAddr(req, passProxy);
-        // 是否局域网IP
-        boolean isLanIp = RegexUtils.matchIpv4OfLan(agentIp);
-        _log.info("获取到浏览器客户端IP: {}，是来自{}的IP", agentIp, isLanIp ? "局域网" : "公网");
-        _log.info("将浏览器客户端IP加入到ctx中传递给其它过滤器");
-        ctx.set(ZuulCo.AGENT_IP, agentIp);
-        // 模拟Nginx在请求头中加入X-Real-IP，后面微服务可就此取得实际的用户IP
-        ctx.getZuulRequestHeaders().put("X-Real-IP", agentIp);
+        _log.info("\r\n-----------------运行IpPreFilter过滤器-----------------\r\n");
+        try {
+            RequestContext ctx = RequestContext.getCurrentContext();
+            HttpServletRequest req = ctx.getRequest();
+            String url = req.getMethod() + ":" + req.getRequestURI();
+            _log.debug("处理请求的URL：{}", url);
+            // 获取浏览器客户端IP
+            String agentIp = AgentUtils.getIpAddr(req, passProxy);
+            // 是否局域网IP
+            boolean isLanIp = RegexUtils.matchIpv4OfLan(agentIp);
+            _log.info("获取到浏览器客户端IP: {}，是来自{}的IP", agentIp, isLanIp ? "局域网" : "公网");
+            _log.info("将浏览器客户端IP加入到ctx中传递给其它过滤器");
+            ctx.set(ZuulCo.AGENT_IP, agentIp);
+            // 模拟Nginx在请求头中加入X-Real-IP，后面微服务可就此取得实际的用户IP
+            ctx.getZuulRequestHeaders().put("X-Real-IP", agentIp);
 
-        _log.debug("判断IP是否匹配黑名单");
-        if (ipBlackList != null && !ipBlackList.isEmpty()) {
-            if (ipBlackList.stream().anyMatch((blackIp) -> blackIp.equals(agentIp))) {
-                String msg = "匹配IP黑名单";
-                _log.debug(msg);
-                ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                ctx.setResponseStatusCode(403); // 返回错误码
-                throw new RuntimeException(msg);
+            _log.debug("判断IP是否匹配黑名单");
+            if (ipBlackList != null && !ipBlackList.isEmpty()) {
+                if (ipBlackList.stream().anyMatch((blackIp) -> blackIp.equals(agentIp))) {
+                    String msg = "匹配IP黑名单";
+                    _log.debug(msg);
+                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                    ctx.setResponseStatusCode(403); // 返回错误码
+                    throw new RuntimeException(msg);
+                }
             }
-        }
 
-        return null;
+            return null;
+        } finally {
+            _log.info("\r\n=================结束IpPreFilter过滤器=================\r\n");
+        }
     }
 }

@@ -73,82 +73,87 @@ public class UrlDecoderPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("运行UrlDecoderPreFilter过滤器");
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest req = ctx.getRequest();
-        String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("处理请求的URL：{}", url);
-        if (filterUrls != null && !filterUrls.isEmpty()) {
-            _log.debug("判断是否匹配需要过滤的url: {}", url);
-            if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
-                _log.debug("此url需要URLDecoder解码");
-                switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
-                case BODY:
-                    _log.debug("开始解码Body类型的参数");
-                    byte[] bodyBytes;
-                    String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
-                    try {
-                        _log.debug("解码前queryString: {}", body);
-                        body = URLDecoder.decode(body, "utf-8");
-                        _log.debug("解码后queryString: {}", body);
-                        bodyBytes = body.getBytes("UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        String msg = "不支持utf-8的编码";
-                        _log.error(msg, e);
-                        throw new RuntimeException(e);
-                    }
-                    _log.debug("将新Body字符串加入到ctx中传递给其它过滤器");
-                    ctx.set(ZuulCo.REQUEST_PARAMS_STRING, body);
-                    _log.debug("将新Body请求加入到ctx中传递给其它过滤器");
-                    ctx.setRequest(new HttpServletRequestWrapper(req) {
-                        @Override
-                        public ServletInputStream getInputStream() throws IOException {
-                            return new ServletInputStreamWrapper(bodyBytes);
+        _log.info("\r\n-----------------运行UrlDecoderPreFilter过滤器-----------------\r\n");
+        try {
+            RequestContext ctx = RequestContext.getCurrentContext();
+            HttpServletRequest req = ctx.getRequest();
+            String url = req.getMethod() + ":" + req.getRequestURI();
+            _log.debug("处理请求的URL：{}", url);
+            if (filterUrls != null && !filterUrls.isEmpty()) {
+                _log.debug("判断是否匹配需要过滤的url: {}", url);
+                if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
+                    _log.debug("此url需要URLDecoder解码");
+                    switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
+                    case BODY:
+                        _log.debug("开始解码Body类型的参数");
+                        byte[] bodyBytes;
+                        String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
+                        try {
+                            _log.debug("解码前queryString: {}", body);
+                            body = URLDecoder.decode(body, "utf-8");
+                            _log.debug("解码后queryString: {}", body);
+                            bodyBytes = body.getBytes("UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            String msg = "不支持utf-8的编码";
+                            _log.error(msg, e);
+                            throw new RuntimeException(e);
                         }
-
-                        @Override
-                        public int getContentLength() {
-                            return bodyBytes.length;
-                        }
-
-                        @Override
-                        public long getContentLengthLong() {
-                            return bodyBytes.length;
-                        }
-                    });
-                    return null;
-                case QUERY:
-                    _log.debug("开始解码Query类型的参数");
-                    Map<String, List<String>> newParams = new HashMap<>();
-                    for (Entry<String, List<String>> entry : ctx.getRequestQueryParams().entrySet()) {
-                        List<String> oldValues = entry.getValue();
-                        if (oldValues != null && !oldValues.isEmpty()) {
-                            List<String> newValues = new LinkedList<>();
-                            for (String oldValue : oldValues) {
-                                try {
-                                    String newValue = URLDecoder.decode(oldValue, "utf-8");
-                                    _log.debug(oldValue + ":" + newValue);
-                                    newValues.add(newValue);
-                                } catch (UnsupportedEncodingException e) {
-                                    String msg = "不支持utf-8的编码";
-                                    _log.error(msg, e);
-                                    throw new RuntimeException(e);
-                                }
+                        _log.debug("将新Body字符串加入到ctx中传递给其它过滤器");
+                        ctx.set(ZuulCo.REQUEST_PARAMS_STRING, body);
+                        _log.debug("将新Body请求加入到ctx中传递给其它过滤器");
+                        ctx.setRequest(new HttpServletRequestWrapper(req) {
+                            @Override
+                            public ServletInputStream getInputStream() throws IOException {
+                                return new ServletInputStreamWrapper(bodyBytes);
                             }
-                            newParams.put(entry.getKey(), newValues);
+
+                            @Override
+                            public int getContentLength() {
+                                return bodyBytes.length;
+                            }
+
+                            @Override
+                            public long getContentLengthLong() {
+                                return bodyBytes.length;
+                            }
+                        });
+                        return null;
+                    case QUERY:
+                        _log.debug("开始解码Query类型的参数");
+                        Map<String, List<String>> newParams = new HashMap<>();
+                        for (Entry<String, List<String>> entry : ctx.getRequestQueryParams().entrySet()) {
+                            List<String> oldValues = entry.getValue();
+                            if (oldValues != null && !oldValues.isEmpty()) {
+                                List<String> newValues = new LinkedList<>();
+                                for (String oldValue : oldValues) {
+                                    try {
+                                        String newValue = URLDecoder.decode(oldValue, "utf-8");
+                                        _log.debug(oldValue + ":" + newValue);
+                                        newValues.add(newValue);
+                                    } catch (UnsupportedEncodingException e) {
+                                        String msg = "不支持utf-8的编码";
+                                        _log.error(msg, e);
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                                newParams.put(entry.getKey(), newValues);
+                            }
                         }
+                        _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
+                        ctx.setRequestQueryParams(newParams);
+                        return null;
+                    default:
+                        _log.warn("没有参数，不需要解码");
+                        return null;
                     }
-                    _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
-                    ctx.setRequestQueryParams(newParams);
-                    return null;
-                default:
-                    _log.warn("没有参数，不需要解码");
-                    return null;
+                } else {
+                    _log.debug("此url不需要URLDecoder解码");
                 }
-            } else {
-                _log.debug("此url不需要URLDecoder解码");
             }
+            return null;
+        } finally {
+            _log.info("\r\n=================结束UrlDecoderPreFilter过滤器=================\r\n");
         }
-        return null;
+
     }
 }

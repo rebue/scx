@@ -57,55 +57,58 @@ public class RequestParamsPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("运行RequestParamsPreFilter过滤器");
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest req = ctx.getRequest();
-        String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("处理请求的URL：{}", url);
-        _log.debug("判断请求参数是否是Body");
+        _log.info("\r\n-----------------运行RequestParamsPreFilter过滤器-----------------\r\n");
         try {
-            InputStream in = (InputStream) ctx.get("requestEntity");
-            if (in == null) {
-                in = req.getInputStream();
+            RequestContext ctx = RequestContext.getCurrentContext();
+            HttpServletRequest req = ctx.getRequest();
+            String url = req.getMethod() + ":" + req.getRequestURI();
+            _log.debug("处理请求的URL：{}", url);
+            _log.debug("判断请求参数是否是Body");
+            try {
+                InputStream in = (InputStream) ctx.get("requestEntity");
+                if (in == null) {
+                    in = req.getInputStream();
+                }
+                String body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
+                if (!StringUtils.isBlank(body)) {
+                    _log.debug("请求参数类型是Body，将其加入到ctx中传递给其它过滤器: {}", body);
+                    ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.BODY);
+                    ctx.set(ZuulCo.REQUEST_PARAMS_STRING, body);
+                    return null;
+                }
+            } catch (IOException e) {
+                String msg = "获取请求body出现异常";
+                _log.error(msg, e);
+                throw new RuntimeException(e);
             }
-            String body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
-            if (!StringUtils.isBlank(body)) {
-                _log.debug("请求参数类型是Body，将其加入到ctx中传递给其它过滤器");
-                ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.BODY);
-                _log.debug("将请求参数加入到ctx中传递给其它过滤器");
-                ctx.set(ZuulCo.REQUEST_PARAMS_STRING, body);
+
+            _log.debug("判断请求参数是否是Query");
+            Map<String, String[]> oldParams = req.getParameterMap();
+            if (oldParams != null && !oldParams.isEmpty()) {
+                Map<String, List<String>> newParams = new HashMap<>();
+                for (Entry<String, String[]> entry : oldParams.entrySet()) {
+                    String[] oldValues = entry.getValue();
+                    if (oldValues != null && oldValues.length > 0) {
+                        List<String> newValues = new LinkedList<>();
+                        for (String oldValue : oldValues) {
+                            newValues.add(oldValue);
+                        }
+                        newParams.put(entry.getKey(), newValues);
+                    }
+                }
+                _log.debug("请求参数类型是Query，将其加入到ctx中传递给其它过滤器: {}", newParams);
+                ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.QUERY);
+                _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
+                ctx.setRequestQueryParams(newParams);
                 return null;
             }
-        } catch (IOException e) {
-            String msg = "获取请求body出现异常";
-            _log.error(msg, e);
-            throw new RuntimeException(e);
-        }
 
-        _log.debug("判断请求参数是否是Query");
-        Map<String, String[]> oldParams = req.getParameterMap();
-        if (oldParams != null && !oldParams.isEmpty()) {
-            Map<String, List<String>> newParams = new HashMap<>();
-            for (Entry<String, String[]> entry : oldParams.entrySet()) {
-                String[] oldValues = entry.getValue();
-                if (oldValues != null && oldValues.length > 0) {
-                    List<String> newValues = new LinkedList<>();
-                    for (String oldValue : oldValues) {
-                        newValues.add(oldValue);
-                    }
-                    newParams.put(entry.getKey(), newValues);
-                }
-            }
-            _log.debug("请求参数类型是Query，将其加入到ctx中传递给其它过滤器");
-            ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.QUERY);
-            _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
-            ctx.setRequestQueryParams(newParams);
+            _log.debug("没有请求参数");
+            _log.debug("请求参数类型是NONE，将其加入到ctx中传递给其它过滤器");
+            ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.NONE);
             return null;
+        } finally {
+            _log.info("\r\n=================结束RequestParamsPreFilter过滤器=================\r\n");
         }
-
-        _log.debug("没有请求参数");
-        _log.debug("请求参数类型是NONE，将其加入到ctx中传递给其它过滤器");
-        ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.NONE);
-        return null;
     }
 }

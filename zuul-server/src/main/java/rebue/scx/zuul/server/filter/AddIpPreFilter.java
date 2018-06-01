@@ -80,104 +80,109 @@ public class AddIpPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("运行AddIpPreFilter过滤器");
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest req = ctx.getRequest();
-        String url = req.getMethod() + ":" + req.getRequestURI();
-        _log.debug("处理请求的URL：{}", url);
-        if (filterUrls != null && !filterUrls.isEmpty()) {
-            _log.debug("判断是否匹配需要过滤的url: {}", url);
-            if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
-                _log.debug("此url需要添加IP参数");
-                String ip = (String) ctx.get(ZuulCo.AGENT_IP);
-                String mac = "不再获取MAC地址";
-                switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
-                case BODY:
-                    String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
-                    _log.debug("需要加入IP参数的body: {}", body);
-                    if (body.charAt(0) == '{') {
-                        try {
-                            Map<String, Object> paramMap = _objectMapper.readValue(body, new TypeReference<Map<String, Object>>() {
-                            });
+        _log.info("\r\n-----------------运行AddIpPreFilter过滤器-----------------\r\n");
+        try {
+            RequestContext ctx = RequestContext.getCurrentContext();
+            HttpServletRequest req = ctx.getRequest();
+            String url = req.getMethod() + ":" + req.getRequestURI();
+            _log.debug("处理请求的URL：{}", url);
+            if (filterUrls != null && !filterUrls.isEmpty()) {
+                _log.debug("判断是否匹配需要过滤的url: {}", url);
+                if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
+                    _log.debug("此url需要添加IP参数");
+                    String ip = (String) ctx.get(ZuulCo.AGENT_IP);
+                    String mac = "不再获取MAC地址";
+                    switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
+                    case BODY:
+                        String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
+                        _log.debug("需要加入IP参数的body: {}", body);
+                        if (body.charAt(0) == '{') {
+                            try {
+                                Map<String, Object> paramMap = _objectMapper.readValue(body, new TypeReference<Map<String, Object>>() {
+                                });
+                                List<Object> param = new ArrayList<>();
+                                param.add(ip);
+                                paramMap.put("ip", param);
+                                param = new ArrayList<>();
+                                param.add(mac);
+                                paramMap.put("mac", param);
+                                body = _objectMapper.writeValueAsString(paramMap);
+                            } catch (IOException e) {
+                                String msg = "按json格式解析参数失败";
+                                ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                                ctx.setResponseStatusCode(403); // 返回错误码
+                                _log.error(msg);
+                                throw new RuntimeException(msg);
+                            }
+                        } else {
+                            Map<String, List<Object>> paramMap = MapUtils.urlParams2Map(body);
                             List<Object> param = new ArrayList<>();
                             param.add(ip);
                             paramMap.put("ip", param);
                             param = new ArrayList<>();
                             param.add(mac);
                             paramMap.put("mac", param);
-                            body = _objectMapper.writeValueAsString(paramMap);
-                        } catch (IOException e) {
-                            String msg = "按json格式解析参数失败";
-                            ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                            ctx.setResponseStatusCode(403); // 返回错误码
-                            _log.error(msg);
-                            throw new RuntimeException(msg);
+                            body = MapUtils.map2UrlParams(paramMap);
                         }
-                    } else {
-                        Map<String, List<Object>> paramMap = MapUtils.urlParams2Map(body);
-                        List<Object> param = new ArrayList<>();
+                        _log.debug("将新Body字符串加入到ctx中传递给其它过滤器");
+                        ctx.set(ZuulCo.REQUEST_PARAMS_STRING, body);
+                        _log.debug("将新Body请求加入到ctx中传递给其它过滤器");
+                        try {
+                            byte[] bodyBytes = body.getBytes("UTF-8");
+                            ctx.setRequest(new HttpServletRequestWrapper(req) {
+                                @Override
+                                public ServletInputStream getInputStream() throws IOException {
+                                    return new ServletInputStreamWrapper(bodyBytes);
+                                }
+
+                                @Override
+                                public int getContentLength() {
+                                    return bodyBytes.length;
+                                }
+
+                                @Override
+                                public long getContentLengthLong() {
+                                    return bodyBytes.length;
+                                }
+                            });
+                        } catch (UnsupportedEncodingException e) {
+                            String msg = "不支持utf-8的编码";
+                            _log.error(msg, e);
+                            throw new RuntimeException(e);
+                        }
+                        return null;
+                    case QUERY: {
+                        Map<String, List<String>> paramMap = ctx.getRequestQueryParams();
+                        List<String> param = new ArrayList<>();
                         param.add(ip);
                         paramMap.put("ip", param);
                         param = new ArrayList<>();
                         param.add(mac);
                         paramMap.put("mac", param);
-                        body = MapUtils.map2UrlParams(paramMap);
+                        return null;
                     }
-                    _log.debug("将新Body字符串加入到ctx中传递给其它过滤器");
-                    ctx.set(ZuulCo.REQUEST_PARAMS_STRING, body);
-                    _log.debug("将新Body请求加入到ctx中传递给其它过滤器");
-                    try {
-                        byte[] bodyBytes = body.getBytes("UTF-8");
-                        ctx.setRequest(new HttpServletRequestWrapper(req) {
-                            @Override
-                            public ServletInputStream getInputStream() throws IOException {
-                                return new ServletInputStreamWrapper(bodyBytes);
-                            }
-
-                            @Override
-                            public int getContentLength() {
-                                return bodyBytes.length;
-                            }
-
-                            @Override
-                            public long getContentLengthLong() {
-                                return bodyBytes.length;
-                            }
-                        });
-                    } catch (UnsupportedEncodingException e) {
-                        String msg = "不支持utf-8的编码";
-                        _log.error(msg, e);
-                        throw new RuntimeException(e);
+                    default:
+                        _log.info("没有请求参数，创建QueryParams");
+                        Map<String, List<String>> paramMap = new HashMap<>();
+                        List<String> param = new ArrayList<>();
+                        param.add(ip);
+                        paramMap.put("ip", param);
+                        param = new ArrayList<>();
+                        param.add(mac);
+                        paramMap.put("mac", param);
+                        ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.QUERY);
+                        _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
+                        ctx.setRequestQueryParams(paramMap);
+                        return null;
                     }
-                    return null;
-                case QUERY: {
-                    Map<String, List<String>> paramMap = ctx.getRequestQueryParams();
-                    List<String> param = new ArrayList<>();
-                    param.add(ip);
-                    paramMap.put("ip", param);
-                    param = new ArrayList<>();
-                    param.add(mac);
-                    paramMap.put("mac", param);
-                    return null;
+                } else {
+                    _log.debug("此url不需要添加IP参数");
                 }
-                default:
-                    _log.info("没有请求参数，创建QueryParams");
-                    Map<String, List<String>> paramMap = new HashMap<>();
-                    List<String> param = new ArrayList<>();
-                    param.add(ip);
-                    paramMap.put("ip", param);
-                    param = new ArrayList<>();
-                    param.add(mac);
-                    paramMap.put("mac", param);
-                    ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.QUERY);
-                    _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
-                    ctx.setRequestQueryParams(paramMap);
-                    return null;
-                }
-            } else {
-                _log.debug("此url不需要添加IP参数");
             }
+            return null;
+
+        } finally {
+            _log.info("\r\n=================结束AddIpPreFilter过滤器=================\r\n");
         }
-        return null;
     }
 }
