@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.github.rebue.scx</groupId>
 		<artifactId>scx</artifactId>
-		<version>1.0.7</version>
+		<version>1.0.8</version>
 	</parent>
 
 	<artifactId>config-server</artifactId>
