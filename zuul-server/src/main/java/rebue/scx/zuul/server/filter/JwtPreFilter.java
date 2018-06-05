@@ -107,7 +107,7 @@ public class JwtPreFilter extends ZuulFilter {
                     JwtVerifyRo verifyRo = jwtSvc.verify(sign);
                     if (JwtVerifyResultDic.SUCCESS.equals(verifyRo.getResult())) {
                         // 重新签名刷新过期时间
-                        jwtSignWithCookie(verifyRo.getUserId(), req, ctx.getResponse());
+                        jwtSignWithCookie(verifyRo.getUserId(), ctx.getResponse());
                     } else {
                         String msg = "验证JWT签名错误";
                         _log.error(msg);
@@ -131,10 +131,10 @@ public class JwtPreFilter extends ZuulFilter {
      * @param userId
      *            用户ID
      */
-    private void jwtSignWithCookie(String userId, HttpServletRequest req, HttpServletResponse resp) {
+    private void jwtSignWithCookie(String userId, HttpServletResponse resp) {
         JwtSignRo signRo = jwtSvc.sign(userId);
         if (JwtSignResultDic.SUCCESS.equals(signRo.getResult())) {
-            JwtUtils.addCookie(signRo.getSign(), signRo.getExpirationTime(), req, resp);
+            JwtUtils.addCookie(signRo.getSign(), signRo.getExpirationTime(), resp);
         }
     }
 
