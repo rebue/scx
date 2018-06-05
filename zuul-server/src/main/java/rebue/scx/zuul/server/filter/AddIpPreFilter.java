@@ -40,7 +40,7 @@ public class AddIpPreFilter extends ZuulFilter {
 
     @Value("${zuul.filter.addIpPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.addIpPreFilter.filterOrder:10}")
+    @Value("${zuul.filter.addIpPreFilter.filterOrder:6}")
     private Integer             filterOrder;
 
     /**
@@ -80,7 +80,7 @@ public class AddIpPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("\r\n-----------------运行AddIpPreFilter过滤器-----------------\r\n");
+        _log.info("\r\n============================= 运行AddIpPreFilter过滤器 =============================\r\n");
         try {
             RequestContext ctx = RequestContext.getCurrentContext();
             HttpServletRequest req = ctx.getRequest();
@@ -182,7 +182,7 @@ public class AddIpPreFilter extends ZuulFilter {
             return null;
 
         } finally {
-            _log.info("\r\n=================结束AddIpPreFilter过滤器=================\r\n");
+            _log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束AddIpPreFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
         }
     }
 }

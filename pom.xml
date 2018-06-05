@@ -20,6 +20,16 @@
 		<module>zuul-server</module>
 	</modules>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.rebue.jwt</groupId>
+				<artifactId>jwt-svr-feign</artifactId>
+				<version>1.0.7</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 		<pluginManagement>
 			<plugins>

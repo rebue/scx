@@ -12,6 +12,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.rebue.jwt</groupId>
+			<artifactId>jwt-svr-feign</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-turing</artifactId>
 		</dependency>

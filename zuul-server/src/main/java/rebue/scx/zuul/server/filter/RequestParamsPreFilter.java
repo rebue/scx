@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
@@ -34,7 +35,7 @@ public class RequestParamsPreFilter extends ZuulFilter {
 
     @Value("${zuul.filter.requestParamsPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.requestParamsPreFilter.filterOrder:2}")
+    @Value("${zuul.filter.requestParamsPreFilter.filterOrder:3}")
     private Integer             filterOrder;
 
     @Override
@@ -57,12 +58,19 @@ public class RequestParamsPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("\r\n-----------------运行RequestParamsPreFilter过滤器-----------------\r\n");
+        _log.info("\r\n============================= 运行RequestParamsPreFilter过滤器 =============================\r\n");
         try {
             RequestContext ctx = RequestContext.getCurrentContext();
             HttpServletRequest req = ctx.getRequest();
             String url = req.getMethod() + ":" + req.getRequestURI();
             _log.debug("处理请求的URL：{}", url);
+            String contentType = req.getContentType();
+            _log.debug("ContentType: {}", contentType);
+            if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+                _log.debug("内容类型是文件上传，不解析参数");
+                return null;
+            }
+
             _log.debug("判断请求参数是否是Body");
             try {
                 InputStream in = (InputStream) ctx.get("requestEntity");
@@ -108,7 +116,7 @@ public class RequestParamsPreFilter extends ZuulFilter {
             ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.NONE);
             return null;
         } finally {
-            _log.info("\r\n=================结束RequestParamsPreFilter过滤器=================\r\n");
+            _log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束RequestParamsPreFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
         }
     }
 }

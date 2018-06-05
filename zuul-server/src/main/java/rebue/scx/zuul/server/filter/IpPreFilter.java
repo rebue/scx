@@ -73,7 +73,7 @@ public class IpPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("\r\n-----------------运行IpPreFilter过滤器-----------------\r\n");
+        _log.info("\r\n============================= 运行IpPreFilter过滤器 =============================\r\n");
         try {
             RequestContext ctx = RequestContext.getCurrentContext();
             HttpServletRequest req = ctx.getRequest();
@@ -93,7 +93,7 @@ public class IpPreFilter extends ZuulFilter {
             if (ipBlackList != null && !ipBlackList.isEmpty()) {
                 if (ipBlackList.stream().anyMatch((blackIp) -> blackIp.equals(agentIp))) {
                     String msg = "匹配IP黑名单";
-                    _log.debug(msg);
+                    _log.error(msg);
                     ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                     ctx.setResponseStatusCode(403); // 返回错误码
                     throw new RuntimeException(msg);
@@ -102,7 +102,7 @@ public class IpPreFilter extends ZuulFilter {
 
             return null;
         } finally {
-            _log.info("\r\n=================结束IpPreFilter过滤器=================\r\n");
+            _log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束IpPreFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
         }
     }
 }

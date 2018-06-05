@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
@@ -35,7 +36,7 @@ public class UrlDecoderPreFilter extends ZuulFilter {
 
     @Value("${zuul.filter.urlDecoderPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.urlDecoderPreFilter.filterOrder:3}")
+    @Value("${zuul.filter.urlDecoderPreFilter.filterOrder:4}")
     private Integer             filterOrder;
     /**
      * 需要过滤的URL
@@ -73,12 +74,18 @@ public class UrlDecoderPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("\r\n-----------------运行UrlDecoderPreFilter过滤器-----------------\r\n");
+        _log.info("\r\n============================= 运行UrlDecoderPreFilter过滤器 =============================\r\n");
         try {
             RequestContext ctx = RequestContext.getCurrentContext();
             HttpServletRequest req = ctx.getRequest();
             String url = req.getMethod() + ":" + req.getRequestURI();
             _log.debug("处理请求的URL：{}", url);
+            String contentType = req.getContentType();
+            _log.debug("ContentType: {}", contentType);
+            if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+                _log.debug("内容类型是文件上传，不解析参数");
+                return null;
+            }
             if (filterUrls != null && !filterUrls.isEmpty()) {
                 _log.debug("判断是否匹配需要过滤的url: {}", url);
                 if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
@@ -152,7 +159,7 @@ public class UrlDecoderPreFilter extends ZuulFilter {
             }
             return null;
         } finally {
-            _log.info("\r\n=================结束UrlDecoderPreFilter过滤器=================\r\n");
+            _log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束UrlDecoderPreFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
         }
 
     }

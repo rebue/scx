@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
@@ -35,7 +36,7 @@ public class SignPreFilter extends ZuulFilter {
 
     @Value("${zuul.filter.signPreFilter.shouldFilter:false}")
     private Boolean             shouldFilter;
-    @Value("${zuul.filter.signPreFilter.filterOrder:4}")
+    @Value("${zuul.filter.signPreFilter.filterOrder:5}")
     private Integer             filterOrder;
     @Value("${zuul.filter.signPreFilter.signKey}")
     private String              signKey;
@@ -77,12 +78,18 @@ public class SignPreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        _log.info("\r\n-----------------运行SignPreFilter过滤器-----------------\r\n");
+        _log.info("\r\n============================= 运行SignPreFilter过滤器 =============================\r\n");
         try {
             RequestContext ctx = RequestContext.getCurrentContext();
             HttpServletRequest req = ctx.getRequest();
             String url = req.getMethod() + ":" + req.getRequestURI();
             _log.debug("处理请求的URL：{}", url);
+            String contentType = req.getContentType();
+            _log.debug("ContentType: {}", contentType);
+            if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+                _log.debug("内容类型是文件上传，不解析参数");
+                return null;
+            }
             if (filterUrls != null && !filterUrls.isEmpty()) {
                 _log.debug("判断是否匹配需要过滤的url: {}", url);
                 if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
@@ -98,9 +105,9 @@ public class SignPreFilter extends ZuulFilter {
                                 });
                             } catch (IOException e) {
                                 String msg = "按json格式解析参数失败";
+                                _log.error(msg);
                                 ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                                 ctx.setResponseStatusCode(403); // 返回错误码
-                                _log.error(msg);
                                 throw new RuntimeException(msg);
                             }
                         } else {
@@ -112,12 +119,14 @@ public class SignPreFilter extends ZuulFilter {
                         break;
                     default:
                         String msg = "没有请求参数，不能验证签名";
+                        _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(403); // 返回错误码
                         throw new RuntimeException(msg);
                     }
                     if (!SignUtils.verify1(paramMap, signKey)) {
                         String msg = "请求参数中的签名验证不正确";
+                        _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(403); // 返回错误码
                         throw new RuntimeException(msg);
@@ -128,7 +137,7 @@ public class SignPreFilter extends ZuulFilter {
             }
             return null;
         } finally {
-            _log.info("\r\n=================结束SignPreFilter过滤器=================\r\n");
+            _log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束SignPreFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
         }
 
     }
