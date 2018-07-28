@@ -92,6 +92,7 @@ public class AddIpPreFilter extends ZuulFilter {
                     _log.debug("此url需要添加IP参数");
                     String ip = (String) ctx.get(ZuulCo.AGENT_IP);
                     String mac = "不再获取MAC地址";
+                    String userAgent = (String) ctx.get(ZuulCo.USER_AGENT);
                     switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
                     case BODY:
                         String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
@@ -106,6 +107,9 @@ public class AddIpPreFilter extends ZuulFilter {
                                 param = new ArrayList<>();
                                 param.add(mac);
                                 paramMap.put("mac", param);
+                                param = new ArrayList<>();
+                                param.add(userAgent);
+                                paramMap.put("userAgent", param);
                                 body = _objectMapper.writeValueAsString(paramMap);
                             } catch (IOException e) {
                                 String msg = "按json格式解析参数失败";
@@ -122,6 +126,9 @@ public class AddIpPreFilter extends ZuulFilter {
                             param = new ArrayList<>();
                             param.add(mac);
                             paramMap.put("mac", param);
+                            param = new ArrayList<>();
+                            param.add(userAgent);
+                            paramMap.put("userAgent", param);
                             body = MapUtils.map2UrlParams(paramMap);
                         }
                         _log.debug("将新Body字符串加入到ctx中传递给其它过滤器");
@@ -159,6 +166,9 @@ public class AddIpPreFilter extends ZuulFilter {
                         param = new ArrayList<>();
                         param.add(mac);
                         paramMap.put("mac", param);
+                        param = new ArrayList<>();
+                        param.add(userAgent);
+                        paramMap.put("userAgent", param);
                         return null;
                     }
                     default:
@@ -170,6 +180,9 @@ public class AddIpPreFilter extends ZuulFilter {
                         param = new ArrayList<>();
                         param.add(mac);
                         paramMap.put("mac", param);
+                        param = new ArrayList<>();
+                        param.add(userAgent);
+                        paramMap.put("userAgent", param);
                         ctx.set(ZuulCo.REQUEST_PARAMS_TYPE, RequestParamsTypeDic.QUERY);
                         _log.debug("将queryParam的Map加入到ctx中传递给其它过滤器");
                         ctx.setRequestQueryParams(paramMap);

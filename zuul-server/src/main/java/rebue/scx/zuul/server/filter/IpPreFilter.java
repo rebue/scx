@@ -88,7 +88,11 @@ public class IpPreFilter extends ZuulFilter {
             ctx.set(ZuulCo.AGENT_IP, agentIp);
             // 模拟Nginx在请求头中加入X-Real-IP，后面微服务可就此取得实际的用户IP
             ctx.getZuulRequestHeaders().put("X-Real-IP", agentIp);
-
+            // 获取到用户浏览器的信息
+            String userAgent = AgentUtils.getUserAgent(req);
+            _log.info("将用户浏览器的信息加入到ctx中传递给其它过滤器");
+            ctx.set(ZuulCo.USER_AGENT, userAgent);
+            
             _log.debug("判断IP是否匹配黑名单");
             if (ipBlackList != null && !ipBlackList.isEmpty()) {
                 if (ipBlackList.stream().anyMatch((blackIp) -> blackIp.equals(agentIp))) {
