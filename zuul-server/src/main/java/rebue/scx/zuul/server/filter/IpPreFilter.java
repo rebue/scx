@@ -30,7 +30,7 @@ import rebue.wheel.RegexUtils;
 public class IpPreFilter extends ZuulFilter {
     private final static Logger _log = LoggerFactory.getLogger(IpPreFilter.class);
 
-    @Value("${zuul.filter.ipPreFilter.shouldFilter:false}")
+    @Value("${zuul.filter.ipPreFilter.shouldFilter:true}")
     private Boolean             shouldFilter;
     @Value("${zuul.filter.ipPreFilter.filterOrder:1}")
     private Integer             filterOrder;
@@ -92,7 +92,7 @@ public class IpPreFilter extends ZuulFilter {
             String userAgent = AgentUtils.getUserAgent(req);
             _log.info("将用户浏览器的信息加入到ctx中传递给其它过滤器");
             ctx.set(ZuulCo.USER_AGENT, userAgent);
-            
+
             _log.debug("判断IP是否匹配黑名单");
             if (ipBlackList != null && !ipBlackList.isEmpty()) {
                 if (ipBlackList.stream().anyMatch((blackIp) -> blackIp.equals(agentIp))) {

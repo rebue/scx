@@ -33,7 +33,7 @@ import rebue.scx.zuul.server.dic.RequestParamsTypeDic;
 public class RequestParamsPreFilter extends ZuulFilter {
     private final static Logger _log = LoggerFactory.getLogger(RequestParamsPreFilter.class);
 
-    @Value("${zuul.filter.requestParamsPreFilter.shouldFilter:false}")
+    @Value("${zuul.filter.requestParamsPreFilter.shouldFilter:true}")
     private Boolean             shouldFilter;
     @Value("${zuul.filter.requestParamsPreFilter.filterOrder:3}")
     private Integer             filterOrder;
