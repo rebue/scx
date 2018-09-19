@@ -2,22 +2,59 @@
 
 [TOC]
 
-## 1. 上传latest
+## 1. 制作Docker镜像
+
+1. 编辑pom.xml文件
+
+```xml
+....
+<build>
+    <plugins>
+        ....
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>default</id>
+                    <!-- 绑定到deploy阶段执行 -->
+                    <phase>deploy</phase>
+                    <!-- <phase></phase> -->
+                    ....
+                </execution>
+            </executions>
+            ....
+        <plugin>
+        ....
+    </plugins>
+</build>
+....
+```
+
+2. 登录docker hub
 
 ```sh
-docker tag nnzbz/eureka-server:1.0.7 nnzbz/eureka-server:latest
+docker login -unnzbz
+```
+
+3. maven build
+
+## 2. 上传latest
+
+```sh
+docker tag nnzbz/eureka-server:1.0.8 nnzbz/eureka-server:latest
 docker push nnzbz/eureka-server:latest
 ```
 
-## 2. 创建并运行容器(单机版)
+## 3. 创建并运行容器(单机版)
 
-### 2.1. 单机版
+### 3.1. 单机版
 
 ```sh
 docker run -dp8761:8761 --name eureka-server --restart=always nnzbz/eureka-server
 ```
 
-### 2.2. 集群版
+### 3.2. 集群版
 
 - 修改hosts文件
 
@@ -79,7 +116,7 @@ docker restart eureka-server-b
 docker restart eureka-server-c
 ```
 
-## 3. 开启防火墙端口
+## 4. 开启防火墙端口
 
 ```sh
 firewall-cmd --zone=dmz --permanent --add-port=8761/tcp

@@ -2,15 +2,51 @@
 
 [TOC]
 
+## 1. 制作Docker镜像
 
-## 1. 上传latest
+1. 编辑pom.xml文件
+
+```xml
+....
+<build>
+    <plugins>
+        ....
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>default</id>
+                    <!-- 绑定到deploy阶段执行 -->
+                    <phase>deploy</phase>
+                    <!-- <phase></phase> -->
+                    ....
+                </execution>
+            </executions>
+            ....
+        <plugin>
+        ....
+    </plugins>
+</build>
+....
+```
+
+2. 登录docker hub
 
 ```sh
-docker tag nnzbz/config-server:1.0.7 nnzbz/config-server:latest
+docker login -unnzbz
+```
+
+3. maven build
+
+## 2. 上传latest
+
+```sh
+docker tag nnzbz/config-server:1.0.8 nnzbz/config-server:latest
 docker push nnzbz/config-server:latest
 ```
 
-## 2. 创建并运行容器(单机版)
+## 3. 创建并运行容器(单机版)
 
 ```sh
 # 创建并运行容器
@@ -26,7 +62,7 @@ vi /usr/local/myservice/config/bootstrap-prod.yml
 docker restart config-server
 ```
 
-## 3. 开启防火墙
+## 4. 开启防火墙
 
 ```sh
 firewall-cmd --zone=dmz --permanent --add-port=端口号/tcp
