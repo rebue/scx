@@ -101,7 +101,7 @@ public class JwtPreFilter extends ZuulFilter {
                         _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(401); // 返回错误码
-                        throw new RuntimeException(msg);
+                        return null;
                     }
                     // 验证签名
                     JwtVerifyRo verifyRo = jwtSvc.verify(sign);
