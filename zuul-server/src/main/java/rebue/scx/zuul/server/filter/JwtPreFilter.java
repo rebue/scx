@@ -91,9 +91,10 @@ public class JwtPreFilter extends ZuulFilter {
             }
             if (ignoreUrls != null && !ignoreUrls.isEmpty()) {
                 _log.debug("判断是否匹配需要过滤的url: {}", url);
-                if (ignoreUrls.stream().allMatch((String pattern) -> !_matcher.match(pattern, url))) {
+                if (!ignoreUrls.stream().allMatch((String pattern) -> !_matcher.match(pattern, url))) {
+                    _log.debug("此url不需要进行JWT校验");
+                } else {
                     _log.debug("此url需要进行JWT校验");
-
                     // 从请求的Cookie中获取JWT签名信息
                     String sign = JwtUtils.getSignInCookies(req);
                     if (sign == null) {
@@ -101,7 +102,7 @@ public class JwtPreFilter extends ZuulFilter {
                         _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(401); // 返回错误码
-                        throw new RuntimeException(msg);
+                        return null;
                     }
                     // 验证签名
                     JwtVerifyRo verifyRo = jwtSvc.verify(sign);
@@ -113,10 +114,8 @@ public class JwtPreFilter extends ZuulFilter {
                         _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(403); // 返回错误码
-                        throw new RuntimeException(msg);
+                        return null;
                     }
-                } else {
-                    _log.debug("此url不需要进行JWT校验");
                 }
             }
             return null;
