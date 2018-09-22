@@ -16,6 +16,7 @@ import org.springframework.util.AntPathMatcher;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.netflix.zuul.exception.ZuulException;
 
 import rebue.jwt.svr.feign.JwtSvc;
 import rebue.scx.jwt.dic.JwtSignResultDic;
@@ -76,7 +77,7 @@ public class JwtPreFilter extends ZuulFilter {
     }
 
     @Override
-    public Object run() {
+    public Object run() throws ZuulException {
         _log.info("\r\n============================= 运行JwtPreFilter过滤器 =============================\r\n");
         try {
             RequestContext ctx = RequestContext.getCurrentContext();
@@ -102,7 +103,8 @@ public class JwtPreFilter extends ZuulFilter {
                         _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(401); // 返回错误码
-                        return null;
+                        throw new ZuulException(msg, 401, "可能Cookie已过期，重新登录即可");
+//                        return null;
                     }
                     // 验证签名
                     JwtVerifyRo verifyRo = jwtSvc.verify(sign);
@@ -114,7 +116,8 @@ public class JwtPreFilter extends ZuulFilter {
                         _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(403); // 返回错误码
-                        return null;
+                        throw new ZuulException(msg, 403, "可能是有人模仿浏览器恶意发出请求");
+//                        return null;
                     }
                 }
             }
