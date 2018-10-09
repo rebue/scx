@@ -1,6 +1,7 @@
 package rebue.scx.zuul.server.filter;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import rebue.scx.jwt.dic.JwtSignResultDic;
 import rebue.scx.jwt.dic.JwtVerifyResultDic;
 import rebue.scx.jwt.ro.JwtSignRo;
 import rebue.scx.jwt.ro.JwtVerifyRo;
+import rebue.scx.jwt.to.JwtUserInfoTo;
 import rebue.wheel.turing.JwtUtils;
 
 /**
@@ -90,35 +92,34 @@ public class JwtPreFilter extends ZuulFilter {
                 _log.debug("内容类型是文件上传，不解析参数");
                 return null;
             }
-            if (ignoreUrls != null && !ignoreUrls.isEmpty()) {
-                _log.debug("判断是否匹配需要过滤的url: {}", url);
-                if (!ignoreUrls.stream().allMatch((String pattern) -> !_matcher.match(pattern, url))) {
-                    _log.debug("此url不需要进行JWT校验");
+            _log.debug("判断是否匹配需要过滤的url: {}", url);
+            if (ignoreUrls != null && !ignoreUrls.isEmpty() && //
+                    !ignoreUrls.stream().allMatch((String pattern) -> !_matcher.match(pattern, url))) {
+                _log.debug("此url不需要进行JWT校验");
+            } else {
+                _log.debug("此url需要进行JWT校验");
+                // 从请求的Cookie中获取JWT签名信息
+                String sign = JwtUtils.getSignInCookies(req);
+                if (sign == null) {
+                    String msg = "验证JWT签名错误-Cookie中并没有签名";
+                    _log.error(msg);
+                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                    ctx.setResponseStatusCode(401); // 返回错误码
+                    throw new ZuulException(msg, 401, "可能Cookie已过期，重新登录即可");
+//                        return null;
+                }
+                // 验证签名
+                JwtVerifyRo verifyRo = jwtSvc.verify(sign);
+                if (JwtVerifyResultDic.SUCCESS.equals(verifyRo.getResult())) {
+                    // 重新签名刷新过期时间
+                    jwtSignWithCookie(verifyRo.getUserId(), verifyRo.getSysId(), verifyRo.getAddition(), ctx.getResponse());
                 } else {
-                    _log.debug("此url需要进行JWT校验");
-                    // 从请求的Cookie中获取JWT签名信息
-                    String sign = JwtUtils.getSignInCookies(req);
-                    if (sign == null) {
-                        String msg = "验证JWT签名错误-Cookie中并没有签名";
-                        _log.error(msg);
-                        ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                        ctx.setResponseStatusCode(401); // 返回错误码
-                        throw new ZuulException(msg, 401, "可能Cookie已过期，重新登录即可");
+                    String msg = "验证JWT签名错误";
+                    _log.error(msg);
+                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                    ctx.setResponseStatusCode(403); // 返回错误码
+                    throw new ZuulException(msg, 403, "可能是有人模仿浏览器恶意发出请求");
 //                        return null;
-                    }
-                    // 验证签名
-                    JwtVerifyRo verifyRo = jwtSvc.verify(sign);
-                    if (JwtVerifyResultDic.SUCCESS.equals(verifyRo.getResult())) {
-                        // 重新签名刷新过期时间
-                        jwtSignWithCookie(verifyRo.getUserId(), verifyRo.getSysId(), verifyRo.getOrgId(), ctx.getResponse());
-                    } else {
-                        String msg = "验证JWT签名错误";
-                        _log.error(msg);
-                        ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                        ctx.setResponseStatusCode(403); // 返回错误码
-                        throw new ZuulException(msg, 403, "可能是有人模仿浏览器恶意发出请求");
-//                        return null;
-                    }
                 }
             }
             return null;
@@ -133,8 +134,18 @@ public class JwtPreFilter extends ZuulFilter {
      * @param userId
      *            用户ID
      */
-    private void jwtSignWithCookie(String userId, String sysId, Long orgId, HttpServletResponse resp) {
-        JwtSignRo signRo = jwtSvc.sign(userId, sysId, orgId);
+    private void jwtSignWithCookie(String userId, String sysId, Map<String, Object> addition, HttpServletResponse resp) {
+//        addition.put("wxOpenId", "oqTsm0gdD148UcBzibH4JTm2d9q4");
+//        addition.put("wxUnionId", "oqTsm0gdD148UcBzibH4JTm2d9q4");
+//        addition.put("orgId", 517928358546243584L);
+
+        JwtUserInfoTo to = new JwtUserInfoTo();
+        to.setUserId(userId);
+        to.setSysId(sysId);
+        to.setAddition(addition);
+
+        _log.info("调用jwt微服务签名的参数: {}", to);
+        JwtSignRo signRo = jwtSvc.sign(to);
         if (JwtSignResultDic.SUCCESS.equals(signRo.getResult())) {
             JwtUtils.addCookie(signRo.getSign(), signRo.getExpirationTime(), resp);
         }
