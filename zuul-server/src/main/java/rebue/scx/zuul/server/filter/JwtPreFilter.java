@@ -92,35 +92,37 @@ public class JwtPreFilter extends ZuulFilter {
                 _log.debug("内容类型是文件上传，不解析参数");
                 return null;
             }
+            _log.debug("从请求的Cookie中获取JWT签名信息");
+            String sign = JwtUtils.getSignInCookies(req);
             _log.debug("判断是否匹配需要过滤的url: {}", url);
             if (ignoreUrls != null && !ignoreUrls.isEmpty() && //
                     !ignoreUrls.stream().allMatch((String pattern) -> !_matcher.match(pattern, url))) {
                 _log.debug("此url不需要进行JWT校验");
+                // 如果不带Cookie直接返回，否则继续以重新签名刷新过期时间
+                if (sign == null)
+                    return null;
             } else {
                 _log.debug("此url需要进行JWT校验");
-                // 从请求的Cookie中获取JWT签名信息
-                String sign = JwtUtils.getSignInCookies(req);
                 if (sign == null) {
                     String msg = "验证JWT签名错误-Cookie中并没有签名";
                     _log.error(msg);
                     ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                     ctx.setResponseStatusCode(401); // 返回错误码
                     throw new ZuulException(msg, 401, "可能Cookie已过期，重新登录即可");
-//                        return null;
                 }
-                // 验证签名
-                JwtVerifyRo verifyRo = jwtSvc.verify(sign);
-                if (JwtVerifyResultDic.SUCCESS.equals(verifyRo.getResult())) {
-                    // 重新签名刷新过期时间
-                    jwtSignWithCookie(verifyRo.getUserId(), verifyRo.getSysId(), verifyRo.getAddition(), ctx.getResponse());
-                } else {
-                    String msg = "验证JWT签名错误";
-                    _log.error(msg);
-                    ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                    ctx.setResponseStatusCode(403); // 返回错误码
-                    throw new ZuulException(msg, 403, "可能是有人模仿浏览器恶意发出请求");
-//                        return null;
-                }
+            }
+
+            // 验证签名
+            JwtVerifyRo verifyRo = jwtSvc.verify(sign);
+            if (JwtVerifyResultDic.SUCCESS.equals(verifyRo.getResult())) {
+                // 重新签名刷新过期时间
+                jwtSignWithCookie(verifyRo.getUserId(), verifyRo.getSysId(), verifyRo.getAddition(), ctx.getResponse());
+            } else {
+                String msg = "验证JWT签名错误";
+                _log.error(msg);
+                ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
+                ctx.setResponseStatusCode(403); // 返回错误码
+                throw new ZuulException(msg, 403, "可能是有人模仿浏览器恶意发出请求");
             }
             return null;
         } finally {
