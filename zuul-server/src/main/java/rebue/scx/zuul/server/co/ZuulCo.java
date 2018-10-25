@@ -20,4 +20,8 @@ public class ZuulCo {
      * 请求参数字符串
      */
     public static final String REQUEST_PARAMS_STRING = "requestParamsString";
+    /**
+     * 请求参数MAP
+     */
+    public static final String REQUEST_PARAMS_MAP    = "requestParamsMap";
 }

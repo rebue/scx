@@ -1,6 +1,5 @@
 package rebue.scx.zuul.server.filter;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,14 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
 import rebue.scx.zuul.server.co.ZuulCo;
-import rebue.scx.zuul.server.dic.RequestParamsTypeDic;
-import rebue.wheel.MapUtils;
 import rebue.wheel.turing.SignUtils;
 
 /**
@@ -55,8 +50,7 @@ public class SignPreFilter extends ZuulFilter {
         this.filterUrls = filterUrls;
     }
 
-    private AntPathMatcher _matcher      = new AntPathMatcher();
-    private ObjectMapper   _objectMapper = new ObjectMapper();
+    private AntPathMatcher _matcher = new AntPathMatcher();
 
     @Override
     public String filterType() {
@@ -94,36 +88,8 @@ public class SignPreFilter extends ZuulFilter {
                 _log.debug("判断是否匹配需要过滤的url: {}", url);
                 if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
                     _log.debug("此url需要验证签名");
-                    Map<String, ?> paramMap = null;
-                    switch ((RequestParamsTypeDic) ctx.get(ZuulCo.REQUEST_PARAMS_TYPE)) {
-                    case BODY:
-                        String body = (String) ctx.get(ZuulCo.REQUEST_PARAMS_STRING);
-                        _log.debug("需要验证签名的body: {}", body);
-                        if (body.charAt(0) == '{') {
-                            try {
-                                paramMap = _objectMapper.readValue(body, new TypeReference<Map<String, Object>>() {
-                                });
-                            } catch (IOException e) {
-                                String msg = "按json格式解析参数失败";
-                                _log.error(msg);
-                                ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                                ctx.setResponseStatusCode(403); // 返回错误码
-                                throw new RuntimeException(msg);
-                            }
-                        } else {
-                            paramMap = MapUtils.urlParams2Map(body);
-                        }
-                        break;
-                    case QUERY:
-                        paramMap = ctx.getRequestQueryParams();
-                        break;
-                    default:
-                        String msg = "没有请求参数，不能验证签名";
-                        _log.error(msg);
-                        ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
-                        ctx.setResponseStatusCode(403); // 返回错误码
-                        throw new RuntimeException(msg);
-                    }
+                    @SuppressWarnings("unchecked")
+                    Map<String, List<Object>> paramMap = (Map<String, List<Object>>) ctx.get(ZuulCo.REQUEST_PARAMS_MAP);
                     if (!SignUtils.verify1(paramMap, signKey)) {
                         String msg = "请求参数中的签名验证不正确";
                         _log.error(msg);
