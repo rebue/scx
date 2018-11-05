@@ -54,11 +54,11 @@ public class JwtPreFilter extends ZuulFilter {
         return ignoreUrls;
     }
 
-    public void setIgnoreUrls(List<String> ignoreUrls) {
+    public void setIgnoreUrls(final List<String> ignoreUrls) {
         this.ignoreUrls = ignoreUrls;
     }
 
-    private AntPathMatcher _matcher = new AntPathMatcher();
+    private final AntPathMatcher _matcher = new AntPathMatcher();
 
     @Override
     public String filterType() {
@@ -82,29 +82,31 @@ public class JwtPreFilter extends ZuulFilter {
     public Object run() throws ZuulException {
         _log.info("\r\n============================= 运行JwtPreFilter过滤器 =============================\r\n");
         try {
-            RequestContext ctx = RequestContext.getCurrentContext();
-            HttpServletRequest req = ctx.getRequest();
-            String url = req.getMethod() + ":" + req.getRequestURI();
+            final RequestContext ctx = RequestContext.getCurrentContext();
+            final HttpServletRequest req = ctx.getRequest();
+            final String url = req.getMethod() + ":" + req.getRequestURI();
             _log.debug("处理请求的URL：{}", url);
-            String contentType = req.getContentType();
+            final String contentType = req.getContentType();
             _log.debug("ContentType: {}", contentType);
             if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
                 _log.debug("内容类型是文件上传，不解析参数");
                 return null;
             }
             _log.debug("从请求的Cookie中获取JWT签名信息");
-            String sign = JwtUtils.getSignInCookies(req);
+            final String sign = JwtUtils.getSignInCookies(req);
             _log.debug("判断是否匹配需要过滤的url: {}", url);
+            _log.trace("需要忽略的URL: {}", ignoreUrls);
             if (ignoreUrls != null && !ignoreUrls.isEmpty() && //
-                    !ignoreUrls.stream().allMatch((String pattern) -> !_matcher.match(pattern, url))) {
+                    ignoreUrls.stream().anyMatch((final String pattern) -> _matcher.match(pattern, url))) {
                 _log.debug("此url不需要进行JWT校验");
                 // 如果不带Cookie直接返回，否则继续以重新签名刷新过期时间
-                if (sign == null)
+                if (sign == null) {
                     return null;
+                }
             } else {
                 _log.debug("此url需要进行JWT校验");
                 if (sign == null) {
-                    String msg = "验证JWT签名错误-Cookie中并没有签名";
+                    final String msg = "验证JWT签名错误-Cookie中并没有签名";
                     _log.error(msg);
                     ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                     ctx.setResponseStatusCode(401); // 返回错误码
@@ -113,12 +115,12 @@ public class JwtPreFilter extends ZuulFilter {
             }
 
             // 验证签名
-            JwtVerifyRo verifyRo = jwtSvc.verify(sign);
+            final JwtVerifyRo verifyRo = jwtSvc.verify(sign);
             if (JwtVerifyResultDic.SUCCESS.equals(verifyRo.getResult())) {
                 // 重新签名刷新过期时间
                 jwtSignWithCookie(verifyRo.getUserId(), verifyRo.getSysId(), verifyRo.getAddition(), ctx.getResponse());
             } else {
-                String msg = "验证JWT签名错误";
+                final String msg = "验证JWT签名错误";
                 _log.error(msg);
                 ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                 ctx.setResponseStatusCode(403); // 返回错误码
@@ -136,18 +138,18 @@ public class JwtPreFilter extends ZuulFilter {
      * @param userId
      *            用户ID
      */
-    private void jwtSignWithCookie(String userId, String sysId, Map<String, Object> addition, HttpServletResponse resp) {
+    private void jwtSignWithCookie(final String userId, final String sysId, final Map<String, Object> addition, final HttpServletResponse resp) {
 //        addition.put("wxOpenId", "oqTsm0gdD148UcBzibH4JTm2d9q4");
 //        addition.put("wxUnionId", "oqTsm0gdD148UcBzibH4JTm2d9q4");
 //        addition.put("orgId", 517928358546243584L);
 
-        JwtUserInfoTo to = new JwtUserInfoTo();
+        final JwtUserInfoTo to = new JwtUserInfoTo();
         to.setUserId(userId);
         to.setSysId(sysId);
         to.setAddition(addition);
 
         _log.info("调用jwt微服务签名的参数: {}", to);
-        JwtSignRo signRo = jwtSvc.sign(to);
+        final JwtSignRo signRo = jwtSvc.sign(to);
         if (JwtSignResultDic.SUCCESS.equals(signRo.getResult())) {
             JwtUtils.addCookie(signRo.getSign(), signRo.getExpirationTime(), resp);
         }

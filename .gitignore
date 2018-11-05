@@ -8,3 +8,4 @@ bootstrap-prod-*
 application-prod-*
 pom.xml.versionsBackup
 .DS_Store
+rebel.xml

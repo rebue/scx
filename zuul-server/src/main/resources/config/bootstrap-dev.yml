@@ -13,7 +13,9 @@ logging:
   level:
     root: info
     rebue: trace
-    com.netflix.discovery: off
+    com.netflix.discovery: warn
+    org.apache.http.impl.conn: warn
+    com.netflix.loadbalancer: warn
 
 zuul:
   debug:
