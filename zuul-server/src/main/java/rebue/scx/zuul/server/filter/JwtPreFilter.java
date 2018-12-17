@@ -139,10 +139,6 @@ public class JwtPreFilter extends ZuulFilter {
      *            用户ID
      */
     private void jwtSignWithCookie(final String userId, final String sysId, final Map<String, Object> addition, final HttpServletResponse resp) {
-//        addition.put("wxOpenId", "oqTsm0gdD148UcBzibH4JTm2d9q4");
-//        addition.put("wxUnionId", "oqTsm0gdD148UcBzibH4JTm2d9q4");
-//        addition.put("orgId", 517928358546243584L);
-
         final JwtUserInfoTo to = new JwtUserInfoTo();
         to.setUserId(userId);
         to.setSysId(sysId);
