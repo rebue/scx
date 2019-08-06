@@ -33,7 +33,7 @@ public class SignPreFilter extends ZuulFilter {
     private Boolean             shouldFilter;
     @Value("${zuul.filter.signPreFilter.filterOrder:5}")
     private Integer             filterOrder;
-    @Value("${zuul.filter.signPreFilter.signKey}")
+    @Value("${zuul.filter.signPreFilter.signKey:null}")
     private String              signKey;
 
     /**
@@ -46,11 +46,11 @@ public class SignPreFilter extends ZuulFilter {
         return filterUrls;
     }
 
-    public void setFilterUrls(List<String> filterUrls) {
+    public void setFilterUrls(final List<String> filterUrls) {
         this.filterUrls = filterUrls;
     }
 
-    private AntPathMatcher _matcher = new AntPathMatcher();
+    private final AntPathMatcher _matcher = new AntPathMatcher();
 
     @Override
     public String filterType() {
@@ -74,11 +74,11 @@ public class SignPreFilter extends ZuulFilter {
     public Object run() {
         _log.info("\r\n============================= 运行SignPreFilter过滤器 =============================\r\n");
         try {
-            RequestContext ctx = RequestContext.getCurrentContext();
-            HttpServletRequest req = ctx.getRequest();
-            String url = req.getMethod() + ":" + req.getRequestURI();
+            final RequestContext ctx = RequestContext.getCurrentContext();
+            final HttpServletRequest req = ctx.getRequest();
+            final String url = req.getMethod() + ":" + req.getRequestURI();
             _log.debug("处理请求的URL：{}", url);
-            String contentType = req.getContentType();
+            final String contentType = req.getContentType();
             _log.debug("ContentType: {}", contentType);
             if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
                 _log.debug("内容类型是文件上传，不解析参数");
@@ -86,12 +86,12 @@ public class SignPreFilter extends ZuulFilter {
             }
             if (filterUrls != null && !filterUrls.isEmpty()) {
                 _log.debug("判断是否匹配需要过滤的url: {}", url);
-                if (filterUrls.stream().anyMatch((String pattern) -> _matcher.match(pattern, url))) {
+                if (filterUrls.stream().anyMatch((final String pattern) -> _matcher.match(pattern, url))) {
                     _log.debug("此url需要验证签名");
                     @SuppressWarnings("unchecked")
-                    Map<String, List<Object>> paramMap = (Map<String, List<Object>>) ctx.get(ZuulCo.REQUEST_PARAMS_MAP);
+                    final Map<String, List<Object>> paramMap = (Map<String, List<Object>>) ctx.get(ZuulCo.REQUEST_PARAMS_MAP);
                     if (!SignUtils.verify1(paramMap, signKey)) {
-                        String msg = "请求参数中的签名验证不正确";
+                        final String msg = "请求参数中的签名验证不正确";
                         _log.error(msg);
                         ctx.setSendZuulResponse(false); // 过滤该请求，不对其进行路由
                         ctx.setResponseStatusCode(403); // 返回错误码
