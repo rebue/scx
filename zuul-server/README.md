@@ -4,7 +4,7 @@
 
 ## 1. 制作Docker镜像
 
-1. 编辑pom.xml文件
+### 1.1. 编辑pom.xml文件
 
 ```xml
 ....
@@ -31,18 +31,20 @@
 ....
 ```
 
-2. 登录docker hub
+### 1.2. 登录docker hub
 
 ```sh
 docker login -unnzbz
 ```
 
-3. maven build
+### 1.3. maven build
+
+**注意：如果编译出现 `Cannot run program "docker-credential-desktop": error=2, No such file or directory` 错误，请打开 `~/.docker/config.json` 文件，移除 `"credsStore": "desktop",` 这一行**
 
 ## 2. 上传latest
 
 ```sh
-docker tag nnzbz/zuul-server:1.0.8 nnzbz/zuul-server:latest
+docker tag nnzbz/zuul-server:1.1.0 nnzbz/zuul-server:latest
 docker push nnzbz/zuul-server:latest
 ```
 
@@ -76,4 +78,4 @@ firewall-cmd --reload
 
 ## 6. 过滤器官方示例
 
-https://github.com/spring-cloud-samples/sample-zuul-filters
+<https://github.com/spring-cloud-samples/sample-zuul-filters>

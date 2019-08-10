@@ -1,7 +1,11 @@
 # 基础镜像
-FROM nnzbz/spring-boot-app:1.0.0
-# 作者及邮箱
-MAINTAINER zbz <nnzbz@163.com>
+FROM nnzbz/spring-boot-app:1.0.1
+# 镜像的作者和邮箱
+LABEL maintainer="nnzbz@163.com"
+# 镜像的版本
+LABEL version="1.1.0"
+# 镜像的描述
+LABEL description="zuul-server"
 
 # 定义形参，实参可在下列情况下传入
 # 1. 在pom.xml文件中的buildArgs节点下定义实参)
