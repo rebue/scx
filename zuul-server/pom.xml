@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.github.rebue.scx</groupId>
 		<artifactId>scx</artifactId>
-		<version>1.1.0</version>
+		<version>1.2.0</version>
 	</parent>
 
 	<artifactId>zuul-server</artifactId>
