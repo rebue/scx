@@ -1,0 +1,35 @@
+# 生成环境的配置
+server:
+  port: 0
+
+logging:
+  config: classpath:config/log4j2.xml
+  level:
+    root: info
+    rebue: trace
+    org.apache.http: warn
+    com.netflix.discovery: warn
+    org.springframework.context.event.SimpleApplicationEventMulticaster: warn
+    org.springframework.dao: debug
+    org.springframework.cloud: warn
+    com.alibaba.nacos.client.config.impl.ClientWorker: warn
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+  sleuth:
+    sampler:
+      # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+      probability: 1
+
+
+# 是否提供在线API文档服务
+springdoc:
+  api-docs:
+    enabled: false
+
+appid: 0

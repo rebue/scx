@@ -1,0 +1,28 @@
+# 开发环境的配置
+debug: true
+
+server:
+  # 自定义端口号，方便开发测试
+  port: 8080
+
+logging:
+  config: classpath:config/log4j2.xml
+  level:
+    root: info
+    rebue: trace
+    # 注意'OFF'必须大写并加引号
+    com.netflix.discovery: 'OFF'
+    com.alibaba.nacos.client.config.impl.ClientWorker: warn
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+  sleuth:
+    sampler:
+      probability: 1
+
+appid: 1
