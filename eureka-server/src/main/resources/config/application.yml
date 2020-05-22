@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: eureka-server
-  profiles:
-    active: dev
-eureka:
-  server:
-    # 关闭自我保护，否则不会踢出已关停的微服务
-    enable-self-preservation: false
