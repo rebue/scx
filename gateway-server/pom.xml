@@ -24,21 +24,19 @@
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 		</dependency>
 
+		<!-- 流量控制哨兵 -->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.alibaba.csp</groupId>
+			<artifactId>sentinel-datasource-nacos</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
 		</dependency>
-
-		<!-- TODO 临时引入进来，后面用Sentinel代替 -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.cloud</groupId> -->
-		<!-- <artifactId>spring-cloud-starter-netflix-hystrix</artifactId> -->
-		<!-- </dependency> -->
 
 		<!-- 服务链路跟踪 -->
 		<dependency>

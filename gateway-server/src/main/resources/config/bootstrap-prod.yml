@@ -21,6 +21,18 @@ spring:
         server-addr: 127.0.0.1:8848
       config:
         server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:15080
+      datasource:
+        ds:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-sentinel
+            groupId: REBUE
+            rule-type: flow
+  zipkin:
+    base-url: http://127.0.0.1:9411
   sleuth:
     sampler:
       # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
