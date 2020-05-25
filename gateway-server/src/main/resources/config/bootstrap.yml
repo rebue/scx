@@ -8,13 +8,6 @@ spring:
   profiles:
     active: dev
   cloud:
-    gateway:
-      discovery:
-        locator:
-          #开启从注册中心动态创建路由的功能
-          enabled: true
-          #使用小写服务名，默认是大写
-          lower-case-service-id: true 
     nacos:
       discovery:
         # 配置分组(默认为DEFAULT_GROUP)
