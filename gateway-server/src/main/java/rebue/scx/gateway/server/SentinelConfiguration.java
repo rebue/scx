@@ -18,11 +18,11 @@ import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBloc
 
 @Configuration
 @ConditionalOnExpression("#{!'false'.equals(environment.getProperty('spring.cloud.sentinel.enabled'))}")
-public class GatewayServerConfiguration {
+public class SentinelConfiguration {
     private final List<ViewResolver>    viewResolvers;
     private final ServerCodecConfigurer serverCodecConfigurer;
 
-    public GatewayServerConfiguration(final ObjectProvider<List<ViewResolver>> viewResolversProvider, final ServerCodecConfigurer serverCodecConfigurer) {
+    public SentinelConfiguration(final ObjectProvider<List<ViewResolver>> viewResolversProvider, final ServerCodecConfigurer serverCodecConfigurer) {
         viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
         this.serverCodecConfigurer = serverCodecConfigurer;
     }
