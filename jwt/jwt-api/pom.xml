@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.rebue.scx</groupId>
+		<artifactId>jwt</artifactId>
+		<version>1.2.0</version>
+	</parent>
+	<artifactId>jwt-api</artifactId>
+
+	<dependencies>
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.rebue.wheel</groupId> -->
+		<!-- <artifactId>wheel-core</artifactId> -->
+		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>com.github.rebue.robotech</groupId>
+			<artifactId>robotech-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
+	</dependencies>
+</project>

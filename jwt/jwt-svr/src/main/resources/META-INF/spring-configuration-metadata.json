@@ -1,0 +1,19 @@
+{
+	"properties": [
+		{
+			"name": "jwt.key",
+			"type": "java.lang.String",
+			"description": "加密的密钥。由于采用的是HS512算法，所以密钥的字节长度要大于64Byte"
+		},
+		{
+			"name": "jwt.iss",
+			"type": "java.lang.String",
+			"description": "签发者"
+		},
+		{
+			"name": "jwt.expiration",
+			"type": "java.lang.Integer",
+			"description": "过期分钟数（默认是30分钟）"
+		}
+	]
+}
