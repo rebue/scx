@@ -1,3 +1,4 @@
+# 生成环境的配置
 logging:
   config: config/log4j2.xml
   level:
@@ -13,14 +14,14 @@ logging:
 spring:
   cloud:
     nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
       config:
+        server-addr: 127.0.0.1:8848
+      discovery:
         server-addr: 127.0.0.1:8848
     sentinel:
       enabled: false
   zipkin:
-    base-url: http://127.0.0.1:9411
+    base-url: 127.0.0.1:9411
   sleuth:
     sampler:
       # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
@@ -30,3 +31,7 @@ spring:
 springdoc:
   api-docs:
     enabled: false
+
+robotech:
+  # 用于生成ID，多服务实例情况下不要设置为0，应不同实例分配一个唯一的id，这样以此生成的ID才不会重复 
+  appid: 0

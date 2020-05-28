@@ -3,3 +3,5 @@ jwt:
   key: ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123
   # 签发者
   iss: zboss
+  # 过期分钟数（默认是30分钟）
+  expiration: 30
