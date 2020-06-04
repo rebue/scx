@@ -11,8 +11,18 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>sgn-api</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-dubbo</artifactId>
 		</dependency>
 
 		<dependency>
@@ -55,5 +65,9 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
 	</dependencies>
 </project>

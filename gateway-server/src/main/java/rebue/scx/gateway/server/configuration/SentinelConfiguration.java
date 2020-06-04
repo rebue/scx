@@ -1,4 +1,4 @@
-package rebue.scx.gateway.server;
+package rebue.scx.gateway.server.configuration;
 
 import java.util.Collections;
 import java.util.List;

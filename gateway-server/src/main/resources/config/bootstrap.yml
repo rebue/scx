@@ -17,3 +17,15 @@ spring:
         file-extension: yaml
         # 配置分组(默认为DEFAULT_GROUP)
         group: REBUE
+    gateway:
+      discovery:
+        locator:
+          # 开启从注册中心动态创建路由的功能
+          enabled: true
+          # 使用小写服务名，默认是大写
+          lower-case-service-id: true 
+
+dubbo:
+  cloud:
+    # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空
+    subscribed-services: sgn-svr

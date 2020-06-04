@@ -1,7 +1,7 @@
 # 基础配置
 spring:
   application:
-    name: jwt-svr
+    name: sgn-svr
   profiles:
     active: dev
   main:
@@ -23,7 +23,7 @@ spring:
 dubbo:
   scan:
     # dubbo 服务扫描基准包
-    base-packages: rebue.scx.jwt.svc
+    base-packages: rebue.scx.sgn.svc
   protocol:
     # dubbo 协议
     name: dubbo

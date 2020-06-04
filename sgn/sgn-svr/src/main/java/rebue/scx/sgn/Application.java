@@ -1,11 +1,13 @@
-package rebue.scx.gateway.server;
+package rebue.scx.sgn;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
 @SpringCloudApplication
-public class GatewayServerApplication {
+public class Application {
+
     public static void main(final String[] args) {
-        SpringApplication.run(GatewayServerApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
+
 }
