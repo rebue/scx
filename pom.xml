@@ -18,6 +18,7 @@
 		<module>jwt</module>
 		<module>gateway-server</module>
 		<module>sgn</module>
+		<module>rac</module>
 	</modules>
 
 	<dependencyManagement>
@@ -27,10 +28,14 @@
 				<artifactId>sgn-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
 				<artifactId>jwt-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.scx</groupId>
+				<artifactId>rac-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

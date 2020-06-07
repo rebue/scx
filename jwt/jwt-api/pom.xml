@@ -18,10 +18,5 @@
 			<groupId>com.github.rebue.robotech</groupId>
 			<artifactId>robotech-api</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
-		</dependency>
 	</dependencies>
 </project>
