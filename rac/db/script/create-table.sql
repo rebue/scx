@@ -1,28 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/6/8 10:29:28                            */
+/* Created on:     2020/6/8 11:52:13                            */
 /*==============================================================*/
 
-
-/*==============================================================*/
-/* Table: RAC_LOGIN_LOG                                         */
-/*==============================================================*/
-create table RAC_LOGIN_LOG
-(
-   ID                   bigint unsigned not null  comment '用户登录日志ID',
-   USER_ID              bigint unsigned not null  comment '用户ID(如为1则是散客)',
-   SYS_ID               varchar(32) not null  comment '系统ID',
-   LOGIN_WAY            varchar(32) not null  comment '登录类型(与注册类型一致)
-             LOGIN_NAME: 登录名与密码
-             EMAIL_PASSWORD: 电子邮箱与密码
-             MOBILE_PASSWORD: 手机号与密码
-             MOBILE_SMS. 手机短信验证
-             WECHAT_OFFICIAL_ACCOUNTS: 微信公众号',
-   LOGIN_TIME           datetime not null  comment '登录时间',
-   primary key (ID)
-);
-
-alter table RAC_LOGIN_LOG comment '用户登录日志';
 
 /*==============================================================*/
 /* Table: RAC_MENU                                              */
@@ -191,6 +171,26 @@ create table RAC_ROLE_PERM
 alter table RAC_ROLE_PERM comment '角色权限';
 
 /*==============================================================*/
+/* Table: RAC_SIGN_IN_LOG                                       */
+/*==============================================================*/
+create table RAC_SIGN_IN_LOG
+(
+   ID                   bigint unsigned not null  comment '用户登录日志ID',
+   USER_ID              bigint unsigned not null  comment '用户ID(如为1则是散客)',
+   SYS_ID               varchar(32) not null  comment '系统ID',
+   LOGIN_WAY            varchar(32) not null  comment '登录类型(与注册类型一致)
+             LOGIN_NAME: 登录名与密码
+             EMAIL_PASSWORD: 电子邮箱与密码
+             MOBILE_PASSWORD: 手机号与密码
+             MOBILE_SMS. 手机短信验证
+             WECHAT_OFFICIAL_ACCOUNTS: 微信公众号',
+   LOGIN_TIME           datetime not null  comment '登录时间',
+   primary key (ID)
+);
+
+alter table RAC_SIGN_IN_LOG comment '用户登录日志';
+
+/*==============================================================*/
 /* Table: RAC_SYS                                               */
 /*==============================================================*/
 create table RAC_SYS
@@ -226,12 +226,15 @@ create table RAC_USER
    ID                   bigint unsigned not null  comment '用户ID(如为1则是散客)',
    NICKNAME             varchar(20)  comment '用户昵称',
    AVATAR               varchar(300)  comment '用户头像',
-   LOGIN_NAME           varchar(20)  comment '登录名称',
-   LOGIN_PSWD           varchar(32)  comment '登录密码',
+   SIGN_IN_NAME         varchar(20)  comment '登录名称',
+   SIGN_IN_PSWD         varchar(32)  comment '登录密码
+             计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
+             注意：
+             1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+             2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度',
    PAY_PSWD             varchar(32)  comment '支付密码
              用户的支付密码默认和登录密码一致
-             保存在字段的计算方法如下：
-             MD5(数据库存储的已加密的登陆密码)',
+             计算方法与登录密码一致',
    SALT                 char(6)  comment '密码组合码
              与密码组合加密用
              登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))',
@@ -258,7 +261,7 @@ create table RAC_USER
    MODIFIED_TIMESTAMP   bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
    unique key AK_NICKNAME (NICKNAME),
-   unique key AK_LOGIN_NAME (LOGIN_NAME),
+   unique key AK_LOGIN_NAME (SIGN_IN_NAME),
    unique key AK_MOBILE (MOBILE),
    unique key AK_EMAIL (EMAIL),
    unique key AK_WX_OPEN_ID (WX_OPEN_ID),
@@ -284,12 +287,6 @@ create table RAC_USER_ROLE
 );
 
 alter table RAC_USER_ROLE comment '用户角色';
-
-alter table RAC_LOGIN_LOG add constraint FK_LOGIN_LOG_AND_USER foreign key (USER_ID)
-      references RAC_USER (ID) on delete restrict on update restrict;
-
-alter table RAC_LOGIN_LOG add constraint FK_LOGIN_LOG_AND_SYS foreign key (SYS_ID)
-      references RAC_SYS (ID) on delete restrict on update restrict;
 
 alter table RAC_MENU add constraint FK_MENU_AND_SYS foreign key (SYS_ID)
       references RAC_SYS (ID) on delete restrict on update restrict;
@@ -335,6 +332,12 @@ alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_PERM foreign key (PERM
 
 alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
+
+alter table RAC_SIGN_IN_LOG add constraint FK_SIGN_IN_LOG_AND_USER foreign key (USER_ID)
+      references RAC_USER (ID) on delete restrict on update restrict;
+
+alter table RAC_SIGN_IN_LOG add constraint FK_SIGN_IN_LOG_AND_SYS foreign key (SYS_ID)
+      references RAC_SYS (ID) on delete restrict on update restrict;
 
 alter table RAC_SYS_USER add constraint FK_SYS_USER_AND_SYS foreign key (SYS_ID)
       references RAC_SYS (ID) on delete restrict on update restrict;

@@ -49,34 +49,37 @@ public class RacUserMo implements Serializable {
     /**
      *    登录名称
      *
-     *    数据库字段: RAC_USER.LOGIN_NAME
+     *    数据库字段: RAC_USER.SIGN_IN_NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Schema(description = "登录名称")
-    private String loginName;
+    private String signInName;
 
     /**
      *    登录密码
+     *                 计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
+     *                 注意：
+     *                 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *                 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
-     *    数据库字段: RAC_USER.LOGIN_PSWD
+     *    数据库字段: RAC_USER.SIGN_IN_PSWD
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "登录密码")
-    private String loginPswd;
+    @Schema(description = "登录密码\n" + "             计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex\n" + "             注意：\n" + "             1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获\n" + "             2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度")
+    private String signInPswd;
 
     /**
      *    支付密码
      *                 用户的支付密码默认和登录密码一致
-     *                 保存在字段的计算方法如下：
-     *                 MD5(数据库存储的已加密的登陆密码)
+     *                 计算方法与登录密码一致
      *
      *    数据库字段: RAC_USER.PAY_PSWD
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "支付密码\n" + "             用户的支付密码默认和登录密码一致\n" + "             保存在字段的计算方法如下：\n" + "             MD5(数据库存储的已加密的登陆密码)")
+    @Schema(description = "支付密码\n" + "             用户的支付密码默认和登录密码一致\n" + "             计算方法与登录密码一致")
     private String payPswd;
 
     /**
@@ -375,52 +378,59 @@ public class RacUserMo implements Serializable {
     /**
      *    登录名称
      *
-     *    数据库字段: RAC_USER.LOGIN_NAME
+     *    数据库字段: RAC_USER.SIGN_IN_NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getLoginName() {
-        return loginName;
+    public String getSignInName() {
+        return signInName;
     }
 
     /**
      *    登录名称
      *
-     *    数据库字段: RAC_USER.LOGIN_NAME
+     *    数据库字段: RAC_USER.SIGN_IN_NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
+    public void setSignInName(String signInName) {
+        this.signInName = signInName;
     }
 
     /**
      *    登录密码
+     *                 计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
+     *                 注意：
+     *                 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *                 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
-     *    数据库字段: RAC_USER.LOGIN_PSWD
+     *    数据库字段: RAC_USER.SIGN_IN_PSWD
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getLoginPswd() {
-        return loginPswd;
+    public String getSignInPswd() {
+        return signInPswd;
     }
 
     /**
      *    登录密码
+     *                 计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
+     *                 注意：
+     *                 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *                 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
-     *    数据库字段: RAC_USER.LOGIN_PSWD
+     *    数据库字段: RAC_USER.SIGN_IN_PSWD
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLoginPswd(String loginPswd) {
-        this.loginPswd = loginPswd;
+    public void setSignInPswd(String signInPswd) {
+        this.signInPswd = signInPswd;
     }
 
     /**
      *    支付密码
      *                 用户的支付密码默认和登录密码一致
-     *                 保存在字段的计算方法如下：
-     *                 MD5(数据库存储的已加密的登陆密码)
+     *                 计算方法与登录密码一致
      *
      *    数据库字段: RAC_USER.PAY_PSWD
      *
@@ -433,8 +443,7 @@ public class RacUserMo implements Serializable {
     /**
      *    支付密码
      *                 用户的支付密码默认和登录密码一致
-     *                 保存在字段的计算方法如下：
-     *                 MD5(数据库存储的已加密的登陆密码)
+     *                 计算方法与登录密码一致
      *
      *    数据库字段: RAC_USER.PAY_PSWD
      *
@@ -944,8 +953,8 @@ public class RacUserMo implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", nickname=").append(nickname);
         sb.append(", avatar=").append(avatar);
-        sb.append(", loginName=").append(loginName);
-        sb.append(", loginPswd=").append(loginPswd);
+        sb.append(", signInName=").append(signInName);
+        sb.append(", signInPswd=").append(signInPswd);
         sb.append(", payPswd=").append(payPswd);
         sb.append(", salt=").append(salt);
         sb.append(", mobile=").append(mobile);

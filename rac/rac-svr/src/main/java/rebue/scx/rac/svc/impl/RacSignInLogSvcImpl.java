@@ -3,20 +3,21 @@ package rebue.scx.rac.svc.impl;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.IdRo;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.scx.rac.dao.RacSysUserDao;
-import rebue.scx.rac.jo.RacSysUserJo;
-import rebue.scx.rac.mapper.RacSysUserMapper;
-import rebue.scx.rac.mo.RacSysUserMo;
-import rebue.scx.rac.svc.RacSysUserSvc;
+import rebue.scx.rac.dao.RacSignInLogDao;
+import rebue.scx.rac.jo.RacSignInLogJo;
+import rebue.scx.rac.mapper.RacSignInLogMapper;
+import rebue.scx.rac.mo.RacSignInLogMo;
+import rebue.scx.rac.svc.RacSignInLogSvc;
 
 /**
- * 系统用户
+ * 用户登录日志
  *
  * <pre>
  * 注意：
@@ -34,7 +35,7 @@ import rebue.scx.rac.svc.RacSysUserSvc;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Slf4j
 @Service
-public class RacSysUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacSysUserJo, RacSysUserDao, RacSysUserMo, RacSysUserMapper> implements RacSysUserSvc {
+public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLogJo, RacSignInLogDao, RacSignInLogMo, RacSignInLogMapper> implements RacSignInLogSvc {
 
     /**
      * 本服务的单例
@@ -42,18 +43,19 @@ public class RacSysUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacSysUserJo,
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Lazy
     @Resource
-    private RacSysUserSvc thisSvc;
+    private RacSignInLogSvc thisSvc;
 
     /**
-     * 添加系统用户(自动生成ID)
+     * 添加用户登录日志(自动生成ID)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
-    public Ro add(final RacSysUserMo mo) {
-        log.info("RacSysUserSvc.add: 添加系统用户 mo-{}", mo);
+    public Ro add(final RacSignInLogMo mo) {
+        log.info("RacSignInLogSvc.add: 添加用户登录日志 mo-{}", mo);
         // 如果id为空那么自动生成分布式id
         if (mo.getId() == null || mo.getId() == 0) {
             mo.setId(_idWorker.getId());

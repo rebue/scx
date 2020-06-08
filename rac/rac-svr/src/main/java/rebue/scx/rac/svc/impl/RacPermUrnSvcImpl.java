@@ -3,6 +3,7 @@ package rebue.scx.rac.svc.impl;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import rebue.robotech.dic.ResultDic;
@@ -42,6 +43,7 @@ public class RacPermUrnSvcImpl extends BaseSvcImpl<java.lang.Long, RacPermUrnJo,
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Lazy
     @Resource
     private RacPermUrnSvc thisSvc;
 

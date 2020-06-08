@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 用户操作日志
+ * 用户操作日志测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

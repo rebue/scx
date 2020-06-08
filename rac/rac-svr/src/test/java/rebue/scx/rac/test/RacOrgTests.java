@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 组织信息
+ * 组织信息测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -1,6 +1,7 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,20 +9,22 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the rac_user_role database table.
+ * The persistent class for the RAC_SIGN_IN_LOG database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "rac_user_role")
+@Table(name = "RAC_SIGN_IN_LOG")
 @Getter
 @Setter
 @ToString
-public class RacUserRoleJo implements Serializable {
+public class RacSignInLogJo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -29,39 +32,49 @@ public class RacUserRoleJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户角色ID
+     * 用户登录日志ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "id", nullable = false, length = 20)
+    @Column(name = "ID", nullable = false, length = 20)
     private Long id;
 
     /**
-     * 系统ID
+     * 登录类型
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "sys_id", nullable = false, length = 20)
-    private String sysId;
+    @Column(name = "LOGIN_WAY", nullable = false, length = 32)
+    private String loginWay;
 
     /**
-     * 角色
+     * 登录时间
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    @Basic(optional = false)
+    @Column(name = "LOGIN_TIME", nullable = false, length = 19)
+    @Temporal(TemporalType.DATE)
+    private Date loginTime;
+
+    /**
+     * 系统
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacRoleJo role;
+    private RacSysJo sys;
 
     /**
      * 用户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacUserJo user;
 
@@ -87,7 +100,7 @@ public class RacUserRoleJo implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RacUserRoleJo other = (RacUserRoleJo) obj;
+        RacSignInLogJo other = (RacSignInLogJo) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

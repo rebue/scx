@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacSysSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 系统信息
+ * 系统信息测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

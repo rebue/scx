@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacPermGroupSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 权限分组
+ * 权限分组测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -11,18 +11,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 /**
  * 用户登录日志
  *
- * 数据库表: RAC_LOGIN_LOG
+ * 数据库表: RAC_SIGN_IN_LOG
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Schema(description = "用户登录日志")
 @JsonInclude(Include.NON_NULL)
-public class RacLoginLogMo implements Serializable {
+public class RacSignInLogMo implements Serializable {
 
     /**
      *    用户登录日志ID
      *
-     *    数据库字段: RAC_LOGIN_LOG.ID
+     *    数据库字段: RAC_SIGN_IN_LOG.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -32,7 +32,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: RAC_LOGIN_LOG.USER_ID
+     *    数据库字段: RAC_SIGN_IN_LOG.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -42,7 +42,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_LOGIN_LOG.SYS_ID
+     *    数据库字段: RAC_SIGN_IN_LOG.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -57,7 +57,7 @@ public class RacLoginLogMo implements Serializable {
      *                 MOBILE_SMS. 手机短信验证
      *                 WECHAT_OFFICIAL_ACCOUNTS: 微信公众号
      *
-     *    数据库字段: RAC_LOGIN_LOG.LOGIN_WAY
+     *    数据库字段: RAC_SIGN_IN_LOG.LOGIN_WAY
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -67,7 +67,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    登录时间
      *
-     *    数据库字段: RAC_LOGIN_LOG.LOGIN_TIME
+     *    数据库字段: RAC_SIGN_IN_LOG.LOGIN_TIME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -84,7 +84,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    用户登录日志ID
      *
-     *    数据库字段: RAC_LOGIN_LOG.ID
+     *    数据库字段: RAC_SIGN_IN_LOG.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -95,7 +95,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    用户登录日志ID
      *
-     *    数据库字段: RAC_LOGIN_LOG.ID
+     *    数据库字段: RAC_SIGN_IN_LOG.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -106,7 +106,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: RAC_LOGIN_LOG.USER_ID
+     *    数据库字段: RAC_SIGN_IN_LOG.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -117,7 +117,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: RAC_LOGIN_LOG.USER_ID
+     *    数据库字段: RAC_SIGN_IN_LOG.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -128,7 +128,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_LOGIN_LOG.SYS_ID
+     *    数据库字段: RAC_SIGN_IN_LOG.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -139,7 +139,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_LOGIN_LOG.SYS_ID
+     *    数据库字段: RAC_SIGN_IN_LOG.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -155,7 +155,7 @@ public class RacLoginLogMo implements Serializable {
      *                 MOBILE_SMS. 手机短信验证
      *                 WECHAT_OFFICIAL_ACCOUNTS: 微信公众号
      *
-     *    数据库字段: RAC_LOGIN_LOG.LOGIN_WAY
+     *    数据库字段: RAC_SIGN_IN_LOG.LOGIN_WAY
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -171,7 +171,7 @@ public class RacLoginLogMo implements Serializable {
      *                 MOBILE_SMS. 手机短信验证
      *                 WECHAT_OFFICIAL_ACCOUNTS: 微信公众号
      *
-     *    数据库字段: RAC_LOGIN_LOG.LOGIN_WAY
+     *    数据库字段: RAC_SIGN_IN_LOG.LOGIN_WAY
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -182,7 +182,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    登录时间
      *
-     *    数据库字段: RAC_LOGIN_LOG.LOGIN_TIME
+     *    数据库字段: RAC_SIGN_IN_LOG.LOGIN_TIME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -193,7 +193,7 @@ public class RacLoginLogMo implements Serializable {
     /**
      *    登录时间
      *
-     *    数据库字段: RAC_LOGIN_LOG.LOGIN_TIME
+     *    数据库字段: RAC_SIGN_IN_LOG.LOGIN_TIME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -234,7 +234,7 @@ public class RacLoginLogMo implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        RacLoginLogMo other = (RacLoginLogMo) that;
+        RacSignInLogMo other = (RacSignInLogMo) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 

@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacRoleSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 角色信息
+ * 角色信息测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

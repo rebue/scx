@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 权限URN
+ * 权限URN测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

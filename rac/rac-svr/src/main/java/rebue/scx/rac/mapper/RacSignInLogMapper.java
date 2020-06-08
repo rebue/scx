@@ -3,10 +3,10 @@ package rebue.scx.rac.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import rebue.robotech.mapper.MybatisBaseMapper;
-import rebue.scx.rac.mo.RacLoginLogMo;
+import rebue.scx.rac.mo.RacSignInLogMo;
 
 @Mapper
-public interface RacLoginLogMapper extends MybatisBaseMapper<RacLoginLogMo, Long> {
+public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Long> {
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
@@ -16,37 +16,37 @@ public interface RacLoginLogMapper extends MybatisBaseMapper<RacLoginLogMo, Long
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    int insert(RacLoginLogMo record);
+    int insert(RacSignInLogMo record);
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    int insertSelective(RacLoginLogMo record);
+    int insertSelective(RacSignInLogMo record);
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    RacLoginLogMo selectByPrimaryKey(Long id);
+    RacSignInLogMo selectByPrimaryKey(Long id);
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    int updateByPrimaryKeySelective(RacLoginLogMo record);
+    int updateByPrimaryKeySelective(RacSignInLogMo record);
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    int updateByPrimaryKey(RacLoginLogMo record);
+    int updateByPrimaryKey(RacSignInLogMo record);
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    List<RacLoginLogMo> selectAll();
+    List<RacSignInLogMo> selectAll();
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    List<RacLoginLogMo> selectSelective(RacLoginLogMo record);
+    List<RacSignInLogMo> selectSelective(RacSignInLogMo record);
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
@@ -56,10 +56,10 @@ public interface RacLoginLogMapper extends MybatisBaseMapper<RacLoginLogMo, Long
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    boolean existSelective(RacLoginLogMo record);
+    boolean existSelective(RacSignInLogMo record);
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    int countSelective(RacLoginLogMo record);
+    int countSelective(RacSignInLogMo record);
 }

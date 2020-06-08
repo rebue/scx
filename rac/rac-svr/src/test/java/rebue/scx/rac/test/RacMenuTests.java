@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacMenuSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 菜单信息
+ * 菜单信息测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacUserSvc;
 import rebue.wheel.RandomEx;
 
 /**
- * 用户信息
+ * 用户信息测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

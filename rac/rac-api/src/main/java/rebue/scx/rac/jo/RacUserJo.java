@@ -63,8 +63,8 @@ public class RacUserJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "LOGIN_NAME", nullable = true, length = 20)
-    private String loginName;
+    @Column(name = "SIGN_IN_NAME", nullable = true, length = 20)
+    private String signInName;
 
     /**
      * 登录密码
@@ -72,8 +72,8 @@ public class RacUserJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "LOGIN_PSWD", nullable = true, length = 32)
-    private String loginPswd;
+    @Column(name = "SIGN_IN_PSWD", nullable = true, length = 32)
+    private String signInPswd;
 
     /**
      * 支付密码
@@ -283,12 +283,12 @@ public class RacUserJo implements Serializable {
     private Long modifiedTimestamp;
 
     /**
-     * 用户列表
+     * 列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<RacLoginLogJo> racLoginLogList;
+    private List<RacOpLogJo> racOpLogList;
 
     /**
      * 列表
@@ -296,7 +296,7 @@ public class RacUserJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<RacOpLogJo> racOpLogList;
+    private List<RacSignInLogJo> racSignInLogList;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
