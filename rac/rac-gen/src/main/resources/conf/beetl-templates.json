@@ -28,23 +28,9 @@
 		"backup": false
 	},
 	{
-		"templateName": "ctrl.btl",
-		"targetDir": "../rac-svr/src/main/java/${modulePath}/ctrl/",
-		"targetFile": "${entityName}Ctrl.java",
-		"isGenTargetOnMiddleTable": false,
-		"backup": false
-	},
-	{
 		"templateName": "test.btl",
 		"targetDir": "../rac-svr/src/test/java/${modulePath}/test/",
 		"targetFile": "${entityName}Tests.java",
-		"isGenTargetOnMiddleTable": false,
-		"backup": false
-	},
-	{
-		"templateName": "test-http.btl",
-		"targetDir": "../rac-svr/src/test/java/${modulePath}/test/http/",
-		"targetFile": "${entityName}HttpTests.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	}
