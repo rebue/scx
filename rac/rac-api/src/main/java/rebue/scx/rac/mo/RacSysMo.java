@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 系统信息
  *
- * 数据库表: rac_sys
+ * 数据库表: RAC_SYS
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_sys.id
+     *    数据库字段: RAC_SYS.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统名称
      *
-     *    数据库字段: rac_sys.name
+     *    数据库字段: RAC_SYS.NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统备注
      *
-     *    数据库字段: rac_sys.remark
+     *    数据库字段: RAC_SYS.REMARK
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -54,7 +54,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_sys.id
+     *    数据库字段: RAC_SYS.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -65,7 +65,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_sys.id
+     *    数据库字段: RAC_SYS.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -76,7 +76,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统名称
      *
-     *    数据库字段: rac_sys.name
+     *    数据库字段: RAC_SYS.NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -87,7 +87,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统名称
      *
-     *    数据库字段: rac_sys.name
+     *    数据库字段: RAC_SYS.NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -98,7 +98,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统备注
      *
-     *    数据库字段: rac_sys.remark
+     *    数据库字段: RAC_SYS.REMARK
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -109,7 +109,7 @@ public class RacSysMo implements Serializable {
     /**
      *    系统备注
      *
-     *    数据库字段: rac_sys.remark
+     *    数据库字段: RAC_SYS.REMARK
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

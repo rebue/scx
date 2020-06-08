@@ -16,11 +16,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the rac_login_log database table.
+ * The persistent class for the RAC_LOGIN_LOG database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "rac_login_log")
+@Table(name = "RAC_LOGIN_LOG")
 @Getter
 @Setter
 @ToString
@@ -38,7 +38,7 @@ public class RacLoginLogJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "id", nullable = false, length = 20)
+    @Column(name = "ID", nullable = false, length = 20)
     private Long id;
 
     /**
@@ -47,7 +47,7 @@ public class RacLoginLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "login_way", nullable = false, length = 32)
+    @Column(name = "LOGIN_WAY", nullable = false, length = 32)
     private String loginWay;
 
     /**
@@ -56,7 +56,7 @@ public class RacLoginLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "login_time", nullable = false, length = 19)
+    @Column(name = "LOGIN_TIME", nullable = false, length = 19)
     @Temporal(TemporalType.DATE)
     private Date loginTime;
 
@@ -65,7 +65,7 @@ public class RacLoginLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "sys_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacSysJo sys;
 
@@ -74,7 +74,7 @@ public class RacLoginLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacUserJo user;
 

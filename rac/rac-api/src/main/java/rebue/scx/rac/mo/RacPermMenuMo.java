@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 权限菜单
  *
- * 数据库表: rac_perm_menu
+ * 数据库表: RAC_PERM_MENU
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    权限菜单ID
      *
-     *    数据库字段: rac_perm_menu.id
+     *    数据库字段: RAC_PERM_MENU.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: rac_perm_menu.perm_id
+     *    数据库字段: RAC_PERM_MENU.PERM_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    菜单ID
      *
-     *    数据库字段: rac_perm_menu.menu_id
+     *    数据库字段: RAC_PERM_MENU.MENU_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -54,7 +54,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    权限菜单ID
      *
-     *    数据库字段: rac_perm_menu.id
+     *    数据库字段: RAC_PERM_MENU.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -65,7 +65,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    权限菜单ID
      *
-     *    数据库字段: rac_perm_menu.id
+     *    数据库字段: RAC_PERM_MENU.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -76,7 +76,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: rac_perm_menu.perm_id
+     *    数据库字段: RAC_PERM_MENU.PERM_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -87,7 +87,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: rac_perm_menu.perm_id
+     *    数据库字段: RAC_PERM_MENU.PERM_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -98,7 +98,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    菜单ID
      *
-     *    数据库字段: rac_perm_menu.menu_id
+     *    数据库字段: RAC_PERM_MENU.MENU_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -109,7 +109,7 @@ public class RacPermMenuMo implements Serializable {
     /**
      *    菜单ID
      *
-     *    数据库字段: rac_perm_menu.menu_id
+     *    数据库字段: RAC_PERM_MENU.MENU_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

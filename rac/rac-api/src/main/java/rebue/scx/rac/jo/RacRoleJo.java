@@ -1,26 +1,23 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the rac_role database table.
+ * The persistent class for the RAC_ROLE database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "rac_role")
+@Table(name = "RAC_ROLE")
 @Getter
 @Setter
 @ToString
@@ -38,7 +35,7 @@ public class RacRoleJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "id", nullable = false, length = 32)
+    @Column(name = "ID", nullable = false, length = 32)
     private String id;
 
     /**
@@ -47,7 +44,7 @@ public class RacRoleJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "NAME", nullable = false, length = 20)
     private String name;
 
     /**
@@ -56,7 +53,7 @@ public class RacRoleJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "home_path", nullable = true, length = 70)
+    @Column(name = "HOME_PATH", nullable = true, length = 70)
     private String homePath;
 
     /**
@@ -65,7 +62,7 @@ public class RacRoleJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "is_enabled", nullable = false, length = 1)
+    @Column(name = "IS_ENABLED", nullable = false, length = 1)
     private Boolean isEnabled;
 
     /**
@@ -74,7 +71,7 @@ public class RacRoleJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "order_no", nullable = false, length = 3)
+    @Column(name = "ORDER_NO", nullable = false, length = 3)
     private Byte orderNo;
 
     /**
@@ -83,7 +80,7 @@ public class RacRoleJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "remark", nullable = true, length = 50)
+    @Column(name = "REMARK", nullable = true, length = 50)
     private String remark;
 
     /**
@@ -91,25 +88,9 @@ public class RacRoleJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "sys_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacSysJo sys;
-
-    /**
-     * 列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
-    private List<RacRolePermJo> racRolePermList;
-
-    /**
-     * 列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
-    private List<RacUserRoleJo> racUserRoleList;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

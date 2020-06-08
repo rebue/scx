@@ -4307,8 +4307,13 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>LOGIN_PSWD</a:Code>
 <a:CreationDate>1591264145</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591409902</a:ModificationDate>
+<a:ModificationDate>1591584810</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
+<a:Comment>登录密码
+计算方法：密码+密码组合码 -&gt; 小写 -&gt; md5 -&gt; Hex
+注意：
+1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度</a:Comment>
 <a:DataType>VA32</a:DataType>
 <a:Length>32</a:Length>
 </o:EntityAttribute>
@@ -4318,12 +4323,11 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>PAY_PSWD</a:Code>
 <a:CreationDate>1591264145</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591264145</a:ModificationDate>
+<a:ModificationDate>1591584469</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:Comment>支付密码
 用户的支付密码默认和登录密码一致
-保存在字段的计算方法如下：
-MD5(数据库存储的已加密的登陆密码)</a:Comment>
+计算方法与登录密码一致</a:Comment>
 <a:DataType>VA32</a:DataType>
 <a:Length>32</a:Length>
 </o:EntityAttribute>
@@ -5827,12 +5831,12 @@ WECHAT_OFFICIAL_ACCOUNTS: 微信公众号</a:Comment>
 <a:Code>rac-mysql</a:Code>
 <a:CreationDate>1591349233</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591534879</a:ModificationDate>
+<a:ModificationDate>1591582386</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/rac-mysql.pdm</a:TargetModelURL>
 <a:TargetModelID>1657FC08-856D-4EF4-969A-6EA675BC94D7</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
-<a:TargetModelLastModificationDate>1591534880</a:TargetModelLastModificationDate>
+<a:TargetModelLastModificationDate>1591582831</a:TargetModelLastModificationDate>
 <c:SessionShortcuts>
 <o:Shortcut Ref="o3"/>
 </c:SessionShortcuts>

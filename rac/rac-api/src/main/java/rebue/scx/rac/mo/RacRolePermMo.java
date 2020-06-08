@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 角色权限
  *
- * 数据库表: rac_role_perm
+ * 数据库表: RAC_ROLE_PERM
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    角色权限ID
      *
-     *    数据库字段: rac_role_perm.id
+     *    数据库字段: RAC_ROLE_PERM.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: rac_role_perm.role_id
+     *    数据库字段: RAC_ROLE_PERM.ROLE_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: rac_role_perm.perm_id
+     *    数据库字段: RAC_ROLE_PERM.PERM_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -54,7 +54,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    角色权限ID
      *
-     *    数据库字段: rac_role_perm.id
+     *    数据库字段: RAC_ROLE_PERM.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -65,7 +65,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    角色权限ID
      *
-     *    数据库字段: rac_role_perm.id
+     *    数据库字段: RAC_ROLE_PERM.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -76,7 +76,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: rac_role_perm.role_id
+     *    数据库字段: RAC_ROLE_PERM.ROLE_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -87,7 +87,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: rac_role_perm.role_id
+     *    数据库字段: RAC_ROLE_PERM.ROLE_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -98,7 +98,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: rac_role_perm.perm_id
+     *    数据库字段: RAC_ROLE_PERM.PERM_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -109,7 +109,7 @@ public class RacRolePermMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: rac_role_perm.perm_id
+     *    数据库字段: RAC_ROLE_PERM.PERM_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
