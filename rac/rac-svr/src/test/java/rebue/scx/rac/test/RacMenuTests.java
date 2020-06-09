@@ -1,6 +1,5 @@
 package rebue.scx.rac.test;
 
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.junit.jupiter.api.Assertions;
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.IdRo;
+import rebue.robotech.ro.PageRo;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacMenuMo;
 import rebue.scx.rac.svc.RacMenuSvc;
@@ -48,8 +48,9 @@ public class RacMenuTests {
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             mo.setId(idRo.getId());
         }
-        final PageInfo<RacMenuMo> listResult = _svc.list(null, 1, 5);
+        final PageRo<RacMenuMo> listResult = _svc.list(null, 1, 5);
         log.info("查询菜单信息的返回值为：" + listResult);
+        Assertions.assertEquals(ResultDic.SUCCESS, listResult.getResult());
         log.info("获取单个菜单信息的参数为：" + mo.getId());
         final RacMenuMo getByIdResult = _svc.getById(mo.getId());
         log.info("获取单个菜单信息的返回值为：" + getByIdResult);

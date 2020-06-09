@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 用户信息
  *
- * 数据库表: RAC_USER
+ * 数据库表: rac_user
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: RAC_USER.ID
+     *    数据库字段: rac_user.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户昵称
      *
-     *    数据库字段: RAC_USER.NICKNAME
+     *    数据库字段: rac_user.nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户头像
      *
-     *    数据库字段: RAC_USER.AVATAR
+     *    数据库字段: rac_user.avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -49,37 +49,34 @@ public class RacUserMo implements Serializable {
     /**
      *    登录名称
      *
-     *    数据库字段: RAC_USER.SIGN_IN_NAME
+     *    数据库字段: rac_user.login_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Schema(description = "登录名称")
-    private String signInName;
+    private String loginName;
 
     /**
      *    登录密码
-     *                 计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
-     *                 注意：
-     *                 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *                 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
-     *    数据库字段: RAC_USER.SIGN_IN_PSWD
+     *    数据库字段: rac_user.login_pswd
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "登录密码\n" + "             计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex\n" + "             注意：\n" + "             1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获\n" + "             2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度")
-    private String signInPswd;
+    @Schema(description = "登录密码")
+    private String loginPswd;
 
     /**
      *    支付密码
      *                 用户的支付密码默认和登录密码一致
-     *                 计算方法与登录密码一致
+     *                 保存在字段的计算方法如下：
+     *                 MD5(数据库存储的已加密的登陆密码)
      *
-     *    数据库字段: RAC_USER.PAY_PSWD
+     *    数据库字段: rac_user.pay_pswd
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "支付密码\n" + "             用户的支付密码默认和登录密码一致\n" + "             计算方法与登录密码一致")
+    @Schema(description = "支付密码\n" + "             用户的支付密码默认和登录密码一致\n" + "             保存在字段的计算方法如下：\n" + "             MD5(数据库存储的已加密的登陆密码)")
     private String payPswd;
 
     /**
@@ -87,7 +84,7 @@ public class RacUserMo implements Serializable {
      *                 与密码组合加密用
      *                 登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
      *
-     *    数据库字段: RAC_USER.SALT
+     *    数据库字段: rac_user.salt
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -97,7 +94,7 @@ public class RacUserMo implements Serializable {
     /**
      *    手机
      *
-     *    数据库字段: RAC_USER.MOBILE
+     *    数据库字段: rac_user.mobile
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -107,7 +104,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证手机号码
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_MOBILE
+     *    数据库字段: rac_user.is_verified_mobile
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -117,7 +114,7 @@ public class RacUserMo implements Serializable {
     /**
      *    电子邮箱
      *
-     *    数据库字段: RAC_USER.EMAIL
+     *    数据库字段: rac_user.email
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -127,7 +124,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证电子邮箱
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_EMAIL
+     *    数据库字段: rac_user.is_verified_email
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -137,7 +134,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信的OpenId
      *
-     *    数据库字段: RAC_USER.WX_OPEN_ID
+     *    数据库字段: rac_user.wx_open_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -147,7 +144,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信的UnionId
      *
-     *    数据库字段: RAC_USER.WX_UNION_ID
+     *    数据库字段: rac_user.wx_union_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -157,7 +154,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信昵称
      *
-     *    数据库字段: RAC_USER.WX_NICKNAME
+     *    数据库字段: rac_user.wx_nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -167,7 +164,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信头像
      *
-     *    数据库字段: RAC_USER.WX_AVATAR
+     *    数据库字段: rac_user.wx_avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -177,7 +174,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ的OpenId
      *
-     *    数据库字段: RAC_USER.QQ_OPEN_ID
+     *    数据库字段: rac_user.qq_open_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -187,7 +184,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ的UnionId
      *
-     *    数据库字段: RAC_USER.QQ_UNION_ID
+     *    数据库字段: rac_user.qq_union_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -197,7 +194,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ昵称
      *
-     *    数据库字段: RAC_USER.QQ_NICKNAME
+     *    数据库字段: rac_user.qq_nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -207,7 +204,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ头像
      *
-     *    数据库字段: RAC_USER.QQ_AVATAR
+     *    数据库字段: rac_user.qq_avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -217,7 +214,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户实名
      *
-     *    数据库字段: RAC_USER.REAL_NAME
+     *    数据库字段: rac_user.real_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -227,7 +224,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证实名
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_REALNAME
+     *    数据库字段: rac_user.is_verified_realname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -237,7 +234,7 @@ public class RacUserMo implements Serializable {
     /**
      *    身份证号
      *
-     *    数据库字段: RAC_USER.ID_CARD
+     *    数据库字段: rac_user.id_card
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -247,7 +244,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证身份证号
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_IDCARD
+     *    数据库字段: rac_user.is_verified_idcard
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -257,7 +254,7 @@ public class RacUserMo implements Serializable {
     /**
      *    性别
      *
-     *    数据库字段: RAC_USER.SEX
+     *    数据库字段: rac_user.sex
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -267,7 +264,7 @@ public class RacUserMo implements Serializable {
     /**
      *    年龄
      *
-     *    数据库字段: RAC_USER.AGE
+     *    数据库字段: rac_user.age
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -277,7 +274,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否测试者
      *
-     *    数据库字段: RAC_USER.IS_TESTER
+     *    数据库字段: rac_user.is_tester
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -287,7 +284,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_USER.IS_ENABLED
+     *    数据库字段: rac_user.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -297,7 +294,7 @@ public class RacUserMo implements Serializable {
     /**
      *    修改时间戳
      *
-     *    数据库字段: RAC_USER.MODIFIED_TIMESTAMP
+     *    数据库字段: rac_user.modified_timestamp
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -312,7 +309,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: RAC_USER.ID
+     *    数据库字段: rac_user.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -323,7 +320,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: RAC_USER.ID
+     *    数据库字段: rac_user.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -334,7 +331,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户昵称
      *
-     *    数据库字段: RAC_USER.NICKNAME
+     *    数据库字段: rac_user.nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -345,7 +342,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户昵称
      *
-     *    数据库字段: RAC_USER.NICKNAME
+     *    数据库字段: rac_user.nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -356,7 +353,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户头像
      *
-     *    数据库字段: RAC_USER.AVATAR
+     *    数据库字段: rac_user.avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -367,7 +364,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户头像
      *
-     *    数据库字段: RAC_USER.AVATAR
+     *    数据库字段: rac_user.avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -378,61 +375,54 @@ public class RacUserMo implements Serializable {
     /**
      *    登录名称
      *
-     *    数据库字段: RAC_USER.SIGN_IN_NAME
+     *    数据库字段: rac_user.login_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getSignInName() {
-        return signInName;
+    public String getLoginName() {
+        return loginName;
     }
 
     /**
      *    登录名称
      *
-     *    数据库字段: RAC_USER.SIGN_IN_NAME
+     *    数据库字段: rac_user.login_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInName(String signInName) {
-        this.signInName = signInName;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     /**
      *    登录密码
-     *                 计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
-     *                 注意：
-     *                 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *                 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
-     *    数据库字段: RAC_USER.SIGN_IN_PSWD
+     *    数据库字段: rac_user.login_pswd
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getSignInPswd() {
-        return signInPswd;
+    public String getLoginPswd() {
+        return loginPswd;
     }
 
     /**
      *    登录密码
-     *                 计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
-     *                 注意：
-     *                 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *                 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
-     *    数据库字段: RAC_USER.SIGN_IN_PSWD
+     *    数据库字段: rac_user.login_pswd
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInPswd(String signInPswd) {
-        this.signInPswd = signInPswd;
+    public void setLoginPswd(String loginPswd) {
+        this.loginPswd = loginPswd;
     }
 
     /**
      *    支付密码
      *                 用户的支付密码默认和登录密码一致
-     *                 计算方法与登录密码一致
+     *                 保存在字段的计算方法如下：
+     *                 MD5(数据库存储的已加密的登陆密码)
      *
-     *    数据库字段: RAC_USER.PAY_PSWD
+     *    数据库字段: rac_user.pay_pswd
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -443,9 +433,10 @@ public class RacUserMo implements Serializable {
     /**
      *    支付密码
      *                 用户的支付密码默认和登录密码一致
-     *                 计算方法与登录密码一致
+     *                 保存在字段的计算方法如下：
+     *                 MD5(数据库存储的已加密的登陆密码)
      *
-     *    数据库字段: RAC_USER.PAY_PSWD
+     *    数据库字段: rac_user.pay_pswd
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -458,7 +449,7 @@ public class RacUserMo implements Serializable {
      *                 与密码组合加密用
      *                 登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
      *
-     *    数据库字段: RAC_USER.SALT
+     *    数据库字段: rac_user.salt
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -471,7 +462,7 @@ public class RacUserMo implements Serializable {
      *                 与密码组合加密用
      *                 登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
      *
-     *    数据库字段: RAC_USER.SALT
+     *    数据库字段: rac_user.salt
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -482,7 +473,7 @@ public class RacUserMo implements Serializable {
     /**
      *    手机
      *
-     *    数据库字段: RAC_USER.MOBILE
+     *    数据库字段: rac_user.mobile
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -493,7 +484,7 @@ public class RacUserMo implements Serializable {
     /**
      *    手机
      *
-     *    数据库字段: RAC_USER.MOBILE
+     *    数据库字段: rac_user.mobile
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -504,7 +495,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证手机号码
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_MOBILE
+     *    数据库字段: rac_user.is_verified_mobile
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -515,7 +506,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证手机号码
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_MOBILE
+     *    数据库字段: rac_user.is_verified_mobile
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -526,7 +517,7 @@ public class RacUserMo implements Serializable {
     /**
      *    电子邮箱
      *
-     *    数据库字段: RAC_USER.EMAIL
+     *    数据库字段: rac_user.email
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -537,7 +528,7 @@ public class RacUserMo implements Serializable {
     /**
      *    电子邮箱
      *
-     *    数据库字段: RAC_USER.EMAIL
+     *    数据库字段: rac_user.email
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -548,7 +539,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证电子邮箱
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_EMAIL
+     *    数据库字段: rac_user.is_verified_email
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -559,7 +550,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证电子邮箱
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_EMAIL
+     *    数据库字段: rac_user.is_verified_email
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -570,7 +561,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信的OpenId
      *
-     *    数据库字段: RAC_USER.WX_OPEN_ID
+     *    数据库字段: rac_user.wx_open_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -581,7 +572,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信的OpenId
      *
-     *    数据库字段: RAC_USER.WX_OPEN_ID
+     *    数据库字段: rac_user.wx_open_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -592,7 +583,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信的UnionId
      *
-     *    数据库字段: RAC_USER.WX_UNION_ID
+     *    数据库字段: rac_user.wx_union_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -603,7 +594,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信的UnionId
      *
-     *    数据库字段: RAC_USER.WX_UNION_ID
+     *    数据库字段: rac_user.wx_union_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -614,7 +605,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信昵称
      *
-     *    数据库字段: RAC_USER.WX_NICKNAME
+     *    数据库字段: rac_user.wx_nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -625,7 +616,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信昵称
      *
-     *    数据库字段: RAC_USER.WX_NICKNAME
+     *    数据库字段: rac_user.wx_nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -636,7 +627,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信头像
      *
-     *    数据库字段: RAC_USER.WX_AVATAR
+     *    数据库字段: rac_user.wx_avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -647,7 +638,7 @@ public class RacUserMo implements Serializable {
     /**
      *    微信头像
      *
-     *    数据库字段: RAC_USER.WX_AVATAR
+     *    数据库字段: rac_user.wx_avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -658,7 +649,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ的OpenId
      *
-     *    数据库字段: RAC_USER.QQ_OPEN_ID
+     *    数据库字段: rac_user.qq_open_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -669,7 +660,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ的OpenId
      *
-     *    数据库字段: RAC_USER.QQ_OPEN_ID
+     *    数据库字段: rac_user.qq_open_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -680,7 +671,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ的UnionId
      *
-     *    数据库字段: RAC_USER.QQ_UNION_ID
+     *    数据库字段: rac_user.qq_union_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -691,7 +682,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ的UnionId
      *
-     *    数据库字段: RAC_USER.QQ_UNION_ID
+     *    数据库字段: rac_user.qq_union_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -702,7 +693,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ昵称
      *
-     *    数据库字段: RAC_USER.QQ_NICKNAME
+     *    数据库字段: rac_user.qq_nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -713,7 +704,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ昵称
      *
-     *    数据库字段: RAC_USER.QQ_NICKNAME
+     *    数据库字段: rac_user.qq_nickname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -724,7 +715,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ头像
      *
-     *    数据库字段: RAC_USER.QQ_AVATAR
+     *    数据库字段: rac_user.qq_avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -735,7 +726,7 @@ public class RacUserMo implements Serializable {
     /**
      *    QQ头像
      *
-     *    数据库字段: RAC_USER.QQ_AVATAR
+     *    数据库字段: rac_user.qq_avatar
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -746,7 +737,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户实名
      *
-     *    数据库字段: RAC_USER.REAL_NAME
+     *    数据库字段: rac_user.real_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -757,7 +748,7 @@ public class RacUserMo implements Serializable {
     /**
      *    用户实名
      *
-     *    数据库字段: RAC_USER.REAL_NAME
+     *    数据库字段: rac_user.real_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -768,7 +759,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证实名
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_REALNAME
+     *    数据库字段: rac_user.is_verified_realname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -779,7 +770,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证实名
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_REALNAME
+     *    数据库字段: rac_user.is_verified_realname
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -790,7 +781,7 @@ public class RacUserMo implements Serializable {
     /**
      *    身份证号
      *
-     *    数据库字段: RAC_USER.ID_CARD
+     *    数据库字段: rac_user.id_card
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -801,7 +792,7 @@ public class RacUserMo implements Serializable {
     /**
      *    身份证号
      *
-     *    数据库字段: RAC_USER.ID_CARD
+     *    数据库字段: rac_user.id_card
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -812,7 +803,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证身份证号
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_IDCARD
+     *    数据库字段: rac_user.is_verified_idcard
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -823,7 +814,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否已验证身份证号
      *
-     *    数据库字段: RAC_USER.IS_VERIFIED_IDCARD
+     *    数据库字段: rac_user.is_verified_idcard
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -834,7 +825,7 @@ public class RacUserMo implements Serializable {
     /**
      *    性别
      *
-     *    数据库字段: RAC_USER.SEX
+     *    数据库字段: rac_user.sex
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -845,7 +836,7 @@ public class RacUserMo implements Serializable {
     /**
      *    性别
      *
-     *    数据库字段: RAC_USER.SEX
+     *    数据库字段: rac_user.sex
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -856,7 +847,7 @@ public class RacUserMo implements Serializable {
     /**
      *    年龄
      *
-     *    数据库字段: RAC_USER.AGE
+     *    数据库字段: rac_user.age
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -867,7 +858,7 @@ public class RacUserMo implements Serializable {
     /**
      *    年龄
      *
-     *    数据库字段: RAC_USER.AGE
+     *    数据库字段: rac_user.age
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -878,7 +869,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否测试者
      *
-     *    数据库字段: RAC_USER.IS_TESTER
+     *    数据库字段: rac_user.is_tester
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -889,7 +880,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否测试者
      *
-     *    数据库字段: RAC_USER.IS_TESTER
+     *    数据库字段: rac_user.is_tester
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -900,7 +891,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_USER.IS_ENABLED
+     *    数据库字段: rac_user.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -911,7 +902,7 @@ public class RacUserMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_USER.IS_ENABLED
+     *    数据库字段: rac_user.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -922,7 +913,7 @@ public class RacUserMo implements Serializable {
     /**
      *    修改时间戳
      *
-     *    数据库字段: RAC_USER.MODIFIED_TIMESTAMP
+     *    数据库字段: rac_user.modified_timestamp
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -933,7 +924,7 @@ public class RacUserMo implements Serializable {
     /**
      *    修改时间戳
      *
-     *    数据库字段: RAC_USER.MODIFIED_TIMESTAMP
+     *    数据库字段: rac_user.modified_timestamp
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -953,8 +944,8 @@ public class RacUserMo implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", nickname=").append(nickname);
         sb.append(", avatar=").append(avatar);
-        sb.append(", signInName=").append(signInName);
-        sb.append(", signInPswd=").append(signInPswd);
+        sb.append(", loginName=").append(loginName);
+        sb.append(", loginPswd=").append(loginPswd);
         sb.append(", payPswd=").append(payPswd);
         sb.append(", salt=").append(salt);
         sb.append(", mobile=").append(mobile);

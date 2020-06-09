@@ -13,11 +13,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the RAC_PERM_URN database table.
+ * The persistent class for the rac_perm_urn database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_PERM_URN")
+@Table(name = "rac_perm_urn")
 @Getter
 @Setter
 @ToString
@@ -35,7 +35,7 @@ public class RacPermUrnJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 20)
+    @Column(name = "id", nullable = false, length = 20)
     private Long id;
 
     /**
@@ -44,7 +44,7 @@ public class RacPermUrnJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "URN", nullable = false, length = 100)
+    @Column(name = "urn", nullable = false, length = 100)
     private String urn;
 
     /**
@@ -52,7 +52,7 @@ public class RacPermUrnJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "PERM_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "perm_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private RacPermJo perm;
 

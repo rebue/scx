@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 权限信息
  *
- * 数据库表: RAC_PERM
+ * 数据库表: rac_perm
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: RAC_PERM.ID
+     *    数据库字段: rac_perm.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限分组ID
      *
-     *    数据库字段: RAC_PERM.GROUP_ID
+     *    数据库字段: rac_perm.group_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacPermMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_PERM.SYS_ID
+     *    数据库字段: rac_perm.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -49,7 +49,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限名称
      *
-     *    数据库字段: RAC_PERM.NAME
+     *    数据库字段: rac_perm.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -59,7 +59,7 @@ public class RacPermMo implements Serializable {
     /**
      *    是否鉴权(不鉴权意味着放开访问权限)
      *
-     *    数据库字段: RAC_PERM.IS_AUTHORIZE
+     *    数据库字段: rac_perm.is_authorize
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -69,7 +69,7 @@ public class RacPermMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_PERM.IS_ENABLED
+     *    数据库字段: rac_perm.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -79,7 +79,7 @@ public class RacPermMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: RAC_PERM.ORDER_NO
+     *    数据库字段: rac_perm.order_no
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -89,7 +89,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限备注
      *
-     *    数据库字段: RAC_PERM.REMARK
+     *    数据库字段: rac_perm.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -104,7 +104,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: RAC_PERM.ID
+     *    数据库字段: rac_perm.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -115,7 +115,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: RAC_PERM.ID
+     *    数据库字段: rac_perm.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -126,7 +126,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限分组ID
      *
-     *    数据库字段: RAC_PERM.GROUP_ID
+     *    数据库字段: rac_perm.group_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -137,7 +137,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限分组ID
      *
-     *    数据库字段: RAC_PERM.GROUP_ID
+     *    数据库字段: rac_perm.group_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -148,7 +148,7 @@ public class RacPermMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_PERM.SYS_ID
+     *    数据库字段: rac_perm.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -159,7 +159,7 @@ public class RacPermMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_PERM.SYS_ID
+     *    数据库字段: rac_perm.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -170,7 +170,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限名称
      *
-     *    数据库字段: RAC_PERM.NAME
+     *    数据库字段: rac_perm.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -181,7 +181,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限名称
      *
-     *    数据库字段: RAC_PERM.NAME
+     *    数据库字段: rac_perm.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -192,7 +192,7 @@ public class RacPermMo implements Serializable {
     /**
      *    是否鉴权(不鉴权意味着放开访问权限)
      *
-     *    数据库字段: RAC_PERM.IS_AUTHORIZE
+     *    数据库字段: rac_perm.is_authorize
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -203,7 +203,7 @@ public class RacPermMo implements Serializable {
     /**
      *    是否鉴权(不鉴权意味着放开访问权限)
      *
-     *    数据库字段: RAC_PERM.IS_AUTHORIZE
+     *    数据库字段: rac_perm.is_authorize
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -214,7 +214,7 @@ public class RacPermMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_PERM.IS_ENABLED
+     *    数据库字段: rac_perm.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -225,7 +225,7 @@ public class RacPermMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_PERM.IS_ENABLED
+     *    数据库字段: rac_perm.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -236,7 +236,7 @@ public class RacPermMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: RAC_PERM.ORDER_NO
+     *    数据库字段: rac_perm.order_no
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -247,7 +247,7 @@ public class RacPermMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: RAC_PERM.ORDER_NO
+     *    数据库字段: rac_perm.order_no
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -258,7 +258,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限备注
      *
-     *    数据库字段: RAC_PERM.REMARK
+     *    数据库字段: rac_perm.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -269,7 +269,7 @@ public class RacPermMo implements Serializable {
     /**
      *    权限备注
      *
-     *    数据库字段: RAC_PERM.REMARK
+     *    数据库字段: rac_perm.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

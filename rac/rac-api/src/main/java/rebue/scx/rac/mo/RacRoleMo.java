@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 角色信息
  *
- * 数据库表: RAC_ROLE
+ * 数据库表: rac_role
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: RAC_ROLE.ID
+     *    数据库字段: rac_role.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_ROLE.SYS_ID
+     *    数据库字段: rac_role.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色名称
      *
-     *    数据库字段: RAC_ROLE.NAME
+     *    数据库字段: rac_role.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -49,7 +49,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    首页路径
      *
-     *    数据库字段: RAC_ROLE.HOME_PATH
+     *    数据库字段: rac_role.home_path
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -59,7 +59,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_ROLE.IS_ENABLED
+     *    数据库字段: rac_role.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -69,7 +69,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: RAC_ROLE.ORDER_NO
+     *    数据库字段: rac_role.order_no
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -79,7 +79,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色备注
      *
-     *    数据库字段: RAC_ROLE.REMARK
+     *    数据库字段: rac_role.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -94,7 +94,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: RAC_ROLE.ID
+     *    数据库字段: rac_role.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -105,7 +105,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: RAC_ROLE.ID
+     *    数据库字段: rac_role.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -116,7 +116,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_ROLE.SYS_ID
+     *    数据库字段: rac_role.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -127,7 +127,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_ROLE.SYS_ID
+     *    数据库字段: rac_role.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -138,7 +138,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色名称
      *
-     *    数据库字段: RAC_ROLE.NAME
+     *    数据库字段: rac_role.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -149,7 +149,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色名称
      *
-     *    数据库字段: RAC_ROLE.NAME
+     *    数据库字段: rac_role.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -160,7 +160,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    首页路径
      *
-     *    数据库字段: RAC_ROLE.HOME_PATH
+     *    数据库字段: rac_role.home_path
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -171,7 +171,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    首页路径
      *
-     *    数据库字段: RAC_ROLE.HOME_PATH
+     *    数据库字段: rac_role.home_path
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -182,7 +182,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_ROLE.IS_ENABLED
+     *    数据库字段: rac_role.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -193,7 +193,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_ROLE.IS_ENABLED
+     *    数据库字段: rac_role.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -204,7 +204,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: RAC_ROLE.ORDER_NO
+     *    数据库字段: rac_role.order_no
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -215,7 +215,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: RAC_ROLE.ORDER_NO
+     *    数据库字段: rac_role.order_no
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -226,7 +226,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色备注
      *
-     *    数据库字段: RAC_ROLE.REMARK
+     *    数据库字段: rac_role.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -237,7 +237,7 @@ public class RacRoleMo implements Serializable {
     /**
      *    角色备注
      *
-     *    数据库字段: RAC_ROLE.REMARK
+     *    数据库字段: rac_role.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

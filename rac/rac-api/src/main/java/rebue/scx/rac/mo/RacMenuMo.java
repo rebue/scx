@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 菜单信息
  *
- * 数据库表: RAC_MENU
+ * 数据库表: rac_menu
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单ID
      *
-     *    数据库字段: RAC_MENU.ID
+     *    数据库字段: rac_menu.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_MENU.SYS_ID
+     *    数据库字段: rac_menu.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单编码
      *
-     *    数据库字段: RAC_MENU.CODE
+     *    数据库字段: rac_menu.code
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -49,7 +49,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单名称
      *
-     *    数据库字段: RAC_MENU.NAME
+     *    数据库字段: rac_menu.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -59,7 +59,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    标题(点击菜单后显示在内容页面的标题)
      *
-     *    数据库字段: RAC_MENU.TITLE
+     *    数据库字段: rac_menu.title
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -69,7 +69,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    路径
      *
-     *    数据库字段: RAC_MENU.PATH
+     *    数据库字段: rac_menu.path
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -79,7 +79,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_MENU.IS_ENABLED
+     *    数据库字段: rac_menu.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -89,7 +89,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单图标
      *
-     *    数据库字段: RAC_MENU.ICON
+     *    数据库字段: rac_menu.icon
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -99,7 +99,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单备注
      *
-     *    数据库字段: RAC_MENU.REMARK
+     *    数据库字段: rac_menu.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -114,7 +114,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单ID
      *
-     *    数据库字段: RAC_MENU.ID
+     *    数据库字段: rac_menu.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -125,7 +125,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单ID
      *
-     *    数据库字段: RAC_MENU.ID
+     *    数据库字段: rac_menu.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -136,7 +136,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_MENU.SYS_ID
+     *    数据库字段: rac_menu.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -147,7 +147,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: RAC_MENU.SYS_ID
+     *    数据库字段: rac_menu.sys_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -158,7 +158,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单编码
      *
-     *    数据库字段: RAC_MENU.CODE
+     *    数据库字段: rac_menu.code
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -169,7 +169,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单编码
      *
-     *    数据库字段: RAC_MENU.CODE
+     *    数据库字段: rac_menu.code
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -180,7 +180,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单名称
      *
-     *    数据库字段: RAC_MENU.NAME
+     *    数据库字段: rac_menu.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -191,7 +191,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单名称
      *
-     *    数据库字段: RAC_MENU.NAME
+     *    数据库字段: rac_menu.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -202,7 +202,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    标题(点击菜单后显示在内容页面的标题)
      *
-     *    数据库字段: RAC_MENU.TITLE
+     *    数据库字段: rac_menu.title
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -213,7 +213,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    标题(点击菜单后显示在内容页面的标题)
      *
-     *    数据库字段: RAC_MENU.TITLE
+     *    数据库字段: rac_menu.title
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -224,7 +224,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    路径
      *
-     *    数据库字段: RAC_MENU.PATH
+     *    数据库字段: rac_menu.path
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -235,7 +235,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    路径
      *
-     *    数据库字段: RAC_MENU.PATH
+     *    数据库字段: rac_menu.path
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -246,7 +246,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_MENU.IS_ENABLED
+     *    数据库字段: rac_menu.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -257,7 +257,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    是否启用
      *
-     *    数据库字段: RAC_MENU.IS_ENABLED
+     *    数据库字段: rac_menu.is_enabled
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -268,7 +268,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单图标
      *
-     *    数据库字段: RAC_MENU.ICON
+     *    数据库字段: rac_menu.icon
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -279,7 +279,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单图标
      *
-     *    数据库字段: RAC_MENU.ICON
+     *    数据库字段: rac_menu.icon
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -290,7 +290,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单备注
      *
-     *    数据库字段: RAC_MENU.REMARK
+     *    数据库字段: rac_menu.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -301,7 +301,7 @@ public class RacMenuMo implements Serializable {
     /**
      *    菜单备注
      *
-     *    数据库字段: RAC_MENU.REMARK
+     *    数据库字段: rac_menu.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

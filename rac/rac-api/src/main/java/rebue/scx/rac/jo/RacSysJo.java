@@ -14,11 +14,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the RAC_SYS database table.
+ * The persistent class for the rac_sys database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_SYS")
+@Table(name = "rac_sys")
 @Getter
 @Setter
 @ToString
@@ -36,7 +36,7 @@ public class RacSysJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 32)
+    @Column(name = "id", nullable = false, length = 32)
     private String id;
 
     /**
@@ -45,7 +45,7 @@ public class RacSysJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "NAME", nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 20)
     private String name;
 
     /**
@@ -54,11 +54,19 @@ public class RacSysJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "REMARK", nullable = true, length = 50)
+    @Column(name = "remark", nullable = true, length = 50)
     private String remark;
 
     /**
-     * 列表
+     * 系统列表
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
+    private List<RacLoginLogJo> racLoginLogList;
+
+    /**
+     * 系统列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -98,12 +106,12 @@ public class RacSysJo implements Serializable {
     private List<RacRoleJo> racRoleList;
 
     /**
-     * 系统列表
+     * 列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacSignInLogJo> racSignInLogList;
+    private List<RacSysUserJo> racSysUserList;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

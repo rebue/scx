@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 组织信息
  *
- * 数据库表: RAC_ORG
+ * 数据库表: rac_org
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织ID(组织ID=账户ID，与账户一一对应)
      *
-     *    数据库字段: RAC_ORG.ID
+     *    数据库字段: rac_org.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织名称(简称)
      *
-     *    数据库字段: RAC_ORG.NAME
+     *    数据库字段: rac_org.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    上级组织ID
      *
-     *    数据库字段: RAC_ORG.PARENT_ID
+     *    数据库字段: rac_org.parent_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -49,7 +49,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织类型(1.集团;2.公司;99.部门)
      *
-     *    数据库字段: RAC_ORG.ORG_TYPE
+     *    数据库字段: rac_org.org_type
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -59,7 +59,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    左值
      *
-     *    数据库字段: RAC_ORG.LEFT_VALUE
+     *    数据库字段: rac_org.left_value
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -69,7 +69,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    右值
      *
-     *    数据库字段: RAC_ORG.RIGHT_VALUE
+     *    数据库字段: rac_org.right_value
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -79,7 +79,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织全名
      *
-     *    数据库字段: RAC_ORG.FULL_NAME
+     *    数据库字段: rac_org.full_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -89,7 +89,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织简介
      *
-     *    数据库字段: RAC_ORG.INTRODUCTION
+     *    数据库字段: rac_org.introduction
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -99,7 +99,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织备注
      *
-     *    数据库字段: RAC_ORG.REMARK
+     *    数据库字段: rac_org.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -114,7 +114,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织ID(组织ID=账户ID，与账户一一对应)
      *
-     *    数据库字段: RAC_ORG.ID
+     *    数据库字段: rac_org.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -125,7 +125,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织ID(组织ID=账户ID，与账户一一对应)
      *
-     *    数据库字段: RAC_ORG.ID
+     *    数据库字段: rac_org.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -136,7 +136,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织名称(简称)
      *
-     *    数据库字段: RAC_ORG.NAME
+     *    数据库字段: rac_org.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -147,7 +147,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织名称(简称)
      *
-     *    数据库字段: RAC_ORG.NAME
+     *    数据库字段: rac_org.name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -158,7 +158,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    上级组织ID
      *
-     *    数据库字段: RAC_ORG.PARENT_ID
+     *    数据库字段: rac_org.parent_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -169,7 +169,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    上级组织ID
      *
-     *    数据库字段: RAC_ORG.PARENT_ID
+     *    数据库字段: rac_org.parent_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -180,7 +180,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织类型(1.集团;2.公司;99.部门)
      *
-     *    数据库字段: RAC_ORG.ORG_TYPE
+     *    数据库字段: rac_org.org_type
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -191,7 +191,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织类型(1.集团;2.公司;99.部门)
      *
-     *    数据库字段: RAC_ORG.ORG_TYPE
+     *    数据库字段: rac_org.org_type
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -202,7 +202,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    左值
      *
-     *    数据库字段: RAC_ORG.LEFT_VALUE
+     *    数据库字段: rac_org.left_value
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -213,7 +213,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    左值
      *
-     *    数据库字段: RAC_ORG.LEFT_VALUE
+     *    数据库字段: rac_org.left_value
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -224,7 +224,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    右值
      *
-     *    数据库字段: RAC_ORG.RIGHT_VALUE
+     *    数据库字段: rac_org.right_value
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -235,7 +235,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    右值
      *
-     *    数据库字段: RAC_ORG.RIGHT_VALUE
+     *    数据库字段: rac_org.right_value
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -246,7 +246,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织全名
      *
-     *    数据库字段: RAC_ORG.FULL_NAME
+     *    数据库字段: rac_org.full_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -257,7 +257,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织全名
      *
-     *    数据库字段: RAC_ORG.FULL_NAME
+     *    数据库字段: rac_org.full_name
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -268,7 +268,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织简介
      *
-     *    数据库字段: RAC_ORG.INTRODUCTION
+     *    数据库字段: rac_org.introduction
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -279,7 +279,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织简介
      *
-     *    数据库字段: RAC_ORG.INTRODUCTION
+     *    数据库字段: rac_org.introduction
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -290,7 +290,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织备注
      *
-     *    数据库字段: RAC_ORG.REMARK
+     *    数据库字段: rac_org.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -301,7 +301,7 @@ public class RacOrgMo implements Serializable {
     /**
      *    组织备注
      *
-     *    数据库字段: RAC_ORG.REMARK
+     *    数据库字段: rac_org.remark
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

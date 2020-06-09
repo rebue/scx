@@ -1,6 +1,5 @@
 package rebue.scx.rac.test;
 
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.junit.jupiter.api.Assertions;
@@ -8,9 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.IdRo;
+import rebue.robotech.ro.PageRo;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.mo.RacSignInLogMo;
-import rebue.scx.rac.svc.RacSignInLogSvc;
+import rebue.scx.rac.mo.RacLoginLogMo;
+import rebue.scx.rac.svc.RacLoginLogSvc;
 import rebue.wheel.RandomEx;
 
 /**
@@ -20,7 +20,7 @@ import rebue.wheel.RandomEx;
  */
 @Slf4j
 @SpringBootTest
-public class RacSignInLogTests {
+public class RacLoginLogTests {
 
     /**
      * 要测试的微服务
@@ -28,7 +28,7 @@ public class RacSignInLogTests {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Reference
-    private RacSignInLogSvc _svc;
+    private RacLoginLogSvc _svc;
 
     /**
      * 测试基本的增删改查
@@ -37,9 +37,9 @@ public class RacSignInLogTests {
      */
     @Test
     public void testCrud() {
-        RacSignInLogMo mo = null;
+        RacLoginLogMo mo = null;
         for (int i = 0; i < 20; i++) {
-            mo = (RacSignInLogMo) RandomEx.randomPojo(RacSignInLogMo.class);
+            mo = (RacLoginLogMo) RandomEx.randomPojo(RacLoginLogMo.class);
             mo.setId(null);
             log.info("添加用户登录日志的参数为：" + mo);
             @SuppressWarnings("unchecked")
@@ -48,10 +48,11 @@ public class RacSignInLogTests {
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             mo.setId(idRo.getId());
         }
-        final PageInfo<RacSignInLogMo> listResult = _svc.list(null, 1, 5);
+        final PageRo<RacLoginLogMo> listResult = _svc.list(null, 1, 5);
         log.info("查询用户登录日志的返回值为：" + listResult);
+        Assertions.assertEquals(ResultDic.SUCCESS, listResult.getResult());
         log.info("获取单个用户登录日志的参数为：" + mo.getId());
-        final RacSignInLogMo getByIdResult = _svc.getById(mo.getId());
+        final RacLoginLogMo getByIdResult = _svc.getById(mo.getId());
         log.info("获取单个用户登录日志的返回值为：" + getByIdResult);
         log.info("修改用户登录日志的参数为：" + mo);
         final Ro modifyResult = _svc.modify(mo);

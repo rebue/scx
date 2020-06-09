@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 权限URN
  *
- * 数据库表: RAC_PERM_URN
+ * 数据库表: rac_perm_urn
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    权限URN的ID
      *
-     *    数据库字段: RAC_PERM_URN.ID
+     *    数据库字段: rac_perm_urn.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: RAC_PERM_URN.PERM_ID
+     *    数据库字段: rac_perm_urn.perm_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    URN
      *
-     *    数据库字段: RAC_PERM_URN.URN
+     *    数据库字段: rac_perm_urn.urn
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -54,7 +54,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    权限URN的ID
      *
-     *    数据库字段: RAC_PERM_URN.ID
+     *    数据库字段: rac_perm_urn.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -65,7 +65,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    权限URN的ID
      *
-     *    数据库字段: RAC_PERM_URN.ID
+     *    数据库字段: rac_perm_urn.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -76,7 +76,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: RAC_PERM_URN.PERM_ID
+     *    数据库字段: rac_perm_urn.perm_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -87,7 +87,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    权限ID
      *
-     *    数据库字段: RAC_PERM_URN.PERM_ID
+     *    数据库字段: rac_perm_urn.perm_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -98,7 +98,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    URN
      *
-     *    数据库字段: RAC_PERM_URN.URN
+     *    数据库字段: rac_perm_urn.urn
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -109,7 +109,7 @@ public class RacPermUrnMo implements Serializable {
     /**
      *    URN
      *
-     *    数据库字段: RAC_PERM_URN.URN
+     *    数据库字段: rac_perm_urn.urn
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

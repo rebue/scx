@@ -1,4 +1,4 @@
-package rebue.scx.rac.test;
+package rebue.scx.rac.api.test;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.junit.jupiter.api.Assertions;

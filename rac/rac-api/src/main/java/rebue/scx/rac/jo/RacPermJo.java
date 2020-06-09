@@ -16,11 +16,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the RAC_PERM database table.
+ * The persistent class for the rac_perm database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_PERM")
+@Table(name = "rac_perm")
 @Getter
 @Setter
 @ToString
@@ -38,7 +38,7 @@ public class RacPermJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 32)
+    @Column(name = "id", nullable = false, length = 32)
     private String id;
 
     /**
@@ -47,7 +47,7 @@ public class RacPermJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "NAME", nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 20)
     private String name;
 
     /**
@@ -56,7 +56,7 @@ public class RacPermJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "IS_AUTHORIZE", nullable = false, length = 1)
+    @Column(name = "is_authorize", nullable = false, length = 1)
     private Boolean isAuthorize;
 
     /**
@@ -65,7 +65,7 @@ public class RacPermJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "IS_ENABLED", nullable = false, length = 1)
+    @Column(name = "is_enabled", nullable = false, length = 1)
     private Boolean isEnabled;
 
     /**
@@ -74,7 +74,7 @@ public class RacPermJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "ORDER_NO", nullable = false, length = 3)
+    @Column(name = "order_no", nullable = false, length = 3)
     private Byte orderNo;
 
     /**
@@ -83,7 +83,7 @@ public class RacPermJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "REMARK", nullable = true, length = 50)
+    @Column(name = "remark", nullable = true, length = 50)
     private String remark;
 
     /**
@@ -91,7 +91,7 @@ public class RacPermJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private RacPermGroupJo group;
 
@@ -100,7 +100,7 @@ public class RacPermJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "sys_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private RacSysJo sys;
 
@@ -110,7 +110,23 @@ public class RacPermJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perm")
+    private List<RacPermMenuJo> racPermMenuList;
+
+    /**
+     * 权限列表
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perm")
     private List<RacPermUrnJo> racPermUrnList;
+
+    /**
+     * 列表
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perm")
+    private List<RacRolePermJo> racRolePermList;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

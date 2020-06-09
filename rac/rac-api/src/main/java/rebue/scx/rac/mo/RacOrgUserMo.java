@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 组织用户
  *
- * 数据库表: RAC_ORG_USER
+ * 数据库表: rac_org_user
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    组织用户ID
      *
-     *    数据库字段: RAC_ORG_USER.ID
+     *    数据库字段: rac_org_user.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    组织ID
      *
-     *    数据库字段: RAC_ORG_USER.ORG_ID
+     *    数据库字段: rac_org_user.org_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    用户ID
      *
-     *    数据库字段: RAC_ORG_USER.USER_ID
+     *    数据库字段: rac_org_user.user_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -54,7 +54,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    组织用户ID
      *
-     *    数据库字段: RAC_ORG_USER.ID
+     *    数据库字段: rac_org_user.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -65,7 +65,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    组织用户ID
      *
-     *    数据库字段: RAC_ORG_USER.ID
+     *    数据库字段: rac_org_user.id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -76,7 +76,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    组织ID
      *
-     *    数据库字段: RAC_ORG_USER.ORG_ID
+     *    数据库字段: rac_org_user.org_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -87,7 +87,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    组织ID
      *
-     *    数据库字段: RAC_ORG_USER.ORG_ID
+     *    数据库字段: rac_org_user.org_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -98,7 +98,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    用户ID
      *
-     *    数据库字段: RAC_ORG_USER.USER_ID
+     *    数据库字段: rac_org_user.user_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -109,7 +109,7 @@ public class RacOrgUserMo implements Serializable {
     /**
      *    用户ID
      *
-     *    数据库字段: RAC_ORG_USER.USER_ID
+     *    数据库字段: rac_org_user.user_id
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
