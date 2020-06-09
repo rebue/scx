@@ -21,7 +21,7 @@ import rebue.scx.jwt.dic.JwtVerifyResultDic;
 import rebue.scx.jwt.ro.JwtSignRo;
 import rebue.scx.jwt.ro.JwtVerifyRo;
 import rebue.scx.jwt.svc.JwtSvc;
-import rebue.scx.jwt.to.JwtUserInfoTo;
+import rebue.scx.jwt.to.JwtSignTo;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
@@ -46,33 +46,27 @@ public class JwtSvcImpl implements JwtSvc {
     private Long   expirationMs;
 
     @Override
-    public JwtSignRo sign(final JwtUserInfoTo to) {
+    public JwtSignRo sign(final JwtSignTo to) {
         log.info("\r\n============================= 开始JWT签名 =============================\r\n");
         try {
             log.info("JWT签名参数: JwtUserInfoTo={}", to);
             final JwtSignRo ro = new JwtSignRo();
 
-            if (to.getUserId() == null) {
-                ro.setResult(JwtSignResultDic.PARAM_ERROR);
-                ro.setMsg("参数不正确-没有填写用户ID");
-                return ro;
-            }
-            if (StringUtils.isBlank(to.getSysId())) {
-                ro.setResult(JwtSignResultDic.PARAM_ERROR);
-                ro.setMsg("参数不正确-没有填写系统ID");
-                return ro;
-            }
+//            if (to.getUserId() == null) {
+//                ro.setResult(JwtSignResultDic.PARAM_ERROR);
+//                ro.setMsg("参数不正确-没有填写用户ID");
+//                return ro;
+//            }
 
             try {
                 // Prepare JWT with claims set
-                final long now = System.currentTimeMillis();
+                final long now            = System.currentTimeMillis();
                 final Date expirationTime = new Date(now + expirationMs);
-                Builder builder = new JWTClaimsSet.Builder()//
+                Builder    builder        = new JWTClaimsSet.Builder()//
                         .issuer(iss)                                                // 签发者
                         .issueTime(new Date(now))                                   // 签发时间
                         .notBeforeTime(new Date(now))                               // 不接受当前时间在此之前
                         .expirationTime(expirationTime)                             // 过期时间
-                        .claim("sysId", to.getSysId())                              // 放入系统ID
                         .claim("userId", to.getUserId());                           // 放入用户ID
                 if (to.getAddition() != null) {
                     builder = builder.claim("addition", to.getAddition());          // 放入签名的附加信息
@@ -102,14 +96,14 @@ public class JwtSvcImpl implements JwtSvc {
     }
 
     @Override
-    public JwtVerifyRo verify(final String toVerifySign) {
+    public JwtVerifyRo verify(final String signToVerify) {
         log.info("\r\n============================= 开始验证JWT签名 =============================\r\n");
         try {
-            log.info("验证JWT签名参数: toVerifySign={}", toVerifySign);
+            log.info("验证JWT签名参数: toVerifySign={}", signToVerify);
 
             final JwtVerifyRo ro = new JwtVerifyRo();
 
-            if (StringUtils.isBlank(toVerifySign)) {
+            if (StringUtils.isBlank(signToVerify)) {
                 ro.setResult(JwtVerifyResultDic.PARAM_ERROR);
                 ro.setMsg("参数不正确-没有传入要验证的签名");
                 return ro;
@@ -117,7 +111,7 @@ public class JwtSvcImpl implements JwtSvc {
 
             try {
                 // 解析JWT签名
-                final SignedJWT signedJWT = JwtUtils.parse(toVerifySign);
+                final SignedJWT signedJWT = JwtUtils.parse(signToVerify);
 
                 log.debug("解析后检查head和payload部分是否正确");
                 final JOSEObjectType joseObjectType = signedJWT.getHeader().getType();
@@ -177,7 +171,8 @@ public class JwtSvcImpl implements JwtSvc {
                     return ro;
                 }
                 @SuppressWarnings("unchecked")
-                final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
+                final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet()
+                        .getClaim("addition");
 
                 if (!JwtUtils.verify(key, signedJWT)) {
                     final String msg = "验证JWT签名失败-签名不正确";
@@ -197,13 +192,13 @@ public class JwtSvcImpl implements JwtSvc {
                 return ro;
             } catch (final ParseException e) {
                 final String msg = "验证JWT签名失败-解析不正确";
-                log.error(msg + ": " + toVerifySign, e);
+                log.error(msg + ": " + signToVerify, e);
                 ro.setResult(JwtVerifyResultDic.FAIL);
                 ro.setMsg(msg);
                 return ro;
             } catch (final JOSEException e) {
                 final String msg = "验证JWT签名失败-验证出现异常";
-                log.error(msg + ": " + toVerifySign, e);
+                log.error(msg + ": " + signToVerify, e);
                 ro.setResult(JwtVerifyResultDic.FAIL);
                 ro.setMsg(msg);
                 return ro;

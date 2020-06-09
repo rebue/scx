@@ -15,32 +15,31 @@ import rebue.scx.jwt.dic.JwtVerifyResultDic;
 import rebue.scx.jwt.ro.JwtSignRo;
 import rebue.scx.jwt.ro.JwtVerifyRo;
 import rebue.scx.jwt.svc.JwtSvc;
-import rebue.scx.jwt.to.JwtUserInfoTo;
+import rebue.scx.jwt.to.JwtSignTo;
 
 @Slf4j
 @SpringBootTest
 public class JwtTests {
 
-    private final Long   _userId    = 517928358546243583L;
+    private final Long _userId = 517928358546243583L;
 
+    private final String _sysId     = "rebue-platform";
     private final String _wxOpenId  = "oqTsm0gdD148UcBzibH4JTm2d9q4";
     private final String _wxUnionId = "oqTsm0gdD148UcBzibH4JTm2d9q5";
     private final Long   _orgId     = 517928358546243584L;
 
     @Reference
-    private JwtSvc       _svc;
+    private JwtSvc _svc;
 
     @Test
     public void test01() throws IOException {
         // JWT签名
-        final JwtUserInfoTo to = new JwtUserInfoTo();
-        to.setUserId(_userId);
-        to.setSysId("damai-admin");
         final Map<String, Object> addition = new LinkedHashMap<>();
+        addition.put("sysId", _sysId);
         addition.put("wxOpenId", _wxOpenId);
         addition.put("wxUnionId", _wxUnionId);
         addition.put("orgId", _orgId.toString());
-        to.setAddition(addition);
+        final JwtSignTo to = new JwtSignTo(_userId.toString(), addition);
         log.info("签名: to-{}", to);
         final JwtSignRo signRo = _svc.sign(to);
         Assertions.assertNotNull(signRo);
