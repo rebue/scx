@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import rebue.robotech.ro.IdRo;
 
 /**
@@ -17,6 +18,7 @@ import rebue.robotech.ro.IdRo;
 @Schema(description = "通过用户名称注册要传递的参数")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @JsonInclude(Include.NON_NULL)
 public class SignUpRo extends IdRo<Long> {
 
