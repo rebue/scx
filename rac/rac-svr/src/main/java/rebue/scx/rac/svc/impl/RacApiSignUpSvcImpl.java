@@ -1,5 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.Service;
@@ -11,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.jwt.svc.JwtSvc;
+import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.ro.SignUpRo;
 import rebue.scx.rac.svc.RacApiSignUpSvc;
@@ -18,7 +23,7 @@ import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 
 /**
- * API用户注册服务实现类
+ * API用户注册服务的实现类
  *
  * <pre>
  * 注意：
@@ -36,6 +41,9 @@ import rebue.scx.rac.to.SignUpByUserNameTo;
 @Service
 public class RacApiSignUpSvcImpl implements RacApiSignUpSvc {
 
+    @Resource
+    private JwtSvc jwtSvc;
+
     @Lazy
     @Resource
     private RacUserSvc racUserSvc;
@@ -51,13 +59,20 @@ public class RacApiSignUpSvcImpl implements RacApiSignUpSvc {
         final RacUserMo mo = new RacUserMo();
         BeanUtils.copyProperties(to, mo);
 
+        // 添加用户
         mo.setModifiedTimestamp(System.currentTimeMillis());
         final Ro addRo = racUserSvc.add(mo);
 
+        // Ro转SignUpRo
         final SignUpRo ro = new SignUpRo();
         BeanUtils.copyProperties(addRo, ro);
 
+        // 如果添加成功，JWT签名
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
+            final Map<String, Object> addtions = new LinkedHashMap<>();
+            addtions.put("sysId", to.getSysId());
+            final JwtSignTo signTo = new JwtSignTo(ro.getId().toString(), addtions);
+            jwtSvc.sign(signTo);
 
         }
 

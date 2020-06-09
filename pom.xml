@@ -25,12 +25,12 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
-				<artifactId>sgn-api</artifactId>
+				<artifactId>jwt-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
-				<artifactId>jwt-api</artifactId>
+				<artifactId>sgn-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
