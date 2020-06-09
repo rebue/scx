@@ -1,4 +1,4 @@
-package rebue.scx.rac.svc.impl;
+package rebue.scx.rac.api.svc.impl;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,14 +11,13 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
+import rebue.scx.rac.api.svc.RacSignUpApiSvc;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.ro.SignUpRo;
-import rebue.scx.rac.svc.RacApiSignUpSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 
@@ -37,12 +36,11 @@ import rebue.scx.rac.to.SignUpByUserNameTo;
  * </pre>
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-@Slf4j
 @Service
-public class RacApiSignUpSvcImpl implements RacApiSignUpSvc {
+public class RacSignUpApiSvcImpl implements RacSignUpApiSvc {
 
     @Resource
-    private JwtSvc jwtSvc;
+    private JwtSvc     jwtSvc;
 
     @Lazy
     @Resource
@@ -53,8 +51,6 @@ public class RacApiSignUpSvcImpl implements RacApiSignUpSvc {
      */
     @Override
     public SignUpRo signUpByUserName(final SignUpByUserNameTo to) {
-        log.info("通过用户名称注册: to-{}", to);
-
         // To转Mo
         final RacUserMo mo = new RacUserMo();
         BeanUtils.copyProperties(to, mo);
@@ -73,7 +69,6 @@ public class RacApiSignUpSvcImpl implements RacApiSignUpSvc {
             addtions.put("sysId", to.getSysId());
             final JwtSignTo signTo = new JwtSignTo(ro.getId().toString(), addtions);
             jwtSvc.sign(signTo);
-
         }
 
         return ro;

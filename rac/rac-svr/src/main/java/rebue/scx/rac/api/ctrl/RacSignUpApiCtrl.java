@@ -1,4 +1,4 @@
-package rebue.scx.rac.ctrl;
+package rebue.scx.rac.api.ctrl;
 
 import javax.annotation.Resource;
 
@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.svc.RacApiSignUpSvc;
+import rebue.scx.rac.api.svc.RacSignUpApiSvc;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 
 /**
  * API用户注册的控制器
  */
 @RestController
-public class RacApiSignUpCtrl {
+public class RacSignUpApiCtrl {
 
     @Resource
-    private RacApiSignUpSvc svc;
+    private RacSignUpApiSvc svc;
 
     /**
      * 通过用户名称注册

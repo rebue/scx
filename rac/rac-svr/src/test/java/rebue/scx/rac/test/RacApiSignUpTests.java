@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
+import rebue.scx.rac.api.svc.RacSignUpApiSvc;
 import rebue.scx.rac.ro.SignUpRo;
-import rebue.scx.rac.svc.RacApiSignUpSvc;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 import rebue.wheel.turing.DigestUtils;
 
@@ -23,7 +23,7 @@ public class RacApiSignUpTests {
      * 要测试的微服务
      */
     @Reference
-    private RacApiSignUpSvc _svc;
+    private RacSignUpApiSvc _svc;
 
     /**
      * 测试通过用户名称注册
