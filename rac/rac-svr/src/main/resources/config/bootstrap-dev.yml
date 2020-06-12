@@ -9,17 +9,13 @@ server:
   # 自定义端口号，方便开发测试
   port: 9605
 
-dubbo:
-  protocol:
-    host: 192.168.1.143 #指定好当前本机 ip 地址
-    
 spring:
   cloud:
     nacos:
       config:
         server-addr: 127.0.0.1:8848
-#      discovery:
-#        server-addr: 127.0.0.1:8848
+      discovery:
+        server-addr: 127.0.0.1:8848
     sentinel:
       enabled: false
   sleuth:

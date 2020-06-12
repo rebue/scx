@@ -2,7 +2,7 @@ package rebue.scx.jwt.api.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ro.JwtSignRo;
@@ -10,7 +10,7 @@ import rebue.scx.jwt.ro.JwtVerifyRo;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
 
-@Service
+@DubboService
 public class JwtApiImpl implements JwtApi {
 
     @Resource

@@ -49,7 +49,7 @@ dubbo:
     check: false
   cloud:
     # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空
-    subscribed-services:
+    subscribed-services: jwt-svr
 
 mybatis:
   configuration:
