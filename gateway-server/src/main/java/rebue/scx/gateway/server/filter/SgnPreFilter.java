@@ -2,7 +2,7 @@ package rebue.scx.gateway.server.filter;
 
 import java.util.Map;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
@@ -25,7 +25,7 @@ import rebue.scx.sgn.svc.SgnSvc;
 @Component
 public class SgnPreFilter implements GlobalFilter {
 
-    @Reference
+    @DubboReference
     private SgnSvc sgnSvc;
 
     @Override
