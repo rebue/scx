@@ -1,6 +1,6 @@
 package rebue.scx.rac.test.api;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ public class RacSignUpApiTests {
     /**
      * 要测试的微服务
      */
-    @Reference
+    @DubboReference
     private RacSignUpApi _svc;
 
     /**

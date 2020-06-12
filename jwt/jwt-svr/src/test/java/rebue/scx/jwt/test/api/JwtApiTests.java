@@ -1,4 +1,4 @@
-package rebue.scx.jwt.test;
+package rebue.scx.jwt.test.api;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -19,7 +19,7 @@ import rebue.scx.jwt.to.JwtSignTo;
 
 @Slf4j
 @SpringBootTest
-public class JwtTests {
+public class JwtApiTests {
 
     private final Long   _userId    = 517928358546243583L;
 

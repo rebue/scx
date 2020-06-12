@@ -2,7 +2,7 @@ package rebue.scx.rac.api.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,7 @@ import rebue.scx.rac.to.SignUpByUserNameTo;
  * </pre>
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-@Service
+@DubboService
 public class RacSignUpApiImpl implements RacSignUpApi {
 
     @Resource
