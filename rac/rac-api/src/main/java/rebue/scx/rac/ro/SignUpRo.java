@@ -21,16 +21,17 @@ import rebue.robotech.ro.IdRo;
 @ToString(callSuper = true)
 @JsonInclude(Include.NON_NULL)
 public class SignUpRo extends IdRo<Long> {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 签名(成功后可将签名放入Cookie中)
      */
-    private String sign;
+    private String            sign;
 
     /**
      * 签名过期时间(成功后可将签名过期时间放入Cookie中)
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date expirationTime;
+    private Date              expirationTime;
 
 }

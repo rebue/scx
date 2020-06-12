@@ -7,25 +7,18 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import rebue.scx.jwt.dic.JwtVerifyResultDic;
+import lombok.EqualsAndHashCode;
+import rebue.robotech.ro.Ro;
 
 /**
  * 验证签名的返回结果
  */
 @Schema(description = "验证签名的返回结果")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
-public class JwtVerifyRo {
-    /**
-     * 验证签名返回结果的代码
-     */
-    @Schema(description = "验证签名返回结果的代码")
-    private JwtVerifyResultDic result;
-    /**
-     * 验证签名返回结果的代码信息
-     */
-    @Schema(description = "验证签名返回结果的代码信息")
-    private String             msg;
+public class JwtVerifyRo extends Ro {
+    private static final long   serialVersionUID = 1L;
 
     /**
      * 用户ID
