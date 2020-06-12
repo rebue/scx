@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 用户角色
  *
- * 数据库表: rac_user_role
+ * 数据库表: RAC_USER_ROLE
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    用户角色ID
      *
-     *    数据库字段: rac_user_role.id
+     *    数据库字段: RAC_USER_ROLE.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_user_role.sys_id
+     *    数据库字段: RAC_USER_ROLE.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: rac_user_role.role_id
+     *    数据库字段: RAC_USER_ROLE.ROLE_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -49,7 +49,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: rac_user_role.user_id
+     *    数据库字段: RAC_USER_ROLE.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -64,7 +64,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    用户角色ID
      *
-     *    数据库字段: rac_user_role.id
+     *    数据库字段: RAC_USER_ROLE.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -75,7 +75,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    用户角色ID
      *
-     *    数据库字段: rac_user_role.id
+     *    数据库字段: RAC_USER_ROLE.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -86,7 +86,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_user_role.sys_id
+     *    数据库字段: RAC_USER_ROLE.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -97,7 +97,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_user_role.sys_id
+     *    数据库字段: RAC_USER_ROLE.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -108,7 +108,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: rac_user_role.role_id
+     *    数据库字段: RAC_USER_ROLE.ROLE_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -119,7 +119,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    角色ID
      *
-     *    数据库字段: rac_user_role.role_id
+     *    数据库字段: RAC_USER_ROLE.ROLE_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -130,7 +130,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: rac_user_role.user_id
+     *    数据库字段: RAC_USER_ROLE.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -141,7 +141,7 @@ public class RacUserRoleMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: rac_user_role.user_id
+     *    数据库字段: RAC_USER_ROLE.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

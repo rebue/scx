@@ -13,9 +13,9 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +25,6 @@ import ${modulePackage}.mapper.${entityName}Mapper;
 import ${moClassFullName};
 import ${modulePackage}.svc.${entityName}Svc;
 
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.IdRo;
 import rebue.robotech.ro.Ro;
@@ -48,7 +47,6 @@ import rebue.robotech.svc.impl.BaseSvcImpl;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-@Slf4j
 @Service
 public class ${entityName}SvcImpl extends BaseSvcImpl<<&
 		for(id in ids){
@@ -65,9 +63,9 @@ public class ${entityName}SvcImpl extends BaseSvcImpl<<&
      * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Lazy
-    @Resource
-    private ${entityName}Svc thisSvc;
+//    @Lazy
+//    @Resource
+//    private ${entityName}Svc thisSvc;
 
     /**
      * 添加${entityTitle}(自动生成ID)
@@ -77,7 +75,6 @@ public class ${entityName}SvcImpl extends BaseSvcImpl<<&
     @Override
     @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
     public Ro add(final ${moClassShortName} mo) {
-    	log.info("${entityName}Svc.add: 添加${entityTitle} mo-{}", mo);
         // 如果id为空那么自动生成分布式id
         <&
         if (idType=="String") {
@@ -91,7 +88,7 @@ public class ${entityName}SvcImpl extends BaseSvcImpl<<&
 		}
         &>
         
-        final Ro ro = thisSvc.add0(mo);
+        final Ro ro = super.add(mo);
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
             return new IdRo<>(ro.getResult(), ro.getMsg(), mo.getId());
         } else {

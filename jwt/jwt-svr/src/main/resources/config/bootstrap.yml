@@ -23,7 +23,7 @@ spring:
 dubbo:
   scan:
     # dubbo 服务扫描基准包
-    base-packages: rebue.scx.jwt.svc
+    base-packages: rebue.scx.jwt.api
   protocol:
     # dubbo 协议
     name: dubbo

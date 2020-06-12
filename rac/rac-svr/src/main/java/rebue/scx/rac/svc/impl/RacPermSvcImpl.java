@@ -1,10 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
 import java.util.UUID;
-import javax.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import rebue.robotech.dic.ResultDic;
@@ -34,7 +31,6 @@ import rebue.scx.rac.svc.RacPermSvc;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-@Slf4j
 @Service
 public class RacPermSvcImpl extends BaseSvcImpl<java.lang.String, RacPermJo, RacPermDao, RacPermMo, RacPermMapper> implements RacPermSvc {
 
@@ -44,10 +40,9 @@ public class RacPermSvcImpl extends BaseSvcImpl<java.lang.String, RacPermJo, Rac
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Lazy
-    @Resource
-    private RacPermSvc thisSvc;
-
+    // @Lazy
+    // @Resource
+    // private RacPermSvc thisSvc;
     /**
      * 添加权限信息(自动生成ID)
      *
@@ -56,12 +51,11 @@ public class RacPermSvcImpl extends BaseSvcImpl<java.lang.String, RacPermJo, Rac
     @Override
     @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
     public Ro add(final RacPermMo mo) {
-        log.info("RacPermSvc.add: 添加权限信息 mo-{}", mo);
         // 如果id为空那么自动生成分布式id
         if (mo.getId() == null || mo.getId().trim().isEmpty()) {
             mo.setId(UUID.randomUUID().toString().replaceAll("-", ""));
         }
-        final Ro ro = thisSvc.add0(mo);
+        final Ro ro = super.add(mo);
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
             return new IdRo<>(ro.getResult(), ro.getMsg(), mo.getId());
         } else {

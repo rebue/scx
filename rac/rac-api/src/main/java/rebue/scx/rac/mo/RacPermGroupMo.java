@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 权限分组
  *
- * 数据库表: rac_perm_group
+ * 数据库表: RAC_PERM_GROUP
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -19,7 +19,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组ID
      *
-     *    数据库字段: rac_perm_group.id
+     *    数据库字段: RAC_PERM_GROUP.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -29,7 +29,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_perm_group.sys_id
+     *    数据库字段: RAC_PERM_GROUP.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +39,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组名称
      *
-     *    数据库字段: rac_perm_group.name
+     *    数据库字段: RAC_PERM_GROUP.NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -49,7 +49,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    是否启用(如果分组没有启用，其下所有权限都要被设置为不启用；只要有一个权限启用，其分组就必须启用)
      *
-     *    数据库字段: rac_perm_group.is_enabled
+     *    数据库字段: RAC_PERM_GROUP.IS_ENABLED
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -59,7 +59,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: rac_perm_group.order_no
+     *    数据库字段: RAC_PERM_GROUP.ORDER_NO
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -69,7 +69,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组备注
      *
-     *    数据库字段: rac_perm_group.remark
+     *    数据库字段: RAC_PERM_GROUP.REMARK
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -84,7 +84,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组ID
      *
-     *    数据库字段: rac_perm_group.id
+     *    数据库字段: RAC_PERM_GROUP.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -95,7 +95,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组ID
      *
-     *    数据库字段: rac_perm_group.id
+     *    数据库字段: RAC_PERM_GROUP.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -106,7 +106,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_perm_group.sys_id
+     *    数据库字段: RAC_PERM_GROUP.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -117,7 +117,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_perm_group.sys_id
+     *    数据库字段: RAC_PERM_GROUP.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -128,7 +128,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组名称
      *
-     *    数据库字段: rac_perm_group.name
+     *    数据库字段: RAC_PERM_GROUP.NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -139,7 +139,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组名称
      *
-     *    数据库字段: rac_perm_group.name
+     *    数据库字段: RAC_PERM_GROUP.NAME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -150,7 +150,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    是否启用(如果分组没有启用，其下所有权限都要被设置为不启用；只要有一个权限启用，其分组就必须启用)
      *
-     *    数据库字段: rac_perm_group.is_enabled
+     *    数据库字段: RAC_PERM_GROUP.IS_ENABLED
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -161,7 +161,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    是否启用(如果分组没有启用，其下所有权限都要被设置为不启用；只要有一个权限启用，其分组就必须启用)
      *
-     *    数据库字段: rac_perm_group.is_enabled
+     *    数据库字段: RAC_PERM_GROUP.IS_ENABLED
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -172,7 +172,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: rac_perm_group.order_no
+     *    数据库字段: RAC_PERM_GROUP.ORDER_NO
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -183,7 +183,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    顺序号
      *
-     *    数据库字段: rac_perm_group.order_no
+     *    数据库字段: RAC_PERM_GROUP.ORDER_NO
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -194,7 +194,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组备注
      *
-     *    数据库字段: rac_perm_group.remark
+     *    数据库字段: RAC_PERM_GROUP.REMARK
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -205,7 +205,7 @@ public class RacPermGroupMo implements Serializable {
     /**
      *    权限分组备注
      *
-     *    数据库字段: rac_perm_group.remark
+     *    数据库字段: RAC_PERM_GROUP.REMARK
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

@@ -1,15 +1,17 @@
 package rebue.scx.rac.mo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 用户操作日志
  *
- * 数据库表: rac_op_log
+ * 数据库表: RAC_OP_LOG
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -20,7 +22,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    用户操作日志ID
      *
-     *    数据库字段: rac_op_log.id
+     *    数据库字段: RAC_OP_LOG.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -30,7 +32,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: rac_op_log.user_id
+     *    数据库字段: RAC_OP_LOG.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -40,7 +42,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_op_log.sys_id
+     *    数据库字段: RAC_OP_LOG.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -50,7 +52,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作标题
      *
-     *    数据库字段: rac_op_log.op_title
+     *    数据库字段: RAC_OP_LOG.OP_TITLE
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -60,7 +62,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作详情
      *
-     *    数据库字段: rac_op_log.op_detail
+     *    数据库字段: RAC_OP_LOG.OP_DETAIL
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -70,11 +72,13 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作时间
      *
-     *    数据库字段: rac_op_log.op_time
+     *    数据库字段: RAC_OP_LOG.OP_TIME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Schema(description = "操作时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date opTime;
 
     /**
@@ -85,7 +89,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    用户操作日志ID
      *
-     *    数据库字段: rac_op_log.id
+     *    数据库字段: RAC_OP_LOG.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -96,7 +100,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    用户操作日志ID
      *
-     *    数据库字段: rac_op_log.id
+     *    数据库字段: RAC_OP_LOG.ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -107,7 +111,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: rac_op_log.user_id
+     *    数据库字段: RAC_OP_LOG.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -118,7 +122,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    用户ID(如为1则是散客)
      *
-     *    数据库字段: rac_op_log.user_id
+     *    数据库字段: RAC_OP_LOG.USER_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -129,7 +133,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_op_log.sys_id
+     *    数据库字段: RAC_OP_LOG.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -140,7 +144,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    系统ID
      *
-     *    数据库字段: rac_op_log.sys_id
+     *    数据库字段: RAC_OP_LOG.SYS_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -151,7 +155,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作标题
      *
-     *    数据库字段: rac_op_log.op_title
+     *    数据库字段: RAC_OP_LOG.OP_TITLE
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -162,7 +166,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作标题
      *
-     *    数据库字段: rac_op_log.op_title
+     *    数据库字段: RAC_OP_LOG.OP_TITLE
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -173,7 +177,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作详情
      *
-     *    数据库字段: rac_op_log.op_detail
+     *    数据库字段: RAC_OP_LOG.OP_DETAIL
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -184,7 +188,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作详情
      *
-     *    数据库字段: rac_op_log.op_detail
+     *    数据库字段: RAC_OP_LOG.OP_DETAIL
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -195,7 +199,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作时间
      *
-     *    数据库字段: rac_op_log.op_time
+     *    数据库字段: RAC_OP_LOG.OP_TIME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -206,7 +210,7 @@ public class RacOpLogMo implements Serializable {
     /**
      *    操作时间
      *
-     *    数据库字段: rac_op_log.op_time
+     *    数据库字段: RAC_OP_LOG.OP_TIME
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */

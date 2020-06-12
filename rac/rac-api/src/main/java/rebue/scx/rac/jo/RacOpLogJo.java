@@ -16,11 +16,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the rac_op_log database table.
+ * The persistent class for the RAC_OP_LOG database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "rac_op_log")
+@Table(name = "RAC_OP_LOG")
 @Getter
 @Setter
 @ToString
@@ -38,7 +38,7 @@ public class RacOpLogJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "id", nullable = false, length = 20)
+    @Column(name = "ID", nullable = false, length = 20)
     private Long id;
 
     /**
@@ -47,7 +47,7 @@ public class RacOpLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "op_title", nullable = false, length = 32)
+    @Column(name = "OP_TITLE", nullable = false, length = 32)
     private String opTitle;
 
     /**
@@ -56,7 +56,7 @@ public class RacOpLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "op_detail", nullable = false, length = 300)
+    @Column(name = "OP_DETAIL", nullable = false, length = 300)
     private String opDetail;
 
     /**
@@ -65,7 +65,7 @@ public class RacOpLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "op_time", nullable = false, length = 19)
+    @Column(name = "OP_TIME", nullable = false, length = 19)
     @Temporal(TemporalType.DATE)
     private Date opTime;
 
@@ -74,7 +74,7 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "sys_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacSysJo sys;
 
@@ -83,7 +83,7 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacUserJo user;
 

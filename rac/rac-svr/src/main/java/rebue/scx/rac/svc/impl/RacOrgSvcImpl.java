@@ -1,9 +1,6 @@
 package rebue.scx.rac.svc.impl;
 
-import javax.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import rebue.robotech.dic.ResultDic;
@@ -33,7 +30,6 @@ import rebue.scx.rac.svc.RacOrgSvc;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-@Slf4j
 @Service
 public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgJo, RacOrgDao, RacOrgMo, RacOrgMapper> implements RacOrgSvc {
 
@@ -43,10 +39,9 @@ public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgJo, RacOrgD
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Lazy
-    @Resource
-    private RacOrgSvc thisSvc;
-
+    // @Lazy
+    // @Resource
+    // private RacOrgSvc thisSvc;
     /**
      * 添加组织信息(自动生成ID)
      *
@@ -55,12 +50,11 @@ public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgJo, RacOrgD
     @Override
     @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
     public Ro add(final RacOrgMo mo) {
-        log.info("RacOrgSvc.add: 添加组织信息 mo-{}", mo);
         // 如果id为空那么自动生成分布式id
         if (mo.getId() == null || mo.getId() == 0) {
             mo.setId(_idWorker.getId());
         }
-        final Ro ro = thisSvc.add0(mo);
+        final Ro ro = super.add(mo);
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
             return new IdRo<>(ro.getResult(), ro.getMsg(), mo.getId());
         } else {

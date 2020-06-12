@@ -1,26 +1,23 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The persistent class for the rac_org database table.
+ * The persistent class for the RAC_ORG database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "rac_org")
+@Table(name = "RAC_ORG")
 @Getter
 @Setter
 @ToString
@@ -38,7 +35,7 @@ public class RacOrgJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "id", nullable = false, length = 20)
+    @Column(name = "ID", nullable = false, length = 20)
     private Long id;
 
     /**
@@ -47,7 +44,7 @@ public class RacOrgJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "name", nullable = false, length = 30)
+    @Column(name = "NAME", nullable = false, length = 30)
     private String name;
 
     /**
@@ -56,7 +53,7 @@ public class RacOrgJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "org_type", nullable = false, length = 3)
+    @Column(name = "ORG_TYPE", nullable = false, length = 3)
     private Byte orgType;
 
     /**
@@ -65,7 +62,7 @@ public class RacOrgJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "left_value", nullable = false, length = 10)
+    @Column(name = "LEFT_VALUE", nullable = false, length = 10)
     private Integer leftValue;
 
     /**
@@ -74,7 +71,7 @@ public class RacOrgJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "right_value", nullable = false, length = 10)
+    @Column(name = "RIGHT_VALUE", nullable = false, length = 10)
     private Integer rightValue;
 
     /**
@@ -83,7 +80,7 @@ public class RacOrgJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "full_name", nullable = true, length = 80)
+    @Column(name = "FULL_NAME", nullable = true, length = 80)
     private String fullName;
 
     /**
@@ -92,7 +89,7 @@ public class RacOrgJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "introduction", nullable = true, length = 200)
+    @Column(name = "INTRODUCTION", nullable = true, length = 200)
     private String introduction;
 
     /**
@@ -101,7 +98,7 @@ public class RacOrgJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "remark", nullable = true, length = 100)
+    @Column(name = "REMARK", nullable = true, length = 100)
     private String remark;
 
     /**
@@ -109,17 +106,9 @@ public class RacOrgJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID")
     @ManyToOne()
     private RacOrgJo parent;
-
-    /**
-     * 组织列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "org")
-    private List<RacOrgUserJo> racOrgUserList;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

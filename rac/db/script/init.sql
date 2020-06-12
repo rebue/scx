@@ -1,1 +1,0 @@
-INSERT INTO `rac`.`RAC_SYS` (`ID`, `NAME`, `REMARK`) VALUES ('rebue-platform', 'Rebue平台', 'Rebue管理平台，对平台提供最基本的方式');

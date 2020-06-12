@@ -1,9 +1,6 @@
 package rebue.scx.rac.svc.impl;
 
-import javax.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import rebue.robotech.dic.ResultDic;
@@ -33,7 +30,6 @@ import rebue.scx.rac.svc.RacSignInLogSvc;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-@Slf4j
 @Service
 public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLogJo, RacSignInLogDao, RacSignInLogMo, RacSignInLogMapper> implements RacSignInLogSvc {
 
@@ -43,10 +39,9 @@ public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLo
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Lazy
-    @Resource
-    private RacSignInLogSvc thisSvc;
-
+    // @Lazy
+    // @Resource
+    // private RacSignInLogSvc thisSvc;
     /**
      * 添加用户登录日志(自动生成ID)
      *
@@ -55,12 +50,11 @@ public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLo
     @Override
     @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
     public Ro add(final RacSignInLogMo mo) {
-        log.info("RacSignInLogSvc.add: 添加用户登录日志 mo-{}", mo);
         // 如果id为空那么自动生成分布式id
         if (mo.getId() == null || mo.getId() == 0) {
             mo.setId(_idWorker.getId());
         }
-        final Ro ro = thisSvc.add0(mo);
+        final Ro ro = super.add(mo);
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
             return new IdRo<>(ro.getResult(), ro.getMsg(), mo.getId());
         } else {

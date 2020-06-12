@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
+import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.dic.JwtSignResultDic;
 import rebue.scx.jwt.dic.JwtVerifyResultDic;
 import rebue.scx.jwt.ro.JwtSignRo;
 import rebue.scx.jwt.ro.JwtVerifyRo;
-import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
 
 @Slf4j
@@ -29,7 +29,7 @@ public class JwtTests {
     private final Long   _orgId     = 517928358546243584L;
 
     @Reference
-    private JwtSvc _svc;
+    private JwtApi api;
 
     @Test
     public void test01() throws IOException {
@@ -41,13 +41,13 @@ public class JwtTests {
         addition.put("orgId", _orgId.toString());
         final JwtSignTo to = new JwtSignTo(_userId.toString(), addition);
         log.info("签名: to-{}", to);
-        final JwtSignRo signRo = _svc.sign(to);
+        final JwtSignRo signRo = api.sign(to);
         Assertions.assertNotNull(signRo);
         log.info("签名返回: {}", signRo);
         Assertions.assertEquals(JwtSignResultDic.SUCCESS, signRo.getResult());
 
         log.info("验证签名");
-        final JwtVerifyRo veryfyRo = _svc.verify(signRo.getSign());
+        final JwtVerifyRo veryfyRo = api.verify(signRo.getSign());
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);

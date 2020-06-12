@@ -8,7 +8,7 @@
 	},
 	{
 		"templateName": "svc.btl",
-		"targetDir": "../rac-api/src/main/java/${modulePath}/svc/",
+		"targetDir": "../rac-svr/src/main/java/${modulePath}/svc/",
 		"targetFile": "${entityName}Svc.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
@@ -28,9 +28,9 @@
 		"backup": false
 	},
 	{
-		"templateName": "test.btl",
-		"targetDir": "../rac-svr/src/test/java/${modulePath}/test/",
-		"targetFile": "${entityName}Tests.java",
+		"templateName": "test-svc.btl",
+		"targetDir": "../rac-svr/src/test/java/${modulePath}/test/svc",
+		"targetFile": "${entityName}SvcTests.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	}
