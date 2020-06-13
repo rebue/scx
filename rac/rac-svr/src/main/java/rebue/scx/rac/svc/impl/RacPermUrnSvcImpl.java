@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ro.IdRo;
+import rebue.robotech.ra.IdRa;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermUrnDao;
@@ -49,14 +49,14 @@ public class RacPermUrnSvcImpl extends BaseSvcImpl<java.lang.Long, RacPermUrnJo,
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
-    public Ro add(final RacPermUrnMo mo) {
+    public Ro<IdRa<Long>> add(final RacPermUrnMo mo) {
         // 如果id为空那么自动生成分布式id
         if (mo.getId() == null || mo.getId() == 0) {
             mo.setId(_idWorker.getId());
         }
-        final Ro ro = super.add(mo);
+        final Ro<IdRa<Long>> ro = super.add(mo);
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
-            return new IdRo<>(ro.getResult(), ro.getMsg(), mo.getId());
+            return new Ro<>(ro.getResult(), ro.getMsg(), null, new IdRa<>(mo.getId()));
         } else {
             return ro;
         }

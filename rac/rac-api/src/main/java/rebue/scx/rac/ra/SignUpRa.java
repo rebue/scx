@@ -1,4 +1,4 @@
-package rebue.scx.rac.ro;
+package rebue.scx.rac.ra;
 
 import java.util.Date;
 
@@ -10,17 +10,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import rebue.robotech.ro.IdRo;
+import rebue.robotech.ra.IdRa;
 
 /**
  * 用户注册返回的结果
  */
-@Schema(description = "通过用户名称注册要传递的参数")
+@Schema(description = "用户注册返回的结果")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonInclude(Include.NON_NULL)
-public class SignUpRo extends IdRo<Long> {
+public class SignUpRa extends IdRa<Long> {
     private static final long serialVersionUID = 1L;
 
     /**

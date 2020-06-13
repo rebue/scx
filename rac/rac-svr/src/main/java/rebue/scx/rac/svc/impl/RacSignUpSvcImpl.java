@@ -11,11 +11,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.IdRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.mo.RacUserMo;
-import rebue.scx.rac.ro.SignUpRo;
+import rebue.scx.rac.ra.SignUpRa;
 import rebue.scx.rac.svc.RacSignUpSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.SignUpByUserNameTo;
@@ -39,7 +40,7 @@ import rebue.scx.rac.to.SignUpByUserNameTo;
 public class RacSignUpSvcImpl implements RacSignUpSvc {
 
     @DubboReference(application = "jwt-svr")
-    private JwtApi jwtApi;
+    private JwtApi     jwtApi;
 
     @Autowired
     private RacUserSvc racUserSvc;
@@ -49,24 +50,24 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public SignUpRo signUpByUserName(final SignUpByUserNameTo to) {
+    public Ro<SignUpRa> signUpByUserName(final SignUpByUserNameTo to) {
         // To转Mo
         final RacUserMo mo = new RacUserMo();
         BeanUtils.copyProperties(to, mo);
 
         // 添加用户
         mo.setModifiedTimestamp(System.currentTimeMillis());
-        final Ro addRo = racUserSvc.add(mo);
+        final Ro<IdRa<Long>> addRo = racUserSvc.add(mo);
 
         // Ro转SignUpRo
-        final SignUpRo ro = new SignUpRo();
+        final Ro<SignUpRa> ro = new Ro<>();
         BeanUtils.copyProperties(addRo, ro);
 
         // 如果添加成功，JWT签名
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
             final Map<String, Object> addtions = new LinkedHashMap<>();
             addtions.put("sysId", to.getSysId());
-            final JwtSignTo signTo = new JwtSignTo(ro.getId().toString(), addtions);
+            final JwtSignTo signTo = new JwtSignTo(ro.getAddition().getId().toString(), addtions);
             jwtApi.sign(signTo);
         }
 

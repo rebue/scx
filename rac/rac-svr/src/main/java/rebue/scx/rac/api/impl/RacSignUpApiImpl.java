@@ -4,8 +4,9 @@ import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.DubboService;
 
+import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacSignUpApi;
-import rebue.scx.rac.ro.SignUpRo;
+import rebue.scx.rac.ra.SignUpRa;
 import rebue.scx.rac.svc.RacSignUpSvc;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 
@@ -22,7 +23,7 @@ public class RacSignUpApiImpl implements RacSignUpApi {
      * 通过用户名称注册
      */
     @Override
-    public SignUpRo signUpByUserName(final SignUpByUserNameTo to) {
+    public Ro<SignUpRa> signUpByUserName(final SignUpByUserNameTo to) {
         return svc.signUpByUserName(to);
     }
 

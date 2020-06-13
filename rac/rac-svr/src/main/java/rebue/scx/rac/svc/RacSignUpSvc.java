@@ -4,7 +4,8 @@ import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 
-import rebue.scx.rac.ro.SignUpRo;
+import rebue.robotech.ro.Ro;
+import rebue.scx.rac.ra.SignUpRa;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 
 /**
@@ -17,6 +18,6 @@ public interface RacSignUpSvc {
     /**
      * 通过用户名称注册
      */
-    SignUpRo signUpByUserName(@Valid SignUpByUserNameTo to);
+    Ro<SignUpRa> signUpByUserName(@Valid SignUpByUserNameTo to);
 
 }

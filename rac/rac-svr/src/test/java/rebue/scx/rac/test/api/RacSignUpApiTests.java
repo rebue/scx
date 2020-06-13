@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacSignUpApi;
-import rebue.scx.rac.ro.SignUpRo;
+import rebue.scx.rac.ra.SignUpRa;
 import rebue.scx.rac.to.SignUpByUserNameTo;
-import rebue.wheel.turing.DigestUtils;
 
 /**
  * 用户注册测试
@@ -33,9 +33,9 @@ public class RacSignUpApiTests {
         final SignUpByUserNameTo to = new SignUpByUserNameTo();
         to.setUserName("admin");
         to.setSysId("rebue-platform");
-        to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
+//        to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         log.info("测试通过用户名称注册: to-{}", to);
-        final SignUpRo ro = _svc.signUpByUserName(to);
+        final Ro<SignUpRa> ro = _svc.signUpByUserName(to);
         log.info("通过用户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
     }
