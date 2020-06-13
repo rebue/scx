@@ -3,7 +3,7 @@ package rebue.scx.sgn.svc.impl;
 import java.util.Map;
 
 import org.apache.dubbo.common.utils.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.svc.impl.RedisBaseSvcImpl;

@@ -14,7 +14,7 @@ import org.springframework.web.server.ServerWebExchange;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
-import rebue.scx.sgn.svc.SgnSvc;
+import rebue.scx.sgn.api.SgnApi;
 
 /**
  * 签名过滤器
@@ -26,14 +26,14 @@ import rebue.scx.sgn.svc.SgnSvc;
 public class SgnPreFilter implements GlobalFilter {
 
     @DubboReference
-    private SgnSvc sgnSvc;
+    private SgnApi sgnApi;
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         log.info("\r\n============================= 运行SgnPreFilter过滤器 =============================\r\n");
         try {
             final Map<String, Object> paramMap = exchange.getAttribute(CachedKeyCo.REQUEST_PARAMS_MAP);
-            if (!sgnSvc.verify(paramMap)) {
+            if (!sgnApi.verify(paramMap)) {
                 log.warn("认证失败: paramMap-{}", paramMap);
                 final ServerHttpResponse response = exchange.getResponse();
                 // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
