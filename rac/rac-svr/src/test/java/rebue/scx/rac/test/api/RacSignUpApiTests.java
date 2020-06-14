@@ -11,6 +11,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacSignUpApi;
 import rebue.scx.rac.ra.SignUpRa;
 import rebue.scx.rac.to.SignUpByUserNameTo;
+import rebue.wheel.turing.DigestUtils;
 
 /**
  * 用户注册测试
@@ -23,7 +24,7 @@ public class RacSignUpApiTests {
      * 要测试的微服务
      */
     @DubboReference
-    private RacSignUpApi _svc;
+    private RacSignUpApi _api;
 
     /**
      * 测试通过用户名称注册
@@ -33,9 +34,13 @@ public class RacSignUpApiTests {
         final SignUpByUserNameTo to = new SignUpByUserNameTo();
         to.setUserName("admin");
         to.setSysId("rebue-platform");
-//        to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
+        log.info("测试通过用户名称注册，缺少登录密码: to-{}", to);
+        Ro<SignUpRa> ro = _api.signUpByUserName(to);
+        log.info("通过用户名称注册的返回值为: {}", ro);
+        Assertions.assertEquals(ResultDic.WARN, ro.getResult());
+        to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         log.info("测试通过用户名称注册: to-{}", to);
-        final Ro<SignUpRa> ro = _svc.signUpByUserName(to);
+        ro = _api.signUpByUserName(to);
         log.info("通过用户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
     }

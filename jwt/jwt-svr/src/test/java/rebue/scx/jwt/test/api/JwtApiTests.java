@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
-import rebue.scx.jwt.dic.JwtSignResultDic;
-import rebue.scx.jwt.dic.JwtVerifyResultDic;
-import rebue.scx.jwt.ro.JwtSignRo;
-import rebue.scx.jwt.ro.JwtVerifyRo;
+import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
+import rebue.scx.jwt.to.JwtVerifyTo;
 
 @Slf4j
 @SpringBootTest
@@ -41,17 +41,17 @@ public class JwtApiTests {
         addition.put("orgId", _orgId.toString());
         final JwtSignTo to = new JwtSignTo(_userId.toString(), addition);
         log.info("签名: to-{}", to);
-        final JwtSignRo signRo = api.sign(to);
+        final Ro<JwtSignRa> signRo = api.sign(to);
         Assertions.assertNotNull(signRo);
         log.info("签名返回: {}", signRo);
-        Assertions.assertEquals(JwtSignResultDic.SUCCESS, signRo.getResult());
+        Assertions.assertEquals(ResultDic.SUCCESS, signRo.getResult());
 
         log.info("验证签名");
-        final JwtVerifyRo veryfyRo = api.verify(signRo.getSign());
+        final Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getAddition().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);
-        Assertions.assertEquals(JwtVerifyResultDic.SUCCESS, veryfyRo.getResult());
+        Assertions.assertEquals(ResultDic.SUCCESS, veryfyRo.getResult());
     }
 
 }

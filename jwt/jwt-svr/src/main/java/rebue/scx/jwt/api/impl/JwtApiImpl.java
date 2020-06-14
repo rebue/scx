@@ -4,11 +4,12 @@ import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.DubboService;
 
+import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
-import rebue.scx.jwt.ro.JwtSignRo;
-import rebue.scx.jwt.ro.JwtVerifyRo;
+import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
+import rebue.scx.jwt.to.JwtVerifyTo;
 
 @DubboService
 public class JwtApiImpl implements JwtApi {
@@ -17,13 +18,13 @@ public class JwtApiImpl implements JwtApi {
     private JwtSvc svc;
 
     @Override
-    public JwtSignRo sign(final JwtSignTo to) {
+    public Ro<JwtSignRa> sign(final JwtSignTo to) {
         return svc.sign(to);
     }
 
     @Override
-    public JwtVerifyRo verify(final String signToVerify) {
-        return svc.verify(signToVerify);
+    public Ro<JwtSignRa> verify(final JwtVerifyTo to) {
+        return svc.verify(to);
     }
 
 }

@@ -1,35 +1,41 @@
-package rebue.scx.jwt.ro;
+package rebue.scx.jwt.ra;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import org.springframework.lang.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import rebue.robotech.ro.Ro;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
- * 签名的返回结果
+ * 带有签名的附加内容
  */
-@Schema(description = "签名的返回结果")
+@Schema(description = "带有签名的附加内容")
 @Data
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@RequiredArgsConstructor // 不知道@Data中默认包含的@RequiredArgsConstructor为何没起效
 @JsonInclude(Include.NON_NULL)
-public class JwtSignRo extends Ro {
+public class JwtSignRa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 签名
      */
     @Schema(description = "签名")
+    @NonNull
     private String            sign;
 
     /**
      * 超时时间
      */
     @Schema(description = "超时时间")
+    @NonNull
     private Date              expirationTime;
 
 }

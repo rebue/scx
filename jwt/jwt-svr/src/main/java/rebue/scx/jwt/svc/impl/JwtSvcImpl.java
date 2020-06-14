@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +16,11 @@ import com.nimbusds.jwt.SignedJWT;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
-import rebue.scx.jwt.ro.JwtSignRo;
-import rebue.scx.jwt.ro.JwtVerifyRo;
+import rebue.robotech.ro.Ro;
+import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
+import rebue.scx.jwt.to.JwtVerifyTo;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
@@ -44,16 +44,14 @@ public class JwtSvcImpl implements JwtSvc {
     @Value("#{${jwt.expiration:30}*60*1000}")
     private Long   expirationMs;
 
+    /**
+     * JWT签名
+     * 
+     * @param to
+     *            签名中储存的用户信息
+     */
     @Override
-    public JwtSignRo sign(final JwtSignTo to) {
-        final JwtSignRo ro = new JwtSignRo();
-
-//            if (to.getUserId() == null) {
-//                ro.setResult(JwtSignResultDic.PARAM_ERROR);
-//                ro.setMsg("参数不正确-没有填写用户ID");
-//                return ro;
-//            }
-
+    public Ro<JwtSignRa> sign(final JwtSignTo to) {
         try {
             // Prepare JWT with claims set
             final long now = System.currentTimeMillis();
@@ -72,124 +70,68 @@ public class JwtSvcImpl implements JwtSvc {
             // 计算签名
             final String sign = JwtUtils.sign(key, claimsSet);
 
-            final String msg = "JWT签名成功";
-            log.info("{}: {}", msg, sign);
-            ro.setResult(ResultDic.SUCCESS);
-            ro.setMsg(msg);
-            ro.setSign(sign);
-            ro.setExpirationTime(expirationTime);
-            return ro;
+            return new Ro<>(ResultDic.SUCCESS, "JWT签名成功: userId-" + to.getUserId() + "; sign-" + sign, null, new JwtSignRa(sign, expirationTime));
         } catch (final JOSEException e) {
-            final String msg = "JWT签名失败: JwtUserInfoTo=" + to;
-            log.error(msg, e);
-            ro.setResult(ResultDic.FAIL);
-            ro.setMsg(msg);
-            return ro;
+            return new Ro<>(ResultDic.FAIL, "JWT签名失败: to-" + to);
         }
     }
 
+    /**
+     * 验证JWT签名
+     * 如果验证成功，重新生成新的签名，提供给应用刷新有效期
+     * 
+     * @param to
+     *            验证签名是否正确的传递参数
+     */
     @Override
-    public JwtVerifyRo verify(final String signToVerify) {
-        final JwtVerifyRo ro = new JwtVerifyRo();
+    public Ro<JwtSignRa> verify(final JwtVerifyTo to) {
         try {
-
-            if (StringUtils.isBlank(signToVerify)) {
-                ro.setResult(ResultDic.PARAM_ERROR);
-                ro.setMsg("参数不正确-没有传入要验证的签名");
-                return ro;
-            }
-
             // 解析JWT签名
-            final SignedJWT signedJWT = JwtUtils.parse(signToVerify);
+            final SignedJWT signedJWT = JwtUtils.parse(to.getSign());
 
             log.debug("解析后检查head和payload部分是否正确");
             final JOSEObjectType joseObjectType = signedJWT.getHeader().getType();
             if (joseObjectType != null && !JOSEObjectType.JWT.equals(joseObjectType)) {
-                final String msg = "验证JWT签名失败-不是JWT的签名";
-                log.error("{}: {}", msg, joseObjectType);
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的JWT签名-" + joseObjectType + ", 正确的应该是-" + JOSEObjectType.JWT);
             }
             final JWSAlgorithm algorithm = signedJWT.getHeader().getAlgorithm();
             if (!JWSAlgorithm.HS512.equals(algorithm)) {
-                final String msg = "验证JWT签名失败-算法不正确";
-                log.error("{}: {}", msg, algorithm);
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的算法-" + algorithm + ", 正确的应该是-" + JWSAlgorithm.HS512);
             }
             final String issuer = signedJWT.getJWTClaimsSet().getIssuer();
             if (!iss.equals(issuer)) {
-                final String msg = "验证JWT签名失败-签发者不正确";
-                log.error("{}: {}", msg, issuer);
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的签发者-" + issuer + ", 正确的应该是-" + iss);
             }
             final Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
             if (new Date().after(expirationTime)) {
-                final String msg = "验证JWT签名失败-签名过期";
-                log.error("{}: {}", msg, expirationTime);
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败-签名过期: " + expirationTime);
             }
             final Date notBeforeTime = signedJWT.getJWTClaimsSet().getNotBeforeTime();
             if (new Date().before(notBeforeTime)) {
-                final String msg = "验证JWT签名失败-当前时间早于签名时间";
-                log.error("{}: {}", msg, notBeforeTime);
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 当前时间早于签名时间-" + notBeforeTime);
             }
-            final String sysId = (String) signedJWT.getJWTClaimsSet().getClaim("sysId");
-            if (StringUtils.isBlank(sysId)) {
-                final String msg = "验证JWT签名失败-系统ID为空";
-                log.error("{}: {}", msg, sysId);
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
-            }
-            final Long userId = (Long) signedJWT.getJWTClaimsSet().getClaim("userId");
+            final String userId = signedJWT.getJWTClaimsSet().getClaim("userId").toString();
             if (userId == null) {
-                final String msg = "验证JWT签名失败-用户ID为空";
-                log.error("{}: {}", msg, userId);
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 用户ID为空");
             }
+            if (!to.getUserId().equals(userId)) {
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的用户ID-" + userId + ", 正确的应该是-" + to.getUserId());
+            }
+            if (!JwtUtils.verify(key, signedJWT)) {
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的签名-" + to.getSign() + ", 正确的应该是-" + signedJWT.getSignature());
+            }
+
             @SuppressWarnings("unchecked")
             final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
-
-            if (!JwtUtils.verify(key, signedJWT)) {
-                final String msg = "验证JWT签名失败-签名不正确";
-                log.error("{}: {}", msg, signedJWT.getSignature());
-                ro.setResult(ResultDic.FAIL);
-                ro.setMsg(msg);
-                return ro;
+            final Ro<JwtSignRa> ro = sign(new JwtSignTo(userId, addition));
+            if (ResultDic.SUCCESS.equals(ro.getResult())) {
+                ro.setMsg("验证" + ro.getMsg());
             }
-
-            final String msg = "验证JWT签名成功";
-            log.info("{}: userId={}, sysId={}, addtion={}", msg, userId, sysId, addition);
-            ro.setResult(ResultDic.SUCCESS);
-            ro.setMsg(msg);
-            ro.setSysId(sysId);
-            ro.setUserId(userId);
-            ro.setAddition(addition);
             return ro;
         } catch (final ParseException e) {
-            final String msg = "验证JWT签名失败-解析不正确";
-            log.error(msg + ": " + signToVerify, e);
-            ro.setResult(ResultDic.FAIL);
-            ro.setMsg(msg);
-            return ro;
+            return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 解析不正确 to-" + to);
         } catch (final JOSEException e) {
-            final String msg = "验证JWT签名失败-验证出现异常";
-            log.error(msg + ": " + signToVerify, e);
-            ro.setResult(ResultDic.FAIL);
-            ro.setMsg(msg);
-            return ro;
+            return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 验证出现异常 to-" + to);
         }
     }
 

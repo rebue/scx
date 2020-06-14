@@ -61,7 +61,9 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
 
         // Ro转SignUpRo
         final Ro<SignUpRa> ro = new Ro<>();
-        BeanUtils.copyProperties(addRo, ro);
+        BeanUtils.copyProperties(addRo, ro, "addition");
+        ro.setAddition(new SignUpRa());
+        BeanUtils.copyProperties(addRo.getAddition(), ro.getAddition());
 
         // 如果添加成功，JWT签名
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
