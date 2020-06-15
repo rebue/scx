@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.DubboService;
 
+import rebue.robotech.ro.Ro;
 import rebue.scx.sgn.api.SgnApi;
 import rebue.scx.sgn.svc.SgnSvc;
 
@@ -15,7 +16,7 @@ public class SgnApiImpl implements SgnApi {
     private SgnSvc svc;
 
     @Override
-    public boolean verify(final Map<String, ?> paramMap) {
+    public Ro<?> verify(final Map<String, ?> paramMap) {
         return svc.verify(paramMap);
     }
 

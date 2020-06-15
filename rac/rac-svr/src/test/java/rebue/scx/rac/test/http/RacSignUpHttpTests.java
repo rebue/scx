@@ -23,11 +23,11 @@ import rebue.wheel.turing.DigestUtils;
 @Slf4j
 public class RacSignUpHttpTests {
 
-    private final String       _hostUrl      = "http://127.0.0.1:9605";
+    private final String _hostUrl = "http://127.0.0.1:9605";
 
     private final ObjectMapper _objectMapper = new ObjectMapper();
 
-    private final HttpClient   _httpClient   = new OkHttpClientImpl();
+    private final HttpClient _httpClient = new OkHttpClientImpl();
 
     /**
      * 测试通过用户名称注册

@@ -33,14 +33,14 @@ public class RacSignUpApiTests {
     public void testSignUpByUserName() {
         Ro<SignUpRa> ro = _api.signUpByUserName(null);
         log.info("通过用户名称注册的返回值为: {}", ro);
-        Assertions.assertEquals(ResultDic.WARN, ro.getResult());
+        Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
         final SignUpByUserNameTo to = new SignUpByUserNameTo();
         to.setUserName("admin");
         to.setSysId("rebue-platform");
         log.info("测试通过用户名称注册，缺少登录密码: to-{}", to);
         ro = _api.signUpByUserName(to);
         log.info("通过用户名称注册的返回值为: {}", ro);
-        Assertions.assertEquals(ResultDic.WARN, ro.getResult());
+        Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         log.info("测试通过用户名称注册: to-{}", to);
         ro = _api.signUpByUserName(to);

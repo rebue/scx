@@ -2,8 +2,10 @@ package rebue.scx.sgn.svc;
 
 import java.util.Map;
 
+import rebue.robotech.ro.Ro;
+
 public interface SgnSvc {
 
-    boolean verify(Map<String, ?> paramMap);
+    Ro<?> verify(Map<String, ?> paramMap);
 
 }
