@@ -23,12 +23,16 @@ spring:
 dubbo:
   scan:
     # dubbo 服务扫描基准包
-    base-packages: rebue.scx.sgn.svc
+    base-packages: rebue.scx.sgn.api
   protocol:
     # dubbo 协议
     name: dubbo
     # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
     port: -1
+    # dubbo推荐的序列化组件，还有一个是fst
+    serialization: kryo
+    # 序列化优化器
+    optimizer: rebue.sbs.dubbo.SerializationOptimizerImpl
   cloud:
     # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空
     subscribed-services:
