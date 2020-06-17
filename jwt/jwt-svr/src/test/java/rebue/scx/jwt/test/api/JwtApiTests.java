@@ -21,7 +21,7 @@ import rebue.scx.jwt.to.JwtVerifyTo;
 @SpringBootTest
 public class JwtApiTests {
 
-    private final Long   _userId    = 517928358546243583L;
+    private final Long _userId = 517928358546243583L;
 
     private final String _sysId     = "rebue-platform";
     private final String _wxOpenId  = "oqTsm0gdD148UcBzibH4JTm2d9q4";
@@ -29,10 +29,10 @@ public class JwtApiTests {
     private final Long   _orgId     = 517928358546243584L;
 
     @DubboReference
-    private JwtApi       api;
+    private JwtApi api;
 
     @Test
-    public void test01() throws IOException {
+    public void test01() throws IOException, InterruptedException {
         // JWT签名
         final Map<String, Object> addition = new LinkedHashMap<>();
         addition.put("sysId", _sysId);
@@ -47,11 +47,18 @@ public class JwtApiTests {
         Assertions.assertEquals(ResultDic.SUCCESS, signRo.getResult());
 
         log.info("验证签名");
-        final Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getAddition().getSign()));
+        Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getAddition().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);
         Assertions.assertEquals(ResultDic.SUCCESS, veryfyRo.getResult());
+
+        Thread.sleep(3000);
+        veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getAddition().getSign()));
+        log.info("验证签名返回: {}", veryfyRo);
+        Assertions.assertNotNull(veryfyRo);
+        System.out.println(veryfyRo);
+        Assertions.assertEquals(ResultDic.FAIL, veryfyRo.getResult());
     }
 
 }

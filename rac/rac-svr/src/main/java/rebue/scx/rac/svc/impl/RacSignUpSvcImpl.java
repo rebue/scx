@@ -40,7 +40,7 @@ import rebue.scx.rac.to.SignUpByUserNameTo;
 public class RacSignUpSvcImpl implements RacSignUpSvc {
 
     @DubboReference(application = "jwt-svr")
-    private JwtApi     jwtApi;
+    private JwtApi jwtApi;
 
     @Autowired
     private RacUserSvc racUserSvc;
@@ -59,9 +59,10 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
         mo.setModifiedTimestamp(System.currentTimeMillis());
         final Ro<IdRa<Long>> addRo = racUserSvc.add(mo);
 
-        // Ro转SignUpRo
         final Ro<SignUpRa> ro = new Ro<>();
+        // 复制addRo除addition外其它的属性到返回值
         BeanUtils.copyProperties(addRo, ro, "addition");
+        // 复制addRo的属性到返回值的addition
         ro.setAddition(new SignUpRa());
         BeanUtils.copyProperties(addRo.getAddition(), ro.getAddition());
 
