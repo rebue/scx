@@ -9,3 +9,10 @@ application-prod-*
 pom.xml.versionsBackup
 .DS_Store
 rebel.xml
+.gradle
+gradle
+build.grdle
+gradlew
+gradlew.bat
+settings.gradle
+
