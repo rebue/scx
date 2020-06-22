@@ -1,35 +1,35 @@
 [
 	{
 		"templateName": "jo.btl",
-		"targetDir": "../rac-api/src/main/java/${modulePath}/jo/",
+		"targetDir": "rac-api/src/main/java/${modulePath}/jo/",
 		"targetFile": "${entityName}Jo.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	},
 	{
 		"templateName": "svc.btl",
-		"targetDir": "../rac-svr/src/main/java/${modulePath}/svc/",
+		"targetDir": "rac-svr/src/main/java/${modulePath}/svc/",
 		"targetFile": "${entityName}Svc.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	},
 	{
 		"templateName": "dao.btl",
-		"targetDir": "../rac-svr/src/main/java/${modulePath}/dao/",
+		"targetDir": "rac-svr/src/main/java/${modulePath}/dao/",
 		"targetFile": "${entityName}Dao.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	},
 	{
 		"templateName": "svc-impl.btl",
-		"targetDir": "../rac-svr/src/main/java/${modulePath}/svc/impl/",
+		"targetDir": "rac-svr/src/main/java/${modulePath}/svc/impl/",
 		"targetFile": "${entityName}SvcImpl.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	},
 	{
 		"templateName": "test-svc.btl",
-		"targetDir": "../rac-svr/src/test/java/${modulePath}/test/svc",
+		"targetDir": "rac-svr/src/test/java/${modulePath}/test/svc",
 		"targetFile": "${entityName}SvcTests.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
