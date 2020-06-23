@@ -2,123 +2,98 @@ package rebue.scx.rac.mo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 
 /**
  * 组织用户
  *
- * 数据库表: RAC_ORG_USER
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-@Schema(description = "组织用户")
 @JsonInclude(Include.NON_NULL)
 public class RacOrgUserMo implements Serializable {
 
     /**
-     *    组织用户ID
+     * 组织用户ID
      *
-     *    数据库字段: RAC_ORG_USER.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "组织用户ID")
     private Long id;
 
     /**
-     *    组织ID
+     * 组织ID
      *
-     *    数据库字段: RAC_ORG_USER.ORG_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "组织ID")
     private Long orgId;
 
     /**
-     *    用户ID
+     * 用户ID
      *
-     *    数据库字段: RAC_ORG_USER.USER_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "用户ID")
     private Long userId;
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     *    组织用户ID
+     * 组织用户ID
      *
-     *    数据库字段: RAC_ORG_USER.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getId() {
         return id;
     }
 
     /**
-     *    组织用户ID
+     * 组织用户ID
      *
-     *    数据库字段: RAC_ORG_USER.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     *    组织ID
+     * 组织ID
      *
-     *    数据库字段: RAC_ORG_USER.ORG_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getOrgId() {
         return orgId;
     }
 
     /**
-     *    组织ID
+     * 组织ID
      *
-     *    数据库字段: RAC_ORG_USER.ORG_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setOrgId(Long orgId) {
         this.orgId = orgId;
     }
 
     /**
-     *    用户ID
+     * 用户ID
      *
-     *    数据库字段: RAC_ORG_USER.USER_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getUserId() {
         return userId;
     }
 
     /**
-     *    用户ID
+     * 用户ID
      *
-     *    数据库字段: RAC_ORG_USER.USER_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -135,7 +110,7 @@ public class RacOrgUserMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -153,7 +128,7 @@ public class RacOrgUserMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {

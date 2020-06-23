@@ -2,315 +2,248 @@ package rebue.scx.rac.mo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 
 /**
  * 菜单信息
  *
- * 数据库表: RAC_MENU
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-@Schema(description = "菜单信息")
 @JsonInclude(Include.NON_NULL)
 public class RacMenuMo implements Serializable {
 
     /**
-     *    菜单ID
+     * 菜单ID
      *
-     *    数据库字段: RAC_MENU.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "菜单ID")
     private String id;
 
     /**
-     *    系统ID
+     * 系统ID
      *
-     *    数据库字段: RAC_MENU.SYS_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "系统ID")
     private String sysId;
 
     /**
-     *    菜单编码
+     * 菜单编码
      *
-     *    数据库字段: RAC_MENU.CODE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "菜单编码")
     private String code;
 
     /**
-     *    菜单名称
+     * 菜单名称
      *
-     *    数据库字段: RAC_MENU.NAME
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "菜单名称")
     private String name;
 
     /**
-     *    标题(点击菜单后显示在内容页面的标题)
+     * 标题(点击菜单后显示在内容页面的标题)
      *
-     *    数据库字段: RAC_MENU.TITLE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "标题(点击菜单后显示在内容页面的标题)")
     private String title;
 
     /**
-     *    路径
+     * 路径
      *
-     *    数据库字段: RAC_MENU.PATH
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "路径")
     private String path;
 
     /**
-     *    是否启用
+     * 是否启用
      *
-     *    数据库字段: RAC_MENU.IS_ENABLED
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "是否启用")
     private Boolean isEnabled;
 
     /**
-     *    菜单图标
+     * 菜单图标
      *
-     *    数据库字段: RAC_MENU.ICON
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "菜单图标")
     private String icon;
 
     /**
-     *    菜单备注
+     * 菜单备注
      *
-     *    数据库字段: RAC_MENU.REMARK
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "菜单备注")
     private String remark;
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     *    菜单ID
+     * 菜单ID
      *
-     *    数据库字段: RAC_MENU.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getId() {
         return id;
     }
 
     /**
-     *    菜单ID
+     * 菜单ID
      *
-     *    数据库字段: RAC_MENU.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     *    系统ID
+     * 系统ID
      *
-     *    数据库字段: RAC_MENU.SYS_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getSysId() {
         return sysId;
     }
 
     /**
-     *    系统ID
+     * 系统ID
      *
-     *    数据库字段: RAC_MENU.SYS_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setSysId(String sysId) {
         this.sysId = sysId;
     }
 
     /**
-     *    菜单编码
+     * 菜单编码
      *
-     *    数据库字段: RAC_MENU.CODE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getCode() {
         return code;
     }
 
     /**
-     *    菜单编码
+     * 菜单编码
      *
-     *    数据库字段: RAC_MENU.CODE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setCode(String code) {
         this.code = code;
     }
 
     /**
-     *    菜单名称
+     * 菜单名称
      *
-     *    数据库字段: RAC_MENU.NAME
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getName() {
         return name;
     }
 
     /**
-     *    菜单名称
+     * 菜单名称
      *
-     *    数据库字段: RAC_MENU.NAME
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     *    标题(点击菜单后显示在内容页面的标题)
+     * 标题(点击菜单后显示在内容页面的标题)
      *
-     *    数据库字段: RAC_MENU.TITLE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     *    标题(点击菜单后显示在内容页面的标题)
+     * 标题(点击菜单后显示在内容页面的标题)
      *
-     *    数据库字段: RAC_MENU.TITLE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setTitle(String title) {
         this.title = title;
     }
 
     /**
-     *    路径
+     * 路径
      *
-     *    数据库字段: RAC_MENU.PATH
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getPath() {
         return path;
     }
 
     /**
-     *    路径
+     * 路径
      *
-     *    数据库字段: RAC_MENU.PATH
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setPath(String path) {
         this.path = path;
     }
 
     /**
-     *    是否启用
+     * 是否启用
      *
-     *    数据库字段: RAC_MENU.IS_ENABLED
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Boolean getIsEnabled() {
         return isEnabled;
     }
 
     /**
-     *    是否启用
+     * 是否启用
      *
-     *    数据库字段: RAC_MENU.IS_ENABLED
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setIsEnabled(Boolean isEnabled) {
         this.isEnabled = isEnabled;
     }
 
     /**
-     *    菜单图标
+     * 菜单图标
      *
-     *    数据库字段: RAC_MENU.ICON
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getIcon() {
         return icon;
     }
 
     /**
-     *    菜单图标
+     * 菜单图标
      *
-     *    数据库字段: RAC_MENU.ICON
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
     /**
-     *    菜单备注
+     * 菜单备注
      *
-     *    数据库字段: RAC_MENU.REMARK
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getRemark() {
         return remark;
     }
 
     /**
-     *    菜单备注
+     * 菜单备注
      *
-     *    数据库字段: RAC_MENU.REMARK
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setRemark(String remark) {
         this.remark = remark;
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -333,7 +266,7 @@ public class RacMenuMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -351,7 +284,7 @@ public class RacMenuMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {

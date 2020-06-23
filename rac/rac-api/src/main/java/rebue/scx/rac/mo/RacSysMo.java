@@ -2,123 +2,98 @@ package rebue.scx.rac.mo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 
 /**
  * 系统信息
  *
- * 数据库表: RAC_SYS
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-@Schema(description = "系统信息")
 @JsonInclude(Include.NON_NULL)
 public class RacSysMo implements Serializable {
 
     /**
-     *    系统ID
+     * 系统ID
      *
-     *    数据库字段: RAC_SYS.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "系统ID")
     private String id;
 
     /**
-     *    系统名称
+     * 系统名称
      *
-     *    数据库字段: RAC_SYS.NAME
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "系统名称")
     private String name;
 
     /**
-     *    系统备注
+     * 系统备注
      *
-     *    数据库字段: RAC_SYS.REMARK
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "系统备注")
     private String remark;
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     *    系统ID
+     * 系统ID
      *
-     *    数据库字段: RAC_SYS.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getId() {
         return id;
     }
 
     /**
-     *    系统ID
+     * 系统ID
      *
-     *    数据库字段: RAC_SYS.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     *    系统名称
+     * 系统名称
      *
-     *    数据库字段: RAC_SYS.NAME
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getName() {
         return name;
     }
 
     /**
-     *    系统名称
+     * 系统名称
      *
-     *    数据库字段: RAC_SYS.NAME
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     *    系统备注
+     * 系统备注
      *
-     *    数据库字段: RAC_SYS.REMARK
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getRemark() {
         return remark;
     }
 
     /**
-     *    系统备注
+     * 系统备注
      *
-     *    数据库字段: RAC_SYS.REMARK
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setRemark(String remark) {
         this.remark = remark;
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -135,7 +110,7 @@ public class RacSysMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -153,7 +128,7 @@ public class RacSysMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {

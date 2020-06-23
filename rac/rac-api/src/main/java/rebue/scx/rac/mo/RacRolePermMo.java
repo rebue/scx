@@ -2,123 +2,98 @@ package rebue.scx.rac.mo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 
 /**
  * 角色权限
  *
- * 数据库表: RAC_ROLE_PERM
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-@Schema(description = "角色权限")
 @JsonInclude(Include.NON_NULL)
 public class RacRolePermMo implements Serializable {
 
     /**
-     *    角色权限ID
+     * 角色权限ID
      *
-     *    数据库字段: RAC_ROLE_PERM.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "角色权限ID")
     private Long id;
 
     /**
-     *    角色ID
+     * 角色ID
      *
-     *    数据库字段: RAC_ROLE_PERM.ROLE_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "角色ID")
     private String roleId;
 
     /**
-     *    权限ID
+     * 权限ID
      *
-     *    数据库字段: RAC_ROLE_PERM.PERM_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "权限ID")
     private String permId;
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     *    角色权限ID
+     * 角色权限ID
      *
-     *    数据库字段: RAC_ROLE_PERM.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getId() {
         return id;
     }
 
     /**
-     *    角色权限ID
+     * 角色权限ID
      *
-     *    数据库字段: RAC_ROLE_PERM.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     *    角色ID
+     * 角色ID
      *
-     *    数据库字段: RAC_ROLE_PERM.ROLE_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getRoleId() {
         return roleId;
     }
 
     /**
-     *    角色ID
+     * 角色ID
      *
-     *    数据库字段: RAC_ROLE_PERM.ROLE_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
     /**
-     *    权限ID
+     * 权限ID
      *
-     *    数据库字段: RAC_ROLE_PERM.PERM_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getPermId() {
         return permId;
     }
 
     /**
-     *    权限ID
+     * 权限ID
      *
-     *    数据库字段: RAC_ROLE_PERM.PERM_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setPermId(String permId) {
         this.permId = permId;
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -135,7 +110,7 @@ public class RacRolePermMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -153,7 +128,7 @@ public class RacRolePermMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {

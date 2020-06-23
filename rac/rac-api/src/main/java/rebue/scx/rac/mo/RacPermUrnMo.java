@@ -2,123 +2,98 @@ package rebue.scx.rac.mo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 
 /**
  * 权限URN
  *
- * 数据库表: RAC_PERM_URN
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-@Schema(description = "权限URN")
 @JsonInclude(Include.NON_NULL)
 public class RacPermUrnMo implements Serializable {
 
     /**
-     *    权限URN的ID
+     * 权限URN的ID
      *
-     *    数据库字段: RAC_PERM_URN.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "权限URN的ID")
     private Long id;
 
     /**
-     *    权限ID
+     * 权限ID
      *
-     *    数据库字段: RAC_PERM_URN.PERM_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "权限ID")
     private String permId;
 
     /**
-     *    URN
+     * URN
      *
-     *    数据库字段: RAC_PERM_URN.URN
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Schema(description = "URN")
     private String urn;
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     *    权限URN的ID
+     * 权限URN的ID
      *
-     *    数据库字段: RAC_PERM_URN.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getId() {
         return id;
     }
 
     /**
-     *    权限URN的ID
+     * 权限URN的ID
      *
-     *    数据库字段: RAC_PERM_URN.ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     *    权限ID
+     * 权限ID
      *
-     *    数据库字段: RAC_PERM_URN.PERM_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getPermId() {
         return permId;
     }
 
     /**
-     *    权限ID
+     * 权限ID
      *
-     *    数据库字段: RAC_PERM_URN.PERM_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setPermId(String permId) {
         this.permId = permId;
     }
 
     /**
-     *    URN
+     * URN
      *
-     *    数据库字段: RAC_PERM_URN.URN
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public String getUrn() {
         return urn;
     }
 
     /**
-     *    URN
+     * URN
      *
-     *    数据库字段: RAC_PERM_URN.URN
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setUrn(String urn) {
         this.urn = urn;
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -135,7 +110,7 @@ public class RacPermUrnMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -153,7 +128,7 @@ public class RacPermUrnMo implements Serializable {
     }
 
     /**
-     *    @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
