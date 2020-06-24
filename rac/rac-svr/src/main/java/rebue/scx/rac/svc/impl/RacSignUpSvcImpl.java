@@ -63,14 +63,14 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
         // 复制addRo除addition外其它的属性到返回值
         BeanUtils.copyProperties(addRo, ro, "addition");
         // 复制addRo的属性到返回值的addition
-        ro.setAddition(new SignUpRa());
-        BeanUtils.copyProperties(addRo.getAddition(), ro.getAddition());
+        ro.setExtra(new SignUpRa());
+        BeanUtils.copyProperties(addRo.getExtra(), ro.getExtra());
 
         // 如果添加成功，JWT签名
         if (ResultDic.SUCCESS.equals(ro.getResult())) {
             final Map<String, Object> addtions = new LinkedHashMap<>();
             addtions.put("sysId", to.getSysId());
-            final JwtSignTo signTo = new JwtSignTo(ro.getAddition().getId().toString(), addtions);
+            final JwtSignTo signTo = new JwtSignTo(ro.getExtra().getId().toString(), addtions);
             jwtApi.sign(signTo);
         }
 

@@ -3,10 +3,12 @@ package rebue.scx.rac;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-
-@OpenAPIDefinition(info = @Info(title = "资源访问控制微服务", version = "1.2.0"))
+/**
+ * 资源访问控制微服务
+ * 
+ * @author zbz
+ *
+ */
 @SpringCloudApplication
 public class RacApplication {
 

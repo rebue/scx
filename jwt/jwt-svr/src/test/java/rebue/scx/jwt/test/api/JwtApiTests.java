@@ -47,14 +47,14 @@ public class JwtApiTests {
         Assertions.assertEquals(ResultDic.SUCCESS, signRo.getResult());
 
         log.info("验证签名");
-        Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getAddition().getSign()));
+        Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getExtra().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);
         Assertions.assertEquals(ResultDic.SUCCESS, veryfyRo.getResult());
 
         Thread.sleep(3000);
-        veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getAddition().getSign()));
+        veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getExtra().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);
