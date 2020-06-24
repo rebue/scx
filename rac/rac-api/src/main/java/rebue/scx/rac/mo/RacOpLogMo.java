@@ -57,7 +57,7 @@ public class RacOpLogMo implements Serializable {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime opTime;
+    private LocalDateTime opDatetime;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -159,8 +159,8 @@ public class RacOpLogMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public LocalDateTime getOpTime() {
-        return opTime;
+    public LocalDateTime getOpDatetime() {
+        return opDatetime;
     }
 
     /**
@@ -168,8 +168,8 @@ public class RacOpLogMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpTime(LocalDateTime opTime) {
-        this.opTime = opTime;
+    public void setOpDatetime(LocalDateTime opDatetime) {
+        this.opDatetime = opDatetime;
     }
 
     /**
@@ -186,7 +186,7 @@ public class RacOpLogMo implements Serializable {
         sb.append(", sysId=").append(sysId);
         sb.append(", opTitle=").append(opTitle);
         sb.append(", opDetail=").append(opDetail);
-        sb.append(", opTime=").append(opTime);
+        sb.append(", opDatetime=").append(opDatetime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

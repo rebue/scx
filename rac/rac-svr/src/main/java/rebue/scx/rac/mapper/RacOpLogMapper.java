@@ -38,7 +38,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, userId, sysId, opTitle, opDetail, opTime);
+    BasicColumn[] selectList = BasicColumn.columnList(id, userId, sysId, opTitle, opDetail, opDatetime);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -81,7 +81,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
         @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
         @Result(column="OP_TITLE", property="opTitle", jdbcType=JdbcType.VARCHAR),
         @Result(column="OP_DETAIL", property="opDetail", jdbcType=JdbcType.VARCHAR),
-        @Result(column="OP_TIME", property="opTime", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="OP_DATETIME", property="opDatetime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<RacOpLogMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -124,7 +124,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .map(sysId).toProperty("sysId")
             .map(opTitle).toProperty("opTitle")
             .map(opDetail).toProperty("opDetail")
-            .map(opTime).toProperty("opTime")
+            .map(opDatetime).toProperty("opDatetime")
         );
     }
 
@@ -138,7 +138,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .map(sysId).toProperty("sysId")
             .map(opTitle).toProperty("opTitle")
             .map(opDetail).toProperty("opDetail")
-            .map(opTime).toProperty("opTime")
+            .map(opDatetime).toProperty("opDatetime")
         );
     }
 
@@ -152,7 +152,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
             .map(opTitle).toPropertyWhenPresent("opTitle", record::getOpTitle)
             .map(opDetail).toPropertyWhenPresent("opDetail", record::getOpDetail)
-            .map(opTime).toPropertyWhenPresent("opTime", record::getOpTime)
+            .map(opDatetime).toPropertyWhenPresent("opDatetime", record::getOpDatetime)
         );
     }
 
@@ -202,7 +202,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
                 .set(sysId).equalTo(record::getSysId)
                 .set(opTitle).equalTo(record::getOpTitle)
                 .set(opDetail).equalTo(record::getOpDetail)
-                .set(opTime).equalTo(record::getOpTime);
+                .set(opDatetime).equalTo(record::getOpDatetime);
     }
 
     /**
@@ -214,7 +214,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
                 .set(sysId).equalToWhenPresent(record::getSysId)
                 .set(opTitle).equalToWhenPresent(record::getOpTitle)
                 .set(opDetail).equalToWhenPresent(record::getOpDetail)
-                .set(opTime).equalToWhenPresent(record::getOpTime);
+                .set(opDatetime).equalToWhenPresent(record::getOpDatetime);
     }
 
     /**
@@ -226,7 +226,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .set(sysId).equalTo(record::getSysId)
             .set(opTitle).equalTo(record::getOpTitle)
             .set(opDetail).equalTo(record::getOpDetail)
-            .set(opTime).equalTo(record::getOpTime)
+            .set(opDatetime).equalTo(record::getOpDatetime)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -240,7 +240,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .set(sysId).equalToWhenPresent(record::getSysId)
             .set(opTitle).equalToWhenPresent(record::getOpTitle)
             .set(opDetail).equalToWhenPresent(record::getOpDetail)
-            .set(opTime).equalToWhenPresent(record::getOpTime)
+            .set(opDatetime).equalToWhenPresent(record::getOpDatetime)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -255,7 +255,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
             .and(opTitle, isEqualTo(record::getOpTitle).when(Objects::nonNull))
             .and(opDetail, isEqualTo(record::getOpDetail).when(Objects::nonNull))
-            .and(opTime, isEqualTo(record::getOpTime).when(Objects::nonNull))
+            .and(opDatetime, isEqualTo(record::getOpDatetime).when(Objects::nonNull))
         );
     }
 
@@ -269,7 +269,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
             .and(opTitle, isEqualTo(record::getOpTitle).when(Objects::nonNull))
             .and(opDetail, isEqualTo(record::getOpDetail).when(Objects::nonNull))
-            .and(opTime, isEqualTo(record::getOpTime).when(Objects::nonNull))
+            .and(opDatetime, isEqualTo(record::getOpDatetime).when(Objects::nonNull))
         );
     }
 
@@ -297,7 +297,7 @@ public interface RacOpLogMapper extends MybatisBaseMapper<RacOpLogMo, Long> {
             .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
             .and(opTitle, isEqualTo(record::getOpTitle).when(Objects::nonNull))
             .and(opDetail, isEqualTo(record::getOpDetail).when(Objects::nonNull))
-            .and(opTime, isEqualTo(record::getOpTime).when(Objects::nonNull))
+            .and(opDatetime, isEqualTo(record::getOpDatetime).when(Objects::nonNull))
         );
     }
 }

@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/6/8 11:52:13                            */
+/* Created on:     2020/6/24 9:46:34                            */
 /*==============================================================*/
 
 
@@ -33,7 +33,7 @@ create table RAC_OP_LOG
    SYS_ID               varchar(32) not null  comment '系统ID',
    OP_TITLE             varchar(32) not null  comment '操作标题',
    OP_DETAIL            varchar(300) not null  comment '操作详情',
-   OP_TIME              datetime not null  comment '操作时间',
+   OP_DATETIME          datetime not null  comment '操作时间',
    primary key (ID)
 );
 
@@ -184,7 +184,7 @@ create table RAC_SIGN_IN_LOG
              MOBILE_PASSWORD: 手机号与密码
              MOBILE_SMS. 手机短信验证
              WECHAT_OFFICIAL_ACCOUNTS: 微信公众号',
-   LOGIN_TIME           datetime not null  comment '登录时间',
+   LOGIN_DATETIME       datetime not null  comment '登录时间',
    primary key (ID)
 );
 
@@ -228,7 +228,7 @@ create table RAC_USER
    AVATAR               varchar(300)  comment '用户头像',
    SIGN_IN_NAME         varchar(20)  comment '登录名称',
    SIGN_IN_PSWD         varchar(32)  comment '登录密码
-             计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
+             计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
              注意：
              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度',
@@ -258,7 +258,7 @@ create table RAC_USER
    AGE                  tinyint unsigned  comment '年龄',
    IS_TESTER            bool not null default false  comment '是否测试者',
    IS_ENABLED           bool not null default true  comment '是否启用',
-   MODIFIED_TIMESTAMP   bigint unsigned not null  comment '修改时间戳',
+   UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
    unique key AK_NICKNAME (NICKNAME),
    unique key AK_LOGIN_NAME (SIGN_IN_NAME),

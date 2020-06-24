@@ -55,7 +55,7 @@ public class RacSignInLogMo implements Serializable {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime loginTime;
+    private LocalDateTime loginDatetime;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -149,8 +149,8 @@ public class RacSignInLogMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public LocalDateTime getLoginTime() {
-        return loginTime;
+    public LocalDateTime getLoginDatetime() {
+        return loginDatetime;
     }
 
     /**
@@ -158,8 +158,8 @@ public class RacSignInLogMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLoginTime(LocalDateTime loginTime) {
-        this.loginTime = loginTime;
+    public void setLoginDatetime(LocalDateTime loginDatetime) {
+        this.loginDatetime = loginDatetime;
     }
 
     /**
@@ -175,7 +175,7 @@ public class RacSignInLogMo implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", sysId=").append(sysId);
         sb.append(", loginWay=").append(loginWay);
-        sb.append(", loginTime=").append(loginTime);
+        sb.append(", loginDatetime=").append(loginDatetime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

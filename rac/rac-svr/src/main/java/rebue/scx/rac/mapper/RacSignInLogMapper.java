@@ -38,7 +38,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, userId, sysId, loginWay, loginTime);
+    BasicColumn[] selectList = BasicColumn.columnList(id, userId, sysId, loginWay, loginDatetime);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -80,7 +80,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
         @Result(column="USER_ID", property="userId", jdbcType=JdbcType.BIGINT),
         @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
         @Result(column="LOGIN_WAY", property="loginWay", jdbcType=JdbcType.VARCHAR),
-        @Result(column="LOGIN_TIME", property="loginTime", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="LOGIN_DATETIME", property="loginDatetime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<RacSignInLogMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -122,7 +122,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             .map(userId).toProperty("userId")
             .map(sysId).toProperty("sysId")
             .map(loginWay).toProperty("loginWay")
-            .map(loginTime).toProperty("loginTime")
+            .map(loginDatetime).toProperty("loginDatetime")
         );
     }
 
@@ -135,7 +135,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             .map(userId).toProperty("userId")
             .map(sysId).toProperty("sysId")
             .map(loginWay).toProperty("loginWay")
-            .map(loginTime).toProperty("loginTime")
+            .map(loginDatetime).toProperty("loginDatetime")
         );
     }
 
@@ -148,7 +148,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             .map(userId).toPropertyWhenPresent("userId", record::getUserId)
             .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
             .map(loginWay).toPropertyWhenPresent("loginWay", record::getLoginWay)
-            .map(loginTime).toPropertyWhenPresent("loginTime", record::getLoginTime)
+            .map(loginDatetime).toPropertyWhenPresent("loginDatetime", record::getLoginDatetime)
         );
     }
 
@@ -197,7 +197,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
                 .set(userId).equalTo(record::getUserId)
                 .set(sysId).equalTo(record::getSysId)
                 .set(loginWay).equalTo(record::getLoginWay)
-                .set(loginTime).equalTo(record::getLoginTime);
+                .set(loginDatetime).equalTo(record::getLoginDatetime);
     }
 
     /**
@@ -208,7 +208,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
                 .set(userId).equalToWhenPresent(record::getUserId)
                 .set(sysId).equalToWhenPresent(record::getSysId)
                 .set(loginWay).equalToWhenPresent(record::getLoginWay)
-                .set(loginTime).equalToWhenPresent(record::getLoginTime);
+                .set(loginDatetime).equalToWhenPresent(record::getLoginDatetime);
     }
 
     /**
@@ -219,7 +219,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             c.set(userId).equalTo(record::getUserId)
             .set(sysId).equalTo(record::getSysId)
             .set(loginWay).equalTo(record::getLoginWay)
-            .set(loginTime).equalTo(record::getLoginTime)
+            .set(loginDatetime).equalTo(record::getLoginDatetime)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -232,7 +232,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             c.set(userId).equalToWhenPresent(record::getUserId)
             .set(sysId).equalToWhenPresent(record::getSysId)
             .set(loginWay).equalToWhenPresent(record::getLoginWay)
-            .set(loginTime).equalToWhenPresent(record::getLoginTime)
+            .set(loginDatetime).equalToWhenPresent(record::getLoginDatetime)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -246,7 +246,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
             .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
             .and(loginWay, isEqualTo(record::getLoginWay).when(Objects::nonNull))
-            .and(loginTime, isEqualTo(record::getLoginTime).when(Objects::nonNull))
+            .and(loginDatetime, isEqualTo(record::getLoginDatetime).when(Objects::nonNull))
         );
     }
 
@@ -259,7 +259,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
             .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
             .and(loginWay, isEqualTo(record::getLoginWay).when(Objects::nonNull))
-            .and(loginTime, isEqualTo(record::getLoginTime).when(Objects::nonNull))
+            .and(loginDatetime, isEqualTo(record::getLoginDatetime).when(Objects::nonNull))
         );
     }
 
@@ -286,7 +286,7 @@ public interface RacSignInLogMapper extends MybatisBaseMapper<RacSignInLogMo, Lo
             .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
             .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
             .and(loginWay, isEqualTo(record::getLoginWay).when(Objects::nonNull))
-            .and(loginTime, isEqualTo(record::getLoginTime).when(Objects::nonNull))
+            .and(loginDatetime, isEqualTo(record::getLoginDatetime).when(Objects::nonNull))
         );
     }
 }

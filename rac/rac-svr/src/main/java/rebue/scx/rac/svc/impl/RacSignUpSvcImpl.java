@@ -56,7 +56,7 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
         BeanUtils.copyProperties(to, mo);
 
         // 添加用户
-        mo.setModifiedTimestamp(System.currentTimeMillis());
+        mo.setUpdateTimestamp(System.currentTimeMillis());
         final Ro<IdRa<Long>> addRo = racUserSvc.add(mo);
 
         final Ro<SignUpRa> ro = new Ro<>();

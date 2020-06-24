@@ -40,7 +40,7 @@ public final class RacUserDynamicSqlSupport {
 
     /**
     * 登录密码
-    *              计算方法：密码+密码组合码 -> 小写 -> md5 -> Hex
+    *              计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
     *              注意：
     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
@@ -212,7 +212,7 @@ public final class RacUserDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> modifiedTimestamp = racUser.modifiedTimestamp;
+    public static final SqlColumn<Long> updateTimestamp = racUser.updateTimestamp;
 
     public static final class RacUser extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
@@ -269,7 +269,7 @@ public final class RacUserDynamicSqlSupport {
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 
-        public final SqlColumn<Long> modifiedTimestamp = column("MODIFIED_TIMESTAMP", JDBCType.BIGINT);
+        public final SqlColumn<Long> updateTimestamp = column("UPDATE_TIMESTAMP", JDBCType.BIGINT);
 
         public RacUser() {
             super("RAC_USER");

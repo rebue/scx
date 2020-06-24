@@ -38,7 +38,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, nickname, avatar, signInName, signInPswd, payPswd, salt, mobile, isVerifiedMobile, email, isVerifiedEmail, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, realName, isVerifiedRealname, idCard, isVerifiedIdcard, sex, age, isTester, isEnabled, modifiedTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, nickname, avatar, signInName, signInPswd, payPswd, salt, mobile, isVerifiedMobile, email, isVerifiedEmail, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, realName, isVerifiedRealname, idCard, isVerifiedIdcard, sex, age, isTester, isEnabled, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -103,7 +103,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
         @Result(column="AGE", property="age", jdbcType=JdbcType.TINYINT),
         @Result(column="IS_TESTER", property="isTester", jdbcType=JdbcType.BIT),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
-        @Result(column="MODIFIED_TIMESTAMP", property="modifiedTimestamp", jdbcType=JdbcType.BIGINT)
+        @Result(column="UPDATE_TIMESTAMP", property="updateTimestamp", jdbcType=JdbcType.BIGINT)
     })
     List<RacUserMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -168,7 +168,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .map(age).toProperty("age")
             .map(isTester).toProperty("isTester")
             .map(isEnabled).toProperty("isEnabled")
-            .map(modifiedTimestamp).toProperty("modifiedTimestamp")
+            .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
 
@@ -204,7 +204,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .map(age).toProperty("age")
             .map(isTester).toProperty("isTester")
             .map(isEnabled).toProperty("isEnabled")
-            .map(modifiedTimestamp).toProperty("modifiedTimestamp")
+            .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
 
@@ -240,7 +240,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .map(age).toPropertyWhenPresent("age", record::getAge)
             .map(isTester).toPropertyWhenPresent("isTester", record::getIsTester)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
-            .map(modifiedTimestamp).toPropertyWhenPresent("modifiedTimestamp", record::getModifiedTimestamp)
+            .map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp)
         );
     }
 
@@ -312,7 +312,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
                 .set(age).equalTo(record::getAge)
                 .set(isTester).equalTo(record::getIsTester)
                 .set(isEnabled).equalTo(record::getIsEnabled)
-                .set(modifiedTimestamp).equalTo(record::getModifiedTimestamp);
+                .set(updateTimestamp).equalTo(record::getUpdateTimestamp);
     }
 
     /**
@@ -346,7 +346,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
                 .set(age).equalToWhenPresent(record::getAge)
                 .set(isTester).equalToWhenPresent(record::getIsTester)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-                .set(modifiedTimestamp).equalToWhenPresent(record::getModifiedTimestamp);
+                .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
     /**
@@ -380,7 +380,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .set(age).equalTo(record::getAge)
             .set(isTester).equalTo(record::getIsTester)
             .set(isEnabled).equalTo(record::getIsEnabled)
-            .set(modifiedTimestamp).equalTo(record::getModifiedTimestamp)
+            .set(updateTimestamp).equalTo(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -416,7 +416,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .set(age).equalToWhenPresent(record::getAge)
             .set(isTester).equalToWhenPresent(record::getIsTester)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-            .set(modifiedTimestamp).equalToWhenPresent(record::getModifiedTimestamp)
+            .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -453,7 +453,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .and(age, isEqualTo(record::getAge).when(Objects::nonNull))
             .and(isTester, isEqualTo(record::getIsTester).when(Objects::nonNull))
             .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(modifiedTimestamp, isEqualTo(record::getModifiedTimestamp).when(Objects::nonNull))
+            .and(updateTimestamp, isEqualTo(record::getUpdateTimestamp).when(Objects::nonNull))
         );
     }
 
@@ -489,7 +489,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .and(age, isEqualTo(record::getAge).when(Objects::nonNull))
             .and(isTester, isEqualTo(record::getIsTester).when(Objects::nonNull))
             .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(modifiedTimestamp, isEqualTo(record::getModifiedTimestamp).when(Objects::nonNull))
+            .and(updateTimestamp, isEqualTo(record::getUpdateTimestamp).when(Objects::nonNull))
         );
     }
 
@@ -539,7 +539,7 @@ public interface RacUserMapper extends MybatisBaseMapper<RacUserMo, Long> {
             .and(age, isEqualTo(record::getAge).when(Objects::nonNull))
             .and(isTester, isEqualTo(record::getIsTester).when(Objects::nonNull))
             .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(modifiedTimestamp, isEqualTo(record::getModifiedTimestamp).when(Objects::nonNull))
+            .and(updateTimestamp, isEqualTo(record::getUpdateTimestamp).when(Objects::nonNull))
         );
     }
 }

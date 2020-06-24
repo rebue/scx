@@ -3020,8 +3020,8 @@ Shadow=0</a:DisplayPreferences>
 <o:RelationshipSymbol Id="o69">
 <a:CreationDate>1591327614</a:CreationDate>
 <a:ModificationDate>1591490834</a:ModificationDate>
-<a:Rect>((-24010,-11613), (-13878,1969))</a:Rect>
-<a:ListOfPoints>((-14278,1157),(-22810,1157),(-22810,-10836))</a:ListOfPoints>
+<a:Rect>((-24000,-11613), (-13878,1969))</a:Rect>
+<a:ListOfPoints>((-14278,1157),(-22800,1157),(-22800,-10836))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>4627</a:ArrowStyle>
 <a:LineColor>11881048</a:LineColor>
@@ -3043,8 +3043,8 @@ DESTINATION 0 新宋体,8,N</a:FontList>
 <o:RelationshipSymbol Id="o73">
 <a:CreationDate>1591327683</a:CreationDate>
 <a:ModificationDate>1591490834</a:ModificationDate>
-<a:Rect>((-2387,-13866), (24111,2360))</a:Rect>
-<a:ListOfPoints>((-1987,1548),(22911,1548),(22911,-13466))</a:ListOfPoints>
+<a:Rect>((-2387,-13866), (24283,2360))</a:Rect>
+<a:ListOfPoints>((-1987,1548),(23083,1548),(23083,-13466))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>4627</a:ArrowStyle>
 <a:LineColor>11881048</a:LineColor>
@@ -3066,8 +3066,8 @@ DESTINATION 0 新宋体,8,N</a:FontList>
 <o:RelationshipSymbol Id="o76">
 <a:CreationDate>1591327788</a:CreationDate>
 <a:ModificationDate>1591490834</a:ModificationDate>
-<a:Rect>((-23926,-27857), (-8668,-16311))</a:Rect>
-<a:ListOfPoints>((-9068,-27045),(-22726,-27045),(-22726,-17150))</a:ListOfPoints>
+<a:Rect>((-23913,-27857), (-8668,-16311))</a:Rect>
+<a:ListOfPoints>((-9068,-27045),(-22713,-27045),(-22713,-17150))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>4627</a:ArrowStyle>
 <a:LineColor>11881048</a:LineColor>
@@ -3089,8 +3089,8 @@ DESTINATION 0 新宋体,8,N</a:FontList>
 <o:RelationshipSymbol Id="o79">
 <a:CreationDate>1591327790</a:CreationDate>
 <a:ModificationDate>1591490834</a:ModificationDate>
-<a:Rect>((10796,-27857), (24218,-15502))</a:Rect>
-<a:ListOfPoints>((11196,-27045),(23018,-27045),(23018,-16208))</a:ListOfPoints>
+<a:Rect>((10796,-27857), (24397,-15502))</a:Rect>
+<a:ListOfPoints>((11196,-27045),(23197,-27045),(23197,-16208))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>4627</a:ArrowStyle>
 <a:LineColor>11881048</a:LineColor>
@@ -3113,7 +3113,7 @@ DESTINATION 0 新宋体,8,N</a:FontList>
 <a:CreationDate>1591327386</a:CreationDate>
 <a:ModificationDate>1591490834</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((7926,-16902), (32438,-10230))</a:Rect>
+<a:Rect>((7153,-16902), (33211,-10230))</a:Rect>
 <a:LineColor>11184640</a:LineColor>
 <a:FillColor>16777136</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3135,7 +3135,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:CreationDate>1591327386</a:CreationDate>
 <a:ModificationDate>1591490834</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-35387,-17711), (-10875,-10213))</a:Rect>
+<a:Rect>((-35773,-17711), (-10489,-10213))</a:Rect>
 <a:LineColor>11184640</a:LineColor>
 <a:FillColor>16777136</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -4307,10 +4307,10 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>SIGN_IN_PSWD</a:Code>
 <a:CreationDate>1591264145</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591587473</a:ModificationDate>
+<a:ModificationDate>1592963118</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:Comment>登录密码
-计算方法：密码+密码组合码 -&gt; 小写 -&gt; md5 -&gt; Hex
+计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
 注意：
 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度</a:Comment>
@@ -4568,10 +4568,10 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:EntityAttribute Id="o183">
 <a:ObjectID>B13C2E7D-C989-403D-BAAB-6939406E3FC1</a:ObjectID>
 <a:Name>修改时间戳</a:Name>
-<a:Code>MODIFIED_TIMESTAMP</a:Code>
+<a:Code>UPDATE_TIMESTAMP</a:Code>
 <a:CreationDate>1591264145</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591409902</a:ModificationDate>
+<a:ModificationDate>1592962869</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:DataType>LI</a:DataType>
 <a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
@@ -4975,10 +4975,10 @@ WECHAT_OFFICIAL_ACCOUNTS: 微信公众号</a:Comment>
 <o:EntityAttribute Id="o211">
 <a:ObjectID>6DF509A0-D6DE-49BB-959A-83DFC40E4F42</a:ObjectID>
 <a:Name>登录时间</a:Name>
-<a:Code>LOGIN_TIME</a:Code>
+<a:Code>LOGIN_DATETIME</a:Code>
 <a:CreationDate>1591449243</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591449270</a:ModificationDate>
+<a:ModificationDate>1592962921</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:DataType>DT</a:DataType>
 <a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
@@ -5076,10 +5076,10 @@ WECHAT_OFFICIAL_ACCOUNTS: 微信公众号</a:Comment>
 <o:EntityAttribute Id="o218">
 <a:ObjectID>0BFDCCD8-E088-46D5-A73D-8BEAF5C4A6AF</a:ObjectID>
 <a:Name>操作时间</a:Name>
-<a:Code>OP_TIME</a:Code>
+<a:Code>OP_DATETIME</a:Code>
 <a:CreationDate>1591327386</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591409977</a:ModificationDate>
+<a:ModificationDate>1592962905</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:DataType>DT</a:DataType>
 <a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
@@ -5831,12 +5831,12 @@ WECHAT_OFFICIAL_ACCOUNTS: 微信公众号</a:Comment>
 <a:Code>rac-mysql</a:Code>
 <a:CreationDate>1591349233</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591588293</a:ModificationDate>
+<a:ModificationDate>1592963156</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/rac-mysql.pdm</a:TargetModelURL>
 <a:TargetModelID>1657FC08-856D-4EF4-969A-6EA675BC94D7</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
-<a:TargetModelLastModificationDate>1591588293</a:TargetModelLastModificationDate>
+<a:TargetModelLastModificationDate>1592963156</a:TargetModelLastModificationDate>
 <c:SessionShortcuts>
 <o:Shortcut Ref="o3"/>
 </c:SessionShortcuts>

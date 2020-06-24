@@ -49,7 +49,7 @@ public final class RacSignInLogDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<LocalDateTime> loginTime = racSignInLog.loginTime;
+    public static final SqlColumn<LocalDateTime> loginDatetime = racSignInLog.loginDatetime;
 
     public static final class RacSignInLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
@@ -60,7 +60,7 @@ public final class RacSignInLogDynamicSqlSupport {
 
         public final SqlColumn<String> loginWay = column("LOGIN_WAY", JDBCType.VARCHAR);
 
-        public final SqlColumn<LocalDateTime> loginTime = column("LOGIN_TIME", JDBCType.TIMESTAMP);
+        public final SqlColumn<LocalDateTime> loginDatetime = column("LOGIN_DATETIME", JDBCType.TIMESTAMP);
 
         public RacSignInLog() {
             super("RAC_SIGN_IN_LOG");

@@ -51,7 +51,7 @@ public final class RacOpLogDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<LocalDateTime> opTime = racOpLog.opTime;
+    public static final SqlColumn<LocalDateTime> opDatetime = racOpLog.opDatetime;
 
     public static final class RacOpLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
@@ -64,7 +64,7 @@ public final class RacOpLogDynamicSqlSupport {
 
         public final SqlColumn<String> opDetail = column("OP_DETAIL", JDBCType.VARCHAR);
 
-        public final SqlColumn<LocalDateTime> opTime = column("OP_TIME", JDBCType.TIMESTAMP);
+        public final SqlColumn<LocalDateTime> opDatetime = column("OP_DATETIME", JDBCType.TIMESTAMP);
 
         public RacOpLog() {
             super("RAC_OP_LOG");
