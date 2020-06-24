@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.rebue.scx</groupId>
-		<artifactId>scx</artifactId>
-		<version>1.2.0</version>
-	</parent>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.rebue.scx</groupId>
+        <artifactId>scx</artifactId>
+        <version>1.2.0</version>
+    </parent>
 
-	<artifactId>rac</artifactId>
-	<packaging>pom</packaging>
-	<description>资源访问控制微服务</description>
+    <artifactId>rac</artifactId>
+    <packaging>pom</packaging>
+    <description>资源访问控制微服务</description>
 
-	<modules>
-		<module>rac-gen</module>
-		<module>rac-api</module>
-		<module>rac-svr</module>
-	</modules>
+    <modules>
+        <module>rac-gen</module>
+        <module>rac-api</module>
+        <module>rac-svr</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
+                <configuration>
+                    <projectName>hlw</projectName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
