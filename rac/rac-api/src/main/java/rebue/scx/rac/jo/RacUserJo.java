@@ -279,8 +279,8 @@ public class RacUserJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "MODIFIED_TIMESTAMP", nullable = false, length = 20)
-    private Long modifiedTimestamp;
+    @Column(name = "UPDATE_TIMESTAMP", nullable = false, length = 20)
+    private Long updateTimestamp;
 
     /**
      * 列表

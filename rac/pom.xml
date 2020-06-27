@@ -24,7 +24,7 @@
                 <groupId>com.github.shalousun</groupId>
                 <artifactId>smart-doc-maven-plugin</artifactId>
                 <configuration>
-                    <projectName>hlw</projectName>
+                    <projectName>rac</projectName>
                 </configuration>
             </plugin>
         </plugins>

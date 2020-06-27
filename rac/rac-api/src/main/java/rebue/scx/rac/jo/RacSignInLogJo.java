@@ -1,7 +1,7 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -56,9 +54,8 @@ public class RacSignInLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "LOGIN_TIME", nullable = false, length = 19)
-    @Temporal(TemporalType.DATE)
-    private Date loginTime;
+    @Column(name = "LOGIN_DATETIME", nullable = false, length = 19)
+    private LocalDateTime loginDatetime;
 
     /**
      * 系统
