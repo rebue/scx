@@ -58,7 +58,7 @@ public class RacSysJo implements Serializable {
     private String remark;
 
     /**
-     * 列表
+     * 系统列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

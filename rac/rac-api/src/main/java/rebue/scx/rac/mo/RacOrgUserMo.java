@@ -3,6 +3,12 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import rebue.robotech.mo.Mo;
+import rebue.robotech.valid.AddGroup;
+import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 组织用户
@@ -10,13 +16,15 @@ import java.io.Serializable;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacOrgUserMo implements Serializable {
+public class RacOrgUserMo implements Serializable, Mo<Long> {
 
     /**
      * 组织用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = ModifyGroup.class, message = "组织用户ID不能为空")
+    @PositiveOrZero(message = "组织用户ID不能为负数")
     private Long id;
 
     /**
@@ -24,6 +32,8 @@ public class RacOrgUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "组织ID不能为空")
+    @PositiveOrZero(message = "组织ID不能为负数")
     private Long orgId;
 
     /**
@@ -31,12 +41,30 @@ public class RacOrgUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "用户ID不能为空")
+    @PositiveOrZero(message = "用户ID不能为负数")
     private Long userId;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 组织
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    private RacOrgMo org;
+
+    /**
+     * 用户
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    private RacUserMo user;
 
     /**
      * 组织用户ID
@@ -136,5 +164,15 @@ public class RacOrgUserMo implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
+    }
+
+    /**
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String getIdType() {
+        return "Long";
     }
 }

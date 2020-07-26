@@ -3,6 +3,14 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import org.hibernate.validator.constraints.Length;
+import rebue.robotech.mo.Mo;
+import rebue.robotech.valid.AddGroup;
+import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 权限分组
@@ -10,13 +18,15 @@ import java.io.Serializable;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacPermGroupMo implements Serializable {
+public class RacPermGroupMo implements Serializable, Mo<String> {
 
     /**
      * 权限分组ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = ModifyGroup.class, message = "权限分组ID不能为空")
+    @Length(max = 32, message = "权限分组ID的长度不能大于32")
     private String id;
 
     /**
@@ -24,6 +34,8 @@ public class RacPermGroupMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空")
+    @Length(max = 32, message = "系统ID的长度不能大于32")
     private String sysId;
 
     /**
@@ -31,6 +43,8 @@ public class RacPermGroupMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "权限分组名称不能为空")
+    @Length(max = 20, message = "权限分组名称的长度不能大于20")
     private String name;
 
     /**
@@ -38,6 +52,7 @@ public class RacPermGroupMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
     private Boolean isEnabled;
 
     /**
@@ -45,6 +60,8 @@ public class RacPermGroupMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "顺序号不能为空")
+    @PositiveOrZero(message = "顺序号不能为负数")
     private Byte orderNo;
 
     /**
@@ -52,12 +69,21 @@ public class RacPermGroupMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 50, message = "权限分组备注的长度不能大于50")
     private String remark;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 系统
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    private RacSysMo sys;
 
     /**
      * 权限分组ID
@@ -214,5 +240,15 @@ public class RacPermGroupMo implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
+    }
+
+    /**
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String getIdType() {
+        return "String";
     }
 }

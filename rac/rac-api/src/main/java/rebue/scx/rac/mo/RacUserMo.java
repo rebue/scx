@@ -3,6 +3,12 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import org.hibernate.validator.constraints.Length;
+import rebue.robotech.mo.Mo;
+import rebue.robotech.valid.AddGroup;
+import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 用户信息
@@ -10,13 +16,15 @@ import java.io.Serializable;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacUserMo implements Serializable {
+public class RacUserMo implements Serializable, Mo<Long> {
 
     /**
      * 用户ID(如为1则是散客)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = ModifyGroup.class, message = "用户ID不能为空")
+    @PositiveOrZero(message = "用户ID不能为负数")
     private Long id;
 
     /**
@@ -24,6 +32,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 20, message = "用户昵称的长度不能大于20")
     private String nickname;
 
     /**
@@ -31,6 +40,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 300, message = "用户头像的长度不能大于300")
     private String avatar;
 
     /**
@@ -38,6 +48,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 20, message = "登录名称的长度不能大于20")
     private String signInName;
 
     /**
@@ -49,6 +60,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 32, message = "登录密码的长度不能大于32")
     private String signInPswd;
 
     /**
@@ -58,6 +70,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 32, message = "支付密码的长度不能大于32")
     private String payPswd;
 
     /**
@@ -67,6 +80,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 6, message = "密码组合码的长度不能大于6")
     private String salt;
 
     /**
@@ -74,6 +88,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 11, message = "手机的长度不能大于11")
     private String mobile;
 
     /**
@@ -88,6 +103,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 50, message = "电子邮箱的长度不能大于50")
     private String email;
 
     /**
@@ -102,6 +118,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 64, message = "微信的OpenId的长度不能大于64")
     private String wxOpenId;
 
     /**
@@ -109,6 +126,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 64, message = "微信的UnionId的长度不能大于64")
     private String wxUnionId;
 
     /**
@@ -116,6 +134,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 100, message = "微信昵称的长度不能大于100")
     private String wxNickname;
 
     /**
@@ -123,6 +142,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 300, message = "微信头像的长度不能大于300")
     private String wxAvatar;
 
     /**
@@ -130,6 +150,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String qqOpenId;
 
     /**
@@ -137,6 +158,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 64, message = "QQ的UnionId的长度不能大于64")
     private String qqUnionId;
 
     /**
@@ -144,6 +166,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 100, message = "QQ昵称的长度不能大于100")
     private String qqNickname;
 
     /**
@@ -151,6 +174,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 300, message = "QQ头像的长度不能大于300")
     private String qqAvatar;
 
     /**
@@ -158,6 +182,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 100, message = "用户实名的长度不能大于100")
     private String realName;
 
     /**
@@ -172,6 +197,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 18, message = "身份证号的长度不能大于18")
     private String idCard;
 
     /**
@@ -186,6 +212,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @PositiveOrZero(message = "性别不能为负数")
     private Byte sex;
 
     /**
@@ -193,6 +220,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @PositiveOrZero(message = "年龄不能为负数")
     private Byte age;
 
     /**
@@ -200,6 +228,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "是否测试者不能为空")
     private Boolean isTester;
 
     /**
@@ -207,6 +236,7 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
     private Boolean isEnabled;
 
     /**
@@ -214,6 +244,8 @@ public class RacUserMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空")
+    @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long updateTimestamp;
 
     /**
@@ -810,5 +842,15 @@ public class RacUserMo implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
+    }
+
+    /**
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String getIdType() {
+        return "Long";
     }
 }

@@ -1,12 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermDao;
 import rebue.scx.rac.jo.RacPermJo;
@@ -33,33 +29,14 @@ import rebue.scx.rac.svc.RacPermSvc;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermSvcImpl extends BaseSvcImpl<java.lang.String, RacPermJo, RacPermDao, RacPermMo, RacPermMapper> implements RacPermSvc {
-
-    /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    // /**
+    // * 本服务的单例
+    // * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+    // *
+    // * @mbg.generated 自动生成，如需修改，请删除本行
+    // */
     // @Lazy
     // @Resource
     // private RacPermSvc thisSvc;
-    /**
-     * 添加权限信息(自动生成ID)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
-    public Ro<IdRa<String>> add(final RacPermMo mo) {
-        // 如果id为空那么自动生成分布式id
-        if (mo.getId() == null || mo.getId().trim().isEmpty()) {
-            mo.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-        }
-        final Ro<IdRa<String>> ro = super.add(mo);
-        if (ResultDic.SUCCESS.equals(ro.getResult())) {
-            return new Ro<>(ro.getResult(), ro.getMsg(), null, new IdRa<>(mo.getId()));
-        } else {
-            return ro;
-        }
-    }
+    // 
 }

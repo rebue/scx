@@ -283,7 +283,7 @@ public class RacUserJo implements Serializable {
     private Long updateTimestamp;
 
     /**
-     * 列表
+     * 用户列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -291,7 +291,7 @@ public class RacUserJo implements Serializable {
     private List<RacOpLogJo> racOpLogList;
 
     /**
-     * 列表
+     * 用户列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

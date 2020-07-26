@@ -3,6 +3,14 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import org.hibernate.validator.constraints.Length;
+import rebue.robotech.mo.Mo;
+import rebue.robotech.valid.AddGroup;
+import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 组织信息
@@ -10,13 +18,15 @@ import java.io.Serializable;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacOrgMo implements Serializable {
+public class RacOrgMo implements Serializable, Mo<Long> {
 
     /**
      * 组织ID(组织ID=账户ID，与账户一一对应)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = ModifyGroup.class, message = "组织ID不能为空")
+    @PositiveOrZero(message = "组织ID不能为负数")
     private Long id;
 
     /**
@@ -24,6 +34,8 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "组织名称不能为空")
+    @Length(max = 30, message = "组织名称的长度不能大于30")
     private String name;
 
     /**
@@ -31,6 +43,7 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @PositiveOrZero(message = "上级组织ID不能为负数")
     private Long parentId;
 
     /**
@@ -38,6 +51,8 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "组织类型不能为空")
+    @PositiveOrZero(message = "组织类型不能为负数")
     private Byte orgType;
 
     /**
@@ -45,6 +60,8 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "左值不能为空")
+    @PositiveOrZero(message = "左值不能为负数")
     private Integer leftValue;
 
     /**
@@ -52,6 +69,8 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "右值不能为空")
+    @PositiveOrZero(message = "右值不能为负数")
     private Integer rightValue;
 
     /**
@@ -59,6 +78,7 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 80, message = "组织全名的长度不能大于80")
     private String fullName;
 
     /**
@@ -66,6 +86,7 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 200, message = "组织简介的长度不能大于200")
     private String introduction;
 
     /**
@@ -73,12 +94,21 @@ public class RacOrgMo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Length(max = 100, message = "组织备注的长度不能大于100")
     private String remark;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 上级组织
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    private RacOrgMo parent;
 
     /**
      * 组织ID(组织ID=账户ID，与账户一一对应)
@@ -292,5 +322,15 @@ public class RacOrgMo implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
+    }
+
+    /**
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String getIdType() {
+        return "Long";
     }
 }

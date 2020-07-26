@@ -30,11 +30,11 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-import rebue.robotech.mapper.MybatisBaseMapper;
+import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacUserRoleMo;
 
 @Mapper
-public interface RacUserRoleMapper extends MybatisBaseMapper<RacUserRoleMo, Long> {
+public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */

@@ -1,15 +1,11 @@
 package rebue.scx.rac.test.svc;
 
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ra.PageRa;
-import rebue.robotech.ra.PojoRa;
-import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.svc.RacPermSvc;
 import rebue.wheel.RandomEx;
@@ -43,24 +39,25 @@ public class RacPermSvcTests {
             mo = (RacPermMo) RandomEx.randomPojo(RacPermMo.class);
             mo.setId(null);
             log.info("添加权限信息的参数为：" + mo);
-            final Ro<IdRa<String>> idRo = _svc.add(mo);
-            log.info("添加权限信息的返回值为：" + idRo);
-            Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
-            mo.setId(idRo.getExtra().getId());
+            final Boolean addRo = _svc.add(mo);
+            log.info("添加权限信息的返回值为：" + addRo);
+            Assertions.assertTrue(addRo);
+            mo.setId(mo.getId());
         }
-        final Ro<PageRa<RacPermMo>> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacPermMo> listResult = _svc.list(null, 1, 5, null, 10);
         log.info("查询权限信息的返回值为：" + listResult);
-        Assertions.assertEquals(ResultDic.SUCCESS, listResult.getResult());
+        Assertions.assertNotNull(listResult);
         log.info("获取单个权限信息的参数为：" + mo.getId());
-        final Ro<PojoRa<RacPermMo>> getByIdResult = _svc.getById(mo.getId());
+        RacPermMo getByIdResult = _svc.getById(mo.getId());
         log.info("获取单个权限信息的返回值为：" + getByIdResult);
+        Assertions.assertNotNull(getByIdResult);
         log.info("修改权限信息的参数为：" + mo);
-        final Ro<?> modifyResult = _svc.modify(mo);
+        final Boolean modifyResult = _svc.modify(mo);
         log.info("修改权限信息的返回值为：" + modifyResult);
-        Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
+        Assertions.assertTrue(modifyResult);
         log.info("删除权限信息的参数为：" + mo.getId());
-        final Ro<?> deleteResult = _svc.del(mo.getId());
+        final Boolean deleteResult = _svc.del(mo.getId());
         log.info("删除权限信息的返回值为：" + deleteResult);
-        Assertions.assertEquals(ResultDic.SUCCESS, deleteResult.getResult());
+        Assertions.assertTrue(deleteResult);
     }
 }
