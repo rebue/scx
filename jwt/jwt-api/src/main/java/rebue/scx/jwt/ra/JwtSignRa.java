@@ -1,7 +1,7 @@
 package rebue.scx.jwt.ra;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.lang.NonNull;
 
@@ -32,6 +32,6 @@ public class JwtSignRa implements Serializable {
      * 超时时间
      */
     @NonNull
-    private Date expirationTime;
+    private LocalDateTime expirationTime;
 
 }

@@ -1,15 +1,18 @@
 package rebue.scx.rac.ra;
 
+import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 import rebue.robotech.ra.IdRa;
-
-import java.time.LocalDateTime;
 
 /**
  * 用户注册返回的结果
@@ -24,13 +27,21 @@ public class SignUpRa extends IdRa<Long> {
     /**
      * 签名(成功后可将签名放入Cookie中)
      */
-    private String sign;
+    @NonNull
+    private String            sign;
 
     /**
      * 签名过期时间(成功后可将签名过期时间放入Cookie中)
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime expirationTime;
+    @NonNull
+    private LocalDateTime     expirationTime;
+
+    public SignUpRa(final Long id, final String sign, final LocalDateTime expirationTime) {
+        super(id);
+        this.sign           = sign;
+        this.expirationTime = expirationTime;
+    }
 
 }

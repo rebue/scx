@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.IdRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
+import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.ra.SignUpRa;
@@ -40,7 +40,7 @@ import rebue.scx.rac.to.SignUpByUserNameTo;
 public class RacSignUpSvcImpl implements RacSignUpSvc {
 
     @DubboReference(application = "jwt-svr")
-    private JwtApi jwtApi;
+    private JwtApi     jwtApi;
 
     @Autowired
     private RacUserSvc racUserSvc;
@@ -57,24 +57,23 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
 
         // 添加用户
         mo.setUpdateTimestamp(System.currentTimeMillis());
-        final Ro<IdRa<Long>> addRo = racUserSvc.add(mo);
-
-        final Ro<SignUpRa> ro = new Ro<>();
-        // 复制addRo除addition外其它的属性到返回值
-        BeanUtils.copyProperties(addRo, ro, "addition");
-        // 复制addRo的属性到返回值的addition
-        ro.setExtra(new SignUpRa());
-        BeanUtils.copyProperties(addRo.getExtra(), ro.getExtra());
+        final Long userId = racUserSvc.add(mo);
 
         // 如果添加成功，JWT签名
-        if (ResultDic.SUCCESS.equals(ro.getResult())) {
+        if (userId != null) {
             final Map<String, Object> addtions = new LinkedHashMap<>();
             addtions.put("sysId", to.getSysId());
-            final JwtSignTo signTo = new JwtSignTo(ro.getExtra().getId().toString(), addtions);
-            jwtApi.sign(signTo);
+            final JwtSignTo     signTo = new JwtSignTo(userId.toString(), addtions);
+            final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
+            if (ResultDic.SUCCESS.equals(signRo.getResult())) {
+                return new Ro<>(ResultDic.FAIL, "注册用户成功", null, new SignUpRa(userId, signRo.getExtra().getSign(), signRo.getExtra().getExpirationTime()));
+            } else {
+                return new Ro<>(ResultDic.FAIL, "JWT签名失败");
+            }
+        } else {
+            return new Ro<>(ResultDic.FAIL, "添加用户失败");
         }
 
-        return ro;
     }
 
 }
