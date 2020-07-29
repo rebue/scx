@@ -39,10 +39,10 @@ public class RacSignInLogSvcTests {
             mo = (RacSignInLogMo) RandomEx.randomPojo(RacSignInLogMo.class);
             mo.setId(null);
             log.info("添加用户登录日志的参数为：" + mo);
-            final Boolean addRo = _svc.add(mo);
+            final Long addRo = _svc.add(mo);
             log.info("添加用户登录日志的返回值为：" + addRo);
-            Assertions.assertTrue(addRo);
-            mo.setId(mo.getId());
+            Assertions.assertNotNull(addRo);
+            mo.setId(addRo);
         }
         final PageInfo<RacSignInLogMo> listResult = _svc.list(null, 1, 5, null, 10);
         log.info("查询用户登录日志的返回值为：" + listResult);

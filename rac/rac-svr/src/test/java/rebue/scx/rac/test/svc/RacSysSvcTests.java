@@ -39,10 +39,10 @@ public class RacSysSvcTests {
             mo = (RacSysMo) RandomEx.randomPojo(RacSysMo.class);
             mo.setId(null);
             log.info("添加系统信息的参数为：" + mo);
-            final Boolean addRo = _svc.add(mo);
+            final String addRo = _svc.add(mo);
             log.info("添加系统信息的返回值为：" + addRo);
-            Assertions.assertTrue(addRo);
-            mo.setId(mo.getId());
+            Assertions.assertNotNull(addRo);
+            mo.setId(addRo);
         }
         final PageInfo<RacSysMo> listResult = _svc.list(null, 1, 5, null, 10);
         log.info("查询系统信息的返回值为：" + listResult);

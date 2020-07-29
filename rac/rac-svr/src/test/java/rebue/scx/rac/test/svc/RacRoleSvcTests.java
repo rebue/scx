@@ -39,10 +39,10 @@ public class RacRoleSvcTests {
             mo = (RacRoleMo) RandomEx.randomPojo(RacRoleMo.class);
             mo.setId(null);
             log.info("添加角色信息的参数为：" + mo);
-            final Boolean addRo = _svc.add(mo);
+            final String addRo = _svc.add(mo);
             log.info("添加角色信息的返回值为：" + addRo);
-            Assertions.assertTrue(addRo);
-            mo.setId(mo.getId());
+            Assertions.assertNotNull(addRo);
+            mo.setId(addRo);
         }
         final PageInfo<RacRoleMo> listResult = _svc.list(null, 1, 5, null, 10);
         log.info("查询角色信息的返回值为：" + listResult);

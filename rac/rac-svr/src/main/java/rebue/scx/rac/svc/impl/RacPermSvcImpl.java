@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
+import javax.annotation.Resource;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +31,14 @@ import rebue.scx.rac.svc.RacPermSvc;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermSvcImpl extends BaseSvcImpl<java.lang.String, RacPermJo, RacPermDao, RacPermMo, RacPermMapper> implements RacPermSvc {
-    // /**
-    // * 本服务的单例
-    // * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-    // *
-    // * @mbg.generated 自动生成，如需修改，请删除本行
-    // */
-    // @Lazy
-    // @Resource
-    // private RacPermSvc thisSvc;
-    // 
+
+    /**
+     * 本服务的单例
+     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Lazy
+    @Resource
+    private RacPermSvc thisSvc;
 }

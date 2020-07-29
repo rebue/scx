@@ -39,10 +39,10 @@ public class RacPermGroupSvcTests {
             mo = (RacPermGroupMo) RandomEx.randomPojo(RacPermGroupMo.class);
             mo.setId(null);
             log.info("添加权限分组的参数为：" + mo);
-            final Boolean addRo = _svc.add(mo);
+            final String addRo = _svc.add(mo);
             log.info("添加权限分组的返回值为：" + addRo);
-            Assertions.assertTrue(addRo);
-            mo.setId(mo.getId());
+            Assertions.assertNotNull(addRo);
+            mo.setId(addRo);
         }
         final PageInfo<RacPermGroupMo> listResult = _svc.list(null, 1, 5, null, 10);
         log.info("查询权限分组的返回值为：" + listResult);
