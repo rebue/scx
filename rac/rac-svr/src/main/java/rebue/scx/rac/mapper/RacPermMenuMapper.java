@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -224,11 +223,22 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacPermMenuMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(menuId, isEqualToWhenPresent(record::getMenuId))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacPermMenuMo> selectOne(RacPermMenuMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
-            .and(menuId, isEqualTo(record::getMenuId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(menuId, isEqualToWhenPresent(record::getMenuId))
         );
     }
 
@@ -237,9 +247,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
      */
     default long countSelective(RacPermMenuMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
-            .and(menuId, isEqualTo(record::getMenuId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(menuId, isEqualToWhenPresent(record::getMenuId))
         );
     }
 
@@ -262,9 +272,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
      */
     default List<RacPermMenuMo> selectSelective(RacPermMenuMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
-            .and(menuId, isEqualTo(record::getMenuId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(menuId, isEqualToWhenPresent(record::getMenuId))
         );
     }
 }

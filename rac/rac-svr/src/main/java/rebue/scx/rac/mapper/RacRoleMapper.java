@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -256,15 +255,30 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacRoleMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacRoleMo> selectOne(RacRoleMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(homePath, isEqualTo(record::getHomePath).when(Objects::nonNull))
-            .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(orderNo, isEqualTo(record::getOrderNo).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -273,13 +287,13 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
      */
     default long countSelective(RacRoleMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(homePath, isEqualTo(record::getHomePath).when(Objects::nonNull))
-            .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(orderNo, isEqualTo(record::getOrderNo).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -302,13 +316,13 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
      */
     default List<RacRoleMo> selectSelective(RacRoleMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(homePath, isEqualTo(record::getHomePath).when(Objects::nonNull))
-            .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(orderNo, isEqualTo(record::getOrderNo).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 }

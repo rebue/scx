@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -224,11 +223,22 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacSysMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacSysMo> selectOne(RacSysMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -237,9 +247,9 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      */
     default long countSelective(RacSysMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -262,9 +272,9 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      */
     default List<RacSysMo> selectSelective(RacSysMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 }

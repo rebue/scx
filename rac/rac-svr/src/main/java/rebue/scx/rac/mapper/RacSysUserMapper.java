@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacSysUserDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -224,11 +223,22 @@ public interface RacSysUserMapper extends MapperRootInterface<RacSysUserMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacSysUserMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacSysUserMo> selectOne(RacSysUserMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
         );
     }
 
@@ -237,9 +247,9 @@ public interface RacSysUserMapper extends MapperRootInterface<RacSysUserMo, Long
      */
     default long countSelective(RacSysUserMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
         );
     }
 
@@ -262,9 +272,9 @@ public interface RacSysUserMapper extends MapperRootInterface<RacSysUserMo, Long
      */
     default List<RacSysUserMo> selectSelective(RacSysUserMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
         );
     }
 }

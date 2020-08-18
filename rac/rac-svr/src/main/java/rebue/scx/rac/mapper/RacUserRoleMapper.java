@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacUserRoleDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -232,12 +231,24 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacUserRoleMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacUserRoleMo> selectOne(RacUserRoleMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(roleId, isEqualTo(record::getRoleId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
         );
     }
 
@@ -246,10 +257,10 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
      */
     default long countSelective(RacUserRoleMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(roleId, isEqualTo(record::getRoleId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
         );
     }
 
@@ -272,10 +283,10 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
      */
     default List<RacUserRoleMo> selectSelective(RacUserRoleMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(roleId, isEqualTo(record::getRoleId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
         );
     }
 }

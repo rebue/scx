@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -272,17 +271,34 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacOrgMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(orgType, isEqualToWhenPresent(record::getOrgType))
+            .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
+            .and(rightValue, isEqualToWhenPresent(record::getRightValue))
+            .and(fullName, isEqualToWhenPresent(record::getFullName))
+            .and(introduction, isEqualToWhenPresent(record::getIntroduction))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacOrgMo> selectOne(RacOrgMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(parentId, isEqualTo(record::getParentId).when(Objects::nonNull))
-            .and(orgType, isEqualTo(record::getOrgType).when(Objects::nonNull))
-            .and(leftValue, isEqualTo(record::getLeftValue).when(Objects::nonNull))
-            .and(rightValue, isEqualTo(record::getRightValue).when(Objects::nonNull))
-            .and(fullName, isEqualTo(record::getFullName).when(Objects::nonNull))
-            .and(introduction, isEqualTo(record::getIntroduction).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(orgType, isEqualToWhenPresent(record::getOrgType))
+            .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
+            .and(rightValue, isEqualToWhenPresent(record::getRightValue))
+            .and(fullName, isEqualToWhenPresent(record::getFullName))
+            .and(introduction, isEqualToWhenPresent(record::getIntroduction))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -291,15 +307,15 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
      */
     default long countSelective(RacOrgMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(parentId, isEqualTo(record::getParentId).when(Objects::nonNull))
-            .and(orgType, isEqualTo(record::getOrgType).when(Objects::nonNull))
-            .and(leftValue, isEqualTo(record::getLeftValue).when(Objects::nonNull))
-            .and(rightValue, isEqualTo(record::getRightValue).when(Objects::nonNull))
-            .and(fullName, isEqualTo(record::getFullName).when(Objects::nonNull))
-            .and(introduction, isEqualTo(record::getIntroduction).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(orgType, isEqualToWhenPresent(record::getOrgType))
+            .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
+            .and(rightValue, isEqualToWhenPresent(record::getRightValue))
+            .and(fullName, isEqualToWhenPresent(record::getFullName))
+            .and(introduction, isEqualToWhenPresent(record::getIntroduction))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -322,15 +338,15 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
      */
     default List<RacOrgMo> selectSelective(RacOrgMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(parentId, isEqualTo(record::getParentId).when(Objects::nonNull))
-            .and(orgType, isEqualTo(record::getOrgType).when(Objects::nonNull))
-            .and(leftValue, isEqualTo(record::getLeftValue).when(Objects::nonNull))
-            .and(rightValue, isEqualTo(record::getRightValue).when(Objects::nonNull))
-            .and(fullName, isEqualTo(record::getFullName).when(Objects::nonNull))
-            .and(introduction, isEqualTo(record::getIntroduction).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(orgType, isEqualToWhenPresent(record::getOrgType))
+            .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
+            .and(rightValue, isEqualToWhenPresent(record::getRightValue))
+            .and(fullName, isEqualToWhenPresent(record::getFullName))
+            .and(introduction, isEqualToWhenPresent(record::getIntroduction))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 }

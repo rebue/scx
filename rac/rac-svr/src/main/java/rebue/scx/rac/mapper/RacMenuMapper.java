@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacMenuDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -272,17 +271,34 @@ public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacMenuMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(code, isEqualToWhenPresent(record::getCode))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(title, isEqualToWhenPresent(record::getTitle))
+            .and(path, isEqualToWhenPresent(record::getPath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(icon, isEqualToWhenPresent(record::getIcon))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacMenuMo> selectOne(RacMenuMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(code, isEqualTo(record::getCode).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(title, isEqualTo(record::getTitle).when(Objects::nonNull))
-            .and(path, isEqualTo(record::getPath).when(Objects::nonNull))
-            .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(icon, isEqualTo(record::getIcon).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(code, isEqualToWhenPresent(record::getCode))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(title, isEqualToWhenPresent(record::getTitle))
+            .and(path, isEqualToWhenPresent(record::getPath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(icon, isEqualToWhenPresent(record::getIcon))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -291,15 +307,15 @@ public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
      */
     default long countSelective(RacMenuMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(code, isEqualTo(record::getCode).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(title, isEqualTo(record::getTitle).when(Objects::nonNull))
-            .and(path, isEqualTo(record::getPath).when(Objects::nonNull))
-            .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(icon, isEqualTo(record::getIcon).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(code, isEqualToWhenPresent(record::getCode))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(title, isEqualToWhenPresent(record::getTitle))
+            .and(path, isEqualToWhenPresent(record::getPath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(icon, isEqualToWhenPresent(record::getIcon))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 
@@ -322,15 +338,15 @@ public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
      */
     default List<RacMenuMo> selectSelective(RacMenuMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(code, isEqualTo(record::getCode).when(Objects::nonNull))
-            .and(name, isEqualTo(record::getName).when(Objects::nonNull))
-            .and(title, isEqualTo(record::getTitle).when(Objects::nonNull))
-            .and(path, isEqualTo(record::getPath).when(Objects::nonNull))
-            .and(isEnabled, isEqualTo(record::getIsEnabled).when(Objects::nonNull))
-            .and(icon, isEqualTo(record::getIcon).when(Objects::nonNull))
-            .and(remark, isEqualTo(record::getRemark).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(code, isEqualToWhenPresent(record::getCode))
+            .and(name, isEqualToWhenPresent(record::getName))
+            .and(title, isEqualToWhenPresent(record::getTitle))
+            .and(path, isEqualToWhenPresent(record::getPath))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(icon, isEqualToWhenPresent(record::getIcon))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
 }

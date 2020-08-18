@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacPermUrnDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -224,11 +223,22 @@ public interface RacPermUrnMapper extends MapperRootInterface<RacPermUrnMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacPermUrnMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(urn, isEqualToWhenPresent(record::getUrn))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacPermUrnMo> selectOne(RacPermUrnMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
-            .and(urn, isEqualTo(record::getUrn).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(urn, isEqualToWhenPresent(record::getUrn))
         );
     }
 
@@ -237,9 +247,9 @@ public interface RacPermUrnMapper extends MapperRootInterface<RacPermUrnMo, Long
      */
     default long countSelective(RacPermUrnMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
-            .and(urn, isEqualTo(record::getUrn).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(urn, isEqualToWhenPresent(record::getUrn))
         );
     }
 
@@ -262,9 +272,9 @@ public interface RacPermUrnMapper extends MapperRootInterface<RacPermUrnMo, Long
      */
     default List<RacPermUrnMo> selectSelective(RacPermUrnMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
-            .and(urn, isEqualTo(record::getUrn).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+            .and(urn, isEqualToWhenPresent(record::getUrn))
         );
     }
 }

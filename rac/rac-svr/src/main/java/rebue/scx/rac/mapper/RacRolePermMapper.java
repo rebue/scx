@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -224,11 +223,22 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacRolePermMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacRolePermMo> selectOne(RacRolePermMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(roleId, isEqualTo(record::getRoleId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
         );
     }
 
@@ -237,9 +247,9 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
      */
     default long countSelective(RacRolePermMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(roleId, isEqualTo(record::getRoleId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
         );
     }
 
@@ -262,9 +272,9 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
      */
     default List<RacRolePermMo> selectSelective(RacRolePermMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(roleId, isEqualTo(record::getRoleId).when(Objects::nonNull))
-            .and(permId, isEqualTo(record::getPermId).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(roleId, isEqualToWhenPresent(record::getRoleId))
+            .and(permId, isEqualToWhenPresent(record::getPermId))
         );
     }
 }

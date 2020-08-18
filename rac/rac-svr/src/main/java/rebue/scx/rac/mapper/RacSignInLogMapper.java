@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacSignInLogDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -240,13 +239,26 @@ public interface RacSignInLogMapper extends MapperRootInterface<RacSignInLogMo, 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacSignInLogMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(loginWay, isEqualToWhenPresent(record::getLoginWay))
+            .and(loginDatetime, isEqualToWhenPresent(record::getLoginDatetime))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacSignInLogMo> selectOne(RacSignInLogMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(loginWay, isEqualTo(record::getLoginWay).when(Objects::nonNull))
-            .and(loginDatetime, isEqualTo(record::getLoginDatetime).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(loginWay, isEqualToWhenPresent(record::getLoginWay))
+            .and(loginDatetime, isEqualToWhenPresent(record::getLoginDatetime))
         );
     }
 
@@ -255,11 +267,11 @@ public interface RacSignInLogMapper extends MapperRootInterface<RacSignInLogMo, 
      */
     default long countSelective(RacSignInLogMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(loginWay, isEqualTo(record::getLoginWay).when(Objects::nonNull))
-            .and(loginDatetime, isEqualTo(record::getLoginDatetime).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(loginWay, isEqualToWhenPresent(record::getLoginWay))
+            .and(loginDatetime, isEqualToWhenPresent(record::getLoginDatetime))
         );
     }
 
@@ -282,11 +294,11 @@ public interface RacSignInLogMapper extends MapperRootInterface<RacSignInLogMo, 
      */
     default List<RacSignInLogMo> selectSelective(RacSignInLogMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(loginWay, isEqualTo(record::getLoginWay).when(Objects::nonNull))
-            .and(loginDatetime, isEqualTo(record::getLoginDatetime).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(loginWay, isEqualToWhenPresent(record::getLoginWay))
+            .and(loginDatetime, isEqualToWhenPresent(record::getLoginDatetime))
         );
     }
 }

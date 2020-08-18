@@ -5,7 +5,6 @@ import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -248,14 +247,28 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    default int deleteSelective(RacOpLogMo record) {
+        return delete(c ->
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+            .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
+            .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
+        );
+    }
+
+    /**
+    * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     default Optional<RacOpLogMo> selectOne(RacOpLogMo record) {
         return selectOne(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(opTitle, isEqualTo(record::getOpTitle).when(Objects::nonNull))
-            .and(opDetail, isEqualTo(record::getOpDetail).when(Objects::nonNull))
-            .and(opDatetime, isEqualTo(record::getOpDatetime).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+            .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
+            .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
         );
     }
 
@@ -264,12 +277,12 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     default long countSelective(RacOpLogMo record) {
         return count(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(opTitle, isEqualTo(record::getOpTitle).when(Objects::nonNull))
-            .and(opDetail, isEqualTo(record::getOpDetail).when(Objects::nonNull))
-            .and(opDatetime, isEqualTo(record::getOpDatetime).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+            .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
+            .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
         );
     }
 
@@ -292,12 +305,12 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     default List<RacOpLogMo> selectSelective(RacOpLogMo record) {
         return select(c ->
-            c.where(id, isEqualTo(record::getId).when(Objects::nonNull))
-            .and(userId, isEqualTo(record::getUserId).when(Objects::nonNull))
-            .and(sysId, isEqualTo(record::getSysId).when(Objects::nonNull))
-            .and(opTitle, isEqualTo(record::getOpTitle).when(Objects::nonNull))
-            .and(opDetail, isEqualTo(record::getOpDetail).when(Objects::nonNull))
-            .and(opDatetime, isEqualTo(record::getOpDatetime).when(Objects::nonNull))
+            c.where(id, isEqualToWhenPresent(record::getId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+            .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
+            .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
         );
     }
 }
