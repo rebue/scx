@@ -13,6 +13,7 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.SignUpRa;
 import rebue.scx.rac.to.SignUpByUserNameTo;
+import rebue.wheel.JacksonUtils;
 import rebue.wheel.http.HttpClient;
 import rebue.wheel.http.impl.OkHttpClientImpl;
 import rebue.wheel.turing.DigestUtils;
@@ -23,11 +24,11 @@ import rebue.wheel.turing.DigestUtils;
 @Slf4j
 public class RacSignUpHttpTests {
 
-    private final String _hostUrl = "http://127.0.0.1:9605";
+    private final String       _hostUrl      = "http://127.0.0.1:9605";
 
-    private final ObjectMapper _objectMapper = new ObjectMapper();
+    private final ObjectMapper _objectMapper = JacksonUtils.getObjectMapper();
 
-    private final HttpClient _httpClient = new OkHttpClientImpl();
+    private final HttpClient   _httpClient   = new OkHttpClientImpl();
 
     /**
      * 测试通过用户名称注册

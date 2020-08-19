@@ -14,7 +14,6 @@ public class GatewayTests {
     private final String     _loginpswd  = "admin";
 
     private final String     _hostUrl    = "http://127.0.0.1:8080/gateway";
-//    private final ObjectMapper _objectMapper = new ObjectMapper();
     private final HttpClient _httpClient = new OkHttpClientImpl();
 
     @Test
