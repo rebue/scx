@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
@@ -19,16 +18,14 @@ import rebue.wheel.http.impl.OkHttpClientImpl;
 import rebue.wheel.turing.DigestUtils;
 
 /**
- * 学生信息 HTTP测试
+ * HTTP测试
  */
 @Slf4j
 public class RacSignUpHttpTests {
 
-    private final String       _hostUrl      = "http://127.0.0.1:9605";
+    private final String     _hostUrl    = "http://127.0.0.1:9605";
 
-    private final ObjectMapper _objectMapper = JacksonUtils.getObjectMapper();
-
-    private final HttpClient   _httpClient   = new OkHttpClientImpl();
+    private final HttpClient _httpClient = new OkHttpClientImpl();
 
     /**
      * 测试通过用户名称注册
@@ -42,7 +39,7 @@ public class RacSignUpHttpTests {
         log.info("测试通过用户名称注册: to-{}", to);
         final String result = _httpClient.postByJsonParams(_hostUrl + "/api/sign-up/sign-up-by-user-name", to);
         log.info("通过用户名称注册的返回值为：" + result);
-        final Ro<SignUpRa> ro = _objectMapper.readValue(result, new TypeReference<Ro<SignUpRa>>() {
+        final Ro<SignUpRa> ro = JacksonUtils.deserialize(result, new TypeReference<Ro<SignUpRa>>() {
         });
         log.info("通过用户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
