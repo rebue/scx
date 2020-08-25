@@ -45,6 +45,11 @@ public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacO
     @Resource
     private RacOrgSvc thisSvc;
 
+    /**
+     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     protected Class<RacOrgMo> getMoClass() {
         return RacOrgMo.class;

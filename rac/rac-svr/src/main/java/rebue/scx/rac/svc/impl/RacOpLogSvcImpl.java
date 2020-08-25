@@ -45,6 +45,11 @@ public class RacOpLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacOpLogAddTo, 
     @Resource
     private RacOpLogSvc thisSvc;
 
+    /**
+     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     protected Class<RacOpLogMo> getMoClass() {
         return RacOpLogMo.class;

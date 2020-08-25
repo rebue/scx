@@ -45,6 +45,11 @@ public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLo
     @Resource
     private RacSignInLogSvc thisSvc;
 
+    /**
+     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     protected Class<RacSignInLogMo> getMoClass() {
         return RacSignInLogMo.class;

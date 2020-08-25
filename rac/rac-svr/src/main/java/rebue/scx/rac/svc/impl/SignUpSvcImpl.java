@@ -17,7 +17,7 @@ import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.ra.SignUpRa;
-import rebue.scx.rac.svc.RacSignUpSvc;
+import rebue.scx.rac.svc.SignUpSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.SignUpByUserNameTo;
@@ -38,7 +38,7 @@ import rebue.scx.rac.to.SignUpByUserNameTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSignUpSvcImpl implements RacSignUpSvc {
+public class SignUpSvcImpl implements SignUpSvc {
 
     @DubboReference(application = "jwt-svr")
     private JwtApi     jwtApi;

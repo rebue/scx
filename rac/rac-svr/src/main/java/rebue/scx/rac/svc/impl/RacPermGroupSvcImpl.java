@@ -45,6 +45,11 @@ public class RacPermGroupSvcImpl extends BaseSvcImpl<java.lang.String, RacPermGr
     @Resource
     private RacPermGroupSvc thisSvc;
 
+    /**
+     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     protected Class<RacPermGroupMo> getMoClass() {
         return RacPermGroupMo.class;
