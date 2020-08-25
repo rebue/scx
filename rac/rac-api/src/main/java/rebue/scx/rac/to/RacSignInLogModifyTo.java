@@ -23,24 +23,30 @@ public class RacSignInLogModifyTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户登录日志ID
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "用户登录日志ID不能为负数")
+    @PositiveOrZero(message = "不能为负数")
     private Long id;
 
     /**
-     * 登录类型
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 32, message = "登录类型的长度不能大于32")
+    @PositiveOrZero(message = "不能为负数")
+    private Long userId;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "的长度不能大于32")
+    private String sysId;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "的长度不能大于32")
     private String loginWay;
 
     /**
-     * 登录时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private LocalDateTime loginDatetime;

@@ -32,8 +32,6 @@ public class RacSysJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -42,8 +40,6 @@ public class RacSysJo implements Serializable {
     private String id;
 
     /**
-     * 系统名称
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -51,8 +47,6 @@ public class RacSysJo implements Serializable {
     private String name;
 
     /**
-     * 系统备注
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)

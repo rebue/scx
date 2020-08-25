@@ -22,41 +22,37 @@ public class RacRoleQueryTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色名称
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 20, message = "角色名称的长度不能大于20")
+    @Length(max = 32, message = "的长度不能大于32")
+    private String sysId;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "的长度不能大于20")
     private String name;
 
     /**
-     * 首页路径
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 70, message = "首页路径的长度不能大于70")
+    @Length(max = 70, message = "的长度不能大于70")
     private String homePath;
 
     /**
-     * 是否启用
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private Boolean isEnabled;
 
     /**
-     * 顺序号
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "顺序号不能为负数")
+    @PositiveOrZero(message = "不能为负数")
     private Byte orderNo;
 
     /**
-     * 角色备注
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 50, message = "角色备注的长度不能大于50")
+    @Length(max = 50, message = "的长度不能大于50")
     private String remark;
 }

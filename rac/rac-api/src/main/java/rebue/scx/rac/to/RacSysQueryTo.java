@@ -21,18 +21,14 @@ public class RacSysQueryTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统名称
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 20, message = "系统名称的长度不能大于20")
+    @Length(max = 20, message = "的长度不能大于20")
     private String name;
 
     /**
-     * 系统备注
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 50, message = "系统备注的长度不能大于50")
+    @Length(max = 50, message = "的长度不能大于50")
     private String remark;
 }

@@ -32,8 +32,6 @@ public class RacUserJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -42,8 +40,6 @@ public class RacUserJo implements Serializable {
     private Long id;
 
     /**
-     * 用户昵称
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -51,8 +47,6 @@ public class RacUserJo implements Serializable {
     private String nickname;
 
     /**
-     * 用户头像
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -60,8 +54,6 @@ public class RacUserJo implements Serializable {
     private String avatar;
 
     /**
-     * 登录名称
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -69,8 +61,6 @@ public class RacUserJo implements Serializable {
     private String signInName;
 
     /**
-     * 登录密码
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -78,8 +68,6 @@ public class RacUserJo implements Serializable {
     private String signInPswd;
 
     /**
-     * 支付密码
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -87,8 +75,6 @@ public class RacUserJo implements Serializable {
     private String payPswd;
 
     /**
-     * 密码组合码
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -96,8 +82,6 @@ public class RacUserJo implements Serializable {
     private String salt;
 
     /**
-     * 手机
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -105,8 +89,6 @@ public class RacUserJo implements Serializable {
     private String mobile;
 
     /**
-     * 是否已验证手机号码
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -114,8 +96,6 @@ public class RacUserJo implements Serializable {
     private Boolean isVerifiedMobile;
 
     /**
-     * 电子邮箱
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -123,8 +103,6 @@ public class RacUserJo implements Serializable {
     private String email;
 
     /**
-     * 是否已验证电子邮箱
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -132,8 +110,6 @@ public class RacUserJo implements Serializable {
     private Boolean isVerifiedEmail;
 
     /**
-     * 微信的OpenId
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -141,8 +117,6 @@ public class RacUserJo implements Serializable {
     private String wxOpenId;
 
     /**
-     * 微信的UnionId
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -150,8 +124,6 @@ public class RacUserJo implements Serializable {
     private String wxUnionId;
 
     /**
-     * 微信昵称
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -159,8 +131,6 @@ public class RacUserJo implements Serializable {
     private String wxNickname;
 
     /**
-     * 微信头像
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -168,8 +138,6 @@ public class RacUserJo implements Serializable {
     private String wxAvatar;
 
     /**
-     * QQ的OpenId
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -177,8 +145,6 @@ public class RacUserJo implements Serializable {
     private String qqOpenId;
 
     /**
-     * QQ的UnionId
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -186,8 +152,6 @@ public class RacUserJo implements Serializable {
     private String qqUnionId;
 
     /**
-     * QQ昵称
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -195,8 +159,6 @@ public class RacUserJo implements Serializable {
     private String qqNickname;
 
     /**
-     * QQ头像
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -204,8 +166,6 @@ public class RacUserJo implements Serializable {
     private String qqAvatar;
 
     /**
-     * 用户实名
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -213,8 +173,6 @@ public class RacUserJo implements Serializable {
     private String realName;
 
     /**
-     * 是否已验证实名
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -222,8 +180,6 @@ public class RacUserJo implements Serializable {
     private Boolean isVerifiedRealname;
 
     /**
-     * 身份证号
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -231,8 +187,6 @@ public class RacUserJo implements Serializable {
     private String idCard;
 
     /**
-     * 是否已验证身份证号
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -240,8 +194,6 @@ public class RacUserJo implements Serializable {
     private Boolean isVerifiedIdcard;
 
     /**
-     * 性别
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -249,8 +201,6 @@ public class RacUserJo implements Serializable {
     private Byte sex;
 
     /**
-     * 年龄
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -258,8 +208,6 @@ public class RacUserJo implements Serializable {
     private Byte age;
 
     /**
-     * 是否测试者
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -267,8 +215,6 @@ public class RacUserJo implements Serializable {
     private Boolean isTester;
 
     /**
-     * 是否启用
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -276,8 +222,6 @@ public class RacUserJo implements Serializable {
     private Boolean isEnabled;
 
     /**
-     * 修改时间戳
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)

@@ -32,8 +32,6 @@ public class RacSignInLogJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户登录日志ID
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -42,8 +40,6 @@ public class RacSignInLogJo implements Serializable {
     private Long id;
 
     /**
-     * 登录类型
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -51,8 +47,6 @@ public class RacSignInLogJo implements Serializable {
     private String loginWay;
 
     /**
-     * 登录时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)

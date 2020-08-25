@@ -31,8 +31,6 @@ public class RacPermUrnJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 权限URN的ID
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -41,8 +39,6 @@ public class RacPermUrnJo implements Serializable {
     private Long id;
 
     /**
-     * URN
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
