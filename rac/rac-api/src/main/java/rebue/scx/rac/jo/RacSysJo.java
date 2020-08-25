@@ -14,6 +14,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 系统信息
+ *
  * The persistent class for the RAC_SYS database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */

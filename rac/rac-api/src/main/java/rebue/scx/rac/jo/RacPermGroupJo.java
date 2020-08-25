@@ -16,6 +16,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 权限分组
+ *
  * The persistent class for the RAC_PERM_GROUP database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */

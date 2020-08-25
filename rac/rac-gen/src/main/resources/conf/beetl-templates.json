@@ -7,6 +7,27 @@
 		"backup": false
 	},
 	{
+		"templateName": "to-add.btl",
+		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}AddTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-modify.btl",
+		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}ModifyTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-query.btl",
+		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}QueryTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
 		"templateName": "svc.btl",
 		"targetDir": "rac-svr/src/main/java/${modulePath}/svc/",
 		"targetFile": "${entityName}Svc.java",

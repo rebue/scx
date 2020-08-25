@@ -4,21 +4,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.github.dozermapper.core.Mapper;
 
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
-import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.ra.SignUpRa;
 import rebue.scx.rac.svc.RacSignUpSvc;
 import rebue.scx.rac.svc.RacUserSvc;
+import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 
 /**
@@ -45,19 +46,19 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
     @Autowired
     private RacUserSvc racUserSvc;
 
+    @Autowired
+    private Mapper     dozerMapper;
+
     /**
      * 通过用户名称注册
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpRa> signUpByUserName(final SignUpByUserNameTo to) {
-        // To转Mo
-        final RacUserMo mo = new RacUserMo();
-        BeanUtils.copyProperties(to, mo);
-
         // 添加用户
-        mo.setUpdateTimestamp(System.currentTimeMillis());
-        final Long userId = racUserSvc.add(mo);
+        final RacUserAddTo addTo = dozerMapper.map(to, RacUserAddTo.class);
+        addTo.setUpdateTimestamp(System.currentTimeMillis());
+        final Long userId = racUserSvc.add(addTo);
 
         // 如果添加成功，JWT签名
         if (userId != null) {

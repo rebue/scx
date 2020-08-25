@@ -14,6 +14,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 用户登录日志
+ *
  * The persistent class for the RAC_SIGN_IN_LOG database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
