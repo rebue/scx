@@ -11,6 +11,9 @@ import rebue.scx.rac.jo.RacSysJo;
 import rebue.scx.rac.mapper.RacSysMapper;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.svc.RacSysSvc;
+import rebue.scx.rac.to.RacSysAddTo;
+import rebue.scx.rac.to.RacSysModifyTo;
+import rebue.scx.rac.to.RacSysQueryTo;
 
 /**
  * 系统信息
@@ -30,7 +33,7 @@ import rebue.scx.rac.svc.RacSysSvc;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysJo, RacSysDao, RacSysMo, RacSysMapper> implements RacSysSvc {
+public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysQueryTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao> implements RacSysSvc {
 
     /**
      * 本服务的单例
@@ -41,4 +44,9 @@ public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysJo, RacSy
     @Lazy
     @Resource
     private RacSysSvc thisSvc;
+
+    @Override
+    protected Class<RacSysMo> getMoClass() {
+        return RacSysMo.class;
+    }
 }

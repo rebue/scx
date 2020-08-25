@@ -11,6 +11,9 @@ import rebue.scx.rac.jo.RacRoleJo;
 import rebue.scx.rac.mapper.RacRoleMapper;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.svc.RacRoleSvc;
+import rebue.scx.rac.to.RacRoleAddTo;
+import rebue.scx.rac.to.RacRoleModifyTo;
+import rebue.scx.rac.to.RacRoleQueryTo;
 
 /**
  * 角色信息
@@ -30,7 +33,7 @@ import rebue.scx.rac.svc.RacRoleSvc;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacRoleSvcImpl extends BaseSvcImpl<java.lang.String, RacRoleJo, RacRoleDao, RacRoleMo, RacRoleMapper> implements RacRoleSvc {
+public class RacRoleSvcImpl extends BaseSvcImpl<java.lang.String, RacRoleAddTo, RacRoleModifyTo, RacRoleQueryTo, RacRoleMo, RacRoleJo, RacRoleMapper, RacRoleDao> implements RacRoleSvc {
 
     /**
      * 本服务的单例
@@ -41,4 +44,9 @@ public class RacRoleSvcImpl extends BaseSvcImpl<java.lang.String, RacRoleJo, Rac
     @Lazy
     @Resource
     private RacRoleSvc thisSvc;
+
+    @Override
+    protected Class<RacRoleMo> getMoClass() {
+        return RacRoleMo.class;
+    }
 }

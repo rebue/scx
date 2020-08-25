@@ -11,6 +11,9 @@ import rebue.scx.rac.jo.RacSignInLogJo;
 import rebue.scx.rac.mapper.RacSignInLogMapper;
 import rebue.scx.rac.mo.RacSignInLogMo;
 import rebue.scx.rac.svc.RacSignInLogSvc;
+import rebue.scx.rac.to.RacSignInLogAddTo;
+import rebue.scx.rac.to.RacSignInLogModifyTo;
+import rebue.scx.rac.to.RacSignInLogQueryTo;
 
 /**
  * 用户登录日志
@@ -30,7 +33,7 @@ import rebue.scx.rac.svc.RacSignInLogSvc;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLogJo, RacSignInLogDao, RacSignInLogMo, RacSignInLogMapper> implements RacSignInLogSvc {
+public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLogAddTo, RacSignInLogModifyTo, RacSignInLogQueryTo, RacSignInLogMo, RacSignInLogJo, RacSignInLogMapper, RacSignInLogDao> implements RacSignInLogSvc {
 
     /**
      * 本服务的单例
@@ -41,4 +44,9 @@ public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLo
     @Lazy
     @Resource
     private RacSignInLogSvc thisSvc;
+
+    @Override
+    protected Class<RacSignInLogMo> getMoClass() {
+        return RacSignInLogMo.class;
+    }
 }

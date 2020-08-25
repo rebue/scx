@@ -11,6 +11,9 @@ import rebue.scx.rac.jo.RacOrgJo;
 import rebue.scx.rac.mapper.RacOrgMapper;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.svc.RacOrgSvc;
+import rebue.scx.rac.to.RacOrgAddTo;
+import rebue.scx.rac.to.RacOrgModifyTo;
+import rebue.scx.rac.to.RacOrgQueryTo;
 
 /**
  * 组织信息
@@ -30,7 +33,7 @@ import rebue.scx.rac.svc.RacOrgSvc;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgJo, RacOrgDao, RacOrgMo, RacOrgMapper> implements RacOrgSvc {
+public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgQueryTo, RacOrgMo, RacOrgJo, RacOrgMapper, RacOrgDao> implements RacOrgSvc {
 
     /**
      * 本服务的单例
@@ -41,4 +44,9 @@ public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgJo, RacOrgD
     @Lazy
     @Resource
     private RacOrgSvc thisSvc;
+
+    @Override
+    protected Class<RacOrgMo> getMoClass() {
+        return RacOrgMo.class;
+    }
 }

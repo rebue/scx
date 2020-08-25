@@ -11,6 +11,9 @@ import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mapper.RacUserMapper;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserQueryTo;
 
 /**
  * 用户信息
@@ -30,7 +33,7 @@ import rebue.scx.rac.svc.RacUserSvc;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserJo, RacUserDao, RacUserMo, RacUserMapper> implements RacUserSvc {
+public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserQueryTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao> implements RacUserSvc {
 
     /**
      * 本服务的单例
@@ -41,4 +44,9 @@ public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserJo, RacUs
     @Lazy
     @Resource
     private RacUserSvc thisSvc;
+
+    @Override
+    protected Class<RacUserMo> getMoClass() {
+        return RacUserMo.class;
+    }
 }
