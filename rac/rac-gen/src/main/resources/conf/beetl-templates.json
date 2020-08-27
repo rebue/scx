@@ -21,9 +21,16 @@
 		"backup": false
 	},
 	{
-		"templateName": "to-query.btl",
+		"templateName": "to-one.btl",
 		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
-		"targetFile": "${entityName}QueryTo.java",
+		"targetFile": "${entityName}OneTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-list.btl",
+		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}ListTo.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	},

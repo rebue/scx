@@ -31,6 +31,8 @@ public class RacMenuJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 菜单ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -39,6 +41,8 @@ public class RacMenuJo implements Serializable {
     private String id;
 
     /**
+     * 菜单编码
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -46,6 +50,8 @@ public class RacMenuJo implements Serializable {
     private String code;
 
     /**
+     * 菜单名称
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -53,6 +59,8 @@ public class RacMenuJo implements Serializable {
     private String name;
 
     /**
+     * 标题
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -60,6 +68,8 @@ public class RacMenuJo implements Serializable {
     private String title;
 
     /**
+     * 路径
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -67,6 +77,8 @@ public class RacMenuJo implements Serializable {
     private String path;
 
     /**
+     * 是否启用
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -74,6 +86,8 @@ public class RacMenuJo implements Serializable {
     private Boolean isEnabled;
 
     /**
+     * 菜单图标
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -81,6 +95,8 @@ public class RacMenuJo implements Serializable {
     private String icon;
 
     /**
+     * 菜单备注
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)

@@ -22,16 +22,20 @@ public class RacPermUrnAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 权限ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "不能为空")
-    @Length(max = 32, message = "的长度不能大于32")
+    @NotBlank(message = "权限ID不能为空")
+    @Length(max = 32, message = "权限ID的长度不能大于32")
     private String permId;
 
     /**
+     * URN
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "不能为空")
-    @Length(max = 100, message = "的长度不能大于100")
+    @NotBlank(message = "URN不能为空")
+    @Length(max = 100, message = "URN的长度不能大于100")
     private String urn;
 }

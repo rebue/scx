@@ -12,8 +12,9 @@ import rebue.scx.rac.mapper.RacOpLogMapper;
 import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.to.RacOpLogAddTo;
+import rebue.scx.rac.to.RacOpLogListTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
-import rebue.scx.rac.to.RacOpLogQueryTo;
+import rebue.scx.rac.to.RacOpLogOneTo;
 
 /**
  * 用户操作日志
@@ -33,7 +34,7 @@ import rebue.scx.rac.to.RacOpLogQueryTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacOpLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogQueryTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao> implements RacOpLogSvc {
+public class RacOpLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao> implements RacOpLogSvc {
 
     /**
      * 本服务的单例

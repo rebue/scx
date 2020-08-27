@@ -31,6 +31,8 @@ public class RacRoleJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 角色ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -39,6 +41,8 @@ public class RacRoleJo implements Serializable {
     private String id;
 
     /**
+     * 角色名称
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -46,6 +50,8 @@ public class RacRoleJo implements Serializable {
     private String name;
 
     /**
+     * 首页路径
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -53,6 +59,8 @@ public class RacRoleJo implements Serializable {
     private String homePath;
 
     /**
+     * 是否启用
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -60,6 +68,8 @@ public class RacRoleJo implements Serializable {
     private Boolean isEnabled;
 
     /**
+     * 顺序号
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -67,6 +77,8 @@ public class RacRoleJo implements Serializable {
     private Byte orderNo;
 
     /**
+     * 角色备注
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)

@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.to.RacOrgAddTo;
+import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacOrgSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacOrgMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacOrgMo> listResult = _svc.list(new RacOrgListTo());
         log.info("查询组织信息的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个组织信息的参数为：" + id);

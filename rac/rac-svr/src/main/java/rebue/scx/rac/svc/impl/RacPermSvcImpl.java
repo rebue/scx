@@ -12,8 +12,9 @@ import rebue.scx.rac.mapper.RacPermMapper;
 import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermAddTo;
+import rebue.scx.rac.to.RacPermListTo;
 import rebue.scx.rac.to.RacPermModifyTo;
-import rebue.scx.rac.to.RacPermQueryTo;
+import rebue.scx.rac.to.RacPermOneTo;
 
 /**
  * 权限信息
@@ -33,7 +34,7 @@ import rebue.scx.rac.to.RacPermQueryTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPermSvcImpl extends BaseSvcImpl<java.lang.String, RacPermAddTo, RacPermModifyTo, RacPermQueryTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao> implements RacPermSvc {
+public class RacPermSvcImpl extends BaseSvcImpl<java.lang.String, RacPermAddTo, RacPermModifyTo, RacPermOneTo, RacPermListTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao> implements RacPermSvc {
 
     /**
      * 本服务的单例

@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
+import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacPermUrnSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacPermUrnMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacPermUrnMo> listResult = _svc.list(new RacPermUrnListTo());
         log.info("查询权限URN的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个权限URN的参数为：" + id);

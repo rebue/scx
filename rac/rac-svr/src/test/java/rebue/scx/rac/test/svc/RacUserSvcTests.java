@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserListTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacUserSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacUserMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacUserMo> listResult = _svc.list(new RacUserListTo());
         log.info("查询用户信息的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个用户信息的参数为：" + id);

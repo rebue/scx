@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.to.RacOpLogAddTo;
+import rebue.scx.rac.to.RacOpLogListTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacOpLogSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacOpLogMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacOpLogMo> listResult = _svc.list(new RacOpLogListTo());
         log.info("查询用户操作日志的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个用户操作日志的参数为：" + id);

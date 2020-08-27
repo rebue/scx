@@ -34,6 +34,8 @@ public class RacPermGroupJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 权限分组ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -42,6 +44,8 @@ public class RacPermGroupJo implements Serializable {
     private String id;
 
     /**
+     * 权限分组名称
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -49,6 +53,8 @@ public class RacPermGroupJo implements Serializable {
     private String name;
 
     /**
+     * 是否启用
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -56,6 +62,8 @@ public class RacPermGroupJo implements Serializable {
     private Boolean isEnabled;
 
     /**
+     * 顺序号
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -63,6 +71,8 @@ public class RacPermGroupJo implements Serializable {
     private Byte orderNo;
 
     /**
+     * 权限分组备注
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)

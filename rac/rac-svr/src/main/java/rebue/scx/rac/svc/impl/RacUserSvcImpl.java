@@ -12,8 +12,9 @@ import rebue.scx.rac.mapper.RacUserMapper;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserListTo;
 import rebue.scx.rac.to.RacUserModifyTo;
-import rebue.scx.rac.to.RacUserQueryTo;
+import rebue.scx.rac.to.RacUserOneTo;
 
 /**
  * 用户信息
@@ -33,7 +34,7 @@ import rebue.scx.rac.to.RacUserQueryTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserQueryTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao> implements RacUserSvc {
+public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao> implements RacUserSvc {
 
     /**
      * 本服务的单例

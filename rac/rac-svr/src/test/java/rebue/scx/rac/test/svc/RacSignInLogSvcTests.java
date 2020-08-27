@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacSignInLogMo;
 import rebue.scx.rac.svc.RacSignInLogSvc;
 import rebue.scx.rac.to.RacSignInLogAddTo;
+import rebue.scx.rac.to.RacSignInLogListTo;
 import rebue.scx.rac.to.RacSignInLogModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacSignInLogSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacSignInLogMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacSignInLogMo> listResult = _svc.list(new RacSignInLogListTo());
         log.info("查询用户登录日志的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个用户登录日志的参数为：" + id);

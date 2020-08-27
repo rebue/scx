@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacMenuMo;
 import rebue.scx.rac.svc.RacMenuSvc;
 import rebue.scx.rac.to.RacMenuAddTo;
+import rebue.scx.rac.to.RacMenuListTo;
 import rebue.scx.rac.to.RacMenuModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacMenuSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacMenuMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacMenuMo> listResult = _svc.list(new RacMenuListTo());
         log.info("查询菜单信息的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个菜单信息的参数为：" + id);

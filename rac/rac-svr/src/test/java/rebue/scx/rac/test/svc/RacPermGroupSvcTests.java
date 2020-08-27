@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacPermGroupMo;
 import rebue.scx.rac.svc.RacPermGroupSvc;
 import rebue.scx.rac.to.RacPermGroupAddTo;
+import rebue.scx.rac.to.RacPermGroupListTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacPermGroupSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacPermGroupMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacPermGroupMo> listResult = _svc.list(new RacPermGroupListTo());
         log.info("查询权限分组的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个权限分组的参数为：" + id);

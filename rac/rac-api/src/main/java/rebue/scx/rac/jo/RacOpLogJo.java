@@ -32,6 +32,8 @@ public class RacOpLogJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 用户操作日志ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -40,6 +42,8 @@ public class RacOpLogJo implements Serializable {
     private Long id;
 
     /**
+     * 操作标题
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -47,6 +51,8 @@ public class RacOpLogJo implements Serializable {
     private String opTitle;
 
     /**
+     * 操作详情
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -54,6 +60,8 @@ public class RacOpLogJo implements Serializable {
     private String opDetail;
 
     /**
+     * 操作时间
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)

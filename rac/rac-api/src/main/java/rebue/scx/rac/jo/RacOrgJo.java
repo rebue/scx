@@ -31,6 +31,8 @@ public class RacOrgJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 组织ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Id
@@ -39,6 +41,8 @@ public class RacOrgJo implements Serializable {
     private Long id;
 
     /**
+     * 组织名称
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -46,6 +50,8 @@ public class RacOrgJo implements Serializable {
     private String name;
 
     /**
+     * 组织类型
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -53,6 +59,8 @@ public class RacOrgJo implements Serializable {
     private Byte orgType;
 
     /**
+     * 左值
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -60,6 +68,8 @@ public class RacOrgJo implements Serializable {
     private Integer leftValue;
 
     /**
+     * 右值
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
@@ -67,6 +77,8 @@ public class RacOrgJo implements Serializable {
     private Integer rightValue;
 
     /**
+     * 组织全名
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -74,6 +86,8 @@ public class RacOrgJo implements Serializable {
     private String fullName;
 
     /**
+     * 组织简介
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
@@ -81,6 +95,8 @@ public class RacOrgJo implements Serializable {
     private String introduction;
 
     /**
+     * 组织备注
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)

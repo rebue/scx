@@ -12,8 +12,9 @@ import rebue.scx.rac.mapper.RacMenuMapper;
 import rebue.scx.rac.mo.RacMenuMo;
 import rebue.scx.rac.svc.RacMenuSvc;
 import rebue.scx.rac.to.RacMenuAddTo;
+import rebue.scx.rac.to.RacMenuListTo;
 import rebue.scx.rac.to.RacMenuModifyTo;
-import rebue.scx.rac.to.RacMenuQueryTo;
+import rebue.scx.rac.to.RacMenuOneTo;
 
 /**
  * 菜单信息
@@ -33,7 +34,7 @@ import rebue.scx.rac.to.RacMenuQueryTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacMenuSvcImpl extends BaseSvcImpl<java.lang.String, RacMenuAddTo, RacMenuModifyTo, RacMenuQueryTo, RacMenuMo, RacMenuJo, RacMenuMapper, RacMenuDao> implements RacMenuSvc {
+public class RacMenuSvcImpl extends BaseSvcImpl<java.lang.String, RacMenuAddTo, RacMenuModifyTo, RacMenuOneTo, RacMenuListTo, RacMenuMo, RacMenuJo, RacMenuMapper, RacMenuDao> implements RacMenuSvc {
 
     /**
      * 本服务的单例

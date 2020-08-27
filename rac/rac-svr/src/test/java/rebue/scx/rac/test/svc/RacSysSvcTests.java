@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.to.RacSysAddTo;
+import rebue.scx.rac.to.RacSysListTo;
 import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacSysSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacSysMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacSysMo> listResult = _svc.list(new RacSysListTo());
         log.info("查询系统信息的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个系统信息的参数为：" + id);

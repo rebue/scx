@@ -12,8 +12,9 @@ import rebue.scx.rac.mapper.RacSysMapper;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.to.RacSysAddTo;
+import rebue.scx.rac.to.RacSysListTo;
 import rebue.scx.rac.to.RacSysModifyTo;
-import rebue.scx.rac.to.RacSysQueryTo;
+import rebue.scx.rac.to.RacSysOneTo;
 
 /**
  * 系统信息
@@ -33,7 +34,7 @@ import rebue.scx.rac.to.RacSysQueryTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysQueryTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao> implements RacSysSvc {
+public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysOneTo, RacSysListTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao> implements RacSysSvc {
 
     /**
      * 本服务的单例

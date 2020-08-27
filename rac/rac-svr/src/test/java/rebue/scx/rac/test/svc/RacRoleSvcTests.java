@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.svc.RacRoleSvc;
 import rebue.scx.rac.to.RacRoleAddTo;
+import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.wheel.RandomEx;
 
@@ -53,7 +54,7 @@ public class RacRoleSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacRoleMo> listResult = _svc.list(null, 1, 5, null, 10);
+        final PageInfo<RacRoleMo> listResult = _svc.list(new RacRoleListTo());
         log.info("查询角色信息的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个角色信息的参数为：" + id);
