@@ -21,6 +21,13 @@
 		"backup": false
 	},
 	{
+		"templateName": "to-del.btl",
+		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}DelTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
 		"templateName": "to-one.btl",
 		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
 		"targetFile": "${entityName}OneTo.java",
