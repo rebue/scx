@@ -12,6 +12,7 @@ import rebue.scx.rac.mapper.RacPermUrnMapper;
 import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
+import rebue.scx.rac.to.RacPermUrnDelTo;
 import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.scx.rac.to.RacPermUrnOneTo;
@@ -34,7 +35,7 @@ import rebue.scx.rac.to.RacPermUrnOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPermUrnSvcImpl extends BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao> implements RacPermUrnSvc {
+public class RacPermUrnSvcImpl extends BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao> implements RacPermUrnSvc {
 
     /**
      * 本服务的单例

@@ -12,6 +12,7 @@ import rebue.scx.rac.mapper.RacPermGroupMapper;
 import rebue.scx.rac.mo.RacPermGroupMo;
 import rebue.scx.rac.svc.RacPermGroupSvc;
 import rebue.scx.rac.to.RacPermGroupAddTo;
+import rebue.scx.rac.to.RacPermGroupDelTo;
 import rebue.scx.rac.to.RacPermGroupListTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermGroupOneTo;
@@ -34,7 +35,7 @@ import rebue.scx.rac.to.RacPermGroupOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPermGroupSvcImpl extends BaseSvcImpl<java.lang.String, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao> implements RacPermGroupSvc {
+public class RacPermGroupSvcImpl extends BaseSvcImpl<java.lang.String, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao> implements RacPermGroupSvc {
 
     /**
      * 本服务的单例

@@ -12,6 +12,7 @@ import rebue.scx.rac.mapper.RacSignInLogMapper;
 import rebue.scx.rac.mo.RacSignInLogMo;
 import rebue.scx.rac.svc.RacSignInLogSvc;
 import rebue.scx.rac.to.RacSignInLogAddTo;
+import rebue.scx.rac.to.RacSignInLogDelTo;
 import rebue.scx.rac.to.RacSignInLogListTo;
 import rebue.scx.rac.to.RacSignInLogModifyTo;
 import rebue.scx.rac.to.RacSignInLogOneTo;
@@ -34,7 +35,7 @@ import rebue.scx.rac.to.RacSignInLogOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLogAddTo, RacSignInLogModifyTo, RacSignInLogOneTo, RacSignInLogListTo, RacSignInLogMo, RacSignInLogJo, RacSignInLogMapper, RacSignInLogDao> implements RacSignInLogSvc {
+public class RacSignInLogSvcImpl extends BaseSvcImpl<java.lang.Long, RacSignInLogAddTo, RacSignInLogModifyTo, RacSignInLogDelTo, RacSignInLogOneTo, RacSignInLogListTo, RacSignInLogMo, RacSignInLogJo, RacSignInLogMapper, RacSignInLogDao> implements RacSignInLogSvc {
 
     /**
      * 本服务的单例
