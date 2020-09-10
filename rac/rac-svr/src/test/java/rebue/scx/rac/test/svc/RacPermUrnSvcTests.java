@@ -64,11 +64,11 @@ public class RacPermUrnSvcTests {
         final RacPermUrnModifyTo modifyTo = dozerMapper.map(addTo, RacPermUrnModifyTo.class);
         modifyTo.setId(id);
         log.info("修改权限URN的参数为：" + modifyTo);
-        final Boolean modifyResult = _svc.modify(modifyTo);
+        final Boolean modifyResult = _svc.modifyById(modifyTo);
         log.info("修改权限URN的返回值为：" + modifyResult);
         Assertions.assertTrue(modifyResult);
         log.info("删除权限URN的参数为：" + id);
-        final Boolean deleteResult = _svc.del(id);
+        final Boolean deleteResult = _svc.delById(id);
         log.info("删除权限URN的返回值为：" + deleteResult);
         Assertions.assertTrue(deleteResult);
     }
