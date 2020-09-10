@@ -2,7 +2,7 @@ package rebue.scx.jwt.config;
 
 import java.time.Duration;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,7 +26,7 @@ public class JwtProperties {
     /**
      * 签发者
      */
-    @NotEmpty
+    @NotBlank
     private String issuer;
 
     /**
