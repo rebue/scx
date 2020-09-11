@@ -42,7 +42,12 @@ public class RacSignInLogJo implements Serializable {
     private Long id;
 
     /**
-     * 登录类型
+     * 登录类型(与注册类型一致)
+     *              LOGIN_NAME: 登录名与密码
+     *              EMAIL_PASSWORD: 电子邮箱与密码
+     *              MOBILE_PASSWORD: 手机号与密码
+     *              MOBILE_SMS. 手机短信验证
+     *              WECHAT_OFFICIAL_ACCOUNTS: 微信公众号
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

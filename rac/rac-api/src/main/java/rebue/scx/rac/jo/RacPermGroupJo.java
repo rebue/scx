@@ -53,7 +53,7 @@ public class RacPermGroupJo implements Serializable {
     private String name;
 
     /**
-     * 是否启用
+     * 是否启用(如果分组没有启用，其下所有权限都要被设置为不启用；只要有一个权限启用，其分组就必须启用)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

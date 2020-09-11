@@ -53,7 +53,7 @@ public class RacPermJo implements Serializable {
     private String name;
 
     /**
-     * 是否鉴权
+     * 是否鉴权(不鉴权意味着放开访问权限)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

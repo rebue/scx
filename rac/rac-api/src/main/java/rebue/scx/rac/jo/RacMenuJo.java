@@ -59,7 +59,7 @@ public class RacMenuJo implements Serializable {
     private String name;
 
     /**
-     * 标题
+     * 标题(点击菜单后显示在内容页面的标题)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

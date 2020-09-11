@@ -31,7 +31,7 @@ public class RacOrgJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 组织ID
+     * 组织ID(组织ID=账户ID，与账户一一对应)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -41,7 +41,7 @@ public class RacOrgJo implements Serializable {
     private Long id;
 
     /**
-     * 组织名称
+     * 组织名称(简称)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -50,7 +50,7 @@ public class RacOrgJo implements Serializable {
     private String name;
 
     /**
-     * 组织类型
+     * 组织类型(1.集团;2.公司;99.部门)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
