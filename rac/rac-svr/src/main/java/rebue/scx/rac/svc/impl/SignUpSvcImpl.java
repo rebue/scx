@@ -16,7 +16,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
-import rebue.scx.rac.ra.SignUpRa;
+import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.SignUpSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacUserAddTo;
@@ -54,7 +54,7 @@ public class SignUpSvcImpl implements SignUpSvc {
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<SignUpRa> signUpByUserName(final SignUpByUserNameTo to) {
+    public Ro<SignUpOrInRa> signUpByUserName(final SignUpByUserNameTo to) {
         // 添加用户
         final RacUserAddTo addTo = dozerMapper.map(to, RacUserAddTo.class);
         addTo.setUpdateTimestamp(System.currentTimeMillis());
@@ -67,7 +67,7 @@ public class SignUpSvcImpl implements SignUpSvc {
             final JwtSignTo     signTo = new JwtSignTo(userId.toString(), addtions);
             final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
             if (ResultDic.SUCCESS.equals(signRo.getResult())) {
-                return new Ro<>(ResultDic.FAIL, "注册用户成功", null, new SignUpRa(userId, signRo.getExtra().getSign(), signRo.getExtra().getExpirationTime()));
+                return new Ro<>(ResultDic.FAIL, "注册用户成功", null, new SignUpOrInRa(userId, signRo.getExtra().getSign(), signRo.getExtra().getExpirationTime()));
             } else {
                 return new Ro<>(ResultDic.FAIL, "JWT签名失败");
             }

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.ra.SignUpRa;
+import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 import rebue.wheel.JacksonUtils;
 import rebue.wheel.http.HttpClient;
@@ -39,7 +39,7 @@ public class RacSignUpHttpTests {
         log.info("测试通过用户名称注册: to-{}", to);
         final String result = _httpClient.postByJsonParams(_hostUrl + "/api/sign-up/sign-up-by-user-name", to);
         log.info("通过用户名称注册的返回值为：" + result);
-        final Ro<SignUpRa> ro = JacksonUtils.deserialize(result, new TypeReference<Ro<SignUpRa>>() {
+        final Ro<SignUpOrInRa> ro = JacksonUtils.deserialize(result, new TypeReference<Ro<SignUpOrInRa>>() {
         });
         log.info("通过用户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());

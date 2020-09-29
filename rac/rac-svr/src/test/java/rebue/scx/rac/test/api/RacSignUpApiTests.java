@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.api.RacSignUpApi;
-import rebue.scx.rac.ra.SignUpRa;
+import rebue.scx.rac.api.SignUpApi;
+import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.SignUpByUserNameTo;
 import rebue.wheel.turing.DigestUtils;
 
@@ -24,14 +24,14 @@ public class RacSignUpApiTests {
      * 要测试的微服务
      */
     @DubboReference
-    private RacSignUpApi _api;
+    private SignUpApi _api;
 
     /**
      * 测试通过用户名称注册
      */
     @Test
     public void testSignUpByUserName() {
-        Ro<SignUpRa> ro = _api.signUpByUserName(null);
+        Ro<SignUpOrInRa> ro = _api.signUpByUserName(null);
         log.info("通过用户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
         final SignUpByUserNameTo to = new SignUpByUserNameTo();

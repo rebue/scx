@@ -15,13 +15,13 @@ import lombok.ToString;
 import rebue.robotech.ra.IdRa;
 
 /**
- * 用户注册返回的结果
+ * 用户注册或登录返回的结果
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonInclude(Include.NON_NULL)
-public class SignUpRa extends IdRa<Long> {
+public class SignUpOrInRa extends IdRa<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -38,7 +38,7 @@ public class SignUpRa extends IdRa<Long> {
     @NonNull
     private LocalDateTime     expirationTime;
 
-    public SignUpRa(final Long id, final String sign, final LocalDateTime expirationTime) {
+    public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime) {
         super(id);
         this.sign           = sign;
         this.expirationTime = expirationTime;

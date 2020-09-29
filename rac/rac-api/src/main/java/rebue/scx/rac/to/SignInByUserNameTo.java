@@ -12,11 +12,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Data;
 
 /**
- * 通过用户名称注册要传递的参数
+ * 通过用户名称登录要传递的参数
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class SignUpByUserNameTo implements Serializable {
+public class SignInByUserNameTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -45,18 +45,4 @@ public class SignUpByUserNameTo implements Serializable {
     @Length(max = 32, message = "登录密码长度不能超过32位")
     private String            signInPswd;
 
-    /**
-     * 昵称
-     */
-    private String            nickname;
-
-    /**
-     * 实名
-     */
-    private String            realname;
-
-    /**
-     * 身份证号
-     */
-    private String            idcard;
 }
