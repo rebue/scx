@@ -1,8 +1,36 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/6/24 9:46:34                            */
+/* Created on:     2020/9/29 16:53:06                           */
 /*==============================================================*/
 
+
+/*==============================================================*/
+/* Table: RAC_DOMAIN                                            */
+/*==============================================================*/
+create table RAC_DOMAIN
+(
+   ID                   varchar(32) not null  comment '领域ID',
+   NAME                 varchar(20) not null  comment '领域名称',
+   REMARK               varchar(50)  comment '领域备注',
+   primary key (ID),
+   unique key AK_DOMAIN_NAME (NAME)
+);
+
+alter table RAC_DOMAIN comment '领域';
+
+/*==============================================================*/
+/* Table: RAC_DOMAIN_USER                                       */
+/*==============================================================*/
+create table RAC_DOMAIN_USER
+(
+   ID                   bigint unsigned not null  comment '领域用户ID',
+   DOMAIN_ID            varchar(32)  comment '领域ID',
+   USER_ID              bigint unsigned  comment '用户ID',
+   primary key (ID),
+   unique key AK_DOMAIN_AND_USER (DOMAIN_ID, USER_ID)
+);
+
+alter table RAC_DOMAIN_USER comment '领域用户';
 
 /*==============================================================*/
 /* Table: RAC_MENU                                              */
@@ -58,7 +86,7 @@ create table RAC_ORG
    unique key AK_FULL_NAME (FULL_NAME)
 );
 
-alter table RAC_ORG comment '组织信息';
+alter table RAC_ORG comment '组织';
 
 /*==============================================================*/
 /* Table: RAC_ORG_USER                                          */
@@ -154,7 +182,7 @@ create table RAC_ROLE
    unique key AK_SYS_AND_ROLE_NAME (SYS_ID, NAME)
 );
 
-alter table RAC_ROLE comment '角色信息';
+alter table RAC_ROLE comment '角色';
 
 /*==============================================================*/
 /* Table: RAC_ROLE_PERM                                         */
@@ -197,33 +225,20 @@ create table RAC_SYS
 (
    ID                   varchar(32) not null  comment '系统ID',
    NAME                 varchar(20) not null  comment '系统名称',
+   DOMAIN_ID            varchar(32) not null  comment '领域ID',
    REMARK               varchar(50)  comment '系统备注',
    primary key (ID),
    unique key AK_SYS_NAME (NAME)
 );
 
-alter table RAC_SYS comment '系统信息';
-
-/*==============================================================*/
-/* Table: RAC_SYS_USER                                          */
-/*==============================================================*/
-create table RAC_SYS_USER
-(
-   ID                   bigint not null  comment '系统用户ID',
-   SYS_ID               varchar(32) not null  comment '系统ID',
-   USER_ID              bigint unsigned not null  comment '用户ID(如为1则是散客)',
-   primary key (ID),
-   unique key AK_SYS_AND_USER (SYS_ID, USER_ID)
-);
-
-alter table RAC_SYS_USER comment '系统用户';
+alter table RAC_SYS comment '系统';
 
 /*==============================================================*/
 /* Table: RAC_USER                                              */
 /*==============================================================*/
 create table RAC_USER
 (
-   ID                   bigint unsigned not null  comment '用户ID(如为1则是散客)',
+   ID                   bigint unsigned not null  comment '用户ID',
    NICKNAME             varchar(20)  comment '用户昵称',
    AVATAR               varchar(300)  comment '用户头像',
    SIGN_IN_NAME         varchar(20)  comment '登录名称',
@@ -271,7 +286,7 @@ create table RAC_USER
    unique key AK_ID_CARD (ID_CARD)
 );
 
-alter table RAC_USER comment '用户信息';
+alter table RAC_USER comment '用户';
 
 /*==============================================================*/
 /* Table: RAC_USER_ROLE                                         */
@@ -281,12 +296,18 @@ create table RAC_USER_ROLE
    ID                   bigint unsigned not null  comment '用户角色ID',
    SYS_ID               varchar(20) not null  comment '系统ID',
    ROLE_ID              varchar(32) not null  comment '角色ID',
-   USER_ID              bigint unsigned not null  comment '用户ID(如为1则是散客)',
+   USER_ID              bigint unsigned not null  comment '用户ID',
    primary key (ID),
    unique key AK_USER_AND_ROLE (ROLE_ID, USER_ID)
 );
 
 alter table RAC_USER_ROLE comment '用户角色';
+
+alter table RAC_DOMAIN_USER add constraint FK_DOMAIN_USER_AND_DOMAIN foreign key (DOMAIN_ID)
+      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+
+alter table RAC_DOMAIN_USER add constraint FK_DOMAIN_USER_AND_USER foreign key (USER_ID)
+      references RAC_USER (ID) on delete restrict on update restrict;
 
 alter table RAC_MENU add constraint FK_MENU_AND_SYS foreign key (SYS_ID)
       references RAC_SYS (ID) on delete restrict on update restrict;
@@ -339,11 +360,8 @@ alter table RAC_SIGN_IN_LOG add constraint FK_SIGN_IN_LOG_AND_USER foreign key (
 alter table RAC_SIGN_IN_LOG add constraint FK_SIGN_IN_LOG_AND_SYS foreign key (SYS_ID)
       references RAC_SYS (ID) on delete restrict on update restrict;
 
-alter table RAC_SYS_USER add constraint FK_SYS_USER_AND_SYS foreign key (SYS_ID)
-      references RAC_SYS (ID) on delete restrict on update restrict;
-
-alter table RAC_SYS_USER add constraint FK_SYS_USER_AND_USER foreign key (USER_ID)
-      references RAC_USER (ID) on delete restrict on update restrict;
+alter table RAC_SYS add constraint FK_SYS_AND_DOMAIN foreign key (DOMAIN_ID)
+      references RAC_DOMAIN (ID) on delete restrict on update restrict;
 
 alter table RAC_USER_ROLE add constraint FK_USER_ROLE_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
