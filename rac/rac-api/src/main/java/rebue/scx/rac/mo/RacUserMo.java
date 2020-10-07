@@ -3,8 +3,11 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
@@ -19,7 +22,7 @@ import rebue.robotech.valid.ModifyGroup;
 public class RacUserMo implements Serializable, Mo<Long> {
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -28,96 +31,11 @@ public class RacUserMo implements Serializable, Mo<Long> {
     private Long id;
 
     /**
-     * 用户昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 20, message = "用户昵称的长度不能大于20")
-    private String nickname;
-
-    /**
-     * 用户头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 300, message = "用户头像的长度不能大于300")
-    private String avatar;
-
-    /**
-     * 登录名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 20, message = "登录名称的长度不能大于20")
-    private String signInName;
-
-    /**
-     * 登录密码
-     *              计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "登录密码的长度不能大于32")
-    private String signInPswd;
-
-    /**
-     * 支付密码
-     *              用户的支付密码默认和登录密码一致
-     *              计算方法与登录密码一致
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "支付密码的长度不能大于32")
-    private String payPswd;
-
-    /**
-     * 密码组合码
-     *              与密码组合加密用
-     *              登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 6, message = "密码组合码的长度不能大于6")
-    private String salt;
-
-    /**
-     * 手机
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 11, message = "手机的长度不能大于11")
-    private String mobile;
-
-    /**
-     * 是否已验证手机号码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedMobile;
-
-    /**
-     * 电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 50, message = "电子邮箱的长度不能大于50")
-    private String email;
-
-    /**
-     * 是否已验证电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedEmail;
-
-    /**
      * 微信的OpenId
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "微信的OpenId不能为空")
     @Length(max = 64, message = "微信的OpenId的长度不能大于64")
     private String wxOpenId;
 
@@ -134,6 +52,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "微信昵称不能为空")
     @Length(max = 100, message = "微信昵称的长度不能大于100")
     private String wxNickname;
 
@@ -142,6 +61,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "微信头像不能为空")
     @Length(max = 300, message = "微信头像的长度不能大于300")
     private String wxAvatar;
 
@@ -150,6 +70,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "QQ的OpenId不能为空")
     @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String qqOpenId;
 
@@ -166,6 +87,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "QQ昵称不能为空")
     @Length(max = 100, message = "QQ昵称的长度不能大于100")
     private String qqNickname;
 
@@ -174,54 +96,9 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "QQ头像不能为空")
     @Length(max = 300, message = "QQ头像的长度不能大于300")
     private String qqAvatar;
-
-    /**
-     * 用户实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 100, message = "用户实名的长度不能大于100")
-    private String realName;
-
-    /**
-     * 是否已验证实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedRealname;
-
-    /**
-     * 身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 18, message = "身份证号的长度不能大于18")
-    private String idCard;
-
-    /**
-     * 是否已验证身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedIdcard;
-
-    /**
-     * 性别
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "性别不能为负数")
-    private Byte sex;
-
-    /**
-     * 年龄
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "年龄不能为负数")
-    private Byte age;
 
     /**
      * 是否测试者
@@ -254,7 +131,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -263,208 +140,12 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * 用户昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getNickname() {
-        return nickname;
-    }
-
-    /**
-     * 用户昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    /**
-     * 用户头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getAvatar() {
-        return avatar;
-    }
-
-    /**
-     * 用户头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    /**
-     * 登录名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getSignInName() {
-        return signInName;
-    }
-
-    /**
-     * 登录名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setSignInName(String signInName) {
-        this.signInName = signInName;
-    }
-
-    /**
-     * 登录密码
-     *              计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getSignInPswd() {
-        return signInPswd;
-    }
-
-    /**
-     * 登录密码
-     *              计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setSignInPswd(String signInPswd) {
-        this.signInPswd = signInPswd;
-    }
-
-    /**
-     * 支付密码
-     *              用户的支付密码默认和登录密码一致
-     *              计算方法与登录密码一致
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getPayPswd() {
-        return payPswd;
-    }
-
-    /**
-     * 支付密码
-     *              用户的支付密码默认和登录密码一致
-     *              计算方法与登录密码一致
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPayPswd(String payPswd) {
-        this.payPswd = payPswd;
-    }
-
-    /**
-     * 密码组合码
-     *              与密码组合加密用
-     *              登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getSalt() {
-        return salt;
-    }
-
-    /**
-     * 密码组合码
-     *              与密码组合加密用
-     *              登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    /**
-     * 手机
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getMobile() {
-        return mobile;
-    }
-
-    /**
-     * 手机
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    /**
-     * 是否已验证手机号码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsVerifiedMobile() {
-        return isVerifiedMobile;
-    }
-
-    /**
-     * 是否已验证手机号码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsVerifiedMobile(Boolean isVerifiedMobile) {
-        this.isVerifiedMobile = isVerifiedMobile;
-    }
-
-    /**
-     * 电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * 电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * 是否已验证电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsVerifiedEmail() {
-        return isVerifiedEmail;
-    }
-
-    /**
-     * 是否已验证电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsVerifiedEmail(Boolean isVerifiedEmail) {
-        this.isVerifiedEmail = isVerifiedEmail;
     }
 
     /**
@@ -612,114 +293,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getRealName() {
-        return realName;
-    }
-
-    /**
-     * 用户实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    /**
-     * 是否已验证实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsVerifiedRealname() {
-        return isVerifiedRealname;
-    }
-
-    /**
-     * 是否已验证实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsVerifiedRealname(Boolean isVerifiedRealname) {
-        this.isVerifiedRealname = isVerifiedRealname;
-    }
-
-    /**
-     * 身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getIdCard() {
-        return idCard;
-    }
-
-    /**
-     * 身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    /**
-     * 是否已验证身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsVerifiedIdcard() {
-        return isVerifiedIdcard;
-    }
-
-    /**
-     * 是否已验证身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsVerifiedIdcard(Boolean isVerifiedIdcard) {
-        this.isVerifiedIdcard = isVerifiedIdcard;
-    }
-
-    /**
-     * 性别
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Byte getSex() {
-        return sex;
-    }
-
-    /**
-     * 性别
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setSex(Byte sex) {
-        this.sex = sex;
-    }
-
-    /**
-     * 年龄
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Byte getAge() {
-        return age;
-    }
-
-    /**
-     * 年龄
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setAge(Byte age) {
-        this.age = age;
-    }
-
-    /**
      * 是否测试者
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -783,16 +356,15 @@ public class RacUserMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", nickname=").append(nickname);
-        sb.append(", avatar=").append(avatar);
+        sb.append(", personId=").append(personId);
+        sb.append(", isEnabled=").append(isEnabled);
         sb.append(", signInName=").append(signInName);
+        sb.append(", signInMobile=").append(signInMobile);
+        sb.append(", signInEmail=").append(signInEmail);
         sb.append(", signInPswd=").append(signInPswd);
-        sb.append(", payPswd=").append(payPswd);
-        sb.append(", salt=").append(salt);
-        sb.append(", mobile=").append(mobile);
-        sb.append(", isVerifiedMobile=").append(isVerifiedMobile);
-        sb.append(", email=").append(email);
-        sb.append(", isVerifiedEmail=").append(isVerifiedEmail);
+        sb.append(", signInPswdSalt=").append(signInPswdSalt);
+        sb.append(", signInNickname=").append(signInNickname);
+        sb.append(", signInAvatar=").append(signInAvatar);
         sb.append(", wxOpenId=").append(wxOpenId);
         sb.append(", wxUnionId=").append(wxUnionId);
         sb.append(", wxNickname=").append(wxNickname);
@@ -801,14 +373,8 @@ public class RacUserMo implements Serializable, Mo<Long> {
         sb.append(", qqUnionId=").append(qqUnionId);
         sb.append(", qqNickname=").append(qqNickname);
         sb.append(", qqAvatar=").append(qqAvatar);
-        sb.append(", realName=").append(realName);
-        sb.append(", isVerifiedRealname=").append(isVerifiedRealname);
-        sb.append(", idCard=").append(idCard);
-        sb.append(", isVerifiedIdcard=").append(isVerifiedIdcard);
-        sb.append(", sex=").append(sex);
-        sb.append(", age=").append(age);
         sb.append(", isTester=").append(isTester);
-        sb.append(", isEnabled=").append(isEnabled);
+        sb.append(", createrTimestamp=").append(createrTimestamp);
         sb.append(", updateTimestamp=").append(updateTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
@@ -852,5 +418,258 @@ public class RacUserMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "个人ID不能为负数")
+    private Long personId;
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long createrTimestamp;
+
+    /**
+     * 个人
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacPersonMo person;
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getPersonId() {
+        return personId;
+    }
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getCreaterTimestamp() {
+        return createrTimestamp;
+    }
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCreaterTimestamp(Long createrTimestamp) {
+        this.createrTimestamp = createrTimestamp;
+    }
+
+    /**
+     * 登录名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "登录名称的长度不能大于20")
+    private String signInName;
+
+    /**
+     * 登录手机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 11, message = "登录手机的长度不能大于11")
+    private String signInMobile;
+
+    /**
+     * 登录邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 50, message = "登录邮箱的长度不能大于50")
+    private String signInEmail;
+
+    /**
+     * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "登录密码的长度不能大于32")
+    private String signInPswd;
+
+    /**
+     * 登录密码组合码(与密码组合加密用，详见登录密码备注)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 6, message = "登录密码组合码的长度不能大于6")
+    private String signInPswdSalt;
+
+    /**
+     * 登录用户昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "登录用户昵称的长度不能大于20")
+    private String signInNickname;
+
+    /**
+     * 登录用户头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 300, message = "登录用户头像的长度不能大于300")
+    private String signInAvatar;
+
+    /**
+     * 登录名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSignInName() {
+        return signInName;
+    }
+
+    /**
+     * 登录名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSignInName(String signInName) {
+        this.signInName = signInName;
+    }
+
+    /**
+     * 登录手机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSignInMobile() {
+        return signInMobile;
+    }
+
+    /**
+     * 登录手机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSignInMobile(String signInMobile) {
+        this.signInMobile = signInMobile;
+    }
+
+    /**
+     * 登录邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSignInEmail() {
+        return signInEmail;
+    }
+
+    /**
+     * 登录邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSignInEmail(String signInEmail) {
+        this.signInEmail = signInEmail;
+    }
+
+    /**
+     * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSignInPswd() {
+        return signInPswd;
+    }
+
+    /**
+     * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSignInPswd(String signInPswd) {
+        this.signInPswd = signInPswd;
+    }
+
+    /**
+     * 登录密码组合码(与密码组合加密用，详见登录密码备注)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSignInPswdSalt() {
+        return signInPswdSalt;
+    }
+
+    /**
+     * 登录密码组合码(与密码组合加密用，详见登录密码备注)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSignInPswdSalt(String signInPswdSalt) {
+        this.signInPswdSalt = signInPswdSalt;
+    }
+
+    /**
+     * 登录用户昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSignInNickname() {
+        return signInNickname;
+    }
+
+    /**
+     * 登录用户昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSignInNickname(String signInNickname) {
+        this.signInNickname = signInNickname;
+    }
+
+    /**
+     * 登录用户头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSignInAvatar() {
+        return signInAvatar;
+    }
+
+    /**
+     * 登录用户头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSignInAvatar(String signInAvatar) {
+        this.signInAvatar = signInAvatar;
     }
 }

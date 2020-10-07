@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
@@ -113,6 +115,8 @@ public class RacSysMo implements Serializable, Mo<String> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
+        sb.append(", domainId=").append(domainId);
+        sb.append(", homePath=").append(homePath);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
@@ -156,5 +160,67 @@ public class RacSysMo implements Serializable, Mo<String> {
     @Override
     public String getIdType() {
         return "String";
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String domainId;
+
+    /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 70, message = "首页路径的长度不能大于70")
+    private String homePath;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacDomainMo domain;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDomainId() {
+        return domainId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
+    }
+
+    /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getHomePath() {
+        return homePath;
+    }
+
+    /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setHomePath(String homePath) {
+        this.homePath = homePath;
     }
 }

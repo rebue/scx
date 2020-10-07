@@ -25,11 +25,18 @@ public final class RacOrgDynamicSqlSupport {
     public static final SqlColumn<String> name = racOrg.name;
 
     /**
-    * 上级组织ID
+    * 上级组织ID(根组织填0)
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Long> parentId = racOrg.parentId;
+
+    /**
+    * 领域ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> domainId = racOrg.domainId;
 
     /**
     * 组织类型(1.集团;2.公司;99.部门)
@@ -79,6 +86,8 @@ public final class RacOrgDynamicSqlSupport {
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> parentId = column("PARENT_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<Byte> orgType = column("ORG_TYPE", JDBCType.TINYINT);
 

@@ -38,15 +38,6 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     private Long orgId;
 
     /**
-     * 用户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(groups = AddGroup.class, message = "用户ID不能为空")
-    @PositiveOrZero(message = "用户ID不能为负数")
-    private Long userId;
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
@@ -59,15 +50,6 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     @Getter
     @Setter
     private RacOrgMo org;
-
-    /**
-     * 用户
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacUserMo user;
 
     /**
      * 组织用户ID
@@ -106,24 +88,6 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getUserId() {
-        return userId;
-    }
-
-    /**
-     * 用户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -134,7 +98,7 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", orgId=").append(orgId);
-        sb.append(", userId=").append(userId);
+        sb.append(", perId=").append(perId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -177,5 +141,41 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "个人ID不能为空")
+    @PositiveOrZero(message = "个人ID不能为负数")
+    private Long perId;
+
+    /**
+     * 个人
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacPersonMo per;
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getPerId() {
+        return perId;
+    }
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPerId(Long perId) {
+        this.perId = perId;
     }
 }

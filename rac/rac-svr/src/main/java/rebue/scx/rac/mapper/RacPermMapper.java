@@ -33,11 +33,11 @@ import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPermMo;
 
 @Mapper
-public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
+public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, groupId, sysId, name, isAuthorize, isEnabled, orderNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, groupId, name, isAuthorize, isEnabled, orderNo, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -75,9 +75,9 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacPermMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
-        @Result(column="GROUP_ID", property="groupId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
+        @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="GROUP_ID", property="groupId", jdbcType=JdbcType.BIGINT),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_AUTHORIZE", property="isAuthorize", jdbcType=JdbcType.BIT),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
@@ -109,7 +109,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(String id_) {
+    default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
@@ -121,8 +121,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     default int insert(RacPermMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPerm, c ->
             c.map(id).toProperty("id")
+            .map(domainId).toProperty("domainId")
             .map(groupId).toProperty("groupId")
-            .map(sysId).toProperty("sysId")
             .map(name).toProperty("name")
             .map(isAuthorize).toProperty("isAuthorize")
             .map(isEnabled).toProperty("isEnabled")
@@ -137,8 +137,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     default int insertMultiple(Collection<RacPermMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPerm, c ->
             c.map(id).toProperty("id")
+            .map(domainId).toProperty("domainId")
             .map(groupId).toProperty("groupId")
-            .map(sysId).toProperty("sysId")
             .map(name).toProperty("name")
             .map(isAuthorize).toProperty("isAuthorize")
             .map(isEnabled).toProperty("isEnabled")
@@ -153,8 +153,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     default int insertSelective(RacPermMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPerm, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
+            .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(groupId).toPropertyWhenPresent("groupId", record::getGroupId)
-            .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
             .map(name).toPropertyWhenPresent("name", record::getName)
             .map(isAuthorize).toPropertyWhenPresent("isAuthorize", record::getIsAuthorize)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
@@ -187,7 +187,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacPermMo> selectByPrimaryKey(String id_) {
+    default Optional<RacPermMo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -205,8 +205,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacPermMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
+                .set(domainId).equalTo(record::getDomainId)
                 .set(groupId).equalTo(record::getGroupId)
-                .set(sysId).equalTo(record::getSysId)
                 .set(name).equalTo(record::getName)
                 .set(isAuthorize).equalTo(record::getIsAuthorize)
                 .set(isEnabled).equalTo(record::getIsEnabled)
@@ -219,8 +219,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPermMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
+                .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(groupId).equalToWhenPresent(record::getGroupId)
-                .set(sysId).equalToWhenPresent(record::getSysId)
                 .set(name).equalToWhenPresent(record::getName)
                 .set(isAuthorize).equalToWhenPresent(record::getIsAuthorize)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
@@ -233,8 +233,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
      */
     default int updateByPrimaryKey(RacPermMo record) {
         return update(c ->
-            c.set(groupId).equalTo(record::getGroupId)
-            .set(sysId).equalTo(record::getSysId)
+            c.set(domainId).equalTo(record::getDomainId)
+            .set(groupId).equalTo(record::getGroupId)
             .set(name).equalTo(record::getName)
             .set(isAuthorize).equalTo(record::getIsAuthorize)
             .set(isEnabled).equalTo(record::getIsEnabled)
@@ -249,8 +249,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
      */
     default int updateByPrimaryKeySelective(RacPermMo record) {
         return update(c ->
-            c.set(groupId).equalToWhenPresent(record::getGroupId)
-            .set(sysId).equalToWhenPresent(record::getSysId)
+            c.set(domainId).equalToWhenPresent(record::getDomainId)
+            .set(groupId).equalToWhenPresent(record::getGroupId)
             .set(name).equalToWhenPresent(record::getName)
             .set(isAuthorize).equalToWhenPresent(record::getIsAuthorize)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
@@ -266,8 +266,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     default int deleteSelective(RacPermMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
@@ -282,8 +282,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     default Optional<RacPermMo> selectOne(RacPermMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
@@ -298,8 +298,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     default long countSelective(RacPermMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
@@ -311,7 +311,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existByPrimaryKey(String id_) {
+    default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
@@ -328,8 +328,8 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, String> {
     default List<RacPermMo> selectSelective(RacPermMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))

@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.SignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.to.SignUpByUserNameTo;
+import rebue.scx.rac.to.ex.SignUpByUserNameTo;
 
 import javax.annotation.Resource;
 

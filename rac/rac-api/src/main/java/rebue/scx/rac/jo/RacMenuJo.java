@@ -37,8 +37,8 @@ public class RacMenuJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 32)
-    private String id;
+    @Column(name = "ID", nullable = false, length = 20)
+    private Long id;
 
     /**
      * 菜单编码

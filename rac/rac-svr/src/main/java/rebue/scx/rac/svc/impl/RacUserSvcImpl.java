@@ -1,10 +1,12 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacUserDao;
 import rebue.scx.rac.jo.RacUserJo;
@@ -35,7 +37,9 @@ import rebue.scx.rac.to.RacUserOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao> implements RacUserSvc {
+public class RacUserSvcImpl
+        extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+        implements RacUserSvc {
 
     /**
      * 本服务的单例

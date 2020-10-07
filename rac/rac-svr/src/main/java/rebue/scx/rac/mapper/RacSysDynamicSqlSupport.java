@@ -25,6 +25,20 @@ public final class RacSysDynamicSqlSupport {
     public static final SqlColumn<String> name = racSys.name;
 
     /**
+    * 领域ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> domainId = racSys.domainId;
+
+    /**
+    * 首页路径
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> homePath = racSys.homePath;
+
+    /**
     * 系统备注
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -35,6 +49,10 @@ public final class RacSysDynamicSqlSupport {
         public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> homePath = column("HOME_PATH", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

@@ -23,99 +23,13 @@ public class RacUserModifyTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotNull(message = "用户ID不能为空")
     @PositiveOrZero(message = "用户ID不能为负数")
     private Long id;
-
-    /**
-     * 用户昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 20, message = "用户昵称的长度不能大于20")
-    private String nickname;
-
-    /**
-     * 用户头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 300, message = "用户头像的长度不能大于300")
-    private String avatar;
-
-    /**
-     * 登录名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 20, message = "登录名称的长度不能大于20")
-    private String signInName;
-
-    /**
-     * 登录密码
-     *              计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "登录密码的长度不能大于32")
-    private String signInPswd;
-
-    /**
-     * 支付密码
-     *              用户的支付密码默认和登录密码一致
-     *              计算方法与登录密码一致
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "支付密码的长度不能大于32")
-    private String payPswd;
-
-    /**
-     * 密码组合码
-     *              与密码组合加密用
-     *              登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 6, message = "密码组合码的长度不能大于6")
-    private String salt;
-
-    /**
-     * 手机
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 11, message = "手机的长度不能大于11")
-    private String mobile;
-
-    /**
-     * 是否已验证手机号码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedMobile;
-
-    /**
-     * 电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 50, message = "电子邮箱的长度不能大于50")
-    private String email;
-
-    /**
-     * 是否已验证电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedEmail;
 
     /**
      * 微信的OpenId
@@ -182,52 +96,6 @@ public class RacUserModifyTo implements Serializable {
     private String qqAvatar;
 
     /**
-     * 用户实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 100, message = "用户实名的长度不能大于100")
-    private String realName;
-
-    /**
-     * 是否已验证实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedRealname;
-
-    /**
-     * 身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 18, message = "身份证号的长度不能大于18")
-    private String idCard;
-
-    /**
-     * 是否已验证身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isVerifiedIdcard;
-
-    /**
-     * 性别
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "性别不能为负数")
-    private Byte sex;
-
-    /**
-     * 年龄
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "年龄不能为负数")
-    private Byte age;
-
-    /**
      * 是否测试者
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -248,4 +116,79 @@ public class RacUserModifyTo implements Serializable {
      */
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long updateTimestamp;
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "个人ID不能为负数")
+    private Long personId;
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long createrTimestamp;
+
+    /**
+     * 登录名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "登录名称的长度不能大于20")
+    private String signInName;
+
+    /**
+     * 登录手机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 11, message = "登录手机的长度不能大于11")
+    private String signInMobile;
+
+    /**
+     * 登录邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 50, message = "登录邮箱的长度不能大于50")
+    private String signInEmail;
+
+    /**
+     * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "登录密码的长度不能大于32")
+    private String signInPswd;
+
+    /**
+     * 登录密码组合码(与密码组合加密用，详见登录密码备注)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 6, message = "登录密码组合码的长度不能大于6")
+    private String signInPswdSalt;
+
+    /**
+     * 登录用户昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "登录用户昵称的长度不能大于20")
+    private String signInNickname;
+
+    /**
+     * 登录用户头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 300, message = "登录用户头像的长度不能大于300")
+    private String signInAvatar;
 }

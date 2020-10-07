@@ -76,7 +76,7 @@ public interface RacPermUrnMapper extends MapperRootInterface<RacPermUrnMo, Long
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacPermUrnMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="PERM_ID", property="permId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="PERM_ID", property="permId", jdbcType=JdbcType.BIGINT),
         @Result(column="URN", property="urn", jdbcType=JdbcType.VARCHAR)
     })
     List<RacPermUrnMo> selectMany(SelectStatementProvider selectStatement);

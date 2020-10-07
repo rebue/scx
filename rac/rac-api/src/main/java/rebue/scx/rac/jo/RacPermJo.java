@@ -40,8 +40,8 @@ public class RacPermJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 32)
-    private String id;
+    @Column(name = "ID", nullable = false, length = 20)
+    private Long id;
 
     /**
      * 权限名称
@@ -98,15 +98,6 @@ public class RacPermJo implements Serializable {
     private RacPermGroupJo group;
 
     /**
-     * 系统
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacSysJo sys;
-
-    /**
      * 权限列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -144,4 +135,13 @@ public class RacPermJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacDomainJo domain;
 }

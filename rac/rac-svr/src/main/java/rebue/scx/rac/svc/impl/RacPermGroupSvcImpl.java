@@ -1,10 +1,12 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermGroupDao;
 import rebue.scx.rac.jo.RacPermGroupJo;
@@ -35,7 +37,9 @@ import rebue.scx.rac.to.RacPermGroupOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPermGroupSvcImpl extends BaseSvcImpl<java.lang.String, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao> implements RacPermGroupSvc {
+public class RacPermGroupSvcImpl extends
+        BaseSvcImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao>
+        implements RacPermGroupSvc {
 
     /**
      * 本服务的单例

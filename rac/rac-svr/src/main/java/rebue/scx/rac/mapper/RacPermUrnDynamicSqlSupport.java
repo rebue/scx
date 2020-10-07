@@ -22,7 +22,7 @@ public final class RacPermUrnDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> permId = racPermUrn.permId;
+    public static final SqlColumn<Long> permId = racPermUrn.permId;
 
     /**
     * URN
@@ -34,7 +34,7 @@ public final class RacPermUrnDynamicSqlSupport {
     public static final class RacPermUrn extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> permId = column("PERM_ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> permId = column("PERM_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> urn = column("URN", JDBCType.VARCHAR);
 

@@ -12,18 +12,11 @@ public final class RacOpLogDynamicSqlSupport {
     public static final RacOpLog racOpLog = new RacOpLog();
 
     /**
-    * 用户操作日志ID
+    * 操作日志ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Long> id = racOpLog.id;
-
-    /**
-    * 用户ID(如为1则是散客)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Long> userId = racOpLog.userId;
 
     /**
     * 系统ID
@@ -31,6 +24,20 @@ public final class RacOpLogDynamicSqlSupport {
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<String> sysId = racOpLog.sysId;
+
+    /**
+    * 用户ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> userId = racOpLog.userId;
+
+    /**
+    * 操作类型
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> opType = racOpLog.opType;
 
     /**
     * 操作标题
@@ -56,9 +63,11 @@ public final class RacOpLogDynamicSqlSupport {
     public static final class RacOpLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
+        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+
         public final SqlColumn<Long> userId = column("USER_ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> opType = column("OP_TYPE", JDBCType.VARCHAR);
 
         public final SqlColumn<String> opTitle = column("OP_TITLE", JDBCType.VARCHAR);
 

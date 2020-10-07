@@ -37,7 +37,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, parentId, orgType, leftValue, rightValue, fullName, introduction, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, parentId, domainId, orgType, leftValue, rightValue, fullName, introduction, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -78,6 +78,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="PARENT_ID", property="parentId", jdbcType=JdbcType.BIGINT),
+        @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="ORG_TYPE", property="orgType", jdbcType=JdbcType.TINYINT),
         @Result(column="LEFT_VALUE", property="leftValue", jdbcType=JdbcType.INTEGER),
         @Result(column="RIGHT_VALUE", property="rightValue", jdbcType=JdbcType.INTEGER),
@@ -124,6 +125,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             c.map(id).toProperty("id")
             .map(name).toProperty("name")
             .map(parentId).toProperty("parentId")
+            .map(domainId).toProperty("domainId")
             .map(orgType).toProperty("orgType")
             .map(leftValue).toProperty("leftValue")
             .map(rightValue).toProperty("rightValue")
@@ -141,6 +143,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             c.map(id).toProperty("id")
             .map(name).toProperty("name")
             .map(parentId).toProperty("parentId")
+            .map(domainId).toProperty("domainId")
             .map(orgType).toProperty("orgType")
             .map(leftValue).toProperty("leftValue")
             .map(rightValue).toProperty("rightValue")
@@ -158,6 +161,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(name).toPropertyWhenPresent("name", record::getName)
             .map(parentId).toPropertyWhenPresent("parentId", record::getParentId)
+            .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(orgType).toPropertyWhenPresent("orgType", record::getOrgType)
             .map(leftValue).toPropertyWhenPresent("leftValue", record::getLeftValue)
             .map(rightValue).toPropertyWhenPresent("rightValue", record::getRightValue)
@@ -211,6 +215,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return dsl.set(id).equalTo(record::getId)
                 .set(name).equalTo(record::getName)
                 .set(parentId).equalTo(record::getParentId)
+                .set(domainId).equalTo(record::getDomainId)
                 .set(orgType).equalTo(record::getOrgType)
                 .set(leftValue).equalTo(record::getLeftValue)
                 .set(rightValue).equalTo(record::getRightValue)
@@ -226,6 +231,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(name).equalToWhenPresent(record::getName)
                 .set(parentId).equalToWhenPresent(record::getParentId)
+                .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(orgType).equalToWhenPresent(record::getOrgType)
                 .set(leftValue).equalToWhenPresent(record::getLeftValue)
                 .set(rightValue).equalToWhenPresent(record::getRightValue)
@@ -241,6 +247,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return update(c ->
             c.set(name).equalTo(record::getName)
             .set(parentId).equalTo(record::getParentId)
+            .set(domainId).equalTo(record::getDomainId)
             .set(orgType).equalTo(record::getOrgType)
             .set(leftValue).equalTo(record::getLeftValue)
             .set(rightValue).equalTo(record::getRightValue)
@@ -258,6 +265,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return update(c ->
             c.set(name).equalToWhenPresent(record::getName)
             .set(parentId).equalToWhenPresent(record::getParentId)
+            .set(domainId).equalToWhenPresent(record::getDomainId)
             .set(orgType).equalToWhenPresent(record::getOrgType)
             .set(leftValue).equalToWhenPresent(record::getLeftValue)
             .set(rightValue).equalToWhenPresent(record::getRightValue)
@@ -276,6 +284,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(orgType, isEqualToWhenPresent(record::getOrgType))
             .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
             .and(rightValue, isEqualToWhenPresent(record::getRightValue))
@@ -293,6 +302,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(orgType, isEqualToWhenPresent(record::getOrgType))
             .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
             .and(rightValue, isEqualToWhenPresent(record::getRightValue))
@@ -310,6 +320,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(orgType, isEqualToWhenPresent(record::getOrgType))
             .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
             .and(rightValue, isEqualToWhenPresent(record::getRightValue))
@@ -341,6 +352,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(parentId, isEqualToWhenPresent(record::getParentId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(orgType, isEqualToWhenPresent(record::getOrgType))
             .and(leftValue, isEqualToWhenPresent(record::getLeftValue))
             .and(rightValue, isEqualToWhenPresent(record::getRightValue))

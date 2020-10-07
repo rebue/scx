@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.to.SignUpByUserNameTo;
+import rebue.scx.rac.to.ex.SignUpByUserNameTo;
 
 /**
  * 用户注册API

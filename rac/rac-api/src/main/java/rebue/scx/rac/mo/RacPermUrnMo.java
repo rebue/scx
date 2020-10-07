@@ -35,9 +35,9 @@ public class RacPermUrnMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "权限ID不能为空")
-    @Length(max = 32, message = "权限ID的长度不能大于32")
-    private String permId;
+    @NotNull(groups = AddGroup.class, message = "权限ID不能为空")
+    @PositiveOrZero(message = "权限ID不能为负数")
+    private Long permId;
 
     /**
      * URN
@@ -85,17 +85,8 @@ public class RacPermUrnMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getPermId() {
+    public Long getPermId() {
         return permId;
-    }
-
-    /**
-     * 权限ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPermId(String permId) {
-        this.permId = permId;
     }
 
     /**
@@ -170,5 +161,14 @@ public class RacPermUrnMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 权限ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPermId(Long permId) {
+        this.permId = permId;
     }
 }

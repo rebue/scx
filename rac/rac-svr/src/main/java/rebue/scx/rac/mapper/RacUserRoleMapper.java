@@ -37,7 +37,7 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, roleId, userId);
+    BasicColumn[] selectList = BasicColumn.columnList(id, roleId, userId);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -76,8 +76,7 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacUserRoleMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.BIGINT),
         @Result(column="USER_ID", property="userId", jdbcType=JdbcType.BIGINT)
     })
     List<RacUserRoleMo> selectMany(SelectStatementProvider selectStatement);
@@ -117,7 +116,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     default int insert(RacUserRoleMo record) {
         return MyBatis3Utils.insert(this::insert, record, racUserRole, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
             .map(roleId).toProperty("roleId")
             .map(userId).toProperty("userId")
         );
@@ -129,7 +127,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     default int insertMultiple(Collection<RacUserRoleMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racUserRole, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
             .map(roleId).toProperty("roleId")
             .map(userId).toProperty("userId")
         );
@@ -141,7 +138,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     default int insertSelective(RacUserRoleMo record) {
         return MyBatis3Utils.insert(this::insert, record, racUserRole, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
             .map(roleId).toPropertyWhenPresent("roleId", record::getRoleId)
             .map(userId).toPropertyWhenPresent("userId", record::getUserId)
         );
@@ -189,7 +185,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacUserRoleMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(sysId).equalTo(record::getSysId)
                 .set(roleId).equalTo(record::getRoleId)
                 .set(userId).equalTo(record::getUserId);
     }
@@ -199,7 +194,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacUserRoleMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(sysId).equalToWhenPresent(record::getSysId)
                 .set(roleId).equalToWhenPresent(record::getRoleId)
                 .set(userId).equalToWhenPresent(record::getUserId);
     }
@@ -209,8 +203,7 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
      */
     default int updateByPrimaryKey(RacUserRoleMo record) {
         return update(c ->
-            c.set(sysId).equalTo(record::getSysId)
-            .set(roleId).equalTo(record::getRoleId)
+            c.set(roleId).equalTo(record::getRoleId)
             .set(userId).equalTo(record::getUserId)
             .where(id, isEqualTo(record::getId))
         );
@@ -221,8 +214,7 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
      */
     default int updateByPrimaryKeySelective(RacUserRoleMo record) {
         return update(c ->
-            c.set(sysId).equalToWhenPresent(record::getSysId)
-            .set(roleId).equalToWhenPresent(record::getRoleId)
+            c.set(roleId).equalToWhenPresent(record::getRoleId)
             .set(userId).equalToWhenPresent(record::getUserId)
             .where(id, isEqualTo(record::getId))
         );
@@ -234,7 +226,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     default int deleteSelective(RacUserRoleMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(roleId, isEqualToWhenPresent(record::getRoleId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
         );
@@ -246,7 +237,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     default Optional<RacUserRoleMo> selectOne(RacUserRoleMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(roleId, isEqualToWhenPresent(record::getRoleId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
         );
@@ -258,7 +248,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     default long countSelective(RacUserRoleMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(roleId, isEqualToWhenPresent(record::getRoleId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
         );
@@ -284,7 +273,6 @@ public interface RacUserRoleMapper extends MapperRootInterface<RacUserRoleMo, Lo
     default List<RacUserRoleMo> selectSelective(RacUserRoleMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(roleId, isEqualToWhenPresent(record::getRoleId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
         );

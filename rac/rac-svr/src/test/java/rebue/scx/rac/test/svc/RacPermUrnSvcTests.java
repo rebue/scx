@@ -1,12 +1,14 @@
 package rebue.scx.rac.test.svc;
 
-import com.github.dozermapper.core.Mapper;
-import com.github.pagehelper.PageInfo;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.github.dozermapper.core.Mapper;
+import com.github.pagehelper.PageInfo;
+
+import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
@@ -35,7 +37,7 @@ public class RacPermUrnSvcTests {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
-    private Mapper dozerMapper;
+    private Mapper        dozerMapper;
 
     /**
      * 测试基本的增删改查
@@ -58,7 +60,7 @@ public class RacPermUrnSvcTests {
         log.info("查询权限URN的返回值为：" + listResult);
         Assertions.assertNotNull(listResult);
         log.info("获取单个权限URN的参数为：" + id);
-        RacPermUrnMo getByIdResult = _svc.getById(id);
+        final RacPermUrnMo getByIdResult = _svc.getById(id);
         log.info("获取单个权限URN的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
         final RacPermUrnModifyTo modifyTo = dozerMapper.map(addTo, RacPermUrnModifyTo.class);

@@ -76,8 +76,8 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacPermMenuMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="PERM_ID", property="permId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="MENU_ID", property="menuId", jdbcType=JdbcType.VARCHAR)
+        @Result(column="PERM_ID", property="permId", jdbcType=JdbcType.BIGINT),
+        @Result(column="MENU_ID", property="menuId", jdbcType=JdbcType.BIGINT)
     })
     List<RacPermMenuMo> selectMany(SelectStatementProvider selectStatement);
 

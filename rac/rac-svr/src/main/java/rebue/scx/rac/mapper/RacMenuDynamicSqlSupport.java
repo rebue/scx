@@ -15,7 +15,7 @@ public final class RacMenuDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> id = racMenu.id;
+    public static final SqlColumn<Long> id = racMenu.id;
 
     /**
     * 系统ID
@@ -74,7 +74,7 @@ public final class RacMenuDynamicSqlSupport {
     public static final SqlColumn<String> remark = racMenu.remark;
 
     public static final class RacMenu extends SqlTable {
-        public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
 

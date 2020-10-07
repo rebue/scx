@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -32,7 +34,7 @@ public class RacUserJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -42,110 +44,12 @@ public class RacUserJo implements Serializable {
     private Long id;
 
     /**
-     * 用户昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "NICKNAME", nullable = true, length = 20)
-    private String nickname;
-
-    /**
-     * 用户头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "AVATAR", nullable = true, length = 300)
-    private String avatar;
-
-    /**
-     * 登录名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_NAME", nullable = true, length = 20)
-    private String signInName;
-
-    /**
-     * 登录密码
-     *              计算方法：密码+密码组合码 --》 小写 -》 md5 -》 Hex
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_PSWD", nullable = true, length = 32)
-    private String signInPswd;
-
-    /**
-     * 支付密码
-     *              用户的支付密码默认和登录密码一致
-     *              计算方法与登录密码一致
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "PAY_PSWD", nullable = true, length = 32)
-    private String payPswd;
-
-    /**
-     * 密码组合码
-     *              与密码组合加密用
-     *              登录密码=小写(MD5(小写(MD5(密码明文))+小写(密码组合码)))
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "SALT", nullable = true, length = 6)
-    private String salt;
-
-    /**
-     * 手机
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "MOBILE", nullable = true, length = 11)
-    private String mobile;
-
-    /**
-     * 是否已验证手机号码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "IS_VERIFIED_MOBILE", nullable = true, length = 1)
-    private Boolean isVerifiedMobile;
-
-    /**
-     * 电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "EMAIL", nullable = true, length = 50)
-    private String email;
-
-    /**
-     * 是否已验证电子邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "IS_VERIFIED_EMAIL", nullable = true, length = 1)
-    private Boolean isVerifiedEmail;
-
-    /**
      * 微信的OpenId
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "WX_OPEN_ID", nullable = true, length = 64)
+    @Basic(optional = false)
+    @Column(name = "WX_OPEN_ID", nullable = false, length = 64)
     private String wxOpenId;
 
     /**
@@ -162,8 +66,8 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "WX_NICKNAME", nullable = true, length = 100)
+    @Basic(optional = false)
+    @Column(name = "WX_NICKNAME", nullable = false, length = 100)
     private String wxNickname;
 
     /**
@@ -171,8 +75,8 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "WX_AVATAR", nullable = true, length = 300)
+    @Basic(optional = false)
+    @Column(name = "WX_AVATAR", nullable = false, length = 300)
     private String wxAvatar;
 
     /**
@@ -180,8 +84,8 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "QQ_OPEN_ID", nullable = true, length = 64)
+    @Basic(optional = false)
+    @Column(name = "QQ_OPEN_ID", nullable = false, length = 64)
     private String qqOpenId;
 
     /**
@@ -198,8 +102,8 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "QQ_NICKNAME", nullable = true, length = 100)
+    @Basic(optional = false)
+    @Column(name = "QQ_NICKNAME", nullable = false, length = 100)
     private String qqNickname;
 
     /**
@@ -207,63 +111,9 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "QQ_AVATAR", nullable = true, length = 300)
+    @Basic(optional = false)
+    @Column(name = "QQ_AVATAR", nullable = false, length = 300)
     private String qqAvatar;
-
-    /**
-     * 用户实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "REAL_NAME", nullable = true, length = 100)
-    private String realName;
-
-    /**
-     * 是否已验证实名
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "IS_VERIFIED_REALNAME", nullable = true, length = 1)
-    private Boolean isVerifiedRealname;
-
-    /**
-     * 身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "ID_CARD", nullable = true, length = 18)
-    private String idCard;
-
-    /**
-     * 是否已验证身份证号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "IS_VERIFIED_IDCARD", nullable = true, length = 1)
-    private Boolean isVerifiedIdcard;
-
-    /**
-     * 性别
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "SEX", nullable = true, length = 3)
-    private Byte sex;
-
-    /**
-     * 年龄
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "AGE", nullable = true, length = 3)
-    private Byte age;
 
     /**
      * 是否测试者
@@ -301,14 +151,6 @@ public class RacUserJo implements Serializable {
     private List<RacOpLogJo> racOpLogList;
 
     /**
-     * 用户列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<RacSignInLogJo> racSignInLogList;
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -338,4 +180,104 @@ public class RacUserJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "CREATER_TIMESTAMP", nullable = false, length = 20)
+    private Long createrTimestamp;
+
+    /**
+     * 个人
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private RacPersonJo person;
+
+    /**
+     * 用户列表
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<RacDomainUserJo> racDomainUserList;
+
+    /**
+     * 解锁操作员的用户列表
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unlockOp")
+    private List<RacLockLogJo> racLockLogList;
+
+    /**
+     * 登录名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "SIGN_IN_NAME", nullable = true, length = 20)
+    private String signInName;
+
+    /**
+     * 登录手机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "SIGN_IN_MOBILE", nullable = true, length = 11)
+    private String signInMobile;
+
+    /**
+     * 登录邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "SIGN_IN_EMAIL", nullable = true, length = 50)
+    private String signInEmail;
+
+    /**
+     * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "SIGN_IN_PSWD", nullable = true, length = 32)
+    private String signInPswd;
+
+    /**
+     * 登录密码组合码(与密码组合加密用，详见登录密码备注)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "SIGN_IN_PSWD_SALT", nullable = true, length = 6)
+    private String signInPswdSalt;
+
+    /**
+     * 登录用户昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "SIGN_IN_NICKNAME", nullable = true, length = 20)
+    private String signInNickname;
+
+    /**
+     * 登录用户头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "SIGN_IN_AVATAR", nullable = true, length = 300)
+    private String signInAvatar;
 }

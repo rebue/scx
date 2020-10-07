@@ -37,7 +37,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, nickname, avatar, signInName, signInPswd, payPswd, salt, mobile, isVerifiedMobile, email, isVerifiedEmail, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, realName, isVerifiedRealname, idCard, isVerifiedIdcard, sex, age, isTester, isEnabled, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, personId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createrTimestamp, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -76,16 +76,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacUserMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="NICKNAME", property="nickname", jdbcType=JdbcType.VARCHAR),
-        @Result(column="AVATAR", property="avatar", jdbcType=JdbcType.VARCHAR),
+        @Result(column="PERSON_ID", property="personId", jdbcType=JdbcType.BIGINT),
+        @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
         @Result(column="SIGN_IN_NAME", property="signInName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="SIGN_IN_MOBILE", property="signInMobile", jdbcType=JdbcType.VARCHAR),
+        @Result(column="SIGN_IN_EMAIL", property="signInEmail", jdbcType=JdbcType.VARCHAR),
         @Result(column="SIGN_IN_PSWD", property="signInPswd", jdbcType=JdbcType.VARCHAR),
-        @Result(column="PAY_PSWD", property="payPswd", jdbcType=JdbcType.VARCHAR),
-        @Result(column="SALT", property="salt", jdbcType=JdbcType.CHAR),
-        @Result(column="MOBILE", property="mobile", jdbcType=JdbcType.VARCHAR),
-        @Result(column="IS_VERIFIED_MOBILE", property="isVerifiedMobile", jdbcType=JdbcType.BIT),
-        @Result(column="EMAIL", property="email", jdbcType=JdbcType.VARCHAR),
-        @Result(column="IS_VERIFIED_EMAIL", property="isVerifiedEmail", jdbcType=JdbcType.BIT),
+        @Result(column="SIGN_IN_PSWD_SALT", property="signInPswdSalt", jdbcType=JdbcType.CHAR),
+        @Result(column="SIGN_IN_NICKNAME", property="signInNickname", jdbcType=JdbcType.VARCHAR),
+        @Result(column="SIGN_IN_AVATAR", property="signInAvatar", jdbcType=JdbcType.VARCHAR),
         @Result(column="WX_OPEN_ID", property="wxOpenId", jdbcType=JdbcType.VARCHAR),
         @Result(column="WX_UNION_ID", property="wxUnionId", jdbcType=JdbcType.VARCHAR),
         @Result(column="WX_NICKNAME", property="wxNickname", jdbcType=JdbcType.VARCHAR),
@@ -94,14 +93,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         @Result(column="QQ_UNION_ID", property="qqUnionId", jdbcType=JdbcType.VARCHAR),
         @Result(column="QQ_NICKNAME", property="qqNickname", jdbcType=JdbcType.VARCHAR),
         @Result(column="QQ_AVATAR", property="qqAvatar", jdbcType=JdbcType.VARCHAR),
-        @Result(column="REAL_NAME", property="realName", jdbcType=JdbcType.VARCHAR),
-        @Result(column="IS_VERIFIED_REALNAME", property="isVerifiedRealname", jdbcType=JdbcType.BIT),
-        @Result(column="ID_CARD", property="idCard", jdbcType=JdbcType.CHAR),
-        @Result(column="IS_VERIFIED_IDCARD", property="isVerifiedIdcard", jdbcType=JdbcType.BIT),
-        @Result(column="SEX", property="sex", jdbcType=JdbcType.TINYINT),
-        @Result(column="AGE", property="age", jdbcType=JdbcType.TINYINT),
         @Result(column="IS_TESTER", property="isTester", jdbcType=JdbcType.BIT),
-        @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
+        @Result(column="CREATER_TIMESTAMP", property="createrTimestamp", jdbcType=JdbcType.BIGINT),
         @Result(column="UPDATE_TIMESTAMP", property="updateTimestamp", jdbcType=JdbcType.BIGINT)
     })
     List<RacUserMo> selectMany(SelectStatementProvider selectStatement);
@@ -141,16 +134,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default int insert(RacUserMo record) {
         return MyBatis3Utils.insert(this::insert, record, racUser, c ->
             c.map(id).toProperty("id")
-            .map(nickname).toProperty("nickname")
-            .map(avatar).toProperty("avatar")
+            .map(personId).toProperty("personId")
+            .map(isEnabled).toProperty("isEnabled")
             .map(signInName).toProperty("signInName")
+            .map(signInMobile).toProperty("signInMobile")
+            .map(signInEmail).toProperty("signInEmail")
             .map(signInPswd).toProperty("signInPswd")
-            .map(payPswd).toProperty("payPswd")
-            .map(salt).toProperty("salt")
-            .map(mobile).toProperty("mobile")
-            .map(isVerifiedMobile).toProperty("isVerifiedMobile")
-            .map(email).toProperty("email")
-            .map(isVerifiedEmail).toProperty("isVerifiedEmail")
+            .map(signInPswdSalt).toProperty("signInPswdSalt")
+            .map(signInNickname).toProperty("signInNickname")
+            .map(signInAvatar).toProperty("signInAvatar")
             .map(wxOpenId).toProperty("wxOpenId")
             .map(wxUnionId).toProperty("wxUnionId")
             .map(wxNickname).toProperty("wxNickname")
@@ -159,14 +151,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(qqUnionId).toProperty("qqUnionId")
             .map(qqNickname).toProperty("qqNickname")
             .map(qqAvatar).toProperty("qqAvatar")
-            .map(realName).toProperty("realName")
-            .map(isVerifiedRealname).toProperty("isVerifiedRealname")
-            .map(idCard).toProperty("idCard")
-            .map(isVerifiedIdcard).toProperty("isVerifiedIdcard")
-            .map(sex).toProperty("sex")
-            .map(age).toProperty("age")
             .map(isTester).toProperty("isTester")
-            .map(isEnabled).toProperty("isEnabled")
+            .map(createrTimestamp).toProperty("createrTimestamp")
             .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
@@ -177,16 +163,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default int insertMultiple(Collection<RacUserMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racUser, c ->
             c.map(id).toProperty("id")
-            .map(nickname).toProperty("nickname")
-            .map(avatar).toProperty("avatar")
+            .map(personId).toProperty("personId")
+            .map(isEnabled).toProperty("isEnabled")
             .map(signInName).toProperty("signInName")
+            .map(signInMobile).toProperty("signInMobile")
+            .map(signInEmail).toProperty("signInEmail")
             .map(signInPswd).toProperty("signInPswd")
-            .map(payPswd).toProperty("payPswd")
-            .map(salt).toProperty("salt")
-            .map(mobile).toProperty("mobile")
-            .map(isVerifiedMobile).toProperty("isVerifiedMobile")
-            .map(email).toProperty("email")
-            .map(isVerifiedEmail).toProperty("isVerifiedEmail")
+            .map(signInPswdSalt).toProperty("signInPswdSalt")
+            .map(signInNickname).toProperty("signInNickname")
+            .map(signInAvatar).toProperty("signInAvatar")
             .map(wxOpenId).toProperty("wxOpenId")
             .map(wxUnionId).toProperty("wxUnionId")
             .map(wxNickname).toProperty("wxNickname")
@@ -195,14 +180,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(qqUnionId).toProperty("qqUnionId")
             .map(qqNickname).toProperty("qqNickname")
             .map(qqAvatar).toProperty("qqAvatar")
-            .map(realName).toProperty("realName")
-            .map(isVerifiedRealname).toProperty("isVerifiedRealname")
-            .map(idCard).toProperty("idCard")
-            .map(isVerifiedIdcard).toProperty("isVerifiedIdcard")
-            .map(sex).toProperty("sex")
-            .map(age).toProperty("age")
             .map(isTester).toProperty("isTester")
-            .map(isEnabled).toProperty("isEnabled")
+            .map(createrTimestamp).toProperty("createrTimestamp")
             .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
@@ -213,16 +192,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default int insertSelective(RacUserMo record) {
         return MyBatis3Utils.insert(this::insert, record, racUser, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(nickname).toPropertyWhenPresent("nickname", record::getNickname)
-            .map(avatar).toPropertyWhenPresent("avatar", record::getAvatar)
+            .map(personId).toPropertyWhenPresent("personId", record::getPersonId)
+            .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
             .map(signInName).toPropertyWhenPresent("signInName", record::getSignInName)
+            .map(signInMobile).toPropertyWhenPresent("signInMobile", record::getSignInMobile)
+            .map(signInEmail).toPropertyWhenPresent("signInEmail", record::getSignInEmail)
             .map(signInPswd).toPropertyWhenPresent("signInPswd", record::getSignInPswd)
-            .map(payPswd).toPropertyWhenPresent("payPswd", record::getPayPswd)
-            .map(salt).toPropertyWhenPresent("salt", record::getSalt)
-            .map(mobile).toPropertyWhenPresent("mobile", record::getMobile)
-            .map(isVerifiedMobile).toPropertyWhenPresent("isVerifiedMobile", record::getIsVerifiedMobile)
-            .map(email).toPropertyWhenPresent("email", record::getEmail)
-            .map(isVerifiedEmail).toPropertyWhenPresent("isVerifiedEmail", record::getIsVerifiedEmail)
+            .map(signInPswdSalt).toPropertyWhenPresent("signInPswdSalt", record::getSignInPswdSalt)
+            .map(signInNickname).toPropertyWhenPresent("signInNickname", record::getSignInNickname)
+            .map(signInAvatar).toPropertyWhenPresent("signInAvatar", record::getSignInAvatar)
             .map(wxOpenId).toPropertyWhenPresent("wxOpenId", record::getWxOpenId)
             .map(wxUnionId).toPropertyWhenPresent("wxUnionId", record::getWxUnionId)
             .map(wxNickname).toPropertyWhenPresent("wxNickname", record::getWxNickname)
@@ -231,14 +209,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(qqUnionId).toPropertyWhenPresent("qqUnionId", record::getQqUnionId)
             .map(qqNickname).toPropertyWhenPresent("qqNickname", record::getQqNickname)
             .map(qqAvatar).toPropertyWhenPresent("qqAvatar", record::getQqAvatar)
-            .map(realName).toPropertyWhenPresent("realName", record::getRealName)
-            .map(isVerifiedRealname).toPropertyWhenPresent("isVerifiedRealname", record::getIsVerifiedRealname)
-            .map(idCard).toPropertyWhenPresent("idCard", record::getIdCard)
-            .map(isVerifiedIdcard).toPropertyWhenPresent("isVerifiedIdcard", record::getIsVerifiedIdcard)
-            .map(sex).toPropertyWhenPresent("sex", record::getSex)
-            .map(age).toPropertyWhenPresent("age", record::getAge)
             .map(isTester).toPropertyWhenPresent("isTester", record::getIsTester)
-            .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
+            .map(createrTimestamp).toPropertyWhenPresent("createrTimestamp", record::getCreaterTimestamp)
             .map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp)
         );
     }
@@ -285,16 +257,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(nickname).equalTo(record::getNickname)
-                .set(avatar).equalTo(record::getAvatar)
+                .set(personId).equalTo(record::getPersonId)
+                .set(isEnabled).equalTo(record::getIsEnabled)
                 .set(signInName).equalTo(record::getSignInName)
+                .set(signInMobile).equalTo(record::getSignInMobile)
+                .set(signInEmail).equalTo(record::getSignInEmail)
                 .set(signInPswd).equalTo(record::getSignInPswd)
-                .set(payPswd).equalTo(record::getPayPswd)
-                .set(salt).equalTo(record::getSalt)
-                .set(mobile).equalTo(record::getMobile)
-                .set(isVerifiedMobile).equalTo(record::getIsVerifiedMobile)
-                .set(email).equalTo(record::getEmail)
-                .set(isVerifiedEmail).equalTo(record::getIsVerifiedEmail)
+                .set(signInPswdSalt).equalTo(record::getSignInPswdSalt)
+                .set(signInNickname).equalTo(record::getSignInNickname)
+                .set(signInAvatar).equalTo(record::getSignInAvatar)
                 .set(wxOpenId).equalTo(record::getWxOpenId)
                 .set(wxUnionId).equalTo(record::getWxUnionId)
                 .set(wxNickname).equalTo(record::getWxNickname)
@@ -303,14 +274,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
                 .set(qqUnionId).equalTo(record::getQqUnionId)
                 .set(qqNickname).equalTo(record::getQqNickname)
                 .set(qqAvatar).equalTo(record::getQqAvatar)
-                .set(realName).equalTo(record::getRealName)
-                .set(isVerifiedRealname).equalTo(record::getIsVerifiedRealname)
-                .set(idCard).equalTo(record::getIdCard)
-                .set(isVerifiedIdcard).equalTo(record::getIsVerifiedIdcard)
-                .set(sex).equalTo(record::getSex)
-                .set(age).equalTo(record::getAge)
                 .set(isTester).equalTo(record::getIsTester)
-                .set(isEnabled).equalTo(record::getIsEnabled)
+                .set(createrTimestamp).equalTo(record::getCreaterTimestamp)
                 .set(updateTimestamp).equalTo(record::getUpdateTimestamp);
     }
 
@@ -319,16 +284,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(nickname).equalToWhenPresent(record::getNickname)
-                .set(avatar).equalToWhenPresent(record::getAvatar)
+                .set(personId).equalToWhenPresent(record::getPersonId)
+                .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(signInName).equalToWhenPresent(record::getSignInName)
+                .set(signInMobile).equalToWhenPresent(record::getSignInMobile)
+                .set(signInEmail).equalToWhenPresent(record::getSignInEmail)
                 .set(signInPswd).equalToWhenPresent(record::getSignInPswd)
-                .set(payPswd).equalToWhenPresent(record::getPayPswd)
-                .set(salt).equalToWhenPresent(record::getSalt)
-                .set(mobile).equalToWhenPresent(record::getMobile)
-                .set(isVerifiedMobile).equalToWhenPresent(record::getIsVerifiedMobile)
-                .set(email).equalToWhenPresent(record::getEmail)
-                .set(isVerifiedEmail).equalToWhenPresent(record::getIsVerifiedEmail)
+                .set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt)
+                .set(signInNickname).equalToWhenPresent(record::getSignInNickname)
+                .set(signInAvatar).equalToWhenPresent(record::getSignInAvatar)
                 .set(wxOpenId).equalToWhenPresent(record::getWxOpenId)
                 .set(wxUnionId).equalToWhenPresent(record::getWxUnionId)
                 .set(wxNickname).equalToWhenPresent(record::getWxNickname)
@@ -337,14 +301,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
                 .set(qqUnionId).equalToWhenPresent(record::getQqUnionId)
                 .set(qqNickname).equalToWhenPresent(record::getQqNickname)
                 .set(qqAvatar).equalToWhenPresent(record::getQqAvatar)
-                .set(realName).equalToWhenPresent(record::getRealName)
-                .set(isVerifiedRealname).equalToWhenPresent(record::getIsVerifiedRealname)
-                .set(idCard).equalToWhenPresent(record::getIdCard)
-                .set(isVerifiedIdcard).equalToWhenPresent(record::getIsVerifiedIdcard)
-                .set(sex).equalToWhenPresent(record::getSex)
-                .set(age).equalToWhenPresent(record::getAge)
                 .set(isTester).equalToWhenPresent(record::getIsTester)
-                .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
+                .set(createrTimestamp).equalToWhenPresent(record::getCreaterTimestamp)
                 .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
@@ -353,16 +311,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
      */
     default int updateByPrimaryKey(RacUserMo record) {
         return update(c ->
-            c.set(nickname).equalTo(record::getNickname)
-            .set(avatar).equalTo(record::getAvatar)
+            c.set(personId).equalTo(record::getPersonId)
+            .set(isEnabled).equalTo(record::getIsEnabled)
             .set(signInName).equalTo(record::getSignInName)
+            .set(signInMobile).equalTo(record::getSignInMobile)
+            .set(signInEmail).equalTo(record::getSignInEmail)
             .set(signInPswd).equalTo(record::getSignInPswd)
-            .set(payPswd).equalTo(record::getPayPswd)
-            .set(salt).equalTo(record::getSalt)
-            .set(mobile).equalTo(record::getMobile)
-            .set(isVerifiedMobile).equalTo(record::getIsVerifiedMobile)
-            .set(email).equalTo(record::getEmail)
-            .set(isVerifiedEmail).equalTo(record::getIsVerifiedEmail)
+            .set(signInPswdSalt).equalTo(record::getSignInPswdSalt)
+            .set(signInNickname).equalTo(record::getSignInNickname)
+            .set(signInAvatar).equalTo(record::getSignInAvatar)
             .set(wxOpenId).equalTo(record::getWxOpenId)
             .set(wxUnionId).equalTo(record::getWxUnionId)
             .set(wxNickname).equalTo(record::getWxNickname)
@@ -371,14 +328,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .set(qqUnionId).equalTo(record::getQqUnionId)
             .set(qqNickname).equalTo(record::getQqNickname)
             .set(qqAvatar).equalTo(record::getQqAvatar)
-            .set(realName).equalTo(record::getRealName)
-            .set(isVerifiedRealname).equalTo(record::getIsVerifiedRealname)
-            .set(idCard).equalTo(record::getIdCard)
-            .set(isVerifiedIdcard).equalTo(record::getIsVerifiedIdcard)
-            .set(sex).equalTo(record::getSex)
-            .set(age).equalTo(record::getAge)
             .set(isTester).equalTo(record::getIsTester)
-            .set(isEnabled).equalTo(record::getIsEnabled)
+            .set(createrTimestamp).equalTo(record::getCreaterTimestamp)
             .set(updateTimestamp).equalTo(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -389,16 +340,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
      */
     default int updateByPrimaryKeySelective(RacUserMo record) {
         return update(c ->
-            c.set(nickname).equalToWhenPresent(record::getNickname)
-            .set(avatar).equalToWhenPresent(record::getAvatar)
+            c.set(personId).equalToWhenPresent(record::getPersonId)
+            .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
             .set(signInName).equalToWhenPresent(record::getSignInName)
+            .set(signInMobile).equalToWhenPresent(record::getSignInMobile)
+            .set(signInEmail).equalToWhenPresent(record::getSignInEmail)
             .set(signInPswd).equalToWhenPresent(record::getSignInPswd)
-            .set(payPswd).equalToWhenPresent(record::getPayPswd)
-            .set(salt).equalToWhenPresent(record::getSalt)
-            .set(mobile).equalToWhenPresent(record::getMobile)
-            .set(isVerifiedMobile).equalToWhenPresent(record::getIsVerifiedMobile)
-            .set(email).equalToWhenPresent(record::getEmail)
-            .set(isVerifiedEmail).equalToWhenPresent(record::getIsVerifiedEmail)
+            .set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt)
+            .set(signInNickname).equalToWhenPresent(record::getSignInNickname)
+            .set(signInAvatar).equalToWhenPresent(record::getSignInAvatar)
             .set(wxOpenId).equalToWhenPresent(record::getWxOpenId)
             .set(wxUnionId).equalToWhenPresent(record::getWxUnionId)
             .set(wxNickname).equalToWhenPresent(record::getWxNickname)
@@ -407,14 +357,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .set(qqUnionId).equalToWhenPresent(record::getQqUnionId)
             .set(qqNickname).equalToWhenPresent(record::getQqNickname)
             .set(qqAvatar).equalToWhenPresent(record::getQqAvatar)
-            .set(realName).equalToWhenPresent(record::getRealName)
-            .set(isVerifiedRealname).equalToWhenPresent(record::getIsVerifiedRealname)
-            .set(idCard).equalToWhenPresent(record::getIdCard)
-            .set(isVerifiedIdcard).equalToWhenPresent(record::getIsVerifiedIdcard)
-            .set(sex).equalToWhenPresent(record::getSex)
-            .set(age).equalToWhenPresent(record::getAge)
             .set(isTester).equalToWhenPresent(record::getIsTester)
-            .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
+            .set(createrTimestamp).equalToWhenPresent(record::getCreaterTimestamp)
             .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -426,16 +370,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default int deleteSelective(RacUserMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(nickname, isEqualToWhenPresent(record::getNickname))
-            .and(avatar, isEqualToWhenPresent(record::getAvatar))
+            .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
+            .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
+            .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(salt, isEqualToWhenPresent(record::getSalt))
-            .and(mobile, isEqualToWhenPresent(record::getMobile))
-            .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
-            .and(email, isEqualToWhenPresent(record::getEmail))
-            .and(isVerifiedEmail, isEqualToWhenPresent(record::getIsVerifiedEmail))
+            .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
+            .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
             .and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
             .and(wxNickname, isEqualToWhenPresent(record::getWxNickname))
@@ -444,14 +387,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
-            .and(realName, isEqualToWhenPresent(record::getRealName))
-            .and(isVerifiedRealname, isEqualToWhenPresent(record::getIsVerifiedRealname))
-            .and(idCard, isEqualToWhenPresent(record::getIdCard))
-            .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
-            .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(age, isEqualToWhenPresent(record::getAge))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -462,16 +399,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default Optional<RacUserMo> selectOne(RacUserMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(nickname, isEqualToWhenPresent(record::getNickname))
-            .and(avatar, isEqualToWhenPresent(record::getAvatar))
+            .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
+            .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
+            .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(salt, isEqualToWhenPresent(record::getSalt))
-            .and(mobile, isEqualToWhenPresent(record::getMobile))
-            .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
-            .and(email, isEqualToWhenPresent(record::getEmail))
-            .and(isVerifiedEmail, isEqualToWhenPresent(record::getIsVerifiedEmail))
+            .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
+            .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
             .and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
             .and(wxNickname, isEqualToWhenPresent(record::getWxNickname))
@@ -480,14 +416,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
-            .and(realName, isEqualToWhenPresent(record::getRealName))
-            .and(isVerifiedRealname, isEqualToWhenPresent(record::getIsVerifiedRealname))
-            .and(idCard, isEqualToWhenPresent(record::getIdCard))
-            .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
-            .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(age, isEqualToWhenPresent(record::getAge))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -498,16 +428,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default long countSelective(RacUserMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(nickname, isEqualToWhenPresent(record::getNickname))
-            .and(avatar, isEqualToWhenPresent(record::getAvatar))
+            .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
+            .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
+            .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(salt, isEqualToWhenPresent(record::getSalt))
-            .and(mobile, isEqualToWhenPresent(record::getMobile))
-            .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
-            .and(email, isEqualToWhenPresent(record::getEmail))
-            .and(isVerifiedEmail, isEqualToWhenPresent(record::getIsVerifiedEmail))
+            .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
+            .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
             .and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
             .and(wxNickname, isEqualToWhenPresent(record::getWxNickname))
@@ -516,14 +445,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
-            .and(realName, isEqualToWhenPresent(record::getRealName))
-            .and(isVerifiedRealname, isEqualToWhenPresent(record::getIsVerifiedRealname))
-            .and(idCard, isEqualToWhenPresent(record::getIdCard))
-            .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
-            .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(age, isEqualToWhenPresent(record::getAge))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -548,16 +471,15 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default List<RacUserMo> selectSelective(RacUserMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(nickname, isEqualToWhenPresent(record::getNickname))
-            .and(avatar, isEqualToWhenPresent(record::getAvatar))
+            .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
+            .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
+            .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(salt, isEqualToWhenPresent(record::getSalt))
-            .and(mobile, isEqualToWhenPresent(record::getMobile))
-            .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
-            .and(email, isEqualToWhenPresent(record::getEmail))
-            .and(isVerifiedEmail, isEqualToWhenPresent(record::getIsVerifiedEmail))
+            .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
+            .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
             .and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
             .and(wxNickname, isEqualToWhenPresent(record::getWxNickname))
@@ -566,14 +488,8 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
-            .and(realName, isEqualToWhenPresent(record::getRealName))
-            .and(isVerifiedRealname, isEqualToWhenPresent(record::getIsVerifiedRealname))
-            .and(idCard, isEqualToWhenPresent(record::getIdCard))
-            .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
-            .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(age, isEqualToWhenPresent(record::getAge))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }

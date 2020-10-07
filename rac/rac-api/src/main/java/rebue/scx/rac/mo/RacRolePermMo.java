@@ -3,12 +3,10 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
@@ -35,18 +33,18 @@ public class RacRolePermMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "角色ID不能为空")
-    @Length(max = 32, message = "角色ID的长度不能大于32")
-    private String roleId;
+    @NotNull(groups = AddGroup.class, message = "角色ID不能为空")
+    @PositiveOrZero(message = "角色ID不能为负数")
+    private Long roleId;
 
     /**
      * 权限ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "权限ID不能为空")
-    @Length(max = 32, message = "权限ID的长度不能大于32")
-    private String permId;
+    @NotNull(groups = AddGroup.class, message = "权限ID不能为空")
+    @PositiveOrZero(message = "权限ID不能为负数")
+    private Long permId;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -94,35 +92,17 @@ public class RacRolePermMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
     /**
-     * 角色ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    /**
      * 权限ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getPermId() {
+    public Long getPermId() {
         return permId;
-    }
-
-    /**
-     * 权限ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPermId(String permId) {
-        this.permId = permId;
     }
 
     /**
@@ -179,5 +159,23 @@ public class RacRolePermMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 角色ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    /**
+     * 权限ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPermId(Long permId) {
+        this.permId = permId;
     }
 }

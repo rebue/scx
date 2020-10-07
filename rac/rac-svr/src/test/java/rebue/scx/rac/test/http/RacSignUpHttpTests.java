@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.to.SignUpByUserNameTo;
+import rebue.scx.rac.to.ex.SignUpByUserNameTo;
 import rebue.wheel.JacksonUtils;
 import rebue.wheel.http.HttpClient;
 import rebue.wheel.http.impl.OkHttpClientImpl;

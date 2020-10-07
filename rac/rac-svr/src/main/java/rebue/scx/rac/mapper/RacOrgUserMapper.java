@@ -37,7 +37,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, orgId, userId);
+    BasicColumn[] selectList = BasicColumn.columnList(id, orgId, perId);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -77,7 +77,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
     @Results(id="RacOrgUserMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="ORG_ID", property="orgId", jdbcType=JdbcType.BIGINT),
-        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.BIGINT)
+        @Result(column="PER_ID", property="perId", jdbcType=JdbcType.BIGINT)
     })
     List<RacOrgUserMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -117,7 +117,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
         return MyBatis3Utils.insert(this::insert, record, racOrgUser, c ->
             c.map(id).toProperty("id")
             .map(orgId).toProperty("orgId")
-            .map(userId).toProperty("userId")
+            .map(perId).toProperty("perId")
         );
     }
 
@@ -128,7 +128,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOrgUser, c ->
             c.map(id).toProperty("id")
             .map(orgId).toProperty("orgId")
-            .map(userId).toProperty("userId")
+            .map(perId).toProperty("perId")
         );
     }
 
@@ -139,7 +139,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
         return MyBatis3Utils.insert(this::insert, record, racOrgUser, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(orgId).toPropertyWhenPresent("orgId", record::getOrgId)
-            .map(userId).toPropertyWhenPresent("userId", record::getUserId)
+            .map(perId).toPropertyWhenPresent("perId", record::getPerId)
         );
     }
 
@@ -186,7 +186,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
     static UpdateDSL<UpdateModel> updateAllColumns(RacOrgUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(orgId).equalTo(record::getOrgId)
-                .set(userId).equalTo(record::getUserId);
+                .set(perId).equalTo(record::getPerId);
     }
 
     /**
@@ -195,7 +195,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOrgUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(orgId).equalToWhenPresent(record::getOrgId)
-                .set(userId).equalToWhenPresent(record::getUserId);
+                .set(perId).equalToWhenPresent(record::getPerId);
     }
 
     /**
@@ -204,7 +204,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
     default int updateByPrimaryKey(RacOrgUserMo record) {
         return update(c ->
             c.set(orgId).equalTo(record::getOrgId)
-            .set(userId).equalTo(record::getUserId)
+            .set(perId).equalTo(record::getPerId)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -215,7 +215,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
     default int updateByPrimaryKeySelective(RacOrgUserMo record) {
         return update(c ->
             c.set(orgId).equalToWhenPresent(record::getOrgId)
-            .set(userId).equalToWhenPresent(record::getUserId)
+            .set(perId).equalToWhenPresent(record::getPerId)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -227,7 +227,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(perId, isEqualToWhenPresent(record::getPerId))
         );
     }
 
@@ -238,7 +238,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(perId, isEqualToWhenPresent(record::getPerId))
         );
     }
 
@@ -249,7 +249,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(perId, isEqualToWhenPresent(record::getPerId))
         );
     }
 
@@ -274,7 +274,7 @@ public interface RacOrgUserMapper extends MapperRootInterface<RacOrgUserMo, Long
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(perId, isEqualToWhenPresent(record::getPerId))
         );
     }
 }

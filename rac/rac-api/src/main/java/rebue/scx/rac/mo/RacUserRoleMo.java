@@ -3,12 +3,10 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
@@ -31,25 +29,16 @@ public class RacUserRoleMo implements Serializable, Mo<Long> {
     private Long id;
 
     /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空")
-    @Length(max = 20, message = "系统ID的长度不能大于20")
-    private String sysId;
-
-    /**
      * 角色ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "角色ID不能为空")
-    @Length(max = 32, message = "角色ID的长度不能大于32")
-    private String roleId;
+    @NotNull(groups = AddGroup.class, message = "角色ID不能为空")
+    @PositiveOrZero(message = "角色ID不能为负数")
+    private Long roleId;
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -99,43 +88,16 @@ public class RacUserRoleMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getSysId() {
-        return sysId;
-    }
-
-    /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
-    }
-
-    /**
      * 角色ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
     /**
-     * 角色ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -144,7 +106,7 @@ public class RacUserRoleMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -162,7 +124,6 @@ public class RacUserRoleMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", sysId=").append(sysId);
         sb.append(", roleId=").append(roleId);
         sb.append(", userId=").append(userId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
@@ -207,5 +168,14 @@ public class RacUserRoleMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 角色ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

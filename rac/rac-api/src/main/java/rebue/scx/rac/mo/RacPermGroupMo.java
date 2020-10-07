@@ -19,25 +19,16 @@ import rebue.robotech.valid.ModifyGroup;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacPermGroupMo implements Serializable, Mo<String> {
+public class RacPermGroupMo implements Serializable, Mo<Long> {
 
     /**
      * 权限分组ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = ModifyGroup.class, message = "权限分组ID不能为空")
-    @Length(max = 32, message = "权限分组ID的长度不能大于32")
-    private String id;
-
-    /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String sysId;
+    @NotNull(groups = ModifyGroup.class, message = "权限分组ID不能为空")
+    @PositiveOrZero(message = "权限分组ID不能为负数")
+    private Long id;
 
     /**
      * 权限分组名称
@@ -79,48 +70,12 @@ public class RacPermGroupMo implements Serializable, Mo<String> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacSysMo sys;
-
-    /**
      * 权限分组ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getId() {
+    public Long getId() {
         return id;
-    }
-
-    /**
-     * 权限分组ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getSysId() {
-        return sysId;
-    }
-
-    /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
     }
 
     /**
@@ -205,7 +160,7 @@ public class RacPermGroupMo implements Serializable, Mo<String> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", sysId=").append(sysId);
+        sb.append(", domainId=").append(domainId);
         sb.append(", name=").append(name);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", orderNo=").append(orderNo);
@@ -251,6 +206,51 @@ public class RacPermGroupMo implements Serializable, Mo<String> {
      */
     @Override
     public String getIdType() {
-        return "String";
+        return "Long";
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String domainId;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacDomainMo domain;
+
+    /**
+     * 权限分组ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDomainId() {
+        return domainId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
     }
 }

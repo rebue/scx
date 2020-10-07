@@ -33,7 +33,7 @@ import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacMenuMo;
 
 @Mapper
-public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
+public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -75,7 +75,7 @@ public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacMenuMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
+        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
         @Result(column="CODE", property="code", jdbcType=JdbcType.VARCHAR),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
@@ -110,7 +110,7 @@ public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(String id_) {
+    default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
@@ -191,7 +191,7 @@ public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacMenuMo> selectByPrimaryKey(String id_) {
+    default Optional<RacMenuMo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -322,7 +322,7 @@ public interface RacMenuMapper extends MapperRootInterface<RacMenuMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existByPrimaryKey(String id_) {
+    default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 

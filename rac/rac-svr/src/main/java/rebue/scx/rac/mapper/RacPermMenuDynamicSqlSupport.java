@@ -22,21 +22,21 @@ public final class RacPermMenuDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> permId = racPermMenu.permId;
+    public static final SqlColumn<Long> permId = racPermMenu.permId;
 
     /**
     * 菜单ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> menuId = racPermMenu.menuId;
+    public static final SqlColumn<Long> menuId = racPermMenu.menuId;
 
     public static final class RacPermMenu extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> permId = column("PERM_ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> permId = column("PERM_ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> menuId = column("MENU_ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> menuId = column("MENU_ID", JDBCType.BIGINT);
 
         public RacPermMenu() {
             super("RAC_PERM_MENU");

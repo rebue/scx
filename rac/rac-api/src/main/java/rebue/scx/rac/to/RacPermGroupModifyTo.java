@@ -3,7 +3,7 @@ package rebue.scx.rac.to;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -27,17 +27,9 @@ public class RacPermGroupModifyTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "权限分组ID不能为空")
-    @Length(max = 32, message = "权限分组ID的长度不能大于32")
-    private String id;
-
-    /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String sysId;
+    @NotNull(message = "权限分组ID不能为空")
+    @PositiveOrZero(message = "权限分组ID不能为负数")
+    private Long id;
 
     /**
      * 权限分组名称
@@ -69,4 +61,12 @@ public class RacPermGroupModifyTo implements Serializable {
      */
     @Length(max = 50, message = "权限分组备注的长度不能大于50")
     private String remark;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String domainId;
 }

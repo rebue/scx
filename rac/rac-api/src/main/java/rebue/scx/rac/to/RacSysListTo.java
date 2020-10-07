@@ -38,4 +38,20 @@ public class RacSysListTo extends ListTo implements Serializable {
      */
     @Length(max = 50, message = "系统备注的长度不能大于50")
     private String remark;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String domainId;
+
+    /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 70, message = "首页路径的长度不能大于70")
+    private String homePath;
 }

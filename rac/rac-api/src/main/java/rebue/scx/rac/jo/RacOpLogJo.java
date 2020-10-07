@@ -32,7 +32,7 @@ public class RacOpLogJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户操作日志ID
+     * 操作日志ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -116,4 +116,13 @@ public class RacOpLogJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 操作类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "OP_TYPE", nullable = false, length = 20)
+    private String opType;
 }

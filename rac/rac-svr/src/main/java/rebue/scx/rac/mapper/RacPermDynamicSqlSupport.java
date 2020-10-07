@@ -15,21 +15,21 @@ public final class RacPermDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> id = racPerm.id;
+    public static final SqlColumn<Long> id = racPerm.id;
+
+    /**
+    * 领域ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> domainId = racPerm.domainId;
 
     /**
     * 权限分组ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> groupId = racPerm.groupId;
-
-    /**
-    * 系统ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> sysId = racPerm.sysId;
+    public static final SqlColumn<Long> groupId = racPerm.groupId;
 
     /**
     * 权限名称
@@ -67,11 +67,11 @@ public final class RacPermDynamicSqlSupport {
     public static final SqlColumn<String> remark = racPerm.remark;
 
     public static final class RacPerm extends SqlTable {
-        public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> groupId = column("GROUP_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> groupId = column("GROUP_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 

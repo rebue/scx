@@ -37,7 +37,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, userId, sysId, opTitle, opDetail, opDatetime);
+    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, userId, opType, opTitle, opDetail, opDatetime);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -76,8 +76,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacOpLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.BIGINT),
         @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.BIGINT),
+        @Result(column="OP_TYPE", property="opType", jdbcType=JdbcType.VARCHAR),
         @Result(column="OP_TITLE", property="opTitle", jdbcType=JdbcType.VARCHAR),
         @Result(column="OP_DETAIL", property="opDetail", jdbcType=JdbcType.VARCHAR),
         @Result(column="OP_DATETIME", property="opDatetime", jdbcType=JdbcType.TIMESTAMP)
@@ -119,8 +120,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default int insert(RacOpLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racOpLog, c ->
             c.map(id).toProperty("id")
-            .map(userId).toProperty("userId")
             .map(sysId).toProperty("sysId")
+            .map(userId).toProperty("userId")
+            .map(opType).toProperty("opType")
             .map(opTitle).toProperty("opTitle")
             .map(opDetail).toProperty("opDetail")
             .map(opDatetime).toProperty("opDatetime")
@@ -133,8 +135,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default int insertMultiple(Collection<RacOpLogMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOpLog, c ->
             c.map(id).toProperty("id")
-            .map(userId).toProperty("userId")
             .map(sysId).toProperty("sysId")
+            .map(userId).toProperty("userId")
+            .map(opType).toProperty("opType")
             .map(opTitle).toProperty("opTitle")
             .map(opDetail).toProperty("opDetail")
             .map(opDatetime).toProperty("opDatetime")
@@ -147,8 +150,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default int insertSelective(RacOpLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racOpLog, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(userId).toPropertyWhenPresent("userId", record::getUserId)
             .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
+            .map(userId).toPropertyWhenPresent("userId", record::getUserId)
+            .map(opType).toPropertyWhenPresent("opType", record::getOpType)
             .map(opTitle).toPropertyWhenPresent("opTitle", record::getOpTitle)
             .map(opDetail).toPropertyWhenPresent("opDetail", record::getOpDetail)
             .map(opDatetime).toPropertyWhenPresent("opDatetime", record::getOpDatetime)
@@ -197,8 +201,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(userId).equalTo(record::getUserId)
                 .set(sysId).equalTo(record::getSysId)
+                .set(userId).equalTo(record::getUserId)
+                .set(opType).equalTo(record::getOpType)
                 .set(opTitle).equalTo(record::getOpTitle)
                 .set(opDetail).equalTo(record::getOpDetail)
                 .set(opDatetime).equalTo(record::getOpDatetime);
@@ -209,8 +214,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(userId).equalToWhenPresent(record::getUserId)
                 .set(sysId).equalToWhenPresent(record::getSysId)
+                .set(userId).equalToWhenPresent(record::getUserId)
+                .set(opType).equalToWhenPresent(record::getOpType)
                 .set(opTitle).equalToWhenPresent(record::getOpTitle)
                 .set(opDetail).equalToWhenPresent(record::getOpDetail)
                 .set(opDatetime).equalToWhenPresent(record::getOpDatetime);
@@ -221,8 +227,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     default int updateByPrimaryKey(RacOpLogMo record) {
         return update(c ->
-            c.set(userId).equalTo(record::getUserId)
-            .set(sysId).equalTo(record::getSysId)
+            c.set(sysId).equalTo(record::getSysId)
+            .set(userId).equalTo(record::getUserId)
+            .set(opType).equalTo(record::getOpType)
             .set(opTitle).equalTo(record::getOpTitle)
             .set(opDetail).equalTo(record::getOpDetail)
             .set(opDatetime).equalTo(record::getOpDatetime)
@@ -235,8 +242,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     default int updateByPrimaryKeySelective(RacOpLogMo record) {
         return update(c ->
-            c.set(userId).equalToWhenPresent(record::getUserId)
-            .set(sysId).equalToWhenPresent(record::getSysId)
+            c.set(sysId).equalToWhenPresent(record::getSysId)
+            .set(userId).equalToWhenPresent(record::getUserId)
+            .set(opType).equalToWhenPresent(record::getOpType)
             .set(opTitle).equalToWhenPresent(record::getOpTitle)
             .set(opDetail).equalToWhenPresent(record::getOpDetail)
             .set(opDatetime).equalToWhenPresent(record::getOpDatetime)
@@ -250,8 +258,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default int deleteSelective(RacOpLogMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
             .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
@@ -264,8 +273,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default Optional<RacOpLogMo> selectOne(RacOpLogMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
             .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
@@ -278,8 +288,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default long countSelective(RacOpLogMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
             .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
@@ -306,8 +317,9 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default List<RacOpLogMo> selectSelective(RacOpLogMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
             .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))

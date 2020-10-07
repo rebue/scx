@@ -28,7 +28,7 @@ public class RacOpLogListTo extends ListTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -67,4 +67,12 @@ public class RacOpLogListTo extends ListTo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime opDatetime;
+
+    /**
+     * 操作类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "操作类型的长度不能大于20")
+    private String opType;
 }

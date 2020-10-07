@@ -76,8 +76,8 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacRolePermMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="PERM_ID", property="permId", jdbcType=JdbcType.VARCHAR)
+        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.BIGINT),
+        @Result(column="PERM_ID", property="permId", jdbcType=JdbcType.BIGINT)
     })
     List<RacRolePermMo> selectMany(SelectStatementProvider selectStatement);
 

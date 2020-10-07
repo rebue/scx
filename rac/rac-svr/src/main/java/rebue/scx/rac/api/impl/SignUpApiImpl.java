@@ -7,8 +7,8 @@ import org.apache.dubbo.config.annotation.DubboService;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.SignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.svc.SignUpSvc;
-import rebue.scx.rac.to.SignUpByUserNameTo;
+import rebue.scx.rac.svc.ex.SignUpSvc;
+import rebue.scx.rac.to.ex.SignUpByUserNameTo;
 
 /**
  * 用户注册API的实现类

@@ -33,11 +33,11 @@ import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacRoleMo;
 
 @Mapper
-public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
+public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, name, homePath, isEnabled, orderNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, isEnabled, orderNo, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -75,10 +75,9 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacRoleMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
-        @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
-        @Result(column="HOME_PATH", property="homePath", jdbcType=JdbcType.VARCHAR),
+        @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
         @Result(column="ORDER_NO", property="orderNo", jdbcType=JdbcType.TINYINT),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
@@ -108,7 +107,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(String id_) {
+    default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
@@ -120,9 +119,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     default int insert(RacRoleMo record) {
         return MyBatis3Utils.insert(this::insert, record, racRole, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
             .map(name).toProperty("name")
-            .map(homePath).toProperty("homePath")
+            .map(domainId).toProperty("domainId")
             .map(isEnabled).toProperty("isEnabled")
             .map(orderNo).toProperty("orderNo")
             .map(remark).toProperty("remark")
@@ -135,9 +133,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     default int insertMultiple(Collection<RacRoleMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racRole, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
             .map(name).toProperty("name")
-            .map(homePath).toProperty("homePath")
+            .map(domainId).toProperty("domainId")
             .map(isEnabled).toProperty("isEnabled")
             .map(orderNo).toProperty("orderNo")
             .map(remark).toProperty("remark")
@@ -150,9 +147,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     default int insertSelective(RacRoleMo record) {
         return MyBatis3Utils.insert(this::insert, record, racRole, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
             .map(name).toPropertyWhenPresent("name", record::getName)
-            .map(homePath).toPropertyWhenPresent("homePath", record::getHomePath)
+            .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
             .map(orderNo).toPropertyWhenPresent("orderNo", record::getOrderNo)
             .map(remark).toPropertyWhenPresent("remark", record::getRemark)
@@ -183,7 +179,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacRoleMo> selectByPrimaryKey(String id_) {
+    default Optional<RacRoleMo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -201,9 +197,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacRoleMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(sysId).equalTo(record::getSysId)
                 .set(name).equalTo(record::getName)
-                .set(homePath).equalTo(record::getHomePath)
+                .set(domainId).equalTo(record::getDomainId)
                 .set(isEnabled).equalTo(record::getIsEnabled)
                 .set(orderNo).equalTo(record::getOrderNo)
                 .set(remark).equalTo(record::getRemark);
@@ -214,9 +209,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacRoleMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(sysId).equalToWhenPresent(record::getSysId)
                 .set(name).equalToWhenPresent(record::getName)
-                .set(homePath).equalToWhenPresent(record::getHomePath)
+                .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(orderNo).equalToWhenPresent(record::getOrderNo)
                 .set(remark).equalToWhenPresent(record::getRemark);
@@ -227,9 +221,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
      */
     default int updateByPrimaryKey(RacRoleMo record) {
         return update(c ->
-            c.set(sysId).equalTo(record::getSysId)
-            .set(name).equalTo(record::getName)
-            .set(homePath).equalTo(record::getHomePath)
+            c.set(name).equalTo(record::getName)
+            .set(domainId).equalTo(record::getDomainId)
             .set(isEnabled).equalTo(record::getIsEnabled)
             .set(orderNo).equalTo(record::getOrderNo)
             .set(remark).equalTo(record::getRemark)
@@ -242,9 +235,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
      */
     default int updateByPrimaryKeySelective(RacRoleMo record) {
         return update(c ->
-            c.set(sysId).equalToWhenPresent(record::getSysId)
-            .set(name).equalToWhenPresent(record::getName)
-            .set(homePath).equalToWhenPresent(record::getHomePath)
+            c.set(name).equalToWhenPresent(record::getName)
+            .set(domainId).equalToWhenPresent(record::getDomainId)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
             .set(orderNo).equalToWhenPresent(record::getOrderNo)
             .set(remark).equalToWhenPresent(record::getRemark)
@@ -258,9 +250,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     default int deleteSelective(RacRoleMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
@@ -273,9 +264,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     default Optional<RacRoleMo> selectOne(RacRoleMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
@@ -288,9 +278,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     default long countSelective(RacRoleMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
@@ -300,7 +289,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existByPrimaryKey(String id_) {
+    default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
@@ -317,9 +306,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, String> {
     default List<RacRoleMo> selectSelective(RacRoleMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))

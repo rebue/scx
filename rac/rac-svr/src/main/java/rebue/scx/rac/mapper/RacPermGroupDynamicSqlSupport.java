@@ -15,14 +15,14 @@ public final class RacPermGroupDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> id = racPermGroup.id;
+    public static final SqlColumn<Long> id = racPermGroup.id;
 
     /**
-    * 系统ID
+    * 领域ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> sysId = racPermGroup.sysId;
+    public static final SqlColumn<String> domainId = racPermGroup.domainId;
 
     /**
     * 权限分组名称
@@ -53,9 +53,9 @@ public final class RacPermGroupDynamicSqlSupport {
     public static final SqlColumn<String> remark = racPermGroup.remark;
 
     public static final class RacPermGroup extends SqlTable {
-        public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 

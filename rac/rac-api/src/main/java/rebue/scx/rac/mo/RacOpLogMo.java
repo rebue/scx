@@ -25,16 +25,16 @@ import rebue.robotech.valid.ModifyGroup;
 public class RacOpLogMo implements Serializable, Mo<Long> {
 
     /**
-     * 用户操作日志ID
+     * 操作日志ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "用户操作日志ID不能为空")
-    @PositiveOrZero(message = "用户操作日志ID不能为负数")
+    @NotNull(groups = ModifyGroup.class, message = "操作日志ID不能为空")
+    @PositiveOrZero(message = "操作日志ID不能为负数")
     private Long id;
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -103,7 +103,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     private RacUserMo user;
 
     /**
-     * 用户操作日志ID
+     * 操作日志ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -112,7 +112,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户操作日志ID
+     * 操作日志ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -121,7 +121,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -130,7 +130,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户ID(如为1则是散客)
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -220,8 +220,9 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
         sb.append(", sysId=").append(sysId);
+        sb.append(", userId=").append(userId);
+        sb.append(", opType=").append(opType);
         sb.append(", opTitle=").append(opTitle);
         sb.append(", opDetail=").append(opDetail);
         sb.append(", opDatetime=").append(opDatetime);
@@ -267,5 +268,32 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 操作类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "操作类型不能为空")
+    @Length(max = 20, message = "操作类型的长度不能大于20")
+    private String opType;
+
+    /**
+     * 操作类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getOpType() {
+        return opType;
+    }
+
+    /**
+     * 操作类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setOpType(String opType) {
+        this.opType = opType;
     }
 }

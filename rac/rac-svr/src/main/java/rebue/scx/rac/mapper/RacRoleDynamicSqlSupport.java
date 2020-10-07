@@ -15,14 +15,7 @@ public final class RacRoleDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> id = racRole.id;
-
-    /**
-    * 系统ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> sysId = racRole.sysId;
+    public static final SqlColumn<Long> id = racRole.id;
 
     /**
     * 角色名称
@@ -32,11 +25,11 @@ public final class RacRoleDynamicSqlSupport {
     public static final SqlColumn<String> name = racRole.name;
 
     /**
-    * 首页路径
+    * 领域ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> homePath = racRole.homePath;
+    public static final SqlColumn<String> domainId = racRole.domainId;
 
     /**
     * 是否启用
@@ -60,13 +53,11 @@ public final class RacRoleDynamicSqlSupport {
     public static final SqlColumn<String> remark = racRole.remark;
 
     public static final class RacRole extends SqlTable {
-        public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> homePath = column("HOME_PATH", JDBCType.VARCHAR);
+        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 

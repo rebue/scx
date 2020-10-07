@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -18,16 +19,16 @@ import rebue.robotech.valid.ModifyGroup;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacMenuMo implements Serializable, Mo<String> {
+public class RacMenuMo implements Serializable, Mo<Long> {
 
     /**
      * 菜单ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = ModifyGroup.class, message = "菜单ID不能为空")
-    @Length(max = 32, message = "菜单ID的长度不能大于32")
-    private String id;
+    @NotNull(groups = ModifyGroup.class, message = "菜单ID不能为空")
+    @PositiveOrZero(message = "菜单ID不能为负数")
+    private Long id;
 
     /**
      * 系统ID
@@ -116,17 +117,8 @@ public class RacMenuMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getId() {
+    public Long getId() {
         return id;
-    }
-
-    /**
-     * 菜单ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -332,6 +324,15 @@ public class RacMenuMo implements Serializable, Mo<String> {
      */
     @Override
     public String getIdType() {
-        return "String";
+        return "Long";
+    }
+
+    /**
+     * 菜单ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 }

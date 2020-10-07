@@ -3,12 +3,10 @@ package rebue.scx.rac.mo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
@@ -35,18 +33,18 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "权限ID不能为空")
-    @Length(max = 32, message = "权限ID的长度不能大于32")
-    private String permId;
+    @NotNull(groups = AddGroup.class, message = "权限ID不能为空")
+    @PositiveOrZero(message = "权限ID不能为负数")
+    private Long permId;
 
     /**
      * 菜单ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "菜单ID不能为空")
-    @Length(max = 32, message = "菜单ID的长度不能大于32")
-    private String menuId;
+    @NotNull(groups = AddGroup.class, message = "菜单ID不能为空")
+    @PositiveOrZero(message = "菜单ID不能为负数")
+    private Long menuId;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -94,35 +92,17 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getPermId() {
+    public Long getPermId() {
         return permId;
     }
 
     /**
-     * 权限ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPermId(String permId) {
-        this.permId = permId;
-    }
-
-    /**
      * 菜单ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getMenuId() {
+    public Long getMenuId() {
         return menuId;
-    }
-
-    /**
-     * 菜单ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
     }
 
     /**
@@ -179,5 +159,23 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 权限ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPermId(Long permId) {
+        this.permId = permId;
+    }
+
+    /**
+     * 菜单ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
     }
 }

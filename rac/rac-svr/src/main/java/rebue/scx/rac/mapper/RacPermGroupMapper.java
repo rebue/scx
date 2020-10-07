@@ -33,11 +33,11 @@ import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPermGroupMo;
 
 @Mapper
-public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, String> {
+public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, name, isEnabled, orderNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, name, isEnabled, orderNo, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -75,8 +75,8 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacPermGroupMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
-        @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
+        @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
         @Result(column="ORDER_NO", property="orderNo", jdbcType=JdbcType.TINYINT),
@@ -107,7 +107,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(String id_) {
+    default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
@@ -119,7 +119,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     default int insert(RacPermGroupMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPermGroup, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
+            .map(domainId).toProperty("domainId")
             .map(name).toProperty("name")
             .map(isEnabled).toProperty("isEnabled")
             .map(orderNo).toProperty("orderNo")
@@ -133,7 +133,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     default int insertMultiple(Collection<RacPermGroupMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPermGroup, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
+            .map(domainId).toProperty("domainId")
             .map(name).toProperty("name")
             .map(isEnabled).toProperty("isEnabled")
             .map(orderNo).toProperty("orderNo")
@@ -147,7 +147,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     default int insertSelective(RacPermGroupMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPermGroup, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
+            .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(name).toPropertyWhenPresent("name", record::getName)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
             .map(orderNo).toPropertyWhenPresent("orderNo", record::getOrderNo)
@@ -179,7 +179,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacPermGroupMo> selectByPrimaryKey(String id_) {
+    default Optional<RacPermGroupMo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -197,7 +197,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(sysId).equalTo(record::getSysId)
+                .set(domainId).equalTo(record::getDomainId)
                 .set(name).equalTo(record::getName)
                 .set(isEnabled).equalTo(record::getIsEnabled)
                 .set(orderNo).equalTo(record::getOrderNo)
@@ -209,7 +209,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(sysId).equalToWhenPresent(record::getSysId)
+                .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(name).equalToWhenPresent(record::getName)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(orderNo).equalToWhenPresent(record::getOrderNo)
@@ -221,7 +221,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     default int updateByPrimaryKey(RacPermGroupMo record) {
         return update(c ->
-            c.set(sysId).equalTo(record::getSysId)
+            c.set(domainId).equalTo(record::getDomainId)
             .set(name).equalTo(record::getName)
             .set(isEnabled).equalTo(record::getIsEnabled)
             .set(orderNo).equalTo(record::getOrderNo)
@@ -235,7 +235,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     default int updateByPrimaryKeySelective(RacPermGroupMo record) {
         return update(c ->
-            c.set(sysId).equalToWhenPresent(record::getSysId)
+            c.set(domainId).equalToWhenPresent(record::getDomainId)
             .set(name).equalToWhenPresent(record::getName)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
             .set(orderNo).equalToWhenPresent(record::getOrderNo)
@@ -250,7 +250,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     default int deleteSelective(RacPermGroupMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
@@ -264,7 +264,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     default Optional<RacPermGroupMo> selectOne(RacPermGroupMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
@@ -278,7 +278,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     default long countSelective(RacPermGroupMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
@@ -289,7 +289,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existByPrimaryKey(String id_) {
+    default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
@@ -306,7 +306,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     default List<RacPermGroupMo> selectSelective(RacPermGroupMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))

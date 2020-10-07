@@ -40,7 +40,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     private String name;
 
     /**
-     * 上级组织ID
+     * 上级组织ID(根组织填0)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -149,7 +149,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 上级组织ID
+     * 上级组织ID(根组织填0)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -158,7 +158,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 上级组织ID
+     * 上级组织ID(根组织填0)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -286,6 +286,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", parentId=").append(parentId);
+        sb.append(", domainId=").append(domainId);
         sb.append(", orgType=").append(orgType);
         sb.append(", leftValue=").append(leftValue);
         sb.append(", rightValue=").append(rightValue);
@@ -334,5 +335,41 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String domainId;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacDomainMo domain;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDomainId() {
+        return domainId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
     }
 }

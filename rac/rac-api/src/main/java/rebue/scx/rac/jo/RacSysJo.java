@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -76,38 +78,6 @@ public class RacSysJo implements Serializable {
     private List<RacOpLogJo> racOpLogList;
 
     /**
-     * 系统列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacPermJo> racPermList;
-
-    /**
-     * 系统列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacPermGroupJo> racPermGroupList;
-
-    /**
-     * 系统列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacRoleJo> racRoleList;
-
-    /**
-     * 系统列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacSignInLogJo> racSignInLogList;
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -137,4 +107,30 @@ public class RacSysJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "HOME_PATH", nullable = true, length = 70)
+    private String homePath;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacDomainJo domain;
+
+    /**
+     * 系统列表
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
+    private List<RacLockLogJo> racLockLogList;
 }
