@@ -1,6 +1,7 @@
 package rebue.scx.rac;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.SpringCloudApplication;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
  *
  */
 @SpringCloudApplication
+@EnableCaching
 public class RacApplication {
 
     public static void main(final String[] args) {
