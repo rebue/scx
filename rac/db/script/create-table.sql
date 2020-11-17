@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/10/7 17:43:33                           */
+/* Created on:     2020/11/16 16:25:39                          */
 /*==============================================================*/
 
 
@@ -59,16 +59,16 @@ alter table RAC_ORG_USER
    drop foreign key FK_ORG_USER_AND_ORG;
 
 alter table RAC_ORG_USER 
-   drop foreign key FK_ORG_USER_AND_PERSON;
+   drop foreign key FK_ORG_USER_AND_USER;
 
 drop table if exists RAC_ORG_USER;
 
 
 alter table RAC_PERM 
-   drop foreign key FK_PERM_AND_PERM_GROUP;
+   drop foreign key FK_PERM_AND_DOMAIN;
 
 alter table RAC_PERM 
-   drop foreign key FK_PERM_AND_DOMAIN;
+   drop foreign key FK_PERM_AND_PERM_GROUP;
 
 drop table if exists RAC_PERM;
 
@@ -247,9 +247,9 @@ create table RAC_ORG_USER
 (
    ID                   bigint unsigned not null  comment '组织用户ID',
    ORG_ID               bigint unsigned not null  comment '组织ID',
-   PER_ID               bigint unsigned not null  comment '个人ID',
+   USER_ID              bigint unsigned not null  comment '用户ID',
    primary key (ID),
-   unique key AK_ORG_AND_USER (ORG_ID)
+   unique key AK_ORG_AND_USER (ORG_ID, USER_ID)
 );
 
 alter table RAC_ORG_USER comment '组织用户';
@@ -485,8 +485,8 @@ alter table RAC_ORG add constraint FK_ORG_AND_DOMAIN foreign key (DOMAIN_ID)
 alter table RAC_ORG_USER add constraint FK_ORG_USER_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_ORG_USER add constraint FK_ORG_USER_AND_PERSON foreign key (PER_ID)
-      references RAC_PERSON (ID) on delete restrict on update restrict;
+alter table RAC_ORG_USER add constraint FK_ORG_USER_AND_USER foreign key (USER_ID)
+      references RAC_USER (ID) on delete restrict on update restrict;
 
 alter table RAC_PERM add constraint FK_PERM_AND_PERM_GROUP foreign key (GROUP_ID)
       references RAC_PERM_GROUP (ID) on delete restrict on update restrict;
