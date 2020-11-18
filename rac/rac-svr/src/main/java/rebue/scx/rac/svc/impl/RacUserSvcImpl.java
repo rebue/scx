@@ -1,32 +1,33 @@
-package rebue.scx.rac.svc.impl;import org.springframework.context.annotation.Lazy;
+package rebue.scx.rac.svc.impl;
+
+import static org.mybatis.dynamic.sql.SqlBuilder.and;
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static rebue.scx.rac.mapper.RacDomainUserDynamicSqlSupport.racDomainUser;
+import static rebue.scx.rac.mapper.RacOrgUserDynamicSqlSupport.racOrgUser;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
+
+import javax.annotation.Resource;
+
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacUserDao;
 import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mapper.RacUserMapper;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
-import rebue.scx.rac.to.*;
-import javax.annotation.Resource;
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacDomainUserDynamicSqlSupport.racDomainUser;
-import static rebue.scx.rac.mapper.RacOrgUserDynamicSqlSupport.racOrgUser;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
 import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserDelTo;
-import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.to.RacUserListTo;
-
-
-
-
-
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserOneTo;
 
 /**
- * 用户信息
+ * 用户服务实现
  *
  * <pre>
  * 注意：
@@ -43,15 +44,17 @@ import rebue.scx.rac.to.RacUserListTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao> implements RacUserSvc {
+public class RacUserSvcImpl
+        extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+        implements RacUserSvc {
 
     /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+     * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Lazy @Resource
+    @Lazy
+    @Resource
     private RacUserSvc thisSvc;
 
     /**
@@ -60,19 +63,18 @@ public class RacUserSvcImpl extends BaseSvcImpl<java.lang.Long, RacUserAddTo, Ra
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-protected Class<RacUserMo> getMoClass() {
-    return RacUserMo.class;
-}
+    protected Class<RacUserMo> getMoClass() {
+        return RacUserMo.class;
+    }
 
-    public RacUserMo getOneByEmail(String domainId, Long orgId, String email) {
+    public RacUserMo getOneByEmail(final String domainId, final Long orgId, final String email) {
         return _mapper.selectOne(c -> c
                 .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
                 .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
                 .where(
                         racDomainUser.domainId, isEqualTo(domainId),
                         orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
-                        and(racUser.signInEmail, isEqualTo(email))
-                )
-        ).orElse(null);
+                        and(racUser.signInEmail, isEqualTo(email))))
+                .orElse(null);
     }
 }

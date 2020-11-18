@@ -1,12 +1,10 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermUrnDao;
 import rebue.scx.rac.jo.RacPermUrnJo;
@@ -20,7 +18,7 @@ import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.scx.rac.to.RacPermUrnOneTo;
 
 /**
- * 权限URN
+ * 权限URN服务实现
  *
  * <pre>
  * 注意：
@@ -37,9 +35,7 @@ import rebue.scx.rac.to.RacPermUrnOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPermUrnSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao>
-        implements RacPermUrnSvc {
+public class RacPermUrnSvcImpl extends BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao> implements RacPermUrnSvc {
 
     /**
      * 本服务的单例

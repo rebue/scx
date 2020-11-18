@@ -1,12 +1,10 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacMenuDao;
 import rebue.scx.rac.jo.RacMenuJo;
@@ -20,7 +18,7 @@ import rebue.scx.rac.to.RacMenuModifyTo;
 import rebue.scx.rac.to.RacMenuOneTo;
 
 /**
- * 菜单信息
+ * 菜单服务实现
  *
  * <pre>
  * 注意：
@@ -37,9 +35,7 @@ import rebue.scx.rac.to.RacMenuOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacMenuSvcImpl
-        extends BaseSvcImpl<java.lang.Long, RacMenuAddTo, RacMenuModifyTo, RacMenuDelTo, RacMenuOneTo, RacMenuListTo, RacMenuMo, RacMenuJo, RacMenuMapper, RacMenuDao>
-        implements RacMenuSvc {
+public class RacMenuSvcImpl extends BaseSvcImpl<java.lang.Long, RacMenuAddTo, RacMenuModifyTo, RacMenuDelTo, RacMenuOneTo, RacMenuListTo, RacMenuMo, RacMenuJo, RacMenuMapper, RacMenuDao> implements RacMenuSvc {
 
     /**
      * 本服务的单例

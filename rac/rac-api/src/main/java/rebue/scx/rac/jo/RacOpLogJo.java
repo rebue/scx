@@ -1,6 +1,4 @@
-package rebue.scx.rac.jo;
-
-import java.io.Serializable;
+package rebue.scx.rac.jo;import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,10 +11,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
+
 /**
- * 用户操作日志
- *
+ * 操作日志
+ * 
  * The persistent class for the RAC_OP_LOG database table.
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -36,9 +37,7 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Id
-    @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 20)
+    @Id @Basic(optional = false) @Column(name = "ID", nullable = false, length = 20)
     private Long id;
 
     /**
@@ -46,8 +45,7 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "OP_TITLE", nullable = false, length = 32)
+    @Basic(optional = false) @Column(name = "OP_TITLE", nullable = false, length = 32)
     private String opTitle;
 
     /**
@@ -55,8 +53,7 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "OP_DETAIL", nullable = false, length = 300)
+    @Basic(optional = false) @Column(name = "OP_DETAIL", nullable = false, length = 300)
     private String opDetail;
 
     /**
@@ -64,8 +61,7 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "OP_DATETIME", nullable = false, length = 19)
+    @Basic(optional = false) @Column(name = "OP_DATETIME", nullable = false, length = 19)
     private LocalDateTime opDatetime;
 
     /**
@@ -73,8 +69,7 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false) @ManyToOne(optional = false)
     private RacSysJo sys;
 
     /**
@@ -82,47 +77,45 @@ public class RacOpLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false) @ManyToOne(optional = false)
     private RacUserJo user;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
+public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    return result;
+}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RacOpLogJo other = (RacOpLogJo) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
+public boolean equals(Object obj) {
+    if (this == obj)
         return true;
-    }
+    if (obj == null)
+        return false;
+    if (getClass() != obj.getClass())
+        return false;
+    RacOpLogJo other = (RacOpLogJo) obj;
+    if (id == null) {
+        if (other.id != null)
+            return false;
+    } else if (!id.equals(other.id))
+        return false;
+    return true;
+}
 
     /**
      * 操作类型
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "OP_TYPE", nullable = false, length = 20)
+    @Basic(optional = false) @Column(name = "OP_TYPE", nullable = false, length = 20)
     private String opType;
 }

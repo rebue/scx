@@ -1,6 +1,4 @@
-package rebue.scx.rac.mo;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+package rebue.scx.rac.mo;import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
@@ -10,9 +8,11 @@ import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
+
+
 /**
  * 个人
- *
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -23,8 +23,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "个人ID不能为空")
-    @PositiveOrZero(message = "个人ID不能为负数")
+    @NotNull(groups = ModifyGroup.class, message = "个人ID不能为空") @PositiveOrZero(message = "个人ID不能为负数")
     private Long id;
 
     /**
@@ -124,8 +123,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
+    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空") @PositiveOrZero(message = "建立时间戳不能为负数")
     private Long createrTimestamp;
 
     /**
@@ -133,8 +131,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空")
-    @PositiveOrZero(message = "修改时间戳不能为负数")
+    @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空") @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long updateTimestamp;
 
     /**
@@ -416,59 +413,59 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", isEnabled=").append(isEnabled);
-        sb.append(", payPswd=").append(payPswd);
-        sb.append(", payPswdSalt=").append(payPswdSalt);
-        sb.append(", mobile=").append(mobile);
-        sb.append(", isVerifiedMobile=").append(isVerifiedMobile);
-        sb.append(", email=").append(email);
-        sb.append(", isVerifiedEmail=").append(isVerifiedEmail);
-        sb.append(", realName=").append(realName);
-        sb.append(", isVerifiedRealname=").append(isVerifiedRealname);
-        sb.append(", idCard=").append(idCard);
-        sb.append(", isVerifiedIdcard=").append(isVerifiedIdcard);
-        sb.append(", sex=").append(sex);
-        sb.append(", createrTimestamp=").append(createrTimestamp);
-        sb.append(", updateTimestamp=").append(updateTimestamp);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(getClass().getSimpleName());
+    sb.append(" [");
+    sb.append("Hash = ").append(hashCode());
+    sb.append(", id=").append(id);
+    sb.append(", isEnabled=").append(isEnabled);
+    sb.append(", payPswd=").append(payPswd);
+    sb.append(", payPswdSalt=").append(payPswdSalt);
+    sb.append(", mobile=").append(mobile);
+    sb.append(", isVerifiedMobile=").append(isVerifiedMobile);
+    sb.append(", email=").append(email);
+    sb.append(", isVerifiedEmail=").append(isVerifiedEmail);
+    sb.append(", realName=").append(realName);
+    sb.append(", isVerifiedRealname=").append(isVerifiedRealname);
+    sb.append(", idCard=").append(idCard);
+    sb.append(", isVerifiedIdcard=").append(isVerifiedIdcard);
+    sb.append(", sex=").append(sex);
+    sb.append(", createrTimestamp=").append(createrTimestamp);
+    sb.append(", updateTimestamp=").append(updateTimestamp);
+    sb.append(", serialVersionUID=").append(serialVersionUID);
+    sb.append("]");
+    return sb.toString();
+}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        RacPersonMo other = (RacPersonMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+public boolean equals(Object that) {
+    if (this == that) {
+        return true;
     }
+    if (that == null) {
+        return false;
+    }
+    if (getClass() != that.getClass()) {
+        return false;
+    }
+    RacPersonMo other = (RacPersonMo) that;
+    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        return result;
-    }
+public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+    return result;
+}
 
     /**
      * 获取ID的类型
@@ -476,7 +473,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public String getIdType() {
-        return "Long";
-    }
+public String getIdType() {
+    return "Long";
+}
 }

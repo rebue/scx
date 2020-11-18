@@ -1,6 +1,4 @@
-package rebue.scx.rac.to;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
@@ -12,9 +10,11 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
+
 /**
  * 锁定日志
- *
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -31,8 +31,7 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
+    @NotBlank(message = "系统ID不能为空") @Length(max = 32, message = "系统ID的长度不能大于32")
     private String sysId;
 
     /**
@@ -40,8 +39,7 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "锁定用户的用户ID不能为空")
-    @PositiveOrZero(message = "锁定用户的用户ID不能为负数")
+    @NotNull(message = "锁定用户的用户ID不能为空") @PositiveOrZero(message = "锁定用户的用户ID不能为负数")
     private Long lockUserId;
 
     /**
@@ -49,8 +47,7 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "锁定操作员的用户ID不能为空")
-    @PositiveOrZero(message = "锁定操作员的用户ID不能为负数")
+    @NotNull(message = "锁定操作员的用户ID不能为空") @PositiveOrZero(message = "锁定操作员的用户ID不能为负数")
     private Long lockOpId;
 
     /**
@@ -58,8 +55,7 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "锁定原因不能为空")
-    @Length(max = 100, message = "锁定原因的长度不能大于100")
+    @NotBlank(message = "锁定原因不能为空") @Length(max = 100, message = "锁定原因的长度不能大于100")
     private String lockReason;
 
     /**
@@ -67,9 +63,7 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "锁定时间不能为空")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @NotNull(message = "锁定时间不能为空") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime lockDatetime;
 
     /**
@@ -77,8 +71,7 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "解锁原因不能为空")
-    @Length(max = 100, message = "解锁原因的长度不能大于100")
+    @NotBlank(message = "解锁原因不能为空") @Length(max = 100, message = "解锁原因的长度不能大于100")
     private String unlockReason;
 
     /**
@@ -86,8 +79,7 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime unlockDatetime;
 
     /**

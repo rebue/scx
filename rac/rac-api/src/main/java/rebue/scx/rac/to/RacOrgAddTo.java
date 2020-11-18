@@ -1,6 +1,4 @@
-package rebue.scx.rac.to;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
@@ -9,9 +7,11 @@ import javax.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+
+
 /**
- * 组织信息
- *
+ * 组织
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -28,8 +28,7 @@ public class RacOrgAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "组织名称不能为空")
-    @Length(max = 30, message = "组织名称的长度不能大于30")
+    @NotBlank(message = "组织名称不能为空") @Length(max = 30, message = "组织名称的长度不能大于30")
     private String name;
 
     /**
@@ -45,8 +44,7 @@ public class RacOrgAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "组织类型不能为空")
-    @PositiveOrZero(message = "组织类型不能为负数")
+    @NotNull(message = "组织类型不能为空") @PositiveOrZero(message = "组织类型不能为负数")
     private Byte orgType;
 
     /**
@@ -54,8 +52,7 @@ public class RacOrgAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "左值不能为空")
-    @PositiveOrZero(message = "左值不能为负数")
+    @NotNull(message = "左值不能为空") @PositiveOrZero(message = "左值不能为负数")
     private Integer leftValue;
 
     /**
@@ -63,8 +60,7 @@ public class RacOrgAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "右值不能为空")
-    @PositiveOrZero(message = "右值不能为负数")
+    @NotNull(message = "右值不能为空") @PositiveOrZero(message = "右值不能为负数")
     private Integer rightValue;
 
     /**
@@ -96,7 +92,6 @@ public class RacOrgAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
+    @NotBlank(message = "领域ID不能为空") @Length(max = 32, message = "领域ID的长度不能大于32")
     private String domainId;
 }

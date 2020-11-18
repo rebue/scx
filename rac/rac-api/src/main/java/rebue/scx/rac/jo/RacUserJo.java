@@ -1,6 +1,4 @@
-package rebue.scx.rac.jo;
-
-import java.io.Serializable;
+package rebue.scx.rac.jo;import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -15,10 +13,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
+
 /**
- * 用户信息
- *
+ * 用户
+ * 
  * The persistent class for the RAC_USER database table.
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -38,9 +39,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Id
-    @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 20)
+    @Id @Basic(optional = false) @Column(name = "ID", nullable = false, length = 20)
     private Long id;
 
     /**
@@ -48,8 +47,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "WX_OPEN_ID", nullable = false, length = 64)
+    @Basic(optional = false) @Column(name = "WX_OPEN_ID", nullable = false, length = 64)
     private String wxOpenId;
 
     /**
@@ -57,8 +55,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "WX_UNION_ID", nullable = true, length = 64)
+    @Basic(optional = true) @Column(name = "WX_UNION_ID", nullable = true, length = 64)
     private String wxUnionId;
 
     /**
@@ -66,8 +63,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "WX_NICKNAME", nullable = false, length = 100)
+    @Basic(optional = false) @Column(name = "WX_NICKNAME", nullable = false, length = 100)
     private String wxNickname;
 
     /**
@@ -75,8 +71,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "WX_AVATAR", nullable = false, length = 300)
+    @Basic(optional = false) @Column(name = "WX_AVATAR", nullable = false, length = 300)
     private String wxAvatar;
 
     /**
@@ -84,8 +79,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "QQ_OPEN_ID", nullable = false, length = 64)
+    @Basic(optional = false) @Column(name = "QQ_OPEN_ID", nullable = false, length = 64)
     private String qqOpenId;
 
     /**
@@ -93,8 +87,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "QQ_UNION_ID", nullable = true, length = 64)
+    @Basic(optional = true) @Column(name = "QQ_UNION_ID", nullable = true, length = 64)
     private String qqUnionId;
 
     /**
@@ -102,8 +95,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "QQ_NICKNAME", nullable = false, length = 100)
+    @Basic(optional = false) @Column(name = "QQ_NICKNAME", nullable = false, length = 100)
     private String qqNickname;
 
     /**
@@ -111,8 +103,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "QQ_AVATAR", nullable = false, length = 300)
+    @Basic(optional = false) @Column(name = "QQ_AVATAR", nullable = false, length = 300)
     private String qqAvatar;
 
     /**
@@ -120,8 +111,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "IS_TESTER", nullable = false, length = 1)
+    @Basic(optional = false) @Column(name = "IS_TESTER", nullable = false, length = 1)
     private Boolean isTester;
 
     /**
@@ -129,8 +119,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "IS_ENABLED", nullable = false, length = 1)
+    @Basic(optional = false) @Column(name = "IS_ENABLED", nullable = false, length = 1)
     private Boolean isEnabled;
 
     /**
@@ -138,8 +127,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "UPDATE_TIMESTAMP", nullable = false, length = 20)
+    @Basic(optional = false) @Column(name = "UPDATE_TIMESTAMP", nullable = false, length = 20)
     private Long updateTimestamp;
 
     /**
@@ -154,40 +142,39 @@ public class RacUserJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
+public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    return result;
+}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RacUserJo other = (RacUserJo) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
+public boolean equals(Object obj) {
+    if (this == obj)
         return true;
-    }
+    if (obj == null)
+        return false;
+    if (getClass() != obj.getClass())
+        return false;
+    RacUserJo other = (RacUserJo) obj;
+    if (id == null) {
+        if (other.id != null)
+            return false;
+    } else if (!id.equals(other.id))
+        return false;
+    return true;
+}
 
     /**
      * 建立时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "CREATER_TIMESTAMP", nullable = false, length = 20)
+    @Basic(optional = false) @Column(name = "CREATER_TIMESTAMP", nullable = false, length = 20)
     private Long createrTimestamp;
 
     /**
@@ -195,8 +182,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID")
-    @ManyToOne()
+    @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID") @ManyToOne()
     private RacPersonJo person;
 
     /**
@@ -220,8 +206,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_NAME", nullable = true, length = 20)
+    @Basic(optional = true) @Column(name = "SIGN_IN_NAME", nullable = true, length = 20)
     private String signInName;
 
     /**
@@ -229,8 +214,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_MOBILE", nullable = true, length = 11)
+    @Basic(optional = true) @Column(name = "SIGN_IN_MOBILE", nullable = true, length = 11)
     private String signInMobile;
 
     /**
@@ -238,8 +222,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_EMAIL", nullable = true, length = 50)
+    @Basic(optional = true) @Column(name = "SIGN_IN_EMAIL", nullable = true, length = 50)
     private String signInEmail;
 
     /**
@@ -250,8 +233,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_PSWD", nullable = true, length = 32)
+    @Basic(optional = true) @Column(name = "SIGN_IN_PSWD", nullable = true, length = 32)
     private String signInPswd;
 
     /**
@@ -259,8 +241,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_PSWD_SALT", nullable = true, length = 6)
+    @Basic(optional = true) @Column(name = "SIGN_IN_PSWD_SALT", nullable = true, length = 6)
     private String signInPswdSalt;
 
     /**
@@ -268,8 +249,7 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_NICKNAME", nullable = true, length = 20)
+    @Basic(optional = true) @Column(name = "SIGN_IN_NICKNAME", nullable = true, length = 20)
     private String signInNickname;
 
     /**
@@ -277,7 +257,6 @@ public class RacUserJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "SIGN_IN_AVATAR", nullable = true, length = 300)
+    @Basic(optional = true) @Column(name = "SIGN_IN_AVATAR", nullable = true, length = 300)
     private String signInAvatar;
 }

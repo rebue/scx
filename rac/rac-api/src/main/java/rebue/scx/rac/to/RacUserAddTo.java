@@ -1,6 +1,4 @@
-package rebue.scx.rac.to;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
@@ -9,9 +7,11 @@ import javax.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+
+
 /**
- * 用户信息
- *
+ * 用户
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -28,8 +28,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "微信的OpenId不能为空")
-    @Length(max = 64, message = "微信的OpenId的长度不能大于64")
+    @NotBlank(message = "微信的OpenId不能为空") @Length(max = 64, message = "微信的OpenId的长度不能大于64")
     private String wxOpenId;
 
     /**
@@ -45,8 +44,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "微信昵称不能为空")
-    @Length(max = 100, message = "微信昵称的长度不能大于100")
+    @NotBlank(message = "微信昵称不能为空") @Length(max = 100, message = "微信昵称的长度不能大于100")
     private String wxNickname;
 
     /**
@@ -54,8 +52,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "微信头像不能为空")
-    @Length(max = 300, message = "微信头像的长度不能大于300")
+    @NotBlank(message = "微信头像不能为空") @Length(max = 300, message = "微信头像的长度不能大于300")
     private String wxAvatar;
 
     /**
@@ -63,8 +60,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "QQ的OpenId不能为空")
-    @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
+    @NotBlank(message = "QQ的OpenId不能为空") @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String qqOpenId;
 
     /**
@@ -80,8 +76,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "QQ昵称不能为空")
-    @Length(max = 100, message = "QQ昵称的长度不能大于100")
+    @NotBlank(message = "QQ昵称不能为空") @Length(max = 100, message = "QQ昵称的长度不能大于100")
     private String qqNickname;
 
     /**
@@ -89,8 +84,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "QQ头像不能为空")
-    @Length(max = 300, message = "QQ头像的长度不能大于300")
+    @NotBlank(message = "QQ头像不能为空") @Length(max = 300, message = "QQ头像的长度不能大于300")
     private String qqAvatar;
 
     /**
@@ -114,8 +108,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "修改时间戳不能为空")
-    @PositiveOrZero(message = "修改时间戳不能为负数")
+    @NotNull(message = "修改时间戳不能为空") @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long updateTimestamp;
 
     /**
@@ -131,8 +124,7 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
+    @NotNull(message = "建立时间戳不能为空") @PositiveOrZero(message = "建立时间戳不能为负数")
     private Long createrTimestamp;
 
     /**

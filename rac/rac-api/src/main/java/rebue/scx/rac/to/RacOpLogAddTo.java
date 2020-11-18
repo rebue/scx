@@ -1,6 +1,4 @@
-package rebue.scx.rac.to;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
@@ -12,9 +10,11 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
+
 /**
- * 用户操作日志
- *
+ * 操作日志
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -31,8 +31,7 @@ public class RacOpLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "用户ID不能为空")
-    @PositiveOrZero(message = "用户ID不能为负数")
+    @NotNull(message = "用户ID不能为空") @PositiveOrZero(message = "用户ID不能为负数")
     private Long userId;
 
     /**
@@ -40,8 +39,7 @@ public class RacOpLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
+    @NotBlank(message = "系统ID不能为空") @Length(max = 32, message = "系统ID的长度不能大于32")
     private String sysId;
 
     /**
@@ -49,8 +47,7 @@ public class RacOpLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "操作标题不能为空")
-    @Length(max = 32, message = "操作标题的长度不能大于32")
+    @NotBlank(message = "操作标题不能为空") @Length(max = 32, message = "操作标题的长度不能大于32")
     private String opTitle;
 
     /**
@@ -58,8 +55,7 @@ public class RacOpLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "操作详情不能为空")
-    @Length(max = 300, message = "操作详情的长度不能大于300")
+    @NotBlank(message = "操作详情不能为空") @Length(max = 300, message = "操作详情的长度不能大于300")
     private String opDetail;
 
     /**
@@ -67,9 +63,7 @@ public class RacOpLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "操作时间不能为空")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @NotNull(message = "操作时间不能为空") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime opDatetime;
 
     /**
@@ -77,7 +71,6 @@ public class RacOpLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "操作类型不能为空")
-    @Length(max = 20, message = "操作类型的长度不能大于20")
+    @NotBlank(message = "操作类型不能为空") @Length(max = 20, message = "操作类型的长度不能大于20")
     private String opType;
 }

@@ -63,7 +63,7 @@ public class SignUpSvcImpl implements SignUpSvc {
         if (userId != null) {
             final Map<String, Object> addtions = new LinkedHashMap<>();
             addtions.put("sysId", to.getSysId());
-            final JwtSignTo signTo = new JwtSignTo(userId.toString(), addtions);
+            final JwtSignTo     signTo = new JwtSignTo(userId.toString(), addtions);
             final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
             if (ResultDic.SUCCESS.equals(signRo.getResult())) {
                 return new Ro<>(ResultDic.FAIL, "注册用户成功", null, new SignUpOrInRa(userId, signRo.getExtra().getSign(), signRo.getExtra().getExpirationTime()));

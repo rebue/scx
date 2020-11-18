@@ -1,15 +1,15 @@
-package rebue.scx.rac.to;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+
+
 /**
  * 领域
- *
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -26,8 +26,7 @@ public class RacDomainModifyTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
+    @NotBlank(message = "领域ID不能为空") @Length(max = 32, message = "领域ID的长度不能大于32")
     private String id;
 
     /**

@@ -1,12 +1,10 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacSysDao;
 import rebue.scx.rac.jo.RacSysJo;
@@ -20,7 +18,7 @@ import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysOneTo;
 
 /**
- * 系统信息
+ * 系统服务实现
  *
  * <pre>
  * 注意：
@@ -37,8 +35,7 @@ import rebue.scx.rac.to.RacSysOneTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao>
-        implements RacSysSvc {
+public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao> implements RacSysSvc {
 
     /**
      * 本服务的单例

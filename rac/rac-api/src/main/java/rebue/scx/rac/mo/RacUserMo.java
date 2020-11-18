@@ -1,6 +1,4 @@
-package rebue.scx.rac.mo;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+package rebue.scx.rac.mo;import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
@@ -13,9 +11,11 @@ import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
+
+
 /**
- * 用户信息
- *
+ * 用户
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -26,8 +26,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "用户ID不能为空")
-    @PositiveOrZero(message = "用户ID不能为负数")
+    @NotNull(groups = ModifyGroup.class, message = "用户ID不能为空") @PositiveOrZero(message = "用户ID不能为负数")
     private Long id;
 
     /**
@@ -35,8 +34,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "微信的OpenId不能为空")
-    @Length(max = 64, message = "微信的OpenId的长度不能大于64")
+    @NotBlank(groups = AddGroup.class, message = "微信的OpenId不能为空") @Length(max = 64, message = "微信的OpenId的长度不能大于64")
     private String wxOpenId;
 
     /**
@@ -52,8 +50,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "微信昵称不能为空")
-    @Length(max = 100, message = "微信昵称的长度不能大于100")
+    @NotBlank(groups = AddGroup.class, message = "微信昵称不能为空") @Length(max = 100, message = "微信昵称的长度不能大于100")
     private String wxNickname;
 
     /**
@@ -61,8 +58,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "微信头像不能为空")
-    @Length(max = 300, message = "微信头像的长度不能大于300")
+    @NotBlank(groups = AddGroup.class, message = "微信头像不能为空") @Length(max = 300, message = "微信头像的长度不能大于300")
     private String wxAvatar;
 
     /**
@@ -70,8 +66,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "QQ的OpenId不能为空")
-    @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
+    @NotBlank(groups = AddGroup.class, message = "QQ的OpenId不能为空") @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String qqOpenId;
 
     /**
@@ -87,8 +82,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "QQ昵称不能为空")
-    @Length(max = 100, message = "QQ昵称的长度不能大于100")
+    @NotBlank(groups = AddGroup.class, message = "QQ昵称不能为空") @Length(max = 100, message = "QQ昵称的长度不能大于100")
     private String qqNickname;
 
     /**
@@ -96,8 +90,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "QQ头像不能为空")
-    @Length(max = 300, message = "QQ头像的长度不能大于300")
+    @NotBlank(groups = AddGroup.class, message = "QQ头像不能为空") @Length(max = 300, message = "QQ头像的长度不能大于300")
     private String qqAvatar;
 
     /**
@@ -121,8 +114,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空")
-    @PositiveOrZero(message = "修改时间戳不能为负数")
+    @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空") @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long updateTimestamp;
 
     /**
@@ -350,65 +342,65 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", personId=").append(personId);
-        sb.append(", isEnabled=").append(isEnabled);
-        sb.append(", signInName=").append(signInName);
-        sb.append(", signInMobile=").append(signInMobile);
-        sb.append(", signInEmail=").append(signInEmail);
-        sb.append(", signInPswd=").append(signInPswd);
-        sb.append(", signInPswdSalt=").append(signInPswdSalt);
-        sb.append(", signInNickname=").append(signInNickname);
-        sb.append(", signInAvatar=").append(signInAvatar);
-        sb.append(", wxOpenId=").append(wxOpenId);
-        sb.append(", wxUnionId=").append(wxUnionId);
-        sb.append(", wxNickname=").append(wxNickname);
-        sb.append(", wxAvatar=").append(wxAvatar);
-        sb.append(", qqOpenId=").append(qqOpenId);
-        sb.append(", qqUnionId=").append(qqUnionId);
-        sb.append(", qqNickname=").append(qqNickname);
-        sb.append(", qqAvatar=").append(qqAvatar);
-        sb.append(", isTester=").append(isTester);
-        sb.append(", createrTimestamp=").append(createrTimestamp);
-        sb.append(", updateTimestamp=").append(updateTimestamp);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(getClass().getSimpleName());
+    sb.append(" [");
+    sb.append("Hash = ").append(hashCode());
+    sb.append(", id=").append(id);
+    sb.append(", personId=").append(personId);
+    sb.append(", isEnabled=").append(isEnabled);
+    sb.append(", signInName=").append(signInName);
+    sb.append(", signInMobile=").append(signInMobile);
+    sb.append(", signInEmail=").append(signInEmail);
+    sb.append(", signInPswd=").append(signInPswd);
+    sb.append(", signInPswdSalt=").append(signInPswdSalt);
+    sb.append(", signInNickname=").append(signInNickname);
+    sb.append(", signInAvatar=").append(signInAvatar);
+    sb.append(", wxOpenId=").append(wxOpenId);
+    sb.append(", wxUnionId=").append(wxUnionId);
+    sb.append(", wxNickname=").append(wxNickname);
+    sb.append(", wxAvatar=").append(wxAvatar);
+    sb.append(", qqOpenId=").append(qqOpenId);
+    sb.append(", qqUnionId=").append(qqUnionId);
+    sb.append(", qqNickname=").append(qqNickname);
+    sb.append(", qqAvatar=").append(qqAvatar);
+    sb.append(", isTester=").append(isTester);
+    sb.append(", createrTimestamp=").append(createrTimestamp);
+    sb.append(", updateTimestamp=").append(updateTimestamp);
+    sb.append(", serialVersionUID=").append(serialVersionUID);
+    sb.append("]");
+    return sb.toString();
+}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        RacUserMo other = (RacUserMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+public boolean equals(Object that) {
+    if (this == that) {
+        return true;
     }
+    if (that == null) {
+        return false;
+    }
+    if (getClass() != that.getClass()) {
+        return false;
+    }
+    RacUserMo other = (RacUserMo) that;
+    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        return result;
-    }
+public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+    return result;
+}
 
     /**
      * 获取ID的类型
@@ -416,9 +408,9 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public String getIdType() {
-        return "Long";
-    }
+public String getIdType() {
+    return "Long";
+}
 
     /**
      * 个人ID
@@ -433,8 +425,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
+    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空") @PositiveOrZero(message = "建立时间戳不能为负数")
     private Long createrTimestamp;
 
     /**
@@ -442,8 +433,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter
-    @Setter
+    @Getter @Setter
     private RacPersonMo person;
 
     /**

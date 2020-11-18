@@ -1,6 +1,4 @@
-package rebue.scx.rac.to;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.validation.constraints.PositiveOrZero;
@@ -9,9 +7,11 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import rebue.robotech.to.ListTo;
 
+
+
 /**
  * 领域用户
- *
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
