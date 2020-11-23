@@ -17,6 +17,7 @@ import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.svc.ex.SignUpSvc;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.ex.SignUpByUserNameTo;
