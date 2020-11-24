@@ -10,7 +10,7 @@ import lombok.Getter;
 import rebue.robotech.dic.EnumBase;
 
 /**
- * 登录或注册方式的字典
+ * 注册或登录方式的字典
  * 1: 登录名
  * 2: 电子邮箱
  * 3: 手机
@@ -19,7 +19,7 @@ import rebue.robotech.dic.EnumBase;
  */
 @AllArgsConstructor
 @Getter
-public enum SignInOrUpWayDic implements EnumBase {
+public enum SignUpOrInWayDic implements EnumBase {
     /**
      * 1: 登录名
      */
@@ -75,8 +75,8 @@ public enum SignInOrUpWayDic implements EnumBase {
      * 否则Jackson将调用默认的反序列化方法，而不会调用本方法
      */
     @JsonCreator // Jackson在反序列化时，调用 @JsonCreator 标注的构造器或者工厂方法来创建对象
-    public static SignInOrUpWayDic getItem(final int code) {
-        final SignInOrUpWayDic result = (SignInOrUpWayDic) valueMap.get(code);
+    public static SignUpOrInWayDic getItem(final int code) {
+        final SignUpOrInWayDic result = (SignUpOrInWayDic) valueMap.get(code);
         if (result == null) {
             throw new IllegalArgumentException("输入的code" + code + "不在枚举的取值范围内");
         }
