@@ -1,12 +1,13 @@
 package rebue.scx.rac.dic;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import rebue.robotech.dic.EnumBase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 登录或注册方式的字典

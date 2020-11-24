@@ -1,14 +1,18 @@
-package rebue.scx.rac.mo;import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package rebue.scx.rac.mo;
+
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
-
-
 
 /**
  * 个人
@@ -23,8 +27,9 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "个人ID不能为空") @PositiveOrZero(message = "个人ID不能为负数")
-    private Long id;
+    @NotNull(groups = ModifyGroup.class, message = "个人ID不能为空")
+    @PositiveOrZero(message = "个人ID不能为负数")
+    private Long              id;
 
     /**
      * 是否启用
@@ -32,7 +37,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
-    private Boolean isEnabled;
+    private Boolean           isEnabled;
 
     /**
      * 支付密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
@@ -40,7 +45,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 32, message = "支付密码的长度不能大于32")
-    private String payPswd;
+    private String            payPswd;
 
     /**
      * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
@@ -48,7 +53,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 6, message = "支付密码组合码的长度不能大于6")
-    private String payPswdSalt;
+    private String            payPswdSalt;
 
     /**
      * 手机
@@ -56,14 +61,14 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 11, message = "手机的长度不能大于11")
-    private String mobile;
+    private String            mobile;
 
     /**
      * 是否已验证手机号码
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean isVerifiedMobile;
+    private Boolean           isVerifiedMobile;
 
     /**
      * 电子邮箱
@@ -71,14 +76,14 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 50, message = "电子邮箱的长度不能大于50")
-    private String email;
+    private String            email;
 
     /**
      * 是否已验证电子邮箱
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean isVerifiedEmail;
+    private Boolean           isVerifiedEmail;
 
     /**
      * 用户实名
@@ -86,14 +91,14 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 100, message = "用户实名的长度不能大于100")
-    private String realName;
+    private String            realName;
 
     /**
      * 是否已验证实名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean isVerifiedRealname;
+    private Boolean           isVerifiedRealname;
 
     /**
      * 身份证号
@@ -101,14 +106,14 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 18, message = "身份证号的长度不能大于18")
-    private String idCard;
+    private String            idCard;
 
     /**
      * 是否已验证身份证号
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean isVerifiedIdcard;
+    private Boolean           isVerifiedIdcard;
 
     /**
      * 性别
@@ -116,23 +121,25 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "性别不能为负数")
-    private Byte sex;
+    private Byte              sex;
 
     /**
      * 建立时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空") @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long createrTimestamp;
+    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long              createrTimestamp;
 
     /**
      * 修改时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空") @PositiveOrZero(message = "修改时间戳不能为负数")
-    private Long updateTimestamp;
+    @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空")
+    @PositiveOrZero(message = "修改时间戳不能为负数")
+    private Long              updateTimestamp;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -413,59 +420,59 @@ public class RacPersonMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getClass().getSimpleName());
-    sb.append(" [");
-    sb.append("Hash = ").append(hashCode());
-    sb.append(", id=").append(id);
-    sb.append(", isEnabled=").append(isEnabled);
-    sb.append(", payPswd=").append(payPswd);
-    sb.append(", payPswdSalt=").append(payPswdSalt);
-    sb.append(", mobile=").append(mobile);
-    sb.append(", isVerifiedMobile=").append(isVerifiedMobile);
-    sb.append(", email=").append(email);
-    sb.append(", isVerifiedEmail=").append(isVerifiedEmail);
-    sb.append(", realName=").append(realName);
-    sb.append(", isVerifiedRealname=").append(isVerifiedRealname);
-    sb.append(", idCard=").append(idCard);
-    sb.append(", isVerifiedIdcard=").append(isVerifiedIdcard);
-    sb.append(", sex=").append(sex);
-    sb.append(", createrTimestamp=").append(createrTimestamp);
-    sb.append(", updateTimestamp=").append(updateTimestamp);
-    sb.append(", serialVersionUID=").append(serialVersionUID);
-    sb.append("]");
-    return sb.toString();
-}
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", isEnabled=").append(isEnabled);
+        sb.append(", payPswd=").append(payPswd);
+        sb.append(", payPswdSalt=").append(payPswdSalt);
+        sb.append(", mobile=").append(mobile);
+        sb.append(", isVerifiedMobile=").append(isVerifiedMobile);
+        sb.append(", email=").append(email);
+        sb.append(", isVerifiedEmail=").append(isVerifiedEmail);
+        sb.append(", realName=").append(realName);
+        sb.append(", isVerifiedRealname=").append(isVerifiedRealname);
+        sb.append(", idCard=").append(idCard);
+        sb.append(", isVerifiedIdcard=").append(isVerifiedIdcard);
+        sb.append(", sex=").append(sex);
+        sb.append(", createrTimestamp=").append(createrTimestamp);
+        sb.append(", updateTimestamp=").append(updateTimestamp);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public boolean equals(Object that) {
-    if (this == that) {
-        return true;
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        RacPersonMo other = (RacPersonMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
-    if (that == null) {
-        return false;
-    }
-    if (getClass() != that.getClass()) {
-        return false;
-    }
-    RacPersonMo other = (RacPersonMo) that;
-    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
-}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-    return result;
-}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        return result;
+    }
 
     /**
      * 获取ID的类型
@@ -473,7 +480,7 @@ public int hashCode() {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String getIdType() {
-    return "Long";
-}
+    public String getIdType() {
+        return "Long";
+    }
 }

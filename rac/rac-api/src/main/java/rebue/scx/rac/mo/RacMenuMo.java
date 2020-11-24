@@ -1,17 +1,21 @@
-package rebue.scx.rac.mo;import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package rebue.scx.rac.mo;
+
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
-
-
 
 /**
  * 菜单
@@ -26,32 +30,36 @@ public class RacMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "菜单ID不能为空") @PositiveOrZero(message = "菜单ID不能为负数")
-    private Long id;
+    @NotNull(groups = ModifyGroup.class, message = "菜单ID不能为空")
+    @PositiveOrZero(message = "菜单ID不能为负数")
+    private Long              id;
 
     /**
      * 系统ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空") @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String sysId;
+    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空")
+    @Length(max = 32, message = "系统ID的长度不能大于32")
+    private String            sysId;
 
     /**
      * 菜单编码
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "菜单编码不能为空") @Length(max = 20, message = "菜单编码的长度不能大于20")
-    private String code;
+    @NotBlank(groups = AddGroup.class, message = "菜单编码不能为空")
+    @Length(max = 20, message = "菜单编码的长度不能大于20")
+    private String            code;
 
     /**
      * 菜单名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "菜单名称不能为空") @Length(max = 20, message = "菜单名称的长度不能大于20")
-    private String name;
+    @NotBlank(groups = AddGroup.class, message = "菜单名称不能为空")
+    @Length(max = 20, message = "菜单名称的长度不能大于20")
+    private String            name;
 
     /**
      * 标题(点击菜单后显示在内容页面的标题)
@@ -59,15 +67,16 @@ public class RacMenuMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 30, message = "标题的长度不能大于30")
-    private String title;
+    private String            title;
 
     /**
      * 路径
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "路径不能为空") @Length(max = 20, message = "路径的长度不能大于20")
-    private String path;
+    @NotBlank(groups = AddGroup.class, message = "路径不能为空")
+    @Length(max = 20, message = "路径的长度不能大于20")
+    private String            path;
 
     /**
      * 是否启用
@@ -75,7 +84,7 @@ public class RacMenuMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
-    private Boolean isEnabled;
+    private Boolean           isEnabled;
 
     /**
      * 菜单图标
@@ -83,7 +92,7 @@ public class RacMenuMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 20, message = "菜单图标的长度不能大于20")
-    private String icon;
+    private String            icon;
 
     /**
      * 菜单备注
@@ -91,7 +100,7 @@ public class RacMenuMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 50, message = "菜单备注的长度不能大于50")
-    private String remark;
+    private String            remark;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -103,8 +112,9 @@ public class RacMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
-    private RacSysMo sys;
+    @Getter
+    @Setter
+    private RacSysMo          sys;
 
     /**
      * 菜单ID
@@ -263,53 +273,53 @@ public class RacMenuMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getClass().getSimpleName());
-    sb.append(" [");
-    sb.append("Hash = ").append(hashCode());
-    sb.append(", id=").append(id);
-    sb.append(", sysId=").append(sysId);
-    sb.append(", code=").append(code);
-    sb.append(", name=").append(name);
-    sb.append(", title=").append(title);
-    sb.append(", path=").append(path);
-    sb.append(", isEnabled=").append(isEnabled);
-    sb.append(", icon=").append(icon);
-    sb.append(", remark=").append(remark);
-    sb.append(", serialVersionUID=").append(serialVersionUID);
-    sb.append("]");
-    return sb.toString();
-}
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", sysId=").append(sysId);
+        sb.append(", code=").append(code);
+        sb.append(", name=").append(name);
+        sb.append(", title=").append(title);
+        sb.append(", path=").append(path);
+        sb.append(", isEnabled=").append(isEnabled);
+        sb.append(", icon=").append(icon);
+        sb.append(", remark=").append(remark);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public boolean equals(Object that) {
-    if (this == that) {
-        return true;
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        RacMenuMo other = (RacMenuMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
-    if (that == null) {
-        return false;
-    }
-    if (getClass() != that.getClass()) {
-        return false;
-    }
-    RacMenuMo other = (RacMenuMo) that;
-    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
-}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-    return result;
-}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        return result;
+    }
 
     /**
      * 获取ID的类型
@@ -317,9 +327,9 @@ public int hashCode() {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String getIdType() {
-    return "Long";
-}
+    public String getIdType() {
+        return "Long";
+    }
 
     /**
      * 菜单ID

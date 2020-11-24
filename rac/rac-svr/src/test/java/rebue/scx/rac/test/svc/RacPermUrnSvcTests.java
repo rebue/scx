@@ -1,17 +1,20 @@
-package rebue.scx.rac.test.svc;import org.junit.jupiter.api.Assertions;
+package rebue.scx.rac.test.svc;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
+
 import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacPermUrnMo;
+import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
 import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.wheel.RandomEx;
-import rebue.scx.rac.svc.RacPermUrnSvc;
-
 
 /**
  * 权限URN Service层测试
@@ -34,7 +37,7 @@ public class RacPermUrnSvcTests {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
-    private Mapper dozerMapper;
+    private Mapper        dozerMapper;
 
     /**
      * 测试基本的增删改查
@@ -42,33 +45,33 @@ public class RacPermUrnSvcTests {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
-public void testCrud() {
-    RacPermUrnAddTo addTo = null;
-    Long id = null;
-    for (int i = 0; i < 20; i++) {
-        addTo = (RacPermUrnAddTo) RandomEx.randomPojo(RacPermUrnAddTo.class);
-        log.info("添加权限URN的参数为：" + addTo);
-        final Long addRo = _svc.add(addTo);
-        log.info("添加权限URN的返回值为：" + addRo);
-        Assertions.assertNotNull(addRo);
-        id = addRo;
+    public void testCrud() {
+        RacPermUrnAddTo addTo = null;
+        Long id = null;
+        for (int i = 0; i < 20; i++) {
+            addTo = (RacPermUrnAddTo) RandomEx.randomPojo(RacPermUrnAddTo.class);
+            log.info("添加权限URN的参数为：" + addTo);
+            final Long addRo = _svc.add(addTo);
+            log.info("添加权限URN的返回值为：" + addRo);
+            Assertions.assertNotNull(addRo);
+            id = addRo;
+        }
+        final PageInfo<RacPermUrnMo> listResult = _svc.list(new RacPermUrnListTo());
+        log.info("查询权限URN的返回值为：" + listResult);
+        Assertions.assertNotNull(listResult);
+        log.info("获取单个权限URN的参数为：" + id);
+        RacPermUrnMo getByIdResult = _svc.getById(id);
+        log.info("获取单个权限URN的返回值为：" + getByIdResult);
+        Assertions.assertNotNull(getByIdResult);
+        final RacPermUrnModifyTo modifyTo = dozerMapper.map(addTo, RacPermUrnModifyTo.class);
+        modifyTo.setId(id);
+        log.info("修改权限URN的参数为：" + modifyTo);
+        final Boolean modifyResult = _svc.modifyById(modifyTo);
+        log.info("修改权限URN的返回值为：" + modifyResult);
+        Assertions.assertTrue(modifyResult);
+        log.info("删除权限URN的参数为：" + id);
+        final Boolean deleteResult = _svc.delById(id);
+        log.info("删除权限URN的返回值为：" + deleteResult);
+        Assertions.assertTrue(deleteResult);
     }
-    final PageInfo<RacPermUrnMo> listResult = _svc.list(new RacPermUrnListTo());
-    log.info("查询权限URN的返回值为：" + listResult);
-    Assertions.assertNotNull(listResult);
-    log.info("获取单个权限URN的参数为：" + id);
-    RacPermUrnMo getByIdResult = _svc.getById(id);
-    log.info("获取单个权限URN的返回值为：" + getByIdResult);
-    Assertions.assertNotNull(getByIdResult);
-    final RacPermUrnModifyTo modifyTo = dozerMapper.map(addTo, RacPermUrnModifyTo.class);
-    modifyTo.setId(id);
-    log.info("修改权限URN的参数为：" + modifyTo);
-    final Boolean modifyResult = _svc.modifyById(modifyTo);
-    log.info("修改权限URN的返回值为：" + modifyResult);
-    Assertions.assertTrue(modifyResult);
-    log.info("删除权限URN的参数为：" + id);
-    final Boolean deleteResult = _svc.delById(id);
-    log.info("删除权限URN的返回值为：" + deleteResult);
-    Assertions.assertTrue(deleteResult);
-}
 }

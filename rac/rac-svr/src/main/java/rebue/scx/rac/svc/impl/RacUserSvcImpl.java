@@ -28,7 +28,7 @@ import rebue.scx.rac.to.RacUserOneTo;
 
 /**
  * 用户服务实现
- *
+ * 
  * <pre>
  * 注意：
  * 1. 查询数据库操作的方法，不用设置默认 @Transactional
@@ -39,14 +39,14 @@ import rebue.scx.rac.to.RacUserOneTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- *
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacUserSvcImpl
-        extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
-        implements RacUserSvc {
+    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+    implements RacUserSvc {
 
     /**
      * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
@@ -67,14 +67,23 @@ public class RacUserSvcImpl
         return RacUserMo.class;
     }
 
+    /**
+     * 通过email获取用户信息
+     * 
+     * @param domainId 领域ID
+     * @param orgId    组织ID
+     * @param email    电子邮箱
+     * 
+     * @return 用户信息
+     */
     public RacUserMo getOneByEmail(final String domainId, final Long orgId, final String email) {
         return _mapper.selectOne(c -> c
-                .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
-                .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
-                .where(
-                        racDomainUser.domainId, isEqualTo(domainId),
-                        orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
-                        and(racUser.signInEmail, isEqualTo(email))))
-                .orElse(null);
+            .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
+            .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
+            .where(
+                racDomainUser.domainId, isEqualTo(domainId),
+                orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
+                and(racUser.signInEmail, isEqualTo(email))))
+            .orElse(null);
     }
 }

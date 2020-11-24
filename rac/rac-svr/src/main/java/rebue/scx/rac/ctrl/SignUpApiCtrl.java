@@ -1,15 +1,16 @@
 package rebue.scx.rac.ctrl;
 
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.SignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.ex.SignUpByUserNameTo;
-
-import javax.annotation.Resource;
 
 /**
  * API用户注册的控制器

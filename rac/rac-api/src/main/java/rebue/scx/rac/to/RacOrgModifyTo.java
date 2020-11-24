@@ -1,12 +1,16 @@
-package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package rebue.scx.rac.to;
+
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import lombok.Data;
+
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.Data;
 
 /**
  * 组织
@@ -27,8 +31,9 @@ public class RacOrgModifyTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "组织ID不能为空") @PositiveOrZero(message = "组织ID不能为负数")
-    private Long id;
+    @NotNull(message = "组织ID不能为空")
+    @PositiveOrZero(message = "组织ID不能为负数")
+    private Long              id;
 
     /**
      * 组织名称(简称)
@@ -36,7 +41,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 30, message = "组织名称的长度不能大于30")
-    private String name;
+    private String            name;
 
     /**
      * 上级组织ID(根组织填0)
@@ -44,7 +49,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "上级组织ID不能为负数")
-    private Long parentId;
+    private Long              parentId;
 
     /**
      * 组织类型(1.集团;2.公司;99.部门)
@@ -52,7 +57,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "组织类型不能为负数")
-    private Byte orgType;
+    private Byte              orgType;
 
     /**
      * 左值
@@ -60,7 +65,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "左值不能为负数")
-    private Integer leftValue;
+    private Integer           leftValue;
 
     /**
      * 右值
@@ -68,7 +73,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "右值不能为负数")
-    private Integer rightValue;
+    private Integer           rightValue;
 
     /**
      * 组织全名
@@ -76,7 +81,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 80, message = "组织全名的长度不能大于80")
-    private String fullName;
+    private String            fullName;
 
     /**
      * 组织简介
@@ -84,7 +89,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 200, message = "组织简介的长度不能大于200")
-    private String introduction;
+    private String            introduction;
 
     /**
      * 组织备注
@@ -92,7 +97,7 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 100, message = "组织备注的长度不能大于100")
-    private String remark;
+    private String            remark;
 
     /**
      * 领域ID
@@ -100,5 +105,5 @@ public class RacOrgModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String domainId;
+    private String            domainId;
 }

@@ -1,13 +1,17 @@
-package rebue.scx.rac.to;import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package rebue.scx.rac.to;
+
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import lombok.Data;
+
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.Data;
 
 /**
  * 领域用户
@@ -28,16 +32,18 @@ public class RacDomainUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "领域ID不能为空") @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String domainId;
+    @NotBlank(message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            domainId;
 
     /**
      * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "用户ID不能为空") @PositiveOrZero(message = "用户ID不能为负数")
-    private Long userId;
+    @NotNull(message = "用户ID不能为空")
+    @PositiveOrZero(message = "用户ID不能为负数")
+    private Long              userId;
 
     /**
      * 是否启用
@@ -45,5 +51,5 @@ public class RacDomainUserAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotNull(message = "是否启用不能为空")
-    private Boolean isEnabled;
+    private Boolean           isEnabled;
 }

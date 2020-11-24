@@ -1,11 +1,15 @@
 package rebue.scx.rac.to;
 
+import java.io.Serializable;
+
+import javax.validation.constraints.PositiveOrZero;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import java.io.Serializable;
-import javax.validation.constraints.PositiveOrZero;
+
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 /**
  * 组织信息

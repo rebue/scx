@@ -1,17 +1,21 @@
-package rebue.scx.rac.mo;import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package rebue.scx.rac.mo;
+
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
-
-
 
 /**
  * 组织
@@ -26,16 +30,18 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "组织ID不能为空") @PositiveOrZero(message = "组织ID不能为负数")
-    private Long id;
+    @NotNull(groups = ModifyGroup.class, message = "组织ID不能为空")
+    @PositiveOrZero(message = "组织ID不能为负数")
+    private Long              id;
 
     /**
      * 组织名称(简称)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "组织名称不能为空") @Length(max = 30, message = "组织名称的长度不能大于30")
-    private String name;
+    @NotBlank(groups = AddGroup.class, message = "组织名称不能为空")
+    @Length(max = 30, message = "组织名称的长度不能大于30")
+    private String            name;
 
     /**
      * 上级组织ID(根组织填0)
@@ -43,31 +49,34 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "上级组织ID不能为负数")
-    private Long parentId;
+    private Long              parentId;
 
     /**
      * 组织类型(1.集团;2.公司;99.部门)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "组织类型不能为空") @PositiveOrZero(message = "组织类型不能为负数")
-    private Byte orgType;
+    @NotNull(groups = AddGroup.class, message = "组织类型不能为空")
+    @PositiveOrZero(message = "组织类型不能为负数")
+    private Byte              orgType;
 
     /**
      * 左值
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "左值不能为空") @PositiveOrZero(message = "左值不能为负数")
-    private Integer leftValue;
+    @NotNull(groups = AddGroup.class, message = "左值不能为空")
+    @PositiveOrZero(message = "左值不能为负数")
+    private Integer           leftValue;
 
     /**
      * 右值
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "右值不能为空") @PositiveOrZero(message = "右值不能为负数")
-    private Integer rightValue;
+    @NotNull(groups = AddGroup.class, message = "右值不能为空")
+    @PositiveOrZero(message = "右值不能为负数")
+    private Integer           rightValue;
 
     /**
      * 组织全名
@@ -75,7 +84,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 80, message = "组织全名的长度不能大于80")
-    private String fullName;
+    private String            fullName;
 
     /**
      * 组织简介
@@ -83,7 +92,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 200, message = "组织简介的长度不能大于200")
-    private String introduction;
+    private String            introduction;
 
     /**
      * 组织备注
@@ -91,7 +100,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 100, message = "组织备注的长度不能大于100")
-    private String remark;
+    private String            remark;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -103,8 +112,9 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
-    private RacOrgMo parent;
+    @Getter
+    @Setter
+    private RacOrgMo          parent;
 
     /**
      * 组织ID(组织ID=账户ID，与账户一一对应)
@@ -272,54 +282,54 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getClass().getSimpleName());
-    sb.append(" [");
-    sb.append("Hash = ").append(hashCode());
-    sb.append(", id=").append(id);
-    sb.append(", name=").append(name);
-    sb.append(", parentId=").append(parentId);
-    sb.append(", domainId=").append(domainId);
-    sb.append(", orgType=").append(orgType);
-    sb.append(", leftValue=").append(leftValue);
-    sb.append(", rightValue=").append(rightValue);
-    sb.append(", fullName=").append(fullName);
-    sb.append(", introduction=").append(introduction);
-    sb.append(", remark=").append(remark);
-    sb.append(", serialVersionUID=").append(serialVersionUID);
-    sb.append("]");
-    return sb.toString();
-}
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", name=").append(name);
+        sb.append(", parentId=").append(parentId);
+        sb.append(", domainId=").append(domainId);
+        sb.append(", orgType=").append(orgType);
+        sb.append(", leftValue=").append(leftValue);
+        sb.append(", rightValue=").append(rightValue);
+        sb.append(", fullName=").append(fullName);
+        sb.append(", introduction=").append(introduction);
+        sb.append(", remark=").append(remark);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public boolean equals(Object that) {
-    if (this == that) {
-        return true;
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        RacOrgMo other = (RacOrgMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
-    if (that == null) {
-        return false;
-    }
-    if (getClass() != that.getClass()) {
-        return false;
-    }
-    RacOrgMo other = (RacOrgMo) that;
-    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
-}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-    return result;
-}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        return result;
+    }
 
     /**
      * 获取ID的类型
@@ -327,24 +337,26 @@ public int hashCode() {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String getIdType() {
-    return "Long";
-}
+    public String getIdType() {
+        return "Long";
+    }
 
     /**
      * 领域ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空") @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String domainId;
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String      domainId;
 
     /**
      * 领域
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     private RacDomainMo domain;
 
     /**

@@ -1,15 +1,18 @@
-package rebue.scx.rac.mo;import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package rebue.scx.rac.mo;
+
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
-
-
 
 /**
  * 组织用户
@@ -24,16 +27,18 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "组织用户ID不能为空") @PositiveOrZero(message = "组织用户ID不能为负数")
-    private Long id;
+    @NotNull(groups = ModifyGroup.class, message = "组织用户ID不能为空")
+    @PositiveOrZero(message = "组织用户ID不能为负数")
+    private Long              id;
 
     /**
      * 组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "组织ID不能为空") @PositiveOrZero(message = "组织ID不能为负数")
-    private Long orgId;
+    @NotNull(groups = AddGroup.class, message = "组织ID不能为空")
+    @PositiveOrZero(message = "组织ID不能为负数")
+    private Long              orgId;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -45,8 +50,9 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
-    private RacOrgMo org;
+    @Getter
+    @Setter
+    private RacOrgMo          org;
 
     /**
      * 组织用户ID
@@ -88,47 +94,47 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getClass().getSimpleName());
-    sb.append(" [");
-    sb.append("Hash = ").append(hashCode());
-    sb.append(", id=").append(id);
-    sb.append(", orgId=").append(orgId);
-    sb.append(", userId=").append(userId);
-    sb.append(", serialVersionUID=").append(serialVersionUID);
-    sb.append("]");
-    return sb.toString();
-}
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", orgId=").append(orgId);
+        sb.append(", userId=").append(userId);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public boolean equals(Object that) {
-    if (this == that) {
-        return true;
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        RacOrgUserMo other = (RacOrgUserMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
-    if (that == null) {
-        return false;
-    }
-    if (getClass() != that.getClass()) {
-        return false;
-    }
-    RacOrgUserMo other = (RacOrgUserMo) that;
-    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
-}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-    return result;
-}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        return result;
+    }
 
     /**
      * 获取ID的类型
@@ -136,40 +142,43 @@ public int hashCode() {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String getIdType() {
-    return "Long";
-}
+    public String getIdType() {
+        return "Long";
+    }
+
     /**
      * 个人ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    
+
     /**
      * 个人
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "用户ID不能为空") @PositiveOrZero(message = "用户ID不能为负数")
+    @NotNull(groups = AddGroup.class, message = "用户ID不能为空")
+    @PositiveOrZero(message = "用户ID不能为负数")
     private Long userId;
     /**
      * 个人ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    
+
     /**
      * 个人ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     private RacUserMo user;
-    
+
     public Long getUserId() {
         return userId;
     }
-    
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }

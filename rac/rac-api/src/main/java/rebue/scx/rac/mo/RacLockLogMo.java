@@ -1,20 +1,24 @@
-package rebue.scx.rac.mo;import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package rebue.scx.rac.mo;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import lombok.Getter;
-import lombok.Setter;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import lombok.Getter;
+import lombok.Setter;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
-
-
 
 /**
  * 锁定日志
@@ -29,64 +33,73 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "锁定日志ID不能为空") @PositiveOrZero(message = "锁定日志ID不能为负数")
-    private Long id;
+    @NotNull(groups = ModifyGroup.class, message = "锁定日志ID不能为空")
+    @PositiveOrZero(message = "锁定日志ID不能为负数")
+    private Long              id;
 
     /**
      * 系统ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空") @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String sysId;
+    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空")
+    @Length(max = 32, message = "系统ID的长度不能大于32")
+    private String            sysId;
 
     /**
      * 锁定用户的用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "锁定用户的用户ID不能为空") @PositiveOrZero(message = "锁定用户的用户ID不能为负数")
-    private Long lockUserId;
+    @NotNull(groups = AddGroup.class, message = "锁定用户的用户ID不能为空")
+    @PositiveOrZero(message = "锁定用户的用户ID不能为负数")
+    private Long              lockUserId;
 
     /**
      * 锁定操作员的用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "锁定操作员的用户ID不能为空") @PositiveOrZero(message = "锁定操作员的用户ID不能为负数")
-    private Long lockOpId;
+    @NotNull(groups = AddGroup.class, message = "锁定操作员的用户ID不能为空")
+    @PositiveOrZero(message = "锁定操作员的用户ID不能为负数")
+    private Long              lockOpId;
 
     /**
      * 锁定原因
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "锁定原因不能为空") @Length(max = 100, message = "锁定原因的长度不能大于100")
-    private String lockReason;
+    @NotBlank(groups = AddGroup.class, message = "锁定原因不能为空")
+    @Length(max = 100, message = "锁定原因的长度不能大于100")
+    private String            lockReason;
 
     /**
      * 锁定时间
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") @NotNull(groups = AddGroup.class, message = "锁定时间不能为空")
-    private LocalDateTime lockDatetime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @NotNull(groups = AddGroup.class, message = "锁定时间不能为空")
+    private LocalDateTime     lockDatetime;
 
     /**
      * 解锁原因
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "解锁原因不能为空") @Length(max = 100, message = "解锁原因的长度不能大于100")
-    private String unlockReason;
+    @NotBlank(groups = AddGroup.class, message = "解锁原因不能为空")
+    @Length(max = 100, message = "解锁原因的长度不能大于100")
+    private String            unlockReason;
 
     /**
      * 解锁时间
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime unlockDatetime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime     unlockDatetime;
 
     /**
      * 解锁操作员的用户ID
@@ -94,7 +107,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "解锁操作员的用户ID不能为负数")
-    private Long unlockOpId;
+    private Long              unlockOpId;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -106,32 +119,36 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
-    private RacUserMo lockOp;
+    @Getter
+    @Setter
+    private RacUserMo         lockOp;
 
     /**
      * 锁定用户的用户
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
-    private RacUserMo lockUser;
+    @Getter
+    @Setter
+    private RacUserMo         lockUser;
 
     /**
      * 系统
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
-    private RacSysMo sys;
+    @Getter
+    @Setter
+    private RacSysMo          sys;
 
     /**
      * 解锁操作员的用户
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
-    @Getter @Setter
-    private RacUserMo unlockOp;
+    @Getter
+    @Setter
+    private RacUserMo         unlockOp;
 
     /**
      * 锁定日志ID
@@ -299,53 +316,53 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(getClass().getSimpleName());
-    sb.append(" [");
-    sb.append("Hash = ").append(hashCode());
-    sb.append(", id=").append(id);
-    sb.append(", sysId=").append(sysId);
-    sb.append(", lockUserId=").append(lockUserId);
-    sb.append(", lockOpId=").append(lockOpId);
-    sb.append(", lockReason=").append(lockReason);
-    sb.append(", lockDatetime=").append(lockDatetime);
-    sb.append(", unlockReason=").append(unlockReason);
-    sb.append(", unlockDatetime=").append(unlockDatetime);
-    sb.append(", unlockOpId=").append(unlockOpId);
-    sb.append(", serialVersionUID=").append(serialVersionUID);
-    sb.append("]");
-    return sb.toString();
-}
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", sysId=").append(sysId);
+        sb.append(", lockUserId=").append(lockUserId);
+        sb.append(", lockOpId=").append(lockOpId);
+        sb.append(", lockReason=").append(lockReason);
+        sb.append(", lockDatetime=").append(lockDatetime);
+        sb.append(", unlockReason=").append(unlockReason);
+        sb.append(", unlockDatetime=").append(unlockDatetime);
+        sb.append(", unlockOpId=").append(unlockOpId);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public boolean equals(Object that) {
-    if (this == that) {
-        return true;
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        RacLockLogMo other = (RacLockLogMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
-    if (that == null) {
-        return false;
-    }
-    if (getClass() != that.getClass()) {
-        return false;
-    }
-    RacLockLogMo other = (RacLockLogMo) that;
-    return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
-}
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-    return result;
-}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        return result;
+    }
 
     /**
      * 获取ID的类型
@@ -353,7 +370,7 @@ public int hashCode() {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-public String getIdType() {
-    return "Long";
-}
+    public String getIdType() {
+        return "Long";
+    }
 }
