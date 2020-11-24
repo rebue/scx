@@ -19,7 +19,7 @@ import rebue.scx.rac.to.ex.SignInByUserNameTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface SignInSvc {
+public interface RacSignInSvc {
 
     /**
      * 通过用户名称注册

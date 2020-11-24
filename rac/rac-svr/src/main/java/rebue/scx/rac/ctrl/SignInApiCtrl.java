@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.api.SignInApi;
+import rebue.scx.rac.api.RacSignInApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.ex.SignInByUserNameTo;
 
@@ -19,7 +19,7 @@ import rebue.scx.rac.to.ex.SignInByUserNameTo;
 public class SignInApiCtrl {
 
     @Resource
-    private SignInApi api;
+    private RacSignInApi api;
 
     /**
      * 通过用户名称登录

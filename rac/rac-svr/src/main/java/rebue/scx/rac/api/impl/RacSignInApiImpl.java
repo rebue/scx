@@ -5,19 +5,19 @@ import javax.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.api.SignInApi;
+import rebue.scx.rac.api.RacSignInApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.svc.ex.SignInSvc;
+import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.ex.SignInByUserNameTo;
 
 /**
  * 用户登录API的实现类
  */
 @DubboService
-public class SignInApiImpl implements SignInApi {
+public class RacSignInApiImpl implements RacSignInApi {
 
     @Resource
-    private SignInSvc svc;
+    private RacSignInSvc svc;
 
     /**
      * 通过用户名称注册

@@ -1,8 +1,5 @@
 package rebue.scx.rac.svc.ex.impl;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,19 +8,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.dozermapper.core.Mapper;
 
-import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
-import rebue.scx.jwt.ra.JwtSignRa;
-import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacUserSvc;
-import rebue.scx.rac.svc.ex.SignUpSvc;
-import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.ex.SignUpByUserNameTo;
+import rebue.scx.rac.svc.ex.RacSignInSvc;
+import rebue.scx.rac.to.ex.SignInByUserNameTo;
 
 /**
- * API用户注册服务的实现类
+ * 用户注册服务的实现类
  *
  * <pre>
  * 注意：
@@ -38,43 +31,24 @@ import rebue.scx.rac.to.ex.SignUpByUserNameTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class SignUpSvcImpl implements SignUpSvc {
+public class RacSignInSvcImpl implements RacSignInSvc {
 
     @DubboReference(application = "jwt-svr")
     private JwtApi     jwtApi;
 
     @Autowired
-    private RacUserSvc racUserSvc;
+    private RacUserSvc userSvc;
 
     @Autowired
     private Mapper     dozerMapper;
 
     /**
-     * 通过用户名称注册
+     * 通过用户名称登录(按照 邮箱->手机->登录名 的顺序查找用户)
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<SignUpOrInRa> signUpByUserName(final SignUpByUserNameTo to) {
-        // 添加用户
-        final RacUserAddTo addTo = dozerMapper.map(to, RacUserAddTo.class);
-        addTo.setUpdateTimestamp(System.currentTimeMillis());
-        final Long userId = racUserSvc.add(addTo);
-
-        // 如果添加成功，JWT签名
-        if (userId != null) {
-            final Map<String, Object> addtions = new LinkedHashMap<>();
-            addtions.put("sysId", to.getSysId());
-            final JwtSignTo     signTo = new JwtSignTo(userId.toString(), addtions);
-            final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
-            if (ResultDic.SUCCESS.equals(signRo.getResult())) {
-                return new Ro<>(ResultDic.FAIL, "注册用户成功", null, new SignUpOrInRa(userId, signRo.getExtra().getSign(), signRo.getExtra().getExpirationTime()));
-            } else {
-                return new Ro<>(ResultDic.FAIL, "JWT签名失败");
-            }
-        } else {
-            return new Ro<>(ResultDic.FAIL, "添加用户失败");
-        }
-
+    public Ro<SignUpOrInRa> signInByUserName(final SignInByUserNameTo to) {
+        return null;
     }
 
 }
