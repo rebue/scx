@@ -23,7 +23,7 @@ public enum SignUpOrInWayDic implements EnumBase {
     /**
      * 1: 登录名
      */
-    LOGIN_NAME(1, "用户登录名"),
+    SIGN_IN_NAME(1, "用户登录名"),
     /**
      * 2: 电子邮箱
      */

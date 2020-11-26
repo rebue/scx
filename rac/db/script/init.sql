@@ -1,1 +1,2 @@
-INSERT INTO `rac`.`RAC_SYS` (`ID`, `NAME`, `REMARK`) VALUES ('rebue-platform', 'Rebue平台', 'Rebue管理平台，对平台提供最基本的方式');
+INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('default', '默认领域', '系统和用户的默认领域');
+INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID, REMARK) VALUES ('rebue-platform', 'Rebue平台', 'default', 'Rebue管理平台，对平台提供最基本的方式');

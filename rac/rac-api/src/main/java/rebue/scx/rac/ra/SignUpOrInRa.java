@@ -2,6 +2,7 @@ package rebue.scx.rac.ra;
 
 import java.time.LocalDateTime;
 
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 

@@ -16,7 +16,7 @@ import rebue.scx.rac.to.ex.SignInByUserNameTo;
  * 用户登录的控制器
  */
 @RestController
-public class SignInApiCtrl {
+public class RacSignInApiCtrl {
 
     @Resource
     private RacSignInApi api;
@@ -25,7 +25,7 @@ public class SignInApiCtrl {
      * 通过用户名称登录
      */
     @PostMapping("/sign-in/sign-in-by-user-name")
-    public Mono<Ro<SignUpOrInRa>> signUpByUserName(@RequestBody final SignInByUserNameTo to) {
+    public Mono<Ro<SignUpOrInRa>> signInByUserName(@RequestBody final SignInByUserNameTo to) {
         return Mono.create(callback -> callback.success(api.signInByUserName(to)));
     }
 

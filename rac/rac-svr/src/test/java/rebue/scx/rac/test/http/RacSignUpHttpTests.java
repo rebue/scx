@@ -37,7 +37,7 @@ public class RacSignUpHttpTests {
         to.setSysId("rebue-platform");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         log.info("测试通过用户名称注册: to-{}", to);
-        final String result = _httpClient.postByJsonParams(_hostUrl + "/api/sign-up/sign-up-by-user-name", to);
+        final String result = _httpClient.postByJsonParams(_hostUrl + "/sign-up/sign-up-by-user-name", to);
         log.info("通过用户名称注册的返回值为：" + result);
         final Ro<SignUpOrInRa> ro = JacksonUtils.deserialize(result, new TypeReference<Ro<SignUpOrInRa>>() {
         });

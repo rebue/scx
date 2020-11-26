@@ -10,7 +10,7 @@ import rebue.scx.sgn.svc.SgnSvc;
 
 @Service
 public class SgnSvcImpl extends RedisBaseSvcImpl<String> implements SgnSvc {
-    protected String REDIS_KEY_PREFIX = "rebue.scx.sgn.signid.";
+    protected String REDIS_KEY_PREFIX = "rebue.scx.sgn.svc.sign-id.";
 
     @Override
     public Ro<?> verify(final Map<String, ?> paramMap) {

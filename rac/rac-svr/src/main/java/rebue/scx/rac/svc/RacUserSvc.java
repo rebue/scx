@@ -5,11 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mo.RacUserMo;
-import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.RacUserDelTo;
-import rebue.scx.rac.to.RacUserListTo;
-import rebue.scx.rac.to.RacUserModifyTo;
-import rebue.scx.rac.to.RacUserOneTo;
+import rebue.scx.rac.to.*;
 
 /**
  * 用户服务接口
@@ -23,4 +19,9 @@ import rebue.scx.rac.to.RacUserOneTo;
  */
 @Validated
 public interface RacUserSvc extends BaseSvc<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserMo, RacUserJo> {
+    RacUserMo getOneByEmail(String domainId, Long orgId, String email);
+
+    RacUserMo getOneByMobile(String domainId, Long orgId, String mobile);
+
+    RacUserMo getOneBySignInName(String domainId, Long orgId, String signInName);
 }

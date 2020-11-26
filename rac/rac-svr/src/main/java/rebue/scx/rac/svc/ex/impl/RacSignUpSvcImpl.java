@@ -22,6 +22,8 @@ import rebue.scx.rac.svc.ex.RacSignUpSvc;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.ex.SignUpByUserNameTo;
 
+import javax.annotation.Resource;
+
 /**
  * API用户注册服务的实现类
  *
@@ -43,10 +45,10 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
     @DubboReference(application = "jwt-svr")
     private JwtApi     jwtApi;
 
-    @Autowired
+    @Resource
     private RacUserSvc userSvc;
 
-    @Autowired
+    @Resource
     private Mapper     dozerMapper;
 
     /**

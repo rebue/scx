@@ -1,14 +1,13 @@
 package rebue.scx.rac.svc.impl;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.and;
-import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import static rebue.scx.rac.mapper.RacDomainUserDynamicSqlSupport.racDomainUser;
 import static rebue.scx.rac.mapper.RacOrgUserDynamicSqlSupport.racOrgUser;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
 
 import javax.annotation.Resource;
 
+import org.mybatis.dynamic.sql.SqlCriterion;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,11 +19,7 @@ import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mapper.RacUserMapper;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
-import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.RacUserDelTo;
-import rebue.scx.rac.to.RacUserListTo;
-import rebue.scx.rac.to.RacUserModifyTo;
-import rebue.scx.rac.to.RacUserOneTo;
+import rebue.scx.rac.to.*;
 
 /**
  * 用户服务实现
@@ -76,14 +71,44 @@ public class RacUserSvcImpl
      * 
      * @return 用户信息
      */
+    @Override
     public RacUserMo getOneByEmail(final String domainId, final Long orgId, final String email) {
+        SqlCriterion<?>[] sqlCriterions = new SqlCriterion<?>[2];
+        sqlCriterions[0] = and(racOrgUser.orgId, isEqualTo(orgId));
+        sqlCriterions[1] = and(racUser.signInEmail, isEqualTo(email));
+        return _mapper.selectOne(c -> c
+            .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
+            .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
+            .where(
+                racDomainUser.domainId, isEqualTo(domainId),
+                sqlCriterions
+            // orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
+            // and(racUser.signInEmail, isEqualTo(email))))
+            ))
+            .orElse(null);
+    }
+
+    @Override
+    public RacUserMo getOneByMobile(String domainId, Long orgId, String mobile) {
         return _mapper.selectOne(c -> c
             .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
             .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
             .where(
                 racDomainUser.domainId, isEqualTo(domainId),
                 orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
-                and(racUser.signInEmail, isEqualTo(email))))
+                and(racUser.signInMobile, isEqualTo(mobile))))
+            .orElse(null);
+    }
+
+    @Override
+    public RacUserMo getOneBySignInName(String domainId, Long orgId, String signInName) {
+        return _mapper.selectOne(c -> c
+            .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
+            .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
+            .where(
+                racDomainUser.domainId, isEqualTo(domainId),
+                orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
+                and(racUser.signInName, isEqualTo(signInName))))
             .orElse(null);
     }
 }
