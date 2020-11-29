@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/11/16 16:25:39                          */
+/* Created on:     2020/11/29 10:13:48                          */
 /*==============================================================*/
 
 
@@ -411,16 +411,16 @@ create table RAC_USER
    SIGN_IN_PSWD_SALT    char(6)  comment '登录密码组合码(与密码组合加密用，详见登录密码备注)',
    SIGN_IN_NICKNAME     varchar(20)  comment '登录用户昵称',
    SIGN_IN_AVATAR       varchar(300)  comment '登录用户头像',
-   WX_OPEN_ID           varchar(64) not null  comment '微信的OpenId',
+   WX_OPEN_ID           varchar(64)  comment '微信的OpenId',
    WX_UNION_ID          varchar(64)  comment '微信的UnionId',
-   WX_NICKNAME          varchar(100) not null  comment '微信昵称',
-   WX_AVATAR            varchar(300) not null  comment '微信头像',
-   QQ_OPEN_ID           varchar(64) not null  comment 'QQ的OpenId',
+   WX_NICKNAME          varchar(100)  comment '微信昵称',
+   WX_AVATAR            varchar(300)  comment '微信头像',
+   QQ_OPEN_ID           varchar(64)  comment 'QQ的OpenId',
    QQ_UNION_ID          varchar(64)  comment 'QQ的UnionId',
-   QQ_NICKNAME          varchar(100) not null  comment 'QQ昵称',
-   QQ_AVATAR            varchar(300) not null  comment 'QQ头像',
+   QQ_NICKNAME          varchar(100)  comment 'QQ昵称',
+   QQ_AVATAR            varchar(300)  comment 'QQ头像',
    IS_TESTER            bool not null default false  comment '是否测试者',
-   CREATER_TIMESTAMP    bigint unsigned not null  comment '建立时间戳',
+   CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
    unique key AK_LOGIN_NICKNAME (SIGN_IN_NICKNAME),

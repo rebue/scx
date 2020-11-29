@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.ex.impl;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Resource;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -20,7 +22,9 @@ import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.ex.SignInByUserNameTo;
+import rebue.wheel.DateUtils;
 import rebue.wheel.RegexUtils;
+import rebue.wheel.turing.DigestUtils;
 
 /**
  * 用户注册服务的实现类
@@ -42,25 +46,16 @@ import rebue.wheel.RegexUtils;
 public class RacSignInSvcImpl implements RacSignInSvc {
 
     /**
+     * 允许输入登录密码错误次数
+     */
+    private static final Long   ALLOW_INPUT_SIGN_IN_PSWD_ERR_COUNT            = 5L;
+
+    /**
      * 缓存当天连续输入登录密码错误的次数的Key的前缀
      * 后面跟用户ID拼接成Key
      * Value为失败次数
      */
-    private static final String REDIS_KEY_SIGN_IN_PSWD_ERR_COUNT_PREFIX = "rebue.scx.rac.svc.sign-in.sign-in-pswd.err-count.";
-
-    /**
-     * 缓存当天连续输入支付密码错误的次数的Key的前缀
-     * 后面跟用户ID拼接成Key
-     * Value为失败次数
-     */
-    private static final String REDIS_KEY_PAY_PSWD_ERR_COUNT_PREFIX     = "rebue.scx.rac.svc.sign-in.pay-pswd.err-count.";
-
-    /**
-     * 黑名单的前缀
-     * 后面跟用户ID拼接成Key
-     * Value为空值
-     */
-    private static final String REDIS_KEY_BLACKLIST_PREFIX              = "rebue.scx.rac.svc.sign-in.black-list.";
+    private static final String REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX = "rebue.scx.rac.svc.sign-in.input-sign-in-pswd-err-count.";
 
     // @DubboReference(application = "jwt-svr")
     // private JwtApi jwtApi;
@@ -81,7 +76,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<SignUpOrInRa> signInByUserName(final SignInByUserNameTo to) {
+    public Ro<SignUpOrInRa> signInByUserName(SignInByUserNameTo to) {
         log.info("根据系统ID获取系统信息");
         RacSysMo sysMo = sysSvc.getById(to.getSysId());
         if (sysMo == null) {
@@ -128,22 +123,74 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
         }
 
-        if (existBlacklist(userMo.getId())) {
-            String msg = "该用户已被列入黑名单";
+        Long inputSignInPswdErrCount = getInputSignInPswdErrCount(userMo.getId());
+        if (inputSignInPswdErrCount != null && inputSignInPswdErrCount >= ALLOW_INPUT_SIGN_IN_PSWD_ERR_COUNT) {
+            String msg = "因连续多次输入错误密码，该用户已被临时锁定(明日零时解锁)";
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
         }
+
+        if (!userMo.getSignInPswd().equals(saltPswd(to.getSignInPswd(), userMo.getSignInPswdSalt()))) {
+            Long allowErrCount = ALLOW_INPUT_SIGN_IN_PSWD_ERR_COUNT - incrInputSignInPswdErrCount(userMo.getId());
+
+            String msg;
+            if (allowErrCount == 0) {
+                msg = "因连续多次输入错误密码，该用户已被临时锁定(明日零时解锁)";
+            }
+            else {
+                msg = "密码错误，还可以重试" + allowErrCount + "次";
+            }
+
+            log.warn(msg + ": to-{}", to);
+            return new Ro<>(ResultDic.FAIL, msg);
+        }
+
+        if (inputSignInPswdErrCount != null && inputSignInPswdErrCount > 0)
+            delInputSignInPswdErrCount(userMo.getId());
 
         return null;
     }
 
     /**
-     * 检查用户是否存在黑名单中(多次输错密码会被列入黑名单)
+     * 获取用户输入登录密码错误次数
      */
-    private Boolean existBlacklist(final Long userId) {
-        log.info("检查用户是否存在黑名单中(多次输错密码会被列入黑名单): {}", userId);
-        Object value = stringRedisTemplate.opsForValue().get(REDIS_KEY_BLACKLIST_PREFIX + userId);
-        return value != null;
+    private Long getInputSignInPswdErrCount(Long userId) {
+        log.info("获取用户输入登录密码错误次数: {}", userId);
+        String result = stringRedisTemplate.opsForValue().get(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId);
+        if (result == null || result == "" || result == "nil") {
+            return null;
+        }
+        return Long.parseLong(result);
+    }
+
+    /**
+     * 递增用户输入登录密码错误次数
+     */
+    private Long incrInputSignInPswdErrCount(Long userId) {
+        log.info("递增用户输入登录密码错误次数: {}", userId);
+        Long result = stringRedisTemplate.opsForValue().increment(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId);
+        stringRedisTemplate.expire(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
+        return result;
+    }
+
+    /**
+     * 删除输入登录密码错误次数
+     */
+    private Boolean delInputSignInPswdErrCount(Long userId) {
+        log.info("删除输入登录密码错误次数: {}", userId);
+        return stringRedisTemplate.delete(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId);
+    }
+
+    /**
+     * 加盐摘要密码
+     *
+     * @param pswd 登录密码(不是明文，而是将明文MD5传过来)
+     * @param salt 盐值
+     * 
+     * @return
+     */
+    private String saltPswd(final String pswd, final String salt) {
+        return DigestUtils.md5AsHexStr((pswd + salt).toLowerCase().getBytes());
     }
 
 }

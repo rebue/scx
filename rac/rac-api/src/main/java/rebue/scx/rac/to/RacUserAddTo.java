@@ -1,16 +1,11 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 
 /**
@@ -32,7 +27,6 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "微信的OpenId不能为空")
     @Length(max = 64, message = "微信的OpenId的长度不能大于64")
     private String            wxOpenId;
 
@@ -49,7 +43,6 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "微信昵称不能为空")
     @Length(max = 100, message = "微信昵称的长度不能大于100")
     private String            wxNickname;
 
@@ -58,7 +51,6 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "微信头像不能为空")
     @Length(max = 300, message = "微信头像的长度不能大于300")
     private String            wxAvatar;
 
@@ -67,7 +59,6 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "QQ的OpenId不能为空")
     @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String            qqOpenId;
 
@@ -84,7 +75,6 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "QQ昵称不能为空")
     @Length(max = 100, message = "QQ昵称的长度不能大于100")
     private String            qqNickname;
 
@@ -93,7 +83,6 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "QQ头像不能为空")
     @Length(max = 300, message = "QQ头像的长度不能大于300")
     private String            qqAvatar;
 
@@ -135,17 +124,13 @@ public class RacUserAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long              createrTimestamp;
-
     /**
      * 登录名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 20, message = "登录名称的长度不能大于20")
-    private String            signInName;
+    private String signInName;
 
     /**
      * 登录手机
@@ -153,7 +138,7 @@ public class RacUserAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 11, message = "登录手机的长度不能大于11")
-    private String            signInMobile;
+    private String signInMobile;
 
     /**
      * 登录邮箱
@@ -161,7 +146,7 @@ public class RacUserAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 50, message = "登录邮箱的长度不能大于50")
-    private String            signInEmail;
+    private String signInEmail;
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
@@ -172,7 +157,7 @@ public class RacUserAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 32, message = "登录密码的长度不能大于32")
-    private String            signInPswd;
+    private String signInPswd;
 
     /**
      * 登录密码组合码(与密码组合加密用，详见登录密码备注)
@@ -180,7 +165,7 @@ public class RacUserAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 6, message = "登录密码组合码的长度不能大于6")
-    private String            signInPswdSalt;
+    private String signInPswdSalt;
 
     /**
      * 登录用户昵称
@@ -188,7 +173,7 @@ public class RacUserAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 20, message = "登录用户昵称的长度不能大于20")
-    private String            signInNickname;
+    private String signInNickname;
 
     /**
      * 登录用户头像
@@ -196,5 +181,9 @@ public class RacUserAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 300, message = "登录用户头像的长度不能大于300")
-    private String            signInAvatar;
+    private String signInAvatar;
+
+    @NotNull(message = "建立时间戳不能为空")
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long   createTimestamp;
 }

@@ -1,7 +1,6 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
-
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -152,7 +151,7 @@ public final class RacUserDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> createrTimestamp = racUser.createrTimestamp;
+    public static final SqlColumn<Long> createTimestamp = racUser.createTimestamp;
 
     /**
     * 修改时间戳
@@ -200,7 +199,7 @@ public final class RacUserDynamicSqlSupport {
 
         public final SqlColumn<Boolean> isTester = column("IS_TESTER", JDBCType.BIT);
 
-        public final SqlColumn<Long> createrTimestamp = column("CREATER_TIMESTAMP", JDBCType.BIGINT);
+        public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
 
         public final SqlColumn<Long> updateTimestamp = column("UPDATE_TIMESTAMP", JDBCType.BIGINT);
 

@@ -1,34 +1,11 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.createrTimestamp;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isEnabled;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isTester;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.personId;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.qqAvatar;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.qqNickname;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.qqOpenId;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.qqUnionId;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.signInAvatar;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.signInEmail;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.signInMobile;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.signInName;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.signInNickname;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.signInPswd;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.signInPswdSalt;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.updateTimestamp;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.wxAvatar;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.wxNickname;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.wxOpenId;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.wxUnionId;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -52,7 +29,6 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacUserMo;
 
@@ -61,7 +37,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, personId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createrTimestamp, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, personId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -118,7 +94,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         @Result(column="QQ_NICKNAME", property="qqNickname", jdbcType=JdbcType.VARCHAR),
         @Result(column="QQ_AVATAR", property="qqAvatar", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_TESTER", property="isTester", jdbcType=JdbcType.BIT),
-        @Result(column="CREATER_TIMESTAMP", property="createrTimestamp", jdbcType=JdbcType.BIGINT),
+        @Result(column="CREATE_TIMESTAMP", property="createTimestamp", jdbcType=JdbcType.BIGINT),
         @Result(column="UPDATE_TIMESTAMP", property="updateTimestamp", jdbcType=JdbcType.BIGINT)
     })
     List<RacUserMo> selectMany(SelectStatementProvider selectStatement);
@@ -176,7 +152,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(qqNickname).toProperty("qqNickname")
             .map(qqAvatar).toProperty("qqAvatar")
             .map(isTester).toProperty("isTester")
-            .map(createrTimestamp).toProperty("createrTimestamp")
+            .map(createTimestamp).toProperty("createTimestamp")
             .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
@@ -205,7 +181,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(qqNickname).toProperty("qqNickname")
             .map(qqAvatar).toProperty("qqAvatar")
             .map(isTester).toProperty("isTester")
-            .map(createrTimestamp).toProperty("createrTimestamp")
+            .map(createTimestamp).toProperty("createTimestamp")
             .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
@@ -234,7 +210,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(qqNickname).toPropertyWhenPresent("qqNickname", record::getQqNickname)
             .map(qqAvatar).toPropertyWhenPresent("qqAvatar", record::getQqAvatar)
             .map(isTester).toPropertyWhenPresent("isTester", record::getIsTester)
-            .map(createrTimestamp).toPropertyWhenPresent("createrTimestamp", record::getCreaterTimestamp)
+            .map(createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp)
             .map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp)
         );
     }
@@ -299,7 +275,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
                 .set(qqNickname).equalTo(record::getQqNickname)
                 .set(qqAvatar).equalTo(record::getQqAvatar)
                 .set(isTester).equalTo(record::getIsTester)
-                .set(createrTimestamp).equalTo(record::getCreaterTimestamp)
+                .set(createTimestamp).equalTo(record::getCreateTimestamp)
                 .set(updateTimestamp).equalTo(record::getUpdateTimestamp);
     }
 
@@ -326,7 +302,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
                 .set(qqNickname).equalToWhenPresent(record::getQqNickname)
                 .set(qqAvatar).equalToWhenPresent(record::getQqAvatar)
                 .set(isTester).equalToWhenPresent(record::getIsTester)
-                .set(createrTimestamp).equalToWhenPresent(record::getCreaterTimestamp)
+                .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
                 .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
@@ -353,7 +329,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .set(qqNickname).equalTo(record::getQqNickname)
             .set(qqAvatar).equalTo(record::getQqAvatar)
             .set(isTester).equalTo(record::getIsTester)
-            .set(createrTimestamp).equalTo(record::getCreaterTimestamp)
+            .set(createTimestamp).equalTo(record::getCreateTimestamp)
             .set(updateTimestamp).equalTo(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -382,7 +358,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .set(qqNickname).equalToWhenPresent(record::getQqNickname)
             .set(qqAvatar).equalToWhenPresent(record::getQqAvatar)
             .set(isTester).equalToWhenPresent(record::getIsTester)
-            .set(createrTimestamp).equalToWhenPresent(record::getCreaterTimestamp)
+            .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
             .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -412,7 +388,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -441,7 +417,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -470,7 +446,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -513,7 +489,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
             .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
             .and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }

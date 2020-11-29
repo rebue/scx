@@ -1,16 +1,11 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -39,7 +34,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "微信的OpenId不能为空")
     @Length(max = 64, message = "微信的OpenId的长度不能大于64")
     private String            wxOpenId;
 
@@ -56,7 +50,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "微信昵称不能为空")
     @Length(max = 100, message = "微信昵称的长度不能大于100")
     private String            wxNickname;
 
@@ -65,7 +58,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "微信头像不能为空")
     @Length(max = 300, message = "微信头像的长度不能大于300")
     private String            wxAvatar;
 
@@ -74,7 +66,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "QQ的OpenId不能为空")
     @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String            qqOpenId;
 
@@ -91,7 +82,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "QQ昵称不能为空")
     @Length(max = 100, message = "QQ昵称的长度不能大于100")
     private String            qqNickname;
 
@@ -100,7 +90,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "QQ头像不能为空")
     @Length(max = 300, message = "QQ头像的长度不能大于300")
     private String            qqAvatar;
 
@@ -378,7 +367,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
         sb.append(", qqNickname=").append(qqNickname);
         sb.append(", qqAvatar=").append(qqAvatar);
         sb.append(", isTester=").append(isTester);
-        sb.append(", createrTimestamp=").append(createrTimestamp);
+        sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", updateTimestamp=").append(updateTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
@@ -430,17 +419,13 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "个人ID不能为负数")
-    private Long        personId;
+    private Long personId;
 
     /**
      * 建立时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long        createrTimestamp;
-
     /**
      * 个人
      *
@@ -473,19 +458,11 @@ public class RacUserMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public Long getCreaterTimestamp() {
-        return createrTimestamp;
-    }
-
     /**
      * 建立时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setCreaterTimestamp(Long createrTimestamp) {
-        this.createrTimestamp = createrTimestamp;
-    }
-
     /**
      * 登录名称
      *
@@ -675,5 +652,17 @@ public class RacUserMo implements Serializable, Mo<Long> {
      */
     public void setSignInAvatar(String signInAvatar) {
         this.signInAvatar = signInAvatar;
+    }
+
+    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long createTimestamp;
+
+    public Long getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Long createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 }

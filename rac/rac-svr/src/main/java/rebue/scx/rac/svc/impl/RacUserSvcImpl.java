@@ -5,9 +5,14 @@ import static rebue.scx.rac.mapper.RacDomainUserDynamicSqlSupport.racDomainUser;
 import static rebue.scx.rac.mapper.RacOrgUserDynamicSqlSupport.racOrgUser;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.mybatis.dynamic.sql.SqlCriterion;
+import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
+import org.mybatis.dynamic.sql.select.SelectModel;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -73,42 +78,47 @@ public class RacUserSvcImpl
      */
     @Override
     public RacUserMo getOneByEmail(final String domainId, final Long orgId, final String email) {
-        SqlCriterion<?>[] sqlCriterions = new SqlCriterion<?>[2];
-        sqlCriterions[0] = and(racOrgUser.orgId, isEqualTo(orgId));
-        sqlCriterions[1] = and(racUser.signInEmail, isEqualTo(email));
+        final List<SqlCriterion<?>> list = new LinkedList<>();
+        if (orgId != null) {
+            list.add(and(racOrgUser.orgId, isEqualTo(orgId)));
+        }
+        list.add(and(racUser.signInEmail, isEqualTo(email)));
         return _mapper.selectOne(c -> c
             .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
             .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
             .where(
                 racDomainUser.domainId, isEqualTo(domainId),
-                sqlCriterions
-            // orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
-            // and(racUser.signInEmail, isEqualTo(email))))
-            ))
+                // list.stream().toArray(SqlCriterion<?>[]::new)))
+                and(racOrgUser.orgId, isEqualToWhenPresent(orgId)),
+                and(racUser.signInEmail, isEqualTo(email))))
             .orElse(null);
     }
 
     @Override
-    public RacUserMo getOneByMobile(String domainId, Long orgId, String mobile) {
+    public RacUserMo getOneByMobile(final String domainId, final Long orgId, final String mobile) {
         return _mapper.selectOne(c -> c
             .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
             .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
             .where(
                 racDomainUser.domainId, isEqualTo(domainId),
-                orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
+                and(racOrgUser.orgId, isEqualToWhenPresent(orgId)),
                 and(racUser.signInMobile, isEqualTo(mobile))))
             .orElse(null);
     }
 
     @Override
-    public RacUserMo getOneBySignInName(String domainId, Long orgId, String signInName) {
-        return _mapper.selectOne(c -> c
-            .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id))
-            .rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
-            .where(
+    public RacUserMo getOneBySignInName(final String domainId, final Long orgId, final String signInName) {
+        return _mapper.selectOne(c -> {
+            QueryExpressionDSL<SelectModel>.JoinSpecificationFinisher join = c
+                .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id));
+
+            if (orgId != null)
+                join.rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id));
+
+            return join.where(
                 racDomainUser.domainId, isEqualTo(domainId),
-                orgId == null ? null : and(racOrgUser.orgId, isEqualTo(orgId)),
-                and(racUser.signInName, isEqualTo(signInName))))
-            .orElse(null);
+                and(racOrgUser.orgId, isEqualToWhenPresent(orgId)),
+                and(racUser.signInName, isEqualTo(signInName)));
+        }).orElse(null);
     }
 }

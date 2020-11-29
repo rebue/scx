@@ -31,7 +31,7 @@ public class RacSignInHttpTests {
      * 测试通过用户名称登录
      */
     @Test
-    public void testSignUpByUserName() throws IOException {
+    public void testSignInByUserName() throws IOException {
         log.info("测试错误的系统ID");
         SignInByUserNameTo to = new SignInByUserNameTo();
         to.setSysId("aaa");
@@ -41,15 +41,29 @@ public class RacSignInHttpTests {
         Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
         Assertions.assertEquals("未发现此系统信息: aaa", ro.getMsg());
 
-        log.info("测试错误的Email");
+        log.info("测试找不到此用户");
         to = new SignInByUserNameTo();
         to.setSysId("rebue-platform");
         to.setUserName("admin@qq.com");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         ro = signInByUserName(to);
         Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
-        Assertions.assertEquals("", ro.getMsg());
+        Assertions.assertEquals("找不到此用户: admin@qq.com", ro.getMsg());
 
+        log.info("测试admin用户登录:错误的密码");
+        to = new SignInByUserNameTo();
+        to.setSysId("rebue-platform");
+        to.setUserName("admin");
+        to.setSignInPswd(DigestUtils.md5AsHexStrX32("95271".getBytes()));
+        ro = signInByUserName(to);
+        Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
+        Assertions.assertEquals("密码错误", ro.getMsg());
+
+        log.info("测试admin用户登录:正确的密码");
+        to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
+        ro = signInByUserName(to);
+        Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
+        Assertions.assertEquals("密码错误", ro.getMsg());
     }
 
     private Ro<SignUpOrInRa> signInByUserName(SignInByUserNameTo to) throws IOException {
