@@ -11,9 +11,9 @@ import rebue.robotech.dic.EnumBase;
 
 /**
  * 注册或登录方式的字典
- * 1: 登录名
+ * 1: 登录名称
  * 2: 电子邮箱
- * 3: 手机
+ * 3: 手机号码
  * 4: QQ
  * 5: 微信
  */
@@ -23,15 +23,15 @@ public enum SignUpOrInWayDic implements EnumBase {
     /**
      * 1: 登录名
      */
-    SIGN_IN_NAME(1, "用户登录名"),
+    SIGN_IN_NAME(1, "登录名称"),
     /**
      * 2: 电子邮箱
      */
     EMAIL(2, "电子邮箱"),
     /**
-     * 3: 手机
+     * 3: 手机号码
      */
-    MOBILE(3, "手机"),
+    MOBILE(3, "手机号码"),
     /**
      * 4: QQ
      */
@@ -41,7 +41,7 @@ public enum SignUpOrInWayDic implements EnumBase {
      */
     WX(5, "微信");
 
-    private final int code;
+    private final int    code;
     private final String desc;
 
     @Override

@@ -1,9 +1,11 @@
 package rebue.scx.rac.svc.ex.impl;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,9 +20,11 @@ import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
+import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.ex.SignInByUserNameTo;
 import rebue.wheel.DateUtils;
 import rebue.wheel.RegexUtils;
@@ -48,14 +52,14 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 允许输入登录密码错误次数
      */
-    private static final Long   ALLOW_INPUT_SIGN_IN_PSWD_ERR_COUNT            = 5L;
+    private static final Long   ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN            = 5L;
 
     /**
      * 缓存当天连续输入登录密码错误的次数的Key的前缀
      * 后面跟用户ID拼接成Key
      * Value为失败次数
      */
-    private static final String REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX = "rebue.scx.rac.svc.sign-in.input-sign-in-pswd-err-count.";
+    private static final String REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.svc.sign-in.wrong-pswd-times-of-sign-in.";
 
     // @DubboReference(application = "jwt-svr")
     // private JwtApi jwtApi;
@@ -64,6 +68,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private RacUserSvc  userSvc;
     @Resource
     private RacSysSvc   sysSvc;
+    @Resource
+    private RacOpLogSvc opLogSvc;
 
     @Resource
     StringRedisTemplate stringRedisTemplate;
@@ -84,7 +90,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         }
 
         RacUserMo userMo = null;
-        SignUpOrInWayDic signInWay;
+        SignUpOrInWayDic signInWay = null;
         if (RegexUtils.matchEmail(to.getUserName())) {
             userMo = userSvc.getOneByEmail(sysMo.getDomainId(), to.getOrgId(), to.getUserName());
             if (userMo != null) {
@@ -123,40 +129,44 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
         }
 
-        Long inputSignInPswdErrCount = getInputSignInPswdErrCount(userMo.getId());
-        if (inputSignInPswdErrCount != null && inputSignInPswdErrCount >= ALLOW_INPUT_SIGN_IN_PSWD_ERR_COUNT) {
+        log.info("检查用户输错密码是否超过限定次数");
+        Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(userMo.getId());
+        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
             String msg = "因连续多次输入错误密码，该用户已被临时锁定(明日零时解锁)";
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
         }
 
+        log.info("校验密码是否正确");
         if (!userMo.getSignInPswd().equals(saltPswd(to.getSignInPswd(), userMo.getSignInPswdSalt()))) {
-            Long allowErrCount = ALLOW_INPUT_SIGN_IN_PSWD_ERR_COUNT - incrInputSignInPswdErrCount(userMo.getId());
+            Long allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(userMo.getId());
 
             String msg;
             if (allowErrCount == 0) {
                 msg = "因连续多次输入错误密码，该用户已被临时锁定(明日零时解锁)";
             }
             else {
-                msg = "密码错误，还可以重试" + allowErrCount + "次";
+                msg = "密码输入错误，还可以重试" + allowErrCount + "次";
             }
 
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.FAIL, msg);
         }
 
-        if (inputSignInPswdErrCount != null && inputSignInPswdErrCount > 0)
-            delInputSignInPswdErrCount(userMo.getId());
+        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn > 0) {
+            log.info("校验密码正确后，清除输错密码次数");
+            delWrongPswdTimesOfSignIn(userMo.getId());
+        }
 
-        return null;
+        return returnSuccessSignIn(to.getSysId(), userMo, signInWay);
     }
 
     /**
      * 获取用户输入登录密码错误次数
      */
-    private Long getInputSignInPswdErrCount(Long userId) {
-        log.info("获取用户输入登录密码错误次数: {}", userId);
-        String result = stringRedisTemplate.opsForValue().get(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId);
+    private Long getWrongPswdTimesOfSignIn(Long userId) {
+        log.info("获取用户输入错误登录密码的次数: {}", userId);
+        String result = stringRedisTemplate.opsForValue().get(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + userId);
         if (result == null || result == "" || result == "nil") {
             return null;
         }
@@ -166,19 +176,19 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 递增用户输入登录密码错误次数
      */
-    private Long incrInputSignInPswdErrCount(Long userId) {
-        log.info("递增用户输入登录密码错误次数: {}", userId);
-        Long result = stringRedisTemplate.opsForValue().increment(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId);
-        stringRedisTemplate.expire(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
+    private Long incrWrongPswdTimesOfSignIn(Long userId) {
+        log.info("递增用户输入错误登录密码的次数: {}", userId);
+        Long result = stringRedisTemplate.opsForValue().increment(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + userId);
+        stringRedisTemplate.expire(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + userId, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
         return result;
     }
 
     /**
      * 删除输入登录密码错误次数
      */
-    private Boolean delInputSignInPswdErrCount(Long userId) {
-        log.info("删除输入登录密码错误次数: {}", userId);
-        return stringRedisTemplate.delete(REDIS_KEY_INPUT_SIGN_IN_PSWD_ERR_COUNT_PREFIX + userId);
+    private Boolean delWrongPswdTimesOfSignIn(Long userId) {
+        log.info("删除用户输入错误登录密码的次数: {}", userId);
+        return stringRedisTemplate.delete(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + userId);
     }
 
     /**
@@ -186,11 +196,67 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      *
      * @param pswd 登录密码(不是明文，而是将明文MD5传过来)
      * @param salt 盐值
-     * 
+     *
      * @return
      */
     private String saltPswd(final String pswd, final String salt) {
         return DigestUtils.md5AsHexStr((pswd + salt).toLowerCase().getBytes());
+    }
+
+    /**
+     * 返回成功登录
+     *
+     * @param loginTo
+     *                  登录参数
+     * @param loginType
+     *                  登录类型
+     * @param userMo
+     *                  获取到的用户信息
+     *
+     * @param sysId
+     * @param userMo
+     * 
+     * @return
+     */
+    private Ro<SignUpOrInRa> returnSuccessSignIn(String sysId, RacUserMo userMo, SignUpOrInWayDic signInWay) {
+        RacOpLogAddTo opLogAddTo = new RacOpLogAddTo();
+        LocalDateTime now = LocalDateTime.now();
+        opLogAddTo.setOpType("登录");
+        opLogAddTo.setSysId(sysId);
+        opLogAddTo.setUserId(userMo.getId());
+        opLogAddTo.setOpTitle("用户登录-" + signInWay.getDesc());
+        opLogAddTo.setOpDetail("用户通过" + signInWay.getDesc() + "登录系统");
+        opLogAddTo.setOpDatetime(now);
+        opLogSvc.add(opLogAddTo);
+
+        SignUpOrInRa ra = new SignUpOrInRa();
+        ra.setId(userMo.getId());
+        ra.setIsTester(userMo.getIsTester());
+        // 判断应该返回的昵称
+        if (!StringUtils.isBlank(userMo.getSignInNickname())) {
+            ra.setNickname(userMo.getSignInNickname());
+        }
+        else if (!StringUtils.isBlank(userMo.getWxNickname())) {
+            ra.setNickname(userMo.getWxNickname());
+        }
+        else if (!StringUtils.isBlank(userMo.getQqNickname())) {
+            ra.setNickname(userMo.getQqNickname());
+        }
+        else if (!StringUtils.isBlank(userMo.getSignInName())) {
+            ra.setNickname(userMo.getSignInName());
+        }
+        // 判断应该返回的头像
+        if (!StringUtils.isBlank(userMo.getSignInAvatar())) {
+            ra.setAvatar(userMo.getSignInAvatar());
+        }
+        else if (!StringUtils.isBlank(userMo.getWxAvatar())) {
+            ra.setAvatar(userMo.getWxAvatar());
+        }
+        else if (!StringUtils.isBlank(userMo.getQqAvatar())) {
+            ra.setAvatar(userMo.getQqAvatar());
+        }
+
+        return new Ro<SignUpOrInRa>(ResultDic.SUCCESS, "用户登录成功", ra);
     }
 
 }

@@ -2,7 +2,8 @@ package rebue.scx.rac.ra;
 
 import java.time.LocalDateTime;
 
-import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import rebue.robotech.ra.IdRa;
 
@@ -22,13 +24,32 @@ import rebue.robotech.ra.IdRa;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonInclude(Include.NON_NULL)
+@NoArgsConstructor
 public class SignUpOrInRa extends IdRa<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 签名(成功后可将签名放入Cookie中)
+     * 是否测试者
      */
     @NonNull
+    private Boolean           isTester;
+
+    /**
+     * 昵称
+     */
+    @NotBlank
+    private String            nickname;
+
+    /**
+     * 头像
+     */
+    @NotBlank
+    private String            avatar;
+
+    /**
+     * 签名(成功后可将签名放入Cookie中)
+     */
+    @NotBlank
     private String            sign;
 
     /**
@@ -41,7 +62,7 @@ public class SignUpOrInRa extends IdRa<Long> {
 
     public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime) {
         super(id);
-        this.sign           = sign;
+        this.sign = sign;
         this.expirationTime = expirationTime;
     }
 

@@ -57,13 +57,12 @@ public class RacSignInHttpTests {
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("95271".getBytes()));
         ro = signInByUserName(to);
         Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
-        Assertions.assertEquals("密码错误", ro.getMsg());
+        Assertions.assertTrue(ro.getMsg().startsWith("密码输入错误"));
 
         log.info("测试admin用户登录:正确的密码");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         ro = signInByUserName(to);
-        Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
-        Assertions.assertEquals("密码错误", ro.getMsg());
+        Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
     }
 
     private Ro<SignUpOrInRa> signInByUserName(SignInByUserNameTo to) throws IOException {
