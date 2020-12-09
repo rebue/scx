@@ -1,8 +1,5 @@
 package rebue.scx.rac.svc.ex.impl;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -75,9 +72,7 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
 
         // 如果添加成功，JWT签名
         if (userId != null) {
-            final Map<String, Object> addtions = new LinkedHashMap<>();
-            addtions.put("sysId", to.getSysId());
-            final JwtSignTo     signTo = new JwtSignTo(userId.toString(), addtions);
+            final JwtSignTo     signTo = new JwtSignTo(userId.toString());
             final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
             if (ResultDic.SUCCESS.equals(signRo.getResult())) {
                 final SignUpOrInRa ra = new SignUpOrInRa(

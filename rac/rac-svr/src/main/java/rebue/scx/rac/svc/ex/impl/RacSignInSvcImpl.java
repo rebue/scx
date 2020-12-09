@@ -1,8 +1,6 @@
 package rebue.scx.rac.svc.ex.impl;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -234,9 +232,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         opLogAddTo.setOpDatetime(now);
         opLogSvc.add(opLogAddTo);
 
-        final Map<String, Object> addtions = new LinkedHashMap<>();
-        addtions.put("sysId", sysMo.getId());
-        final JwtSignTo     signTo = new JwtSignTo(userMo.getId().toString(), addtions);
+        final JwtSignTo     signTo = new JwtSignTo(userMo.getId().toString());
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {
             final SignUpOrInRa ra = new SignUpOrInRa(
