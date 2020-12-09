@@ -29,24 +29,6 @@ public class SignUpOrInRa extends IdRa<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 是否测试者
-     */
-    @NonNull
-    private Boolean           isTester;
-
-    /**
-     * 昵称
-     */
-    @NotBlank
-    private String            nickname;
-
-    /**
-     * 头像
-     */
-    @NotBlank
-    private String            avatar;
-
-    /**
      * 签名(成功后可将签名放入Cookie中)
      */
     @NotBlank
@@ -60,10 +42,16 @@ public class SignUpOrInRa extends IdRa<Long> {
     @NonNull
     private LocalDateTime     expirationTime;
 
-    public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime) {
+    /**
+     * 跳转URL(成功后跳转)
+     */
+    private String            homePath;
+
+    public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime, final String homePath) {
         super(id);
-        this.sign = sign;
+        this.sign           = sign;
         this.expirationTime = expirationTime;
+        this.homePath       = homePath;
     }
 
 }
