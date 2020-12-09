@@ -3,26 +3,28 @@ package rebue.scx.rac.svc.ex.impl;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.dozermapper.core.Mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
+import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.svc.ex.RacSignUpSvc;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.ex.SignUpByUserNameTo;
-
-import javax.annotation.Resource;
 
 /**
  * API用户注册服务的实现类
@@ -40,6 +42,7 @@ import javax.annotation.Resource;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
+@Slf4j
 public class RacSignUpSvcImpl implements RacSignUpSvc {
 
     @DubboReference(application = "jwt-svr")
@@ -47,6 +50,8 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
 
     @Resource
     private RacUserSvc userSvc;
+    @Resource
+    private RacSysSvc  sysSvc;
 
     @Resource
     private Mapper     dozerMapper;
@@ -57,6 +62,12 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signUpByUserName(final SignUpByUserNameTo to) {
+        log.info("根据系统ID获取系统信息");
+        final RacSysMo sysMo = sysSvc.getById(to.getSysId());
+        if (sysMo == null) {
+            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
+        }
+
         // 添加用户
         final RacUserAddTo addTo = dozerMapper.map(to, RacUserAddTo.class);
         addTo.setUpdateTimestamp(System.currentTimeMillis());
@@ -69,11 +80,18 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
             final JwtSignTo     signTo = new JwtSignTo(userId.toString(), addtions);
             final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
             if (ResultDic.SUCCESS.equals(signRo.getResult())) {
-                return new Ro<>(ResultDic.FAIL, "注册用户成功", null, new SignUpOrInRa(userId, signRo.getExtra().getSign(), signRo.getExtra().getExpirationTime()));
-            } else {
+                final SignUpOrInRa ra = new SignUpOrInRa(
+                    userId,
+                    signRo.getExtra().getSign(),
+                    signRo.getExtra().getExpirationTime(),
+                    sysMo.getHomePath());
+                return new Ro<>(ResultDic.SUCCESS, "注册用户成功", ra);
+            }
+            else {
                 return new Ro<>(ResultDic.FAIL, "JWT签名失败");
             }
-        } else {
+        }
+        else {
             return new Ro<>(ResultDic.FAIL, "添加用户失败");
         }
 

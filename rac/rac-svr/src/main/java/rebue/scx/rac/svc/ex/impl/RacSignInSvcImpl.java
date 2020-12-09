@@ -1,10 +1,13 @@
 package rebue.scx.rac.svc.ex.impl;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +18,9 @@ import com.github.dozermapper.core.Mapper;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.jwt.api.JwtApi;
+import rebue.scx.jwt.ra.JwtSignRa;
+import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.mo.RacUserMo;
@@ -60,21 +66,21 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     private static final String REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.svc.sign-in.wrong-pswd-times-of-sign-in.";
 
-    // @DubboReference(application = "jwt-svr")
-    // private JwtApi jwtApi;
+    @DubboReference(application = "jwt-svr")
+    private JwtApi              jwtApi;
 
     @Resource
-    private RacUserSvc  userSvc;
+    private RacUserSvc          userSvc;
     @Resource
-    private RacSysSvc   sysSvc;
+    private RacSysSvc           sysSvc;
     @Resource
-    private RacOpLogSvc opLogSvc;
+    private RacOpLogSvc         opLogSvc;
 
     @Resource
-    StringRedisTemplate stringRedisTemplate;
+    StringRedisTemplate         stringRedisTemplate;
 
     @Resource
-    private Mapper      dozerMapper;
+    private Mapper              dozerMapper;
 
     /**
      * 通过用户名称登录(按照 邮箱->手机->登录名 的顺序查找用户)
@@ -228,10 +234,22 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         opLogAddTo.setOpDatetime(now);
         opLogSvc.add(opLogAddTo);
 
-        final SignUpOrInRa ra = new SignUpOrInRa();
-        ra.setId(userMo.getId());
-        ra.setHomePath(sysMo.getHomePath());
-        return new Ro<>(ResultDic.SUCCESS, "用户登录成功", ra);
+        final Map<String, Object> addtions = new LinkedHashMap<>();
+        addtions.put("sysId", sysMo.getId());
+        final JwtSignTo     signTo = new JwtSignTo(userMo.getId().toString(), addtions);
+        final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
+        if (ResultDic.SUCCESS.equals(signRo.getResult())) {
+            final SignUpOrInRa ra = new SignUpOrInRa(
+                userMo.getId(),
+                signRo.getExtra().getSign(),
+                signRo.getExtra().getExpirationTime(),
+                sysMo.getHomePath());
+            return new Ro<>(ResultDic.SUCCESS, "用户登录成功", ra);
+        }
+        else {
+            return new Ro<>(ResultDic.FAIL, "JWT签名失败");
+        }
+
     }
 
 }
