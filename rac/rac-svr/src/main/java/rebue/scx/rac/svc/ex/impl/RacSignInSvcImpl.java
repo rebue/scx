@@ -92,7 +92,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
         }
 
-        RacUserMo        userMo    = null;
+        RacUserMo userMo = null;
         SignUpOrInWayDic signInWay = null;
         if (RegexUtils.matchEmail(to.getUserName())) {
             userMo = userSvc.getOneByEmail(sysMo.getDomainId(), to.getOrgId(), to.getUserName());
@@ -117,43 +117,43 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         if (userMo == null) {
             final String msg = "找不到此用户";
             log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
+            return new Ro<>(ResultDic.WARN, msg + ": " + to.getUserName());
         }
 
         if (userMo.getSignInPswd() == null) {
             final String msg = "该用户没有设置登录密码，请设置好登录密码才能登录";
             log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
+            return new Ro<>(ResultDic.WARN, msg + ": " + to.getUserName());
         }
 
         if (!userMo.getIsEnabled()) {
             final String msg = "该用户已被禁止登录";
             log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
+            return new Ro<>(ResultDic.WARN, msg + ": " + to.getUserName());
         }
 
         log.info("检查用户输错密码是否超过限定次数");
         final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(userMo.getId());
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
-            final String msg = "因连续多次输入错误密码，该用户已被临时锁定(明日零时解锁)";
+            final String msg = "用户已被锁定，请明天再试";
             log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.FAIL, msg + ": " + to.getUserName());
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
         log.info("校验密码是否正确");
         if (!userMo.getSignInPswd().equals(saltPswd(to.getSignInPswd(), userMo.getSignInPswdSalt()))) {
             final Long allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(userMo.getId());
 
-            String     msg;
+            String msg;
             if (allowErrCount == 0) {
-                msg = "因连续多次输入错误密码，该用户已被临时锁定(明日零时解锁)";
+                msg = "密码错误，用户已被锁定，请明天再试";
             }
             else {
-                msg = "密码输入错误，还可以重试" + allowErrCount + "次";
+                msg = "密码错误，还可以重试" + allowErrCount + "次";
             }
 
             log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.FAIL, msg);
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn > 0) {
@@ -223,7 +223,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     private Ro<SignUpOrInRa> returnSuccessSignIn(final RacSysMo sysMo, final RacUserMo userMo, final SignUpOrInWayDic signInWay) {
         final RacOpLogAddTo opLogAddTo = new RacOpLogAddTo();
-        final LocalDateTime now        = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now();
         opLogAddTo.setOpType("登录");
         opLogAddTo.setSysId(sysMo.getId());
         opLogAddTo.setUserId(userMo.getId());
@@ -232,7 +232,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         opLogAddTo.setOpDatetime(now);
         opLogSvc.add(opLogAddTo);
 
-        final JwtSignTo     signTo = new JwtSignTo(userMo.getId().toString());
+        final JwtSignTo signTo = new JwtSignTo(userMo.getId().toString());
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {
             final SignUpOrInRa ra = new SignUpOrInRa(
