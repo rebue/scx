@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/11/29 10:13:48                          */
+/* Created on:     2020/12/10 11:53:19                          */
 /*==============================================================*/
 
 
@@ -385,7 +385,7 @@ create table RAC_SYS
    ID                   varchar(32) not null  comment '系统ID',
    NAME                 varchar(20) not null  comment '系统名称',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
-   HOME_PATH            varchar(70)  comment '首页路径',
+   INDEX_PATH           varchar(70)  comment '索引路径',
    REMARK               varchar(50)  comment '系统备注',
    primary key (ID),
    unique key AK_SYS_NAME (NAME)
