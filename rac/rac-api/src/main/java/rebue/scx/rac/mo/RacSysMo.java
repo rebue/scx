@@ -116,7 +116,7 @@ public class RacSysMo implements Serializable, Mo<String> {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", domainId=").append(domainId);
-        sb.append(", homePath=").append(homePath);
+        sb.append(", indexPath=").append(indexPath);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
@@ -169,16 +169,13 @@ public class RacSysMo implements Serializable, Mo<String> {
      */
     @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String      domainId;
+    private String domainId;
 
     /**
      * 首页路径
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 70, message = "首页路径的长度不能大于70")
-    private String      homePath;
-
     /**
      * 领域
      *
@@ -211,16 +208,20 @@ public class RacSysMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getHomePath() {
-        return homePath;
-    }
 
     /**
      * 首页路径
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setHomePath(String homePath) {
-        this.homePath = homePath;
+    @Length(max = 70, message = "索引路径的长度不能大于70")
+    private String indexPath;
+
+    public String getIndexPath() {
+        return indexPath;
+    }
+
+    public void setIndexPath(String indexPath) {
+        this.indexPath = indexPath;
     }
 }

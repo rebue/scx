@@ -218,7 +218,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      *
      * @param sysId
      * @param userMo
-     * 
+     *
      * @return
      */
     private Ro<SignUpOrInRa> returnSuccessSignIn(final RacSysMo sysMo, final RacUserMo userMo, final SignUpOrInWayDic signInWay) {
@@ -239,7 +239,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
                 userMo.getId(),
                 signRo.getExtra().getSign(),
                 signRo.getExtra().getExpirationTime(),
-                sysMo.getHomePath());
+                sysMo.getIndexPath());
             return new Ro<>(ResultDic.SUCCESS, "用户登录成功", ra);
         }
         else {

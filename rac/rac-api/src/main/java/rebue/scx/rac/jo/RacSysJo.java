@@ -115,10 +115,6 @@ public class RacSysJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "HOME_PATH", nullable = true, length = 70)
-    private String             homePath;
-
     /**
      * 领域
      *
@@ -135,4 +131,8 @@ public class RacSysJo implements Serializable {
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
     private List<RacLockLogJo> racLockLogList;
+
+    @Basic(optional = true)
+    @Column(name = "INDEX_PATH", nullable = true, length = 70)
+    private String             indexPath;
 }

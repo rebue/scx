@@ -43,15 +43,15 @@ public class SignUpOrInRa extends IdRa<Long> {
     private LocalDateTime     expirationTime;
 
     /**
-     * 跳转URL(成功后跳转)
+     * 索引路径(成功后跳转)
      */
-    private String            homePath;
+    private String indexPath;
 
-    public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime, final String homePath) {
+    public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime, final String indexPath) {
         super(id);
         this.sign           = sign;
         this.expirationTime = expirationTime;
-        this.homePath       = homePath;
+        this.indexPath = indexPath;
     }
 
 }

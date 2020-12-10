@@ -46,12 +46,12 @@ public class RacSysAddTo implements Serializable {
     @NotBlank(message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            domainId;
-
     /**
      * 首页路径
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 70, message = "首页路径的长度不能大于70")
-    private String            homePath;
+
+    @Length(max = 70, message = "索引路径的长度不能大于70")
+    private String            indexPath;
 }

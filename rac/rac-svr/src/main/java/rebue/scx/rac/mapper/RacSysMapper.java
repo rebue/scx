@@ -37,7 +37,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, homePath, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, indexPath, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -78,7 +78,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="HOME_PATH", property="homePath", jdbcType=JdbcType.VARCHAR),
+        @Result(column="INDEX_PATH", property="indexPath", jdbcType=JdbcType.VARCHAR),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     List<RacSysMo> selectMany(SelectStatementProvider selectStatement);
@@ -120,7 +120,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.map(id).toProperty("id")
             .map(name).toProperty("name")
             .map(domainId).toProperty("domainId")
-            .map(homePath).toProperty("homePath")
+            .map(indexPath).toProperty("indexPath")
             .map(remark).toProperty("remark")
         );
     }
@@ -133,7 +133,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.map(id).toProperty("id")
             .map(name).toProperty("name")
             .map(domainId).toProperty("domainId")
-            .map(homePath).toProperty("homePath")
+            .map(indexPath).toProperty("indexPath")
             .map(remark).toProperty("remark")
         );
     }
@@ -146,7 +146,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(name).toPropertyWhenPresent("name", record::getName)
             .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
-            .map(homePath).toPropertyWhenPresent("homePath", record::getHomePath)
+            .map(indexPath).toPropertyWhenPresent("indexPath", record::getIndexPath)
             .map(remark).toPropertyWhenPresent("remark", record::getRemark)
         );
     }
@@ -195,7 +195,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return dsl.set(id).equalTo(record::getId)
                 .set(name).equalTo(record::getName)
                 .set(domainId).equalTo(record::getDomainId)
-                .set(homePath).equalTo(record::getHomePath)
+                .set(indexPath).equalTo(record::getIndexPath)
                 .set(remark).equalTo(record::getRemark);
     }
 
@@ -206,7 +206,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(name).equalToWhenPresent(record::getName)
                 .set(domainId).equalToWhenPresent(record::getDomainId)
-                .set(homePath).equalToWhenPresent(record::getHomePath)
+                .set(indexPath).equalToWhenPresent(record::getIndexPath)
                 .set(remark).equalToWhenPresent(record::getRemark);
     }
 
@@ -217,7 +217,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return update(c ->
             c.set(name).equalTo(record::getName)
             .set(domainId).equalTo(record::getDomainId)
-            .set(homePath).equalTo(record::getHomePath)
+            .set(indexPath).equalTo(record::getIndexPath)
             .set(remark).equalTo(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -230,7 +230,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return update(c ->
             c.set(name).equalToWhenPresent(record::getName)
             .set(domainId).equalToWhenPresent(record::getDomainId)
-            .set(homePath).equalToWhenPresent(record::getHomePath)
+            .set(indexPath).equalToWhenPresent(record::getIndexPath)
             .set(remark).equalToWhenPresent(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -244,7 +244,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -257,7 +257,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -270,7 +270,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -297,7 +297,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(homePath, isEqualToWhenPresent(record::getHomePath))
+            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }

@@ -1,6 +1,9 @@
 package rebue.scx.rac.svc.impl;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.and;
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rac.mapper.RacDomainUserDynamicSqlSupport.racDomainUser;
 import static rebue.scx.rac.mapper.RacOrgUserDynamicSqlSupport.racOrgUser;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
@@ -24,11 +27,15 @@ import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mapper.RacUserMapper;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserDelTo;
+import rebue.scx.rac.to.RacUserListTo;
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserOneTo;
 
 /**
  * 用户服务实现
- * 
+ *
  * <pre>
  * 注意：
  * 1. 查询数据库操作的方法，不用设置默认 @Transactional
@@ -39,7 +46,7 @@ import rebue.scx.rac.to.*;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -69,11 +76,11 @@ public class RacUserSvcImpl
 
     /**
      * 通过email获取用户信息
-     * 
+     *
      * @param domainId 领域ID
      * @param orgId    组织ID
      * @param email    电子邮箱
-     * 
+     *
      * @return 用户信息
      */
     @Override
@@ -109,11 +116,12 @@ public class RacUserSvcImpl
     @Override
     public RacUserMo getOneBySignInName(final String domainId, final Long orgId, final String signInName) {
         return _mapper.selectOne(c -> {
-            QueryExpressionDSL<SelectModel>.JoinSpecificationFinisher join = c
+            final QueryExpressionDSL<SelectModel>.JoinSpecificationFinisher join = c
                 .rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id));
 
-            if (orgId != null)
+            if (orgId != null) {
                 join.rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id));
+            }
 
             return join.where(
                 racDomainUser.domainId, isEqualTo(domainId),
