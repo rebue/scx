@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacMenuMo;
 import rebue.scx.rac.svc.RacMenuSvc;
 import rebue.scx.rac.to.RacMenuAddTo;
-import rebue.scx.rac.to.RacMenuListTo;
 import rebue.scx.rac.to.RacMenuModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacMenuPageTo;
 
 /**
  * 菜单 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacMenuSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacMenuMo> listResult = _svc.list(new RacMenuListTo());
-        log.info("查询菜单的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacMenuMo> pageResult = _svc.page(new RacMenuPageTo());
+        log.info("查询菜单的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个菜单的参数为：" + id);
         RacMenuMo getByIdResult = _svc.getById(id);
         log.info("获取单个菜单的返回值为：" + getByIdResult);

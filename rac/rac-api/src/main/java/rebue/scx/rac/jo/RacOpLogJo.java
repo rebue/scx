@@ -15,9 +15,9 @@ import lombok.ToString;
 
 /**
  * 操作日志
- * 
+ *
  * The persistent class for the RAC_OP_LOG database table.
- * 
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity

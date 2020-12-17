@@ -17,9 +17,9 @@ import lombok.ToString;
 
 /**
  * 系统
- * 
+ *
  * The persistent class for the RAC_SYS database table.
- * 
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -79,6 +79,11 @@ public class RacSysJo implements Serializable {
     private List<RacOpLogJo>  racOpLogList;
 
     /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -110,11 +115,6 @@ public class RacSysJo implements Serializable {
         return true;
     }
 
-    /**
-     * 首页路径
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 领域
      *

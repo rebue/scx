@@ -13,13 +13,13 @@ import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogDelTo;
-import rebue.scx.rac.to.RacOpLogListTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.scx.rac.to.RacOpLogOneTo;
+import rebue.scx.rac.to.RacOpLogPageTo;
 
 /**
  * 操作日志服务实现
- * 
+ *
  * <pre>
  * 注意：
  * 1. 查询数据库操作的方法，不用设置默认 @Transactional
@@ -30,13 +30,13 @@ import rebue.scx.rac.to.RacOpLogOneTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacOpLogSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
+    extends BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
     implements RacOpLogSvc {
 
     /**

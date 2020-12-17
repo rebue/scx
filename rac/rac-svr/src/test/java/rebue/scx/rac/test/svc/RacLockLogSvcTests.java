@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.to.RacLockLogAddTo;
-import rebue.scx.rac.to.RacLockLogListTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacLockLogPageTo;
 
 /**
  * 锁定日志 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacLockLogSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacLockLogMo> listResult = _svc.list(new RacLockLogListTo());
-        log.info("查询锁定日志的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacLockLogMo> pageResult = _svc.page(new RacLockLogPageTo());
+        log.info("查询锁定日志的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个锁定日志的参数为：" + id);
         RacLockLogMo getByIdResult = _svc.getById(id);
         log.info("获取单个锁定日志的返回值为：" + getByIdResult);

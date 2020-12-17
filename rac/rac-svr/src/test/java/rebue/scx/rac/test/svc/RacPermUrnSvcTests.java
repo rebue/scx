@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
-import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacPermUrnPageTo;
 
 /**
  * 权限URN Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacPermUrnSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacPermUrnMo> listResult = _svc.list(new RacPermUrnListTo());
-        log.info("查询权限URN的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacPermUrnMo> pageResult = _svc.page(new RacPermUrnPageTo());
+        log.info("查询权限URN的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个权限URN的参数为：" + id);
         RacPermUrnMo getByIdResult = _svc.getById(id);
         log.info("获取单个权限URN的返回值为：" + getByIdResult);

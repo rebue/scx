@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacPersonMo;
 import rebue.scx.rac.svc.RacPersonSvc;
 import rebue.scx.rac.to.RacPersonAddTo;
-import rebue.scx.rac.to.RacPersonListTo;
 import rebue.scx.rac.to.RacPersonModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacPersonPageTo;
 
 /**
  * 个人 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacPersonSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacPersonMo> listResult = _svc.list(new RacPersonListTo());
-        log.info("查询个人的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacPersonMo> pageResult = _svc.page(new RacPersonPageTo());
+        log.info("查询个人的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个个人的参数为：" + id);
         RacPersonMo getByIdResult = _svc.getById(id);
         log.info("获取单个个人的返回值为：" + getByIdResult);

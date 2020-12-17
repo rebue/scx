@@ -11,7 +11,7 @@ import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 领域
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)

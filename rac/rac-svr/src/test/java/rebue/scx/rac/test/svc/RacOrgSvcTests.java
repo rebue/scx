@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.to.RacOrgAddTo;
-import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacOrgPageTo;
 
 /**
  * 组织 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacOrgSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacOrgMo> listResult = _svc.list(new RacOrgListTo());
-        log.info("查询组织的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacOrgMo> pageResult = _svc.page(new RacOrgPageTo());
+        log.info("查询组织的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个组织的参数为：" + id);
         RacOrgMo getByIdResult = _svc.getById(id);
         log.info("获取单个组织的返回值为：" + getByIdResult);

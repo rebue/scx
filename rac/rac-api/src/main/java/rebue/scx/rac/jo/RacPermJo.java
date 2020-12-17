@@ -17,9 +17,9 @@ import lombok.ToString;
 
 /**
  * 权限
- * 
+ *
  * The persistent class for the RAC_PERM database table.
- * 
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity

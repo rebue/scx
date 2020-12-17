@@ -13,13 +13,13 @@ import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgDelTo;
-import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
+import rebue.scx.rac.to.RacOrgPageTo;
 
 /**
  * 组织服务实现
- * 
+ *
  * <pre>
  * 注意：
  * 1. 查询数据库操作的方法，不用设置默认 @Transactional
@@ -30,12 +30,12 @@ import rebue.scx.rac.to.RacOrgOneTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgMo, RacOrgJo, RacOrgMapper, RacOrgDao>
+public class RacOrgSvcImpl extends BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgPageTo, RacOrgMo, RacOrgJo, RacOrgMapper, RacOrgDao>
     implements RacOrgSvc {
 
     /**

@@ -13,7 +13,7 @@ import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 系统
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -124,6 +124,11 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -141,6 +146,11 @@ public class RacSysMo implements Serializable, Mo<String> {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
+    /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -169,13 +179,8 @@ public class RacSysMo implements Serializable, Mo<String> {
      */
     @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String domainId;
+    private String      domainId;
 
-    /**
-     * 首页路径
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 领域
      *
@@ -204,13 +209,7 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 首页路径
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-
-    /**
-     * 首页路径
+     * 索引路径
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

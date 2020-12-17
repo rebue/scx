@@ -15,9 +15,9 @@ import lombok.ToString;
 
 /**
  * 领域
- * 
+ *
  * The persistent class for the RAC_DOMAIN database table.
- * 
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity

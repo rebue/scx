@@ -13,13 +13,13 @@ import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermDelTo;
-import rebue.scx.rac.to.RacPermListTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermOneTo;
+import rebue.scx.rac.to.RacPermPageTo;
 
 /**
  * 权限服务实现
- * 
+ *
  * <pre>
  * 注意：
  * 1. 查询数据库操作的方法，不用设置默认 @Transactional
@@ -30,14 +30,13 @@ import rebue.scx.rac.to.RacPermOneTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPermSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao>
-    implements RacPermSvc {
+public class RacPermSvcImpl extends
+    BaseSvcImpl<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermPageTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao> implements RacPermSvc {
 
     /**
      * 本服务的单例

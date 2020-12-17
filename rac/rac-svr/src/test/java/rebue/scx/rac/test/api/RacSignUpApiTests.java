@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.api.RacSignUpApi;
+import rebue.scx.rac.api.ex.RacSignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.ex.SignUpByUserNameTo;
 import rebue.wheel.turing.DigestUtils;

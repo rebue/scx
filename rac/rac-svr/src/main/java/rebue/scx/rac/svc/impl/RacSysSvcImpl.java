@@ -13,13 +13,13 @@ import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.to.RacSysAddTo;
 import rebue.scx.rac.to.RacSysDelTo;
-import rebue.scx.rac.to.RacSysListTo;
 import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysOneTo;
+import rebue.scx.rac.to.RacSysPageTo;
 
 /**
  * 系统服务实现
- * 
+ *
  * <pre>
  * 注意：
  * 1. 查询数据库操作的方法，不用设置默认 @Transactional
@@ -30,12 +30,12 @@ import rebue.scx.rac.to.RacSysOneTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao>
+public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysPageTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao>
     implements RacSysSvc {
 
     /**

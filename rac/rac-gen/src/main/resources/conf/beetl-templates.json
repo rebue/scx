@@ -35,9 +35,9 @@
 		"backup": false
 	},
 	{
-		"templateName": "to-list.btl",
+		"templateName": "to-page.btl",
 		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
-		"targetFile": "${entityName}ListTo.java",
+		"targetFile": "${entityName}PageTo.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	},
@@ -63,9 +63,30 @@
 		"backup": false
 	},
 	{
+		"templateName": "ctrl.btl",
+		"targetDir": "rac-svr/src/main/java/${modulePath}/ctrl/",
+		"targetFile": "${entityName}Ctrl.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
 		"templateName": "test-svc.btl",
 		"targetDir": "rac-svr/src/test/java/${modulePath}/test/svc",
 		"targetFile": "${entityName}SvcTests.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "test-api.btl",
+		"targetDir": "rac-svr/src/test/java/${modulePath}/test/api",
+		"targetFile": "${entityName}ApiTests.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "test-http.btl",
+		"targetDir": "rac-svr/src/test/java/${modulePath}/test/http",
+		"targetFile": "${entityName}HttpTests.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	}

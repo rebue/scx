@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacPermGroupMo;
 import rebue.scx.rac.svc.RacPermGroupSvc;
 import rebue.scx.rac.to.RacPermGroupAddTo;
-import rebue.scx.rac.to.RacPermGroupListTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacPermGroupPageTo;
 
 /**
  * 权限分组 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacPermGroupSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacPermGroupMo> listResult = _svc.list(new RacPermGroupListTo());
-        log.info("查询权限分组的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacPermGroupMo> pageResult = _svc.page(new RacPermGroupPageTo());
+        log.info("查询权限分组的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个权限分组的参数为：" + id);
         RacPermGroupMo getByIdResult = _svc.getById(id);
         log.info("获取单个权限分组的返回值为：" + getByIdResult);

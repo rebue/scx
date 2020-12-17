@@ -14,7 +14,7 @@ import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 用户
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -169,6 +169,11 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * 微信的UnionId
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -196,6 +201,11 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * 微信头像
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -204,6 +214,11 @@ public class RacUserMo implements Serializable, Mo<Long> {
         return wxAvatar;
     }
 
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 微信头像
      *
@@ -419,13 +434,8 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "个人ID不能为负数")
-    private Long personId;
+    private Long        personId;
 
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 个人
      *
@@ -453,16 +463,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
         this.personId = personId;
     }
 
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 登录名称
      *

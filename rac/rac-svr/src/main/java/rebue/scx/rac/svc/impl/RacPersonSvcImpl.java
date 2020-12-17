@@ -13,13 +13,13 @@ import rebue.scx.rac.mo.RacPersonMo;
 import rebue.scx.rac.svc.RacPersonSvc;
 import rebue.scx.rac.to.RacPersonAddTo;
 import rebue.scx.rac.to.RacPersonDelTo;
-import rebue.scx.rac.to.RacPersonListTo;
 import rebue.scx.rac.to.RacPersonModifyTo;
 import rebue.scx.rac.to.RacPersonOneTo;
+import rebue.scx.rac.to.RacPersonPageTo;
 
 /**
  * 个人服务实现
- * 
+ *
  * <pre>
  * 注意：
  * 1. 查询数据库操作的方法，不用设置默认 @Transactional
@@ -30,13 +30,13 @@ import rebue.scx.rac.to.RacPersonOneTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPersonSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacPersonAddTo, RacPersonModifyTo, RacPersonDelTo, RacPersonOneTo, RacPersonListTo, RacPersonMo, RacPersonJo, RacPersonMapper, RacPersonDao>
+public class RacPersonSvcImpl
+    extends BaseSvcImpl<java.lang.Long, RacPersonAddTo, RacPersonModifyTo, RacPersonDelTo, RacPersonOneTo, RacPersonPageTo, RacPersonMo, RacPersonJo, RacPersonMapper, RacPersonDao>
     implements RacPersonSvc {
 
     /**

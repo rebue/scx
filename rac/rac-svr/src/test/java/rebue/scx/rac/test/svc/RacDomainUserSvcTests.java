@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacDomainUserMo;
 import rebue.scx.rac.svc.RacDomainUserSvc;
 import rebue.scx.rac.to.RacDomainUserAddTo;
-import rebue.scx.rac.to.RacDomainUserListTo;
 import rebue.scx.rac.to.RacDomainUserModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacDomainUserPageTo;
 
 /**
  * 领域用户 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacDomainUserSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacDomainUserMo> listResult = _svc.list(new RacDomainUserListTo());
-        log.info("查询领域用户的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacDomainUserMo> pageResult = _svc.page(new RacDomainUserPageTo());
+        log.info("查询领域用户的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个领域用户的参数为：" + id);
         RacDomainUserMo getByIdResult = _svc.getById(id);
         log.info("获取单个领域用户的返回值为：" + getByIdResult);

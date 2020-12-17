@@ -13,7 +13,7 @@ import rebue.robotech.valid.ModifyGroup;
 
 /**
  * 组织用户
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -105,6 +105,11 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -122,6 +127,11 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -144,29 +154,18 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 个人ID
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-
-    /**
-     * 个人
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @NotNull(groups = AddGroup.class, message = "用户ID不能为空")
     @PositiveOrZero(message = "用户ID不能为负数")
-    private Long userId;
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    private Long      userId;
 
     /**
-     * 个人ID
+     * 用户
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter

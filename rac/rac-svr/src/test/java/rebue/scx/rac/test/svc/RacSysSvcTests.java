@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.to.RacSysAddTo;
-import rebue.scx.rac.to.RacSysListTo;
 import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacSysPageTo;
 
 /**
  * 系统 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacSysSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacSysMo> listResult = _svc.list(new RacSysListTo());
-        log.info("查询系统的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacSysMo> pageResult = _svc.page(new RacSysPageTo());
+        log.info("查询系统的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个系统的参数为：" + id);
         RacSysMo getByIdResult = _svc.getById(id);
         log.info("获取单个系统的返回值为：" + getByIdResult);

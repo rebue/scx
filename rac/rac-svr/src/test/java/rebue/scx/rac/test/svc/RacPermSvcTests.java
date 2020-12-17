@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermAddTo;
-import rebue.scx.rac.to.RacPermListTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.wheel.RandomEx;
+import rebue.scx.rac.to.RacPermPageTo;
 
 /**
  * 权限 Service层测试
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
@@ -54,9 +54,9 @@ public class RacPermSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacPermMo> listResult = _svc.list(new RacPermListTo());
-        log.info("查询权限的返回值为：" + listResult);
-        Assertions.assertNotNull(listResult);
+        final PageInfo<RacPermMo> pageResult = _svc.page(new RacPermPageTo());
+        log.info("查询权限的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
         log.info("获取单个权限的参数为：" + id);
         RacPermMo getByIdResult = _svc.getById(id);
         log.info("获取单个权限的返回值为：" + getByIdResult);
