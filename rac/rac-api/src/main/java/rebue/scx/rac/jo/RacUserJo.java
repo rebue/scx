@@ -99,18 +99,13 @@ public class RacUserJo implements Serializable {
     private String            qqUnionId;
 
     /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
      * QQ昵称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
     @Column(name = "QQ_NICKNAME", nullable = true, length = 100)
-    private String           qqNickname;
+    private String            qqNickname;
 
     /**
      * QQ头像
@@ -119,7 +114,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "QQ_AVATAR", nullable = true, length = 300)
-    private String           qqAvatar;
+    private String            qqAvatar;
 
     /**
      * 是否测试者
@@ -128,7 +123,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "IS_TESTER", nullable = false, length = 1)
-    private Boolean          isTester;
+    private Boolean           isTester;
 
     /**
      * 是否启用
@@ -137,7 +132,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "IS_ENABLED", nullable = false, length = 1)
-    private Boolean          isEnabled;
+    private Boolean           isEnabled;
 
     /**
      * 修改时间戳
@@ -146,7 +141,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "UPDATE_TIMESTAMP", nullable = false, length = 20)
-    private Long             updateTimestamp;
+    private Long              updateTimestamp;
 
     /**
      * 用户列表
@@ -154,7 +149,7 @@ public class RacUserJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<RacOpLogJo> racOpLogList;
+    private List<RacOpLogJo>  racOpLogList;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -206,12 +201,17 @@ public class RacUserJo implements Serializable {
     private List<RacDomainUserJo> racDomainUserList;
 
     /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * 解锁操作员的用户列表
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unlockOp")
-    private List<RacLockLogJo>    racLockLogList;
+    private List<RacLockLogJo> racLockLogList;
 
     /**
      * 登录名称
@@ -220,7 +220,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "SIGN_IN_NAME", nullable = true, length = 20)
-    private String                signInName;
+    private String             signInName;
 
     /**
      * 登录手机
@@ -229,7 +229,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "SIGN_IN_MOBILE", nullable = true, length = 11)
-    private String                signInMobile;
+    private String             signInMobile;
 
     /**
      * 登录邮箱
@@ -238,7 +238,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "SIGN_IN_EMAIL", nullable = true, length = 50)
-    private String                signInEmail;
+    private String             signInEmail;
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
@@ -250,7 +250,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "SIGN_IN_PSWD", nullable = true, length = 32)
-    private String                signInPswd;
+    private String             signInPswd;
 
     /**
      * 登录密码组合码(与密码组合加密用，详见登录密码备注)
@@ -259,7 +259,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "SIGN_IN_PSWD_SALT", nullable = true, length = 6)
-    private String                signInPswdSalt;
+    private String             signInPswdSalt;
 
     /**
      * 登录用户昵称
@@ -268,7 +268,7 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "SIGN_IN_NICKNAME", nullable = true, length = 20)
-    private String                signInNickname;
+    private String             signInNickname;
 
     /**
      * 登录用户头像
@@ -277,9 +277,9 @@ public class RacUserJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "SIGN_IN_AVATAR", nullable = true, length = 300)
-    private String                signInAvatar;
+    private String             signInAvatar;
 
     @Basic(optional = false)
     @Column(name = "CREATE_TIMESTAMP", nullable = false, length = 20)
-    private Long                  createTimestamp;
+    private Long               createTimestamp;
 }

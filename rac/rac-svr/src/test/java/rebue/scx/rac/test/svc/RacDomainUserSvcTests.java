@@ -11,8 +11,8 @@ import rebue.scx.rac.mo.RacDomainUserMo;
 import rebue.scx.rac.svc.RacDomainUserSvc;
 import rebue.scx.rac.to.RacDomainUserAddTo;
 import rebue.scx.rac.to.RacDomainUserModifyTo;
-import rebue.wheel.RandomEx;
 import rebue.scx.rac.to.RacDomainUserPageTo;
+import rebue.wheel.RandomEx;
 
 /**
  * 领域用户 Service层测试

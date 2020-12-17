@@ -11,8 +11,8 @@ import rebue.scx.rac.mo.RacMenuMo;
 import rebue.scx.rac.svc.RacMenuSvc;
 import rebue.scx.rac.to.RacMenuAddTo;
 import rebue.scx.rac.to.RacMenuModifyTo;
-import rebue.wheel.RandomEx;
 import rebue.scx.rac.to.RacMenuPageTo;
+import rebue.wheel.RandomEx;
 
 /**
  * 菜单 Service层测试

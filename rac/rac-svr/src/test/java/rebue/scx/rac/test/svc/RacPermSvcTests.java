@@ -11,8 +11,8 @@ import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermModifyTo;
-import rebue.wheel.RandomEx;
 import rebue.scx.rac.to.RacPermPageTo;
+import rebue.wheel.RandomEx;
 
 /**
  * 权限 Service层测试

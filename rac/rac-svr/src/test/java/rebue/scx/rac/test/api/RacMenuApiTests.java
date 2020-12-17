@@ -1,26 +1,22 @@
 package rebue.scx.rac.test.api;
 
-import java.io.IOException;
-
-import com.github.dozermapper.core.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import rebue.scx.rac.mo.RacMenuMo;
-import rebue.scx.rac.to.RacMenuAddTo;
-import rebue.scx.rac.to.RacMenuModifyTo;
-import rebue.scx.rac.to.RacMenuPageTo;
-import rebue.scx.rac.api.RacMenuApi;
-
+import com.github.dozermapper.core.Mapper;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.api.RacMenuApi;
+import rebue.scx.rac.mo.RacMenuMo;
+import rebue.scx.rac.to.RacMenuAddTo;
+import rebue.scx.rac.to.RacMenuModifyTo;
+import rebue.scx.rac.to.RacMenuPageTo;
 import rebue.wheel.RandomEx;
 
 /**
@@ -34,7 +30,7 @@ public class RacMenuApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -69,14 +65,12 @@ public class RacMenuApiTests {
         log.info("获取单个菜单的参数为：" + id);
         final Ro<PojoRa<RacMenuMo>> getByIdResult = _api.getById(id);
         log.info("获取单个菜单的返回值为：" + getByIdResult);
-
         final RacMenuModifyTo modifyTo = dozerMapper.map(addTo, RacMenuModifyTo.class);
         modifyTo.setId(id);
         log.info("修改菜单的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改菜单的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除菜单的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除菜单的返回值为：" + deleteResult);

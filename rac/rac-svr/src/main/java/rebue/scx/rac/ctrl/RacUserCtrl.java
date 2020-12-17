@@ -1,11 +1,6 @@
 package rebue.scx.rac.ctrl;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.annotation.Resource;
-
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,20 +8,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import reactor.core.publisher.Mono;
+import rebue.robotech.ra.BooleanRa;
+import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.PageRa;
+import rebue.robotech.ra.PojoRa;
+import rebue.robotech.ro.Ro;
+import rebue.scx.rac.api.RacUserApi;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserPageTo;
-import rebue.scx.rac.api.RacUserApi;
-
-import rebue.robotech.dic.ResultDic;
-import reactor.core.publisher.Mono;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ra.BooleanRa;
-import rebue.robotech.ra.PageRa;
-import rebue.robotech.ra.PojoRa;
-import rebue.robotech.ro.Ro;
 
 /**
  * 用户控制器
@@ -35,6 +27,7 @@ import rebue.robotech.ro.Ro;
  */
 @RestController
 public class RacUserCtrl {
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -45,7 +38,6 @@ public class RacUserCtrl {
      * 添加用户
      *
      * @param to 添加的具体信息
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/user")
@@ -57,7 +49,6 @@ public class RacUserCtrl {
      * 修改用户的信息
      *
      * @param to 修改的具体数据
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/user")
@@ -69,7 +60,6 @@ public class RacUserCtrl {
      * 删除用户
      *
      * @param id 用户ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/user")
@@ -81,7 +71,6 @@ public class RacUserCtrl {
      * 获取单个用户的信息
      *
      * @param id 用户ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/get-by-id")
@@ -93,7 +82,6 @@ public class RacUserCtrl {
      * 判断用户是否存在
      *
      * @param id 用户ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/exist-by-id")
@@ -105,12 +93,10 @@ public class RacUserCtrl {
      * 查询用户的信息
      *
      * @param qo 查询的具体条件
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/page")
     public Mono<Ro<PageRa<RacUserMo>>> page(final RacUserPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
-
 }

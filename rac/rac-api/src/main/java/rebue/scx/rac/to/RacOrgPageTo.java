@@ -1,22 +1,10 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import rebue.robotech.to.PageTo;
@@ -37,67 +25,74 @@ public class RacOrgPageTo extends PageTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 组织名称(简称)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 组织名称(简称)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 30, message = "组织名称的长度不能大于30")
     private String            name;
+
     /**
-    * 上级组织ID(根组织填0)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 上级组织ID(根组织填0)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @PositiveOrZero(message = "上级组织ID不能为负数")
     private Long              parentId;
+
     /**
-    * 领域ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            domainId;
+
     /**
-    * 组织类型(1.集团;2.公司;99.部门)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 组织类型(1.集团;2.公司;99.部门)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @PositiveOrZero(message = "组织类型不能为负数")
     private Byte              orgType;
+
     /**
-    * 左值
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 左值
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @PositiveOrZero(message = "左值不能为负数")
     private Integer           leftValue;
+
     /**
-    * 右值
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 右值
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @PositiveOrZero(message = "右值不能为负数")
     private Integer           rightValue;
+
     /**
-    * 组织全名
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 组织全名
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 80, message = "组织全名的长度不能大于80")
     private String            fullName;
+
     /**
-    * 组织简介
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 组织简介
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 200, message = "组织简介的长度不能大于200")
     private String            introduction;
+
     /**
-    * 组织备注
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 组织备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 100, message = "组织备注的长度不能大于100")
     private String            remark;
-
 }

@@ -70,6 +70,11 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * 组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,6 +93,11 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -104,11 +114,6 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
         return sb.toString();
     }
 
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -127,11 +132,6 @@ public class RacOrgUserMo implements Serializable, Mo<Long> {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

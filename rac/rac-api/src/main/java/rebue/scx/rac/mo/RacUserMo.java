@@ -27,7 +27,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      */
     @NotNull(groups = ModifyGroup.class, message = "用户ID不能为空")
     @PositiveOrZero(message = "用户ID不能为负数")
-    private Long              id;
+    private Long   id;
 
     /**
      * 微信的OpenId
@@ -35,7 +35,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 64, message = "微信的OpenId的长度不能大于64")
-    private String            wxOpenId;
+    private String wxOpenId;
 
     /**
      * 微信的UnionId
@@ -43,7 +43,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 64, message = "微信的UnionId的长度不能大于64")
-    private String            wxUnionId;
+    private String wxUnionId;
 
     /**
      * 微信昵称
@@ -51,7 +51,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 100, message = "微信昵称的长度不能大于100")
-    private String            wxNickname;
+    private String wxNickname;
 
     /**
      * 微信头像
@@ -59,8 +59,13 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 300, message = "微信头像的长度不能大于300")
-    private String            wxAvatar;
+    private String wxAvatar;
 
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * QQ的OpenId
      *
@@ -169,11 +174,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
      * 微信的UnionId
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -182,6 +182,11 @@ public class RacUserMo implements Serializable, Mo<Long> {
         this.wxUnionId = wxUnionId;
     }
 
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 微信昵称
      *
@@ -201,11 +206,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
      * 微信头像
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -214,11 +214,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
         return wxAvatar;
     }
 
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 微信头像
      *
@@ -514,6 +509,11 @@ public class RacUserMo implements Serializable, Mo<Long> {
     @Length(max = 20, message = "登录用户昵称的长度不能大于20")
     private String signInNickname;
 
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 登录用户头像
      *

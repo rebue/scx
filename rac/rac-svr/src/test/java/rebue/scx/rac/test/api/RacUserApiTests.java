@@ -1,26 +1,22 @@
 package rebue.scx.rac.test.api;
 
-import java.io.IOException;
-
-import com.github.dozermapper.core.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import rebue.scx.rac.mo.RacUserMo;
-import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.RacUserModifyTo;
-import rebue.scx.rac.to.RacUserPageTo;
-import rebue.scx.rac.api.RacUserApi;
-
+import com.github.dozermapper.core.Mapper;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.api.RacUserApi;
+import rebue.scx.rac.mo.RacUserMo;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserPageTo;
 import rebue.wheel.RandomEx;
 
 /**
@@ -34,7 +30,7 @@ public class RacUserApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -69,14 +65,12 @@ public class RacUserApiTests {
         log.info("获取单个用户的参数为：" + id);
         final Ro<PojoRa<RacUserMo>> getByIdResult = _api.getById(id);
         log.info("获取单个用户的返回值为：" + getByIdResult);
-
         final RacUserModifyTo modifyTo = dozerMapper.map(addTo, RacUserModifyTo.class);
         modifyTo.setId(id);
         log.info("修改用户的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改用户的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除用户的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除用户的返回值为：" + deleteResult);

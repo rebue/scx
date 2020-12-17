@@ -86,10 +86,9 @@ public class RacUserSvcImpl extends
             list.add(and(racOrgUser.orgId, isEqualTo(orgId)));
         }
         list.add(and(racUser.signInEmail, isEqualTo(email)));
-        return _mapper.selectOne(c -> c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
-            .where(racDomainUser.domainId, isEqualTo(domainId), // list.stream().toArray(SqlCriterion<?>[]::new)))
-                and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email))))
-            .orElse(null);
+        return _mapper.selectOne(c -> // list.stream().toArray(SqlCriterion<?>[]::new)))
+        c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id)).where(// list.stream().toArray(SqlCriterion<?>[]::new)))
+            racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email)))).orElse(null);
     }
 
     @Override

@@ -11,8 +11,8 @@ import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
-import rebue.wheel.RandomEx;
 import rebue.scx.rac.to.RacPermUrnPageTo;
+import rebue.wheel.RandomEx;
 
 /**
  * 权限URN Service层测试

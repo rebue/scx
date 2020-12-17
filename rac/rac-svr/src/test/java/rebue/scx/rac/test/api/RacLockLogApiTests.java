@@ -1,26 +1,22 @@
 package rebue.scx.rac.test.api;
 
-import java.io.IOException;
-
-import com.github.dozermapper.core.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import rebue.scx.rac.mo.RacLockLogMo;
-import rebue.scx.rac.to.RacLockLogAddTo;
-import rebue.scx.rac.to.RacLockLogModifyTo;
-import rebue.scx.rac.to.RacLockLogPageTo;
-import rebue.scx.rac.api.RacLockLogApi;
-
+import com.github.dozermapper.core.Mapper;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.api.RacLockLogApi;
+import rebue.scx.rac.mo.RacLockLogMo;
+import rebue.scx.rac.to.RacLockLogAddTo;
+import rebue.scx.rac.to.RacLockLogModifyTo;
+import rebue.scx.rac.to.RacLockLogPageTo;
 import rebue.wheel.RandomEx;
 
 /**
@@ -34,7 +30,7 @@ public class RacLockLogApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -69,14 +65,12 @@ public class RacLockLogApiTests {
         log.info("获取单个锁定日志的参数为：" + id);
         final Ro<PojoRa<RacLockLogMo>> getByIdResult = _api.getById(id);
         log.info("获取单个锁定日志的返回值为：" + getByIdResult);
-
         final RacLockLogModifyTo modifyTo = dozerMapper.map(addTo, RacLockLogModifyTo.class);
         modifyTo.setId(id);
         log.info("修改锁定日志的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改锁定日志的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除锁定日志的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除锁定日志的返回值为：" + deleteResult);

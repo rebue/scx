@@ -60,6 +60,11 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
+     * 首页路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * 系统ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -123,11 +128,6 @@ public class RacSysMo implements Serializable, Mo<String> {
         return sb.toString();
     }
 
-    /**
-     * 首页路径
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -208,14 +208,6 @@ public class RacSysMo implements Serializable, Mo<String> {
         this.domainId = domainId;
     }
 
-    /**
-     * 索引路径
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 70, message = "索引路径的长度不能大于70")
-    private String indexPath;
-
     public String getIndexPath() {
         return indexPath;
     }
@@ -223,4 +215,12 @@ public class RacSysMo implements Serializable, Mo<String> {
     public void setIndexPath(String indexPath) {
         this.indexPath = indexPath;
     }
+
+    /**
+     * 索引路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 70, message = "索引路径的长度不能大于70")
+    private String indexPath;
 }
