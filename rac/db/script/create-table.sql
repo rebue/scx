@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/12/10 11:53:19                          */
+/* Created on:     2020/12/18 11:18:11                          */
 /*==============================================================*/
 
 
@@ -29,12 +29,6 @@ alter table RAC_LOCK_LOG
    drop foreign key FK_LOCK_LOG_AND_UNLOCK_OP;
 
 drop table if exists RAC_LOCK_LOG;
-
-
-alter table RAC_MENU 
-   drop foreign key FK_MENU_AND_SYS;
-
-drop table if exists RAC_MENU;
 
 
 alter table RAC_OP_LOG 
@@ -83,7 +77,7 @@ alter table RAC_PERM_MENU
    drop foreign key FK_PERM_MENU_AND_PERM;
 
 alter table RAC_PERM_MENU 
-   drop foreign key FK_PERM_MENU_AND_MENU;
+   drop foreign key FK_PERM_MENU_AND_SYS;
 
 drop table if exists RAC_PERM_MENU;
 
@@ -182,25 +176,6 @@ create table RAC_LOCK_LOG
 alter table RAC_LOCK_LOG comment '锁定日志';
 
 /*==============================================================*/
-/* Table: RAC_MENU                                              */
-/*==============================================================*/
-create table RAC_MENU
-(
-   ID                   bigint unsigned not null  comment '菜单ID',
-   SYS_ID               varchar(32) not null  comment '系统ID',
-   CODE                 varchar(20) not null  comment '菜单编码',
-   NAME                 varchar(20) not null  comment '菜单名称',
-   TITLE                varchar(30)  comment '标题(点击菜单后显示在内容页面的标题)',
-   PATH                 varchar(20) not null  comment '路径',
-   IS_ENABLED           bool not null default true  comment '是否启用',
-   ICON                 varchar(20)  comment '菜单图标',
-   REMARK               varchar(50)  comment '菜单备注',
-   primary key (ID)
-);
-
-alter table RAC_MENU comment '菜单';
-
-/*==============================================================*/
 /* Table: RAC_OP_LOG                                            */
 /*==============================================================*/
 create table RAC_OP_LOG
@@ -263,7 +238,6 @@ create table RAC_PERM
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
    GROUP_ID             bigint unsigned not null  comment '权限分组ID',
    NAME                 varchar(20) not null  comment '权限名称',
-   IS_AUTHORIZE         bool not null default false  comment '是否鉴权(不鉴权意味着放开访问权限)',
    IS_ENABLED           bool not null default true  comment '是否启用',
    ORDER_NO             tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '权限备注',
@@ -296,10 +270,11 @@ alter table RAC_PERM_GROUP comment '权限分组';
 create table RAC_PERM_MENU
 (
    ID                   bigint unsigned not null  comment '权限菜单ID',
+   SYS_ID               varchar(32)  comment '系统ID',
    PERM_ID              bigint unsigned not null  comment '权限ID',
-   MENU_ID              bigint unsigned not null  comment '菜单ID',
+   MENU_URN             varchar(100) not null  comment '菜单URN',
    primary key (ID),
-   unique key AK_PERM_AND_MENU (PERM_ID, MENU_ID)
+   unique key AK_PERM_AND_MENU (PERM_ID, MENU_URN)
 );
 
 alter table RAC_PERM_MENU comment '权限菜单';
@@ -385,7 +360,8 @@ create table RAC_SYS
    ID                   varchar(32) not null  comment '系统ID',
    NAME                 varchar(20) not null  comment '系统名称',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
-   INDEX_PATH           varchar(70)  comment '索引路径',
+   INDEX_URN            varchar(100)  comment '索引URN',
+   MENU_URN             varchar(100)  comment '菜单URN',
    REMARK               varchar(50)  comment '系统备注',
    primary key (ID),
    unique key AK_SYS_NAME (NAME)
@@ -467,9 +443,6 @@ alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_OP foreign key (LOC
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_UNLOCK_OP foreign key (UNLOCK_OP_ID)
       references RAC_USER (ID) on delete restrict on update restrict;
 
-alter table RAC_MENU add constraint FK_MENU_AND_SYS foreign key (SYS_ID)
-      references RAC_SYS (ID) on delete restrict on update restrict;
-
 alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_USER foreign key (USER_ID)
       references RAC_USER (ID) on delete restrict on update restrict;
 
@@ -500,8 +473,8 @@ alter table RAC_PERM_GROUP add constraint FK_PERM_GROUP_AND_DOMAIN foreign key (
 alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_MENU foreign key (MENU_ID)
-      references RAC_MENU (ID) on delete restrict on update restrict;
+alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_SYS foreign key (SYS_ID)
+      references RAC_SYS (ID) on delete restrict on update restrict;
 
 alter table RAC_PERM_URN add constraint FK_PERM_URN_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
