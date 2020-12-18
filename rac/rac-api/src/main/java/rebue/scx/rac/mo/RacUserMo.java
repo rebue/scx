@@ -1,11 +1,15 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -27,7 +31,82 @@ public class RacUserMo implements Serializable, Mo<Long> {
      */
     @NotNull(groups = ModifyGroup.class, message = "用户ID不能为空")
     @PositiveOrZero(message = "用户ID不能为负数")
-    private Long   id;
+    private Long              id;
+
+    /**
+     * 个人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "个人ID不能为负数")
+    private Long              personId;
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
+    private Boolean           isEnabled;
+
+    /**
+     * 登录名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "登录名称的长度不能大于20")
+    private String            signInName;
+
+    /**
+     * 登录手机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 11, message = "登录手机的长度不能大于11")
+    private String            signInMobile;
+
+    /**
+     * 登录邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 50, message = "登录邮箱的长度不能大于50")
+    private String            signInEmail;
+
+    /**
+     * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "登录密码的长度不能大于32")
+    private String            signInPswd;
+
+    /**
+     * 登录密码组合码(与密码组合加密用，详见登录密码备注)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 6, message = "登录密码组合码的长度不能大于6")
+    private String            signInPswdSalt;
+
+    /**
+     * 登录用户昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "登录用户昵称的长度不能大于20")
+    private String            signInNickname;
+
+    /**
+     * 登录用户头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 300, message = "登录用户头像的长度不能大于300")
+    private String            signInAvatar;
 
     /**
      * 微信的OpenId
@@ -35,7 +114,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 64, message = "微信的OpenId的长度不能大于64")
-    private String wxOpenId;
+    private String            wxOpenId;
 
     /**
      * 微信的UnionId
@@ -43,7 +122,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 64, message = "微信的UnionId的长度不能大于64")
-    private String wxUnionId;
+    private String            wxUnionId;
 
     /**
      * 微信昵称
@@ -51,7 +130,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 100, message = "微信昵称的长度不能大于100")
-    private String wxNickname;
+    private String            wxNickname;
 
     /**
      * 微信头像
@@ -59,13 +138,8 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 300, message = "微信头像的长度不能大于300")
-    private String wxAvatar;
+    private String            wxAvatar;
 
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * QQ的OpenId
      *
@@ -107,12 +181,13 @@ public class RacUserMo implements Serializable, Mo<Long> {
     private Boolean           isTester;
 
     /**
-     * 是否启用
+     * 建立时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
-    private Boolean           isEnabled;
+    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long              createTimestamp;
 
     /**
      * 修改时间戳
@@ -127,6 +202,15 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 个人
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacPersonMo       person;
 
     /**
      * 用户ID
@@ -147,170 +231,21 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 微信的OpenId
+     * 个人ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getWxOpenId() {
-        return wxOpenId;
+    public Long getPersonId() {
+        return personId;
     }
 
     /**
-     * 微信的OpenId
+     * 个人ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setWxOpenId(String wxOpenId) {
-        this.wxOpenId = wxOpenId;
-    }
-
-    /**
-     * 微信的UnionId
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getWxUnionId() {
-        return wxUnionId;
-    }
-
-    /**
-     * 微信的UnionId
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setWxUnionId(String wxUnionId) {
-        this.wxUnionId = wxUnionId;
-    }
-
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
-     * 微信昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getWxNickname() {
-        return wxNickname;
-    }
-
-    /**
-     * 微信昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setWxNickname(String wxNickname) {
-        this.wxNickname = wxNickname;
-    }
-
-    /**
-     * 微信头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getWxAvatar() {
-        return wxAvatar;
-    }
-
-    /**
-     * 微信头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setWxAvatar(String wxAvatar) {
-        this.wxAvatar = wxAvatar;
-    }
-
-    /**
-     * QQ的OpenId
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getQqOpenId() {
-        return qqOpenId;
-    }
-
-    /**
-     * QQ的OpenId
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setQqOpenId(String qqOpenId) {
-        this.qqOpenId = qqOpenId;
-    }
-
-    /**
-     * QQ的UnionId
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getQqUnionId() {
-        return qqUnionId;
-    }
-
-    /**
-     * QQ的UnionId
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setQqUnionId(String qqUnionId) {
-        this.qqUnionId = qqUnionId;
-    }
-
-    /**
-     * QQ昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getQqNickname() {
-        return qqNickname;
-    }
-
-    /**
-     * QQ昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setQqNickname(String qqNickname) {
-        this.qqNickname = qqNickname;
-    }
-
-    /**
-     * QQ头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getQqAvatar() {
-        return qqAvatar;
-    }
-
-    /**
-     * QQ头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setQqAvatar(String qqAvatar) {
-        this.qqAvatar = qqAvatar;
-    }
-
-    /**
-     * 是否测试者
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsTester() {
-        return isTester;
-    }
-
-    /**
-     * 是否测试者
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsTester(Boolean isTester) {
-        this.isTester = isTester;
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
     /**
@@ -330,197 +265,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
     public void setIsEnabled(Boolean isEnabled) {
         this.isEnabled = isEnabled;
     }
-
-    /**
-     * 修改时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getUpdateTimestamp() {
-        return updateTimestamp;
-    }
-
-    /**
-     * 修改时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setUpdateTimestamp(Long updateTimestamp) {
-        this.updateTimestamp = updateTimestamp;
-    }
-
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", personId=").append(personId);
-        sb.append(", isEnabled=").append(isEnabled);
-        sb.append(", signInName=").append(signInName);
-        sb.append(", signInMobile=").append(signInMobile);
-        sb.append(", signInEmail=").append(signInEmail);
-        sb.append(", signInPswd=").append(signInPswd);
-        sb.append(", signInPswdSalt=").append(signInPswdSalt);
-        sb.append(", signInNickname=").append(signInNickname);
-        sb.append(", signInAvatar=").append(signInAvatar);
-        sb.append(", wxOpenId=").append(wxOpenId);
-        sb.append(", wxUnionId=").append(wxUnionId);
-        sb.append(", wxNickname=").append(wxNickname);
-        sb.append(", wxAvatar=").append(wxAvatar);
-        sb.append(", qqOpenId=").append(qqOpenId);
-        sb.append(", qqUnionId=").append(qqUnionId);
-        sb.append(", qqNickname=").append(qqNickname);
-        sb.append(", qqAvatar=").append(qqAvatar);
-        sb.append(", isTester=").append(isTester);
-        sb.append(", createTimestamp=").append(createTimestamp);
-        sb.append(", updateTimestamp=").append(updateTimestamp);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
-
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        RacUserMo other = (RacUserMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
-    }
-
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        return result;
-    }
-
-    /**
-     * 获取ID的类型
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    public String getIdType() {
-        return "Long";
-    }
-
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "个人ID不能为负数")
-    private Long        personId;
-
-    /**
-     * 个人
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacPersonMo person;
-
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getPersonId() {
-        return personId;
-    }
-
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPersonId(Long personId) {
-        this.personId = personId;
-    }
-
-    /**
-     * 登录名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 20, message = "登录名称的长度不能大于20")
-    private String signInName;
-
-    /**
-     * 登录手机
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 11, message = "登录手机的长度不能大于11")
-    private String signInMobile;
-
-    /**
-     * 登录邮箱
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 50, message = "登录邮箱的长度不能大于50")
-    private String signInEmail;
-
-    /**
-     * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "登录密码的长度不能大于32")
-    private String signInPswd;
-
-    /**
-     * 登录密码组合码(与密码组合加密用，详见登录密码备注)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 6, message = "登录密码组合码的长度不能大于6")
-    private String signInPswdSalt;
-
-    /**
-     * 登录用户昵称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 20, message = "登录用户昵称的长度不能大于20")
-    private String signInNickname;
-
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
-     * 登录用户头像
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 300, message = "登录用户头像的长度不能大于300")
-    private String signInAvatar;
 
     /**
      * 登录名称
@@ -654,15 +398,275 @@ public class RacUserMo implements Serializable, Mo<Long> {
         this.signInAvatar = signInAvatar;
     }
 
-    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long createTimestamp;
+    /**
+     * 微信的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getWxOpenId() {
+        return wxOpenId;
+    }
 
+    /**
+     * 微信的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setWxOpenId(String wxOpenId) {
+        this.wxOpenId = wxOpenId;
+    }
+
+    /**
+     * 微信的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getWxUnionId() {
+        return wxUnionId;
+    }
+
+    /**
+     * 微信的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setWxUnionId(String wxUnionId) {
+        this.wxUnionId = wxUnionId;
+    }
+
+    /**
+     * 微信昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getWxNickname() {
+        return wxNickname;
+    }
+
+    /**
+     * 微信昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setWxNickname(String wxNickname) {
+        this.wxNickname = wxNickname;
+    }
+
+    /**
+     * 微信头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getWxAvatar() {
+        return wxAvatar;
+    }
+
+    /**
+     * 微信头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setWxAvatar(String wxAvatar) {
+        this.wxAvatar = wxAvatar;
+    }
+
+    /**
+     * QQ的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getQqOpenId() {
+        return qqOpenId;
+    }
+
+    /**
+     * QQ的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setQqOpenId(String qqOpenId) {
+        this.qqOpenId = qqOpenId;
+    }
+
+    /**
+     * QQ的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getQqUnionId() {
+        return qqUnionId;
+    }
+
+    /**
+     * QQ的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setQqUnionId(String qqUnionId) {
+        this.qqUnionId = qqUnionId;
+    }
+
+    /**
+     * QQ昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getQqNickname() {
+        return qqNickname;
+    }
+
+    /**
+     * QQ昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setQqNickname(String qqNickname) {
+        this.qqNickname = qqNickname;
+    }
+
+    /**
+     * QQ头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getQqAvatar() {
+        return qqAvatar;
+    }
+
+    /**
+     * QQ头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setQqAvatar(String qqAvatar) {
+        this.qqAvatar = qqAvatar;
+    }
+
+    /**
+     * 是否测试者
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Boolean getIsTester() {
+        return isTester;
+    }
+
+    /**
+     * 是否测试者
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setIsTester(Boolean isTester) {
+        this.isTester = isTester;
+    }
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getCreateTimestamp() {
         return createTimestamp;
     }
 
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setCreateTimestamp(Long createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+
+    /**
+     * 修改时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getUpdateTimestamp() {
+        return updateTimestamp;
+    }
+
+    /**
+     * 修改时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setUpdateTimestamp(Long updateTimestamp) {
+        this.updateTimestamp = updateTimestamp;
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", personId=").append(personId);
+        sb.append(", isEnabled=").append(isEnabled);
+        sb.append(", signInName=").append(signInName);
+        sb.append(", signInMobile=").append(signInMobile);
+        sb.append(", signInEmail=").append(signInEmail);
+        sb.append(", signInPswd=").append(signInPswd);
+        sb.append(", signInPswdSalt=").append(signInPswdSalt);
+        sb.append(", signInNickname=").append(signInNickname);
+        sb.append(", signInAvatar=").append(signInAvatar);
+        sb.append(", wxOpenId=").append(wxOpenId);
+        sb.append(", wxUnionId=").append(wxUnionId);
+        sb.append(", wxNickname=").append(wxNickname);
+        sb.append(", wxAvatar=").append(wxAvatar);
+        sb.append(", qqOpenId=").append(qqOpenId);
+        sb.append(", qqUnionId=").append(qqUnionId);
+        sb.append(", qqNickname=").append(qqNickname);
+        sb.append(", qqAvatar=").append(qqAvatar);
+        sb.append(", isTester=").append(isTester);
+        sb.append(", createTimestamp=").append(createTimestamp);
+        sb.append(", updateTimestamp=").append(updateTimestamp);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        RacUserMo other = (RacUserMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        return result;
+    }
+
+    /**
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String getIdType() {
+        return "Long";
     }
 }

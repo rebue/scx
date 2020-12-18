@@ -1,11 +1,23 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.domainId;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.fullName;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.introduction;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.leftValue;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.name;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.orgType;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.parentId;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.racOrg;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.remark;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.rightValue;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +41,7 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacOrgMo;
 

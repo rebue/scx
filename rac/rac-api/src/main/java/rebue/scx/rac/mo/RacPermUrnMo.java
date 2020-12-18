@@ -1,12 +1,16 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -90,6 +94,15 @@ public class RacPermUrnMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 权限ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPermId(Long permId) {
+        this.permId = permId;
+    }
+
+    /**
      * URN
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -161,14 +174,5 @@ public class RacPermUrnMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
-    }
-
-    /**
-     * 权限ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPermId(Long permId) {
-        this.permId = permId;
     }
 }

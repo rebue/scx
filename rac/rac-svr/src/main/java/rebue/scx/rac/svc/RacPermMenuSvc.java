@@ -1,17 +1,18 @@
 package rebue.scx.rac.svc;
 
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.svc.BaseSvc;
-import rebue.scx.rac.jo.RacMenuJo;
-import rebue.scx.rac.mo.RacMenuMo;
-import rebue.scx.rac.to.RacMenuAddTo;
-import rebue.scx.rac.to.RacMenuDelTo;
-import rebue.scx.rac.to.RacMenuModifyTo;
-import rebue.scx.rac.to.RacMenuOneTo;
-import rebue.scx.rac.to.RacMenuPageTo;
+import rebue.scx.rac.jo.RacPermMenuJo;
+import rebue.scx.rac.mo.RacPermMenuMo;
+import rebue.scx.rac.to.RacPermMenuAddTo;
+import rebue.scx.rac.to.RacPermMenuDelTo;
+import rebue.scx.rac.to.RacPermMenuModifyTo;
+import rebue.scx.rac.to.RacPermMenuOneTo;
+import rebue.scx.rac.to.RacPermMenuPageTo;
 
 /**
- * 菜单服务接口
+ * 权限菜单服务接口
  *
  * Validated注解按规范应该写在接口上
  *
@@ -21,5 +22,6 @@ import rebue.scx.rac.to.RacMenuPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacMenuSvc extends BaseSvc<java.lang.Long, RacMenuAddTo, RacMenuModifyTo, RacMenuDelTo, RacMenuOneTo, RacMenuPageTo, RacMenuMo, RacMenuJo> {
+public interface RacPermMenuSvc
+    extends BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
 }

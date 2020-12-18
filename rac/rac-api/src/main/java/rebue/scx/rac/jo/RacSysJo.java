@@ -1,16 +1,15 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -54,6 +53,24 @@ public class RacSysJo implements Serializable {
     private String            name;
 
     /**
+     * 索引URN
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "INDEX_URN", nullable = true, length = 100)
+    private String            indexUrn;
+
+    /**
+     * 菜单URN
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "MENU_URN", nullable = true, length = 100)
+    private String            menuUrn;
+
+    /**
      * 系统备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -63,26 +80,14 @@ public class RacSysJo implements Serializable {
     private String            remark;
 
     /**
-     * 系统列表
+     * 领域
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacMenuJo>   racMenuList;
+    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacDomainJo       domain;
 
-    /**
-     * 系统列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacOpLogJo>  racOpLogList;
-
-    /**
-     * 首页路径
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -114,25 +119,4 @@ public class RacSysJo implements Serializable {
             return false;
         return true;
     }
-
-    /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacDomainJo        domain;
-
-    /**
-     * 系统列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sys")
-    private List<RacLockLogJo> racLockLogList;
-
-    @Basic(optional = true)
-    @Column(name = "INDEX_PATH", nullable = true, length = 70)
-    private String             indexPath;
 }

@@ -1,12 +1,16 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -31,6 +35,15 @@ public class RacPermMo implements Serializable, Mo<Long> {
     private Long              id;
 
     /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            domainId;
+
+    /**
      * 权限分组ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -47,14 +60,6 @@ public class RacPermMo implements Serializable, Mo<Long> {
     @NotBlank(groups = AddGroup.class, message = "权限名称不能为空")
     @Length(max = 20, message = "权限名称的长度不能大于20")
     private String            name;
-
-    /**
-     * 是否鉴权(不鉴权意味着放开访问权限)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(groups = AddGroup.class, message = "是否鉴权不能为空")
-    private Boolean           isAuthorize;
 
     /**
      * 是否启用
@@ -87,6 +92,15 @@ public class RacPermMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacDomainMo       domain;
+
+    /**
      * 权限分组
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
@@ -105,12 +119,48 @@ public class RacPermMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 权限ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDomainId() {
+        return domainId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
+    }
+
+    /**
      * 权限分组ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getGroupId() {
         return groupId;
+    }
+
+    /**
+     * 权限分组ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     /**
@@ -129,24 +179,6 @@ public class RacPermMo implements Serializable, Mo<Long> {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * 是否鉴权(不鉴权意味着放开访问权限)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsAuthorize() {
-        return isAuthorize;
-    }
-
-    /**
-     * 是否鉴权(不鉴权意味着放开访问权限)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsAuthorize(Boolean isAuthorize) {
-        this.isAuthorize = isAuthorize;
     }
 
     /**
@@ -216,7 +248,6 @@ public class RacPermMo implements Serializable, Mo<Long> {
         sb.append(", domainId=").append(domainId);
         sb.append(", groupId=").append(groupId);
         sb.append(", name=").append(name);
-        sb.append(", isAuthorize=").append(isAuthorize);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", orderNo=").append(orderNo);
         sb.append(", remark=").append(remark);
@@ -262,59 +293,5 @@ public class RacPermMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
-    }
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String      domainId;
-
-    /**
-     * 领域
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacDomainMo domain;
-
-    /**
-     * 权限ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getDomainId() {
-        return domainId;
-    }
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
-
-    /**
-     * 权限分组ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
     }
 }

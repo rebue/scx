@@ -1,6 +1,7 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -32,11 +33,18 @@ public final class RacSysDynamicSqlSupport {
     public static final SqlColumn<String> domainId = racSys.domainId;
 
     /**
-    * 索引路径
+    * 索引URN
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> indexPath = racSys.indexPath;
+    public static final SqlColumn<String> indexUrn = racSys.indexUrn;
+
+    /**
+    * 菜单URN
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> menuUrn = racSys.menuUrn;
 
     /**
     * 系统备注
@@ -52,7 +60,9 @@ public final class RacSysDynamicSqlSupport {
 
         public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> indexPath = column("INDEX_PATH", JDBCType.VARCHAR);
+        public final SqlColumn<String> indexUrn = column("INDEX_URN", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> menuUrn = column("MENU_URN", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

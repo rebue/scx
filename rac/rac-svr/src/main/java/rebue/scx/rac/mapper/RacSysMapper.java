@@ -1,11 +1,19 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.domainId;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.indexUrn;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.menuUrn;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.name;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.racSys;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.remark;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +37,7 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacSysMo;
 
@@ -37,7 +46,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, indexPath, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, indexUrn, menuUrn, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -78,7 +87,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="INDEX_PATH", property="indexPath", jdbcType=JdbcType.VARCHAR),
+        @Result(column="INDEX_URN", property="indexUrn", jdbcType=JdbcType.VARCHAR),
+        @Result(column="MENU_URN", property="menuUrn", jdbcType=JdbcType.VARCHAR),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     List<RacSysMo> selectMany(SelectStatementProvider selectStatement);
@@ -120,7 +130,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.map(id).toProperty("id")
             .map(name).toProperty("name")
             .map(domainId).toProperty("domainId")
-            .map(indexPath).toProperty("indexPath")
+            .map(indexUrn).toProperty("indexUrn")
+            .map(menuUrn).toProperty("menuUrn")
             .map(remark).toProperty("remark")
         );
     }
@@ -133,7 +144,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.map(id).toProperty("id")
             .map(name).toProperty("name")
             .map(domainId).toProperty("domainId")
-            .map(indexPath).toProperty("indexPath")
+            .map(indexUrn).toProperty("indexUrn")
+            .map(menuUrn).toProperty("menuUrn")
             .map(remark).toProperty("remark")
         );
     }
@@ -146,7 +158,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(name).toPropertyWhenPresent("name", record::getName)
             .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
-            .map(indexPath).toPropertyWhenPresent("indexPath", record::getIndexPath)
+            .map(indexUrn).toPropertyWhenPresent("indexUrn", record::getIndexUrn)
+            .map(menuUrn).toPropertyWhenPresent("menuUrn", record::getMenuUrn)
             .map(remark).toPropertyWhenPresent("remark", record::getRemark)
         );
     }
@@ -195,7 +208,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return dsl.set(id).equalTo(record::getId)
                 .set(name).equalTo(record::getName)
                 .set(domainId).equalTo(record::getDomainId)
-                .set(indexPath).equalTo(record::getIndexPath)
+                .set(indexUrn).equalTo(record::getIndexUrn)
+                .set(menuUrn).equalTo(record::getMenuUrn)
                 .set(remark).equalTo(record::getRemark);
     }
 
@@ -206,7 +220,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(name).equalToWhenPresent(record::getName)
                 .set(domainId).equalToWhenPresent(record::getDomainId)
-                .set(indexPath).equalToWhenPresent(record::getIndexPath)
+                .set(indexUrn).equalToWhenPresent(record::getIndexUrn)
+                .set(menuUrn).equalToWhenPresent(record::getMenuUrn)
                 .set(remark).equalToWhenPresent(record::getRemark);
     }
 
@@ -217,7 +232,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return update(c ->
             c.set(name).equalTo(record::getName)
             .set(domainId).equalTo(record::getDomainId)
-            .set(indexPath).equalTo(record::getIndexPath)
+            .set(indexUrn).equalTo(record::getIndexUrn)
+            .set(menuUrn).equalTo(record::getMenuUrn)
             .set(remark).equalTo(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -230,7 +246,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return update(c ->
             c.set(name).equalToWhenPresent(record::getName)
             .set(domainId).equalToWhenPresent(record::getDomainId)
-            .set(indexPath).equalToWhenPresent(record::getIndexPath)
+            .set(indexUrn).equalToWhenPresent(record::getIndexUrn)
+            .set(menuUrn).equalToWhenPresent(record::getMenuUrn)
             .set(remark).equalToWhenPresent(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -244,7 +261,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
+            .and(indexUrn, isEqualToWhenPresent(record::getIndexUrn))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -257,7 +275,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
+            .and(indexUrn, isEqualToWhenPresent(record::getIndexUrn))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -270,7 +289,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
+            .and(indexUrn, isEqualToWhenPresent(record::getIndexUrn))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -297,7 +317,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(indexPath, isEqualToWhenPresent(record::getIndexPath))
+            .and(indexUrn, isEqualToWhenPresent(record::getIndexUrn))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }

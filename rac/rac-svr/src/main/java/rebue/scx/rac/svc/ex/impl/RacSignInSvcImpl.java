@@ -92,7 +92,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
         }
 
-        RacUserMo userMo = null;
+        RacUserMo        userMo    = null;
         SignUpOrInWayDic signInWay = null;
         if (RegexUtils.matchEmail(to.getUserName())) {
             userMo = userSvc.getOneByEmail(sysMo.getDomainId(), to.getOrgId(), to.getUserName());
@@ -144,7 +144,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         if (!userMo.getSignInPswd().equals(saltPswd(to.getSignInPswd(), userMo.getSignInPswdSalt()))) {
             final Long allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(userMo.getId());
 
-            String msg;
+            String     msg;
             if (allowErrCount == 0) {
                 msg = "密码错误，用户已被锁定，请明天再试";
             }
@@ -223,7 +223,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     private Ro<SignUpOrInRa> returnSuccessSignIn(final RacSysMo sysMo, final RacUserMo userMo, final SignUpOrInWayDic signInWay) {
         final RacOpLogAddTo opLogAddTo = new RacOpLogAddTo();
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now        = LocalDateTime.now();
         opLogAddTo.setOpType("登录");
         opLogAddTo.setSysId(sysMo.getId());
         opLogAddTo.setUserId(userMo.getId());
@@ -232,14 +232,14 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         opLogAddTo.setOpDatetime(now);
         opLogSvc.add(opLogAddTo);
 
-        final JwtSignTo signTo = new JwtSignTo(userMo.getId().toString());
+        final JwtSignTo     signTo = new JwtSignTo(userMo.getId().toString());
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {
             final SignUpOrInRa ra = new SignUpOrInRa(
                 userMo.getId(),
                 signRo.getExtra().getSign(),
                 signRo.getExtra().getExpirationTime(),
-                sysMo.getIndexPath());
+                sysMo.getIndexUrn());
             return new Ro<>(ResultDic.SUCCESS, "用户登录成功", ra);
         }
         else {

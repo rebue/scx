@@ -1,11 +1,28 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.createrTimestamp;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.email;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.idCard;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isEnabled;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedEmail;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedIdcard;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedMobile;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedRealname;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.mobile;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.payPswd;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.payPswdSalt;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.racPerson;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.realName;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.sex;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.updateTimestamp;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +46,7 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPersonMo;
 

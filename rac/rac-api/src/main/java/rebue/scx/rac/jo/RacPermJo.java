@@ -1,16 +1,15 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,7 +31,7 @@ public class RacPermJo implements Serializable {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private static final long  serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 权限ID
@@ -42,7 +41,7 @@ public class RacPermJo implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
-    private Long               id;
+    private Long              id;
 
     /**
      * 权限名称
@@ -51,16 +50,7 @@ public class RacPermJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 20)
-    private String             name;
-
-    /**
-     * 是否鉴权(不鉴权意味着放开访问权限)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "IS_AUTHORIZE", nullable = false, length = 1)
-    private Boolean            isAuthorize;
+    private String            name;
 
     /**
      * 是否启用
@@ -69,7 +59,7 @@ public class RacPermJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "IS_ENABLED", nullable = false, length = 1)
-    private Boolean            isEnabled;
+    private Boolean           isEnabled;
 
     /**
      * 顺序号
@@ -78,7 +68,7 @@ public class RacPermJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "ORDER_NO", nullable = false, length = 3)
-    private Byte               orderNo;
+    private Byte              orderNo;
 
     /**
      * 权限备注
@@ -87,7 +77,16 @@ public class RacPermJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "REMARK", nullable = true, length = 50)
-    private String             remark;
+    private String            remark;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacDomainJo       domain;
 
     /**
      * 权限分组
@@ -96,15 +95,7 @@ public class RacPermJo implements Serializable {
      */
     @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacPermGroupJo     group;
-
-    /**
-     * 权限列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perm")
-    private List<RacPermUrnJo> racPermUrnList;
+    private RacPermGroupJo    group;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -137,13 +128,4 @@ public class RacPermJo implements Serializable {
             return false;
         return true;
     }
-
-    /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacDomainJo domain;
 }

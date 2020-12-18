@@ -1,11 +1,20 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.domainId;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.groupId;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.isEnabled;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.name;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.orderNo;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.remark;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +38,7 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPermMo;
 
@@ -37,7 +47,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, groupId, name, isAuthorize, isEnabled, orderNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, groupId, name, isEnabled, orderNo, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -79,7 +89,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
         @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="GROUP_ID", property="groupId", jdbcType=JdbcType.BIGINT),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
-        @Result(column="IS_AUTHORIZE", property="isAuthorize", jdbcType=JdbcType.BIT),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
         @Result(column="ORDER_NO", property="orderNo", jdbcType=JdbcType.TINYINT),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
@@ -124,7 +133,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .map(domainId).toProperty("domainId")
             .map(groupId).toProperty("groupId")
             .map(name).toProperty("name")
-            .map(isAuthorize).toProperty("isAuthorize")
             .map(isEnabled).toProperty("isEnabled")
             .map(orderNo).toProperty("orderNo")
             .map(remark).toProperty("remark")
@@ -140,7 +148,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .map(domainId).toProperty("domainId")
             .map(groupId).toProperty("groupId")
             .map(name).toProperty("name")
-            .map(isAuthorize).toProperty("isAuthorize")
             .map(isEnabled).toProperty("isEnabled")
             .map(orderNo).toProperty("orderNo")
             .map(remark).toProperty("remark")
@@ -156,7 +163,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(groupId).toPropertyWhenPresent("groupId", record::getGroupId)
             .map(name).toPropertyWhenPresent("name", record::getName)
-            .map(isAuthorize).toPropertyWhenPresent("isAuthorize", record::getIsAuthorize)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
             .map(orderNo).toPropertyWhenPresent("orderNo", record::getOrderNo)
             .map(remark).toPropertyWhenPresent("remark", record::getRemark)
@@ -208,7 +214,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
                 .set(domainId).equalTo(record::getDomainId)
                 .set(groupId).equalTo(record::getGroupId)
                 .set(name).equalTo(record::getName)
-                .set(isAuthorize).equalTo(record::getIsAuthorize)
                 .set(isEnabled).equalTo(record::getIsEnabled)
                 .set(orderNo).equalTo(record::getOrderNo)
                 .set(remark).equalTo(record::getRemark);
@@ -222,7 +227,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
                 .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(groupId).equalToWhenPresent(record::getGroupId)
                 .set(name).equalToWhenPresent(record::getName)
-                .set(isAuthorize).equalToWhenPresent(record::getIsAuthorize)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(orderNo).equalToWhenPresent(record::getOrderNo)
                 .set(remark).equalToWhenPresent(record::getRemark);
@@ -236,7 +240,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             c.set(domainId).equalTo(record::getDomainId)
             .set(groupId).equalTo(record::getGroupId)
             .set(name).equalTo(record::getName)
-            .set(isAuthorize).equalTo(record::getIsAuthorize)
             .set(isEnabled).equalTo(record::getIsEnabled)
             .set(orderNo).equalTo(record::getOrderNo)
             .set(remark).equalTo(record::getRemark)
@@ -252,7 +255,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             c.set(domainId).equalToWhenPresent(record::getDomainId)
             .set(groupId).equalToWhenPresent(record::getGroupId)
             .set(name).equalToWhenPresent(record::getName)
-            .set(isAuthorize).equalToWhenPresent(record::getIsAuthorize)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
             .set(orderNo).equalToWhenPresent(record::getOrderNo)
             .set(remark).equalToWhenPresent(record::getRemark)
@@ -269,7 +271,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
@@ -285,7 +286,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
@@ -301,7 +301,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
@@ -331,7 +330,6 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
-            .and(isAuthorize, isEqualToWhenPresent(record::getIsAuthorize))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))

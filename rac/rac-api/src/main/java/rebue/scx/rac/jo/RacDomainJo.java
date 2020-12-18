@@ -1,14 +1,13 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,7 +29,7 @@ public class RacDomainJo implements Serializable {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private static final long     serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 领域ID
@@ -40,7 +39,7 @@ public class RacDomainJo implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 32)
-    private String                id;
+    private String            id;
 
     /**
      * 领域名称
@@ -49,7 +48,7 @@ public class RacDomainJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 20)
-    private String                name;
+    private String            name;
 
     /**
      * 领域备注
@@ -58,55 +57,7 @@ public class RacDomainJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "REMARK", nullable = true, length = 50)
-    private String                remark;
-
-    /**
-     * 领域列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
-    private List<RacDomainUserJo> racDomainUserList;
-
-    /**
-     * 领域列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
-    private List<RacOrgJo>        racOrgList;
-
-    /**
-     * 领域列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
-    private List<RacPermJo>       racPermList;
-
-    /**
-     * 领域列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
-    private List<RacPermGroupJo>  racPermGroupList;
-
-    /**
-     * 领域列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
-    private List<RacRoleJo>       racRoleList;
-
-    /**
-     * 领域列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
-    private List<RacSysJo>        racSysList;
+    private String            remark;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

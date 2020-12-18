@@ -1,14 +1,13 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -167,14 +166,6 @@ public class RacPersonJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "UPDATE_TIMESTAMP", nullable = false, length = 20)
     private Long              updateTimestamp;
-
-    /**
-     * 个人列表
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<RacUserJo>   racUserList;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

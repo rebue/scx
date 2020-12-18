@@ -1,11 +1,17 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.menuUrn;
+import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.permId;
+import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.racPermMenu;
+import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.sysId;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +35,7 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPermMenuMo;
 
@@ -37,7 +44,7 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, permId, menuId);
+    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, permId, menuUrn);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -76,8 +83,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacPermMenuMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
+        @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
         @Result(column="PERM_ID", property="permId", jdbcType=JdbcType.BIGINT),
-        @Result(column="MENU_ID", property="menuId", jdbcType=JdbcType.BIGINT)
+        @Result(column="MENU_URN", property="menuUrn", jdbcType=JdbcType.VARCHAR)
     })
     List<RacPermMenuMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -116,8 +124,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default int insert(RacPermMenuMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPermMenu, c ->
             c.map(id).toProperty("id")
+            .map(sysId).toProperty("sysId")
             .map(permId).toProperty("permId")
-            .map(menuId).toProperty("menuId")
+            .map(menuUrn).toProperty("menuUrn")
         );
     }
 
@@ -127,8 +136,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default int insertMultiple(Collection<RacPermMenuMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPermMenu, c ->
             c.map(id).toProperty("id")
+            .map(sysId).toProperty("sysId")
             .map(permId).toProperty("permId")
-            .map(menuId).toProperty("menuId")
+            .map(menuUrn).toProperty("menuUrn")
         );
     }
 
@@ -138,8 +148,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default int insertSelective(RacPermMenuMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPermMenu, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
+            .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
             .map(permId).toPropertyWhenPresent("permId", record::getPermId)
-            .map(menuId).toPropertyWhenPresent("menuId", record::getMenuId)
+            .map(menuUrn).toPropertyWhenPresent("menuUrn", record::getMenuUrn)
         );
     }
 
@@ -185,8 +196,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacPermMenuMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
+                .set(sysId).equalTo(record::getSysId)
                 .set(permId).equalTo(record::getPermId)
-                .set(menuId).equalTo(record::getMenuId);
+                .set(menuUrn).equalTo(record::getMenuUrn);
     }
 
     /**
@@ -194,8 +206,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPermMenuMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
+                .set(sysId).equalToWhenPresent(record::getSysId)
                 .set(permId).equalToWhenPresent(record::getPermId)
-                .set(menuId).equalToWhenPresent(record::getMenuId);
+                .set(menuUrn).equalToWhenPresent(record::getMenuUrn);
     }
 
     /**
@@ -203,8 +216,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
      */
     default int updateByPrimaryKey(RacPermMenuMo record) {
         return update(c ->
-            c.set(permId).equalTo(record::getPermId)
-            .set(menuId).equalTo(record::getMenuId)
+            c.set(sysId).equalTo(record::getSysId)
+            .set(permId).equalTo(record::getPermId)
+            .set(menuUrn).equalTo(record::getMenuUrn)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -214,8 +228,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
      */
     default int updateByPrimaryKeySelective(RacPermMenuMo record) {
         return update(c ->
-            c.set(permId).equalToWhenPresent(record::getPermId)
-            .set(menuId).equalToWhenPresent(record::getMenuId)
+            c.set(sysId).equalToWhenPresent(record::getSysId)
+            .set(permId).equalToWhenPresent(record::getPermId)
+            .set(menuUrn).equalToWhenPresent(record::getMenuUrn)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -226,8 +241,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default int deleteSelective(RacPermMenuMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(permId, isEqualToWhenPresent(record::getPermId))
-            .and(menuId, isEqualToWhenPresent(record::getMenuId))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
         );
     }
 
@@ -237,8 +253,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default Optional<RacPermMenuMo> selectOne(RacPermMenuMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(permId, isEqualToWhenPresent(record::getPermId))
-            .and(menuId, isEqualToWhenPresent(record::getMenuId))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
         );
     }
 
@@ -248,8 +265,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default long countSelective(RacPermMenuMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(permId, isEqualToWhenPresent(record::getPermId))
-            .and(menuId, isEqualToWhenPresent(record::getMenuId))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
         );
     }
 
@@ -273,8 +291,9 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default List<RacPermMenuMo> selectSelective(RacPermMenuMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(sysId, isEqualToWhenPresent(record::getSysId))
             .and(permId, isEqualToWhenPresent(record::getPermId))
-            .and(menuId, isEqualToWhenPresent(record::getMenuId))
+            .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn))
         );
     }
 }

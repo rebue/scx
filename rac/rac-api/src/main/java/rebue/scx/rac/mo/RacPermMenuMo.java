@@ -1,10 +1,16 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -29,6 +35,14 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
     private Long              id;
 
     /**
+     * 系统ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "系统ID的长度不能大于32")
+    private String            sysId;
+
+    /**
      * 权限ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -38,27 +52,18 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
     private Long              permId;
 
     /**
-     * 菜单ID
+     * 菜单URN
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "菜单ID不能为空")
-    @PositiveOrZero(message = "菜单ID不能为负数")
-    private Long              menuId;
+    @NotBlank(groups = AddGroup.class, message = "菜单URN不能为空")
+    @Length(max = 100, message = "菜单URN的长度不能大于100")
+    private String            menuUrn;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 菜单
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacMenuMo         menu;
 
     /**
      * 权限
@@ -68,6 +73,15 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
     @Getter
     @Setter
     private RacPermMo         perm;
+
+    /**
+     * 系统
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacSysMo          sys;
 
     /**
      * 权限菜单ID
@@ -88,6 +102,24 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
     }
 
     /**
+     * 系统ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getSysId() {
+        return sysId;
+    }
+
+    /**
+     * 系统ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSysId(String sysId) {
+        this.sysId = sysId;
+    }
+
+    /**
      * 权限ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -97,12 +129,30 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 菜单ID
+     * 权限ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public Long getMenuId() {
-        return menuId;
+    public void setPermId(Long permId) {
+        this.permId = permId;
+    }
+
+    /**
+     * 菜单URN
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getMenuUrn() {
+        return menuUrn;
+    }
+
+    /**
+     * 菜单URN
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setMenuUrn(String menuUrn) {
+        this.menuUrn = menuUrn;
     }
 
     /**
@@ -115,8 +165,9 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", sysId=").append(sysId);
         sb.append(", permId=").append(permId);
-        sb.append(", menuId=").append(menuId);
+        sb.append(", menuUrn=").append(menuUrn);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -159,23 +210,5 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
-    }
-
-    /**
-     * 权限ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPermId(Long permId) {
-        this.permId = permId;
-    }
-
-    /**
-     * 菜单ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setMenuId(Long menuId) {
-        this.menuId = menuId;
     }
 }

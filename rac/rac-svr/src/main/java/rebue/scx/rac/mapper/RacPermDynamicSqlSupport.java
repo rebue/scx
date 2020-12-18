@@ -1,6 +1,7 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -39,13 +40,6 @@ public final class RacPermDynamicSqlSupport {
     public static final SqlColumn<String> name = racPerm.name;
 
     /**
-    * 是否鉴权(不鉴权意味着放开访问权限)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Boolean> isAuthorize = racPerm.isAuthorize;
-
-    /**
     * 是否启用
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -74,8 +68,6 @@ public final class RacPermDynamicSqlSupport {
         public final SqlColumn<Long> groupId = column("GROUP_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
-
-        public final SqlColumn<Boolean> isAuthorize = column("IS_AUTHORIZE", JDBCType.BIT);
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 

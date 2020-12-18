@@ -43,21 +43,21 @@ public class RacSignInHttpTests {
 
         log.info("测试找不到此用户");
         to = new SignInByUserNameTo();
-        to.setSysId("rebue-platform");
+        to.setSysId("platform-admin-web");
         to.setUserName("admin@qq.com");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         ro = signInByUserName(to);
-        Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
+        Assertions.assertEquals(ResultDic.WARN, ro.getResult());
         Assertions.assertEquals("找不到此用户: admin@qq.com", ro.getMsg());
 
         log.info("测试admin用户登录:错误的密码");
         to = new SignInByUserNameTo();
-        to.setSysId("rebue-platform");
+        to.setSysId("platform-admin-web");
         to.setUserName("admin");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("95271".getBytes()));
         ro = signInByUserName(to);
-        Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
-        Assertions.assertTrue(ro.getMsg().startsWith("密码输入错误"));
+        Assertions.assertEquals(ResultDic.WARN, ro.getResult());
+        Assertions.assertTrue(ro.getMsg().startsWith("密码错误"));
 
         log.info("测试admin用户登录:正确的密码");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
@@ -65,8 +65,8 @@ public class RacSignInHttpTests {
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
     }
 
-    private Ro<SignUpOrInRa> signInByUserName(SignInByUserNameTo to) throws IOException {
-        String url = _hostUrl + "/sign-in/sign-in-by-user-name";
+    private Ro<SignUpOrInRa> signInByUserName(final SignInByUserNameTo to) throws IOException {
+        final String url = _hostUrl + "/sign-in/sign-in-by-user-name";
         log.info("测试通过用户名称登录: to-{}", to);
         final String result = _httpClient.postByJsonParams(url, to);
         log.info("通过用户名称注册的返回值为：" + result);

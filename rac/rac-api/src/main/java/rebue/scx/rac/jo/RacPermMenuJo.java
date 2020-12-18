@@ -1,6 +1,7 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,23 +9,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 菜单
+ * 权限菜单
  *
- * The persistent class for the RAC_MENU database table.
+ * The persistent class for the RAC_PERM_MENU database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_MENU")
+@Table(name = "RAC_PERM_MENU")
 @Getter
 @Setter
 @ToString
-public class RacMenuJo implements Serializable {
+public class RacPermMenuJo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -32,7 +34,7 @@ public class RacMenuJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 菜单ID
+     * 权限菜单ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -42,75 +44,30 @@ public class RacMenuJo implements Serializable {
     private Long              id;
 
     /**
-     * 菜单编码
+     * 菜单URN
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "CODE", nullable = false, length = 20)
-    private String            code;
+    @Column(name = "MENU_URN", nullable = false, length = 100)
+    private String            menuUrn;
 
     /**
-     * 菜单名称
+     * 权限
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "NAME", nullable = false, length = 20)
-    private String            name;
-
-    /**
-     * 标题(点击菜单后显示在内容页面的标题)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "TITLE", nullable = true, length = 30)
-    private String            title;
-
-    /**
-     * 路径
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "PATH", nullable = false, length = 20)
-    private String            path;
-
-    /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "IS_ENABLED", nullable = false, length = 1)
-    private Boolean           isEnabled;
-
-    /**
-     * 菜单图标
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "ICON", nullable = true, length = 20)
-    private String            icon;
-
-    /**
-     * 菜单备注
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "REMARK", nullable = true, length = 50)
-    private String            remark;
+    @JoinColumn(name = "PERM_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacPermJo         perm;
 
     /**
      * 系统
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID")
+    @ManyToOne()
     private RacSysJo          sys;
 
     /**
@@ -135,7 +92,7 @@ public class RacMenuJo implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RacMenuJo other = (RacMenuJo) obj;
+        RacPermMenuJo other = (RacPermMenuJo) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

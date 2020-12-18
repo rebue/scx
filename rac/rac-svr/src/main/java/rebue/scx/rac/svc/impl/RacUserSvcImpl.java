@@ -7,9 +7,12 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rac.mapper.RacDomainUserDynamicSqlSupport.racDomainUser;
 import static rebue.scx.rac.mapper.RacOrgUserDynamicSqlSupport.racOrgUser;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.mybatis.dynamic.sql.SqlCriterion;
 import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
 import org.mybatis.dynamic.sql.select.SelectModel;
@@ -17,6 +20,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacUserDao;
 import rebue.scx.rac.jo.RacUserJo;
@@ -86,9 +90,11 @@ public class RacUserSvcImpl extends
             list.add(and(racOrgUser.orgId, isEqualTo(orgId)));
         }
         list.add(and(racUser.signInEmail, isEqualTo(email)));
-        return _mapper.selectOne(c -> // list.stream().toArray(SqlCriterion<?>[]::new)))
-        c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id)).where(// list.stream().toArray(SqlCriterion<?>[]::new)))
-            racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email)))).orElse(null);
+        return // list.stream().toArray(SqlCriterion<?>[]::new)))
+        _mapper.selectOne(// list.stream().toArray(SqlCriterion<?>[]::new)))
+            c -> c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
+                .where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email))))
+            .orElse(null);
     }
 
     @Override

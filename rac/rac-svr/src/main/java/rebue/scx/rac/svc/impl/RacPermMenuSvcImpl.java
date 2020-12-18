@@ -1,24 +1,26 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.scx.rac.dao.RacMenuDao;
-import rebue.scx.rac.jo.RacMenuJo;
-import rebue.scx.rac.mapper.RacMenuMapper;
-import rebue.scx.rac.mo.RacMenuMo;
-import rebue.scx.rac.svc.RacMenuSvc;
-import rebue.scx.rac.to.RacMenuAddTo;
-import rebue.scx.rac.to.RacMenuDelTo;
-import rebue.scx.rac.to.RacMenuModifyTo;
-import rebue.scx.rac.to.RacMenuOneTo;
-import rebue.scx.rac.to.RacMenuPageTo;
+import rebue.scx.rac.dao.RacPermMenuDao;
+import rebue.scx.rac.jo.RacPermMenuJo;
+import rebue.scx.rac.mapper.RacPermMenuMapper;
+import rebue.scx.rac.mo.RacPermMenuMo;
+import rebue.scx.rac.svc.RacPermMenuSvc;
+import rebue.scx.rac.to.RacPermMenuAddTo;
+import rebue.scx.rac.to.RacPermMenuDelTo;
+import rebue.scx.rac.to.RacPermMenuModifyTo;
+import rebue.scx.rac.to.RacPermMenuOneTo;
+import rebue.scx.rac.to.RacPermMenuPageTo;
 
 /**
- * 菜单服务实现
+ * 权限菜单服务实现
  *
  * <pre>
  * 注意：
@@ -35,8 +37,9 @@ import rebue.scx.rac.to.RacMenuPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacMenuSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacMenuAddTo, RacMenuModifyTo, RacMenuDelTo, RacMenuOneTo, RacMenuPageTo, RacMenuMo, RacMenuJo, RacMenuMapper, RacMenuDao> implements RacMenuSvc {
+public class RacPermMenuSvcImpl extends
+    BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
+    implements RacPermMenuSvc {
 
     /**
      * 本服务的单例
@@ -46,7 +49,7 @@ public class RacMenuSvcImpl extends
      */
     @Lazy
     @Resource
-    private RacMenuSvc thisSvc;
+    private RacPermMenuSvc thisSvc;
 
     /**
      * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -54,7 +57,7 @@ public class RacMenuSvcImpl extends
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected Class<RacMenuMo> getMoClass() {
-        return RacMenuMo.class;
+    protected Class<RacPermMenuMo> getMoClass() {
+        return RacPermMenuMo.class;
     }
 }
