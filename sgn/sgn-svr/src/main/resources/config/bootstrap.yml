@@ -34,5 +34,5 @@ dubbo:
     # 序列化优化器
     optimizer: rebue.sbs.dubbo.SerializationOptimizerImpl
   cloud:
-    # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空
+    # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空，如有多个用逗号隔开
     subscribed-services:

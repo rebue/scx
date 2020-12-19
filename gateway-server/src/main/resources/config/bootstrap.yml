@@ -7,6 +7,16 @@ spring:
     name: gateway-server
   profiles:
     active: dev
+  main:
+    # Spring Boot 2.1 之后将默认改为了false, dubbo会报错(https://github.com/apache/dubbo/issues/3193#issuecomment-474340165)，因此需要设定
+    allow-bean-definition-overriding: true
+#    # 不启动Web服务器(不提供HTTP服务)
+#    web-application-type: none
+#  autoconfigure:
+#    exclude:
+#      # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
+#      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+#      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   cloud:
     nacos:
       discovery:
@@ -26,13 +36,23 @@ spring:
           lower-case-service-id: true 
 
 dubbo:
+  scan:
+    # dubbo 服务扫描基准包
+    base-packages: rebue.scx.rac
   protocol:
+    # dubbo 协议
+    name: dubbo
+    # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
+    port: -1
     # dubbo推荐的序列化组件，还有一个是fst
     serialization: kryo
     # 序列化优化器
     optimizer: rebue.sbs.dubbo.SerializationOptimizerImpl
+  consumer:
+    # Dubbo默认（缺省）会在启动时检查依赖的服务是否可用，不可用时会立即抛出异常，导致服务启动失败
+    check: false
   cloud:
-    # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空
+    # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空，如有多个用逗号隔开
     # 请注意，这里去除默认给开发埋了一个雷，如果忘记添加依赖的微服务，启动时会报没有发现依赖的微服务注册的错，很难想到是这里的问题
-    subscribed-services: sgn-svr
+    subscribed-services: jwt-svr,sgn-svr,rac-svr
     
