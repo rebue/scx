@@ -7,13 +7,13 @@ import javax.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.sgn.api.ex.SgnSignApi;
-import rebue.scx.sgn.svc.SgnSignSvc;
+import rebue.scx.sgn.api.ex.SgnVerifyApi;
+import rebue.scx.sgn.svc.ex.SgnVerifySvc;
 
 @DubboService
-public class SgnSignApiImpl implements SgnSignApi {
+public class SgnVerifyApiImpl implements SgnVerifyApi {
     @Resource
-    private SgnSignSvc svc;
+    private SgnVerifySvc svc;
 
     @Override
     public Ro<?> verify(final Map<String, ?> paramMap) {

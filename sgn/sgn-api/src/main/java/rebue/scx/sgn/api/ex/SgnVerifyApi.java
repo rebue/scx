@@ -4,7 +4,7 @@ import java.util.Map;
 
 import rebue.robotech.ro.Ro;
 
-public interface SgnSignApi {
+public interface SgnVerifyApi {
 
     Ro<?> verify(Map<String, ?> paramMap);
 

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.svc.ex.SgnVerifySvc;
 import rebue.wheel.turing.SignUtils;
@@ -32,12 +32,10 @@ import rebue.wheel.turing.SignUtils;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-@Slf4j
 public class SgnVerifySvcImpl implements SgnVerifySvc {
-    private static final String REDIS_KEY_SIGN_ID_PREFIX = "rebue.scx.sgn.svc.sign-id.";
 
     @Resource
-    private SgnSecretSvc        sgnSecretSvc;
+    private SgnSecretSvc sgnSecretSvc;
 
     @Override
     public Ro<?> verify(final Map<String, ?> paramMap) {
@@ -48,10 +46,11 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         }
 
         // 通过签名ID获取签名key
-        final String signKey = sgnSecretSvc.getById(Long.parseUnsignedLong(signId));
-        if (StringUtils.isBlank(signKey)) {
-            return new Ro<>(ResultDic.WARN, "验证签名错误: signId错误");
+        final SgnSecretMo secretMo = sgnSecretSvc.getById(signId);
+        if (secretMo == null) {
+            return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: signId不正确");
         }
+        final String signKey = secretMo.getSecret();
 
         if (SignUtils.verify1(paramMap, signKey)) {
             return new Ro<>(ResultDic.SUCCESS, "验证签名正确");

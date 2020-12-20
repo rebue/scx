@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.scx.gateway.server.co.CachedKeyCo;
-import rebue.scx.sgn.api.ex.SgnSignApi;
+import rebue.scx.sgn.api.ex.SgnVerifyApi;
 
 /**
  * 签名过滤器
@@ -27,14 +27,14 @@ import rebue.scx.sgn.api.ex.SgnSignApi;
 public class SgnPreFilter implements GlobalFilter {
 
     @DubboReference
-    private SgnSignApi sgnApi;
+    private SgnVerifyApi sgnVerifyApi;
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         log.info("\r\n============================= 运行SgnPreFilter过滤器 =============================\r\n");
         try {
             final Map<String, Object> paramMap = exchange.getAttribute(CachedKeyCo.REQUEST_PARAMS_MAP);
-            if (!ResultDic.SUCCESS.equals(sgnApi.verify(paramMap).getResult())) {
+            if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(paramMap).getResult())) {
                 log.warn("认证失败: paramMap-{}", paramMap);
                 final ServerHttpResponse response = exchange.getResponse();
                 // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
