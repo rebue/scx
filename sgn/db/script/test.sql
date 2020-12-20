@@ -1,0 +1,1 @@
+INSERT INTO SGN_SECRET(ID, SECRET) VALUES ('sign-id-123', 'sign-key-456');
