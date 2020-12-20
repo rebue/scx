@@ -1,6 +1,7 @@
 package rebue.scx.sgn.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
+
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.scx.sgn.api.SgnSecretApi;
 import rebue.scx.sgn.jo.SgnSecretJo;
@@ -19,6 +20,6 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  */
 @DubboService
 public class SgnSecretApiImpl
-    extends BaseApiImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretSvc>
+    extends BaseApiImpl<java.lang.String, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretSvc>
     implements SgnSecretApi {
 }

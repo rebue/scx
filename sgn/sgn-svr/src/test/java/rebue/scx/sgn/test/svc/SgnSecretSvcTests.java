@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
+
 import lombok.extern.slf4j.Slf4j;
 import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
@@ -45,11 +47,11 @@ public class SgnSecretSvcTests {
     @Test
     public void testCrud() {
         SgnSecretAddTo addTo = null;
-        Long id = null;
+        String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             log.info("添加签名密钥的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final String addRo = _svc.add(addTo);
             log.info("添加签名密钥的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
             id = addRo;

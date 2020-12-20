@@ -38,8 +38,8 @@ public class SgnSecretJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 20)
-    private Long              id;
+    @Column(name = "ID", nullable = false, length = 128)
+    private String            id;
 
     /**
      * 密钥

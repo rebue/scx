@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import com.github.dozermapper.core.Mapper;
+
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
@@ -50,11 +52,11 @@ public class SgnSecretApiTests {
     @Test
     public void testCrud() {
         SgnSecretAddTo addTo = null;
-        Long id = null;
+        String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             log.info("添加签名密钥的参数为：" + addTo);
-            final Ro<IdRa<Long>> idRo = _api.add(addTo);
+            final Ro<IdRa<String>> idRo = _api.add(addTo);
             log.info("添加签名密钥的返回值为：" + idRo);
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();

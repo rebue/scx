@@ -2,16 +2,22 @@ package rebue.scx.sgn.svc.impl.ex;
 
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.scx.sgn.svc.SgnSignSvc;
+import rebue.scx.sgn.svc.SgnSecretSvc;
+import rebue.scx.sgn.svc.ex.SgnVerifySvc;
+import rebue.wheel.turing.SignUtils;
 
 /**
- * 签名与校验服务的实现类
+ * 签名校验服务的实现类
  *
  * <pre>
  * 注意：
@@ -27,29 +33,31 @@ import rebue.scx.sgn.svc.SgnSignSvc;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @Slf4j
-public class SgnSignSvcImpl implements SgnSignSvc {
+public class SgnVerifySvcImpl implements SgnVerifySvc {
     private static final String REDIS_KEY_SIGN_ID_PREFIX = "rebue.scx.sgn.svc.sign-id.";
+
+    @Resource
+    private SgnSecretSvc        sgnSecretSvc;
 
     @Override
     public Ro<?> verify(final Map<String, ?> paramMap) {
-        // // 获取签名ID
-        // final String signId = (String) paramMap.get("signId");
-        // if (StringUtils.isBlank(signId)) {
-        // return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 请求参数中没有signId");
-        // }
-        //
-        // // 通过签名ID获取签名key
-        // final String signKey = get(signId);
-        // if (StringUtils.isBlank(signKey)) {
-        // return new Ro<>(ResultDic.WARN, "验证签名错误: signId错误");
-        // }
-        //
-        // if (SignUtils.verify1(paramMap, signKey)) {
-        // return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
-        // }
-        // else {
-        // return new Ro<>(ResultDic.WARN, "验证签名错误: 签名不正确");
-        // }
-        return null;
+        // 获取签名ID
+        final String signId = (String) paramMap.get("signId");
+        if (StringUtils.isBlank(signId)) {
+            return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 请求参数中没有signId");
+        }
+
+        // 通过签名ID获取签名key
+        final String signKey = sgnSecretSvc.getById(Long.parseUnsignedLong(signId));
+        if (StringUtils.isBlank(signKey)) {
+            return new Ro<>(ResultDic.WARN, "验证签名错误: signId错误");
+        }
+
+        if (SignUtils.verify1(paramMap, signKey)) {
+            return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
+        }
+        else {
+            return new Ro<>(ResultDic.WARN, "验证签名错误: 签名不正确");
+        }
     }
 }

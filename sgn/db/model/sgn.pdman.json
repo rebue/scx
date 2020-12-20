@@ -497,7 +497,7 @@
         "code": "ID",
         "apply": {
           "MYSQL": {
-            "type": "bigint unsigned"
+            "type": "VARCHAR(128)"
           }
         }
       }

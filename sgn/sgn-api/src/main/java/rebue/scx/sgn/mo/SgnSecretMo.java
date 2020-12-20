@@ -3,8 +3,6 @@ package rebue.scx.sgn.mo;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -21,16 +19,16 @@ import rebue.robotech.valid.ModifyGroup;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class SgnSecretMo implements Serializable, Mo<Long> {
+public class SgnSecretMo implements Serializable, Mo<String> {
 
     /**
      * ID 一般会设置为OrgID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "ID不能为空")
-    @PositiveOrZero(message = "ID不能为负数")
-    private Long              id;
+    @NotBlank(groups = ModifyGroup.class, message = "ID不能为空")
+    @Length(max = 128, message = "ID的长度不能大于128")
+    private String            id;
 
     /**
      * 密钥
@@ -51,17 +49,8 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public Long getId() {
+    public String getId() {
         return id;
-    }
-
-    /**
-     * ID 一般会设置为OrgID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setId(Long id) {
-        this.id = id;
     }
 
     /**
@@ -134,6 +123,15 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      */
     @Override
     public String getIdType() {
-        return "Long";
+        return "String";
+    }
+
+    /**
+     * ID 一般会设置为OrgID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 }

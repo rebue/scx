@@ -1,10 +1,12 @@
 package rebue.scx.sgn.svc.impl;
 
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.sgn.dao.SgnSecretDao;
 import rebue.scx.sgn.jo.SgnSecretJo;
@@ -35,8 +37,8 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class SgnSecretSvcImpl
-    extends BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
+public class SgnSecretSvcImpl extends
+    BaseSvcImpl<java.lang.String, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
     implements SgnSecretSvc {
 
     /**

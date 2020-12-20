@@ -1,10 +1,13 @@
-package rebue.scx.sgn.svc;
+package rebue.scx.sgn.svc.ex;
 
 import java.util.Map;
 
 import rebue.robotech.ro.Ro;
 
-public interface SgnSignSvc {
+/**
+ * 签名验证服务
+ */
+public interface SgnVerifySvc {
 
     Ro<?> verify(Map<String, ?> paramMap);
 

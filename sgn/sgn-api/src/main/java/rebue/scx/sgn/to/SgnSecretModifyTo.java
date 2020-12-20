@@ -2,8 +2,7 @@ package rebue.scx.sgn.to;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -31,9 +30,9 @@ public class SgnSecretModifyTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "ID不能为空")
-    @PositiveOrZero(message = "ID不能为负数")
-    private Long              id;
+    @NotBlank(message = "ID不能为空")
+    @Length(max = 128, message = "ID的长度不能大于128")
+    private String            id;
 
     /**
      * 密钥

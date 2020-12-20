@@ -1,6 +1,7 @@
 package rebue.scx.sgn.svc;
 
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.sgn.jo.SgnSecretJo;
 import rebue.scx.sgn.mo.SgnSecretMo;
@@ -21,5 +22,5 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface SgnSecretSvc extends BaseSvc<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
+public interface SgnSecretSvc extends BaseSvc<java.lang.String, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
 }

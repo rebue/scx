@@ -1,11 +1,15 @@
 package rebue.scx.sgn.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.id;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.secret;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.sgnSecret;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,11 +33,12 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.sgn.mo.SgnSecretMo;
 
 @Mapper
-public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, Long> {
+public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -75,7 +80,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, Long> 
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="SgnSecretMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
+        @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
         @Result(column="SECRET", property="secret", jdbcType=JdbcType.VARCHAR)
     })
     List<SgnSecretMo> selectMany(SelectStatementProvider selectStatement);
@@ -103,7 +108,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(Long id_) {
+    default int deleteByPrimaryKey(String id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
@@ -163,7 +168,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<SgnSecretMo> selectByPrimaryKey(Long id_) {
+    default Optional<SgnSecretMo> selectByPrimaryKey(String id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -245,7 +250,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existByPrimaryKey(Long id_) {
+    default boolean existByPrimaryKey(String id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 

@@ -56,13 +56,13 @@ public class SgnSecretHttpTests {
     @Test
     public void testCrud() throws IOException {
         SgnSecretAddTo addTo = null;
-        Long id = null;
+        String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             log.info("添加签名密钥的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/sgn/secret", addTo);
             log.info("添加签名密钥的返回值为：" + addResult);
-            final Ro<IdRa<Long>> idRo = JacksonUtils.deserialize(addResult, new TypeReference<Ro<IdRa<Long>>>() {
+            final Ro<IdRa<String>> idRo = JacksonUtils.deserialize(addResult, new TypeReference<Ro<IdRa<String>>>() {
             });
             log.info(idRo.toString());
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
