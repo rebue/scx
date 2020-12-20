@@ -1,4 +1,4 @@
-package rebue.scx.rac.test.http;
+package rebue.scx.rac.test.http.ex;
 
 import java.io.IOException;
 
