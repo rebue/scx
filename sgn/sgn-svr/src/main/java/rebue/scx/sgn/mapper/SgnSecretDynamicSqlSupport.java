@@ -1,7 +1,6 @@
 package rebue.scx.sgn.mapper;
 
 import java.sql.JDBCType;
-
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -12,7 +11,7 @@ public final class SgnSecretDynamicSqlSupport {
     public static final SgnSecret sgnSecret = new SgnSecret();
 
     /**
-    * ID
+    * ID 一般会设置为OrgID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
