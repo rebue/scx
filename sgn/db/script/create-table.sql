@@ -1,8 +1,8 @@
 DROP TABLE SGN_SECRET;
 CREATE TABLE SGN_SECRET(
-    ID bigint unsigned NOT NULL   COMMENT 'ID' ,
+    ID bigint unsigned NOT NULL   COMMENT 'ID 一般会设置为OrgID' ,
     SECRET VARCHAR(128) NOT NULL   COMMENT '密钥' ,
     PRIMARY KEY (ID)
-) COMMENT = '签名密钥 ';
+) COMMENT = '签名密钥';
 
 ALTER TABLE SGN_SECRET COMMENT '签名密钥';

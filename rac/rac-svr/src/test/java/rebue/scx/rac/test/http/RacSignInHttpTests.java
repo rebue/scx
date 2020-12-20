@@ -23,7 +23,8 @@ import rebue.wheel.turing.DigestUtils;
 @Slf4j
 public class RacSignInHttpTests {
 
-    private final String     _hostUrl    = "http://127.0.0.1:9605";
+    // private final String _hostUrl = "http://127.0.0.1:9605";
+    private final String     _hostUrl    = "http://127.0.0.1:8080/rac-svr";
 
     private final HttpClient _httpClient = new OkHttpClientImpl();
 

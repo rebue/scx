@@ -13,6 +13,7 @@
 	<description>签名及验证微服务</description>
 
 	<modules>
+		<module>sgn-gen</module>
 		<module>sgn-api</module>
 		<module>sgn-svr</module>
 	</modules>

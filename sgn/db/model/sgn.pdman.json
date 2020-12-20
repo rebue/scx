@@ -10,7 +10,7 @@
             {
               "name": "ID",
               "type": "ID",
-              "remark": "",
+              "remark": "一般会设置为OrgID",
               "chnname": "ID",
               "pk": true,
               "notNull": true,

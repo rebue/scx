@@ -5,6 +5,10 @@ robotech:
   # 用于生成ID，多服务实例情况下不要设置为0，应不同实例分配一个唯一的id，这样以此生成的ID才不会重复 
   appid: 1
 
+server:
+  # 自定义端口号，方便开发测试
+  port: 9436
+
 spring:
   cloud:
     nacos:
@@ -26,3 +30,7 @@ logging:
     com.netflix.discovery: 'OFF'
     com.alibaba.nacos.client.config.impl.ClientWorker: warn
     org.apache.dubbo.config.ServiceConfig: error
+    org.apache.dubbo.config.DubboShutdownHook: error
+    org.apache.dubbo.registry.integration.RegistryProtocol: error
+    org.springframework.web.context.support.GenericWebApplicationContext: error
+    org.springframework.beans.factory.BeanCreationNotAllowedException: error

@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.scx.gateway.server.co.CachedKeyCo;
-import rebue.scx.sgn.api.SgnApi;
+import rebue.scx.sgn.api.ex.SgnSignApi;
 
 /**
  * 签名过滤器
@@ -27,7 +27,7 @@ import rebue.scx.sgn.api.SgnApi;
 public class SgnPreFilter implements GlobalFilter {
 
     @DubboReference
-    private SgnApi sgnApi;
+    private SgnSignApi sgnApi;
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
