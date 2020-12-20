@@ -1,7 +1,6 @@
 package rebue.scx.sgn.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.scx.sgn.api.SgnSecretApi;
 import rebue.scx.sgn.jo.SgnSecretJo;

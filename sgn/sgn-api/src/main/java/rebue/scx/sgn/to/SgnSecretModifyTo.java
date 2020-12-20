@@ -1,11 +1,15 @@
 package rebue.scx.sgn.to;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 /**
@@ -23,7 +27,7 @@ public class SgnSecretModifyTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * ID 一般会设置为OrgID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

@@ -32,7 +32,7 @@ public class SgnSecretJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * ID 一般会设置为OrgID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
