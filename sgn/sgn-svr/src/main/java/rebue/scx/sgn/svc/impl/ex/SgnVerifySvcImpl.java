@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.svc.ex.SgnVerifySvc;
 import rebue.wheel.turing.SignUtils;
@@ -45,12 +44,8 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
             return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 请求参数中没有signId");
         }
 
-        // 通过签名ID获取签名key
-        final SgnSecretMo secretMo = sgnSecretSvc.getById(signId);
-        if (secretMo == null) {
-            return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: signId不正确");
-        }
-        final String signKey = secretMo.getSecret();
+        // 通过签名ID获取签名密钥
+        final String signKey = sgnSecretSvc.getSecretById(signId);
 
         if (SignUtils.verify1(paramMap, signKey)) {
             return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
