@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacPermGroupMo;
 import rebue.scx.rac.svc.RacPermGroupSvc;
 import rebue.scx.rac.to.RacPermGroupAddTo;
 import rebue.scx.rac.to.RacPermGroupDelTo;
+import rebue.scx.rac.to.RacPermGroupListTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermGroupOneTo;
 import rebue.scx.rac.to.RacPermGroupPageTo;
@@ -20,6 +21,6 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
  */
 @DubboService
 public class RacPermGroupApiImpl extends
-    BaseApiImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupSvc>
+    BaseApiImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupSvc>
     implements RacPermGroupApi {
 }

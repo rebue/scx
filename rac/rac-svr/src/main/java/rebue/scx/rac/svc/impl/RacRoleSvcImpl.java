@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.svc.RacRoleSvc;
 import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleDelTo;
+import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
@@ -37,8 +38,9 @@ import rebue.scx.rac.to.RacRolePageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacRoleSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleMapper, RacRoleDao> implements RacRoleSvc {
+public class RacRoleSvcImpl
+    extends BaseSvcImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleMapper, RacRoleDao>
+    implements RacRoleSvc {
 
     /**
      * 本服务的单例

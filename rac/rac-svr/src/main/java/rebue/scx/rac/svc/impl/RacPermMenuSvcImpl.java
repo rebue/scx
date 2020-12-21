@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.svc.RacPermMenuSvc;
 import rebue.scx.rac.to.RacPermMenuAddTo;
 import rebue.scx.rac.to.RacPermMenuDelTo;
+import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
 import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
@@ -38,7 +39,7 @@ import rebue.scx.rac.to.RacPermMenuPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermMenuSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
+    BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
     implements RacPermMenuSvc {
 
     /**

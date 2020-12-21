@@ -29,6 +29,7 @@ import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserDelTo;
+import rebue.scx.rac.to.RacUserListTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.to.RacUserPageTo;
@@ -51,8 +52,9 @@ import rebue.scx.rac.to.RacUserPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacUserSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao> implements RacUserSvc {
+public class RacUserSvcImpl
+    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+    implements RacUserSvc {
 
     /**
      * 本服务的单例
@@ -91,10 +93,9 @@ public class RacUserSvcImpl extends
         }
         list.add(and(racUser.signInEmail, isEqualTo(email)));
         return // list.stream().toArray(SqlCriterion<?>[]::new)))
-        _mapper.selectOne(// list.stream().toArray(SqlCriterion<?>[]::new)))
-            c -> c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
-                .where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email))))
-            .orElse(null);
+        // list.stream().toArray(SqlCriterion<?>[]::new)))
+        _mapper.selectOne(c -> c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
+            .where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email)))).orElse(null);
     }
 
     @Override

@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.to.RacSysAddTo;
 import rebue.scx.rac.to.RacSysDelTo;
+import rebue.scx.rac.to.RacSysListTo;
 import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysOneTo;
 import rebue.scx.rac.to.RacSysPageTo;
@@ -37,7 +38,8 @@ import rebue.scx.rac.to.RacSysPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSysSvcImpl extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysPageTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao>
+public class RacSysSvcImpl
+    extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysPageTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao>
     implements RacSysSvc {
 
     /**

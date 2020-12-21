@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacDomainUserMo;
 import rebue.scx.rac.svc.RacDomainUserSvc;
 import rebue.scx.rac.to.RacDomainUserAddTo;
 import rebue.scx.rac.to.RacDomainUserDelTo;
+import rebue.scx.rac.to.RacDomainUserListTo;
 import rebue.scx.rac.to.RacDomainUserModifyTo;
 import rebue.scx.rac.to.RacDomainUserOneTo;
 import rebue.scx.rac.to.RacDomainUserPageTo;
@@ -20,6 +21,6 @@ import rebue.scx.rac.to.RacDomainUserPageTo;
  */
 @DubboService
 public class RacDomainUserApiImpl extends
-    BaseApiImpl<java.lang.Long, RacDomainUserAddTo, RacDomainUserModifyTo, RacDomainUserDelTo, RacDomainUserOneTo, RacDomainUserPageTo, RacDomainUserMo, RacDomainUserJo, RacDomainUserSvc>
+    BaseApiImpl<java.lang.Long, RacDomainUserAddTo, RacDomainUserModifyTo, RacDomainUserDelTo, RacDomainUserOneTo, RacDomainUserListTo, RacDomainUserPageTo, RacDomainUserMo, RacDomainUserJo, RacDomainUserSvc>
     implements RacDomainUserApi {
 }

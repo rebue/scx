@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacDomainUserMo;
 import rebue.scx.rac.svc.RacDomainUserSvc;
 import rebue.scx.rac.to.RacDomainUserAddTo;
 import rebue.scx.rac.to.RacDomainUserDelTo;
+import rebue.scx.rac.to.RacDomainUserListTo;
 import rebue.scx.rac.to.RacDomainUserModifyTo;
 import rebue.scx.rac.to.RacDomainUserOneTo;
 import rebue.scx.rac.to.RacDomainUserPageTo;
@@ -38,7 +39,7 @@ import rebue.scx.rac.to.RacDomainUserPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDomainUserSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacDomainUserAddTo, RacDomainUserModifyTo, RacDomainUserDelTo, RacDomainUserOneTo, RacDomainUserPageTo, RacDomainUserMo, RacDomainUserJo, RacDomainUserMapper, RacDomainUserDao>
+    BaseSvcImpl<java.lang.Long, RacDomainUserAddTo, RacDomainUserModifyTo, RacDomainUserDelTo, RacDomainUserOneTo, RacDomainUserListTo, RacDomainUserPageTo, RacDomainUserMo, RacDomainUserJo, RacDomainUserMapper, RacDomainUserDao>
     implements RacDomainUserSvc {
 
     /**

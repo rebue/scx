@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacDomainUserJo;
 import rebue.scx.rac.mo.RacDomainUserMo;
 import rebue.scx.rac.to.RacDomainUserAddTo;
 import rebue.scx.rac.to.RacDomainUserDelTo;
+import rebue.scx.rac.to.RacDomainUserListTo;
 import rebue.scx.rac.to.RacDomainUserModifyTo;
 import rebue.scx.rac.to.RacDomainUserOneTo;
 import rebue.scx.rac.to.RacDomainUserPageTo;
@@ -22,6 +23,6 @@ import rebue.scx.rac.to.RacDomainUserPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacDomainUserSvc
-    extends BaseSvc<java.lang.Long, RacDomainUserAddTo, RacDomainUserModifyTo, RacDomainUserDelTo, RacDomainUserOneTo, RacDomainUserPageTo, RacDomainUserMo, RacDomainUserJo> {
+public interface RacDomainUserSvc extends
+    BaseSvc<java.lang.Long, RacDomainUserAddTo, RacDomainUserModifyTo, RacDomainUserDelTo, RacDomainUserOneTo, RacDomainUserListTo, RacDomainUserPageTo, RacDomainUserMo, RacDomainUserJo> {
 }

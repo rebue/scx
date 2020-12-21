@@ -62,7 +62,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * 后面跟用户ID拼接成Key
      * Value为失败次数
      */
-    private static final String REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.svc.sign-in.wrong-pswd-times-of-sign-in.";
+    private static final String REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.svc.sign-in.wrong-pswd-times-of-sign-in::";
 
     @DubboReference(application = "jwt-svr")
     private JwtApi              jwtApi;

@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacDomainMo;
 import rebue.scx.rac.svc.RacDomainSvc;
 import rebue.scx.rac.to.RacDomainAddTo;
 import rebue.scx.rac.to.RacDomainDelTo;
+import rebue.scx.rac.to.RacDomainListTo;
 import rebue.scx.rac.to.RacDomainModifyTo;
 import rebue.scx.rac.to.RacDomainOneTo;
 import rebue.scx.rac.to.RacDomainPageTo;
@@ -19,7 +20,7 @@ import rebue.scx.rac.to.RacDomainPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @DubboService
-public class RacDomainApiImpl
-    extends BaseApiImpl<java.lang.String, RacDomainAddTo, RacDomainModifyTo, RacDomainDelTo, RacDomainOneTo, RacDomainPageTo, RacDomainMo, RacDomainJo, RacDomainSvc>
+public class RacDomainApiImpl extends
+    BaseApiImpl<java.lang.String, RacDomainAddTo, RacDomainModifyTo, RacDomainDelTo, RacDomainOneTo, RacDomainListTo, RacDomainPageTo, RacDomainMo, RacDomainJo, RacDomainSvc>
     implements RacDomainApi {
 }

@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserDelTo;
+import rebue.scx.rac.to.RacUserListTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.to.RacUserPageTo;
@@ -19,6 +20,6 @@ import rebue.scx.rac.to.RacUserPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @DubboService
-public class RacUserApiImpl extends BaseApiImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserSvc>
-    implements RacUserApi {
+public class RacUserApiImpl extends
+    BaseApiImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserSvc> implements RacUserApi {
 }

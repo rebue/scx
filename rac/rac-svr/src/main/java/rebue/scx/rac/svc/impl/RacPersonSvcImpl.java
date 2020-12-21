@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacPersonMo;
 import rebue.scx.rac.svc.RacPersonSvc;
 import rebue.scx.rac.to.RacPersonAddTo;
 import rebue.scx.rac.to.RacPersonDelTo;
+import rebue.scx.rac.to.RacPersonListTo;
 import rebue.scx.rac.to.RacPersonModifyTo;
 import rebue.scx.rac.to.RacPersonOneTo;
 import rebue.scx.rac.to.RacPersonPageTo;
@@ -37,8 +38,8 @@ import rebue.scx.rac.to.RacPersonPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPersonSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacPersonAddTo, RacPersonModifyTo, RacPersonDelTo, RacPersonOneTo, RacPersonPageTo, RacPersonMo, RacPersonJo, RacPersonMapper, RacPersonDao>
+public class RacPersonSvcImpl extends
+    BaseSvcImpl<java.lang.Long, RacPersonAddTo, RacPersonModifyTo, RacPersonDelTo, RacPersonOneTo, RacPersonListTo, RacPersonPageTo, RacPersonMo, RacPersonJo, RacPersonMapper, RacPersonDao>
     implements RacPersonSvc {
 
     /**

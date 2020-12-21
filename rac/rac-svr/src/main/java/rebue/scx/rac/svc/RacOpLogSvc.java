@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacOpLogJo;
 import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogDelTo;
+import rebue.scx.rac.to.RacOpLogListTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.scx.rac.to.RacOpLogOneTo;
 import rebue.scx.rac.to.RacOpLogPageTo;
@@ -22,5 +23,6 @@ import rebue.scx.rac.to.RacOpLogPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacOpLogSvc extends BaseSvc<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo> {
+public interface RacOpLogSvc
+    extends BaseSvc<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo> {
 }

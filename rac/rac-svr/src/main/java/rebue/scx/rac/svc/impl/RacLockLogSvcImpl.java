@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogDelTo;
+import rebue.scx.rac.to.RacLockLogListTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.RacLockLogOneTo;
 import rebue.scx.rac.to.RacLockLogPageTo;
@@ -38,7 +39,7 @@ import rebue.scx.rac.to.RacLockLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacLockLogSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogMapper, RacLockLogDao>
+    BaseSvcImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogMapper, RacLockLogDao>
     implements RacLockLogSvc {
 
     /**

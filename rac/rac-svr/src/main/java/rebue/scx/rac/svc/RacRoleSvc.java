@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacRoleJo;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleDelTo;
+import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
@@ -22,5 +23,5 @@ import rebue.scx.rac.to.RacRolePageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacRoleSvc extends BaseSvc<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRolePageTo, RacRoleMo, RacRoleJo> {
+public interface RacRoleSvc extends BaseSvc<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo> {
 }

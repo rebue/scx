@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogDelTo;
+import rebue.scx.rac.to.RacOpLogListTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.scx.rac.to.RacOpLogOneTo;
 import rebue.scx.rac.to.RacOpLogPageTo;
@@ -37,8 +38,8 @@ import rebue.scx.rac.to.RacOpLogPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacOpLogSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
+public class RacOpLogSvcImpl extends
+    BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
     implements RacOpLogSvc {
 
     /**

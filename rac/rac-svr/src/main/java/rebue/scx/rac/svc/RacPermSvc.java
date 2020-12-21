@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacPermJo;
 import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermDelTo;
+import rebue.scx.rac.to.RacPermListTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermOneTo;
 import rebue.scx.rac.to.RacPermPageTo;
@@ -22,5 +23,5 @@ import rebue.scx.rac.to.RacPermPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermPageTo, RacPermMo, RacPermJo> {
+public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> {
 }

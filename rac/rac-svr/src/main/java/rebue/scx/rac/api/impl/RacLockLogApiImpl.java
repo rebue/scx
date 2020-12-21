@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogDelTo;
+import rebue.scx.rac.to.RacLockLogListTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.RacLockLogOneTo;
 import rebue.scx.rac.to.RacLockLogPageTo;
@@ -19,7 +20,7 @@ import rebue.scx.rac.to.RacLockLogPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @DubboService
-public class RacLockLogApiImpl
-    extends BaseApiImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogSvc>
+public class RacLockLogApiImpl extends
+    BaseApiImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogSvc>
     implements RacLockLogApi {
 }

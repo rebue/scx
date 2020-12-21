@@ -35,6 +35,13 @@
 		"backup": false
 	},
 	{
+		"templateName": "to-list.btl",
+		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}ListTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
 		"templateName": "to-page.btl",
 		"targetDir": "rac-api/src/main/java/${modulePath}/to/",
 		"targetFile": "${entityName}PageTo.java",

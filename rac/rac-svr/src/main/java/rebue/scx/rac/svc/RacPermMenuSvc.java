@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacPermMenuJo;
 import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.to.RacPermMenuAddTo;
 import rebue.scx.rac.to.RacPermMenuDelTo;
+import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
 import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
@@ -23,5 +24,5 @@ import rebue.scx.rac.to.RacPermMenuPageTo;
  */
 @Validated
 public interface RacPermMenuSvc
-    extends BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
+    extends BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
 }

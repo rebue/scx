@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacLockLogJo;
 import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogDelTo;
+import rebue.scx.rac.to.RacLockLogListTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.RacLockLogOneTo;
 import rebue.scx.rac.to.RacLockLogPageTo;
@@ -23,5 +24,5 @@ import rebue.scx.rac.to.RacLockLogPageTo;
  */
 @Validated
 public interface RacLockLogSvc
-    extends BaseSvc<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo> {
+    extends BaseSvc<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo> {
 }

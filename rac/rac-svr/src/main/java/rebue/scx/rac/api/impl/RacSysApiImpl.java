@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.to.RacSysAddTo;
 import rebue.scx.rac.to.RacSysDelTo;
+import rebue.scx.rac.to.RacSysListTo;
 import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysOneTo;
 import rebue.scx.rac.to.RacSysPageTo;
@@ -19,6 +20,6 @@ import rebue.scx.rac.to.RacSysPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @DubboService
-public class RacSysApiImpl extends BaseApiImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysPageTo, RacSysMo, RacSysJo, RacSysSvc>
+public class RacSysApiImpl extends BaseApiImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysPageTo, RacSysMo, RacSysJo, RacSysSvc>
     implements RacSysApi {
 }

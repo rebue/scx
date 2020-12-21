@@ -1,23 +1,20 @@
 package rebue.scx.sgn.svc.impl;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.scx.sgn.dao.SgnSecretDao;
-import rebue.scx.sgn.jo.SgnSecretJo;
+import com.github.dozermapper.core.Mapper;
+
 import rebue.scx.sgn.mapper.SgnSecretMapper;
 import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.to.SgnSecretAddTo;
-import rebue.scx.sgn.to.SgnSecretDelTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
-import rebue.scx.sgn.to.SgnSecretOneTo;
-import rebue.scx.sgn.to.SgnSecretPageTo;
 
 /**
  * 签名密钥服务实现
@@ -37,27 +34,41 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class SgnSecretSvcImpl extends
-    BaseSvcImpl<java.lang.String, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
-    implements SgnSecretSvc {
-
-    /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Lazy
+public class SgnSecretSvcImpl implements SgnSecretSvc {
     @Resource
-    private SgnSecretSvc thisSvc;
+    private SgnSecretMapper _mapper;
+    @Resource
+    protected Mapper        _dozerMapper;
 
-    /**
-     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     @Override
-    protected Class<SgnSecretMo> getMoClass() {
-        return SgnSecretMo.class;
+    public void add(@Valid final SgnSecretAddTo to) {
+        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
+        final int         rowCount = _mapper.insertSelective(mo);
+        if (rowCount != 1) {
+            throw new RuntimeException("添加记录异常，影响行数为" + rowCount);
+        }
     }
+
+    @Override
+    public void modifyById(@Valid final SgnSecretModifyTo to) {
+        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
+        final int         rowCount = _mapper.updateByPrimaryKeySelective(mo);
+        if (rowCount != 1) {
+            throw new RuntimeException("修改记录异常，影响行数为" + rowCount);
+        }
+    }
+
+    @Override
+    public void delById(@NotNull final String id) {
+        final int rowCount = _mapper.deleteByPrimaryKey(id);
+        if (rowCount != 1) {
+            throw new RuntimeException("删除记录异常，影响行数为" + rowCount);
+        }
+    }
+
+    @Override
+    public String getSecretById(@NotNull final String id) {
+        return _mapper.selectByPrimaryKey(id).orElseThrow(() -> new NullPointerException("找不到密钥")).getSecret();
+    }
+
 }

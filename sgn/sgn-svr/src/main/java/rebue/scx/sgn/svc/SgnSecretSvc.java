@@ -1,26 +1,66 @@
 package rebue.scx.sgn.svc;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 
-import rebue.robotech.svc.BaseSvc;
-import rebue.scx.sgn.jo.SgnSecretJo;
-import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.to.SgnSecretAddTo;
-import rebue.scx.sgn.to.SgnSecretDelTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
-import rebue.scx.sgn.to.SgnSecretOneTo;
-import rebue.scx.sgn.to.SgnSecretPageTo;
 
 /**
  * 签名密钥服务接口
  *
- * Validated注解按规范应该写在接口上
- *
- * Valid注解在参数是POJO类时，写在参数类型的前面，具体约束的注解写在参数类型的属性的上方
- * Valid注解在参数是普通参数时，写在方法的上方，具体约束的注解直接写在参数类型的前面
- *
- * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ * 在接口上方必须写上 @Validated 注解；
+ * 有分组时，在方法上方必须写上 @Validated 注解及分组；
+ * 参数是POJO类时用 @Valid 注解在参数类型的前面进行修饰；
+ * 而如果是普通参数，则在方法的上方写上 @Validated 注解，具体约束的注解直接写在参数类型的前面
  */
 @Validated
-public interface SgnSecretSvc extends BaseSvc<java.lang.String, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
+@CacheConfig(cacheNames = "rebue.scx.sgn.svc.secret.sign-id")
+public interface SgnSecretSvc {
+    /**
+     * 添加密钥
+     *
+     * @param to 添加的参数
+     *
+     * @return 如果成功，且仅添加一条记录，正常返回，否则会抛出运行时异常
+     */
+    @CachePut(key = "#to.id", value = "#to.secret")
+    void add(@Valid SgnSecretAddTo to);
+
+    /**
+     * 修改密钥
+     *
+     * @param to 修改的参数
+     *
+     * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
+     */
+    @CachePut(key = "#to.id", value = "#to.secret")
+    void modifyById(@Valid SgnSecretModifyTo to);
+
+    /**
+     * 通过ID删除密钥
+     *
+     * @param id 要删除密钥的ID
+     *
+     * @return 如果成功，且删除一条记录，正常返回，否则会抛出运行时异常
+     */
+    @CacheEvict
+    void delById(@NotNull String id);
+
+    /**
+     * 根据ID获取密钥
+     *
+     * @param id 要获取密钥的ID
+     *
+     * @return 密钥
+     */
+    @Cacheable
+    String getSecretById(@NotNull String id);
+
 }

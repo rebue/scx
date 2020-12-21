@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacPersonMo;
 import rebue.scx.rac.svc.RacPersonSvc;
 import rebue.scx.rac.to.RacPersonAddTo;
 import rebue.scx.rac.to.RacPersonDelTo;
+import rebue.scx.rac.to.RacPersonListTo;
 import rebue.scx.rac.to.RacPersonModifyTo;
 import rebue.scx.rac.to.RacPersonOneTo;
 import rebue.scx.rac.to.RacPersonPageTo;
@@ -20,6 +21,6 @@ import rebue.scx.rac.to.RacPersonPageTo;
  */
 @DubboService
 public class RacPersonApiImpl
-    extends BaseApiImpl<java.lang.Long, RacPersonAddTo, RacPersonModifyTo, RacPersonDelTo, RacPersonOneTo, RacPersonPageTo, RacPersonMo, RacPersonJo, RacPersonSvc>
+    extends BaseApiImpl<java.lang.Long, RacPersonAddTo, RacPersonModifyTo, RacPersonDelTo, RacPersonOneTo, RacPersonListTo, RacPersonPageTo, RacPersonMo, RacPersonJo, RacPersonSvc>
     implements RacPersonApi {
 }

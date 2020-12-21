@@ -9,6 +9,7 @@ import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
 import rebue.scx.rac.to.RacPermUrnDelTo;
+import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.scx.rac.to.RacPermUrnOneTo;
 import rebue.scx.rac.to.RacPermUrnPageTo;
@@ -19,7 +20,7 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @DubboService
-public class RacPermUrnApiImpl
-    extends BaseApiImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnSvc>
+public class RacPermUrnApiImpl extends
+    BaseApiImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnSvc>
     implements RacPermUrnApi {
 }

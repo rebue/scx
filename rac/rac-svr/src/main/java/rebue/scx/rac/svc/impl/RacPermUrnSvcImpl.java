@@ -15,6 +15,7 @@ import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.svc.RacPermUrnSvc;
 import rebue.scx.rac.to.RacPermUrnAddTo;
 import rebue.scx.rac.to.RacPermUrnDelTo;
+import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.scx.rac.to.RacPermUrnOneTo;
 import rebue.scx.rac.to.RacPermUrnPageTo;
@@ -38,7 +39,7 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermUrnSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao>
+    BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao>
     implements RacPermUrnSvc {
 
     /**

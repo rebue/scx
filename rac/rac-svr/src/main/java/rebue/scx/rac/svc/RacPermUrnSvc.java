@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacPermUrnJo;
 import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.to.RacPermUrnAddTo;
 import rebue.scx.rac.to.RacPermUrnDelTo;
+import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.scx.rac.to.RacPermUrnOneTo;
 import rebue.scx.rac.to.RacPermUrnPageTo;
@@ -23,5 +24,5 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
  */
 @Validated
 public interface RacPermUrnSvc
-    extends BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> {
+    extends BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> {
 }

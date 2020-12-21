@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacPermGroupJo;
 import rebue.scx.rac.mo.RacPermGroupMo;
 import rebue.scx.rac.to.RacPermGroupAddTo;
 import rebue.scx.rac.to.RacPermGroupDelTo;
+import rebue.scx.rac.to.RacPermGroupListTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermGroupOneTo;
 import rebue.scx.rac.to.RacPermGroupPageTo;
@@ -22,6 +23,6 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacPermGroupSvc
-    extends BaseSvc<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo> {
+public interface RacPermGroupSvc extends
+    BaseSvc<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo> {
 }
