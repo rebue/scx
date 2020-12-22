@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.boot.json.JsonParser;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ import rebue.scx.gateway.server.co.CachedKeyCo;
 @Slf4j
 @Component
 @Order(value = 3)
-public class CacheRequestBodyFilter implements GlobalFilter {
+public class CacheRequestBodyFilter implements GatewayFilter {
 
     @Resource
     private JsonParser jsonParser;
@@ -40,9 +40,10 @@ public class CacheRequestBodyFilter implements GlobalFilter {
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         log.info("\r\n============================= 运行CacheRequestBodyFilter过滤器 =============================\r\n");
         try {
-//            return ServerWebExchangeUtils.cacheRequestBody(exchange, (serverHttpRequest) -> chain.filter(exchange.mutate().request(serverHttpRequest).build()));
+            // return ServerWebExchangeUtils.cacheRequestBody(exchange, (serverHttpRequest) -> chain.filter(exchange.mutate().request(serverHttpRequest).build()));
+            log.info("{}: {}", exchange.getRequest().getMethod(), exchange.getRequest().getURI());
             return DataBufferUtils.join(exchange.getRequest().getBody()).doOnNext(dataBuffer -> {
-                Map<String, Object> paramMap = null;
+                Map<String, Object>                 paramMap    = null;
                 final MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
                 if (!queryParams.isEmpty()) {
                     paramMap = new LinkedHashMap<>(queryParams);
@@ -50,23 +51,25 @@ public class CacheRequestBodyFilter implements GlobalFilter {
 
                 if (dataBuffer.readableByteCount() > 0) {
                     // 将body读到字符串中
-                    final String bodyString = StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer()).toString();
+                    final String              bodyString    = StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer()).toString();
                     // 将解析出来的字符串转成map(FIXME 这里把所有传过来的Body的内容都认为是json格式的，不知道后面会不会碰到什么例外)
                     final Map<String, Object> bodyParmamMap = jsonParser.parseMap(bodyString);
                     if (paramMap == null) {
                         paramMap = bodyParmamMap;
-                    } else {
+                    }
+                    else {
                         paramMap.putAll(bodyParmamMap);
                     }
 
                     // 缓存
                     if (paramMap != null) {
                         exchange.getAttributes().put(CachedKeyCo.REQUEST_PARAMS_MAP, paramMap);
+                        log.debug("params: {}", paramMap);
                     }
                 }
             })
-                    // 往下传
-                    .then(chain.filter(exchange));
+                // 往下传
+                .then(chain.filter(exchange));
         } finally {
             log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束CacheRequestBodyFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
         }

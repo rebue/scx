@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ import rebue.wheel.turing.JwtUtils;
 @EnableConfigurationProperties(JwtProperties.class)
 public class JwtSvcImpl implements JwtSvc {
 
-    @Autowired
+    @Resource
     private JwtProperties jwtProperties;
 
     /**
@@ -44,17 +45,17 @@ public class JwtSvcImpl implements JwtSvc {
     public Ro<JwtSignRa> sign(final JwtSignTo to) {
         try {
             // Prepare JWT with claims set
-            final LocalDateTime nowLocalDateTime            = LocalDateTime.now();
+            final LocalDateTime nowLocalDateTime = LocalDateTime.now();
             final LocalDateTime expirationTimeLocalDateTime = nowLocalDateTime.plusSeconds(jwtProperties.getExpirationDuration().getSeconds());
-            final Date          now                         = LocalDateUtils.localDateTime2Date(nowLocalDateTime);
-            final Date          expirationTime              = LocalDateUtils.localDateTime2Date(expirationTimeLocalDateTime);
+            final Date now = LocalDateUtils.localDateTime2Date(nowLocalDateTime);
+            final Date expirationTime = LocalDateUtils.localDateTime2Date(expirationTimeLocalDateTime);
 
-            Builder             builder                     = new JWTClaimsSet.Builder()    //
-                    .issuer(jwtProperties.getIssuer())                                      // 签发者
-                    .issueTime(now)                                                         // 签发时间
-                    .notBeforeTime(now)                                                     // 不接受当前时间在此之前
-                    .expirationTime(expirationTime)                                         // 过期时间
-                    .claim("userId", to.getUserId());                                       // 用户ID
+            Builder builder = new JWTClaimsSet.Builder()    //
+                .issuer(jwtProperties.getIssuer())                                      // 签发者
+                .issueTime(now)                                                         // 签发时间
+                .notBeforeTime(now)                                                     // 不接受当前时间在此之前
+                .expirationTime(expirationTime)                                         // 过期时间
+                .claim("userId", to.getUserId());                                       // 用户ID
             if (to.getAddition() != null) {
                 builder = builder.claim("addition", to.getAddition());                      // 放入签名的附加信息
             }
@@ -63,8 +64,8 @@ public class JwtSvcImpl implements JwtSvc {
             // 计算签名
             final String sign = JwtUtils.sign(jwtProperties.getSignKey(), claimsSet);
 
-            return new Ro<>(ResultDic.SUCCESS, "JWT签名成功: userId-" + to.getUserId() + "; sign-" + sign, null,
-                    new JwtSignRa(sign, expirationTimeLocalDateTime));
+            return new Ro<>(ResultDic.SUCCESS, "JWT签名成功: userId-" + to.getUserId() + "; sign-" + sign,
+                new JwtSignRa(sign, expirationTimeLocalDateTime));
         } catch (final JOSEException e) {
             return new Ro<>(ResultDic.FAIL, "JWT签名失败: to-" + to);
         }
@@ -85,7 +86,7 @@ public class JwtSvcImpl implements JwtSvc {
             final JOSEObjectType joseObjectType = signedJWT.getHeader().getType();
             if (joseObjectType != null && !JOSEObjectType.JWT.equals(joseObjectType)) {
                 return new Ro<>(ResultDic.FAIL,
-                        "验证JWT签名失败: 错误的JWT签名-" + joseObjectType + ", 正确的应该是-" + JOSEObjectType.JWT);
+                    "验证JWT签名失败: 错误的JWT签名-" + joseObjectType + ", 正确的应该是-" + JOSEObjectType.JWT);
             }
             final JWSAlgorithm algorithm = signedJWT.getHeader().getAlgorithm();
             if (!JWSAlgorithm.HS512.equals(algorithm)) {
@@ -94,7 +95,7 @@ public class JwtSvcImpl implements JwtSvc {
             final String issuer = signedJWT.getJWTClaimsSet().getIssuer();
             if (!jwtProperties.getIssuer().equals(issuer)) {
                 return new Ro<>(ResultDic.FAIL,
-                        "验证JWT签名失败: 错误的签发者-" + issuer + ", 正确的应该是-" + jwtProperties.getIssuer());
+                    "验证JWT签名失败: 错误的签发者-" + issuer + ", 正确的应该是-" + jwtProperties.getIssuer());
             }
             final Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
             if (new Date().after(expirationTime)) {
@@ -113,13 +114,13 @@ public class JwtSvcImpl implements JwtSvc {
             }
             if (!JwtUtils.verify(jwtProperties.getSignKey(), signedJWT)) {
                 return new Ro<>(ResultDic.FAIL,
-                        "验证JWT签名失败: 错误的签名-" + to.getSign() + ", 正确的应该是-" + signedJWT.getSignature());
+                    "验证JWT签名失败: 错误的签名-" + to.getSign() + ", 正确的应该是-" + signedJWT.getSignature());
             }
 
             // 如果验证成功，需要重新签名延长过期时间
             @SuppressWarnings("unchecked")
             final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
-            final Ro<JwtSignRa>       ro       = sign(new JwtSignTo(userId, addition));
+            final Ro<JwtSignRa> ro = sign(new JwtSignTo(userId, addition));
             // 如果签名成功，因为是由验证签名的方法调用的，把返回信息改一下。也有可能签名不成功，那就不改了，直接返回什么错误
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 ro.setMsg("验证" + ro.getMsg());
