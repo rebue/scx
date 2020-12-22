@@ -33,10 +33,11 @@ public class SgnVerifyApiTests {
     @Test
     public void testCrud() {
         final Map<String, Object> paramMap = new LinkedHashMap<>();
-        Ro<?>                     ro       = _api.verify(paramMap);
+        Ro<?> ro = _api.verify(paramMap);
         log.info("返回结果: {}", ro);
         Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
         Assertions.assertEquals("验证签名错误: 请求参数中没有signId", ro.getMsg());
+
         paramMap.put("A", "aaa");
         paramMap.put("B", "bbb");
         paramMap.put("C", "ccc");
@@ -45,18 +46,18 @@ public class SgnVerifyApiTests {
         log.info("返回结果: {}", ro);
         Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
         Assertions.assertEquals("验证签名错误: 请求参数中没有signId", ro.getMsg());
+
         paramMap.put("signId", "sign-id-xxx");
         SignUtils.sign1(paramMap, "sign-key-xxx");
-        ro = _api.verify(paramMap);
-        log.info("返回结果: {}", ro);
-        Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
-        Assertions.assertEquals("验证签名错误: signId不正确", ro.getMsg());
+        Assertions.assertThrows(NullPointerException.class, () -> _api.verify(paramMap), "找不到密钥");
+
         paramMap.put("signId", "sign-id-123");
         SignUtils.sign1(paramMap, "sign-key-123");
         ro = _api.verify(paramMap);
         log.info("返回结果: {}", ro);
         Assertions.assertEquals(ResultDic.WARN, ro.getResult());
         Assertions.assertEquals("验证签名错误: 签名不正确", ro.getMsg());
+
         SignUtils.sign1(paramMap, "sign-key-456");
         ro = _api.verify(paramMap);
         log.info("返回结果: {}", ro);
