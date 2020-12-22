@@ -1,14 +1,17 @@
 #  配置中心的配置
-#spring:
-#  cloud:
-#    gateway:
-#      discovery:
-#        locator:
-#          enabled: true
-#      routes:
-#      - id: hlw
-#        uri: lb://hlw-svr
-#        predicates:
-#        - Path=/hlw-svr/**
-#        filters:
-#        - StripPrefix=1
+spring:
+  cloud:
+    gateway:
+      routes:
+#        #      - id: hlw
+#        #        uri: lb://hlw-svr
+#        #        predicates:
+#        #        - Path=/hlw-svr/**
+#        #        filters:
+#        #        - StripPrefix=1
+#        - id: rac
+#          uri: lb://rac-svr
+#          predicates:
+#            - Path=/rac-svr/**
+#          filters:
+#            - StripPrefix=1

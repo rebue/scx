@@ -1,4 +1,4 @@
-package rebue.scx.gateway.server.filter;
+package rebue.scx.gateway.server.filter.sgn;
 
 import java.util.Map;
 
@@ -33,6 +33,11 @@ public class SgnPreFilter implements GlobalFilter {
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         log.info("\r\n============================= 运行SgnPreFilter过滤器 =============================\r\n");
         try {
+            if (exchange.getAttribute(CommCo.IGNORE_SGN_PRE_FILTER)) {
+                log.debug("忽略签名过滤器");
+                return chain.filter(exchange);
+            }
+
             final Map<String, Object> paramMap = exchange.getAttribute(CachedKeyCo.REQUEST_PARAMS_MAP);
             if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(paramMap).getResult())) {
                 log.warn("认证失败: paramMap-{}", paramMap);
@@ -41,6 +46,7 @@ public class SgnPreFilter implements GlobalFilter {
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
+
             return chain.filter(exchange);
         } finally {
             log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束SgnPreFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");

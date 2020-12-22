@@ -11,5 +11,5 @@ public class CachedKeyCo {
     /**
      * 请求参数MAP
      */
-    public static final String REQUEST_PARAMS_MAP = "requestParamsMap";
+    public static final String REQUEST_PARAMS_MAP = "@requestParamsMap";
 }
