@@ -31,9 +31,6 @@ public class SgnSecretHttpTests {
 
     private final HttpClient _httpClient  = new OkHttpClientImpl();
 
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     @Autowired
     private final Mapper     _dozerMapper = DozerBeanMapperBuilder.buildDefault();
 
@@ -54,23 +51,42 @@ public class SgnSecretHttpTests {
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
         }
         log.info("获取单个签名密钥的参数为：" + addTo.getId());
-        final String getSecretByIdResult = _httpClient.get(_hostUrl + "/sgn/secret/get-secret-by-id?id=" + addTo.getId());
+        String getSecretByIdResult = _httpClient.get(_hostUrl + "/sgn/secret/get-secret-by-id?id=" + addTo.getId());
         log.info("获取单个签名密钥的返回值为：" + getSecretByIdResult);
-        final Ro<StringRa> getSecretByIdRo = JacksonUtils.deserialize(getSecretByIdResult, new TypeReference<Ro<StringRa>>() {
+        Ro<StringRa> getSecretByIdRo = JacksonUtils.deserialize(getSecretByIdResult, new TypeReference<Ro<StringRa>>() {
         });
         Assertions.assertEquals(ResultDic.SUCCESS, getSecretByIdRo.getResult());
+
         final SgnSecretModifyTo modifyTo = _dozerMapper.map(addTo, SgnSecretModifyTo.class);
         modifyTo.setId(addTo.getId());
+        modifyTo.setSecret(RandomEx.random1(32));
         log.info("修改签名密钥的参数为：" + modifyTo);
         final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/sgn/secret", modifyTo);
         log.info("修改签名密钥的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
+
+        log.info("获取单个签名密钥的参数为：" + addTo.getId());
+        getSecretByIdResult = _httpClient.get(_hostUrl + "/sgn/secret/get-secret-by-id?id=" + addTo.getId());
+        log.info("获取单个签名密钥的返回值为：" + getSecretByIdResult);
+        getSecretByIdRo = JacksonUtils.deserialize(getSecretByIdResult, new TypeReference<Ro<StringRa>>() {
+        });
+        Assertions.assertEquals(ResultDic.SUCCESS, getSecretByIdRo.getResult());
+        Assertions.assertEquals(modifyTo.getSecret(), getSecretByIdRo.getExtra().getValue());
+
         log.info("删除签名密钥的参数为：" + addTo.getId());
         final String deleteResult = _httpClient.delete(_hostUrl + "/sgn/secret?id=" + addTo.getId());
         log.info("删除签名密钥的返回值为：" + deleteResult);
         final Ro<?> deleteRo = JacksonUtils.deserialize(deleteResult, Ro.class);
         log.info(deleteRo.toString());
         Assertions.assertEquals(ResultDic.SUCCESS, deleteRo.getResult());
+
+        log.info("获取单个签名密钥的参数为：" + addTo.getId());
+        getSecretByIdResult = _httpClient.get(_hostUrl + "/sgn/secret/get-secret-by-id?id=" + addTo.getId());
+        log.info("获取单个签名密钥的返回值为：" + getSecretByIdResult);
+        getSecretByIdRo = JacksonUtils.deserialize(getSecretByIdResult, new TypeReference<Ro<StringRa>>() {
+        });
+        Assertions.assertEquals(ResultDic.FAIL, getSecretByIdRo.getResult());
+        Assertions.assertEquals("找不到密钥", getSecretByIdRo.getMsg());
     }
 }

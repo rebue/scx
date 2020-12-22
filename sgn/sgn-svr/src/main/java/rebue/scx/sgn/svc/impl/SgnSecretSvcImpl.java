@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.dozermapper.core.Mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import rebue.scx.sgn.mapper.SgnSecretMapper;
 import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
@@ -34,6 +35,7 @@ import rebue.scx.sgn.to.SgnSecretModifyTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
+@Slf4j
 public class SgnSecretSvcImpl implements SgnSecretSvc {
     @Resource
     private SgnSecretMapper _mapper;
@@ -41,21 +43,23 @@ public class SgnSecretSvcImpl implements SgnSecretSvc {
     protected Mapper        _dozerMapper;
 
     @Override
-    public void add(@Valid final SgnSecretAddTo to) {
-        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
-        final int         rowCount = _mapper.insertSelective(mo);
+    public String add(@Valid final SgnSecretAddTo to) {
+        final SgnSecretMo mo = _dozerMapper.map(to, SgnSecretMo.class);
+        final int rowCount = _mapper.insertSelective(mo);
         if (rowCount != 1) {
             throw new RuntimeException("添加记录异常，影响行数为" + rowCount);
         }
+        return to.getSecret();
     }
 
     @Override
-    public void modifyById(@Valid final SgnSecretModifyTo to) {
-        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
-        final int         rowCount = _mapper.updateByPrimaryKeySelective(mo);
+    public String modifyById(@Valid final SgnSecretModifyTo to) {
+        final SgnSecretMo mo = _dozerMapper.map(to, SgnSecretMo.class);
+        final int rowCount = _mapper.updateByPrimaryKeySelective(mo);
         if (rowCount != 1) {
             throw new RuntimeException("修改记录异常，影响行数为" + rowCount);
         }
+        return to.getSecret();
     }
 
     @Override
@@ -68,6 +72,7 @@ public class SgnSecretSvcImpl implements SgnSecretSvc {
 
     @Override
     public String getSecretById(@NotNull final String id) {
+        log.debug("未使用缓存，真正执行了方法: {}", "getSecretById");
         return _mapper.selectByPrimaryKey(id).orElseThrow(() -> new NullPointerException("找不到密钥")).getSecret();
     }
 

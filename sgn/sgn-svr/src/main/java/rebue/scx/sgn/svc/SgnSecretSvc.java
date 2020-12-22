@@ -31,7 +31,7 @@ public interface SgnSecretSvc {
      * @return 如果成功，且仅添加一条记录，正常返回，否则会抛出运行时异常
      */
     @CachePut(key = "#to.id")
-    void add(@Valid SgnSecretAddTo to);
+    String add(@Valid SgnSecretAddTo to);
 
     /**
      * 修改密钥
@@ -41,7 +41,7 @@ public interface SgnSecretSvc {
      * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
      */
     @CachePut(key = "#to.id")
-    void modifyById(@Valid SgnSecretModifyTo to);
+    String modifyById(@Valid SgnSecretModifyTo to);
 
     /**
      * 通过ID删除密钥
