@@ -24,7 +24,7 @@ public class RacSignInApiCtrl {
     /**
      * 通过用户名称登录
      */
-    @PostMapping("/sign-in/sign-in-by-user-name")
+    @PostMapping("/rac/sign-in/sign-in-by-user-name")
     public Mono<Ro<SignUpOrInRa>> signInByUserName(@RequestBody final SignInByUserNameTo to) {
         return Mono.create(callback -> callback.success(api.signInByUserName(to)));
     }

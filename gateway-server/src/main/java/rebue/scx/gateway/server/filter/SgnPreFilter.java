@@ -1,10 +1,10 @@
-package rebue.scx.gateway.server.filter.sgn;
+package rebue.scx.gateway.server.filter;
 
 import java.util.Map;
 
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -24,7 +24,7 @@ import rebue.scx.sgn.api.ex.SgnVerifyApi;
 @Slf4j
 @Order(5)
 @Component
-public class SgnPreFilter implements GlobalFilter {
+public class SgnPreFilter implements GatewayFilter {
 
     @DubboReference
     private SgnVerifyApi sgnVerifyApi;
@@ -33,11 +33,6 @@ public class SgnPreFilter implements GlobalFilter {
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         log.info("\r\n============================= 运行SgnPreFilter过滤器 =============================\r\n");
         try {
-            if (exchange.getAttribute(CommCo.IGNORE_SGN_PRE_FILTER)) {
-                log.debug("忽略签名过滤器");
-                return chain.filter(exchange);
-            }
-
             final Map<String, Object> paramMap = exchange.getAttribute(CachedKeyCo.REQUEST_PARAMS_MAP);
             if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(paramMap).getResult())) {
                 log.warn("认证失败: paramMap-{}", paramMap);

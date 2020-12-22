@@ -9,9 +9,9 @@ spring:
 #        #        - Path=/hlw-svr/**
 #        #        filters:
 #        #        - StripPrefix=1
-#        - id: rac
-#          uri: lb://rac-svr
-#          predicates:
-#            - Path=/rac-svr/**
+        - id: rac-svr               # 路由 ID，唯一
+          uri: lb://rac-svr         # lb:// 根据服务名称从注册中心获取服务请求地址
+          predicates:               # 断言（判断条件）
+            - Path=/rac/**          # 匹配对应 URL 的请求，将匹配到的请求追加在目标 URI 之后
 #          filters:
 #            - StripPrefix=1
