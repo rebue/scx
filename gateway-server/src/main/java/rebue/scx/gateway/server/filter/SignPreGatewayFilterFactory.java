@@ -61,7 +61,6 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
                 log.info("\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 结束SignPreFilter过滤器 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n");
             }
         };
-
     }
 
     @Override

@@ -11,7 +11,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutputMessage;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
-import org.springframework.core.annotation.Order;
+import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -41,11 +41,15 @@ import rebue.scx.gateway.server.co.CachedKeyCo;
  */
 @Slf4j
 @Component
-@Order(value = 3)
-public class CacheRequestBodyPreGlobalFilter implements GlobalFilter {
+public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     @Resource
     private JsonParser jsonParser;
+
+    @Override
+    public int getOrder() {
+        return -1;
+    }
 
     @SuppressWarnings({ "rawtypes", "unchecked"
     })
@@ -55,36 +59,6 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter {
         try {
             // return ServerWebExchangeUtils.cacheRequestBody(exchange, (serverHttpRequest) -> chain.filter(exchange.mutate().request(serverHttpRequest).build()));
             log.info("{}: {}", exchange.getRequest().getMethod(), exchange.getRequest().getURI());
-
-            // return DataBufferUtils.join(exchange.getRequest().getBody()).doOnNext(dataBuffer -> {
-            // final Map<String, Object> paramMap = new LinkedHashMap<>();
-            // final MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
-            // if (!queryParams.isEmpty()) {
-            // paramMap.putAll(queryParams);
-            // }
-            //
-            // if (dataBuffer.readableByteCount() > 0) {
-            // // 将body读到字符串中
-            // final String bodyString = StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer()).toString();
-            // // 将解析出来的字符串转成map(FIXME 这里把所有传过来的Body的内容都认为是json格式的，不知道后面会不会碰到什么例外)
-            // final Map<String, Object> bodyParmamMap = jsonParser.parseMap(bodyString);
-            // if (!bodyParmamMap.isEmpty()) {
-            // if (paramMap == null) {
-            // paramMap = bodyParmamMap;
-            // }
-            // else {
-            // paramMap.putAll(bodyParmamMap);
-            // }
-            // }
-            // // 缓存
-            // if (paramMap != null) {
-            // exchange.getAttributes().put(CachedKeyCo.REQUEST_PARAMS_MAP, paramMap);
-            // log.debug("params: {}", paramMap);
-            // }
-            // }
-            // })
-            // // 往下传
-            // .then(chain.filter(exchange));
 
             final Map<String, Object>           paramMap    = new LinkedHashMap<>();
             final MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
@@ -166,4 +140,5 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter {
             }
         };
     }
+
 }
