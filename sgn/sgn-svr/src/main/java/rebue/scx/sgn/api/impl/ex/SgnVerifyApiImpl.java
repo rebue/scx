@@ -16,7 +16,7 @@ public class SgnVerifyApiImpl implements SgnVerifyApi {
     private SgnVerifySvc svc;
 
     @Override
-    public Ro<?> verify(final Map<String, ?> paramMap) {
+    public Ro<?> verify(final Map<String, Object> paramMap) {
         return svc.verify(paramMap);
     }
 

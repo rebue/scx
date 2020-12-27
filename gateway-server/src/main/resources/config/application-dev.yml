@@ -1,18 +1,18 @@
-#  配置中心的配置
-spring:
-  cloud:
-    gateway:
-      routes:
-        - id: hlw                   # 路由 ID，唯一
-          uri: lb://hlw-svr         # lb:// 根据服务名称从注册中心获取服务请求地址
-          predicates:               # 断言（判断条件）
-            - Path=/hlw/**          # 匹配对应 URL 的请求，将匹配到的请求追加在目标 URI 之后
-        - id: rac                   
-          uri: lb://rac-svr         
-          predicates:               
-            - Path=/rac/**          
-          filters:
-            - name: SignPre          # 签名前置过滤器
-              args:
-                ignoreUrls:
-                  - POST:/rac/sign-in/**
+##  配置中心的配置
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: hlw                   # 路由 ID，唯一
+#          uri: lb://hlw-svr         # lb:// 根据服务名称从注册中心获取服务请求地址
+#          predicates:               # 断言（判断条件）
+#            - Path=/hlw/**          # 匹配对应 URL 的请求，将匹配到的请求追加在目标 URI 之后
+#        - id: rac                   
+#          uri: lb://rac-svr         
+#          predicates:               
+#            - Path=/rac/**          
+#          filters:
+#            - name: SignPre          # 签名前置过滤器
+#              args:
+#                ignoreUrls:
+#                  - POST:/rac/sign-in/**

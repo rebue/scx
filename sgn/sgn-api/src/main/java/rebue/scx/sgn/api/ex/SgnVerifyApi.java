@@ -6,6 +6,6 @@ import rebue.robotech.ro.Ro;
 
 public interface SgnVerifyApi {
 
-    Ro<?> verify(Map<String, ?> paramMap);
+    Ro<?> verify(Map<String, Object> paramMap);
 
 }

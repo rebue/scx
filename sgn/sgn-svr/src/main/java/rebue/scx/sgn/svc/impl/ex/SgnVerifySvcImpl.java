@@ -37,7 +37,11 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
     private SgnSecretSvc sgnSecretSvc;
 
     @Override
-    public Ro<?> verify(final Map<String, ?> paramMap) {
+    public Ro<?> verify(final Map<String, Object> paramMap) {
+        if (paramMap == null || paramMap.isEmpty()) {
+            return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 没有请求参数");
+        }
+
         // 获取签名ID
         final String signId = (String) paramMap.get("signId");
         if (StringUtils.isBlank(signId)) {
