@@ -47,16 +47,19 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
             final String            requestUrl = request.getMethod() + ":" + request.getPath();
             // TODO AntPathMatcher是不是线程安全的？
             if (config.getIgnoreUrls() != null
-                    && !config.getIgnoreUrls().isEmpty()
-                    && config.getIgnoreUrls().stream().anyMatch(
-                            ignoreUrl -> _matcher.match(ignoreUrl, requestUrl))) {
+                && !config.getIgnoreUrls().isEmpty()
+                && config.getIgnoreUrls().stream().anyMatch(
+                    ignoreUrl -> _matcher.match(ignoreUrl, requestUrl))) {
                 log.debug("此URL根据配置被SignPreFilter过滤器忽略");
                 return returnFilter(chain, exchange);
             }
 
-            final Map<String, Object> paramMap = exchange.getAttribute(CachedKeyCo.REQUEST_PARAMS_MAP);
-            if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(paramMap).getResult())) {
-                log.warn("认证失败: paramMap-{}", paramMap);
+            Map<String, Object> requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_QUERY_PARAMS);
+            if (requestParams == null) {
+                requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
+            }
+            if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(requestParams).getResult())) {
+                log.warn("认证失败: requestParams-{}", requestParams);
                 final ServerHttpResponse response = exchange.getResponse();
                 // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);

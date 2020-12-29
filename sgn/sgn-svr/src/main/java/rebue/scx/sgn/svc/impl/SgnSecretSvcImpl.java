@@ -16,6 +16,7 @@ import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
+import rebue.wheel.exception.RuntimeExceptionX;
 
 /**
  * 签名密钥服务实现
@@ -44,20 +45,20 @@ public class SgnSecretSvcImpl implements SgnSecretSvc {
 
     @Override
     public String add(@Valid final SgnSecretAddTo to) {
-        final SgnSecretMo mo = _dozerMapper.map(to, SgnSecretMo.class);
-        final int rowCount = _mapper.insertSelective(mo);
+        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
+        final int         rowCount = _mapper.insertSelective(mo);
         if (rowCount != 1) {
-            throw new RuntimeException("添加记录异常，影响行数为" + rowCount);
+            throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
         }
         return to.getSecret();
     }
 
     @Override
     public String modifyById(@Valid final SgnSecretModifyTo to) {
-        final SgnSecretMo mo = _dozerMapper.map(to, SgnSecretMo.class);
-        final int rowCount = _mapper.updateByPrimaryKeySelective(mo);
+        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
+        final int         rowCount = _mapper.updateByPrimaryKeySelective(mo);
         if (rowCount != 1) {
-            throw new RuntimeException("修改记录异常，影响行数为" + rowCount);
+            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
         }
         return to.getSecret();
     }
@@ -66,7 +67,7 @@ public class SgnSecretSvcImpl implements SgnSecretSvc {
     public void delById(@NotNull final String id) {
         final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount != 1) {
-            throw new RuntimeException("删除记录异常，影响行数为" + rowCount);
+            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
         }
     }
 
