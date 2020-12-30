@@ -25,10 +25,12 @@ import rebue.scx.sgn.to.SgnSecretModifyTo;
 public interface SgnSecretSvc {
     /**
      * 添加密钥
+     * 
+     * 注意这里的返回值是为了配合缓存使用
      *
      * @param to 添加的参数
      *
-     * @return 如果成功，且仅添加一条记录，正常返回，否则会抛出运行时异常
+     * @return 如果成功，且仅添加一条记录，正常返回密钥，否则会抛出运行时异常
      */
     @CachePut(key = "#to.id")
     String add(@Valid SgnSecretAddTo to);
@@ -36,9 +38,11 @@ public interface SgnSecretSvc {
     /**
      * 修改密钥
      *
+     * 注意这里的返回值是为了配合缓存使用
+     * 
      * @param to 修改的参数
      *
-     * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
+     * @return 如果成功，且仅修改一条记录，正常密钥，否则会抛出运行时异常
      */
     @CachePut(key = "#to.id")
     String modifyById(@Valid SgnSecretModifyTo to);

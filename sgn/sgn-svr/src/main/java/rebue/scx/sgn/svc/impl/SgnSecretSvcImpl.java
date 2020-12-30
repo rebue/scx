@@ -31,8 +31,6 @@ import rebue.wheel.exception.RuntimeExceptionX;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- *
- * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
@@ -44,6 +42,7 @@ public class SgnSecretSvcImpl implements SgnSecretSvc {
     protected Mapper        _dozerMapper;
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public String add(@Valid final SgnSecretAddTo to) {
         final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
         final int         rowCount = _mapper.insertSelective(mo);
@@ -54,6 +53,7 @@ public class SgnSecretSvcImpl implements SgnSecretSvc {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public String modifyById(@Valid final SgnSecretModifyTo to) {
         final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
         final int         rowCount = _mapper.updateByPrimaryKeySelective(mo);
@@ -64,6 +64,7 @@ public class SgnSecretSvcImpl implements SgnSecretSvc {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(@NotNull final String id) {
         final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount != 1) {
