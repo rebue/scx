@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.svc.RacPermMenuSvc;
@@ -66,12 +64,8 @@ public class RacPermMenuSvcTests {
         final RacPermMenuModifyTo modifyTo = dozerMapper.map(addTo, RacPermMenuModifyTo.class);
         modifyTo.setId(id);
         log.info("修改权限菜单的参数为：" + modifyTo);
-        final Boolean modifyResult = _svc.modifyById(modifyTo);
-        log.info("修改权限菜单的返回值为：" + modifyResult);
-        Assertions.assertTrue(modifyResult);
+        _svc.modifyById(modifyTo);
         log.info("删除权限菜单的参数为：" + id);
-        final Boolean deleteResult = _svc.delById(id);
-        log.info("删除权限菜单的返回值为：" + deleteResult);
-        Assertions.assertTrue(deleteResult);
+        _svc.delById(id);
     }
 }
