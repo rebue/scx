@@ -31,15 +31,11 @@ public class SignUpOrInRa extends IdRa<Long> {
     /**
      * 签名(成功后可将签名放入Cookie中)
      */
-    @NotBlank
     private String            sign;
 
     /**
      * 签名过期时间(成功后可将签名过期时间放入Cookie中)
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @NonNull
     private LocalDateTime     expirationTime;
 
     /**
