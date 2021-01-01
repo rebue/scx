@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/12/18 11:18:11                          */
+/* Created on:     2021/1/1 13:31:44                            */
 /*==============================================================*/
 
 
@@ -114,6 +114,9 @@ drop table if exists RAC_SYS;
 alter table RAC_USER 
    drop foreign key FK_USER_AND_PERSON;
 
+alter table RAC_USER 
+   drop foreign key FK_USER_AND_ORG;
+
 drop table if exists RAC_USER;
 
 
@@ -198,7 +201,7 @@ alter table RAC_OP_LOG comment '操作日志';
 /*==============================================================*/
 create table RAC_ORG
 (
-   ID                   bigint unsigned not null  comment '组织ID(组织ID=账户ID，与账户一一对应)',
+   ID                   bigint unsigned not null  comment '组织ID',
    NAME                 varchar(30) not null  comment '组织名称(简称)',
    PARENT_ID            bigint unsigned  comment '上级组织ID(根组织填0)',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
@@ -376,6 +379,7 @@ create table RAC_USER
 (
    ID                   bigint unsigned not null  comment '用户ID',
    PERSON_ID            bigint unsigned  comment '个人ID',
+   ORG_ID               bigint unsigned  comment '组织ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SIGN_IN_NAME         varchar(20)  comment '登录名称',
    SIGN_IN_MOBILE       varchar(11)  comment '登录手机',
@@ -493,6 +497,9 @@ alter table RAC_SYS add constraint FK_SYS_AND_DOMAIN foreign key (DOMAIN_ID)
 
 alter table RAC_USER add constraint FK_USER_AND_PERSON foreign key (PERSON_ID)
       references RAC_PERSON (ID) on delete restrict on update restrict;
+
+alter table RAC_USER add constraint FK_USER_AND_ORG foreign key (ORG_ID)
+      references RAC_ORG (ID) on delete restrict on update restrict;
 
 alter table RAC_USER_ROLE add constraint FK_USER_ROLE_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
