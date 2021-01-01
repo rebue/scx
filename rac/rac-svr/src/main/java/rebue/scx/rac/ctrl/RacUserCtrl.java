@@ -1,16 +1,14 @@
 package rebue.scx.rac.ctrl;
 
-import javax.annotation.Resource;
+import java.text.ParseException;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.*;
 
 import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
@@ -18,9 +16,11 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacUserApi;
 import rebue.scx.rac.mo.RacUserMo;
+import rebue.scx.rac.ra.GetCurUserInfoRa;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserPageTo;
+import rebue.wheel.turing.JwtUtils;
 
 /**
  * 用户控制器
@@ -40,6 +40,7 @@ public class RacUserCtrl {
      * 添加用户
      *
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/user")
@@ -51,6 +52,7 @@ public class RacUserCtrl {
      * 修改用户的信息
      *
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/user")
@@ -62,6 +64,7 @@ public class RacUserCtrl {
      * 删除用户
      *
      * @param id 用户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/user")
@@ -73,6 +76,7 @@ public class RacUserCtrl {
      * 获取单个用户的信息
      *
      * @param id 用户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/get-by-id")
@@ -84,6 +88,7 @@ public class RacUserCtrl {
      * 判断用户是否存在
      *
      * @param id 用户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/exist-by-id")
@@ -95,10 +100,27 @@ public class RacUserCtrl {
      * 查询用户的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/page")
     public Mono<Ro<PageRa<RacUserMo>>> page(final RacUserPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
+
+    /**
+     * 获取当前用户信息
+     */
+    @GetMapping("/rac/user/get-cur-user-info")
+    public Mono<Ro<GetCurUserInfoRa>> getCurUserInfo(@RequestParam("sysId") final String sysId, HttpServletRequest req) {
+        final Long curUserId;
+        try {
+            curUserId = JwtUtils.getJwtUserIdInCookie(req);
+            return Mono.create(callback -> callback.success(api.getCurUserInfo(curUserId, sysId)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return Mono.create(callback -> callback.success(new Ro<>(ResultDic.WARN, "JWT解析Cookie出错")));
+        }
+    }
+
 }

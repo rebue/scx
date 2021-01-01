@@ -1,16 +1,17 @@
 package rebue.scx.rac.svc;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
 
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mo.RacUserMo;
-import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.RacUserDelTo;
-import rebue.scx.rac.to.RacUserListTo;
-import rebue.scx.rac.to.RacUserModifyTo;
-import rebue.scx.rac.to.RacUserOneTo;
-import rebue.scx.rac.to.RacUserPageTo;
+import rebue.scx.rac.ra.GetCurUserInfoRa;
+import rebue.scx.rac.to.*;
 
 /**
  * 用户服务接口
@@ -25,9 +26,50 @@ import rebue.scx.rac.to.RacUserPageTo;
 @Validated
 public interface RacUserSvc extends BaseSvc<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo> {
 
-    RacUserMo getOneByEmail(String domainId, Long orgId, String email);
+    /**
+     * 通过email获取用户信息
+     *
+     * @param domainId 领域ID
+     * @param orgId    组织ID
+     * @param email    电子邮箱
+     *
+     * @return 用户信息
+     */
+    @Valid
+    RacUserMo getOneByEmail(@NotBlank String domainId, Long orgId, @NotBlank String email);
 
-    RacUserMo getOneByMobile(String domainId, Long orgId, String mobile);
+    /**
+     * 通过手机号获取用户信息
+     *
+     * @param domainId 领域ID
+     * @param orgId    组织ID
+     * @param mobile   手机号
+     *
+     * @return 用户信息
+     */
+    @Valid
+    RacUserMo getOneByMobile(@NotBlank String domainId, Long orgId, @NotBlank String mobile);
 
-    RacUserMo getOneBySignInName(String domainId, Long orgId, String signInName);
+    /**
+     * 通过登录名称获取用户信息
+     *
+     * @param domainId   领域ID
+     * @param orgId      组织ID
+     * @param signInName 登录名称
+     *
+     * @return 用户信息
+     */
+    @Valid
+    RacUserMo getOneBySignInName(@NotBlank String domainId, Long orgId, @NotBlank String signInName);
+
+    /**
+     * 获取当前用户信息
+     * 
+     * @param curUserId 当前用户ID
+     * @param sysId     系统ID
+     * 
+     * @return 当前用户信息
+     */
+    @Valid
+    Ro<GetCurUserInfoRa> getCurUserInfo(@NotNull Long curUserId, @NotBlank String sysId);
 }

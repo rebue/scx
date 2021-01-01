@@ -1,9 +1,6 @@
 package rebue.scx.rac.svc.impl;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.and;
-import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import static rebue.scx.rac.mapper.RacDomainUserDynamicSqlSupport.racDomainUser;
 import static rebue.scx.rac.mapper.RacOrgUserDynamicSqlSupport.racOrgUser;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
@@ -21,18 +18,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacUserDao;
 import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mapper.RacUserMapper;
 import rebue.scx.rac.mo.RacUserMo;
+import rebue.scx.rac.ra.GetCurUserInfoRa;
+import rebue.scx.rac.svc.RacPermMenuSvc;
 import rebue.scx.rac.svc.RacUserSvc;
-import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.RacUserDelTo;
-import rebue.scx.rac.to.RacUserListTo;
-import rebue.scx.rac.to.RacUserModifyTo;
-import rebue.scx.rac.to.RacUserOneTo;
-import rebue.scx.rac.to.RacUserPageTo;
+import rebue.scx.rac.to.*;
 
 /**
  * 用户服务实现
@@ -53,8 +49,12 @@ import rebue.scx.rac.to.RacUserPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacUserSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
-    implements RacUserSvc {
+        extends
+        BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+        implements RacUserSvc {
+
+    @Resource
+    private RacPermMenuSvc permMenuSvc;
 
     /**
      * 本服务的单例
@@ -64,7 +64,7 @@ public class RacUserSvcImpl
      */
     @Lazy
     @Resource
-    private RacUserSvc thisSvc;
+    private RacUserSvc     thisSvc;
 
     /**
      * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -95,15 +95,33 @@ public class RacUserSvcImpl
         return // list.stream().toArray(SqlCriterion<?>[]::new)))
         // list.stream().toArray(SqlCriterion<?>[]::new)))
         _mapper.selectOne(c -> c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
-            .where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email)))).orElse(null);
+                .where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInEmail, isEqualTo(email)))).orElse(null);
     }
 
+    /**
+     * 通过手机号获取用户信息
+     *
+     * @param domainId 领域ID
+     * @param orgId    组织ID
+     * @param mobile   手机号
+     *
+     * @return 用户信息
+     */
     @Override
     public RacUserMo getOneByMobile(final String domainId, final Long orgId, final String mobile) {
         return _mapper.selectOne(c -> c.rightJoin(racDomainUser).on(racDomainUser.userId, equalTo(racUser.id)).rightJoin(racOrgUser).on(racOrgUser.userId, equalTo(racUser.id))
-            .where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInMobile, isEqualTo(mobile)))).orElse(null);
+                .where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInMobile, isEqualTo(mobile)))).orElse(null);
     }
 
+    /**
+     * 通过登录名称获取用户信息
+     *
+     * @param domainId   领域ID
+     * @param orgId      组织ID
+     * @param signInName 登录名称
+     *
+     * @return 用户信息
+     */
     @Override
     public RacUserMo getOneBySignInName(final String domainId, final Long orgId, final String signInName) {
         return _mapper.selectOne(c -> {
@@ -113,5 +131,22 @@ public class RacUserSvcImpl
             }
             return join.where(racDomainUser.domainId, isEqualTo(domainId), and(racOrgUser.orgId, isEqualToWhenPresent(orgId)), and(racUser.signInName, isEqualTo(signInName)));
         }).orElse(null);
+    }
+
+    /**
+     * 获取当前用户信息
+     * 
+     * @param curUserId 当前用户ID
+     * @param sysId     系统ID
+     * 
+     * @return 当前用户信息
+     */
+    @Override
+    public Ro<GetCurUserInfoRa> getCurUserInfo(final Long curUserId, final String sysId) {
+        final RacUserMo        userMo = thisSvc.getById(curUserId);
+        final GetCurUserInfoRa ra     = new GetCurUserInfoRa();
+        _dozerMapper.map(userMo, ra);
+        ra.setMenus(permMenuSvc.getMenusOfUser(curUserId, sysId));
+        return new Ro<>(ResultDic.SUCCESS, "获取当前用户信息成功", ra);
     }
 }

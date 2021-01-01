@@ -16,7 +16,7 @@ import rebue.scx.rac.to.ex.SignUpByUserNameTo;
  * API用户注册的控制器
  */
 @RestController
-public class RacSignUpApiCtrl {
+public class RacSignUpCtrl {
 
     @Resource
     private RacSignUpApi api;
