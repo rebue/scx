@@ -1,5 +1,7 @@
 package rebue.scx.rac.ctrl.ex;
 
+import static rebue.scx.rac.ctrl.ex.SignUpOrInCommon.jwtSignWithCookie;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.ex.SignInByUserNameTo;
-
-import static rebue.scx.rac.ctrl.ex.SignUpOrInCommon.jwtSignWithCookie;
 
 /**
  * 用户登录的控制器
@@ -31,10 +32,10 @@ public class RacSignInCtrl {
     public Mono<Ro<SignUpOrInRa>> signInByUserName(@RequestBody final SignInByUserNameTo to, HttpServletResponse resp) {
         return Mono.create(callback -> {
             Ro<SignUpOrInRa> ro = api.signInByUserName(to);
-            jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
+            if (ResultDic.SUCCESS.equals(ro.getResult()))
+                jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
             callback.success(ro);
         });
     }
-
 
 }

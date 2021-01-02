@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -31,7 +32,8 @@ public class RacSignUpCtrl {
     public Mono<Ro<SignUpOrInRa>> signUpByUserName(@RequestBody final SignUpByUserNameTo to, HttpServletResponse resp) {
         return Mono.create(callback -> {
             Ro<SignUpOrInRa> ro = api.signUpByUserName(to);
-            jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
+            if (ResultDic.SUCCESS.equals(ro.getResult()))
+                jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
             callback.success(ro);
         });
     }
