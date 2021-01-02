@@ -92,6 +92,6 @@ public class RacPermMenuSvcImpl extends
                 .where(
                         racPermMenu.sysId, isEqualTo(sysId),
                         and(racUserRole.userId, isEqualTo(userId))));
-        return list.stream().map(item -> item.getMenuUrn()).collect(Collectors.toList());
+        return list.stream().map(item -> item.getMenuUrn()).distinct().collect(Collectors.toList());
     }
 }

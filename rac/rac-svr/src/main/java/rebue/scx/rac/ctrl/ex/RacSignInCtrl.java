@@ -13,6 +13,8 @@ import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.ex.SignInByUserNameTo;
 
+import static rebue.scx.rac.ctrl.ex.SignUpOrInCommon.jwtSignWithCookie;
+
 /**
  * 用户登录的控制器
  */
@@ -29,33 +31,10 @@ public class RacSignInCtrl {
     public Mono<Ro<SignUpOrInRa>> signInByUserName(@RequestBody final SignInByUserNameTo to, HttpServletResponse resp) {
         return Mono.create(callback -> {
             Ro<SignUpOrInRa> ro = api.signInByUserName(to);
-            ro.getExtra().setSign(null);
-            ro.getExtra().setExpirationTime(null);
+            jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
             callback.success(ro);
         });
     }
 
-//    /**
-//     * JWT签名并将其加入Cookie
-//     */
-//    private void jwtSignWithCookie(final SignUpOrInRa signUpOrInRa, final String sysId, Map<String, Object> addition,
-//                                   final HttpServletResponse resp) {
-//        if (addition == null) {
-//            addition = new LinkedHashMap<>();
-//        }
-//        addition.put("isTester", signUpOrInRa.getIsTester());
-//        if (signUpOrInRa.getOrgId() != null) {
-//            addition.put("orgId", signUpOrInRa.getOrgId());
-//        }
-//        final JwtUserInfoTo to = new JwtUserInfoTo();
-//        to.setUserId(signUpOrInRa.getUserId().toString());
-//        to.setSysId(sysId);
-//        to.setAddition(addition);
-//        final JwtSignRo signRo = jwtSvc.sign(to);
-//        if (JwtSignResultDic.SUCCESS.equals(signRo.getResult())) {
-//            JwtUtils.addCookie(signRo.getSign(), signRo.getExpirationTime(), resp);
-//            signUpOrInRa.setSign(signRo.getSign());
-//            signUpOrInRa.setExpirationTime(signRo.getExpirationTime());
-//        }
-//    }
+
 }
