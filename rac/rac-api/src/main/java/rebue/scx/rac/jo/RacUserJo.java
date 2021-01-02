@@ -257,4 +257,13 @@ public class RacUserJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 组织
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "ORG_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private RacOrgJo org;
 }

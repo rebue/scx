@@ -11,7 +11,12 @@ import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.ra.GetCurUserInfoRa;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserDelTo;
+import rebue.scx.rac.to.RacUserListTo;
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserOneTo;
+import rebue.scx.rac.to.RacUserPageTo;
 
 /**
  * 用户服务接口
@@ -64,10 +69,10 @@ public interface RacUserSvc extends BaseSvc<java.lang.Long, RacUserAddTo, RacUse
 
     /**
      * 获取当前用户信息
-     * 
+     *
      * @param curUserId 当前用户ID
      * @param sysId     系统ID
-     * 
+     *
      * @return 当前用户信息
      */
     @Valid

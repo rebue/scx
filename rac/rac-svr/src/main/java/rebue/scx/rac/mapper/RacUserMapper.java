@@ -6,6 +6,7 @@ import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.createTimestamp;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isTester;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.orgId;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.personId;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.qqAvatar;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.qqNickname;
@@ -61,7 +62,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, personId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, personId, orgId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -101,6 +102,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     @Results(id="RacUserMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="PERSON_ID", property="personId", jdbcType=JdbcType.BIGINT),
+        @Result(column="ORG_ID", property="orgId", jdbcType=JdbcType.BIGINT),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
         @Result(column="SIGN_IN_NAME", property="signInName", jdbcType=JdbcType.VARCHAR),
         @Result(column="SIGN_IN_MOBILE", property="signInMobile", jdbcType=JdbcType.VARCHAR),
@@ -159,6 +161,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         return MyBatis3Utils.insert(this::insert, record, racUser, c ->
             c.map(id).toProperty("id")
             .map(personId).toProperty("personId")
+            .map(orgId).toProperty("orgId")
             .map(isEnabled).toProperty("isEnabled")
             .map(signInName).toProperty("signInName")
             .map(signInMobile).toProperty("signInMobile")
@@ -188,6 +191,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racUser, c ->
             c.map(id).toProperty("id")
             .map(personId).toProperty("personId")
+            .map(orgId).toProperty("orgId")
             .map(isEnabled).toProperty("isEnabled")
             .map(signInName).toProperty("signInName")
             .map(signInMobile).toProperty("signInMobile")
@@ -217,6 +221,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         return MyBatis3Utils.insert(this::insert, record, racUser, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(personId).toPropertyWhenPresent("personId", record::getPersonId)
+            .map(orgId).toPropertyWhenPresent("orgId", record::getOrgId)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
             .map(signInName).toPropertyWhenPresent("signInName", record::getSignInName)
             .map(signInMobile).toPropertyWhenPresent("signInMobile", record::getSignInMobile)
@@ -282,6 +287,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     static UpdateDSL<UpdateModel> updateAllColumns(RacUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(personId).equalTo(record::getPersonId)
+                .set(orgId).equalTo(record::getOrgId)
                 .set(isEnabled).equalTo(record::getIsEnabled)
                 .set(signInName).equalTo(record::getSignInName)
                 .set(signInMobile).equalTo(record::getSignInMobile)
@@ -309,6 +315,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(personId).equalToWhenPresent(record::getPersonId)
+                .set(orgId).equalToWhenPresent(record::getOrgId)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(signInName).equalToWhenPresent(record::getSignInName)
                 .set(signInMobile).equalToWhenPresent(record::getSignInMobile)
@@ -336,6 +343,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default int updateByPrimaryKey(RacUserMo record) {
         return update(c ->
             c.set(personId).equalTo(record::getPersonId)
+            .set(orgId).equalTo(record::getOrgId)
             .set(isEnabled).equalTo(record::getIsEnabled)
             .set(signInName).equalTo(record::getSignInName)
             .set(signInMobile).equalTo(record::getSignInMobile)
@@ -365,6 +373,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     default int updateByPrimaryKeySelective(RacUserMo record) {
         return update(c ->
             c.set(personId).equalToWhenPresent(record::getPersonId)
+            .set(orgId).equalToWhenPresent(record::getOrgId)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
             .set(signInName).equalToWhenPresent(record::getSignInName)
             .set(signInMobile).equalToWhenPresent(record::getSignInMobile)
@@ -395,6 +404,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(orgId, isEqualToWhenPresent(record::getOrgId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
@@ -424,6 +434,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(orgId, isEqualToWhenPresent(record::getOrgId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
@@ -453,6 +464,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(orgId, isEqualToWhenPresent(record::getOrgId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
@@ -496,6 +508,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(personId, isEqualToWhenPresent(record::getPersonId))
+            .and(orgId, isEqualToWhenPresent(record::getOrgId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))

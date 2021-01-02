@@ -26,6 +26,13 @@ public final class RacUserDynamicSqlSupport {
     public static final SqlColumn<Long> personId = racUser.personId;
 
     /**
+    * 组织ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> orgId = racUser.orgId;
+
+    /**
     * 是否启用
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -165,6 +172,8 @@ public final class RacUserDynamicSqlSupport {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> personId = column("PERSON_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> orgId = column("ORG_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 

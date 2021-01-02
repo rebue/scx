@@ -1,6 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.and;
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.racPermMenu;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
@@ -23,7 +25,12 @@ import rebue.scx.rac.jo.RacPermMenuJo;
 import rebue.scx.rac.mapper.RacPermMenuMapper;
 import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.svc.RacPermMenuSvc;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacPermMenuAddTo;
+import rebue.scx.rac.to.RacPermMenuDelTo;
+import rebue.scx.rac.to.RacPermMenuListTo;
+import rebue.scx.rac.to.RacPermMenuModifyTo;
+import rebue.scx.rac.to.RacPermMenuOneTo;
+import rebue.scx.rac.to.RacPermMenuPageTo;
 
 /**
  * 权限菜单服务实现
@@ -77,7 +84,8 @@ public class RacPermMenuSvcImpl extends
      */
     @Override
     public List<String> getMenusOfUser(final Long userId, final String sysId) {
-        List<RacPermMenuMo> list = _mapper.select(c -> c.rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
+        final List<RacPermMenuMo> list = _mapper.select(c -> c
+                .rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
                 .rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
                 .rightJoin(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
                 .rightJoin(racUserRole).on(racUserRole.roleId, equalTo(racRole.id))

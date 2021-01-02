@@ -26,7 +26,7 @@ import rebue.robotech.valid.ModifyGroup;
 public class RacOrgMo implements Serializable, Mo<Long> {
 
     /**
-     * 组织ID(组织ID=账户ID，与账户一一对应)
+     * 组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -135,7 +135,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     private RacOrgMo          parent;
 
     /**
-     * 组织ID(组织ID=账户ID，与账户一一对应)
+     * 组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -144,7 +144,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 组织ID(组织ID=账户ID，与账户一一对应)
+     * 组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

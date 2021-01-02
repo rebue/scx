@@ -7,7 +7,12 @@ import org.springframework.validation.annotation.Validated;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacPermMenuJo;
 import rebue.scx.rac.mo.RacPermMenuMo;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacPermMenuAddTo;
+import rebue.scx.rac.to.RacPermMenuDelTo;
+import rebue.scx.rac.to.RacPermMenuListTo;
+import rebue.scx.rac.to.RacPermMenuModifyTo;
+import rebue.scx.rac.to.RacPermMenuOneTo;
+import rebue.scx.rac.to.RacPermMenuPageTo;
 
 /**
  * 权限菜单服务接口
@@ -20,7 +25,8 @@ import rebue.scx.rac.to.*;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacPermMenuSvc extends
-        BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
+public interface RacPermMenuSvc
+    extends BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
+
     List<String> getMenusOfUser(Long userId, String sysId);
 }

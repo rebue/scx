@@ -2,12 +2,6 @@ package rebue.scx.rac.ra;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotBlank;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.NonNull;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 

@@ -17,10 +17,10 @@ public interface RacUserApi extends BaseApi<java.lang.Long, RacUserAddTo, RacUse
 
     /**
      * 获取当前用户信息
-     * 
+     *
      * @param curUserId 当前用户ID
      * @param sysId     系统ID
-     * 
+     *
      * @return 当前用户信息
      */
     Ro<GetCurUserInfoRa> getCurUserInfo(Long curUserId, String sysId);

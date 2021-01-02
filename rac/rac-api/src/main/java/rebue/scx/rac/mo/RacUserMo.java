@@ -607,6 +607,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", personId=").append(personId);
+        sb.append(", orgId=").append(orgId);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", signInName=").append(signInName);
         sb.append(", signInMobile=").append(signInMobile);
@@ -668,5 +669,40 @@ public class RacUserMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "组织ID不能为负数")
+    private Long     orgId;
+
+    /**
+     * 组织
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacOrgMo org;
+
+    /**
+     * 组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    /**
+     * 组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
     }
 }
