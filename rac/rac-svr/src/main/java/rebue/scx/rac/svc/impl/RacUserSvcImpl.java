@@ -153,6 +153,8 @@ public class RacUserSvcImpl
         final RacUserMo userMo = thisSvc.getById(curUserId);
         final GetCurUserInfoRa ra = new GetCurUserInfoRa();
         _dozerMapper.map(userMo, ra);
+        ra.setNickname(userMo.getSignInNickname());
+        ra.setAvatar(userMo.getSignInAvatar());
         ra.setMenus(permMenuSvc.getMenusOfUser(curUserId, sysId));
         return new Ro<>(ResultDic.SUCCESS, "获取当前用户信息成功", ra);
     }

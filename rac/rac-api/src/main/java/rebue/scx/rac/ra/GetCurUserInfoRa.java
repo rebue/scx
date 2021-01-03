@@ -27,14 +27,14 @@ public class GetCurUserInfoRa implements Serializable {
     private Long              id;
 
     /**
-     * 登录用户昵称
+     * 用户昵称
      */
-    private String            signInNickname;
+    private String            nickname;
 
     /**
-     * 登录用户头像
+     * 用户头像
      */
-    private String            signInAvatar;
+    private String            avatar;
 
     /**
      * 是否测试者
