@@ -1,6 +1,6 @@
 -- 领域
 INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('default', '默认领域', '系统和用户的默认领域');
-INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('platform', '平台领域', '平台管理的默认领域');
+INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('platform', '平台领域', '平台管理领域');
 -- 系统
 INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,INDEX_URN,MENU_URN,REMARK) VALUES ('platform-admin-web', '平台后台管理', 'platform','/','http://127.0.0.1:13080/menus','对平台的后台管理提供最基本的功能');
 -- 平台管理员

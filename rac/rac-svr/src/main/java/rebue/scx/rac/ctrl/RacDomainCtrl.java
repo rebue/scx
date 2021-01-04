@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
@@ -40,6 +41,7 @@ public class RacDomainCtrl {
      * 添加领域
      *
      * @param to 添加的具体信息
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/domain")
@@ -51,6 +53,7 @@ public class RacDomainCtrl {
      * 修改领域的信息
      *
      * @param to 修改的具体数据
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/domain")
@@ -62,6 +65,7 @@ public class RacDomainCtrl {
      * 删除领域
      *
      * @param id 领域ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/domain")
@@ -73,6 +77,7 @@ public class RacDomainCtrl {
      * 获取单个领域的信息
      *
      * @param id 领域ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/domain/get-by-id")
@@ -84,6 +89,7 @@ public class RacDomainCtrl {
      * 判断领域是否存在
      *
      * @param id 领域ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/domain/exist-by-id")
@@ -95,10 +101,22 @@ public class RacDomainCtrl {
      * 查询领域的信息
      *
      * @param qo 查询的具体条件
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/domain/page")
     public Mono<Ro<PageRa<RacDomainMo>>> page(final RacDomainPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
+
+    /**
+     * 查询领域的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @GetMapping("/rac/domain/list-all")
+    public Mono<Ro<ListRa<RacDomainMo>>> listAll() {
+        return Mono.create(callback -> callback.success(api.listAll()));
+    }
+
 }
