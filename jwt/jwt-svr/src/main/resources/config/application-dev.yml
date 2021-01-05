@@ -4,4 +4,4 @@ jwt:
   # 签发者
   issuer: zboss
   # 过期时间间隔(默认是30m)
-  expiration-duration: 3s
+#  expiration-duration: 3s # 单元测试时使用

@@ -8,6 +8,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
@@ -18,10 +19,10 @@ import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.jwt.to.JwtVerifyTo;
 
 @Slf4j
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)   // 非Web环境下测试
 public class JwtApiTests {
 
-    private final Long _userId = 517928358546243583L;
+    private final Long   _userId    = 517928358546243583L;
 
     private final String _sysId     = "rebue-platform";
     private final String _wxOpenId  = "oqTsm0gdD148UcBzibH4JTm2d9q4";
@@ -29,7 +30,7 @@ public class JwtApiTests {
     private final Long   _orgId     = 517928358546243584L;
 
     @DubboReference
-    private JwtApi api;
+    private JwtApi       api;
 
     @Test
     public void test01() throws IOException, InterruptedException {
