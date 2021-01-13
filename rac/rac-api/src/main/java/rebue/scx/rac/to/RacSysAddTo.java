@@ -26,6 +26,13 @@ public class RacSysAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 系统ID
+     */
+    @NotBlank(message = "系统ID不能为空")
+    @Length(max = 32, message = "系统ID的长度不能大于32")
+    private String            id;
+
+    /**
      * 系统名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
