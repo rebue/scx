@@ -1,8 +1,6 @@
 package rebue.scx.rac.svc.impl;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.and;
-import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.racPermMenu;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
@@ -25,12 +23,7 @@ import rebue.scx.rac.jo.RacPermMenuJo;
 import rebue.scx.rac.mapper.RacPermMenuMapper;
 import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.svc.RacPermMenuSvc;
-import rebue.scx.rac.to.RacPermMenuAddTo;
-import rebue.scx.rac.to.RacPermMenuDelTo;
-import rebue.scx.rac.to.RacPermMenuListTo;
-import rebue.scx.rac.to.RacPermMenuModifyTo;
-import rebue.scx.rac.to.RacPermMenuOneTo;
-import rebue.scx.rac.to.RacPermMenuPageTo;
+import rebue.scx.rac.to.*;
 
 /**
  * 权限菜单服务实现
@@ -91,7 +84,9 @@ public class RacPermMenuSvcImpl extends
                 .rightJoin(racUserRole).on(racUserRole.roleId, equalTo(racRole.id))
                 .where(
                         racPermMenu.sysId, isEqualTo(sysId),
-                        and(racUserRole.userId, isEqualTo(userId))));
+                        and(racUserRole.userId, isEqualTo(userId)),
+                        and(racPerm.isEnabled, isTrue()),
+                        and(racRole.isEnabled, isTrue())));
         return list.stream().map(item -> item.getMenuUrn()).distinct().collect(Collectors.toList());
     }
 }
