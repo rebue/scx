@@ -1,20 +1,11 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.domainId;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.groupId;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.isEnabled;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.name;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.seqNo;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.remark;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,7 +29,6 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPermMo;
 
@@ -90,7 +80,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
         @Result(column="GROUP_ID", property="groupId", jdbcType=JdbcType.BIGINT),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
-        @Result(column="ORDER_NO", property="seqNo", jdbcType=JdbcType.TINYINT),
+        @Result(column="SEQ_NO", property="seqNo", jdbcType=JdbcType.TINYINT),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     List<RacPermMo> selectMany(SelectStatementProvider selectStatement);

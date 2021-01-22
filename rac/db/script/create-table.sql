@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/1/22 11:05:08                           */
+/* Created on:     2021/1/22 11:58:27                           */
 /*==============================================================*/
 
 
@@ -178,7 +178,7 @@ alter table RAC_ACCOUNT comment '账户';
 /*==============================================================*/
 create table RAC_ACCOUNT_ROLE
 (
-   ID                   bigint unsigned not null  comment '用户角色ID',
+   ID                   bigint unsigned not null  comment '账户角色ID',
    ROLE_ID              bigint unsigned not null  comment '角色ID',
    ACCOUNT_ID           bigint unsigned not null  comment '账户ID',
    primary key (ID),
@@ -206,7 +206,7 @@ alter table RAC_DOMAIN comment '领域';
 /*==============================================================*/
 create table RAC_DOMAIN_ACCOUNT
 (
-   ID                   bigint unsigned not null  comment '领域用户ID',
+   ID                   bigint unsigned not null  comment '领域账户ID',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
    ACCOUNT_ID           bigint unsigned not null  comment '账户ID',
    primary key (ID),
@@ -281,7 +281,7 @@ alter table RAC_ORG comment '组织';
 /*==============================================================*/
 create table RAC_ORG_ACCOUNT
 (
-   ID                   bigint unsigned not null  comment '组织用户ID',
+   ID                   bigint unsigned not null  comment '组织账户ID',
    ORG_ID               bigint unsigned not null  comment '组织ID',
    ACCOUNT_ID           bigint unsigned not null  comment '账户ID',
    primary key (ID),

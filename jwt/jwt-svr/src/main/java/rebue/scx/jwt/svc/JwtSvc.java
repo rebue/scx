@@ -10,7 +10,7 @@ public interface JwtSvc {
      * JWT签名
      * 
      * @param to
-     *            签名中储存的用户信息
+     *            签名中储存的账户信息
      */
     Ro<JwtSignRa> sign(JwtSignTo to);
 

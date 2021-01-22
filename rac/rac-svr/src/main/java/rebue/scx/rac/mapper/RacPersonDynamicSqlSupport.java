@@ -1,7 +1,6 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
-
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -17,27 +16,6 @@ public final class RacPersonDynamicSqlSupport {
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Long> id = racPerson.id;
-
-    /**
-    * 是否启用
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Boolean> isEnabled = racPerson.isEnabled;
-
-    /**
-    * 支付密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> payPswd = racPerson.payPswd;
-
-    /**
-    * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> payPswdSalt = racPerson.payPswdSalt;
 
     /**
     * 手机
@@ -68,7 +46,7 @@ public final class RacPersonDynamicSqlSupport {
     public static final SqlColumn<Boolean> isVerifiedEmail = racPerson.isVerifiedEmail;
 
     /**
-    * 账户实名
+    * 用户实名
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
@@ -118,12 +96,6 @@ public final class RacPersonDynamicSqlSupport {
 
     public static final class RacPerson extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
-
-        public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
-
-        public final SqlColumn<String> payPswd = column("PAY_PSWD", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> payPswdSalt = column("PAY_PSWD_SALT", JDBCType.CHAR);
 
         public final SqlColumn<String> mobile = column("MOBILE", JDBCType.VARCHAR);
 

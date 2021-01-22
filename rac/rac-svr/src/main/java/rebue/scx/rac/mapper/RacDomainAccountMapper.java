@@ -1,17 +1,11 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.domainId;
-import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.isEnabled;
-import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.racDomainAccount;
-import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.accountId;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -35,7 +29,6 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacDomainAccountMo;
 
@@ -44,7 +37,7 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, accountId, isEnabled);
+    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, accountId);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -84,8 +77,7 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
     @Results(id="RacDomainAccountMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="ACCOUNT_ID", property="accountId", jdbcType=JdbcType.BIGINT),
-        @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT)
+        @Result(column="ACCOUNT_ID", property="accountId", jdbcType=JdbcType.BIGINT)
     })
     List<RacDomainAccountMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -126,7 +118,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
             c.map(id).toProperty("id")
             .map(domainId).toProperty("domainId")
             .map(accountId).toProperty("accountId")
-            .map(isEnabled).toProperty("isEnabled")
         );
     }
 
@@ -138,7 +129,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
             c.map(id).toProperty("id")
             .map(domainId).toProperty("domainId")
             .map(accountId).toProperty("accountId")
-            .map(isEnabled).toProperty("isEnabled")
         );
     }
 
@@ -150,7 +140,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(accountId).toPropertyWhenPresent("accountId", record::getAccountId)
-            .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
         );
     }
 
@@ -197,8 +186,7 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
     static UpdateDSL<UpdateModel> updateAllColumns(RacDomainAccountMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(domainId).equalTo(record::getDomainId)
-                .set(accountId).equalTo(record::getAccountId)
-                .set(isEnabled).equalTo(record::getIsEnabled);
+                .set(accountId).equalTo(record::getAccountId);
     }
 
     /**
@@ -207,8 +195,7 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacDomainAccountMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(domainId).equalToWhenPresent(record::getDomainId)
-                .set(accountId).equalToWhenPresent(record::getAccountId)
-                .set(isEnabled).equalToWhenPresent(record::getIsEnabled);
+                .set(accountId).equalToWhenPresent(record::getAccountId);
     }
 
     /**
@@ -218,7 +205,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
         return update(c ->
             c.set(domainId).equalTo(record::getDomainId)
             .set(accountId).equalTo(record::getAccountId)
-            .set(isEnabled).equalTo(record::getIsEnabled)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -230,7 +216,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
         return update(c ->
             c.set(domainId).equalToWhenPresent(record::getDomainId)
             .set(accountId).equalToWhenPresent(record::getAccountId)
-            .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -243,7 +228,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(accountId, isEqualToWhenPresent(record::getAccountId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
         );
     }
 
@@ -255,7 +239,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(accountId, isEqualToWhenPresent(record::getAccountId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
         );
     }
 
@@ -267,7 +250,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(accountId, isEqualToWhenPresent(record::getAccountId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
         );
     }
 
@@ -293,7 +275,6 @@ public interface RacDomainAccountMapper extends MapperRootInterface<RacDomainAcc
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(accountId, isEqualToWhenPresent(record::getAccountId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
         );
     }
 }

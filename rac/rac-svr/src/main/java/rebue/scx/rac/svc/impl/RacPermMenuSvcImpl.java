@@ -6,17 +6,13 @@ import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.racPermMenu;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
 import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.racRolePerm;
 import static rebue.scx.rac.mapper.RacAccountRoleDynamicSqlSupport.racAccountRole;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermMenuDao;
 import rebue.scx.rac.jo.RacPermMenuJo;
@@ -24,6 +20,12 @@ import rebue.scx.rac.mapper.RacPermMenuMapper;
 import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.svc.RacPermMenuSvc;
 import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacPermMenuAddTo;
+import rebue.scx.rac.to.RacPermMenuDelTo;
+import rebue.scx.rac.to.RacPermMenuListTo;
+import rebue.scx.rac.to.RacPermMenuModifyTo;
+import rebue.scx.rac.to.RacPermMenuOneTo;
+import rebue.scx.rac.to.RacPermMenuPageTo;
 
 /**
  * 权限菜单服务实现
@@ -44,8 +46,8 @@ import rebue.scx.rac.to.*;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermMenuSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
-        implements RacPermMenuSvc {
+    BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
+    implements RacPermMenuSvc {
 
     /**
      * 本服务的单例
@@ -77,16 +79,10 @@ public class RacPermMenuSvcImpl extends
      */
     @Override
     public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
-        final List<RacPermMenuMo> list = _mapper.select(c -> c
-                .rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
-                .rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
-                .rightJoin(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
-                .rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
-                .where(
-                        racPermMenu.sysId, isEqualTo(sysId),
-                        and(racAccountRole.accountId, isEqualTo(accountId)),
-                        and(racPerm.isEnabled, isTrue()),
-                        and(racRole.isEnabled, isTrue())));
+        final List<RacPermMenuMo> list = _mapper
+            .select(c -> c.rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).rightJoin(racRole)
+                .on(racRole.id, equalTo(racRolePerm.roleId)).rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
+                    and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
         return list.stream().map(item -> item.getMenuUrn()).distinct().collect(Collectors.toList());
     }
 }

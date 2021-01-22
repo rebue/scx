@@ -1,7 +1,6 @@
 package rebue.scx.rac.ctrl;
 
 import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.*;
 import rebue.robotech.ro.Ro;
@@ -19,6 +17,10 @@ import rebue.scx.rac.to.RacSysAddTo;
 import rebue.scx.rac.to.RacSysListTo;
 import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysPageTo;
+import rebue.robotech.ra.BooleanRa;
+import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.PageRa;
+import rebue.robotech.ra.PojoRa;
 
 /**
  * 系统控制器

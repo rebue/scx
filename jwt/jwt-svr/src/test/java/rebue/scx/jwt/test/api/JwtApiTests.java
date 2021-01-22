@@ -22,7 +22,7 @@ import rebue.scx.jwt.to.JwtVerifyTo;
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)   // 非Web环境下测试
 public class JwtApiTests {
 
-    private final Long   _userId    = 517928358546243583L;
+    private final Long   _accountId    = 517928358546243583L;
 
     private final String _sysId     = "rebue-platform";
     private final String _wxOpenId  = "oqTsm0gdD148UcBzibH4JTm2d9q4";
@@ -40,7 +40,7 @@ public class JwtApiTests {
         addition.put("wxOpenId", _wxOpenId);
         addition.put("wxUnionId", _wxUnionId);
         addition.put("orgId", _orgId.toString());
-        final JwtSignTo to = new JwtSignTo(_userId.toString(), addition);
+        final JwtSignTo to = new JwtSignTo(_accountId.toString(), addition);
         log.info("签名: to-{}", to);
         final Ro<JwtSignRa> signRo = api.sign(to);
         Assertions.assertNotNull(signRo);
@@ -48,14 +48,14 @@ public class JwtApiTests {
         Assertions.assertEquals(ResultDic.SUCCESS, signRo.getResult());
 
         log.info("验证签名");
-        Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getExtra().getSign()));
+        Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_accountId.toString(), signRo.getExtra().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);
         Assertions.assertEquals(ResultDic.SUCCESS, veryfyRo.getResult());
 
         Thread.sleep(3000);
-        veryfyRo = api.verify(new JwtVerifyTo(_userId.toString(), signRo.getExtra().getSign()));
+        veryfyRo = api.verify(new JwtVerifyTo(_accountId.toString(), signRo.getExtra().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);

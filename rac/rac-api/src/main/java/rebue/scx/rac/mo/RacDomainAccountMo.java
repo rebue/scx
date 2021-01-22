@@ -1,16 +1,12 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -53,14 +49,6 @@ public class RacDomainAccountMo implements Serializable, Mo<Long> {
     private Long              accountId;
 
     /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
-    private Boolean           isEnabled;
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
@@ -81,7 +69,7 @@ public class RacDomainAccountMo implements Serializable, Mo<Long> {
      */
     @Getter
     @Setter
-    private RacAccountMo         account;
+    private RacAccountMo      account;
 
     /**
      * 领域账户ID
@@ -138,24 +126,6 @@ public class RacDomainAccountMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsEnabled() {
-        return isEnabled;
-    }
-
-    /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsEnabled(Boolean isEnabled) {
-        this.isEnabled = isEnabled;
-    }
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -167,7 +137,6 @@ public class RacDomainAccountMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", domainId=").append(domainId);
         sb.append(", accountId=").append(accountId);
-        sb.append(", isEnabled=").append(isEnabled);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

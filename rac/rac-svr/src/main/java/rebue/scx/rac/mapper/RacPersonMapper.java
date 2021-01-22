@@ -1,28 +1,11 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.createrTimestamp;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.email;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.idCard;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isEnabled;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedEmail;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedIdcard;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedMobile;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.isVerifiedRealname;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.mobile;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.payPswd;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.payPswdSalt;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.racPerson;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.realName;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.sex;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.updateTimestamp;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -46,7 +29,6 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPersonMo;
 
@@ -55,7 +37,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, isEnabled, payPswd, payPswdSalt, mobile, isVerifiedMobile, email, isVerifiedEmail, realName, isVerifiedRealname, idCard, isVerifiedIdcard, sex, createrTimestamp, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, mobile, isVerifiedMobile, email, isVerifiedEmail, realName, isVerifiedRealname, idCard, isVerifiedIdcard, sex, createrTimestamp, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -94,9 +76,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacPersonMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
-        @Result(column="PAY_PSWD", property="payPswd", jdbcType=JdbcType.VARCHAR),
-        @Result(column="PAY_PSWD_SALT", property="payPswdSalt", jdbcType=JdbcType.CHAR),
         @Result(column="MOBILE", property="mobile", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_VERIFIED_MOBILE", property="isVerifiedMobile", jdbcType=JdbcType.BIT),
         @Result(column="EMAIL", property="email", jdbcType=JdbcType.VARCHAR),
@@ -146,9 +125,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     default int insert(RacPersonMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPerson, c ->
             c.map(id).toProperty("id")
-            .map(isEnabled).toProperty("isEnabled")
-            .map(payPswd).toProperty("payPswd")
-            .map(payPswdSalt).toProperty("payPswdSalt")
             .map(mobile).toProperty("mobile")
             .map(isVerifiedMobile).toProperty("isVerifiedMobile")
             .map(email).toProperty("email")
@@ -169,9 +145,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     default int insertMultiple(Collection<RacPersonMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPerson, c ->
             c.map(id).toProperty("id")
-            .map(isEnabled).toProperty("isEnabled")
-            .map(payPswd).toProperty("payPswd")
-            .map(payPswdSalt).toProperty("payPswdSalt")
             .map(mobile).toProperty("mobile")
             .map(isVerifiedMobile).toProperty("isVerifiedMobile")
             .map(email).toProperty("email")
@@ -192,9 +165,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     default int insertSelective(RacPersonMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPerson, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
-            .map(payPswd).toPropertyWhenPresent("payPswd", record::getPayPswd)
-            .map(payPswdSalt).toPropertyWhenPresent("payPswdSalt", record::getPayPswdSalt)
             .map(mobile).toPropertyWhenPresent("mobile", record::getMobile)
             .map(isVerifiedMobile).toPropertyWhenPresent("isVerifiedMobile", record::getIsVerifiedMobile)
             .map(email).toPropertyWhenPresent("email", record::getEmail)
@@ -251,9 +221,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacPersonMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(isEnabled).equalTo(record::getIsEnabled)
-                .set(payPswd).equalTo(record::getPayPswd)
-                .set(payPswdSalt).equalTo(record::getPayPswdSalt)
                 .set(mobile).equalTo(record::getMobile)
                 .set(isVerifiedMobile).equalTo(record::getIsVerifiedMobile)
                 .set(email).equalTo(record::getEmail)
@@ -272,9 +239,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPersonMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-                .set(payPswd).equalToWhenPresent(record::getPayPswd)
-                .set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt)
                 .set(mobile).equalToWhenPresent(record::getMobile)
                 .set(isVerifiedMobile).equalToWhenPresent(record::getIsVerifiedMobile)
                 .set(email).equalToWhenPresent(record::getEmail)
@@ -293,10 +257,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
      */
     default int updateByPrimaryKey(RacPersonMo record) {
         return update(c ->
-            c.set(isEnabled).equalTo(record::getIsEnabled)
-            .set(payPswd).equalTo(record::getPayPswd)
-            .set(payPswdSalt).equalTo(record::getPayPswdSalt)
-            .set(mobile).equalTo(record::getMobile)
+            c.set(mobile).equalTo(record::getMobile)
             .set(isVerifiedMobile).equalTo(record::getIsVerifiedMobile)
             .set(email).equalTo(record::getEmail)
             .set(isVerifiedEmail).equalTo(record::getIsVerifiedEmail)
@@ -316,10 +277,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
      */
     default int updateByPrimaryKeySelective(RacPersonMo record) {
         return update(c ->
-            c.set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-            .set(payPswd).equalToWhenPresent(record::getPayPswd)
-            .set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt)
-            .set(mobile).equalToWhenPresent(record::getMobile)
+            c.set(mobile).equalToWhenPresent(record::getMobile)
             .set(isVerifiedMobile).equalToWhenPresent(record::getIsVerifiedMobile)
             .set(email).equalToWhenPresent(record::getEmail)
             .set(isVerifiedEmail).equalToWhenPresent(record::getIsVerifiedEmail)
@@ -340,9 +298,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     default int deleteSelective(RacPersonMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(mobile, isEqualToWhenPresent(record::getMobile))
             .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
             .and(email, isEqualToWhenPresent(record::getEmail))
@@ -363,9 +318,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     default Optional<RacPersonMo> selectOne(RacPersonMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(mobile, isEqualToWhenPresent(record::getMobile))
             .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
             .and(email, isEqualToWhenPresent(record::getEmail))
@@ -386,9 +338,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     default long countSelective(RacPersonMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(mobile, isEqualToWhenPresent(record::getMobile))
             .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
             .and(email, isEqualToWhenPresent(record::getEmail))
@@ -423,9 +372,6 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     default List<RacPersonMo> selectSelective(RacPersonMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(mobile, isEqualToWhenPresent(record::getMobile))
             .and(isVerifiedMobile, isEqualToWhenPresent(record::getIsVerifiedMobile))
             .and(email, isEqualToWhenPresent(record::getEmail))

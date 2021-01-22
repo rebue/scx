@@ -39,23 +39,23 @@ public class JwtSvcImpl implements JwtSvc {
     /**
      * JWT签名
      *
-     * @param to 签名中储存的用户信息
+     * @param to 签名中储存的账户信息
      */
     @Override
     public Ro<JwtSignRa> sign(final JwtSignTo to) {
         try {
             // Prepare JWT with claims set
-            final LocalDateTime nowLocalDateTime = LocalDateTime.now();
+            final LocalDateTime nowLocalDateTime            = LocalDateTime.now();
             final LocalDateTime expirationTimeLocalDateTime = nowLocalDateTime.plusSeconds(jwtProperties.getExpirationDuration().getSeconds());
-            final Date now = LocalDateUtils.localDateTime2Date(nowLocalDateTime);
-            final Date expirationTime = LocalDateUtils.localDateTime2Date(expirationTimeLocalDateTime);
+            final Date          now                         = LocalDateUtils.localDateTime2Date(nowLocalDateTime);
+            final Date          expirationTime              = LocalDateUtils.localDateTime2Date(expirationTimeLocalDateTime);
 
-            Builder builder = new JWTClaimsSet.Builder()    //
+            Builder             builder                     = new JWTClaimsSet.Builder()    //
                 .issuer(jwtProperties.getIssuer())                                      // 签发者
                 .issueTime(now)                                                         // 签发时间
                 .notBeforeTime(now)                                                     // 不接受当前时间在此之前
                 .expirationTime(expirationTime)                                         // 过期时间
-                .claim("userId", to.getUserId());                                       // 用户ID
+                .claim("accountId", to.getAccountId());                                       // 账户ID
             if (to.getAddition() != null) {
                 builder = builder.claim("addition", to.getAddition());                      // 放入签名的附加信息
             }
@@ -64,7 +64,7 @@ public class JwtSvcImpl implements JwtSvc {
             // 计算签名
             final String sign = JwtUtils.sign(jwtProperties.getSignKey(), claimsSet);
 
-            return new Ro<>(ResultDic.SUCCESS, "JWT签名成功: userId-" + to.getUserId() + "; sign-" + sign,
+            return new Ro<>(ResultDic.SUCCESS, "JWT签名成功: accountId-" + to.getAccountId() + "; sign-" + sign,
                 new JwtSignRa(sign, expirationTimeLocalDateTime));
         } catch (final JOSEException e) {
             return new Ro<>(ResultDic.FAIL, "JWT签名失败: to-" + to);
@@ -105,12 +105,12 @@ public class JwtSvcImpl implements JwtSvc {
             if (new Date().before(notBeforeTime)) {
                 return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 当前时间早于签名时间-" + notBeforeTime);
             }
-            final String userId = signedJWT.getJWTClaimsSet().getClaim("userId").toString();
-            if (userId == null) {
-                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 用户ID为空");
+            final String accountId = signedJWT.getJWTClaimsSet().getClaim("accountId").toString();
+            if (accountId == null) {
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 账户ID为空");
             }
-            if (!to.getUserId().equals(userId)) {
-                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的用户ID-" + userId + ", 正确的应该是-" + to.getUserId());
+            if (!to.getAccountId().equals(accountId)) {
+                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的账户ID-" + accountId + ", 正确的应该是-" + to.getAccountId());
             }
             if (!JwtUtils.verify(jwtProperties.getSignKey(), signedJWT)) {
                 return new Ro<>(ResultDic.FAIL,
@@ -120,7 +120,7 @@ public class JwtSvcImpl implements JwtSvc {
             // 如果验证成功，需要重新签名延长过期时间
             @SuppressWarnings("unchecked")
             final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
-            final Ro<JwtSignRa> ro = sign(new JwtSignTo(userId, addition));
+            final Ro<JwtSignRa>       ro       = sign(new JwtSignTo(accountId, addition));
             // 如果签名成功，因为是由验证签名的方法调用的，把返回信息改一下。也有可能签名不成功，那就不改了，直接返回什么错误
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 ro.setMsg("验证" + ro.getMsg());

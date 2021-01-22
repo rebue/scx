@@ -1,7 +1,6 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
-
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -62,7 +61,7 @@ public final class RacPermGroupDynamicSqlSupport {
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 
-        public final SqlColumn<Byte> seqNo = column("ORDER_NO", JDBCType.TINYINT);
+        public final SqlColumn<Byte> seqNo = column("SEQ_NO", JDBCType.TINYINT);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

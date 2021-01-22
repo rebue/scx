@@ -1,19 +1,11 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.domainId;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.isEnabled;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.name;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.seqNo;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.racPermGroup;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.remark;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,7 +29,6 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacPermGroupMo;
 
@@ -88,7 +79,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
         @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
-        @Result(column="ORDER_NO", property="seqNo", jdbcType=JdbcType.TINYINT),
+        @Result(column="SEQ_NO", property="seqNo", jdbcType=JdbcType.TINYINT),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     List<RacPermGroupMo> selectMany(SelectStatementProvider selectStatement);

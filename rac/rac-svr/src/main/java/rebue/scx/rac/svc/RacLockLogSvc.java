@@ -1,7 +1,6 @@
 package rebue.scx.rac.svc;
 
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacLockLogJo;
 import rebue.scx.rac.mo.RacLockLogMo;

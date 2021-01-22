@@ -1,12 +1,10 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermUrnDao;
 import rebue.scx.rac.jo.RacPermUrnJo;

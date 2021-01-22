@@ -3,9 +3,7 @@ package rebue.scx.rac.svc;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAccountJo;
@@ -29,7 +27,8 @@ import rebue.scx.rac.to.RacAccountPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacAccountSvc extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+public interface RacAccountSvc
+    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 通过email获取账户信息

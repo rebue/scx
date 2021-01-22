@@ -1,35 +1,11 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.createTimestamp;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isEnabled;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isTester;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.orgId;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.personId;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqAvatar;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqNickname;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqOpenId;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqUnionId;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInAvatar;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInEmail;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInMobile;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInName;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInNickname;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInPswd;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInPswdSalt;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.updateTimestamp;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxAvatar;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxNickname;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxOpenId;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxUnionId;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -53,7 +29,6 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacAccountMo;
 
@@ -62,7 +37,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, personId, orgId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, personId, orgId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, payPswd, payPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -109,6 +84,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         @Result(column="SIGN_IN_EMAIL", property="signInEmail", jdbcType=JdbcType.VARCHAR),
         @Result(column="SIGN_IN_PSWD", property="signInPswd", jdbcType=JdbcType.VARCHAR),
         @Result(column="SIGN_IN_PSWD_SALT", property="signInPswdSalt", jdbcType=JdbcType.CHAR),
+        @Result(column="PAY_PSWD", property="payPswd", jdbcType=JdbcType.VARCHAR),
+        @Result(column="PAY_PSWD_SALT", property="payPswdSalt", jdbcType=JdbcType.CHAR),
         @Result(column="SIGN_IN_NICKNAME", property="signInNickname", jdbcType=JdbcType.VARCHAR),
         @Result(column="SIGN_IN_AVATAR", property="signInAvatar", jdbcType=JdbcType.VARCHAR),
         @Result(column="WX_OPEN_ID", property="wxOpenId", jdbcType=JdbcType.VARCHAR),
@@ -168,6 +145,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .map(signInEmail).toProperty("signInEmail")
             .map(signInPswd).toProperty("signInPswd")
             .map(signInPswdSalt).toProperty("signInPswdSalt")
+            .map(payPswd).toProperty("payPswd")
+            .map(payPswdSalt).toProperty("payPswdSalt")
             .map(signInNickname).toProperty("signInNickname")
             .map(signInAvatar).toProperty("signInAvatar")
             .map(wxOpenId).toProperty("wxOpenId")
@@ -198,6 +177,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .map(signInEmail).toProperty("signInEmail")
             .map(signInPswd).toProperty("signInPswd")
             .map(signInPswdSalt).toProperty("signInPswdSalt")
+            .map(payPswd).toProperty("payPswd")
+            .map(payPswdSalt).toProperty("payPswdSalt")
             .map(signInNickname).toProperty("signInNickname")
             .map(signInAvatar).toProperty("signInAvatar")
             .map(wxOpenId).toProperty("wxOpenId")
@@ -228,6 +209,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .map(signInEmail).toPropertyWhenPresent("signInEmail", record::getSignInEmail)
             .map(signInPswd).toPropertyWhenPresent("signInPswd", record::getSignInPswd)
             .map(signInPswdSalt).toPropertyWhenPresent("signInPswdSalt", record::getSignInPswdSalt)
+            .map(payPswd).toPropertyWhenPresent("payPswd", record::getPayPswd)
+            .map(payPswdSalt).toPropertyWhenPresent("payPswdSalt", record::getPayPswdSalt)
             .map(signInNickname).toPropertyWhenPresent("signInNickname", record::getSignInNickname)
             .map(signInAvatar).toPropertyWhenPresent("signInAvatar", record::getSignInAvatar)
             .map(wxOpenId).toPropertyWhenPresent("wxOpenId", record::getWxOpenId)
@@ -294,6 +277,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
                 .set(signInEmail).equalTo(record::getSignInEmail)
                 .set(signInPswd).equalTo(record::getSignInPswd)
                 .set(signInPswdSalt).equalTo(record::getSignInPswdSalt)
+                .set(payPswd).equalTo(record::getPayPswd)
+                .set(payPswdSalt).equalTo(record::getPayPswdSalt)
                 .set(signInNickname).equalTo(record::getSignInNickname)
                 .set(signInAvatar).equalTo(record::getSignInAvatar)
                 .set(wxOpenId).equalTo(record::getWxOpenId)
@@ -322,6 +307,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
                 .set(signInEmail).equalToWhenPresent(record::getSignInEmail)
                 .set(signInPswd).equalToWhenPresent(record::getSignInPswd)
                 .set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt)
+                .set(payPswd).equalToWhenPresent(record::getPayPswd)
+                .set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt)
                 .set(signInNickname).equalToWhenPresent(record::getSignInNickname)
                 .set(signInAvatar).equalToWhenPresent(record::getSignInAvatar)
                 .set(wxOpenId).equalToWhenPresent(record::getWxOpenId)
@@ -350,6 +337,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .set(signInEmail).equalTo(record::getSignInEmail)
             .set(signInPswd).equalTo(record::getSignInPswd)
             .set(signInPswdSalt).equalTo(record::getSignInPswdSalt)
+            .set(payPswd).equalTo(record::getPayPswd)
+            .set(payPswdSalt).equalTo(record::getPayPswdSalt)
             .set(signInNickname).equalTo(record::getSignInNickname)
             .set(signInAvatar).equalTo(record::getSignInAvatar)
             .set(wxOpenId).equalTo(record::getWxOpenId)
@@ -380,6 +369,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .set(signInEmail).equalToWhenPresent(record::getSignInEmail)
             .set(signInPswd).equalToWhenPresent(record::getSignInPswd)
             .set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt)
+            .set(payPswd).equalToWhenPresent(record::getPayPswd)
+            .set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt)
             .set(signInNickname).equalToWhenPresent(record::getSignInNickname)
             .set(signInAvatar).equalToWhenPresent(record::getSignInAvatar)
             .set(wxOpenId).equalToWhenPresent(record::getWxOpenId)
@@ -411,6 +402,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
             .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
+            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
             .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
@@ -441,6 +434,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
             .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
+            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
             .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
@@ -471,6 +466,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
             .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
+            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
             .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
@@ -515,6 +512,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
             .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+            .and(payPswd, isEqualToWhenPresent(record::getPayPswd))
+            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
             .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
             .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
             .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))

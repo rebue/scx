@@ -7,12 +7,9 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.racDomainAccount;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.racOrgAccount;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.mybatis.dynamic.sql.SqlCriterion;
 import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
 import org.mybatis.dynamic.sql.select.SelectModel;
@@ -20,7 +17,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.BaseSvcImpl;
@@ -56,8 +52,8 @@ import rebue.scx.rac.to.RacAccountPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacAccountSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
+public class RacAccountSvcImpl extends
+    BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
     implements RacAccountSvc {
 
     @Resource
@@ -71,7 +67,7 @@ public class RacAccountSvcImpl
      */
     @Lazy
     @Resource
-    private RacAccountSvc     thisSvc;
+    private RacAccountSvc  thisSvc;
 
     /**
      * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -101,8 +97,11 @@ public class RacAccountSvcImpl
         list.add(and(racAccount.signInEmail, isEqualTo(email)));
         return // list.stream().toArray(SqlCriterion<?>[]::new)))
         // list.stream().toArray(SqlCriterion<?>[]::new)))
-        _mapper.selectOne(c -> c.rightJoin(racDomainAccount).on(racDomainAccount.accountId, equalTo(racAccount.id)).rightJoin(racOrgAccount).on(racOrgAccount.accountId, equalTo(racAccount.id))
-            .where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)), and(racAccount.signInEmail, isEqualTo(email)))).orElse(null);
+        _mapper
+            .selectOne(c -> c.rightJoin(racDomainAccount).on(racDomainAccount.accountId, equalTo(racAccount.id)).rightJoin(racOrgAccount)
+                .on(racOrgAccount.accountId, equalTo(racAccount.id))
+                .where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)), and(racAccount.signInEmail, isEqualTo(email))))
+            .orElse(null);
     }
 
     /**
@@ -116,8 +115,11 @@ public class RacAccountSvcImpl
      */
     @Override
     public RacAccountMo getOneByMobile(final String domainId, final Long orgId, final String mobile) {
-        return _mapper.selectOne(c -> c.rightJoin(racDomainAccount).on(racDomainAccount.accountId, equalTo(racAccount.id)).rightJoin(racOrgAccount).on(racOrgAccount.accountId, equalTo(racAccount.id))
-            .where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)), and(racAccount.signInMobile, isEqualTo(mobile)))).orElse(null);
+        return _mapper
+            .selectOne(c -> c.rightJoin(racDomainAccount).on(racDomainAccount.accountId, equalTo(racAccount.id)).rightJoin(racOrgAccount)
+                .on(racOrgAccount.accountId, equalTo(racAccount.id))
+                .where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)), and(racAccount.signInMobile, isEqualTo(mobile))))
+            .orElse(null);
     }
 
     /**
@@ -136,7 +138,8 @@ public class RacAccountSvcImpl
             if (orgId != null) {
                 join.rightJoin(racOrgAccount).on(racOrgAccount.accountId, equalTo(racAccount.id));
             }
-            return join.where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)), and(racAccount.signInName, isEqualTo(signInName)));
+            return join.where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)),
+                and(racAccount.signInName, isEqualTo(signInName)));
         }).orElse(null);
     }
 

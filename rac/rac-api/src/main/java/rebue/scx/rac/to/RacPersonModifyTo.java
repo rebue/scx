@@ -1,15 +1,11 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 
 /**
@@ -34,29 +30,6 @@ public class RacPersonModifyTo implements Serializable {
     @NotNull(message = "个人ID不能为空")
     @PositiveOrZero(message = "个人ID不能为负数")
     private Long              id;
-
-    /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean           isEnabled;
-
-    /**
-     * 支付密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "支付密码的长度不能大于32")
-    private String            payPswd;
-
-    /**
-     * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 6, message = "支付密码组合码的长度不能大于6")
-    private String            payPswdSalt;
 
     /**
      * 手机
@@ -89,11 +62,11 @@ public class RacPersonModifyTo implements Serializable {
     private Boolean           isVerifiedEmail;
 
     /**
-     * 账户实名
+     * 用户实名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 100, message = "账户实名的长度不能大于100")
+    @Length(max = 100, message = "用户实名的长度不能大于100")
     private String            realName;
 
     /**

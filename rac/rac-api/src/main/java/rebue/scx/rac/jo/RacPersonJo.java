@@ -1,13 +1,11 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,33 +38,6 @@ public class RacPersonJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
-
-    /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "IS_ENABLED", nullable = false, length = 1)
-    private Boolean           isEnabled;
-
-    /**
-     * 支付密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "PAY_PSWD", nullable = true, length = 32)
-    private String            payPswd;
-
-    /**
-     * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "PAY_PSWD_SALT", nullable = true, length = 6)
-    private String            payPswdSalt;
 
     /**
      * 手机
@@ -105,7 +76,7 @@ public class RacPersonJo implements Serializable {
     private Boolean           isVerifiedEmail;
 
     /**
-     * 账户实名
+     * 用户实名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

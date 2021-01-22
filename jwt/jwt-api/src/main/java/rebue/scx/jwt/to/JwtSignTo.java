@@ -24,22 +24,22 @@ public class JwtSignTo implements Serializable {
     private static final long   serialVersionUID = 1L;
 
     /**
-     * 用户ID
+     * 账户ID
      */
-    @NotBlank(message = "用户ID不能为空")
+    @NotBlank(message = "账户ID不能为空")
     @NotNull
-    private String              userId;
+    private String              accountId;
 
     /**
-     * 用户的附加信息
+     * 账户的附加信息
      */
     private Map<String, Object> addition;
 
     /**
      * FIXME 不知道为何@RequiredArgsConstructor未生效
      */
-    public JwtSignTo(String userId) {
-        this.userId = userId;
+    public JwtSignTo(String accountId) {
+        this.accountId = accountId;
     }
 
 }

@@ -15,7 +15,7 @@ public interface JwtApi {
      * JWT签名
      * 
      * @param to
-     *            签名中储存的用户信息
+     *            签名中储存的账户信息
      */
     Ro<JwtSignRa> sign(@Valid JwtSignTo to);
 

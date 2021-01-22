@@ -1,7 +1,6 @@
 package rebue.scx.rac.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAccountApi;
@@ -23,7 +22,8 @@ import rebue.scx.rac.to.RacAccountPageTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc> implements RacAccountApi {
+    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+    implements RacAccountApi {
 
     /**
      * 获取当前账户信息

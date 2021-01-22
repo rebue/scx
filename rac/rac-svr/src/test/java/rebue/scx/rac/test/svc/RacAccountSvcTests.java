@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.svc.RacAccountSvc;
@@ -37,7 +35,7 @@ public class RacAccountSvcTests {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
-    private Mapper     dozerMapper;
+    private Mapper        dozerMapper;
 
     /**
      * 测试基本的增删改查
