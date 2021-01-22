@@ -47,21 +47,21 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private String            sysId;
 
     /**
-     * 锁定用户的用户ID
+     * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "锁定用户的用户ID不能为空")
-    @PositiveOrZero(message = "锁定用户的用户ID不能为负数")
-    private Long              lockUserId;
+    @NotNull(groups = AddGroup.class, message = "锁定账户的账户ID不能为空")
+    @PositiveOrZero(message = "锁定账户的账户ID不能为负数")
+    private Long              lockAccountId;
 
     /**
-     * 锁定操作员的用户ID
+     * 锁定操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "锁定操作员的用户ID不能为空")
-    @PositiveOrZero(message = "锁定操作员的用户ID不能为负数")
+    @NotNull(groups = AddGroup.class, message = "锁定操作员的账户ID不能为空")
+    @PositiveOrZero(message = "锁定操作员的账户ID不能为负数")
     private Long              lockOpId;
 
     /**
@@ -102,11 +102,11 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private LocalDateTime     unlockDatetime;
 
     /**
-     * 解锁操作员的用户ID
+     * 解锁操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "解锁操作员的用户ID不能为负数")
+    @PositiveOrZero(message = "解锁操作员的账户ID不能为负数")
     private Long              unlockOpId;
 
     /**
@@ -115,22 +115,22 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 锁定操作员的用户
+     * 锁定操作员的账户
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter
-    private RacUserMo         lockOp;
+    private RacAccountMo         lockOp;
 
     /**
-     * 锁定用户的用户
+     * 锁定账户的账户
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter
-    private RacUserMo         lockUser;
+    private RacAccountMo         lockAccount;
 
     /**
      * 系统
@@ -142,13 +142,13 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private RacSysMo          sys;
 
     /**
-     * 解锁操作员的用户
+     * 解锁操作员的账户
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter
-    private RacUserMo         unlockOp;
+    private RacAccountMo         unlockOp;
 
     /**
      * 锁定日志ID
@@ -187,25 +187,25 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 锁定用户的用户ID
+     * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public Long getLockUserId() {
-        return lockUserId;
+    public Long getLockAccountId() {
+        return lockAccountId;
     }
 
     /**
-     * 锁定用户的用户ID
+     * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockUserId(Long lockUserId) {
-        this.lockUserId = lockUserId;
+    public void setLockAccountId(Long lockAccountId) {
+        this.lockAccountId = lockAccountId;
     }
 
     /**
-     * 锁定操作员的用户ID
+     * 锁定操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -214,7 +214,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 锁定操作员的用户ID
+     * 锁定操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -295,7 +295,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 解锁操作员的用户ID
+     * 解锁操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -304,7 +304,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 解锁操作员的用户ID
+     * 解锁操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -323,7 +323,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", sysId=").append(sysId);
-        sb.append(", lockUserId=").append(lockUserId);
+        sb.append(", lockAccountId=").append(lockAccountId);
         sb.append(", lockOpId=").append(lockOpId);
         sb.append(", lockReason=").append(lockReason);
         sb.append(", lockDatetime=").append(lockDatetime);

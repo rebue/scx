@@ -15,7 +15,7 @@ import rebue.scx.rac.to.RacDomainPageTo;
  */
 public interface RacDomainApi extends BaseApi<java.lang.String, RacDomainAddTo, RacDomainModifyTo, RacDomainPageTo, RacDomainMo> {
     /**
-     * 通过用户名称登录
+     * 查询所有记录
      */
     Ro<ListRa<RacDomainMo>> listAll();
 

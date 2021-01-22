@@ -81,22 +81,22 @@ public class RacLockLogJo implements Serializable {
     private LocalDateTime     unlockDatetime;
 
     /**
-     * 锁定操作员的用户
+     * 锁定操作员的账户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @JoinColumn(name = "LOCK_OP_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacUserJo         lockOp;
+    private RacAccountJo         lockOp;
 
     /**
-     * 锁定用户的用户
+     * 锁定账户的账户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "LOCK_USER_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "LOCK_ACCOUNT_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacUserJo         lockUser;
+    private RacAccountJo         lockAccount;
 
     /**
      * 系统
@@ -108,13 +108,13 @@ public class RacLockLogJo implements Serializable {
     private RacSysJo          sys;
 
     /**
-     * 解锁操作员的用户
+     * 解锁操作员的账户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @JoinColumn(name = "UNLOCK_OP_ID", referencedColumnName = "ID")
     @ManyToOne()
-    private RacUserJo         unlockOp;
+    private RacAccountJo         unlockOp;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

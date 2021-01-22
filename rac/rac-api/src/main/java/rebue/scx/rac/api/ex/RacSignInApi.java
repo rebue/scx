@@ -6,10 +6,10 @@ import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.to.ex.SignInByUserNameTo;
+import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 
 /**
- * 用户登录API
+ * 账户登录API
  * 
  * Validated注解按规范应该写在接口上
  *
@@ -20,8 +20,8 @@ import rebue.scx.rac.to.ex.SignInByUserNameTo;
 public interface RacSignInApi {
 
     /**
-     * 通过用户名称登录
+     * 通过账户名称登录
      */
-    Ro<SignUpOrInRa> signInByUserName(@Valid SignInByUserNameTo to);
+    Ro<SignUpOrInRa> signInByAccountName(@Valid SignInByAccountNameTo to);
 
 }

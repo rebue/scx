@@ -8,10 +8,10 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.ex.RacSignUpSvc;
-import rebue.scx.rac.to.ex.SignUpByUserNameTo;
+import rebue.scx.rac.to.ex.SignUpByAccountNameTo;
 
 /**
- * 用户注册API的实现类
+ * 账户注册API的实现类
  */
 @DubboService
 public class RacSignUpApiImpl implements RacSignUpApi {
@@ -20,11 +20,11 @@ public class RacSignUpApiImpl implements RacSignUpApi {
     private RacSignUpSvc svc;
 
     /**
-     * 通过用户名称注册
+     * 通过账户名称注册
      */
     @Override
-    public Ro<SignUpOrInRa> signUpByUserName(final SignUpByUserNameTo to) {
-        return svc.signUpByUserName(to);
+    public Ro<SignUpOrInRa> signUpByAccountName(final SignUpByAccountNameTo to) {
+        return svc.signUpByAccountName(to);
     }
 
 }

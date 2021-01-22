@@ -12,7 +12,7 @@ import lombok.ToString;
 import rebue.robotech.ra.IdRa;
 
 /**
- * 用户注册或登录返回的结果
+ * 账户注册或登录返回的结果
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

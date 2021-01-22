@@ -105,7 +105,7 @@ public class RacPersonJo implements Serializable {
     private Boolean           isVerifiedEmail;
 
     /**
-     * 用户实名
+     * 账户实名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

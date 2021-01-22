@@ -7,7 +7,7 @@ import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.groupId;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.name;
-import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.orderNo;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.seqNo;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.remark;
 
@@ -47,7 +47,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, groupId, name, isEnabled, orderNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, groupId, name, isEnabled, seqNo, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -90,7 +90,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
         @Result(column="GROUP_ID", property="groupId", jdbcType=JdbcType.BIGINT),
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
-        @Result(column="ORDER_NO", property="orderNo", jdbcType=JdbcType.TINYINT),
+        @Result(column="ORDER_NO", property="seqNo", jdbcType=JdbcType.TINYINT),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     List<RacPermMo> selectMany(SelectStatementProvider selectStatement);
@@ -134,7 +134,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .map(groupId).toProperty("groupId")
             .map(name).toProperty("name")
             .map(isEnabled).toProperty("isEnabled")
-            .map(orderNo).toProperty("orderNo")
+            .map(seqNo).toProperty("seqNo")
             .map(remark).toProperty("remark")
         );
     }
@@ -149,7 +149,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .map(groupId).toProperty("groupId")
             .map(name).toProperty("name")
             .map(isEnabled).toProperty("isEnabled")
-            .map(orderNo).toProperty("orderNo")
+            .map(seqNo).toProperty("seqNo")
             .map(remark).toProperty("remark")
         );
     }
@@ -164,7 +164,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .map(groupId).toPropertyWhenPresent("groupId", record::getGroupId)
             .map(name).toPropertyWhenPresent("name", record::getName)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
-            .map(orderNo).toPropertyWhenPresent("orderNo", record::getOrderNo)
+            .map(seqNo).toPropertyWhenPresent("seqNo", record::getSeqNo)
             .map(remark).toPropertyWhenPresent("remark", record::getRemark)
         );
     }
@@ -215,7 +215,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
                 .set(groupId).equalTo(record::getGroupId)
                 .set(name).equalTo(record::getName)
                 .set(isEnabled).equalTo(record::getIsEnabled)
-                .set(orderNo).equalTo(record::getOrderNo)
+                .set(seqNo).equalTo(record::getSeqNo)
                 .set(remark).equalTo(record::getRemark);
     }
 
@@ -228,7 +228,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
                 .set(groupId).equalToWhenPresent(record::getGroupId)
                 .set(name).equalToWhenPresent(record::getName)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-                .set(orderNo).equalToWhenPresent(record::getOrderNo)
+                .set(seqNo).equalToWhenPresent(record::getSeqNo)
                 .set(remark).equalToWhenPresent(record::getRemark);
     }
 
@@ -241,7 +241,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .set(groupId).equalTo(record::getGroupId)
             .set(name).equalTo(record::getName)
             .set(isEnabled).equalTo(record::getIsEnabled)
-            .set(orderNo).equalTo(record::getOrderNo)
+            .set(seqNo).equalTo(record::getSeqNo)
             .set(remark).equalTo(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -256,7 +256,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .set(groupId).equalToWhenPresent(record::getGroupId)
             .set(name).equalToWhenPresent(record::getName)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-            .set(orderNo).equalToWhenPresent(record::getOrderNo)
+            .set(seqNo).equalToWhenPresent(record::getSeqNo)
             .set(remark).equalToWhenPresent(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -272,7 +272,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -287,7 +287,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -302,7 +302,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -331,7 +331,7 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
             .and(groupId, isEqualToWhenPresent(record::getGroupId))
             .and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }

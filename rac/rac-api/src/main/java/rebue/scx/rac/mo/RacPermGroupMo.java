@@ -67,7 +67,7 @@ public class RacPermGroupMo implements Serializable, Mo<Long> {
      */
     @NotNull(groups = AddGroup.class, message = "顺序号不能为空")
     @PositiveOrZero(message = "顺序号不能为负数")
-    private Byte              orderNo;
+    private Byte              seqNo;
 
     /**
      * 权限分组备注
@@ -168,8 +168,8 @@ public class RacPermGroupMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public Byte getOrderNo() {
-        return orderNo;
+    public Byte getSeqNo() {
+        return seqNo;
     }
 
     /**
@@ -177,8 +177,8 @@ public class RacPermGroupMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOrderNo(Byte orderNo) {
-        this.orderNo = orderNo;
+    public void setSeqNo(Byte seqNo) {
+        this.seqNo = seqNo;
     }
 
     /**
@@ -212,7 +212,7 @@ public class RacPermGroupMo implements Serializable, Mo<Long> {
         sb.append(", domainId=").append(domainId);
         sb.append(", name=").append(name);
         sb.append(", isEnabled=").append(isEnabled);
-        sb.append(", orderNo=").append(orderNo);
+        sb.append(", seqNo=").append(seqNo);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

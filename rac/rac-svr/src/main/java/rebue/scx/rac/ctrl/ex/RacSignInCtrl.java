@@ -14,10 +14,10 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.to.ex.SignInByUserNameTo;
+import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 
 /**
- * 用户登录的控制器
+ * 账户登录的控制器
  */
 @RestController
 public class RacSignInCtrl {
@@ -26,12 +26,12 @@ public class RacSignInCtrl {
     private RacSignInApi api;
 
     /**
-     * 通过用户名称登录
+     * 通过账户名称登录
      */
-    @PostMapping("/rac/sign-in/sign-in-by-user-name")
-    public Mono<Ro<SignUpOrInRa>> signInByUserName(@RequestBody final SignInByUserNameTo to, HttpServletResponse resp) {
+    @PostMapping("/rac/sign-in/sign-in-by-account-name")
+    public Mono<Ro<SignUpOrInRa>> signInByAccountName(@RequestBody final SignInByAccountNameTo to, HttpServletResponse resp) {
         return Mono.create(callback -> {
-            Ro<SignUpOrInRa> ro = api.signInByUserName(to);
+            Ro<SignUpOrInRa> ro = api.signInByAccountName(to);
             if (ResultDic.SUCCESS.equals(ro.getResult()))
                 jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
             callback.success(ro);

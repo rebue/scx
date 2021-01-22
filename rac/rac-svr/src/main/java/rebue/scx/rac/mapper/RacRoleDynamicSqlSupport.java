@@ -44,7 +44,7 @@ public final class RacRoleDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Byte> orderNo = racRole.orderNo;
+    public static final SqlColumn<Byte> seqNo = racRole.seqNo;
 
     /**
     * 角色备注
@@ -62,7 +62,7 @@ public final class RacRoleDynamicSqlSupport {
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 
-        public final SqlColumn<Byte> orderNo = column("ORDER_NO", JDBCType.TINYINT);
+        public final SqlColumn<Byte> seqNo = column("ORDER_NO", JDBCType.TINYINT);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

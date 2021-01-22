@@ -64,7 +64,7 @@ public class RacPermGroupModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "顺序号不能为负数")
-    private Byte              orderNo;
+    private Byte              seqNo;
 
     /**
      * 权限分组备注

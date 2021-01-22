@@ -86,11 +86,11 @@ public class RacPersonMo implements Serializable, Mo<Long> {
     private Boolean           isVerifiedEmail;
 
     /**
-     * 用户实名
+     * 账户实名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 100, message = "用户实名的长度不能大于100")
+    @Length(max = 100, message = "账户实名的长度不能大于100")
     private String            realName;
 
     /**
@@ -291,7 +291,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户实名
+     * 账户实名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -300,7 +300,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户实名
+     * 账户实名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

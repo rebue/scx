@@ -5,7 +5,7 @@ import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.racPermMenu;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
 import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.racRolePerm;
-import static rebue.scx.rac.mapper.RacUserRoleDynamicSqlSupport.racUserRole;
+import static rebue.scx.rac.mapper.RacAccountRoleDynamicSqlSupport.racAccountRole;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,23 +68,23 @@ public class RacPermMenuSvcImpl extends
     }
 
     /**
-     * 获取用户的菜单列表
+     * 获取账户的菜单列表
      *
-     * @param userId 用户ID
+     * @param accountId 账户ID
      * @param sysId  系统ID
      *
-     * @return 指定用户的菜单列表
+     * @return 指定账户的菜单列表
      */
     @Override
-    public List<String> getMenusOfUser(final Long userId, final String sysId) {
+    public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
         final List<RacPermMenuMo> list = _mapper.select(c -> c
                 .rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
                 .rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
                 .rightJoin(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
-                .rightJoin(racUserRole).on(racUserRole.roleId, equalTo(racRole.id))
+                .rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
                 .where(
                         racPermMenu.sysId, isEqualTo(sysId),
-                        and(racUserRole.userId, isEqualTo(userId)),
+                        and(racAccountRole.accountId, isEqualTo(accountId)),
                         and(racPerm.isEnabled, isTrue()),
                         and(racRole.isEnabled, isTrue())));
         return list.stream().map(item -> item.getMenuUrn()).distinct().collect(Collectors.toList());

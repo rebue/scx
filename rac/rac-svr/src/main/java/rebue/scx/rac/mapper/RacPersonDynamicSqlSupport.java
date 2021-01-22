@@ -68,7 +68,7 @@ public final class RacPersonDynamicSqlSupport {
     public static final SqlColumn<Boolean> isVerifiedEmail = racPerson.isVerifiedEmail;
 
     /**
-    * 用户实名
+    * 账户实名
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */

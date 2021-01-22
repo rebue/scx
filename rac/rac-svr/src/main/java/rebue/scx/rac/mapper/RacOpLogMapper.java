@@ -9,7 +9,7 @@ import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.opTitle;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.opType;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.racOpLog;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.sysId;
-import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.userId;
+import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.accountId;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +47,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, userId, opType, opTitle, opDetail, opDatetime);
+    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, accountId, opType, opTitle, opDetail, opDatetime);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -87,7 +87,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     @Results(id="RacOpLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.BIGINT),
+        @Result(column="ACCOUNT_ID", property="accountId", jdbcType=JdbcType.BIGINT),
         @Result(column="OP_TYPE", property="opType", jdbcType=JdbcType.VARCHAR),
         @Result(column="OP_TITLE", property="opTitle", jdbcType=JdbcType.VARCHAR),
         @Result(column="OP_DETAIL", property="opDetail", jdbcType=JdbcType.VARCHAR),
@@ -131,7 +131,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return MyBatis3Utils.insert(this::insert, record, racOpLog, c ->
             c.map(id).toProperty("id")
             .map(sysId).toProperty("sysId")
-            .map(userId).toProperty("userId")
+            .map(accountId).toProperty("accountId")
             .map(opType).toProperty("opType")
             .map(opTitle).toProperty("opTitle")
             .map(opDetail).toProperty("opDetail")
@@ -146,7 +146,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOpLog, c ->
             c.map(id).toProperty("id")
             .map(sysId).toProperty("sysId")
-            .map(userId).toProperty("userId")
+            .map(accountId).toProperty("accountId")
             .map(opType).toProperty("opType")
             .map(opTitle).toProperty("opTitle")
             .map(opDetail).toProperty("opDetail")
@@ -161,7 +161,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return MyBatis3Utils.insert(this::insert, record, racOpLog, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
-            .map(userId).toPropertyWhenPresent("userId", record::getUserId)
+            .map(accountId).toPropertyWhenPresent("accountId", record::getAccountId)
             .map(opType).toPropertyWhenPresent("opType", record::getOpType)
             .map(opTitle).toPropertyWhenPresent("opTitle", record::getOpTitle)
             .map(opDetail).toPropertyWhenPresent("opDetail", record::getOpDetail)
@@ -212,7 +212,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     static UpdateDSL<UpdateModel> updateAllColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(sysId).equalTo(record::getSysId)
-                .set(userId).equalTo(record::getUserId)
+                .set(accountId).equalTo(record::getAccountId)
                 .set(opType).equalTo(record::getOpType)
                 .set(opTitle).equalTo(record::getOpTitle)
                 .set(opDetail).equalTo(record::getOpDetail)
@@ -225,7 +225,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(sysId).equalToWhenPresent(record::getSysId)
-                .set(userId).equalToWhenPresent(record::getUserId)
+                .set(accountId).equalToWhenPresent(record::getAccountId)
                 .set(opType).equalToWhenPresent(record::getOpType)
                 .set(opTitle).equalToWhenPresent(record::getOpTitle)
                 .set(opDetail).equalToWhenPresent(record::getOpDetail)
@@ -238,7 +238,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default int updateByPrimaryKey(RacOpLogMo record) {
         return update(c ->
             c.set(sysId).equalTo(record::getSysId)
-            .set(userId).equalTo(record::getUserId)
+            .set(accountId).equalTo(record::getAccountId)
             .set(opType).equalTo(record::getOpType)
             .set(opTitle).equalTo(record::getOpTitle)
             .set(opDetail).equalTo(record::getOpDetail)
@@ -253,7 +253,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     default int updateByPrimaryKeySelective(RacOpLogMo record) {
         return update(c ->
             c.set(sysId).equalToWhenPresent(record::getSysId)
-            .set(userId).equalToWhenPresent(record::getUserId)
+            .set(accountId).equalToWhenPresent(record::getAccountId)
             .set(opType).equalToWhenPresent(record::getOpType)
             .set(opTitle).equalToWhenPresent(record::getOpTitle)
             .set(opDetail).equalToWhenPresent(record::getOpDetail)
@@ -269,7 +269,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
@@ -284,7 +284,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
@@ -299,7 +299,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))
@@ -328,7 +328,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(sysId, isEqualToWhenPresent(record::getSysId))
-            .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(opType, isEqualToWhenPresent(record::getOpType))
             .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
             .and(opDetail, isEqualToWhenPresent(record::getOpDetail))

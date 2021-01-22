@@ -47,13 +47,13 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     private String            sysId;
 
     /**
-     * 用户ID
+     * 账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "用户ID不能为空")
-    @PositiveOrZero(message = "用户ID不能为负数")
-    private Long              userId;
+    @NotNull(groups = AddGroup.class, message = "账户ID不能为空")
+    @PositiveOrZero(message = "账户ID不能为负数")
+    private Long              accountId;
 
     /**
      * 操作类型
@@ -107,13 +107,13 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     private RacSysMo          sys;
 
     /**
-     * 用户
+     * 账户
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter
-    private RacUserMo         user;
+    private RacAccountMo         account;
 
     /**
      * 操作日志ID
@@ -152,21 +152,21 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 用户ID
+     * 账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public Long getUserId() {
-        return userId;
+    public Long getAccountId() {
+        return accountId;
     }
 
     /**
-     * 用户ID
+     * 账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
     /**
@@ -252,7 +252,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", sysId=").append(sysId);
-        sb.append(", userId=").append(userId);
+        sb.append(", accountId=").append(accountId);
         sb.append(", opType=").append(opType);
         sb.append(", opTitle=").append(opTitle);
         sb.append(", opDetail=").append(opDetail);

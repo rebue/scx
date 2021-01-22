@@ -27,14 +27,14 @@ public final class RacLockLogDynamicSqlSupport {
     public static final SqlColumn<String> sysId = racLockLog.sysId;
 
     /**
-    * 锁定用户的用户ID
+    * 锁定账户的账户ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> lockUserId = racLockLog.lockUserId;
+    public static final SqlColumn<Long> lockAccountId = racLockLog.lockAccountId;
 
     /**
-    * 锁定操作员的用户ID
+    * 锁定操作员的账户ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
@@ -69,7 +69,7 @@ public final class RacLockLogDynamicSqlSupport {
     public static final SqlColumn<LocalDateTime> unlockDatetime = racLockLog.unlockDatetime;
 
     /**
-    * 解锁操作员的用户ID
+    * 解锁操作员的账户ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
@@ -80,7 +80,7 @@ public final class RacLockLogDynamicSqlSupport {
 
         public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
 
-        public final SqlColumn<Long> lockUserId = column("LOCK_USER_ID", JDBCType.BIGINT);
+        public final SqlColumn<Long> lockAccountId = column("LOCK_ACCOUNT_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> lockOpId = column("LOCK_OP_ID", JDBCType.BIGINT);
 

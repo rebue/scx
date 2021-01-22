@@ -6,7 +6,7 @@ import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.name;
-import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.orderNo;
+import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.seqNo;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.remark;
 
@@ -46,7 +46,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, isEnabled, orderNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, isEnabled, seqNo, remark);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,7 +88,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
         @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
-        @Result(column="ORDER_NO", property="orderNo", jdbcType=JdbcType.TINYINT),
+        @Result(column="ORDER_NO", property="seqNo", jdbcType=JdbcType.TINYINT),
         @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     List<RacRoleMo> selectMany(SelectStatementProvider selectStatement);
@@ -131,7 +131,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             .map(name).toProperty("name")
             .map(domainId).toProperty("domainId")
             .map(isEnabled).toProperty("isEnabled")
-            .map(orderNo).toProperty("orderNo")
+            .map(seqNo).toProperty("seqNo")
             .map(remark).toProperty("remark")
         );
     }
@@ -145,7 +145,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             .map(name).toProperty("name")
             .map(domainId).toProperty("domainId")
             .map(isEnabled).toProperty("isEnabled")
-            .map(orderNo).toProperty("orderNo")
+            .map(seqNo).toProperty("seqNo")
             .map(remark).toProperty("remark")
         );
     }
@@ -159,7 +159,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             .map(name).toPropertyWhenPresent("name", record::getName)
             .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
-            .map(orderNo).toPropertyWhenPresent("orderNo", record::getOrderNo)
+            .map(seqNo).toPropertyWhenPresent("seqNo", record::getSeqNo)
             .map(remark).toPropertyWhenPresent("remark", record::getRemark)
         );
     }
@@ -209,7 +209,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
                 .set(name).equalTo(record::getName)
                 .set(domainId).equalTo(record::getDomainId)
                 .set(isEnabled).equalTo(record::getIsEnabled)
-                .set(orderNo).equalTo(record::getOrderNo)
+                .set(seqNo).equalTo(record::getSeqNo)
                 .set(remark).equalTo(record::getRemark);
     }
 
@@ -221,7 +221,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
                 .set(name).equalToWhenPresent(record::getName)
                 .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-                .set(orderNo).equalToWhenPresent(record::getOrderNo)
+                .set(seqNo).equalToWhenPresent(record::getSeqNo)
                 .set(remark).equalToWhenPresent(record::getRemark);
     }
 
@@ -233,7 +233,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             c.set(name).equalTo(record::getName)
             .set(domainId).equalTo(record::getDomainId)
             .set(isEnabled).equalTo(record::getIsEnabled)
-            .set(orderNo).equalTo(record::getOrderNo)
+            .set(seqNo).equalTo(record::getSeqNo)
             .set(remark).equalTo(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -247,7 +247,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             c.set(name).equalToWhenPresent(record::getName)
             .set(domainId).equalToWhenPresent(record::getDomainId)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-            .set(orderNo).equalToWhenPresent(record::getOrderNo)
+            .set(seqNo).equalToWhenPresent(record::getSeqNo)
             .set(remark).equalToWhenPresent(record::getRemark)
             .where(id, isEqualTo(record::getId))
         );
@@ -262,7 +262,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -276,7 +276,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -290,7 +290,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
@@ -318,7 +318,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
             .and(name, isEqualToWhenPresent(record::getName))
             .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(orderNo, isEqualToWhenPresent(record::getOrderNo))
+            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }

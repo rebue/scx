@@ -68,7 +68,7 @@ public class RacPermGroupJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "ORDER_NO", nullable = false, length = 3)
-    private Byte              orderNo;
+    private Byte              seqNo;
 
     /**
      * 权限分组备注

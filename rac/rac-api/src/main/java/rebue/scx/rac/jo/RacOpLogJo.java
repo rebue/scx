@@ -90,13 +90,13 @@ public class RacOpLogJo implements Serializable {
     private RacSysJo          sys;
 
     /**
-     * 用户
+     * 账户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacUserJo         user;
+    private RacAccountJo         account;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

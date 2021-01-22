@@ -40,21 +40,21 @@ public class RacLockLogAddTo implements Serializable {
     private String            sysId;
 
     /**
-     * 锁定用户的用户ID
+     * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "锁定用户的用户ID不能为空")
-    @PositiveOrZero(message = "锁定用户的用户ID不能为负数")
-    private Long              lockUserId;
+    @NotNull(message = "锁定账户的账户ID不能为空")
+    @PositiveOrZero(message = "锁定账户的账户ID不能为负数")
+    private Long              lockAccountId;
 
     /**
-     * 锁定操作员的用户ID
+     * 锁定操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "锁定操作员的用户ID不能为空")
-    @PositiveOrZero(message = "锁定操作员的用户ID不能为负数")
+    @NotNull(message = "锁定操作员的账户ID不能为空")
+    @PositiveOrZero(message = "锁定操作员的账户ID不能为负数")
     private Long              lockOpId;
 
     /**
@@ -95,10 +95,10 @@ public class RacLockLogAddTo implements Serializable {
     private LocalDateTime     unlockDatetime;
 
     /**
-     * 解锁操作员的用户ID
+     * 解锁操作员的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "解锁操作员的用户ID不能为负数")
+    @PositiveOrZero(message = "解锁操作员的账户ID不能为负数")
     private Long              unlockOpId;
 }

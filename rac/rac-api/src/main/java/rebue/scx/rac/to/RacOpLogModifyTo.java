@@ -47,12 +47,12 @@ public class RacOpLogModifyTo implements Serializable {
     private String            sysId;
 
     /**
-     * 用户ID
+     * 账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "用户ID不能为负数")
-    private Long              userId;
+    @PositiveOrZero(message = "账户ID不能为负数")
+    private Long              accountId;
 
     /**
      * 操作类型

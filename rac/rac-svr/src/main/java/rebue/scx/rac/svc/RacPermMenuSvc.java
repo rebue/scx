@@ -28,5 +28,5 @@ import rebue.scx.rac.to.RacPermMenuPageTo;
 public interface RacPermMenuSvc
     extends BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
 
-    List<String> getMenusOfUser(Long userId, String sysId);
+    List<String> getMenusOfAccount(Long accountId, String sysId);
 }

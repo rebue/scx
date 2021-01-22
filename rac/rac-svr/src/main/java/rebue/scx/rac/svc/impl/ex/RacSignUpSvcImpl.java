@@ -18,13 +18,13 @@ import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacSysSvc;
-import rebue.scx.rac.svc.RacUserSvc;
+import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.ex.RacSignUpSvc;
-import rebue.scx.rac.to.RacUserAddTo;
-import rebue.scx.rac.to.ex.SignUpByUserNameTo;
+import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.ex.SignUpByAccountNameTo;
 
 /**
- * API用户注册服务的实现类
+ * API账户注册服务的实现类
  *
  * <pre>
  * 注意：
@@ -46,7 +46,7 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
     private JwtApi     jwtApi;
 
     @Resource
-    private RacUserSvc userSvc;
+    private RacAccountSvc accountSvc;
     @Resource
     private RacSysSvc  sysSvc;
 
@@ -54,40 +54,40 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
     private Mapper     dozerMapper;
 
     /**
-     * 通过用户名称注册
+     * 通过账户名称注册
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<SignUpOrInRa> signUpByUserName(final SignUpByUserNameTo to) {
+    public Ro<SignUpOrInRa> signUpByAccountName(final SignUpByAccountNameTo to) {
         log.info("根据系统ID获取系统信息");
         final RacSysMo sysMo = sysSvc.getById(to.getSysId());
         if (sysMo == null) {
             return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
         }
 
-        // 添加用户
-        final RacUserAddTo addTo = dozerMapper.map(to, RacUserAddTo.class);
+        // 添加账户
+        final RacAccountAddTo addTo = dozerMapper.map(to, RacAccountAddTo.class);
         addTo.setUpdateTimestamp(System.currentTimeMillis());
-        final Long userId = userSvc.add(addTo);
+        final Long accountId = accountSvc.add(addTo);
 
         // 如果添加成功，JWT签名
-        if (userId != null) {
-            final JwtSignTo     signTo = new JwtSignTo(userId.toString());
+        if (accountId != null) {
+            final JwtSignTo     signTo = new JwtSignTo(accountId.toString());
             final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
             if (ResultDic.SUCCESS.equals(signRo.getResult())) {
                 final SignUpOrInRa ra = new SignUpOrInRa(
-                    userId,
+                    accountId,
                     signRo.getExtra().getSign(),
                     signRo.getExtra().getExpirationTime(),
                     sysMo.getIndexUrn());
-                return new Ro<>(ResultDic.SUCCESS, "注册用户成功", ra);
+                return new Ro<>(ResultDic.SUCCESS, "注册账户成功", ra);
             }
             else {
                 return new Ro<>(ResultDic.FAIL, "JWT签名失败");
             }
         }
         else {
-            return new Ro<>(ResultDic.FAIL, "添加用户失败");
+            return new Ro<>(ResultDic.FAIL, "添加账户失败");
         }
 
     }

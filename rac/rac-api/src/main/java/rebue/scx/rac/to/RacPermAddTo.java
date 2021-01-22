@@ -69,7 +69,7 @@ public class RacPermAddTo implements Serializable {
      */
     @NotNull(message = "顺序号不能为空")
     @PositiveOrZero(message = "顺序号不能为负数")
-    private Byte              orderNo;
+    private Byte              seqNo;
 
     /**
      * 权限备注

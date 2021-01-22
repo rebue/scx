@@ -10,11 +10,11 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.to.ex.SignUpByUserNameTo;
+import rebue.scx.rac.to.ex.SignUpByAccountNameTo;
 import rebue.wheel.turing.DigestUtils;
 
 /**
- * 用户注册测试
+ * 账户注册测试
  */
 @Slf4j
 @SpringBootTest
@@ -27,24 +27,24 @@ public class RacSignUpApiTests {
     private RacSignUpApi _api;
 
     /**
-     * 测试通过用户名称注册
+     * 测试通过账户名称注册
      */
     @Test
-    public void testSignUpByUserName() {
-        Ro<SignUpOrInRa> ro = _api.signUpByUserName(null);
-        log.info("通过用户名称注册的返回值为: {}", ro);
+    public void testSignUpByAccountName() {
+        Ro<SignUpOrInRa> ro = _api.signUpByAccountName(null);
+        log.info("通过账户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
-        final SignUpByUserNameTo to = new SignUpByUserNameTo();
-        to.setUserName("admin");
+        final SignUpByAccountNameTo to = new SignUpByAccountNameTo();
+        to.setAccountName("admin");
         to.setSysId("rebue-platform");
-        log.info("测试通过用户名称注册，缺少登录密码: to-{}", to);
-        ro = _api.signUpByUserName(to);
-        log.info("通过用户名称注册的返回值为: {}", ro);
+        log.info("测试通过账户名称注册，缺少登录密码: to-{}", to);
+        ro = _api.signUpByAccountName(to);
+        log.info("通过账户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
-        log.info("测试通过用户名称注册: to-{}", to);
-        ro = _api.signUpByUserName(to);
-        log.info("通过用户名称注册的返回值为: {}", ro);
+        log.info("测试通过账户名称注册: to-{}", to);
+        ro = _api.signUpByAccountName(to);
+        log.info("通过账户名称注册的返回值为: {}", ro);
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
     }
 }

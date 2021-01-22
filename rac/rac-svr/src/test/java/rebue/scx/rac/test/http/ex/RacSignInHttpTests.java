@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.to.ex.SignInByUserNameTo;
+import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.wheel.JacksonUtils;
 import rebue.wheel.http.HttpClient;
 import rebue.wheel.http.impl.OkHttpClientImpl;
@@ -29,51 +29,51 @@ public class RacSignInHttpTests {
     private final HttpClient _httpClient = new OkHttpClientImpl();
 
     /**
-     * 测试通过用户名称登录
+     * 测试通过账户名称登录
      */
     @Test
-    public void testSignInByUserName() throws IOException {
+    public void testSignInByAccountName() throws IOException {
         log.info("测试错误的系统ID");
-        SignInByUserNameTo to = new SignInByUserNameTo();
+        SignInByAccountNameTo to = new SignInByAccountNameTo();
         to.setSysId("aaa");
-        to.setUserName("admin");
+        to.setAccountName("admin");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
-        Ro<SignUpOrInRa> ro = signInByUserName(to);
+        Ro<SignUpOrInRa> ro = signInByAccountName(to);
         Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
         Assertions.assertEquals("未发现此系统信息: aaa", ro.getMsg());
 
-        log.info("测试找不到此用户");
-        to = new SignInByUserNameTo();
+        log.info("测试找不到此账户");
+        to = new SignInByAccountNameTo();
         to.setSysId("platform-admin-web");
-        to.setUserName("admin@qq.com");
+        to.setAccountName("admin@qq.com");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
-        ro = signInByUserName(to);
+        ro = signInByAccountName(to);
         Assertions.assertEquals(ResultDic.WARN, ro.getResult());
-        Assertions.assertEquals("找不到此用户: admin@qq.com", ro.getMsg());
+        Assertions.assertEquals("找不到此账户: admin@qq.com", ro.getMsg());
 
-        log.info("测试admin用户登录:错误的密码");
-        to = new SignInByUserNameTo();
+        log.info("测试admin账户登录:错误的密码");
+        to = new SignInByAccountNameTo();
         to.setSysId("platform-admin-web");
-        to.setUserName("admin");
+        to.setAccountName("admin");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("95271".getBytes()));
-        ro = signInByUserName(to);
+        ro = signInByAccountName(to);
         Assertions.assertEquals(ResultDic.WARN, ro.getResult());
         Assertions.assertTrue(ro.getMsg().startsWith("密码错误"));
 
-        log.info("测试admin用户登录:正确的密码");
+        log.info("测试admin账户登录:正确的密码");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
-        ro = signInByUserName(to);
+        ro = signInByAccountName(to);
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
     }
 
-    private Ro<SignUpOrInRa> signInByUserName(final SignInByUserNameTo to) throws IOException {
-        final String url = _hostUrl + "/sign-in/sign-in-by-user-name";
-        log.info("测试通过用户名称登录: to-{}", to);
+    private Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) throws IOException {
+        final String url = _hostUrl + "/sign-in/sign-in-by-account-name";
+        log.info("测试通过账户名称登录: to-{}", to);
         final String result = _httpClient.postByJsonParams(url, to);
-        log.info("通过用户名称注册的返回值为：" + result);
+        log.info("通过账户名称注册的返回值为：" + result);
         final Ro<SignUpOrInRa> ro = JacksonUtils.deserialize(result, new TypeReference<Ro<SignUpOrInRa>>() {
         });
-        log.info("通过用户名称注册的返回值为: {}", ro);
+        log.info("通过账户名称注册的返回值为: {}", ro);
         return ro;
     }
 }
