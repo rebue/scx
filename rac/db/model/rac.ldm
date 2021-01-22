@@ -4622,9 +4622,9 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>ORG_TYPE</a:Code>
 <a:CreationDate>1591264145</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1591264145</a:ModificationDate>
+<a:ModificationDate>1611302296</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
-<a:Comment>组织类型(1.集团;2.公司;99.部门)</a:Comment>
+<a:Comment>组织类型(1.集团;20.政府单位;21.公司;80.部门)</a:Comment>
 <a:DataType>BT</a:DataType>
 <a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
 </o:EntityAttribute>
@@ -6311,12 +6311,12 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>rac-mysql</a:Code>
 <a:CreationDate>1591349233</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1611298250</a:ModificationDate>
+<a:ModificationDate>1611302307</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/rac-mysql.pdm</a:TargetModelURL>
 <a:TargetModelID>1657FC08-856D-4EF4-969A-6EA675BC94D7</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
-<a:TargetModelLastModificationDate>1611298251</a:TargetModelLastModificationDate>
+<a:TargetModelLastModificationDate>1611302307</a:TargetModelLastModificationDate>
 <c:SessionShortcuts>
 <o:Shortcut Ref="o3"/>
 </c:SessionShortcuts>

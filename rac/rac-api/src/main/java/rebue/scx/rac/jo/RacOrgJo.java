@@ -53,7 +53,7 @@ public class RacOrgJo implements Serializable {
     private String            name;
 
     /**
-     * 组织类型(1.集团;2.公司;99.部门)
+     * 组织类型(1.集团;20.政府单位;21.公司;80.部门)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

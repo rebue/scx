@@ -61,7 +61,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     private String            domainId;
 
     /**
-     * 组织类型(1.集团;2.公司;99.部门)
+     * 组织类型(1.集团;20.政府单位;21.公司;80.部门)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -207,7 +207,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 组织类型(1.集团;2.公司;99.部门)
+     * 组织类型(1.集团;20.政府单位;21.公司;80.部门)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -216,7 +216,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 组织类型(1.集团;2.公司;99.部门)
+     * 组织类型(1.集团;20.政府单位;21.公司;80.部门)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

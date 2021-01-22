@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/1/22 14:51:15                           */
+/* Created on:     2021/1/22 15:58:33                           */
 /*==============================================================*/
 
 
@@ -263,7 +263,7 @@ create table RAC_ORG
    NAME                 varchar(30) not null  comment '组织名称(简称)',
    PARENT_ID            bigint unsigned  comment '上级组织ID(根组织填0)',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
-   ORG_TYPE             tinyint unsigned not null  comment '组织类型(1.集团;2.公司;99.部门)',
+   ORG_TYPE             tinyint unsigned not null  comment '组织类型(1.集团;20.政府单位;21.公司;80.部门)',
    LEFT_VALUE           int unsigned not null  comment '左值',
    RIGHT_VALUE          int unsigned not null  comment '右值',
    FULL_NAME            varchar(80)  comment '组织全名',
