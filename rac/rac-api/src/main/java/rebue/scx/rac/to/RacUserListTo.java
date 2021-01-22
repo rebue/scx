@@ -1,22 +1,26 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 个人
+ * 用户
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
 @EqualsAndHashCode
 @JsonInclude(Include.NON_NULL)
-public class RacPersonListTo implements Serializable {
+public class RacUserListTo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

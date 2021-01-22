@@ -1,11 +1,25 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacPersonDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.createrTimestamp;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.email;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.idCard;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isVerifiedEmail;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isVerifiedIdcard;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isVerifiedMobile;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.isVerifiedRealname;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.mobile;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.racUser;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.realName;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.sex;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.updateTimestamp;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,11 +43,12 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
-import rebue.scx.rac.mo.RacPersonMo;
+import rebue.scx.rac.mo.RacUserMo;
 
 @Mapper
-public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> {
+public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -55,26 +70,26 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
-    int insert(InsertStatementProvider<RacPersonMo> insertStatement);
+    int insert(InsertStatementProvider<RacUserMo> insertStatement);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @InsertProvider(type=SqlProviderAdapter.class, method="insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<RacPersonMo> multipleInsertStatement);
+    int insertMultiple(MultiRowInsertStatementProvider<RacUserMo> multipleInsertStatement);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @ResultMap("RacPersonMoResult")
-    Optional<RacPersonMo> selectOne(SelectStatementProvider selectStatement);
+    @ResultMap("RacUserMoResult")
+    Optional<RacUserMo> selectOne(SelectStatementProvider selectStatement);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="RacPersonMoResult", value = {
+    @Results(id="RacUserMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="MOBILE", property="mobile", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_VERIFIED_MOBILE", property="isVerifiedMobile", jdbcType=JdbcType.BIT),
@@ -88,7 +103,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
         @Result(column="CREATER_TIMESTAMP", property="createrTimestamp", jdbcType=JdbcType.BIGINT),
         @Result(column="UPDATE_TIMESTAMP", property="updateTimestamp", jdbcType=JdbcType.BIGINT)
     })
-    List<RacPersonMo> selectMany(SelectStatementProvider selectStatement);
+    List<RacUserMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,14 +115,14 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, racPerson, completer);
+        return MyBatis3Utils.countFrom(this::count, racUser, completer);
     }
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, racPerson, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, racUser, completer);
     }
 
     /**
@@ -122,8 +137,8 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insert(RacPersonMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racPerson, c ->
+    default int insert(RacUserMo record) {
+        return MyBatis3Utils.insert(this::insert, record, racUser, c ->
             c.map(id).toProperty("id")
             .map(mobile).toProperty("mobile")
             .map(isVerifiedMobile).toProperty("isVerifiedMobile")
@@ -142,8 +157,8 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertMultiple(Collection<RacPersonMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPerson, c ->
+    default int insertMultiple(Collection<RacUserMo> records) {
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racUser, c ->
             c.map(id).toProperty("id")
             .map(mobile).toProperty("mobile")
             .map(isVerifiedMobile).toProperty("isVerifiedMobile")
@@ -162,8 +177,8 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertSelective(RacPersonMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racPerson, c ->
+    default int insertSelective(RacUserMo record) {
+        return MyBatis3Utils.insert(this::insert, record, racUser, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(mobile).toPropertyWhenPresent("mobile", record::getMobile)
             .map(isVerifiedMobile).toPropertyWhenPresent("isVerifiedMobile", record::getIsVerifiedMobile)
@@ -182,28 +197,28 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacPersonMo> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, racPerson, completer);
+    default Optional<RacUserMo> selectOne(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, racUser, completer);
     }
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacPersonMo> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, racPerson, completer);
+    default List<RacUserMo> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, selectList, racUser, completer);
     }
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacPersonMo> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racPerson, completer);
+    default List<RacUserMo> selectDistinct(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racUser, completer);
     }
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacPersonMo> selectByPrimaryKey(Long id_) {
+    default Optional<RacUserMo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -213,13 +228,13 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, racPerson, completer);
+        return MyBatis3Utils.update(this::update, racUser, completer);
     }
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateAllColumns(RacPersonMo record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateAllColumns(RacUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(mobile).equalTo(record::getMobile)
                 .set(isVerifiedMobile).equalTo(record::getIsVerifiedMobile)
@@ -237,7 +252,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPersonMo record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacUserMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(mobile).equalToWhenPresent(record::getMobile)
                 .set(isVerifiedMobile).equalToWhenPresent(record::getIsVerifiedMobile)
@@ -255,7 +270,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKey(RacPersonMo record) {
+    default int updateByPrimaryKey(RacUserMo record) {
         return update(c ->
             c.set(mobile).equalTo(record::getMobile)
             .set(isVerifiedMobile).equalTo(record::getIsVerifiedMobile)
@@ -275,7 +290,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKeySelective(RacPersonMo record) {
+    default int updateByPrimaryKeySelective(RacUserMo record) {
         return update(c ->
             c.set(mobile).equalToWhenPresent(record::getMobile)
             .set(isVerifiedMobile).equalToWhenPresent(record::getIsVerifiedMobile)
@@ -295,7 +310,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteSelective(RacPersonMo record) {
+    default int deleteSelective(RacUserMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(mobile, isEqualToWhenPresent(record::getMobile))
@@ -315,7 +330,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacPersonMo> selectOne(RacPersonMo record) {
+    default Optional<RacUserMo> selectOne(RacUserMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(mobile, isEqualToWhenPresent(record::getMobile))
@@ -335,7 +350,7 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default long countSelective(RacPersonMo record) {
+    default long countSelective(RacUserMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(mobile, isEqualToWhenPresent(record::getMobile))
@@ -362,14 +377,14 @@ public interface RacPersonMapper extends MapperRootInterface<RacPersonMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existSelective(RacPersonMo record) {
+    default boolean existSelective(RacUserMo record) {
         return countSelective(record) > 0;
     }
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacPersonMo> selectSelective(RacPersonMo record) {
+    default List<RacUserMo> selectSelective(RacUserMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(mobile, isEqualToWhenPresent(record::getMobile))

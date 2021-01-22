@@ -1,11 +1,15 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -28,14 +32,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
     @NotNull(groups = ModifyGroup.class, message = "账户ID不能为空")
     @PositiveOrZero(message = "账户ID不能为负数")
     private Long              id;
-
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "个人ID不能为负数")
-    private Long              personId;
 
     /**
      * 是否启用
@@ -200,15 +196,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个人
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacPersonMo       person;
-
-    /**
      * 账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -224,24 +211,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getPersonId() {
-        return personId;
-    }
-
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setPersonId(Long personId) {
-        this.personId = personId;
     }
 
     /**
@@ -602,7 +571,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", personId=").append(personId);
+        sb.append(", userId=").append(userId);
         sb.append(", orgId=").append(orgId);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", signInName=").append(signInName);
@@ -754,5 +723,40 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     public void setPayPswdSalt(String payPswdSalt) {
         this.payPswdSalt = payPswdSalt;
+    }
+
+    /**
+     * 用户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "用户ID不能为负数")
+    private Long      userId;
+
+    /**
+     * 用户
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacUserMo user;
+
+    /**
+     * 用户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getUserId() {
+        return userId;
+    }
+
+    /**
+     * 用户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

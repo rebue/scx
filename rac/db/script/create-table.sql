@@ -1,12 +1,12 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/1/22 11:58:27                           */
+/* Created on:     2021/1/22 14:51:15                           */
 /*==============================================================*/
 
 
 
 alter table RAC_ACCOUNT 
-   drop foreign key FK_ACCOUNT_AND_PERSON;
+   drop foreign key FK_ACCOUNT_AND_USER;
 
 alter table RAC_ACCOUNT 
    drop foreign key FK_ACCOUNT_AND_ORG;
@@ -105,8 +105,6 @@ alter table RAC_PERM_URN
 
 drop table if exists RAC_PERM_URN;
 
-drop table if exists RAC_PERSON;
-
 
 alter table RAC_ROLE 
    drop foreign key FK_ROLE_AND_DOMAIN;
@@ -128,13 +126,15 @@ alter table RAC_SYS
 
 drop table if exists RAC_SYS;
 
+drop table if exists RAC_USER;
+
 /*==============================================================*/
 /* Table: RAC_ACCOUNT                                           */
 /*==============================================================*/
 create table RAC_ACCOUNT
 (
    ID                   bigint unsigned not null  comment '账户ID',
-   PERSON_ID            bigint unsigned  comment '个人ID',
+   USER_ID              bigint unsigned  comment '用户ID',
    ORG_ID               bigint unsigned  comment '组织ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SIGN_IN_NAME         varchar(20)  comment '登录名称',
@@ -355,31 +355,6 @@ create table RAC_PERM_URN
 alter table RAC_PERM_URN comment '权限URN';
 
 /*==============================================================*/
-/* Table: RAC_PERSON                                            */
-/*==============================================================*/
-create table RAC_PERSON
-(
-   ID                   bigint unsigned not null  comment '个人ID',
-   MOBILE               varchar(11)  comment '手机',
-   IS_VERIFIED_MOBILE   bool default false  comment '是否已验证手机号码',
-   EMAIL                varchar(50)  comment '电子邮箱',
-   IS_VERIFIED_EMAIL    bool default false  comment '是否已验证电子邮箱',
-   REAL_NAME            varchar(100)  comment '用户实名',
-   IS_VERIFIED_REALNAME bool default false  comment '是否已验证实名',
-   ID_CARD              char(18)  comment '身份证号',
-   IS_VERIFIED_IDCARD   bool default false  comment '是否已验证身份证号',
-   SEX                  tinyint unsigned  comment '性别',
-   CREATER_TIMESTAMP    bigint unsigned not null  comment '建立时间戳',
-   UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
-   primary key (ID),
-   key AK_MOBILE (MOBILE),
-   key AK_EMAIL (EMAIL),
-   key AK_ID_CARD (ID_CARD)
-);
-
-alter table RAC_PERSON comment '个人';
-
-/*==============================================================*/
 /* Table: RAC_ROLE                                              */
 /*==============================================================*/
 create table RAC_ROLE
@@ -427,8 +402,33 @@ create table RAC_SYS
 
 alter table RAC_SYS comment '系统';
 
-alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_PERSON foreign key (PERSON_ID)
-      references RAC_PERSON (ID) on delete restrict on update restrict;
+/*==============================================================*/
+/* Table: RAC_USER                                              */
+/*==============================================================*/
+create table RAC_USER
+(
+   ID                   bigint unsigned not null  comment '用户ID',
+   MOBILE               varchar(11)  comment '手机',
+   IS_VERIFIED_MOBILE   bool default false  comment '是否已验证手机号码',
+   EMAIL                varchar(50)  comment '电子邮箱',
+   IS_VERIFIED_EMAIL    bool default false  comment '是否已验证电子邮箱',
+   REAL_NAME            varchar(100)  comment '用户实名',
+   IS_VERIFIED_REALNAME bool default false  comment '是否已验证实名',
+   ID_CARD              char(18)  comment '身份证号',
+   IS_VERIFIED_IDCARD   bool default false  comment '是否已验证身份证号',
+   SEX                  tinyint unsigned  comment '性别',
+   CREATER_TIMESTAMP    bigint unsigned not null  comment '建立时间戳',
+   UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
+   primary key (ID),
+   key AK_MOBILE (MOBILE),
+   key AK_EMAIL (EMAIL),
+   key AK_ID_CARD (ID_CARD)
+);
+
+alter table RAC_USER comment '用户';
+
+alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_USER foreign key (USER_ID)
+      references RAC_USER (ID) on delete restrict on update restrict;
 
 alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;

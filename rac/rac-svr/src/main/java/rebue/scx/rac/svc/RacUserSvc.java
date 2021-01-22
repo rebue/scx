@@ -3,17 +3,17 @@ package rebue.scx.rac.svc;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
-import rebue.scx.rac.jo.RacOrgJo;
-import rebue.scx.rac.mo.RacOrgMo;
-import rebue.scx.rac.to.RacOrgAddTo;
-import rebue.scx.rac.to.RacOrgDelTo;
-import rebue.scx.rac.to.RacOrgListTo;
-import rebue.scx.rac.to.RacOrgModifyTo;
-import rebue.scx.rac.to.RacOrgOneTo;
-import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.jo.RacUserJo;
+import rebue.scx.rac.mo.RacUserMo;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserDelTo;
+import rebue.scx.rac.to.RacUserListTo;
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserOneTo;
+import rebue.scx.rac.to.RacUserPageTo;
 
 /**
- * 组织服务接口
+ * 用户服务接口
  *
  * Validated注解按规范应该写在接口上
  *
@@ -23,5 +23,5 @@ import rebue.scx.rac.to.RacOrgPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacOrgSvc extends BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> {
+public interface RacUserSvc extends BaseSvc<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo> {
 }

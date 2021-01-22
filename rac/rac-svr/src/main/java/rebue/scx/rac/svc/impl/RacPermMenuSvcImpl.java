@@ -1,25 +1,31 @@
 package rebue.scx.rac.svc.impl;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.and;
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isTrue;
+import static rebue.scx.rac.mapper.RacAccountRoleDynamicSqlSupport.racAccountRole;
 import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.racPermMenu;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
 import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.racRolePerm;
-import static rebue.scx.rac.mapper.RacAccountRoleDynamicSqlSupport.racAccountRole;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermMenuDao;
 import rebue.scx.rac.jo.RacPermMenuJo;
 import rebue.scx.rac.mapper.RacPermMenuMapper;
 import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.svc.RacPermMenuSvc;
-import rebue.scx.rac.to.*;
 import rebue.scx.rac.to.RacPermMenuAddTo;
 import rebue.scx.rac.to.RacPermMenuDelTo;
 import rebue.scx.rac.to.RacPermMenuListTo;

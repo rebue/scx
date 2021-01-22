@@ -1,11 +1,15 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 /**
@@ -21,14 +25,6 @@ public class RacAccountAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 个人ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "个人ID不能为负数")
-    private Long              personId;
 
     /**
      * 是否启用
@@ -210,4 +206,12 @@ public class RacAccountAddTo implements Serializable {
      */
     @Length(max = 6, message = "支付密码组合码的长度不能大于6")
     private String            payPswdSalt;
+
+    /**
+     * 用户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "用户ID不能为负数")
+    private Long              userId;
 }

@@ -1,28 +1,30 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 个人
+ * 用户
  *
- * The persistent class for the RAC_PERSON database table.
+ * The persistent class for the RAC_USER database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_PERSON")
+@Table(name = "RAC_USER")
 @Getter
 @Setter
 @ToString
-public class RacPersonJo implements Serializable {
+public class RacUserJo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -30,7 +32,7 @@ public class RacPersonJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个人ID
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -160,7 +162,7 @@ public class RacPersonJo implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RacPersonJo other = (RacPersonJo) obj;
+        RacUserJo other = (RacUserJo) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

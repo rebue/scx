@@ -1,100 +1,101 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
-public final class RacPersonDynamicSqlSupport {
+public final class RacUserDynamicSqlSupport {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public static final RacPerson racPerson = new RacPerson();
+    public static final RacUser racUser = new RacUser();
 
     /**
-    * 个人ID
+    * 用户ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> id = racPerson.id;
+    public static final SqlColumn<Long> id = racUser.id;
 
     /**
     * 手机
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> mobile = racPerson.mobile;
+    public static final SqlColumn<String> mobile = racUser.mobile;
 
     /**
     * 是否已验证手机号码
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Boolean> isVerifiedMobile = racPerson.isVerifiedMobile;
+    public static final SqlColumn<Boolean> isVerifiedMobile = racUser.isVerifiedMobile;
 
     /**
     * 电子邮箱
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> email = racPerson.email;
+    public static final SqlColumn<String> email = racUser.email;
 
     /**
     * 是否已验证电子邮箱
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Boolean> isVerifiedEmail = racPerson.isVerifiedEmail;
+    public static final SqlColumn<Boolean> isVerifiedEmail = racUser.isVerifiedEmail;
 
     /**
     * 用户实名
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> realName = racPerson.realName;
+    public static final SqlColumn<String> realName = racUser.realName;
 
     /**
     * 是否已验证实名
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Boolean> isVerifiedRealname = racPerson.isVerifiedRealname;
+    public static final SqlColumn<Boolean> isVerifiedRealname = racUser.isVerifiedRealname;
 
     /**
     * 身份证号
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> idCard = racPerson.idCard;
+    public static final SqlColumn<String> idCard = racUser.idCard;
 
     /**
     * 是否已验证身份证号
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Boolean> isVerifiedIdcard = racPerson.isVerifiedIdcard;
+    public static final SqlColumn<Boolean> isVerifiedIdcard = racUser.isVerifiedIdcard;
 
     /**
     * 性别
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Byte> sex = racPerson.sex;
+    public static final SqlColumn<Byte> sex = racUser.sex;
 
     /**
     * 建立时间戳
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> createrTimestamp = racPerson.createrTimestamp;
+    public static final SqlColumn<Long> createrTimestamp = racUser.createrTimestamp;
 
     /**
     * 修改时间戳
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> updateTimestamp = racPerson.updateTimestamp;
+    public static final SqlColumn<Long> updateTimestamp = racUser.updateTimestamp;
 
-    public static final class RacPerson extends SqlTable {
+    public static final class RacUser extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> mobile = column("MOBILE", JDBCType.VARCHAR);
@@ -119,8 +120,8 @@ public final class RacPersonDynamicSqlSupport {
 
         public final SqlColumn<Long> updateTimestamp = column("UPDATE_TIMESTAMP", JDBCType.BIGINT);
 
-        public RacPerson() {
-            super("RAC_PERSON");
+        public RacUser() {
+            super("RAC_USER");
         }
     }
 }

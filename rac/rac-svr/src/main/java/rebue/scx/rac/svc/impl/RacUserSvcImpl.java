@@ -1,25 +1,27 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.scx.rac.dao.RacPersonDao;
-import rebue.scx.rac.jo.RacPersonJo;
-import rebue.scx.rac.mapper.RacPersonMapper;
-import rebue.scx.rac.mo.RacPersonMo;
-import rebue.scx.rac.svc.RacPersonSvc;
-import rebue.scx.rac.to.RacPersonAddTo;
-import rebue.scx.rac.to.RacPersonDelTo;
-import rebue.scx.rac.to.RacPersonListTo;
-import rebue.scx.rac.to.RacPersonModifyTo;
-import rebue.scx.rac.to.RacPersonOneTo;
-import rebue.scx.rac.to.RacPersonPageTo;
+import rebue.scx.rac.dao.RacUserDao;
+import rebue.scx.rac.jo.RacUserJo;
+import rebue.scx.rac.mapper.RacUserMapper;
+import rebue.scx.rac.mo.RacUserMo;
+import rebue.scx.rac.svc.RacUserSvc;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserDelTo;
+import rebue.scx.rac.to.RacUserListTo;
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserOneTo;
+import rebue.scx.rac.to.RacUserPageTo;
 
 /**
- * 个人服务实现
+ * 用户服务实现
  *
  * <pre>
  * 注意：
@@ -36,9 +38,9 @@ import rebue.scx.rac.to.RacPersonPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacPersonSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacPersonAddTo, RacPersonModifyTo, RacPersonDelTo, RacPersonOneTo, RacPersonListTo, RacPersonPageTo, RacPersonMo, RacPersonJo, RacPersonMapper, RacPersonDao>
-    implements RacPersonSvc {
+public class RacUserSvcImpl
+    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+    implements RacUserSvc {
 
     /**
      * 本服务的单例
@@ -48,7 +50,7 @@ public class RacPersonSvcImpl extends
      */
     @Lazy
     @Resource
-    private RacPersonSvc thisSvc;
+    private RacUserSvc thisSvc;
 
     /**
      * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -56,7 +58,7 @@ public class RacPersonSvcImpl extends
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected Class<RacPersonMo> getMoClass() {
-        return RacPersonMo.class;
+    protected Class<RacUserMo> getMoClass() {
+        return RacUserMo.class;
     }
 }

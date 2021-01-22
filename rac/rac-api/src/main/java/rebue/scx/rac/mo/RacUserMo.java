@@ -1,30 +1,34 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
- * 个人
+ * 用户
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacPersonMo implements Serializable, Mo<Long> {
+public class RacUserMo implements Serializable, Mo<Long> {
 
     /**
-     * 个人ID
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = ModifyGroup.class, message = "个人ID不能为空")
-    @PositiveOrZero(message = "个人ID不能为负数")
+    @NotNull(groups = ModifyGroup.class, message = "用户ID不能为空")
+    @PositiveOrZero(message = "用户ID不能为负数")
     private Long              id;
 
     /**
@@ -119,7 +123,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个人ID
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -128,7 +132,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 个人ID
+     * 用户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -374,7 +378,7 @@ public class RacPersonMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        RacPersonMo other = (RacPersonMo) that;
+        RacUserMo other = (RacUserMo) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 

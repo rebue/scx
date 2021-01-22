@@ -1,6 +1,7 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -18,11 +19,11 @@ public final class RacAccountDynamicSqlSupport {
     public static final SqlColumn<Long> id = racAccount.id;
 
     /**
-    * 个人ID
+    * 用户ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> personId = racAccount.personId;
+    public static final SqlColumn<Long> userId = racAccount.userId;
 
     /**
     * 组织ID
@@ -184,7 +185,7 @@ public final class RacAccountDynamicSqlSupport {
     public static final class RacAccount extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<Long> personId = column("PERSON_ID", JDBCType.BIGINT);
+        public final SqlColumn<Long> userId = column("USER_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> orgId = column("ORG_ID", JDBCType.BIGINT);
 

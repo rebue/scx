@@ -1,21 +1,24 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
-import javax.validation.constraints.NotNull;
+
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 /**
- * 个人
+ * 用户
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class RacPersonAddTo implements Serializable {
+public class RacUserDelTo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -95,7 +98,6 @@ public class RacPersonAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "建立时间戳不能为空")
     @PositiveOrZero(message = "建立时间戳不能为负数")
     private Long              createrTimestamp;
 
@@ -104,7 +106,6 @@ public class RacPersonAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "修改时间戳不能为空")
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long              updateTimestamp;
 }

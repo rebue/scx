@@ -4,24 +4,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
+
 import lombok.extern.slf4j.Slf4j;
-import rebue.scx.rac.mo.RacPersonMo;
-import rebue.scx.rac.svc.RacPersonSvc;
-import rebue.scx.rac.to.RacPersonAddTo;
-import rebue.scx.rac.to.RacPersonModifyTo;
-import rebue.scx.rac.to.RacPersonPageTo;
+import rebue.scx.rac.mo.RacUserMo;
+import rebue.scx.rac.svc.RacUserSvc;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserPageTo;
 import rebue.wheel.RandomEx;
 
 /**
- * 个人 Service层测试
+ * 用户 Service层测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
 @SpringBootTest
-public class RacPersonSvcTests {
+public class RacUserSvcTests {
 
     /**
      * 要测试的微服务
@@ -29,13 +31,13 @@ public class RacPersonSvcTests {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
-    private RacPersonSvc _svc;
+    private RacUserSvc _svc;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
-    private Mapper       dozerMapper;
+    private Mapper     dozerMapper;
 
     /**
      * 测试基本的增删改查
@@ -44,28 +46,28 @@ public class RacPersonSvcTests {
      */
     @Test
     public void testCrud() {
-        RacPersonAddTo addTo = null;
+        RacUserAddTo addTo = null;
         Long id = null;
         for (int i = 0; i < 20; i++) {
-            addTo = (RacPersonAddTo) RandomEx.randomPojo(RacPersonAddTo.class);
-            log.info("添加个人的参数为：" + addTo);
+            addTo = (RacUserAddTo) RandomEx.randomPojo(RacUserAddTo.class);
+            log.info("添加用户的参数为：" + addTo);
             final Long addRo = _svc.add(addTo);
-            log.info("添加个人的返回值为：" + addRo);
+            log.info("添加用户的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
             id = addRo;
         }
-        final PageInfo<RacPersonMo> pageResult = _svc.page(new RacPersonPageTo());
-        log.info("查询个人的返回值为：" + pageResult);
+        final PageInfo<RacUserMo> pageResult = _svc.page(new RacUserPageTo());
+        log.info("查询用户的返回值为：" + pageResult);
         Assertions.assertNotNull(pageResult);
-        log.info("获取单个个人的参数为：" + id);
-        RacPersonMo getByIdResult = _svc.getById(id);
-        log.info("获取单个个人的返回值为：" + getByIdResult);
+        log.info("获取单个用户的参数为：" + id);
+        RacUserMo getByIdResult = _svc.getById(id);
+        log.info("获取单个用户的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
-        final RacPersonModifyTo modifyTo = dozerMapper.map(addTo, RacPersonModifyTo.class);
+        final RacUserModifyTo modifyTo = dozerMapper.map(addTo, RacUserModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改个人的参数为：" + modifyTo);
+        log.info("修改用户的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-        log.info("删除个人的参数为：" + id);
+        log.info("删除用户的参数为：" + id);
         _svc.delById(id);
     }
 }
