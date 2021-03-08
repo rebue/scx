@@ -100,15 +100,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
     private Byte              sex;
 
     /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long              createrTimestamp;
-
-    /**
      * 修改时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -303,24 +294,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getCreaterTimestamp() {
-        return createrTimestamp;
-    }
-
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setCreaterTimestamp(Long createrTimestamp) {
-        this.createrTimestamp = createrTimestamp;
-    }
-
-    /**
      * 修改时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -357,7 +330,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
         sb.append(", idCard=").append(idCard);
         sb.append(", isVerifiedIdcard=").append(isVerifiedIdcard);
         sb.append(", sex=").append(sex);
-        sb.append(", createrTimestamp=").append(createrTimestamp);
+        sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", updateTimestamp=").append(updateTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
@@ -401,5 +374,32 @@ public class RacUserMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long createTimestamp;
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCreateTimestamp(Long createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 }

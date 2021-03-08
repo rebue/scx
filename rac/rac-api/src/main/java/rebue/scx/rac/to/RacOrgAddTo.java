@@ -63,24 +63,6 @@ public class RacOrgAddTo implements Serializable {
     private Byte              orgType;
 
     /**
-     * 左值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "左值不能为空")
-    @PositiveOrZero(message = "左值不能为负数")
-    private Integer           leftValue;
-
-    /**
-     * 右值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "右值不能为空")
-    @PositiveOrZero(message = "右值不能为负数")
-    private Integer           rightValue;
-
-    /**
      * 组织全名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -103,4 +85,13 @@ public class RacOrgAddTo implements Serializable {
      */
     @Length(max = 100, message = "组织备注的长度不能大于100")
     private String            remark;
+
+    /**
+     * 树编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(message = "树编码不能为空")
+    @Length(max = 50, message = "树编码的长度不能大于50")
+    private String            treeCode;
 }

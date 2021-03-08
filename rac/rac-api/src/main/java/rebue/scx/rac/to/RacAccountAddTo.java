@@ -2,6 +2,7 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -214,4 +215,21 @@ public class RacAccountAddTo implements Serializable {
      */
     @PositiveOrZero(message = "用户ID不能为负数")
     private Long              userId;
+
+    /**
+     * 备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 150, message = "备注的长度不能大于150")
+    private String            remark;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            domainId;
 }

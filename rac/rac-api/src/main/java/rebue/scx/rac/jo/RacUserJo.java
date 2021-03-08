@@ -123,15 +123,6 @@ public class RacUserJo implements Serializable {
     private Byte              sex;
 
     /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "CREATER_TIMESTAMP", nullable = false, length = 20)
-    private Long              createrTimestamp;
-
-    /**
      * 修改时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -171,4 +162,13 @@ public class RacUserJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "CREATE_TIMESTAMP", nullable = false, length = 20)
+    private Long createTimestamp;
 }

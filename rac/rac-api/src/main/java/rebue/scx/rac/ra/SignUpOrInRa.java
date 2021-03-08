@@ -37,11 +37,10 @@ public class SignUpOrInRa extends IdRa<Long> {
      */
     private String            indexUrn;
 
-    public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime, final String indexUrn) {
+    public SignUpOrInRa(final Long id, final String sign, final LocalDateTime expirationTime) {
         super(id);
         this.sign           = sign;
         this.expirationTime = expirationTime;
-        this.indexUrn       = indexUrn;
     }
 
 }

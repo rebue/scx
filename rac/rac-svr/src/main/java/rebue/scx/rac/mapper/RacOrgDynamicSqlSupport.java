@@ -47,18 +47,11 @@ public final class RacOrgDynamicSqlSupport {
     public static final SqlColumn<Byte> orgType = racOrg.orgType;
 
     /**
-    * 左值
+    * 树编码
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Integer> leftValue = racOrg.leftValue;
-
-    /**
-    * 右值
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Integer> rightValue = racOrg.rightValue;
+    public static final SqlColumn<String> treeCode = racOrg.treeCode;
 
     /**
     * 组织全名
@@ -92,9 +85,7 @@ public final class RacOrgDynamicSqlSupport {
 
         public final SqlColumn<Byte> orgType = column("ORG_TYPE", JDBCType.TINYINT);
 
-        public final SqlColumn<Integer> leftValue = column("LEFT_VALUE", JDBCType.INTEGER);
-
-        public final SqlColumn<Integer> rightValue = column("RIGHT_VALUE", JDBCType.INTEGER);
+        public final SqlColumn<String> treeCode = column("TREE_CODE", JDBCType.VARCHAR);
 
         public final SqlColumn<String> fullName = column("FULL_NAME", JDBCType.VARCHAR);
 

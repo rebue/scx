@@ -62,24 +62,6 @@ public class RacOrgJo implements Serializable {
     private Byte              orgType;
 
     /**
-     * 左值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "LEFT_VALUE", nullable = false, length = 10)
-    private Integer           leftValue;
-
-    /**
-     * 右值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "RIGHT_VALUE", nullable = false, length = 10)
-    private Integer           rightValue;
-
-    /**
      * 组织全名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -155,4 +137,13 @@ public class RacOrgJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 树编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "TREE_CODE", nullable = false, length = 50)
+    private String treeCode;
 }

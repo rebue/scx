@@ -95,15 +95,6 @@ public class RacUserAddTo implements Serializable {
     private Byte              sex;
 
     /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long              createrTimestamp;
-
-    /**
      * 修改时间戳
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -111,4 +102,13 @@ public class RacUserAddTo implements Serializable {
     @NotNull(message = "修改时间戳不能为空")
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long              updateTimestamp;
+
+    /**
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(message = "建立时间戳不能为空")
+    @PositiveOrZero(message = "建立时间戳不能为负数")
+    private Long              createTimestamp;
 }

@@ -2,7 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.createrTimestamp;
+import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.createTimestamp;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.email;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.idCard;
@@ -52,7 +52,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, mobile, isVerifiedMobile, email, isVerifiedEmail, realName, isVerifiedRealname, idCard, isVerifiedIdcard, sex, createrTimestamp, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, mobile, isVerifiedMobile, email, isVerifiedEmail, realName, isVerifiedRealname, idCard, isVerifiedIdcard, sex, createTimestamp, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,7 +100,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
         @Result(column="ID_CARD", property="idCard", jdbcType=JdbcType.CHAR),
         @Result(column="IS_VERIFIED_IDCARD", property="isVerifiedIdcard", jdbcType=JdbcType.BIT),
         @Result(column="SEX", property="sex", jdbcType=JdbcType.TINYINT),
-        @Result(column="CREATER_TIMESTAMP", property="createrTimestamp", jdbcType=JdbcType.BIGINT),
+        @Result(column="CREATE_TIMESTAMP", property="createTimestamp", jdbcType=JdbcType.BIGINT),
         @Result(column="UPDATE_TIMESTAMP", property="updateTimestamp", jdbcType=JdbcType.BIGINT)
     })
     List<RacUserMo> selectMany(SelectStatementProvider selectStatement);
@@ -149,7 +149,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(idCard).toProperty("idCard")
             .map(isVerifiedIdcard).toProperty("isVerifiedIdcard")
             .map(sex).toProperty("sex")
-            .map(createrTimestamp).toProperty("createrTimestamp")
+            .map(createTimestamp).toProperty("createTimestamp")
             .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
@@ -169,7 +169,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(idCard).toProperty("idCard")
             .map(isVerifiedIdcard).toProperty("isVerifiedIdcard")
             .map(sex).toProperty("sex")
-            .map(createrTimestamp).toProperty("createrTimestamp")
+            .map(createTimestamp).toProperty("createTimestamp")
             .map(updateTimestamp).toProperty("updateTimestamp")
         );
     }
@@ -189,7 +189,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .map(idCard).toPropertyWhenPresent("idCard", record::getIdCard)
             .map(isVerifiedIdcard).toPropertyWhenPresent("isVerifiedIdcard", record::getIsVerifiedIdcard)
             .map(sex).toPropertyWhenPresent("sex", record::getSex)
-            .map(createrTimestamp).toPropertyWhenPresent("createrTimestamp", record::getCreaterTimestamp)
+            .map(createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp)
             .map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp)
         );
     }
@@ -245,7 +245,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
                 .set(idCard).equalTo(record::getIdCard)
                 .set(isVerifiedIdcard).equalTo(record::getIsVerifiedIdcard)
                 .set(sex).equalTo(record::getSex)
-                .set(createrTimestamp).equalTo(record::getCreaterTimestamp)
+                .set(createTimestamp).equalTo(record::getCreateTimestamp)
                 .set(updateTimestamp).equalTo(record::getUpdateTimestamp);
     }
 
@@ -263,7 +263,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
                 .set(idCard).equalToWhenPresent(record::getIdCard)
                 .set(isVerifiedIdcard).equalToWhenPresent(record::getIsVerifiedIdcard)
                 .set(sex).equalToWhenPresent(record::getSex)
-                .set(createrTimestamp).equalToWhenPresent(record::getCreaterTimestamp)
+                .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
                 .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
@@ -281,7 +281,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .set(idCard).equalTo(record::getIdCard)
             .set(isVerifiedIdcard).equalTo(record::getIsVerifiedIdcard)
             .set(sex).equalTo(record::getSex)
-            .set(createrTimestamp).equalTo(record::getCreaterTimestamp)
+            .set(createTimestamp).equalTo(record::getCreateTimestamp)
             .set(updateTimestamp).equalTo(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -301,7 +301,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .set(idCard).equalToWhenPresent(record::getIdCard)
             .set(isVerifiedIdcard).equalToWhenPresent(record::getIsVerifiedIdcard)
             .set(sex).equalToWhenPresent(record::getSex)
-            .set(createrTimestamp).equalToWhenPresent(record::getCreaterTimestamp)
+            .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
             .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -322,7 +322,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(idCard, isEqualToWhenPresent(record::getIdCard))
             .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
             .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -342,7 +342,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(idCard, isEqualToWhenPresent(record::getIdCard))
             .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
             .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -362,7 +362,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(idCard, isEqualToWhenPresent(record::getIdCard))
             .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
             .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }
@@ -396,7 +396,7 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(idCard, isEqualToWhenPresent(record::getIdCard))
             .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard))
             .and(sex, isEqualToWhenPresent(record::getSex))
-            .and(createrTimestamp, isEqualToWhenPresent(record::getCreaterTimestamp))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
             .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
         );
     }

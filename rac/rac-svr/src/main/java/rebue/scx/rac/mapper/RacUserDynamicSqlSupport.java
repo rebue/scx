@@ -86,7 +86,7 @@ public final class RacUserDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Long> createrTimestamp = racUser.createrTimestamp;
+    public static final SqlColumn<Long> createTimestamp = racUser.createTimestamp;
 
     /**
     * 修改时间戳
@@ -116,7 +116,7 @@ public final class RacUserDynamicSqlSupport {
 
         public final SqlColumn<Byte> sex = column("SEX", JDBCType.TINYINT);
 
-        public final SqlColumn<Long> createrTimestamp = column("CREATER_TIMESTAMP", JDBCType.BIGINT);
+        public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
 
         public final SqlColumn<Long> updateTimestamp = column("UPDATE_TIMESTAMP", JDBCType.BIGINT);
 

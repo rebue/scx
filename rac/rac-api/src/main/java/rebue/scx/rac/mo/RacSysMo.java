@@ -51,14 +51,6 @@ public class RacSysMo implements Serializable, Mo<String> {
     private String            domainId;
 
     /**
-     * 索引URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 100, message = "索引URN的长度不能大于100")
-    private String            indexUrn;
-
-    /**
      * 菜单URN
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -143,24 +135,6 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 索引URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getIndexUrn() {
-        return indexUrn;
-    }
-
-    /**
-     * 索引URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIndexUrn(String indexUrn) {
-        this.indexUrn = indexUrn;
-    }
-
-    /**
      * 菜单URN
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -208,7 +182,6 @@ public class RacSysMo implements Serializable, Mo<String> {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", domainId=").append(domainId);
-        sb.append(", indexUrn=").append(indexUrn);
         sb.append(", menuUrn=").append(menuUrn);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);

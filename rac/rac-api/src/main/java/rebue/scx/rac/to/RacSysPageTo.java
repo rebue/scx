@@ -43,14 +43,6 @@ public class RacSysPageTo extends PageTo implements Serializable {
     private String            domainId;
 
     /**
-     * 索引URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 100, message = "索引URN的长度不能大于100")
-    private String            indexUrn;
-
-    /**
      * 菜单URN
      *
      * @mbg.generated 自动生成，如需修改，请删除本行

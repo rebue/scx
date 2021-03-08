@@ -3,6 +3,7 @@ package rebue.scx.rac.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.createTimestamp;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isTester;
@@ -14,6 +15,7 @@ import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqNickname;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqOpenId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqUnionId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.remark;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInAvatar;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInEmail;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInMobile;
@@ -64,7 +66,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, userId, orgId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, payPswd, payPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, userId, remark, orgId, domainId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, payPswd, payPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp, updateTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -104,7 +106,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     @Results(id="RacAccountMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="USER_ID", property="userId", jdbcType=JdbcType.BIGINT),
+        @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR),
         @Result(column="ORG_ID", property="orgId", jdbcType=JdbcType.BIGINT),
+        @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
         @Result(column="SIGN_IN_NAME", property="signInName", jdbcType=JdbcType.VARCHAR),
         @Result(column="SIGN_IN_MOBILE", property="signInMobile", jdbcType=JdbcType.VARCHAR),
@@ -165,7 +169,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return MyBatis3Utils.insert(this::insert, record, racAccount, c ->
             c.map(id).toProperty("id")
             .map(userId).toProperty("userId")
+            .map(remark).toProperty("remark")
             .map(orgId).toProperty("orgId")
+            .map(domainId).toProperty("domainId")
             .map(isEnabled).toProperty("isEnabled")
             .map(signInName).toProperty("signInName")
             .map(signInMobile).toProperty("signInMobile")
@@ -197,7 +203,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racAccount, c ->
             c.map(id).toProperty("id")
             .map(userId).toProperty("userId")
+            .map(remark).toProperty("remark")
             .map(orgId).toProperty("orgId")
+            .map(domainId).toProperty("domainId")
             .map(isEnabled).toProperty("isEnabled")
             .map(signInName).toProperty("signInName")
             .map(signInMobile).toProperty("signInMobile")
@@ -229,7 +237,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return MyBatis3Utils.insert(this::insert, record, racAccount, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(userId).toPropertyWhenPresent("userId", record::getUserId)
+            .map(remark).toPropertyWhenPresent("remark", record::getRemark)
             .map(orgId).toPropertyWhenPresent("orgId", record::getOrgId)
+            .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
             .map(signInName).toPropertyWhenPresent("signInName", record::getSignInName)
             .map(signInMobile).toPropertyWhenPresent("signInMobile", record::getSignInMobile)
@@ -297,7 +307,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     static UpdateDSL<UpdateModel> updateAllColumns(RacAccountMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(userId).equalTo(record::getUserId)
+                .set(remark).equalTo(record::getRemark)
                 .set(orgId).equalTo(record::getOrgId)
+                .set(domainId).equalTo(record::getDomainId)
                 .set(isEnabled).equalTo(record::getIsEnabled)
                 .set(signInName).equalTo(record::getSignInName)
                 .set(signInMobile).equalTo(record::getSignInMobile)
@@ -327,7 +339,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacAccountMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(userId).equalToWhenPresent(record::getUserId)
+                .set(remark).equalToWhenPresent(record::getRemark)
                 .set(orgId).equalToWhenPresent(record::getOrgId)
+                .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(signInName).equalToWhenPresent(record::getSignInName)
                 .set(signInMobile).equalToWhenPresent(record::getSignInMobile)
@@ -357,7 +371,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     default int updateByPrimaryKey(RacAccountMo record) {
         return update(c ->
             c.set(userId).equalTo(record::getUserId)
+            .set(remark).equalTo(record::getRemark)
             .set(orgId).equalTo(record::getOrgId)
+            .set(domainId).equalTo(record::getDomainId)
             .set(isEnabled).equalTo(record::getIsEnabled)
             .set(signInName).equalTo(record::getSignInName)
             .set(signInMobile).equalTo(record::getSignInMobile)
@@ -389,7 +405,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     default int updateByPrimaryKeySelective(RacAccountMo record) {
         return update(c ->
             c.set(userId).equalToWhenPresent(record::getUserId)
+            .set(remark).equalToWhenPresent(record::getRemark)
             .set(orgId).equalToWhenPresent(record::getOrgId)
+            .set(domainId).equalToWhenPresent(record::getDomainId)
             .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
             .set(signInName).equalToWhenPresent(record::getSignInName)
             .set(signInMobile).equalToWhenPresent(record::getSignInMobile)
@@ -422,7 +440,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
@@ -454,7 +474,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
@@ -486,7 +508,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
@@ -532,7 +556,9 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(userId, isEqualToWhenPresent(record::getUserId))
+            .and(remark, isEqualToWhenPresent(record::getRemark))
             .and(orgId, isEqualToWhenPresent(record::getOrgId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))

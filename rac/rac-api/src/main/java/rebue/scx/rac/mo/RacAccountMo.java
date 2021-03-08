@@ -2,6 +2,7 @@ package rebue.scx.rac.mo;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -572,7 +573,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
+        sb.append(", remark=").append(remark);
         sb.append(", orgId=").append(orgId);
+        sb.append(", domainId=").append(domainId);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", signInName=").append(signInName);
         sb.append(", signInMobile=").append(signInMobile);
@@ -758,5 +761,67 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    /**
+     * 备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 150, message = "备注的长度不能大于150")
+    private String      remark;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String      domainId;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacDomainMo domain;
+
+    /**
+     * 备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getRemark() {
+        return remark;
+    }
+
+    /**
+     * 备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDomainId() {
+        return domainId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
     }
 }

@@ -68,7 +68,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private JwtApi              jwtApi;
 
     @Resource
-    private RacAccountSvc          accountSvc;
+    private RacAccountSvc       accountSvc;
     @Resource
     private RacSysSvc           sysSvc;
     @Resource
@@ -92,7 +92,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
         }
 
-        RacAccountMo        accountMo    = null;
+        RacAccountMo     accountMo = null;
         SignUpOrInWayDic signInWay = null;
         if (RegexUtils.matchEmail(to.getAccountName())) {
             accountMo = accountSvc.getOneByEmail(sysMo.getDomainId(), to.getOrgId(), to.getAccountName());
@@ -238,8 +238,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             final SignUpOrInRa ra = new SignUpOrInRa(
                 accountMo.getId(),
                 signRo.getExtra().getSign(),
-                signRo.getExtra().getExpirationTime(),
-                sysMo.getIndexUrn());
+                signRo.getExtra().getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户登录成功", ra);
         }
         else {

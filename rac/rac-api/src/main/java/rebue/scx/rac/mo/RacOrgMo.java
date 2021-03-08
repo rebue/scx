@@ -70,24 +70,6 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     private Byte              orgType;
 
     /**
-     * 左值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(groups = AddGroup.class, message = "左值不能为空")
-    @PositiveOrZero(message = "左值不能为负数")
-    private Integer           leftValue;
-
-    /**
-     * 右值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(groups = AddGroup.class, message = "右值不能为空")
-    @PositiveOrZero(message = "右值不能为负数")
-    private Integer           rightValue;
-
-    /**
      * 组织全名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -225,42 +207,6 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 左值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Integer getLeftValue() {
-        return leftValue;
-    }
-
-    /**
-     * 左值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setLeftValue(Integer leftValue) {
-        this.leftValue = leftValue;
-    }
-
-    /**
-     * 右值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Integer getRightValue() {
-        return rightValue;
-    }
-
-    /**
-     * 右值
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setRightValue(Integer rightValue) {
-        this.rightValue = rightValue;
-    }
-
-    /**
      * 组织全名
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -328,8 +274,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
         sb.append(", parentId=").append(parentId);
         sb.append(", domainId=").append(domainId);
         sb.append(", orgType=").append(orgType);
-        sb.append(", leftValue=").append(leftValue);
-        sb.append(", rightValue=").append(rightValue);
+        sb.append(", treeCode=").append(treeCode);
         sb.append(", fullName=").append(fullName);
         sb.append(", introduction=").append(introduction);
         sb.append(", remark=").append(remark);
@@ -375,5 +320,32 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 树编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "树编码不能为空")
+    @Length(max = 50, message = "树编码的长度不能大于50")
+    private String treeCode;
+
+    /**
+     * 树编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getTreeCode() {
+        return treeCode;
+    }
+
+    /**
+     * 树编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setTreeCode(String treeCode) {
+        this.treeCode = treeCode;
     }
 }

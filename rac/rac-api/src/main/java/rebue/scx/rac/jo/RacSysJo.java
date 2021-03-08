@@ -53,15 +53,6 @@ public class RacSysJo implements Serializable {
     private String            name;
 
     /**
-     * 索引URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "INDEX_URN", nullable = true, length = 100)
-    private String            indexUrn;
-
-    /**
      * 菜单URN
      *
      * @mbg.generated 自动生成，如需修改，请删除本行

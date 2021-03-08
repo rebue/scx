@@ -43,15 +43,15 @@ import rebue.scx.rac.to.ex.SignUpByAccountNameTo;
 public class RacSignUpSvcImpl implements RacSignUpSvc {
 
     @DubboReference(application = "jwt-svr")
-    private JwtApi     jwtApi;
+    private JwtApi        jwtApi;
 
     @Resource
     private RacAccountSvc accountSvc;
     @Resource
-    private RacSysSvc  sysSvc;
+    private RacSysSvc     sysSvc;
 
     @Resource
-    private Mapper     dozerMapper;
+    private Mapper        dozerMapper;
 
     /**
      * 通过账户名称注册
@@ -78,8 +78,7 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
                 final SignUpOrInRa ra = new SignUpOrInRa(
                     accountId,
                     signRo.getExtra().getSign(),
-                    signRo.getExtra().getExpirationTime(),
-                    sysMo.getIndexUrn());
+                    signRo.getExtra().getExpirationTime());
                 return new Ro<>(ResultDic.SUCCESS, "注册账户成功", ra);
             }
             else {
