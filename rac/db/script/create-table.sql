@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/1/22 15:58:33                           */
+/* Created on:     2021/3/8 8:41:33                             */
 /*==============================================================*/
 
 
@@ -10,6 +10,9 @@ alter table RAC_ACCOUNT
 
 alter table RAC_ACCOUNT 
    drop foreign key FK_ACCOUNT_AND_ORG;
+
+alter table RAC_ACCOUNT 
+   drop foreign key FK_ACCOUNT_AND_DOMAIN;
 
 drop table if exists RAC_ACCOUNT;
 
@@ -23,15 +26,6 @@ alter table RAC_ACCOUNT_ROLE
 drop table if exists RAC_ACCOUNT_ROLE;
 
 drop table if exists RAC_DOMAIN;
-
-
-alter table RAC_DOMAIN_ACCOUNT 
-   drop foreign key FK_DOMAIN_ACCOUNT_AND_DOMAIN;
-
-alter table RAC_DOMAIN_ACCOUNT 
-   drop foreign key FK_DOMAIN_ACCOUNT_AND_ACCOUNT;
-
-drop table if exists RAC_DOMAIN_ACCOUNT;
 
 
 alter table RAC_LOCK_LOG 
@@ -135,7 +129,9 @@ create table RAC_ACCOUNT
 (
    ID                   bigint unsigned not null  comment '账户ID',
    USER_ID              bigint unsigned  comment '用户ID',
+   REMARK               varchar(150)  comment '备注',
    ORG_ID               bigint unsigned  comment '组织ID',
+   DOMAIN_ID            varchar(32) not null  comment '领域ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SIGN_IN_NAME         varchar(20)  comment '登录名称',
    SIGN_IN_MOBILE       varchar(11)  comment '登录手机',
@@ -161,14 +157,14 @@ create table RAC_ACCOUNT
    CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
-   unique key AK_LOGIN_NICKNAME (SIGN_IN_NICKNAME),
-   unique key AK_LOGIN_NAME (SIGN_IN_NAME),
-   unique key AK_LOGIN_MOBILE (SIGN_IN_MOBILE),
-   unique key AK_LOGIN_EMAIL (SIGN_IN_EMAIL),
-   unique key AK_WX_OPEN_ID (WX_OPEN_ID),
-   unique key AK_WX_UNION_ID (WX_UNION_ID),
-   unique key AK_QQ_OPEN_ID (QQ_OPEN_ID),
-   unique key AK_QQ_UNION_ID (QQ_UNION_ID)
+   unique key AK_DOMAIN_AND_LOGIN_NICKNAME (SIGN_IN_NICKNAME, DOMAIN_ID),
+   unique key AK_DOMAIN_AND_LOGIN_NAME (SIGN_IN_NAME, DOMAIN_ID),
+   unique key AK_DOMAIN_AND_LOGIN_MOBILE (SIGN_IN_MOBILE, DOMAIN_ID),
+   unique key AK_DOMAIN_AND_LOGIN_EMAIL (SIGN_IN_EMAIL, DOMAIN_ID),
+   unique key AK_DOMAIN_AND_WX_OPEN_ID (WX_OPEN_ID, DOMAIN_ID),
+   unique key AK_DOMAIN_AND_WX_UNION_ID (WX_UNION_ID, DOMAIN_ID),
+   unique key AK_DOMAIN_AND_QQ_OPEN_ID (QQ_OPEN_ID, DOMAIN_ID),
+   unique key AK_DOMAIN_AND_QQ_UNION_ID (QQ_UNION_ID, DOMAIN_ID)
 );
 
 alter table RAC_ACCOUNT comment '账户';
@@ -200,20 +196,6 @@ create table RAC_DOMAIN
 );
 
 alter table RAC_DOMAIN comment '领域';
-
-/*==============================================================*/
-/* Table: RAC_DOMAIN_ACCOUNT                                    */
-/*==============================================================*/
-create table RAC_DOMAIN_ACCOUNT
-(
-   ID                   bigint unsigned not null  comment '领域账户ID',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
-   ACCOUNT_ID           bigint unsigned not null  comment '账户ID',
-   primary key (ID),
-   unique key AK_DOMAIN_AND_ACCOUNT (DOMAIN_ID, ACCOUNT_ID)
-);
-
-alter table RAC_DOMAIN_ACCOUNT comment '领域账户';
 
 /*==============================================================*/
 /* Table: RAC_LOCK_LOG                                          */
@@ -264,8 +246,7 @@ create table RAC_ORG
    PARENT_ID            bigint unsigned  comment '上级组织ID(根组织填0)',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
    ORG_TYPE             tinyint unsigned not null  comment '组织类型(1.集团;20.政府单位;21.公司;80.部门)',
-   LEFT_VALUE           int unsigned not null  comment '左值',
-   RIGHT_VALUE          int unsigned not null  comment '右值',
+   TREE_CODE            varchar(50) not null  comment '树编码',
    FULL_NAME            varchar(80)  comment '组织全名',
    INTRODUCTION         varchar(200)  comment '组织简介',
    REMARK               varchar(100)  comment '组织备注',
@@ -393,7 +374,6 @@ create table RAC_SYS
    ID                   varchar(32) not null  comment '系统ID',
    NAME                 varchar(20) not null  comment '系统名称',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
-   INDEX_URN            varchar(100)  comment '索引URN',
    MENU_URN             varchar(100)  comment '菜单URN',
    REMARK               varchar(50)  comment '系统备注',
    primary key (ID),
@@ -417,7 +397,7 @@ create table RAC_USER
    ID_CARD              char(18)  comment '身份证号',
    IS_VERIFIED_IDCARD   bool default false  comment '是否已验证身份证号',
    SEX                  tinyint unsigned  comment '性别',
-   CREATER_TIMESTAMP    bigint unsigned not null  comment '建立时间戳',
+   CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
    key AK_MOBILE (MOBILE),
@@ -433,16 +413,13 @@ alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_USER foreign key (USER_ID)
 alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
+alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_DOMAIN foreign key (DOMAIN_ID)
+      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+
 alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
 
 alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ACCOUNT foreign key (ACCOUNT_ID)
-      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
-
-alter table RAC_DOMAIN_ACCOUNT add constraint FK_DOMAIN_ACCOUNT_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
-
-alter table RAC_DOMAIN_ACCOUNT add constraint FK_DOMAIN_ACCOUNT_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_SYS foreign key (SYS_ID)
