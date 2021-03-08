@@ -1,21 +1,12 @@
 package rebue.scx.rac.svc.impl;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.and;
-import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
-import static rebue.scx.rac.mapper.RacDomainAccountDynamicSqlSupport.racDomainAccount;
-import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.racOrgAccount;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
-import org.mybatis.dynamic.sql.SqlCriterion;
-import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
-import org.mybatis.dynamic.sql.select.SelectModel;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -83,6 +74,20 @@ public class RacAccountSvcImpl extends
         return RacAccountMo.class;
     }
 
+    @Override
+    public Long addMo(@Valid final RacAccountMo mo) {
+        final long now = System.currentTimeMillis();
+        mo.setCreateTimestamp(now);
+        mo.setUpdateTimestamp(now);
+        return super.addMo(mo);
+    }
+
+    @Override
+    public void modifyMoById(@Valid final RacAccountMo mo) {
+        mo.setUpdateTimestamp(System.currentTimeMillis());
+        super.modifyMoById(mo);
+    }
+
     /**
      * 通过email获取账户信息
      *
@@ -93,19 +98,8 @@ public class RacAccountSvcImpl extends
      * @return 账户信息
      */
     @Override
-    public RacAccountMo getOneByEmail(final String domainId, final Long orgId, final String email) {
-        final List<SqlCriterion<?>> list = new LinkedList<>();
-        if (orgId != null) {
-            list.add(and(racOrgAccount.orgId, isEqualTo(orgId)));
-        }
-        list.add(and(racAccount.signInEmail, isEqualTo(email)));
-        return // list.stream().toArray(SqlCriterion<?>[]::new)))
-        // list.stream().toArray(SqlCriterion<?>[]::new)))
-        _mapper
-            .selectOne(c -> c.rightJoin(racDomainAccount).on(racDomainAccount.accountId, equalTo(racAccount.id)).rightJoin(racOrgAccount)
-                .on(racOrgAccount.accountId, equalTo(racAccount.id))
-                .where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)), and(racAccount.signInEmail, isEqualTo(email))))
-            .orElse(null);
+    public RacAccountMo getOneByEmail(final String domainId, final String email) {
+        return _mapper.selectOne(c -> c.where(racAccount.domainId, isEqualTo(domainId), and(racAccount.signInEmail, isEqualTo(email)))).orElse(null);
     }
 
     /**
@@ -118,12 +112,8 @@ public class RacAccountSvcImpl extends
      * @return 账户信息
      */
     @Override
-    public RacAccountMo getOneByMobile(final String domainId, final Long orgId, final String mobile) {
-        return _mapper
-            .selectOne(c -> c.rightJoin(racDomainAccount).on(racDomainAccount.accountId, equalTo(racAccount.id)).rightJoin(racOrgAccount)
-                .on(racOrgAccount.accountId, equalTo(racAccount.id))
-                .where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)), and(racAccount.signInMobile, isEqualTo(mobile))))
-            .orElse(null);
+    public RacAccountMo getOneByMobile(final String domainId, final String mobile) {
+        return _mapper.selectOne(c -> c.where(racAccount.domainId, isEqualTo(domainId), and(racAccount.signInMobile, isEqualTo(mobile)))).orElse(null);
     }
 
     /**
@@ -136,22 +126,15 @@ public class RacAccountSvcImpl extends
      * @return 账户信息
      */
     @Override
-    public RacAccountMo getOneBySignInName(final String domainId, final Long orgId, final String signInName) {
-        return _mapper.selectOne(c -> {
-            final QueryExpressionDSL<SelectModel>.JoinSpecificationFinisher join = c.rightJoin(racDomainAccount).on(racDomainAccount.accountId, equalTo(racAccount.id));
-            if (orgId != null) {
-                join.rightJoin(racOrgAccount).on(racOrgAccount.accountId, equalTo(racAccount.id));
-            }
-            return join.where(racDomainAccount.domainId, isEqualTo(domainId), and(racOrgAccount.orgId, isEqualToWhenPresent(orgId)),
-                and(racAccount.signInName, isEqualTo(signInName)));
-        }).orElse(null);
+    public RacAccountMo getOneBySignInName(final String domainId, final String signInName) {
+        return _mapper.selectOne(c -> c.where(racAccount.domainId, isEqualTo(domainId), and(racAccount.signInName, isEqualTo(signInName)))).orElse(null);
     }
 
     /**
      * 获取当前账户信息
      *
      * @param curAccountId 当前账户ID
-     * @param sysId     系统ID
+     * @param sysId        系统ID
      *
      * @return 当前账户信息
      */

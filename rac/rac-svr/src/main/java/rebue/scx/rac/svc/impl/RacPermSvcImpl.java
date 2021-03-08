@@ -7,14 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermDao;
 import rebue.scx.rac.jo.RacPermJo;
 import rebue.scx.rac.mapper.RacPermMapper;
 import rebue.scx.rac.mo.RacPermMo;
+import rebue.scx.rac.ra.PermListWithGroupRa;
+import rebue.scx.rac.svc.RacPermGroupSvc;
 import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermDelTo;
+import rebue.scx.rac.to.RacPermGroupListTo;
 import rebue.scx.rac.to.RacPermListTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermOneTo;
@@ -50,7 +55,10 @@ public class RacPermSvcImpl
      */
     @Lazy
     @Resource
-    private RacPermSvc thisSvc;
+    private RacPermSvc      thisSvc;
+
+    @Resource
+    private RacPermGroupSvc permGroupSvc;
 
     /**
      * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -60,5 +68,22 @@ public class RacPermSvcImpl
     @Override
     protected Class<RacPermMo> getMoClass() {
         return RacPermMo.class;
+    }
+
+    /**
+     * 查询带分组的权限列表
+     *
+     * @param domainId 领域ID
+     */
+    @Override
+    public Ro<PermListWithGroupRa> listWithGroup(final String domainId) {
+        final PermListWithGroupRa ra = new PermListWithGroupRa();
+        final RacPermListTo permQo = new RacPermListTo();
+        permQo.setDomainId(domainId);
+        ra.setPermList(thisSvc.list(permQo));
+        final RacPermGroupListTo permGroupQo = new RacPermGroupListTo();
+        permGroupQo.setDomainId(domainId);
+        ra.setGroupList(permGroupSvc.list(permGroupQo));
+        return new Ro<>(ResultDic.SUCCESS, "查询带分组的权限列表成功", ra);
     }
 }

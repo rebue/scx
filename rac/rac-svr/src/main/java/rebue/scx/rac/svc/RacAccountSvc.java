@@ -42,7 +42,7 @@ public interface RacAccountSvc
      * @return 账户信息
      */
     @Valid
-    RacAccountMo getOneByEmail(@NotBlank String domainId, Long orgId, @NotBlank String email);
+    RacAccountMo getOneByEmail(@NotBlank String domainId, @NotBlank String email);
 
     /**
      * 通过手机号获取账户信息
@@ -54,7 +54,7 @@ public interface RacAccountSvc
      * @return 账户信息
      */
     @Valid
-    RacAccountMo getOneByMobile(@NotBlank String domainId, Long orgId, @NotBlank String mobile);
+    RacAccountMo getOneByMobile(@NotBlank String domainId, @NotBlank String mobile);
 
     /**
      * 通过登录名称获取账户信息
@@ -66,13 +66,13 @@ public interface RacAccountSvc
      * @return 账户信息
      */
     @Valid
-    RacAccountMo getOneBySignInName(@NotBlank String domainId, Long orgId, @NotBlank String signInName);
+    RacAccountMo getOneBySignInName(@NotBlank String domainId, @NotBlank String signInName);
 
     /**
      * 获取当前账户信息
      *
      * @param curAccountId 当前账户ID
-     * @param sysId     系统ID
+     * @param sysId        系统ID
      *
      * @return 当前账户信息
      */

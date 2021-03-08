@@ -95,20 +95,20 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         RacAccountMo     accountMo = null;
         SignUpOrInWayDic signInWay = null;
         if (RegexUtils.matchEmail(to.getAccountName())) {
-            accountMo = accountSvc.getOneByEmail(sysMo.getDomainId(), to.getOrgId(), to.getAccountName());
+            accountMo = accountSvc.getOneByEmail(sysMo.getDomainId(), to.getAccountName());
             if (accountMo != null) {
                 signInWay = SignUpOrInWayDic.EMAIL;
             }
         }
         else if (RegexUtils.matchMobile(to.getAccountName())) {
-            accountMo = accountSvc.getOneByMobile(sysMo.getDomainId(), to.getOrgId(), to.getAccountName());
+            accountMo = accountSvc.getOneByMobile(sysMo.getDomainId(), to.getAccountName());
             if (accountMo != null) {
                 signInWay = SignUpOrInWayDic.MOBILE;
             }
         }
 
         if (accountMo == null) {
-            accountMo = accountSvc.getOneBySignInName(sysMo.getDomainId(), to.getOrgId(), to.getAccountName());
+            accountMo = accountSvc.getOneBySignInName(sysMo.getDomainId(), to.getAccountName());
             if (accountMo != null) {
                 signInWay = SignUpOrInWayDic.SIGN_IN_NAME;
             }

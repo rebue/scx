@@ -66,9 +66,8 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
         }
 
         // 添加账户
-        final RacAccountAddTo addTo = dozerMapper.map(to, RacAccountAddTo.class);
-        addTo.setUpdateTimestamp(System.currentTimeMillis());
-        final Long accountId = accountSvc.add(addTo);
+        final RacAccountAddTo addTo     = dozerMapper.map(to, RacAccountAddTo.class);
+        final Long            accountId = accountSvc.add(addTo);
 
         // 如果添加成功，JWT签名
         if (accountId != null) {

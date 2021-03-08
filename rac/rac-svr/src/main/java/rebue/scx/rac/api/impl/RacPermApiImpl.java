@@ -3,9 +3,11 @@ package rebue.scx.rac.api.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
+import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacPermApi;
 import rebue.scx.rac.jo.RacPermJo;
 import rebue.scx.rac.mo.RacPermMo;
+import rebue.scx.rac.ra.PermListWithGroupRa;
 import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermDelTo;
@@ -22,4 +24,14 @@ import rebue.scx.rac.to.RacPermPageTo;
 @DubboService
 public class RacPermApiImpl extends
     BaseApiImpl<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo, RacPermSvc> implements RacPermApi {
+
+    /**
+     * 查询带分组的权限列表
+     *
+     * @param domainId 领域ID
+     */
+    @Override
+    public Ro<PermListWithGroupRa> listWithGroup(final String domainId) {
+        return _svc.listWithGroup(domainId);
+    }
 }

@@ -27,11 +27,6 @@ public class SignInByAccountNameTo implements Serializable {
     private String            sysId;
 
     /**
-     * 组织ID
-     */
-    private Long              orgId;
-
-    /**
      * 账户名称(手机号/电子邮箱/登录名称)
      */
     @NotBlank(message = "账户名称不能为空")

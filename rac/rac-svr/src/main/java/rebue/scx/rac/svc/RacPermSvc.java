@@ -2,9 +2,11 @@ package rebue.scx.rac.svc;
 
 import org.springframework.validation.annotation.Validated;
 
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacPermJo;
 import rebue.scx.rac.mo.RacPermMo;
+import rebue.scx.rac.ra.PermListWithGroupRa;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermDelTo;
 import rebue.scx.rac.to.RacPermListTo;
@@ -24,4 +26,11 @@ import rebue.scx.rac.to.RacPermPageTo;
  */
 @Validated
 public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> {
+
+    /**
+     * 查询带分组的权限列表
+     *
+     * @param domainId 领域ID
+     */
+    Ro<PermListWithGroupRa> listWithGroup(String domainId);
 }

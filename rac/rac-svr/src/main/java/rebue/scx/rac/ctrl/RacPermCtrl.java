@@ -18,6 +18,7 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacPermApi;
 import rebue.scx.rac.mo.RacPermMo;
+import rebue.scx.rac.ra.PermListWithGroupRa;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermPageTo;
@@ -100,5 +101,15 @@ public class RacPermCtrl {
     @GetMapping("/rac/perm/page")
     public Mono<Ro<PageRa<RacPermMo>>> page(final RacPermPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 查询带分组的权限列表
+     *
+     * @param domainId 领域ID
+     */
+    @GetMapping("/rac/perm/list-with-group")
+    public Mono<Ro<PermListWithGroupRa>> listWithGroup(@RequestParam("domainId") final String domainId) {
+        return Mono.create(callback -> callback.success(api.listWithGroup(domainId)));
     }
 }

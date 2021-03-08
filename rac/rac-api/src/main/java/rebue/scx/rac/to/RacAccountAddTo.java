@@ -16,6 +16,7 @@ import lombok.Data;
 /**
  * 账户
  *
+ * @mbg.removedMember isEnabled,createTimestamp,updateTimestamp
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -26,14 +27,6 @@ public class RacAccountAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "是否启用不能为空")
-    private Boolean           isEnabled;
 
     /**
      * 登录名称
@@ -165,24 +158,6 @@ public class RacAccountAddTo implements Serializable {
      */
     @NotNull(message = "是否测试者不能为空")
     private Boolean           isTester;
-
-    /**
-     * 建立时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "建立时间戳不能为空")
-    @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long              createTimestamp;
-
-    /**
-     * 修改时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "修改时间戳不能为空")
-    @PositiveOrZero(message = "修改时间戳不能为负数")
-    private Long              updateTimestamp;
 
     /**
      * 组织ID
