@@ -1,17 +1,10 @@
 package rebue.scx.rac.svc.impl;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.and;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.BaseSvcImpl;
@@ -22,12 +15,15 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacPermMenuSvc;
-import rebue.scx.rac.to.RacAccountAddTo;
-import rebue.scx.rac.to.RacAccountDelTo;
-import rebue.scx.rac.to.RacAccountListTo;
-import rebue.scx.rac.to.RacAccountModifyTo;
-import rebue.scx.rac.to.RacAccountOneTo;
-import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.*;
+import rebue.scx.rac.util.PswdUtils;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
+import static org.mybatis.dynamic.sql.SqlBuilder.and;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 
 /**
  * 账户服务实现
@@ -48,8 +44,8 @@ import rebue.scx.rac.to.RacAccountPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAccountSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
-    implements RacAccountSvc {
+        BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
+        implements RacAccountSvc {
 
     @Resource
     private RacPermMenuSvc permMenuSvc;
@@ -76,6 +72,11 @@ public class RacAccountSvcImpl extends
 
     @Override
     public Long addMo(@Valid final RacAccountMo mo) {
+        if (StringUtils.isNotBlank(mo.getSignInPswd())) {
+            mo.setSignInPswdSalt(PswdUtils.randomSalt());
+            mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
+        }
+
         final long now = System.currentTimeMillis();
         mo.setCreateTimestamp(now);
         mo.setUpdateTimestamp(now);
@@ -92,7 +93,6 @@ public class RacAccountSvcImpl extends
      * 通过email获取账户信息
      *
      * @param domainId 领域ID
-     * @param orgId    组织ID
      * @param email    电子邮箱
      *
      * @return 账户信息
@@ -106,7 +106,6 @@ public class RacAccountSvcImpl extends
      * 通过手机号获取账户信息
      *
      * @param domainId 领域ID
-     * @param orgId    组织ID
      * @param mobile   手机号
      *
      * @return 账户信息
@@ -120,7 +119,6 @@ public class RacAccountSvcImpl extends
      * 通过登录名称获取账户信息
      *
      * @param domainId   领域ID
-     * @param orgId      组织ID
      * @param signInName 登录名称
      *
      * @return 账户信息
@@ -140,8 +138,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
-        final RacAccountMo accountMo = thisSvc.getById(curAccountId);
-        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
+        final RacAccountMo        accountMo = thisSvc.getById(curAccountId);
+        final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
         _dozerMapper.map(accountMo, ra);
         ra.setNickname(accountMo.getSignInNickname());
         ra.setAvatar(accountMo.getSignInAvatar());

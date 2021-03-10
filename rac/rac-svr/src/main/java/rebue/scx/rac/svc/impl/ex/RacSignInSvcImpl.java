@@ -1,19 +1,12 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Resource;
-
+import com.github.dozermapper.core.Mapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.github.dozermapper.core.Mapper;
-
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
@@ -29,9 +22,13 @@ import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.DateUtils;
 import rebue.wheel.RegexUtils;
-import rebue.wheel.turing.DigestUtils;
+
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 账户注册服务的实现类
@@ -141,7 +138,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         }
 
         log.info("校验密码是否正确");
-        if (!accountMo.getSignInPswd().equals(saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
+        if (!accountMo.getSignInPswd().equals(PswdUtils.saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
             final Long allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(accountMo.getId());
 
             String     msg;
@@ -195,18 +192,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     }
 
     /**
-     * 加盐摘要密码
-     *
-     * @param pswd 登录密码(不是明文，而是将明文MD5传过来)
-     * @param salt 盐值
-     *
-     * @return
-     */
-    private String saltPswd(final String pswd, final String salt) {
-        return DigestUtils.md5AsHexStr((pswd + salt).toLowerCase().getBytes());
-    }
-
-    /**
      * 返回成功登录
      *
      * @param loginTo
@@ -236,9 +221,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {
             final SignUpOrInRa ra = new SignUpOrInRa(
-                accountMo.getId(),
-                signRo.getExtra().getSign(),
-                signRo.getExtra().getExpirationTime());
+                    accountMo.getId(),
+                    signRo.getExtra().getSign(),
+                    signRo.getExtra().getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户登录成功", ra);
         }
         else {

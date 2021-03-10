@@ -1,22 +1,16 @@
 package rebue.scx.rac.svc;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
-import rebue.scx.rac.to.RacAccountAddTo;
-import rebue.scx.rac.to.RacAccountDelTo;
-import rebue.scx.rac.to.RacAccountListTo;
-import rebue.scx.rac.to.RacAccountModifyTo;
-import rebue.scx.rac.to.RacAccountOneTo;
-import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 账户服务接口
@@ -36,7 +30,6 @@ public interface RacAccountSvc
      * 通过email获取账户信息
      *
      * @param domainId 领域ID
-     * @param orgId    组织ID
      * @param email    电子邮箱
      *
      * @return 账户信息
@@ -48,7 +41,6 @@ public interface RacAccountSvc
      * 通过手机号获取账户信息
      *
      * @param domainId 领域ID
-     * @param orgId    组织ID
      * @param mobile   手机号
      *
      * @return 账户信息
@@ -60,7 +52,6 @@ public interface RacAccountSvc
      * 通过登录名称获取账户信息
      *
      * @param domainId   领域ID
-     * @param orgId      组织ID
      * @param signInName 登录名称
      *
      * @return 账户信息
