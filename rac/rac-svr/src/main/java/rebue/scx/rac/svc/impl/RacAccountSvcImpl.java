@@ -157,22 +157,23 @@ public class RacAccountSvcImpl extends
      * @return 查询到的分页信息
      */
     @Override
-    public PageInfo<RacAccountMo> page(@Valid RacAccountPageTo qo) {
+    public PageInfo<RacAccountMo> page(RacAccountPageTo qo) {
         String        keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
         final ISelect select   = () -> _mapper.select(c -> c
                 .where(
-                        racAccount.signInNickname, isLikeWhenPresent(keywords),
-                        or(racAccount.signInName, isLikeWhenPresent(keywords)),
-                        or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
-                        or(racAccount.signInEmail, isLikeWhenPresent(keywords)),
-                        or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
-                        or(racAccount.qqNickname, isLikeWhenPresent(keywords)),
-                        or(racAccount.qqOpenId, isLikeWhenPresent(keywords)),
-                        or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
-                        or(racAccount.wxNickname, isLikeWhenPresent(keywords)),
-                        or(racAccount.wxOpenId, isLikeWhenPresent(keywords)),
-                        or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
-                        or(racAccount.remark, isLikeWhenPresent(keywords))));
+                        racAccount.domainId, isEqualTo(qo.getDomainId()),
+                        and(racAccount.signInNickname, isLikeWhenPresent(keywords),
+                                or(racAccount.signInName, isLikeWhenPresent(keywords)),
+                                or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
+                                or(racAccount.signInEmail, isLikeWhenPresent(keywords)),
+                                or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
+                                or(racAccount.qqNickname, isLikeWhenPresent(keywords)),
+                                or(racAccount.qqOpenId, isLikeWhenPresent(keywords)),
+                                or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
+                                or(racAccount.wxNickname, isLikeWhenPresent(keywords)),
+                                or(racAccount.wxOpenId, isLikeWhenPresent(keywords)),
+                                or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
+                                or(racAccount.remark, isLikeWhenPresent(keywords)))));
 
         return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
     }
