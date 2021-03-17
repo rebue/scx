@@ -24,7 +24,21 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 public interface RacAccountSvc
-    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+
+    /**
+     * 修改账户登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    void modifySignInPswd(@Valid RacAccountModifySignInPswdTo to);
+
+    /**
+     * 启用或禁用账户
+     *
+     * @param to 启用或禁用的具体数据
+     */
+    void enable(@Valid RacAccountEnableTo to);
 
     /**
      * 通过email获取账户信息
@@ -34,7 +48,6 @@ public interface RacAccountSvc
      *
      * @return 账户信息
      */
-    @Valid
     RacAccountMo getOneByEmail(@NotBlank String domainId, @NotBlank String email);
 
     /**
@@ -45,7 +58,6 @@ public interface RacAccountSvc
      *
      * @return 账户信息
      */
-    @Valid
     RacAccountMo getOneByMobile(@NotBlank String domainId, @NotBlank String mobile);
 
     /**
@@ -56,7 +68,6 @@ public interface RacAccountSvc
      *
      * @return 账户信息
      */
-    @Valid
     RacAccountMo getOneBySignInName(@NotBlank String domainId, @NotBlank String signInName);
 
     /**
@@ -67,6 +78,6 @@ public interface RacAccountSvc
      *
      * @return 当前账户信息
      */
-    @Valid
     Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, @NotBlank String sysId);
+
 }

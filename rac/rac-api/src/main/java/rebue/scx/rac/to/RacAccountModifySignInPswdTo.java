@@ -1,0 +1,36 @@
+package rebue.scx.rac.to;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
+
+/**
+ * 修改账户登录密码
+ */
+@Data
+@JsonInclude(Include.NON_NULL)
+public class RacAccountModifySignInPswdTo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 账户ID
+     */
+    @NotNull(message = "账户ID不能为空")
+    @PositiveOrZero(message = "账户ID不能为负数")
+    private Long              id;
+
+    /**
+     * 登录密码
+     */
+    @NotBlank(message = "登录密码不能为空")
+    @Length(max = 32, message = "登录密码的长度不能大于32")
+    private String           signInPswd;
+
+}

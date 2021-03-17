@@ -22,7 +22,6 @@ import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.NumberUtils;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
@@ -73,9 +72,12 @@ public class RacAccountSvcImpl extends
     }
 
     @Override
-    public Long addMo(@Valid final RacAccountMo mo) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Long addMo(final RacAccountMo mo) {
         if (StringUtils.isNotBlank(mo.getSignInPswd())) {
+            // 随机生成盐值
             mo.setSignInPswdSalt(PswdUtils.randomSalt());
+            // 根据生成的盐值进行摘要
             mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
         }
 
@@ -86,9 +88,43 @@ public class RacAccountSvcImpl extends
     }
 
     @Override
-    public void modifyMoById(@Valid final RacAccountMo mo) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void modifyMoById(final RacAccountMo mo) {
+        if (StringUtils.isNotBlank(mo.getSignInPswd())) {
+            // 随机生成盐值
+            mo.setSignInPswdSalt(PswdUtils.randomSalt());
+            // 根据生成的盐值进行摘要
+            mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
+        }
         mo.setUpdateTimestamp(System.currentTimeMillis());
         super.modifyMoById(mo);
+    }
+
+    /**
+     * 修改账户登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void modifySignInPswd(RacAccountModifySignInPswdTo to) {
+        RacAccountMo mo = new RacAccountMo();
+        mo.setId(to.getId());
+        mo.setSignInPswd(to.getSignInPswd());
+        thisSvc.modifyMoById(mo);
+    }
+
+    /**
+     * 启用或禁用账户
+     *
+     * @param to 启用或禁用的具体数据
+     */
+    @Override
+    public void enable(RacAccountEnableTo to) {
+        RacAccountMo mo = new RacAccountMo();
+        mo.setId(to.getId());
+        mo.setIsEnabled(to.getEnabled());
+        _mapper.updateByPrimaryKeySelective(mo);
     }
 
     /**

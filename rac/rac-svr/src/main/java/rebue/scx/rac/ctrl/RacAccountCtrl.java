@@ -12,9 +12,7 @@ import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.co.RacCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
-import rebue.scx.rac.to.RacAccountAddTo;
-import rebue.scx.rac.to.RacAccountModifyTo;
-import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.*;
 import rebue.wheel.CookieUtils;
 import rebue.wheel.turing.JwtUtils;
 
@@ -105,6 +103,26 @@ public class RacAccountCtrl {
     @GetMapping("/rac/account/page")
     public Mono<Ro<PageRa<RacAccountMo>>> page(final RacAccountPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 修改账户登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    @PutMapping("/rac/account/modify-sign-in-pswd")
+    public Mono<Ro<?>> modifySignInPswd(@RequestBody final RacAccountModifySignInPswdTo to) {
+        return Mono.create(callback -> callback.success(api.modifySignInPswd(to)));
+    }
+
+    /**
+     * 启用或禁用账户
+     *
+     * @param to 启用或禁用的具体数据
+     */
+    @PutMapping("/rac/account/enable")
+    public Mono<Ro<?>> enable(@RequestBody final RacAccountEnableTo to) {
+        return Mono.create(callback -> callback.success(api.enable(to)));
     }
 
     /**
