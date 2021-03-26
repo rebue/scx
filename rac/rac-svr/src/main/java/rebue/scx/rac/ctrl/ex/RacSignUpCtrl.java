@@ -1,6 +1,6 @@
 package rebue.scx.rac.ctrl.ex;
 
-import static rebue.scx.rac.ctrl.ex.SignUpOrInCommon.jwtSignWithCookie;
+import static rebue.scx.rac.ctrl.ex.SignUpOrInCtrlCommon.jwtSignWithCookie;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;

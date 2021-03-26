@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.wheel.turing.JwtUtils;
 
-public class SignUpOrInCommon {
+public class SignUpOrInCtrlCommon {
     /**
      * JWT签名并将其加入Cookie
      */
