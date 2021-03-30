@@ -9,7 +9,7 @@
           "fields": [
             {
               "name": "ID",
-              "type": "ID",
+              "type": "Long",
               "remark": "一般会设置为OrgID",
               "chnname": "ID",
               "pk": true,
@@ -18,11 +18,19 @@
             },
             {
               "name": "SECRET",
-              "type": "Name",
+              "type": "ShortString",
               "remark": "",
               "chnname": "密钥",
               "notNull": true,
               "uiHint": "Text"
+            },
+            {
+              "name": "ALGORITHM",
+              "type": "enum",
+              "remark": "",
+              "chnname": "算法",
+              "notNull": true,
+              "uiHint": "Number"
             }
           ],
           "indexs": [],
@@ -93,6 +101,48 @@
   ],
   "dataTypeDomains": {
     "datatype": [
+      {
+        "name": "长整型ID",
+        "code": "Long",
+        "apply": {
+          "MYSQL": {
+            "type": "BIGINT UNSIGNED"
+          },
+          "JAVA": {
+            "type": "Long"
+          },
+          "ORACLE": {
+            "type": "NUMBER"
+          },
+          "SQLServer": {
+            "type": "BIGINT"
+          },
+          "PostgreSQL": {
+            "type": "BIGINT"
+          }
+        }
+      },
+      {
+        "name": "枚举",
+        "code": "enum",
+        "apply": {
+          "JAVA": {
+            "type": "Integer"
+          },
+          "MYSQL": {
+            "type": "TINYINT UNSIGNED"
+          },
+          "ORACLE": {
+            "type": "INT"
+          },
+          "SQLServer": {
+            "type": "INT"
+          },
+          "PostgreSQL": {
+            "type": "INT"
+          }
+        }
+      },
       {
         "name": "默认字串",
         "code": "DefaultString",
@@ -489,15 +539,6 @@
           },
           "PostgreSQL": {
             "type": "CHAR(1)"
-          }
-        }
-      },
-      {
-        "name": "ID",
-        "code": "ID",
-        "apply": {
-          "MYSQL": {
-            "type": "VARCHAR(128)"
           }
         }
       }
