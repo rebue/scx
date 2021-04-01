@@ -51,10 +51,10 @@ public class RacDomainSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacDomainAddTo) RandomEx.randomPojo(RacDomainAddTo.class);
             log.info("添加领域的参数为：" + addTo);
-            final String addRo = _svc.add(addTo);
+            final RacDomainMo addRo = _svc.add(addTo);
             log.info("添加领域的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacDomainMo> pageResult = _svc.page(new RacDomainPageTo());
         log.info("查询领域的返回值为：" + pageResult);

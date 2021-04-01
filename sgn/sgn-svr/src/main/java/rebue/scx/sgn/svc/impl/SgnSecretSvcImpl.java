@@ -1,22 +1,23 @@
 package rebue.scx.sgn.svc.impl;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.github.dozermapper.core.Mapper;
-
-import lombok.extern.slf4j.Slf4j;
+import rebue.robotech.svc.BaseSvc;
+import rebue.robotech.svc.impl.BaseSvcImpl;
+import rebue.scx.sgn.dao.SgnSecretDao;
+import rebue.scx.sgn.jo.SgnSecretJo;
 import rebue.scx.sgn.mapper.SgnSecretMapper;
 import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.to.SgnSecretAddTo;
+import rebue.scx.sgn.to.SgnSecretDelTo;
+import rebue.scx.sgn.to.SgnSecretListTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
-import rebue.wheel.exception.RuntimeExceptionX;
+import rebue.scx.sgn.to.SgnSecretOneTo;
+import rebue.scx.sgn.to.SgnSecretPageTo;
 
 /**
  * 签名密钥服务实现
@@ -31,51 +32,42 @@ import rebue.wheel.exception.RuntimeExceptionX;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
+ *
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-@Slf4j
-public class SgnSecretSvcImpl implements SgnSecretSvc {
+public class SgnSecretSvcImpl extends
+    BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
+    implements SgnSecretSvc {
+
+    /**
+     * 本服务的单例
+     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Lazy
     @Resource
-    private SgnSecretMapper _mapper;
-    @Resource
-    protected Mapper        _dozerMapper;
+    private SgnSecretSvc thisSvc;
 
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public String add(@Valid final SgnSecretAddTo to) {
-        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
-        final int         rowCount = _mapper.insertSelective(mo);
-        if (rowCount != 1) {
-            throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
-        }
-        return to.getSecret();
+    protected BaseSvc<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> getThisSvc() {
+        return thisSvc;
     }
 
+    /**
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public String modifyById(@Valid final SgnSecretModifyTo to) {
-        final SgnSecretMo mo       = _dozerMapper.map(to, SgnSecretMo.class);
-        final int         rowCount = _mapper.updateByPrimaryKeySelective(mo);
-        if (rowCount != 1) {
-            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
-        }
-        return to.getSecret();
+    protected Class<SgnSecretMo> getMoClass() {
+        return SgnSecretMo.class;
     }
-
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void delById(@NotNull final String id) {
-        final int rowCount = _mapper.deleteByPrimaryKey(id);
-        if (rowCount != 1) {
-            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
-        }
-    }
-
-    @Override
-    public String getSecretById(@NotNull final String id) {
-        log.debug("未使用缓存，真正执行了方法: {}", "getSecretById");
-        return _mapper.selectByPrimaryKey(id).orElseThrow(() -> new NullPointerException("找不到密钥")).getSecret();
-    }
-
 }

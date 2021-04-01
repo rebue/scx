@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermMenuDao;
 import rebue.scx.rac.jo.RacPermMenuJo;
@@ -66,7 +67,7 @@ public class RacPermMenuSvcImpl extends
     private RacPermMenuSvc thisSvc;
 
     /**
-     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -90,5 +91,15 @@ public class RacPermMenuSvcImpl extends
                 .on(racRole.id, equalTo(racRolePerm.roleId)).rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
                     and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
         return list.stream().map(item -> item.getMenuUrn()).distinct().collect(Collectors.toList());
+    }
+
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> getThisSvc() {
+        return thisSvc;
     }
 }

@@ -1,11 +1,13 @@
 package rebue.scx.sgn.jo;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,8 +38,8 @@ public class SgnSecretJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 128)
-    private String            id;
+    @Column(name = "ID", nullable = false, length = 20)
+    private Long              id;
 
     /**
      * 密钥
@@ -79,4 +81,13 @@ public class SgnSecretJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 算法
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "ALGORITHM", nullable = false, length = 3)
+    private Byte algorithm;
 }

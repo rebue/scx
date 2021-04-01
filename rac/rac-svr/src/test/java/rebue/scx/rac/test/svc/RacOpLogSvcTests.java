@@ -51,10 +51,10 @@ public class RacOpLogSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacOpLogAddTo) RandomEx.randomPojo(RacOpLogAddTo.class);
             log.info("添加操作日志的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacOpLogMo addRo = _svc.add(addTo);
             log.info("添加操作日志的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacOpLogMo> pageResult = _svc.page(new RacOpLogPageTo());
         log.info("查询操作日志的返回值为：" + pageResult);

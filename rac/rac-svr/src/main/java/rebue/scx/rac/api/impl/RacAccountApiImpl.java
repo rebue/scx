@@ -10,7 +10,14 @@ import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.svc.RacAccountSvc;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountDelTo;
+import rebue.scx.rac.to.RacAccountEnableTo;
+import rebue.scx.rac.to.RacAccountListTo;
+import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
+import rebue.scx.rac.to.RacAccountModifyTo;
+import rebue.scx.rac.to.RacAccountOneTo;
+import rebue.scx.rac.to.RacAccountPageTo;
 
 /**
  * 账户API实现
@@ -19,8 +26,8 @@ import rebue.scx.rac.to.*;
  */
 @DubboService
 public class RacAccountApiImpl extends
-        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-        implements RacAccountApi {
+    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+    implements RacAccountApi {
 
     /**
      * 修改账户登录密码
@@ -56,5 +63,4 @@ public class RacAccountApiImpl extends
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
         return _svc.getCurAccountInfo(curAccountId, sysId);
     }
-
 }

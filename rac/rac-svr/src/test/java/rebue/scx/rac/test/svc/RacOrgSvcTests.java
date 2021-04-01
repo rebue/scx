@@ -51,10 +51,10 @@ public class RacOrgSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacOrgAddTo) RandomEx.randomPojo(RacOrgAddTo.class);
             log.info("添加组织的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacOrgMo addRo = _svc.add(addTo);
             log.info("添加组织的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacOrgMo> pageResult = _svc.page(new RacOrgPageTo());
         log.info("查询组织的返回值为：" + pageResult);

@@ -51,10 +51,10 @@ public class RacPermUrnSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacPermUrnAddTo) RandomEx.randomPojo(RacPermUrnAddTo.class);
             log.info("添加权限URN的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacPermUrnMo addRo = _svc.add(addTo);
             log.info("添加权限URN的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacPermUrnMo> pageResult = _svc.page(new RacPermUrnPageTo());
         log.info("查询权限URN的返回值为：" + pageResult);

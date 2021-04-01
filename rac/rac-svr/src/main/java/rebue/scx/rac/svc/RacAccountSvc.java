@@ -1,30 +1,42 @@
 package rebue.scx.rac.svc;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
-import rebue.scx.rac.to.*;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountDelTo;
+import rebue.scx.rac.to.RacAccountEnableTo;
+import rebue.scx.rac.to.RacAccountListTo;
+import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
+import rebue.scx.rac.to.RacAccountModifyTo;
+import rebue.scx.rac.to.RacAccountOneTo;
+import rebue.scx.rac.to.RacAccountPageTo;
 
 /**
  * 账户服务接口
  *
- * Validated注解按规范应该写在接口上
- *
- * Valid注解在参数是POJO类时，写在参数类型的前面，具体约束的注解写在参数类型的属性的上方
- * Valid注解在参数是普通参数时，写在方法的上方，具体约束的注解直接写在参数类型的前面
+ * <pre>
+ * 1. 在接口上方必须写上 @Validated 注解
+ * 2. 参数是POJO类时用 @Valid 注解在参数类型的前面进行修饰
+ *    参数是普通参数时，直接在参数类型的前面加上具体约束的注解
+ * 3. (待验证)有分组时，在方法上方必须写上 @Validated 注解及分组
+ * 4. 踩坑留痕：
+ *    如果方法的返回值为void，在方法上方加上 @Valid 注解会出现异常，报HV000132错误
+ * </pre>
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
 public interface RacAccountSvc
-        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -79,5 +91,4 @@ public interface RacAccountSvc
      * @return 当前账户信息
      */
     Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, @NotBlank String sysId);
-
 }

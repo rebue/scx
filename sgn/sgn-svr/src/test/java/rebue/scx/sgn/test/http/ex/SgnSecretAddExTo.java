@@ -20,7 +20,7 @@ public class SgnSecretAddExTo extends SgnSecretAddTo {
 
     private static final long serialVersionUID = 1L;
 
-    private String            signId;
+    private Long              signId;
 
     private String            signResult;
 

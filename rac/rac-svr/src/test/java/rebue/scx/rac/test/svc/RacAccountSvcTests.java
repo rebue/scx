@@ -51,10 +51,10 @@ public class RacAccountSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacAccountAddTo) RandomEx.randomPojo(RacAccountAddTo.class);
             log.info("添加账户的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacAccountMo addRo = _svc.add(addTo);
             log.info("添加账户的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacAccountMo> pageResult = _svc.page(new RacAccountPageTo());
         log.info("查询账户的返回值为：" + pageResult);

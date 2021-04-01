@@ -51,10 +51,10 @@ public class RacSysSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacSysAddTo) RandomEx.randomPojo(RacSysAddTo.class);
             log.info("添加系统的参数为：" + addTo);
-            final String addRo = _svc.add(addTo);
+            final RacSysMo addRo = _svc.add(addTo);
             log.info("添加系统的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacSysMo> pageResult = _svc.page(new RacSysPageTo());
         log.info("查询系统的返回值为：" + pageResult);

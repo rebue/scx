@@ -1,70 +1,34 @@
 package rebue.scx.sgn.svc;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 
+import rebue.robotech.svc.BaseSvc;
+import rebue.scx.sgn.jo.SgnSecretJo;
+import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.to.SgnSecretAddTo;
+import rebue.scx.sgn.to.SgnSecretDelTo;
+import rebue.scx.sgn.to.SgnSecretListTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
+import rebue.scx.sgn.to.SgnSecretOneTo;
+import rebue.scx.sgn.to.SgnSecretPageTo;
 
 /**
  * 签名密钥服务接口
  *
- * 在接口上方必须写上 @Validated 注解；
- * 有分组时，在方法上方必须写上 @Validated 注解及分组；
- * 参数是POJO类时用 @Valid 注解在参数类型的前面进行修饰；
- * 而如果是普通参数，则在方法的上方写上 @Validated 注解，具体约束的注解直接写在参数类型的前面
+ * <pre>
+ * 1. 在接口上方必须写上 @Validated 注解
+ * 2. 参数是POJO类时用 @Valid 注解在参数类型的前面进行修饰
+ *    参数是普通参数时，直接在参数类型的前面加上具体约束的注解
+ * 3. (待验证)有分组时，在方法上方必须写上 @Validated 注解及分组
+ * 4. 踩坑留痕：
+ *    如果方法的返回值为void，在方法上方加上 @Valid 注解会出现异常，报HV000132错误
+ * </pre>
+ *
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
 @CacheConfig(cacheNames = "rebue.scx.sgn.svc.secret.sign-id")
-public interface SgnSecretSvc {
-    /**
-     * 添加密钥
-     * 
-     * 注意这里的返回值是为了配合缓存使用
-     *
-     * @param to 添加的参数
-     *
-     * @return 如果成功，且仅添加一条记录，正常返回密钥，否则会抛出运行时异常
-     */
-    @CachePut(key = "#to.id")
-    String add(@Valid SgnSecretAddTo to);
-
-    /**
-     * 修改密钥
-     *
-     * 注意这里的返回值是为了配合缓存使用
-     * 
-     * @param to 修改的参数
-     *
-     * @return 如果成功，且仅修改一条记录，正常密钥，否则会抛出运行时异常
-     */
-    @CachePut(key = "#to.id")
-    String modifyById(@Valid SgnSecretModifyTo to);
-
-    /**
-     * 通过ID删除密钥
-     *
-     * @param id 要删除密钥的ID
-     *
-     * @return 如果成功，且删除一条记录，正常返回，否则会抛出运行时异常
-     */
-    @CacheEvict
-    void delById(@NotNull String id);
-
-    /**
-     * 根据ID获取密钥
-     *
-     * @param id 要获取密钥的ID
-     *
-     * @return 密钥
-     */
-    @Cacheable
-    String getSecretById(@NotNull String id);
-
+public interface SgnSecretSvc
+    extends BaseSvc<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
 }

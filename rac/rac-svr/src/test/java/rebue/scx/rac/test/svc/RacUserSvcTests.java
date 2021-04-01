@@ -51,10 +51,10 @@ public class RacUserSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacUserAddTo) RandomEx.randomPojo(RacUserAddTo.class);
             log.info("添加用户的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacUserMo addRo = _svc.add(addTo);
             log.info("添加用户的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacUserMo> pageResult = _svc.page(new RacUserPageTo());
         log.info("查询用户的返回值为：" + pageResult);

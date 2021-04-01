@@ -1,11 +1,16 @@
 package rebue.scx.sgn.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.algorithm;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.id;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.secret;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.sgnSecret;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,15 +34,16 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.sgn.mo.SgnSecretMo;
 
 @Mapper
-public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String> {
+public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, Long> {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, secret);
+    BasicColumn[] selectList = BasicColumn.columnList(id, secret, algorithm);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -75,8 +81,9 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
      */
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="SgnSecretMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.VARCHAR, id=true),
-        @Result(column="SECRET", property="secret", jdbcType=JdbcType.VARCHAR)
+        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
+        @Result(column="SECRET", property="secret", jdbcType=JdbcType.VARCHAR),
+        @Result(column="ALGORITHM", property="algorithm", jdbcType=JdbcType.TINYINT)
     })
     List<SgnSecretMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -103,7 +110,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(String id_) {
+    default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
@@ -116,6 +123,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
         return MyBatis3Utils.insert(this::insert, record, sgnSecret, c ->
             c.map(id).toProperty("id")
             .map(secret).toProperty("secret")
+            .map(algorithm).toProperty("algorithm")
         );
     }
 
@@ -126,6 +134,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, sgnSecret, c ->
             c.map(id).toProperty("id")
             .map(secret).toProperty("secret")
+            .map(algorithm).toProperty("algorithm")
         );
     }
 
@@ -136,6 +145,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
         return MyBatis3Utils.insert(this::insert, record, sgnSecret, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(secret).toPropertyWhenPresent("secret", record::getSecret)
+            .map(algorithm).toPropertyWhenPresent("algorithm", record::getAlgorithm)
         );
     }
 
@@ -163,7 +173,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<SgnSecretMo> selectByPrimaryKey(String id_) {
+    default Optional<SgnSecretMo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -181,7 +191,8 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
      */
     static UpdateDSL<UpdateModel> updateAllColumns(SgnSecretMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(secret).equalTo(record::getSecret);
+                .set(secret).equalTo(record::getSecret)
+                .set(algorithm).equalTo(record::getAlgorithm);
     }
 
     /**
@@ -189,7 +200,8 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(SgnSecretMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(secret).equalToWhenPresent(record::getSecret);
+                .set(secret).equalToWhenPresent(record::getSecret)
+                .set(algorithm).equalToWhenPresent(record::getAlgorithm);
     }
 
     /**
@@ -198,6 +210,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
     default int updateByPrimaryKey(SgnSecretMo record) {
         return update(c ->
             c.set(secret).equalTo(record::getSecret)
+            .set(algorithm).equalTo(record::getAlgorithm)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -208,6 +221,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
     default int updateByPrimaryKeySelective(SgnSecretMo record) {
         return update(c ->
             c.set(secret).equalToWhenPresent(record::getSecret)
+            .set(algorithm).equalToWhenPresent(record::getAlgorithm)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -219,6 +233,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(secret, isEqualToWhenPresent(record::getSecret))
+            .and(algorithm, isEqualToWhenPresent(record::getAlgorithm))
         );
     }
 
@@ -229,6 +244,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(secret, isEqualToWhenPresent(record::getSecret))
+            .and(algorithm, isEqualToWhenPresent(record::getAlgorithm))
         );
     }
 
@@ -239,13 +255,14 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(secret, isEqualToWhenPresent(record::getSecret))
+            .and(algorithm, isEqualToWhenPresent(record::getAlgorithm))
         );
     }
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existByPrimaryKey(String id_) {
+    default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
@@ -263,6 +280,7 @@ public interface SgnSecretMapper extends MapperRootInterface<SgnSecretMo, String
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(secret, isEqualToWhenPresent(record::getSecret))
+            .and(algorithm, isEqualToWhenPresent(record::getAlgorithm))
         );
     }
 }

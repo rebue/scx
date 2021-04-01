@@ -4,7 +4,11 @@ import rebue.robotech.api.BaseApi;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountEnableTo;
+import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
+import rebue.scx.rac.to.RacAccountModifyTo;
+import rebue.scx.rac.to.RacAccountPageTo;
 
 /**
  * 账户API
@@ -36,5 +40,4 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @return 当前账户信息
      */
     Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, String sysId);
-
 }

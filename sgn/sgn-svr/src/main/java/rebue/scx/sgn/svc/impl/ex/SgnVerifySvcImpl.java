@@ -43,13 +43,15 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         }
 
         // 获取签名ID
-        final String signId = (String) paramMap.get("signId");
-        if (StringUtils.isBlank(signId)) {
+        final String signIdStr = paramMap.get("signId").toString();
+        if (StringUtils.isBlank(signIdStr)) {
             return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 请求参数中没有signId");
         }
 
+        final Long signId = Long.valueOf(signIdStr);
+
         // 通过签名ID获取签名密钥
-        final String signKey = sgnSecretSvc.getSecretById(signId);
+        final String signKey = sgnSecretSvc.getById(signId).getSecret();
 
         if (SignUtils.verify1(paramMap, signKey)) {
             return new Ro<>(ResultDic.SUCCESS, "验证签名正确");

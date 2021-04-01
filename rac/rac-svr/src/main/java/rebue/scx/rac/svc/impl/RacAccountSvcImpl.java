@@ -1,14 +1,26 @@
 package rebue.scx.rac.svc.impl;
 
-import com.github.pagehelper.ISelect;
-import com.github.pagehelper.PageInfo;
+import static org.mybatis.dynamic.sql.SqlBuilder.and;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.or;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacAccountDao;
 import rebue.scx.rac.jo.RacAccountJo;
@@ -17,14 +29,16 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacPermMenuSvc;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountDelTo;
+import rebue.scx.rac.to.RacAccountEnableTo;
+import rebue.scx.rac.to.RacAccountListTo;
+import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
+import rebue.scx.rac.to.RacAccountModifyTo;
+import rebue.scx.rac.to.RacAccountOneTo;
+import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.NumberUtils;
-
-import javax.annotation.Resource;
-
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 
 /**
  * 账户服务实现
@@ -45,8 +59,8 @@ import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAccountSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
-        implements RacAccountSvc {
+    BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
+    implements RacAccountSvc {
 
     @Resource
     private RacPermMenuSvc permMenuSvc;
@@ -62,7 +76,7 @@ public class RacAccountSvcImpl extends
     private RacAccountSvc  thisSvc;
 
     /**
-     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -73,14 +87,13 @@ public class RacAccountSvcImpl extends
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Long addMo(final RacAccountMo mo) {
+    public RacAccountMo addMo(final RacAccountMo mo) {
         if (StringUtils.isNotBlank(mo.getSignInPswd())) {
             // 随机生成盐值
             mo.setSignInPswdSalt(PswdUtils.randomSalt());
             // 根据生成的盐值进行摘要
             mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
         }
-
         final long now = System.currentTimeMillis();
         mo.setCreateTimestamp(now);
         mo.setUpdateTimestamp(now);
@@ -89,7 +102,7 @@ public class RacAccountSvcImpl extends
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void modifyMoById(final RacAccountMo mo) {
+    public RacAccountMo modifyMoById(final RacAccountMo mo) {
         if (StringUtils.isNotBlank(mo.getSignInPswd())) {
             // 随机生成盐值
             mo.setSignInPswdSalt(PswdUtils.randomSalt());
@@ -97,7 +110,7 @@ public class RacAccountSvcImpl extends
             mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
         }
         mo.setUpdateTimestamp(System.currentTimeMillis());
-        super.modifyMoById(mo);
+        return super.modifyMoById(mo);
     }
 
     /**
@@ -107,8 +120,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void modifySignInPswd(RacAccountModifySignInPswdTo to) {
-        RacAccountMo mo = new RacAccountMo();
+    public void modifySignInPswd(final RacAccountModifySignInPswdTo to) {
+        final RacAccountMo mo = new RacAccountMo();
         mo.setId(to.getId());
         mo.setSignInPswd(to.getSignInPswd());
         thisSvc.modifyMoById(mo);
@@ -120,8 +133,8 @@ public class RacAccountSvcImpl extends
      * @param to 启用或禁用的具体数据
      */
     @Override
-    public void enable(RacAccountEnableTo to) {
-        RacAccountMo mo = new RacAccountMo();
+    public void enable(final RacAccountEnableTo to) {
+        final RacAccountMo mo = new RacAccountMo();
         mo.setId(to.getId());
         mo.setIsEnabled(to.getEnabled());
         _mapper.updateByPrimaryKeySelective(mo);
@@ -176,8 +189,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
-        final RacAccountMo        accountMo = thisSvc.getById(curAccountId);
-        final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
+        final RacAccountMo accountMo = thisSvc.getById(curAccountId);
+        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
         _dozerMapper.map(accountMo, ra);
         ra.setNickname(accountMo.getSignInNickname());
         ra.setAvatar(accountMo.getSignInAvatar());
@@ -193,24 +206,25 @@ public class RacAccountSvcImpl extends
      * @return 查询到的分页信息
      */
     @Override
-    public PageInfo<RacAccountMo> page(RacAccountPageTo qo) {
-        String        keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
-        final ISelect select   = () -> _mapper.select(c -> c
-                .where(
-                        racAccount.domainId, isEqualTo(qo.getDomainId()),
-                        and(racAccount.signInNickname, isLikeWhenPresent(keywords),
-                                or(racAccount.signInName, isLikeWhenPresent(keywords)),
-                                or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
-                                or(racAccount.signInEmail, isLikeWhenPresent(keywords)),
-                                or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
-                                or(racAccount.qqNickname, isLikeWhenPresent(keywords)),
-                                or(racAccount.qqOpenId, isLikeWhenPresent(keywords)),
-                                or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
-                                or(racAccount.wxNickname, isLikeWhenPresent(keywords)),
-                                or(racAccount.wxOpenId, isLikeWhenPresent(keywords)),
-                                or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
-                                or(racAccount.remark, isLikeWhenPresent(keywords)))));
-
+    public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
+        final String keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
+        final ISelect select = () -> _mapper.select(c -> c.where(racAccount.domainId, isEqualTo(qo.getDomainId()),
+            and(racAccount.signInNickname, isLikeWhenPresent(keywords), or(racAccount.signInName, isLikeWhenPresent(keywords)),
+                or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
+                or(racAccount.signInEmail, isLikeWhenPresent(keywords)), or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
+                or(racAccount.qqNickname, isLikeWhenPresent(keywords)), or(racAccount.qqOpenId, isLikeWhenPresent(keywords)), or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
+                or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)), or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
+                or(racAccount.remark, isLikeWhenPresent(keywords)))));
         return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+    }
+
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> getThisSvc() {
+        return thisSvc;
     }
 }

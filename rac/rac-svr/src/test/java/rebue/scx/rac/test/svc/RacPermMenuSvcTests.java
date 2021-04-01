@@ -51,10 +51,10 @@ public class RacPermMenuSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacPermMenuAddTo) RandomEx.randomPojo(RacPermMenuAddTo.class);
             log.info("添加权限菜单的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacPermMenuMo addRo = _svc.add(addTo);
             log.info("添加权限菜单的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacPermMenuMo> pageResult = _svc.page(new RacPermMenuPageTo());
         log.info("查询权限菜单的返回值为：" + pageResult);

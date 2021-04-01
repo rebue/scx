@@ -67,7 +67,7 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
 
         // 添加账户
         final RacAccountAddTo addTo     = dozerMapper.map(to, RacAccountAddTo.class);
-        final Long            accountId = accountSvc.add(addTo);
+        final Long            accountId = accountSvc.add(addTo).getId();
 
         // 如果添加成功，JWT签名
         if (accountId != null) {
@@ -75,9 +75,9 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
             final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
             if (ResultDic.SUCCESS.equals(signRo.getResult())) {
                 final SignUpOrInRa ra = new SignUpOrInRa(
-                    accountId,
-                    signRo.getExtra().getSign(),
-                    signRo.getExtra().getExpirationTime());
+                        accountId,
+                        signRo.getExtra().getSign(),
+                        signRo.getExtra().getExpirationTime());
                 return new Ro<>(ResultDic.SUCCESS, "注册账户成功", ra);
             }
             else {

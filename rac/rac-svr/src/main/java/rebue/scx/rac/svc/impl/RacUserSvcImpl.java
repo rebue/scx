@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacUserDao;
 import rebue.scx.rac.jo.RacUserJo;
@@ -53,12 +54,22 @@ public class RacUserSvcImpl
     private RacUserSvc thisSvc;
 
     /**
-     * 泛型MO的class(应为java中泛型擦除，JVM无法智能获取泛型的class)
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     protected Class<RacUserMo> getMoClass() {
         return RacUserMo.class;
+    }
+
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo> getThisSvc() {
+        return thisSvc;
     }
 }

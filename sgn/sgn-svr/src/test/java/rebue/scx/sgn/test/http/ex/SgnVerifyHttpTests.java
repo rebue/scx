@@ -31,7 +31,7 @@ import rebue.wheel.turing.SignUtils;
 public class SgnVerifyHttpTests {
 
     private final String        _hostUrl     = "http://127.0.0.1:10080";
-    private final static String SIGN_ID      = "sign-id-123";
+    private final static Long   SIGN_ID      = 1L;
     private final static String SIGN_KEY     = "sign-key-456";
 
     private final HttpClient    _httpClient  = new OkHttpClientImpl();
@@ -61,8 +61,8 @@ public class SgnVerifyHttpTests {
         }
 
         final Map<String, Object> getByIdTo = new LinkedHashMap<>();
-        getByIdTo.put("id", addTo.getId());
-        getByIdTo.put("signId", SIGN_ID);
+        getByIdTo.put("id", SIGN_ID);
+        // getByIdTo.put("signId", SIGN_ID);
         SignUtils.sign1(getByIdTo, SIGN_KEY);
         final String getByIdParams = MapUtils.map2UrlParams(getByIdTo);
         log.info("获取单个签名密钥的参数为：{}", getByIdParams);

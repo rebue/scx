@@ -51,10 +51,10 @@ public class RacPermSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacPermAddTo) RandomEx.randomPojo(RacPermAddTo.class);
             log.info("添加权限的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacPermMo addRo = _svc.add(addTo);
             log.info("添加权限的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacPermMo> pageResult = _svc.page(new RacPermPageTo());
         log.info("查询权限的返回值为：" + pageResult);

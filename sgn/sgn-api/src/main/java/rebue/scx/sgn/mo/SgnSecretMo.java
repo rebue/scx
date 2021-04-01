@@ -1,10 +1,16 @@
 package rebue.scx.sgn.mo;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
@@ -15,16 +21,16 @@ import rebue.robotech.valid.ModifyGroup;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class SgnSecretMo implements Serializable, Mo<String> {
+public class SgnSecretMo implements Serializable, Mo<Long> {
 
     /**
      * ID 一般会设置为OrgID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = ModifyGroup.class, message = "ID不能为空")
-    @Length(max = 128, message = "ID的长度不能大于128")
-    private String            id;
+    @NotNull(groups = ModifyGroup.class, message = "ID不能为空")
+    @PositiveOrZero(message = "ID不能为负数")
+    private Long              id;
 
     /**
      * 密钥
@@ -45,7 +51,7 @@ public class SgnSecretMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -78,6 +84,7 @@ public class SgnSecretMo implements Serializable, Mo<String> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", secret=").append(secret);
+        sb.append(", algorithm=").append(algorithm);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -119,15 +126,42 @@ public class SgnSecretMo implements Serializable, Mo<String> {
      */
     @Override
     public String getIdType() {
-        return "String";
+        return "Long";
     }
+
+    /**
+     * 算法
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "算法不能为空")
+    @PositiveOrZero(message = "算法不能为负数")
+    private Byte algorithm;
 
     /**
      * ID 一般会设置为OrgID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * 算法
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Byte getAlgorithm() {
+        return algorithm;
+    }
+
+    /**
+     * 算法
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAlgorithm(Byte algorithm) {
+        this.algorithm = algorithm;
     }
 }

@@ -1,12 +1,19 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import com.github.dozermapper.core.Mapper;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Resource;
+
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.github.dozermapper.core.Mapper;
+
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
@@ -25,10 +32,6 @@ import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.DateUtils;
 import rebue.wheel.RegexUtils;
-
-import javax.annotation.Resource;
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 账户注册服务的实现类

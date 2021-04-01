@@ -51,10 +51,10 @@ public class RacLockLogSvcTests {
         for (int i = 0; i < 20; i++) {
             addTo = (RacLockLogAddTo) RandomEx.randomPojo(RacLockLogAddTo.class);
             log.info("添加锁定日志的参数为：" + addTo);
-            final Long addRo = _svc.add(addTo);
+            final RacLockLogMo addRo = _svc.add(addTo);
             log.info("添加锁定日志的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
-            id = addRo;
+            id = addRo.getId();
         }
         final PageInfo<RacLockLogMo> pageResult = _svc.page(new RacLockLogPageTo());
         log.info("查询锁定日志的返回值为：" + pageResult);
