@@ -1,24 +1,27 @@
 package rebue.scx.sgn.test.http;
 
 import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
+
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.PageRa;
+import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
 import rebue.wheel.JacksonUtils;
 import rebue.wheel.RandomEx;
 import rebue.wheel.http.HttpClient;
 import rebue.wheel.http.impl.OkHttpClientImpl;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ra.PageRa;
-import rebue.robotech.ra.PojoRa;
-import rebue.scx.sgn.mo.SgnSecretMo;
 
 /**
  * 签名密钥 HTTP测试

@@ -1,16 +1,14 @@
 package rebue.scx.sgn.to;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import rebue.robotech.valid.ValidDic;
+import rebue.scx.sgn.dic.SignAlgorithmDic;
 
 /**
  * 签名密钥
@@ -37,9 +35,8 @@ public class SgnSecretListTo implements Serializable {
 
     /**
      * 算法
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "算法不能为负数")
+    @ValidDic(target = SignAlgorithmDic.class, message = "不能识别的算法类型")
     private Byte              algorithm;
 }

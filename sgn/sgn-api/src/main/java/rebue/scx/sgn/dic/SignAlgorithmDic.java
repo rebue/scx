@@ -1,4 +1,4 @@
-package rebue.scx.rac.dic;
+package rebue.scx.sgn.dic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,36 +10,21 @@ import lombok.Getter;
 import rebue.robotech.dic.Dic;
 
 /**
- * 注册或登录方式的字典
- * 1: 登录名称
- * 2: 电子邮箱
- * 3: 手机号码
- * 4: QQ
- * 5: 微信
+ * 签名算法的字典
+ * 1: 通用签名
+ * 2: 微信支付签名
  */
 @AllArgsConstructor
 @Getter
-public enum SignUpOrInWayDic implements Dic {
+public enum SignAlgorithmDic implements Dic {
     /**
-     * 1: 登录名
+     * 1: 通用签名
      */
-    SIGN_IN_NAME(1, "登录名称"),
+    COMMON(1, "通用签名"),
     /**
-     * 2: 电子邮箱
+     * 2: 微信支付签名
      */
-    EMAIL(2, "电子邮箱"),
-    /**
-     * 3: 手机号码
-     */
-    MOBILE(3, "手机号码"),
-    /**
-     * 4: QQ
-     */
-    QQ(4, "QQ"),
-    /**
-     * 5: 微信
-     */
-    WX(5, "微信");
+    WX_PAY(2, "微信支付签名");
 
     private final int    code;
     private final String desc;
@@ -75,8 +60,8 @@ public enum SignUpOrInWayDic implements Dic {
      * 否则Jackson将调用默认的反序列化方法，而不会调用本方法
      */
     @JsonCreator // Jackson在反序列化时，调用 @JsonCreator 标注的构造器或者工厂方法来创建对象
-    public static SignUpOrInWayDic getItem(final int code) {
-        final SignUpOrInWayDic result = (SignUpOrInWayDic) valueMap.get(code);
+    public static SignAlgorithmDic getItem(final int code) {
+        final SignAlgorithmDic result = (SignAlgorithmDic) valueMap.get(code);
         if (result == null) {
             throw new IllegalArgumentException("输入的code" + code + "不在枚举的取值范围内");
         }
