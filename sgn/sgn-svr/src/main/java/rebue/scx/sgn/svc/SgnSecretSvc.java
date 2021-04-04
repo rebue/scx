@@ -1,6 +1,5 @@
 package rebue.scx.sgn.svc;
 
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
@@ -28,7 +27,7 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-@CacheConfig(cacheNames = "rebue.scx.sgn.svc.secret.sign-id")
 public interface SgnSecretSvc
-    extends BaseSvc<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
+        extends BaseSvc<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
+
 }

@@ -2,6 +2,10 @@ package rebue.scx.sgn.svc.impl;
 
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,9 +43,10 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
+@CacheConfig(cacheNames = "rebue.scx.sgn.svc.secret.sign-id")
 public class SgnSecretSvcImpl extends
-    BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
-    implements SgnSecretSvc {
+        BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
+        implements SgnSecretSvc {
 
     /**
      * 本服务的单例
@@ -72,4 +77,29 @@ public class SgnSecretSvcImpl extends
     protected Class<SgnSecretMo> getMoClass() {
         return SgnSecretMo.class;
     }
+
+    @Override
+    @CachePut(key = "#mo.id")
+    public SgnSecretMo addMo(final SgnSecretMo mo) {
+        return super.addMo(mo);
+    }
+
+    @Override
+    @CachePut(key = "#mo.id")
+    public SgnSecretMo modifyMoById(final SgnSecretMo mo) {
+        return super.modifyMoById(mo);
+    }
+
+    @Override
+    @CacheEvict
+    public void delById(final Long id) {
+        super.delById(id);
+    }
+
+    @Override
+    @Cacheable
+    public SgnSecretMo getById(final Long id) {
+        return super.getById(id);
+    }
+
 }
