@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import rebue.robotech.dic.DicUtils;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.sgn.dic.SignAlgorithmDic;
+import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.svc.ex.SgnVerifySvc;
 import rebue.wheel.turing.SignUtils;
@@ -50,14 +53,19 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
 
         final Long signId = Long.valueOf(signIdStr);
 
-        // 通过签名ID获取签名密钥
-        final String signKey = sgnSecretSvc.getById(signId).getSecret();
-
-        if (SignUtils.verify1(paramMap, signKey)) {
-            return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
-        }
-        else {
-            return new Ro<>(ResultDic.WARN, "验证签名错误: 签名不正确");
+        // 通过签名ID获取签名密钥实体
+        final SgnSecretMo      secretMo         = sgnSecretSvc.getById(signId);
+        final SignAlgorithmDic signAlgorithmDic = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, secretMo.getAlgorithm());
+        switch (signAlgorithmDic) {
+        case COMMON:
+            if (SignUtils.verify1(paramMap, secretMo.getSecret())) {
+                return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
+            }
+            else {
+                return new Ro<>(ResultDic.WARN, "验证签名错误: 签名不正确");
+            }
+        default:
+            return new Ro<>(ResultDic.WARN, "验证签名错误: 不支持此签名算法");
         }
     }
 }

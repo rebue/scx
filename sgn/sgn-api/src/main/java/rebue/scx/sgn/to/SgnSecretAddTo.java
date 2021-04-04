@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
-import rebue.robotech.valid.ValidDic;
+import rebue.robotech.valid.DicValid;
 import rebue.scx.sgn.dic.SignAlgorithmDic;
 
 /**
@@ -46,6 +46,6 @@ public class SgnSecretAddTo implements Serializable {
      */
     @NotNull(message = "算法不能为空")
     @PositiveOrZero(message = "算法不能为负数")
-    @ValidDic(target = SignAlgorithmDic.class, message = "不能识别的算法类型")
+    @DicValid(target = SignAlgorithmDic.class, message = "不能识别的算法类型")
     private Byte              algorithm;
 }
