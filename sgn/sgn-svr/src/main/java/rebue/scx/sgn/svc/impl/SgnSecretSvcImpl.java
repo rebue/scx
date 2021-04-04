@@ -39,11 +39,13 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
  *
+ * @mbg.dontOverWriteAnnotation
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-@CacheConfig(cacheNames = "rebue.scx.sgn.svc.secret.sign-id")
+@CacheConfig(cacheNames = "rebue.scx.sgn.secret.sign-id")
 public class SgnSecretSvcImpl extends
         BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
         implements SgnSecretSvc {
@@ -101,5 +103,4 @@ public class SgnSecretSvcImpl extends
     public SgnSecretMo getById(final Long id) {
         return super.getById(id);
     }
-
 }
