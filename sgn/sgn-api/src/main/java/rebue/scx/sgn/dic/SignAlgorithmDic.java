@@ -9,8 +9,9 @@ import rebue.robotech.dic.DicUtils;
 
 /**
  * 签名算法的字典
- * 1: 通用签名
- * 2: 微信支付签名
+ * 1: MD5
+ * 2. WX_PAY
+ * 3: SM3_WITH_SM2
  */
 @AllArgsConstructor
 @Getter
@@ -18,11 +19,15 @@ public enum SignAlgorithmDic implements Dic {
     /**
      * 1: 通用签名
      */
-    COMMON((byte) 1, "通用签名"),
+    MD5((byte) 1, "MD5签名"),
     /**
      * 2: 微信支付签名
      */
-    WX_PAY((byte) 2, "微信支付签名");
+    WX_PAY((byte) 2, "微信支付签名"),
+    /**
+     * 3: Sm3WithSm2签名
+     */
+    SM3_WITH_SM2((byte) 3, "Sm3WithSm2签名");
 
     private final byte   code;
     private final String desc;

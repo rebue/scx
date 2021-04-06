@@ -57,7 +57,7 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         final SgnSecretMo      secretMo         = sgnSecretSvc.getById(signId);
         final SignAlgorithmDic signAlgorithmDic = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, secretMo.getAlgorithm());
         switch (signAlgorithmDic) {
-        case COMMON:
+        case MD5:
             if (SignUtils.verify1(paramMap, secretMo.getSecret())) {
                 return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
             }
@@ -65,7 +65,7 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
                 return new Ro<>(ResultDic.WARN, "验证签名错误: 签名不正确");
             }
         default:
-            return new Ro<>(ResultDic.WARN, "验证签名错误: 不支持此签名算法");
+            return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 不支持此签名算法");
         }
     }
 }
