@@ -112,6 +112,9 @@ public class SgnSecretSvcImpl extends
 
     }
 
+    /**
+     * 缓存公钥
+     */
     private void cachePublicKey(final SgnSecretMo mo) {
         try {
             mo.setPublicKey(Sm2Utils.getPublicKeyFromString(mo.getSecret()));
