@@ -47,7 +47,7 @@ public class SgnSecretJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "SECRET", nullable = false, length = 128)
+    @Column(name = "SECRET", nullable = false, length = 512)
     private String            secret;
 
     /**

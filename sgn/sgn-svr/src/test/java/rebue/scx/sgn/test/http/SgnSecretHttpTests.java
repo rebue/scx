@@ -1,14 +1,12 @@
 package rebue.scx.sgn.test.http;
 
 import java.io.IOException;
-
+import java.security.KeyPair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
@@ -22,6 +20,7 @@ import rebue.wheel.JacksonUtils;
 import rebue.wheel.RandomEx;
 import rebue.wheel.http.HttpClient;
 import rebue.wheel.http.impl.OkHttpClientImpl;
+import rebue.wheel.turing.Sm2Utils;
 
 /**
  * 签名密钥 HTTP测试
@@ -39,8 +38,6 @@ public class SgnSecretHttpTests {
 
     /**
      * 测试基本的增删改查
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
     public void testCrud() throws IOException {
@@ -48,6 +45,9 @@ public class SgnSecretHttpTests {
         Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
+            // XXX 生成公钥并保存
+            final KeyPair keyPair = Sm2Utils.generateKeyPair();
+            addTo.setSecret(Sm2Utils.getPublicKeyString(keyPair));
             log.info("添加签名密钥的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/sgn/secret", addTo);
             log.info("添加签名密钥的返回值为：" + addResult);

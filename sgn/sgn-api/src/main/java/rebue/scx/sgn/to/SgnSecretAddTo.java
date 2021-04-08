@@ -35,7 +35,7 @@ public class SgnSecretAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotBlank(message = "密钥不能为空")
-    @Length(max = 128, message = "密钥的长度不能大于128")
+    @Length(max = 512, message = "密钥的长度不能大于512")
     private String            secret;
 
     /**

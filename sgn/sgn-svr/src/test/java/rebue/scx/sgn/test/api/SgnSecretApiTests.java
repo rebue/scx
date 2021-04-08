@@ -1,5 +1,7 @@
 package rebue.scx.sgn.test.api;
 
+import java.security.KeyPair;
+
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,7 @@ import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
 import rebue.scx.sgn.to.SgnSecretPageTo;
 import rebue.wheel.RandomEx;
+import rebue.wheel.turing.Sm2Utils;
 
 /**
  * 签名密钥 API层测试
@@ -46,8 +49,6 @@ public class SgnSecretApiTests {
 
     /**
      * 测试基本的增删改查
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
     public void testCrud() {
@@ -55,6 +56,9 @@ public class SgnSecretApiTests {
         Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
+            // XXX 生成公钥并保存
+            final KeyPair keyPair = Sm2Utils.generateKeyPair();
+            addTo.setSecret(Sm2Utils.getPublicKeyString(keyPair));
             log.info("添加签名密钥的参数为：" + addTo);
             final Ro<IdRa<Long>> idRo = _api.add(addTo);
             log.info("添加签名密钥的返回值为：" + idRo);

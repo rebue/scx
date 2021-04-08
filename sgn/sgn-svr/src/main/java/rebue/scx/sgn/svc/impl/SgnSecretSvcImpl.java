@@ -1,7 +1,6 @@
 package rebue.scx.sgn.svc.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -10,7 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.sgn.dao.SgnSecretDao;
@@ -41,12 +40,12 @@ import rebue.wheel.turing.Sm2Utils;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @CacheConfig(cacheNames = "rebue.scx.sgn.secret.sign-id")
+@Slf4j
 public class SgnSecretSvcImpl extends
     BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
     implements SgnSecretSvc {
@@ -109,7 +108,6 @@ public class SgnSecretSvcImpl extends
         final SgnSecretMo result = super.getById(id);
         cachePublicKey(result);
         return result;
-
     }
 
     /**
@@ -119,7 +117,9 @@ public class SgnSecretSvcImpl extends
         try {
             mo.setPublicKey(Sm2Utils.getPublicKeyFromString(mo.getSecret()));
         } catch (final Exception e) {
-            throw new RuntimeException("缓存公钥失败", e);
+            final String msg = "缓存公钥失败";
+            log.error(msg, e);
+            throw new RuntimeException(msg, e);
         }
     }
 }
