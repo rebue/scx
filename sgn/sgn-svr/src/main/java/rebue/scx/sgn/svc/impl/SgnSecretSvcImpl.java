@@ -1,6 +1,7 @@
 package rebue.scx.sgn.svc.impl;
 
 import javax.annotation.Resource;
+
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.extern.slf4j.Slf4j;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.sgn.dao.SgnSecretDao;
@@ -23,7 +24,6 @@ import rebue.scx.sgn.to.SgnSecretListTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
 import rebue.scx.sgn.to.SgnSecretOneTo;
 import rebue.scx.sgn.to.SgnSecretPageTo;
-import rebue.wheel.turing.Sm2Utils;
 
 /**
  * 签名密钥服务实现
@@ -40,15 +40,15 @@ import rebue.wheel.turing.Sm2Utils;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @CacheConfig(cacheNames = "rebue.scx.sgn.secret.sign-id")
-@Slf4j
 public class SgnSecretSvcImpl extends
-    BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
-    implements SgnSecretSvc {
+        BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
+        implements SgnSecretSvc {
 
     /**
      * 本服务的单例
@@ -83,17 +83,13 @@ public class SgnSecretSvcImpl extends
     @Override
     @CachePut(key = "#mo.id")
     public SgnSecretMo addMo(final SgnSecretMo mo) {
-        final SgnSecretMo result = super.addMo(mo);
-        cachePublicKey(result);
-        return result;
+        return super.addMo(mo);
     }
 
     @Override
     @CachePut(key = "#mo.id")
     public SgnSecretMo modifyMoById(final SgnSecretMo mo) {
-        final SgnSecretMo result = super.modifyMoById(mo);
-        cachePublicKey(result);
-        return result;
+        return super.modifyMoById(mo);
     }
 
     @Override
@@ -105,21 +101,6 @@ public class SgnSecretSvcImpl extends
     @Override
     @Cacheable
     public SgnSecretMo getById(final Long id) {
-        final SgnSecretMo result = super.getById(id);
-        cachePublicKey(result);
-        return result;
-    }
-
-    /**
-     * 缓存公钥
-     */
-    private void cachePublicKey(final SgnSecretMo mo) {
-        try {
-            mo.setPublicKey(Sm2Utils.getPublicKeyFromString(mo.getSecret()));
-        } catch (final Exception e) {
-            final String msg = "缓存公钥失败";
-            log.error(msg, e);
-            throw new RuntimeException(msg, e);
-        }
+        return super.getById(id);
     }
 }

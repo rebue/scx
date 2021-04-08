@@ -1,6 +1,7 @@
 package rebue.scx.sgn.svc.impl.ex;
 
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.sgn.dic.SignAlgorithmDic;
 import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
+import rebue.scx.sgn.svc.ex.SgnKeySvc;
 import rebue.scx.sgn.svc.ex.SgnVerifySvc;
 import rebue.wheel.turing.SignUtils;
 
@@ -39,6 +41,9 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
     @Resource
     private SgnSecretSvc sgnSecretSvc;
 
+    @Resource
+    private SgnKeySvc    sgnKeySvc;
+
     @Override
     public Ro<?> verify(final Map<String, Object> paramMap) {
         if (paramMap == null || paramMap.isEmpty()) {
@@ -46,7 +51,7 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         }
 
         // 获取签名ID
-        final String signIdStr = paramMap.get("signId").toString();
+        final String signIdStr = Optional.ofNullable(paramMap.get("signId")).orElse("").toString();
         if (StringUtils.isBlank(signIdStr)) {
             return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 请求参数中没有signId");
         }
@@ -65,7 +70,7 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
                 return new Ro<>(ResultDic.WARN, "验证签名错误: 签名不正确");
             }
         case SM3_WITH_SM2:
-            if (SignUtils.verify3(paramMap, secretMo.getPublicKey())) {
+            if (SignUtils.verify3(paramMap, sgnKeySvc.getPublicKey(secretMo))) {
                 return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
             }
             else {
