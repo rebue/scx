@@ -18,7 +18,7 @@
             },
             {
               "name": "SECRET",
-              "type": "ShortString",
+              "type": "String512",
               "remark": "",
               "chnname": "密钥",
               "notNull": true,
@@ -140,6 +140,27 @@
           },
           "PostgreSQL": {
             "type": "INT"
+          }
+        }
+      },
+      {
+        "name": "字串-512",
+        "code": "String512",
+        "apply": {
+          "JAVA": {
+            "type": "String"
+          },
+          "MYSQL": {
+            "type": "VARCHAR(512)"
+          },
+          "ORACLE": {
+            "type": "NVARCHAR2(512)"
+          },
+          "SQLServer": {
+            "type": "NVARCHAR(512)"
+          },
+          "PostgreSQL": {
+            "type": "VARCHAR(512)"
           }
         }
       },
