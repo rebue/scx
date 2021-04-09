@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.sbs.cache.CacheManagerName;
-import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.ex.SgnKeySvc;
 import rebue.wheel.turing.Sm2Utils;
 
@@ -21,11 +20,18 @@ import rebue.wheel.turing.Sm2Utils;
 @CacheConfig(cacheNames = "rebue.scx.sgn.key.sign-id")
 public class SgnKeySvcImpl implements SgnKeySvc {
 
+    /**
+     * 根据密钥字符串获取公钥
+     *
+     * @param key 密钥字符串
+     *
+     * @return 返回公钥
+     */
     @Override
-    @Cacheable(key = "#mo.id", cacheManager = CacheManagerName.CAFFEINE_CACHE_MANAGER)
-    public PublicKey getPublicKey(final SgnSecretMo mo) {
+    @Cacheable(cacheManager = CacheManagerName.CAFFEINE_CACHE_MANAGER)
+    public PublicKey getPublicKey(final String key) {
         try {
-            return Sm2Utils.getPublicKeyFromString(mo.getSecret());
+            return Sm2Utils.getPublicKeyFromString(key);
         } catch (final Exception e) {
             final String msg = "获取公钥出错";
             log.error(msg, e);

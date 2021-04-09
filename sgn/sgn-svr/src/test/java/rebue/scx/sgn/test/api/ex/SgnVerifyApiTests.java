@@ -38,9 +38,11 @@ public class SgnVerifyApiTests {
 
     /**
      * 测试签名验证
+     *
+     * @throws Exception
      */
     @Test
-    public void testCrud() {
+    public void testCrud() throws Exception {
         SgnSecretAddTo addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
         addTo.setAlgorithm(SignAlgorithmDic.MD5.getCode());
         Long                      addId    = _secretApi.add(addTo).getExtra().getId();
@@ -85,6 +87,13 @@ public class SgnVerifyApiTests {
         addTo.setSecret(Sm2Utils.getPublicKeyString(keyPair));
         addId = _secretApi.add(addTo).getExtra().getId();
         paramMap.put("signId", addId);
+        log.info("private key: {}", Sm2Utils.getPrivateKeyString(keyPair));
+        SignUtils.sign3(paramMap, Sm2Utils.getPrivateKeyFromString("MDBmMDcxMmI3NGMyODdlM2I2NDE2MzM2MWMwNmFjNTY0YWU0N2E3MDkzZjNiMzYyMDc0NjVhMGY5YWZhNGMyM2Ex"));
+        ro = _api.verify(paramMap);
+        log.info("返回结果: {}", ro);
+        Assertions.assertEquals(ResultDic.WARN, ro.getResult());
+        Assertions.assertEquals("验证签名错误: 签名不正确", ro.getMsg());
+
         SignUtils.sign3(paramMap, keyPair.getPrivate());
         ro = _api.verify(paramMap);
         log.info("返回结果: {}", ro);

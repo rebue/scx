@@ -2,20 +2,18 @@ package rebue.scx.sgn.svc.ex;
 
 import java.security.PublicKey;
 
-import rebue.scx.sgn.mo.SgnSecretMo;
-
 /**
  * 签名验证服务
  */
 public interface SgnKeySvc {
 
     /**
-     * 根据签名密钥实体获取公钥
+     * 根据密钥字符串获取公钥
      *
-     * @param signId 签名ID
+     * @param key 密钥字符串
      *
      * @return 返回公钥
      */
-    PublicKey getPublicKey(SgnSecretMo mo);
+    PublicKey getPublicKey(String key);
 
 }

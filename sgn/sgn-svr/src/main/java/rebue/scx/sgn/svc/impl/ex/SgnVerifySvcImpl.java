@@ -70,7 +70,7 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
                 return new Ro<>(ResultDic.WARN, "验证签名错误: 签名不正确");
             }
         case SM3_WITH_SM2:
-            if (SignUtils.verify3(paramMap, sgnKeySvc.getPublicKey(secretMo))) {
+            if (SignUtils.verify3(paramMap, sgnKeySvc.getPublicKey(secretMo.getSecret()))) {
                 return new Ro<>(ResultDic.SUCCESS, "验证签名正确");
             }
             else {
