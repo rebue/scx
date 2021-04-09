@@ -30,6 +30,7 @@ public class SgnKeySvcImpl implements SgnKeySvc {
     @Override
     @Cacheable(cacheManager = CacheManagerName.CAFFEINE_CACHE_MANAGER)
     public PublicKey getPublicKey(final String key) {
+        log.info("我进来了");
         try {
             return Sm2Utils.getPublicKeyFromString(key);
         } catch (final Exception e) {

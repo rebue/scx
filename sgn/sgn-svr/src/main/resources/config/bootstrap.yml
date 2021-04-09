@@ -24,6 +24,9 @@ spring:
       naming:
         # 识别大写表
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  cache:
+    caffeine:
+      spec: maximumSize=1024,refreshAfterWrite=1s
   cloud:
     nacos:
       discovery:

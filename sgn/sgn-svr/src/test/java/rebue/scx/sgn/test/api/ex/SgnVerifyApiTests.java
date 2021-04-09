@@ -98,5 +98,12 @@ public class SgnVerifyApiTests {
         ro = _api.verify(paramMap);
         log.info("返回结果: {}", ro);
         Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
+
+        // XXX 将过期设置为1秒，测试过期
+        Thread.sleep(3000);
+        SignUtils.sign3(paramMap, keyPair.getPrivate());
+        ro = _api.verify(paramMap);
+        log.info("返回结果: {}", ro);
+        Assertions.assertEquals(ResultDic.SUCCESS, ro.getResult());
     }
 }
