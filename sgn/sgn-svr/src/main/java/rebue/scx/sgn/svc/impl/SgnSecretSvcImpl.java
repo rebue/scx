@@ -40,15 +40,15 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @CacheConfig(cacheNames = "rebue.scx.sgn.secret.sign-id")
 public class SgnSecretSvcImpl extends
-        BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
-        implements SgnSecretSvc {
+    BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
+    implements SgnSecretSvc {
 
     /**
      * 本服务的单例
@@ -82,18 +82,21 @@ public class SgnSecretSvcImpl extends
 
     @Override
     @CachePut(key = "#mo.id")
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public SgnSecretMo addMo(final SgnSecretMo mo) {
         return super.addMo(mo);
     }
 
     @Override
     @CachePut(key = "#mo.id")
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public SgnSecretMo modifyMoById(final SgnSecretMo mo) {
         return super.modifyMoById(mo);
     }
 
     @Override
     @CacheEvict
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final Long id) {
         super.delById(id);
     }
@@ -103,4 +106,5 @@ public class SgnSecretSvcImpl extends
     public SgnSecretMo getById(final Long id) {
         return super.getById(id);
     }
+
 }
