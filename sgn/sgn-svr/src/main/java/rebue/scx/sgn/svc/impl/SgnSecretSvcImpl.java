@@ -40,15 +40,15 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
- * 
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @CacheConfig(cacheNames = "rebue.scx.sgn.secret.sign-id")
 public class SgnSecretSvcImpl extends
-        BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
-        implements SgnSecretSvc {
+    BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
+    implements SgnSecretSvc {
 
     /**
      * 本服务的单例
@@ -78,12 +78,6 @@ public class SgnSecretSvcImpl extends
     @Override
     protected Class<SgnSecretMo> getMoClass() {
         return SgnSecretMo.class;
-    }
-
-    @Override
-    @CachePut(key = "#mo.id")
-    public SgnSecretMo addMo(final SgnSecretMo mo) {
-        return super.addMo(mo);
     }
 
     @Override
