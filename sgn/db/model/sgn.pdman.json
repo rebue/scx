@@ -31,14 +31,6 @@
               "chnname": "算法",
               "notNull": true,
               "uiHint": "Number"
-            },
-            {
-              "name": "IS_MOCK",
-              "type": "Boolean",
-              "remark": "",
-              "chnname": "是否Mock",
-              "notNull": true,
-              "uiHint": "Radio"
             }
           ],
           "indexs": [],
