@@ -32,7 +32,7 @@ public class RrlReqLogApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -67,14 +67,12 @@ public class RrlReqLogApiTests {
         log.info("获取单个请求日志的参数为：" + id);
         final Ro<PojoRa<RrlReqLogMo>> getByIdResult = _api.getById(id);
         log.info("获取单个请求日志的返回值为：" + getByIdResult);
-
         final RrlReqLogModifyTo modifyTo = dozerMapper.map(addTo, RrlReqLogModifyTo.class);
         modifyTo.setId(id);
         log.info("修改请求日志的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改请求日志的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除请求日志的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除请求日志的返回值为：" + deleteResult);

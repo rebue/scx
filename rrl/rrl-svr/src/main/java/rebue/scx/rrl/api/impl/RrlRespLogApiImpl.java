@@ -23,5 +23,4 @@ import rebue.scx.rrl.to.RrlRespLogPageTo;
 public class RrlRespLogApiImpl extends
     BaseApiImpl<java.lang.Long, RrlRespLogAddTo, RrlRespLogModifyTo, RrlRespLogDelTo, RrlRespLogOneTo, RrlRespLogListTo, RrlRespLogPageTo, RrlRespLogMo, RrlRespLogJo, RrlRespLogSvc>
     implements RrlRespLogApi {
-
 }
