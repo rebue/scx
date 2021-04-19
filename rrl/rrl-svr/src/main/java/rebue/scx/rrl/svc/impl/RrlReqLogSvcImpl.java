@@ -72,4 +72,5 @@ public class RrlReqLogSvcImpl extends
     protected Class<RrlReqLogMo> getMoClass() {
         return RrlReqLogMo.class;
     }
+
 }

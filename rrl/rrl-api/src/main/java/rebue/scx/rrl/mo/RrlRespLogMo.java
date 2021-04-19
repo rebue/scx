@@ -16,100 +16,99 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
- * 响应日志
- *
- * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
- */
+* 响应日志
+*
+* @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+*/
 @JsonInclude(Include.NON_NULL)
 public class RrlRespLogMo implements Serializable, Mo<Long> {
-
     /**
-     * ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @NotNull(groups = ModifyGroup.class, message = "ID不能为空")
     @PositiveOrZero(message = "ID不能为负数")
-    private Long              id;
+    private Long id;
 
     /**
-     * 响应状态码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 响应状态码
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @NotNull(groups = AddGroup.class, message = "响应状态码不能为空")
-    private Byte              statusCode;
+    private Byte statusCode;
 
     /**
-     * 响应头部
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 响应头部
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @NotBlank(groups = AddGroup.class, message = "响应头部不能为空")
     @Length(max = 3076, message = "响应头部的长度不能大于3076")
-    private String            headers;
+    private String headers;
 
     /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
+    * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     public Long getId() {
         return id;
     }
 
     /**
-     * ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * 响应状态码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 响应状态码
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     public Byte getStatusCode() {
         return statusCode;
     }
 
     /**
-     * 响应状态码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 响应状态码
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     public void setStatusCode(Byte statusCode) {
         this.statusCode = statusCode;
     }
 
     /**
-     * 响应头部
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 响应头部
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     public String getHeaders() {
         return headers;
     }
 
     /**
-     * 响应头部
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 响应头部
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     public void setHeaders(String headers) {
         this.headers = headers;
     }
 
     /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
+    * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -126,7 +125,7 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
+    * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -140,11 +139,12 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
             return false;
         }
         RrlRespLogMo other = (RrlRespLogMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+        ;
     }
 
     /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
+    * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
@@ -155,10 +155,10 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 获取ID的类型
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 获取ID的类型
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Override
     public String getIdType() {
         return "Long";

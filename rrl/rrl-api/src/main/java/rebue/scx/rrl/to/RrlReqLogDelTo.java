@@ -24,50 +24,46 @@ public class RrlReqLogDelTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 请求方法
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 请求方法
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Length(max = 10, message = "请求方法的长度不能大于10")
     private String            method;
-
     /**
-     * 请求地址
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 请求地址
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Length(max = 512, message = "请求地址的长度不能大于512")
     private String            uri;
-
     /**
-     * 请求头
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 请求头
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Length(max = 3076, message = "请求头的长度不能大于3076")
     private String            headers;
-
     /**
-     * 内容类型
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 内容类型
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Length(max = 30, message = "内容类型的长度不能大于30")
     private String            contentType;
-
     /**
-     * 请求查询参数
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 请求查询参数
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Length(max = 2048, message = "请求查询参数的长度不能大于2048")
     private String            queryParams;
-
     /**
-     * 请求主体
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 请求主体
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Length(max = 2048, message = "请求主体的长度不能大于2048")
     private String            body;
+
 }
