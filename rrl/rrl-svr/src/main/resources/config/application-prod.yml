@@ -4,3 +4,9 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/rrl?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
     username: rrl
     password: rrl
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /

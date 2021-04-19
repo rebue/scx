@@ -34,6 +34,9 @@ spring:
         file-extension: yaml
         # 配置分组(默认为DEFAULT_GROUP)
         group: REBUE
+  rabbitmq:
+    publisher-confirm-type: SIMPLE 
+    publisher-returns: true
 
 dubbo:
   scan:
