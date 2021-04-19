@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.rebue.scx</groupId>
+		<artifactId>scx</artifactId>
+		<version>1.2.2</version>
+	</parent>
+
+	<artifactId>rrl</artifactId>
+	<packaging>pom</packaging>
+	<description>请求与响应日志微服务</description>
+
+	<modules>
+		<module>rrl-gen</module>
+		<module>rrl-api</module>
+		<module>rrl-svr</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.rebue.scx</groupId>
+				<artifactId>rrl-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.shalousun</groupId>
+				<artifactId>smart-doc-maven-plugin</artifactId>
+				<configuration>
+					<projectName>rrl</projectName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
