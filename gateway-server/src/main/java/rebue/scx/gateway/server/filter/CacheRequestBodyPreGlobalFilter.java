@@ -4,6 +4,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import javax.annotation.Resource;
 
@@ -79,10 +80,14 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         sb1.append(" ");
         sb1.append(requestUri);
         sb1.append("\r\n* 请求的Headers:");
+        final StringJoiner sjHeaders = new StringJoiner(";");
         requestHeaders.forEach((name, values) -> {
+            final StringJoiner sjHeader = new StringJoiner(",");
             values.forEach(value -> {
+                sjHeader.add(value);
                 sb1.append("\r\n*    ").append(name).append(": ").append(value);
             });
+            sjHeaders.add(name + ": " + sjHeader);
         });
 
         if (request.getQueryParams() != null && !request.getQueryParams().isEmpty()) {
@@ -109,12 +114,15 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                     return;
                 }
 
+                // 缓存body
+                exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY, bodyString);
+
                 // FIXME 这里只判断了JSON格式的Body，不知道后面会不会碰到其它格式的Body
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
                     || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     final Map<String, Object> bodyParmams = new LinkedHashMap<>(jsonParser.parseMap(bodyString));
                     if (bodyParmams != null && !bodyParmams.isEmpty()) {
-                        // 缓存
+                        // 缓存参数
                         exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_PARAMS, bodyParmams);
 
                         sb1.append("\r\n* 请求的body:\r\n");
@@ -140,6 +148,14 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             }
         }).doOnTerminate(() -> {
             // 上一步结束，在then之前，记录一下日志
+
+            // TODO 数据库日志
+            final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY);
+            if (body != null) {
+                final String bodyString = body.toString();
+            }
+
+            // 文件日志
             sb1.append(StringUtils.rightPad("\r\n------------------------------------------------------------------------------", 100));
             log.info(sb1.toString());
         }).doFinally(signalType -> {
@@ -150,7 +166,10 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             final HttpStatus         responseStatusCode = response.getStatusCode();
             final HttpHeaders        responseHeaders    = response.getHeaders();
 
-            final StringBuilder      sb3                = new StringBuilder();
+            // TODO 数据库日志
+
+            // 文件日志
+            final StringBuilder sb3 = new StringBuilder();
             sb3.append("结束CacheRequestBodyPreGlobalFilter过滤器!!!\r\n"
                 + "======================= CacheRequestBodyPreGlobalFilter过滤器被调用详情 =======================\r\n"
                 + "* 结束类型:\r\n*    ");

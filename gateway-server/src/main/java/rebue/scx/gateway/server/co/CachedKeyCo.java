@@ -9,11 +9,15 @@ package rebue.scx.gateway.server.co;
  */
 public class CachedKeyCo {
     /**
-     * 链接中的请求参数
+     * 请求链接中的参数
      */
     public static final String REQUEST_QUERY_PARAMS = "@requestQueryParams";
     /**
-     * Body中的请求参数M
+     * 请求Body中的参数
      */
     public static final String REQUEST_BODY_PARAMS  = "@requestBodyParams";
+    /**
+     * 请求Body
+     */
+    public static final String REQUEST_BODY         = "@requestBody";
 }
