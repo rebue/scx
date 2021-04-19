@@ -49,6 +49,13 @@
 		"backup": false
 	},
 	{
+		"templateName": "api.btl",
+		"targetDir": "rrl-api/src/main/java/${modulePath}/api/",
+		"targetFile": "${entityName}Api.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
 		"templateName": "svc.btl",
 		"targetDir": "rrl-svr/src/main/java/${modulePath}/svc/",
 		"targetFile": "${entityName}Svc.java",
@@ -70,9 +77,37 @@
 		"backup": false
 	},
 	{
+		"templateName": "api-impl.btl",
+		"targetDir": "rrl-svr/src/main/java/${modulePath}/api/impl/",
+		"targetFile": "${entityName}ApiImpl.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "ctrl.btl",
+		"targetDir": "rrl-svr/src/main/java/${modulePath}/ctrl/",
+		"targetFile": "${entityName}Ctrl.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
 		"templateName": "test-svc.btl",
 		"targetDir": "rrl-svr/src/test/java/${modulePath}/test/svc",
 		"targetFile": "${entityName}SvcTests.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "test-api.btl",
+		"targetDir": "rrl-svr/src/test/java/${modulePath}/test/api",
+		"targetFile": "${entityName}ApiTests.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "test-http.btl",
+		"targetDir": "rrl-svr/src/test/java/${modulePath}/test/http",
+		"targetFile": "${entityName}HttpTests.java",
 		"isGenTargetOnMiddleTable": false,
 		"backup": false
 	}

@@ -16,6 +16,7 @@ import lombok.ToString;
  * 请求日志
  *
  * The persistent class for the RRL_REQ_LOG database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -31,59 +32,65 @@ public class RrlReqLogJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
+
     /**
-    * 请求方法
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 请求方法
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "METHOD", nullable = false, length = 10)
     private String            method;
+
     /**
-    * 请求地址
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 请求地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "URI", nullable = false, length = 512)
     private String            uri;
+
     /**
-    * 请求头
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 请求头
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "HEADERS", nullable = true, length = 3076)
     private String            headers;
+
     /**
-    * 内容类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 内容类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "CONTENT_TYPE", nullable = true, length = 30)
     private String            contentType;
+
     /**
-    * 请求查询参数
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 请求查询参数
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "QUERY_PARAMS", nullable = true, length = 2048)
     private String            queryParams;
+
     /**
-    * 请求主体
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 请求主体
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "BODY", nullable = true, length = 2048)
     private String            body;
@@ -119,5 +126,4 @@ public class RrlReqLogJo implements Serializable {
             return false;
         return true;
     }
-
 }

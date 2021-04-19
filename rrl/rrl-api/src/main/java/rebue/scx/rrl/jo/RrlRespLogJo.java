@@ -16,6 +16,7 @@ import lombok.ToString;
  * 响应日志
  *
  * The persistent class for the RRL_RESP_LOG database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -31,27 +32,29 @@ public class RrlRespLogJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
+
     /**
-    * 响应状态码
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 响应状态码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "STATUS_CODE", nullable = false, length = 3)
     private Byte              statusCode;
+
     /**
-    * 响应头部
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 响应头部
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "HEADERS", nullable = false, length = 3076)
     private String            headers;
@@ -87,5 +90,4 @@ public class RrlRespLogJo implements Serializable {
             return false;
         return true;
     }
-
 }

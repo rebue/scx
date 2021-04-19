@@ -29,5 +29,4 @@ import rebue.scx.rrl.to.RrlRespLogPageTo;
 @Validated
 public interface RrlRespLogSvc
     extends BaseSvc<java.lang.Long, RrlRespLogAddTo, RrlRespLogModifyTo, RrlRespLogDelTo, RrlRespLogOneTo, RrlRespLogListTo, RrlRespLogPageTo, RrlRespLogMo, RrlRespLogJo> {
-
 }
