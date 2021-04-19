@@ -177,82 +177,6 @@
             }
           ],
           "chnname": "响应日志"
-        },
-        {
-          "title": "RRL_FILTER",
-          "fields": [
-            {
-              "name": "ID",
-              "type": "Long",
-              "remark": "",
-              "chnname": "ID",
-              "pk": true,
-              "notNull": true
-            },
-            {
-              "name": "METHOD",
-              "type": "String-10",
-              "remark": "",
-              "chnname": "请求方法",
-              "notNull": true
-            },
-            {
-              "name": "URI",
-              "type": "String-512",
-              "remark": "",
-              "chnname": "请求地址",
-              "notNull": true
-            }
-          ],
-          "indexs": [],
-          "headers": [
-            {
-              "fieldName": "chnname",
-              "relationNoShow": false
-            },
-            {
-              "fieldName": "name",
-              "relationNoShow": false
-            },
-            {
-              "fieldName": "type",
-              "relationNoShow": false
-            },
-            {
-              "fieldName": "dataType",
-              "relationNoShow": true
-            },
-            {
-              "fieldName": "remark",
-              "relationNoShow": true
-            },
-            {
-              "fieldName": "pk",
-              "relationNoShow": false
-            },
-            {
-              "fieldName": "notNull",
-              "relationNoShow": true
-            },
-            {
-              "fieldName": "autoIncrement",
-              "relationNoShow": true
-            },
-            {
-              "fieldName": "defaultValue",
-              "relationNoShow": true
-            },
-            {
-              "fieldName": "relationNoShow",
-              "relationNoShow": true
-            },
-            {
-              "fieldName": "uiHint",
-              "relationNoShow": true
-            }
-          ],
-          "chnname": "过滤器",
-          "remark": "只在过滤器中匹配的请求才进行记录"
         }
       ],
       "graphCanvas": {
@@ -261,24 +185,16 @@
             "shape": "table",
             "title": "RRL_REQ_LOG",
             "moduleName": false,
-            "x": 170,
-            "y": 220,
+            "x": 160,
+            "y": 90,
             "id": "38838077"
-          },
-          {
-            "shape": "table",
-            "title": "RRL_FILTER",
-            "moduleName": false,
-            "x": 130,
-            "y": 60,
-            "id": "532d1bdf"
           },
           {
             "shape": "table",
             "title": "RRL_RESP_LOG",
             "moduleName": false,
-            "x": 520,
-            "y": 180,
+            "x": 510,
+            "y": 50,
             "id": "ed342195"
           }
         ],
