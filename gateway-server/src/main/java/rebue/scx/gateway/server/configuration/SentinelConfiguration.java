@@ -16,7 +16,7 @@ import org.springframework.web.reactive.result.view.ViewResolver;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.SentinelGatewayFilter;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnExpression("#{!'false'.equals(environment.getProperty('spring.cloud.sentinel.enabled'))}")
 public class SentinelConfiguration {
     private final List<ViewResolver>    viewResolvers;
