@@ -17,6 +17,9 @@ spring:
 #      # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
 #      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
 #      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+  rabbitmq:
+    publisher-confirm-type: SIMPLE 
+    publisher-returns: true
   cloud:
     nacos:
       discovery:

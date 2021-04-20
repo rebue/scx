@@ -24,6 +24,9 @@ spring:
       naming:
         # 识别大写表
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  rabbitmq:
+    publisher-confirm-type: SIMPLE 
+    publisher-returns: true
   cloud:
     nacos:
       discovery:
@@ -34,9 +37,6 @@ spring:
         file-extension: yaml
         # 配置分组(默认为DEFAULT_GROUP)
         group: REBUE
-  rabbitmq:
-    publisher-confirm-type: SIMPLE 
-    publisher-returns: true
 
 dubbo:
   scan:

@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -30,6 +31,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
+import rebue.scx.rrl.co.RrlAmpqCo;
+import rebue.scx.rrl.to.RrlReqLogAddTo;
+import rebue.scx.rrl.to.RrlRespLogAddTo;
 
 /**
  * 缓存Body
@@ -49,10 +53,13 @@ import rebue.scx.gateway.server.co.CachedKeyCo;
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     @Resource
-    private JsonParser   jsonParser;
+    private RabbitTemplate rabbitTemplate;
 
     @Resource
-    private ObjectMapper objectMapper;
+    private JsonParser     jsonParser;
+
+    @Resource
+    private ObjectMapper   objectMapper;
 
     /**
      * 注意我开始使用@Order注解没有起作用，所以以实现Ordered接口的方式设置最高的优先级
@@ -87,9 +94,10 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 sjHeader.add(value);
                 sb1.append("\r\n*    ").append(name).append(": ").append(value);
             });
-            sjHeaders.add(name + ": " + sjHeader);
+            sjHeaders.add(name + ":" + sjHeader);
         });
 
+        final StringJoiner sjQueryParams = new StringJoiner(";");
         if (request.getQueryParams() != null && !request.getQueryParams().isEmpty()) {
             final Map<String, Object> requestQueryParams = new LinkedHashMap<>();
             // 缓存
@@ -97,15 +105,18 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 打印
             sb1.append("\r\n* 请求的QueryParams:");
             request.getQueryParams().forEach((key, values) -> {
+                final StringJoiner sjQueryParam = new StringJoiner(",");
                 values.forEach(value -> {
+                    sjQueryParam.add(value);
                     requestQueryParams.put(key, value);
                     sb1.append("\r\n*    ").append(key).append(": ").append(value);
                 });
+                sjQueryParams.add(key + ":" + sjQueryParam);
             });
         }
         // log.info(sb1.toString());
 
-        return DataBufferUtils.join(exchange.getRequest().getBody()).doOnNext(dataBuffer -> {
+        return DataBufferUtils.join(request.getBody()).doOnNext(dataBuffer -> {
             if (dataBuffer.readableByteCount() > 0) {
                 // 将body读到字符串中
                 final String bodyString = StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer()).toString();
@@ -139,7 +150,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                         sb1.append(jsonText);
                     }
                     else {
-                        sb1.append(bodyString).append("\r\n");
+                        sb1.append("\r\n");
                     }
                 }
                 else {
@@ -149,24 +160,45 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         }).doOnTerminate(() -> {
             // 上一步结束，在then之前，记录一下日志
 
-            // TODO 数据库日志
-            final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY);
-            if (body != null) {
-                final String bodyString = body.toString();
-            }
-
             // 文件日志
             sb1.append(StringUtils.rightPad("\r\n------------------------------------------------------------------------------", 100));
             log.info(sb1.toString());
-        }).doFinally(signalType -> {
+
+            // 数据库日志
+            // 构造消息对象
+            final RrlReqLogAddTo to = new RrlReqLogAddTo();
+            to.setMethod(requestMethod.toString());
+            to.setUri(requestUri.toString());
+            to.setHeaders(sjHeaders.toString());
+            if (contentType != null) {
+                to.setContentType(contentType.toString());
+            }
+            if (sjQueryParams.length() > 0) {
+                to.setQueryParams(sjQueryParams.toString());
+            }
+            // Body
+            final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY);
+            if (body != null) {
+                final String bodyString = body.toString();
+                if (StringUtils.isNotBlank(bodyString)) {
+                    to.setBody(bodyString.trim());
+                }
+            }
+            // 发送消息
+            if (!rabbitTemplate.invoke(operations -> {
+                rabbitTemplate.convertAndSend(RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to);
+                return rabbitTemplate.waitForConfirms(1000);// TODO 配置
+            })) {
+                log.error("添加请求日志失败");
+                throw new RuntimeException("添加请求日志失败");
+            }
+        }).then(chain.filter(exchange)).doFinally(signalType -> {
             // 调用所有过滤器完成，又回到本优先级最高的过滤器
             stopWatch.stop();
 
             final ServerHttpResponse response           = exchange.getResponse();
             final HttpStatus         responseStatusCode = response.getStatusCode();
             final HttpHeaders        responseHeaders    = response.getHeaders();
-
-            // TODO 数据库日志
 
             // 文件日志
             final StringBuilder sb3 = new StringBuilder();
@@ -186,9 +218,22 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             sb3.append(stopWatch.formatTime());
             sb3.append(StringUtils.rightPad("\r\n===================================================================================", 100));
             log.info(sb3.toString());
-        })
-            // 往下传
-            .then(chain.filter(exchange));
+
+            // 数据库日志
+            // 构造消息对象
+            final RrlRespLogAddTo to = new RrlRespLogAddTo();
+            to.setHeaders(sjHeaders.toString());
+            // FIXME 超出数据库字段的范围了，还要添加请求ID字段
+            to.setStatusCode((byte) responseStatusCode.value());
+            // 发送消息
+            if (!rabbitTemplate.invoke(operations -> {
+                rabbitTemplate.convertAndSend(RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to);
+                return rabbitTemplate.waitForConfirms(1000);// TODO 配置文件中配置
+            })) {
+                log.error("添加请求日志失败");
+                throw new RuntimeException("添加请求日志失败");
+            }
+        });
     }
 
 }
