@@ -11,6 +11,10 @@ spring:
           uri: lb://rrl-svr         
           predicates:               
             - Path=/rrl/**          
+        - id: sgn                   
+          uri: lb://sgn-svr         
+          predicates:               
+            - Path=/sgn/**          
         - id: rac                   
           uri: lb://rac-svr         
           predicates:               

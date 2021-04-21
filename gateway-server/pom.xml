@@ -15,7 +15,7 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>sgn-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rrl-api</artifactId>
@@ -23,13 +23,12 @@
 
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
-			<artifactId>dubbo-spring-boot-starter</artifactId>
+			<artifactId>amqp-spring-boot-starter</artifactId>
 		</dependency>
 
-		<!-- 消息 -->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>dubbo-spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -85,13 +84,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- 目前只用于测试 -->
-		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-core</artifactId>
 			<scope>test</scope>
 		</dependency>
 

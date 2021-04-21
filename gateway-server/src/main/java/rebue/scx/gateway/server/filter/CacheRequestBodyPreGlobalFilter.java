@@ -186,8 +186,12 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             }
             // 发送消息
             if (!rabbitTemplate.invoke(operations -> {
-                rabbitTemplate.convertAndSend(RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to);
-                return rabbitTemplate.waitForConfirms(1000);// TODO 配置
+                operations.convertAndSend(RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to);
+                return operations.waitForConfirms(1_000);// TODO 配置
+            }, (tag, multiple) -> {
+                log.info("添加请求日志应答-Ack: " + tag + "," + multiple);
+            }, (tag, multiple) -> {
+                log.info("添加请求日志应答-Nack: " + tag + "," + multiple);
             })) {
                 log.error("添加请求日志失败");
                 throw new RuntimeException("添加请求日志失败");
@@ -227,11 +231,15 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             to.setStatusCode((byte) responseStatusCode.value());
             // 发送消息
             if (!rabbitTemplate.invoke(operations -> {
-                rabbitTemplate.convertAndSend(RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to);
-                return rabbitTemplate.waitForConfirms(1000);// TODO 配置文件中配置
+                operations.convertAndSend(RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to);
+                return operations.waitForConfirms(1_000);// TODO 配置文件中配置
+            }, (tag, multiple) -> {
+                log.info("添加响应日志应答-Ack: " + tag + "," + multiple);
+            }, (tag, multiple) -> {
+                log.info("添加响应日志失败-Nack: " + tag + "," + multiple);
             })) {
-                log.error("添加请求日志失败");
-                throw new RuntimeException("添加请求日志失败");
+                log.error("添加响应日志失败");
+                throw new RuntimeException("添加响应日志失败");
             }
         });
     }
