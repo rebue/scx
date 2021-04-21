@@ -6,14 +6,18 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
@@ -186,6 +190,9 @@ public class RacAccountSvcImpl extends
     @Override
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
         final RacAccountMo accountMo = thisSvc.getById(curAccountId);
+        if (accountMo == null) {
+            return new Ro<>(ResultDic.WARN, "查找不到当前账户");
+        }
         final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
         _dozerMapper.map(accountMo, ra);
         ra.setNickname(accountMo.getSignInNickname());
@@ -203,8 +210,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
-        final String keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
-        final ISelect select = () -> _mapper.select(c -> c.where(racAccount.domainId, isEqualTo(qo.getDomainId()),
+        final String  keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
+        final ISelect select   = () -> _mapper.select(c -> c.where(racAccount.domainId, isEqualTo(qo.getDomainId()),
             and(racAccount.signInNickname, isLikeWhenPresent(keywords), or(racAccount.signInName, isLikeWhenPresent(keywords)),
                 or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
                 or(racAccount.signInEmail, isLikeWhenPresent(keywords)), or(racAccount.signInMobile, isLikeWhenPresent(keywords)),

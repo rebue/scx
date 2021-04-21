@@ -24,9 +24,6 @@ spring:
       naming:
         # 识别大写表
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  rabbitmq:
-    publisher-confirm-type: SIMPLE 
-    publisher-returns: true
   cloud:
     nacos:
       discovery:

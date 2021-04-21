@@ -59,7 +59,10 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         final Long signId = Long.valueOf(signIdStr);
 
         // 通过签名ID获取签名密钥实体
-        final SgnSecretMo      secretMo         = sgnSecretSvc.getById(signId);
+        final SgnSecretMo secretMo = sgnSecretSvc.getById(signId);
+        if (secretMo == null) {
+            return new Ro<>(ResultDic.WARN, "验证签名错误: 查找不到此signId的签名密钥");
+        }
         final SignAlgorithmDic signAlgorithmDic = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, secretMo.getAlgorithm());
         switch (signAlgorithmDic) {
         case MD5:
