@@ -24,7 +24,7 @@ import rebue.wheel.turing.DigestUtils;
 public class RacSignInHttpTests {
 
     // private final String _hostUrl = "http://127.0.0.1:9605";
-    private final String     _hostUrl    = "http://127.0.0.1:8080/rac-svr";
+    private final String     _hostUrl    = "http://127.0.0.1:10080/rac-svr";
 
     private final HttpClient _httpClient = new OkHttpClientImpl();
 
@@ -67,7 +67,7 @@ public class RacSignInHttpTests {
     }
 
     private Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) throws IOException {
-        final String url = _hostUrl + "/sign-in/sign-in-by-account-name";
+        final String url = _hostUrl + "/rac/sign-in/sign-in-by-account-name";
         log.info("测试通过账户名称登录: to-{}", to);
         final String result = _httpClient.postByJsonParams(url, to);
         log.info("通过账户名称注册的返回值为：" + result);
