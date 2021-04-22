@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -52,6 +53,9 @@ import rebue.scx.rrl.to.RrlRespLogAddTo;
 @Slf4j
 @Component
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
+
+    @Value("${scx.gateway.send-timeout:5000}")
+    private Long           sendTimeout;
 
     @Resource
     private RabbitTemplate rabbitTemplate;
@@ -186,7 +190,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 }
             }
             // 发送消息
-            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to)) {
+            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to, sendTimeout)) {
                 final String msg = "发送添加请求日志的消息失败";
                 log.error(msg);
                 throw new RuntimeException(msg);
@@ -225,7 +229,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // FIXME 超出数据库字段的范围了，还要添加请求ID字段
             to.setStatusCode((byte) responseStatusCode.value());
             // 发送消息
-            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to)) {
+            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to, sendTimeout)) {
                 final String msg = "发送添加响应日志的消息失败";
                 log.error(msg);
                 throw new RuntimeException(msg);

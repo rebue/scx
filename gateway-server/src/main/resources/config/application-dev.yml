@@ -1,3 +1,8 @@
+scx:
+  gateway:
+    # 发送消息的超时时间(记录请求和响应日志时使用)
+    send-timeout: 1000
+
 #  配置中心的配置
 spring:
   cloud:
@@ -22,5 +27,5 @@ spring:
           filters:
             - name: SignPre          # 签名前置过滤器
               args:
-                ignoreUrls:
+                ignore-urls:
                   - POST:/rac/sign-in/**

@@ -62,7 +62,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * 后面跟账户ID拼接成Key
      * Value为失败次数
      */
-    private static final String REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.svc.sign-in.wrong-pswd-times-of-sign-in::";
+    private static final String REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.sign-in.wrong-pswd-times::";
 
     @DubboReference(application = "jwt-svr")
     private JwtApi              jwtApi;
@@ -224,9 +224,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {
             final SignUpOrInRa ra = new SignUpOrInRa(
-                    accountMo.getId(),
-                    signRo.getExtra().getSign(),
-                    signRo.getExtra().getExpirationTime());
+                accountMo.getId(),
+                signRo.getExtra().getSign(),
+                signRo.getExtra().getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户登录成功", ra);
         }
         else {
