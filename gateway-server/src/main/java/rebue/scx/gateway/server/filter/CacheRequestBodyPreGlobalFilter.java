@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
+import rebue.sbs.amqp.RabbitTemplateUtils;
 import rebue.scx.gateway.server.co.CachedKeyCo;
 import rebue.scx.rrl.co.RrlAmpqCo;
 import rebue.scx.rrl.to.RrlReqLogAddTo;
@@ -185,16 +186,10 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 }
             }
             // 发送消息
-            if (!rabbitTemplate.invoke(operations -> {
-                operations.convertAndSend(RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to);
-                return operations.waitForConfirms(1_000);// TODO 配置
-            }, (tag, multiple) -> {
-                log.info("添加请求日志应答-Ack: " + tag + "," + multiple);
-            }, (tag, multiple) -> {
-                log.info("添加请求日志应答-Nack: " + tag + "," + multiple);
-            })) {
-                log.error("添加请求日志失败");
-                throw new RuntimeException("添加请求日志失败");
+            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to)) {
+                final String msg = "发送添加请求日志的消息失败";
+                log.error(msg);
+                throw new RuntimeException(msg);
             }
         }).then(chain.filter(exchange)).doFinally(signalType -> {
             // 调用所有过滤器完成，又回到本优先级最高的过滤器
@@ -230,16 +225,10 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // FIXME 超出数据库字段的范围了，还要添加请求ID字段
             to.setStatusCode((byte) responseStatusCode.value());
             // 发送消息
-            if (!rabbitTemplate.invoke(operations -> {
-                operations.convertAndSend(RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to);
-                return operations.waitForConfirms(1_000);// TODO 配置文件中配置
-            }, (tag, multiple) -> {
-                log.info("添加响应日志应答-Ack: " + tag + "," + multiple);
-            }, (tag, multiple) -> {
-                log.info("添加响应日志失败-Nack: " + tag + "," + multiple);
-            })) {
-                log.error("添加响应日志失败");
-                throw new RuntimeException("添加响应日志失败");
+            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to)) {
+                final String msg = "发送添加响应日志的消息失败";
+                log.error(msg);
+                throw new RuntimeException(msg);
             }
         });
     }
