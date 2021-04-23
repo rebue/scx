@@ -47,12 +47,12 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
                     && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
-                    log.debug("SignPreFilter过滤器根据配置不过滤此URL-{}", url);
+                    log.debug("经判断不过滤此URL-{}", url);
                     return returnFilter(chain, exchange);
                 }
                 if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
                     && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
-                    log.debug("SignPreFilter过滤器根据配置忽略此URL-{}", url);
+                    log.debug("经判断忽略此URL-{}", url);
                     return returnFilter(chain, exchange);
                 }
                 log.info("经判断要过滤此URL-{}", url);

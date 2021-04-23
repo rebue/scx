@@ -16,4 +16,4 @@ spring:
                 filter-urls:
                   - "'/rac-svr/**'"
                 ignore-urls:
-                  - "'POST:/rac/sign-in/**'"
+                  - "'POST:/rac-svr/rac/sign-in/**'"
