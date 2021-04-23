@@ -11,4 +11,9 @@ spring:
       discovery:
         locator:
           filters:
-            - SignPre
+            - name: SignPre
+              args:
+                filter-urls:
+                  - "'/rac-svr/**'"
+                ignore-urls:
+                  - "'POST:/rac/sign-in/**'"

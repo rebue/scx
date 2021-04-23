@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,18 +21,14 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.scx.gateway.server.co.CachedKeyCo;
 import rebue.scx.sgn.api.ex.SgnVerifyApi;
+import rebue.wheel.spring.AntPathMatcherUtils;
 
 @Slf4j
 @Component
 public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<SignPreGatewayFilterFactory.Config> {
 
     @DubboReference
-    private SgnVerifyApi                sgnVerifyApi;
-
-    private final static AntPathMatcher _matcher = new AntPathMatcher();
-    static {
-        _matcher.setCaseSensitive(false);
-    }
+    private SgnVerifyApi sgnVerifyApi;
 
     public SignPreGatewayFilterFactory() {
         super(Config.class);
@@ -43,37 +38,48 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
     public GatewayFilter apply(final Config config) {
         return new OrderedGatewayFilter((exchange, chain) -> {
             log.info(StringUtils.rightPad("*** 进入SignPreFilter过滤器 ***", 100));
-            final ServerHttpRequest request    = exchange.getRequest();
-            final String            requestUrl = request.getMethod() + ":" + request.getPath();
-            // TODO AntPathMatcher是不是线程安全的？
-            if (config.getIgnoreUrls() != null
-                && !config.getIgnoreUrls().isEmpty()
-                && config.getIgnoreUrls().stream().anyMatch(
-                    ignoreUrl -> _matcher.match(ignoreUrl, requestUrl))) {
-                log.debug("此URL根据配置被SignPreFilter过滤器忽略");
+            try {
+                final ServerHttpRequest request = exchange.getRequest();
+                final String            method  = request.getMethod().toString();
+                final String            path    = request.getPath().toString();
+                final String            url     = method + ":" + path;
+
+                log.info("判断是否要过滤此URL-{}", url);
+                if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
+                    && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
+                    log.debug("SignPreFilter过滤器根据配置不过滤此URL-{}", url);
+                    return returnFilter(chain, exchange);
+                }
+                if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
+                    && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
+                    log.debug("SignPreFilter过滤器根据配置忽略此URL-{}", url);
+                    return returnFilter(chain, exchange);
+                }
+                log.info("经判断要过滤此URL-{}", url);
+
+                // 获取请求参数
+                Map<String, Object> requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_QUERY_PARAMS);
+                if (requestParams == null) {
+                    requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
+                }
+
+                if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(requestParams).getResult())) {
+                    log.warn("认证失败: url-{}, requestParams-{}", url, requestParams);
+                    final ServerHttpResponse response = exchange.getResponse();
+                    // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return response.setComplete();
+                }
+
                 return returnFilter(chain, exchange);
+            } finally {
+                log.info(StringUtils.rightPad("~~~ 结束SignPreFilter过滤器 ~~~", 100));
             }
-
-            Map<String, Object> requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_QUERY_PARAMS);
-            if (requestParams == null) {
-                requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
-            }
-            if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(requestParams).getResult())) {
-                log.warn("认证失败: requestParams-{}", requestParams);
-                final ServerHttpResponse response = exchange.getResponse();
-                // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
-                response.setStatusCode(HttpStatus.UNAUTHORIZED);
-                return response.setComplete();
-            }
-
-            return returnFilter(chain, exchange);
         }, 5);
     }
 
     private Mono<Void> returnFilter(final GatewayFilterChain chain, final ServerWebExchange exchange) {
-        return chain.filter(exchange).doFinally(signalType -> {
-            log.info(StringUtils.rightPad("~~~ 结束SignPreFilter过滤器(结束类型: " + signalType + ") ~~~", 100));
-        });
+        return chain.filter(exchange);
     }
 
     @Override
@@ -82,7 +88,22 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
     }
 
     public static class Config {
+        /**
+         * 要进行过滤的链接
+         */
+        private List<String> filterUrls;
+        /**
+         * 要忽略过滤的链接
+         */
         private List<String> ignoreUrls;
+
+        public List<String> getFilterUrls() {
+            return filterUrls;
+        }
+
+        public void setFilterUrls(final List<String> filterUrls) {
+            this.filterUrls = filterUrls;
+        }
 
         public List<String> getIgnoreUrls() {
             return ignoreUrls;
