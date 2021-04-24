@@ -19,10 +19,10 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rrl.mo.RrlRespLogMo;
 import rebue.scx.rrl.to.RrlRespLogAddTo;
 import rebue.scx.rrl.to.RrlRespLogModifyTo;
-import rebue.wheel.JacksonUtils;
 import rebue.wheel.RandomEx;
-import rebue.wheel.http.HttpClient;
-import rebue.wheel.http.impl.OkHttpClientImpl;
+import rebue.wheel.net.httpclient.HttpClient;
+import rebue.wheel.net.httpclient.impl.OkHttpClientImpl;
+import rebue.wheel.serialization.jackson.JacksonUtils;
 
 /**
  * 响应日志 HTTP测试
@@ -56,7 +56,7 @@ public class RrlRespLogHttpTests {
     @Test
     public void testCrud() throws IOException {
         RrlRespLogAddTo addTo = null;
-        Long id = null;
+        Long            id    = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RrlRespLogAddTo) RandomEx.randomPojo(RrlRespLogAddTo.class);
             log.info("添加响应日志的参数为：" + addTo);
@@ -79,9 +79,9 @@ public class RrlRespLogHttpTests {
         final RrlRespLogModifyTo modifyTo = _dozerMapper.map(addTo, RrlRespLogModifyTo.class);
         modifyTo.setId(id);
         log.info("修改响应日志的参数为：" + modifyTo);
-        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rrl/resp-log", modifyTo);
-        final Ro<PojoRa<RrlRespLogMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RrlRespLogMo>>>() {
-        });
+        final String                   modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rrl/resp-log", modifyTo);
+        final Ro<PojoRa<RrlRespLogMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RrlRespLogMo>>>() {
+                                                    });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         RrlRespLogMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();

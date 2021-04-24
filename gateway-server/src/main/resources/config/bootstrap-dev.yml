@@ -13,6 +13,7 @@ logging:
     # 注意'OFF'必须大写并加引号
     com.netflix.discovery: 'OFF'
     com.alibaba.nacos: warn
+    org.springframework.amqp.rabbit.connection: warn
 
 spring:
   cloud:
@@ -25,5 +26,11 @@ spring:
       enabled: false
   sleuth:
     enabled: false
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: gateway  # 或者配置“*”暴露全部端点
 
 appid: 1

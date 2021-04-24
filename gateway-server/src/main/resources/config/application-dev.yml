@@ -11,9 +11,10 @@ spring:
       discovery:
         locator:
           filters:
+            - StripPrefix=1
             - name: SignPre
               args:
                 filter-urls:
-                  - "'/rac-svr/**'"
+                  - "'/sgn/**'"
                 ignore-urls:
-                  - "'POST:/rac-svr/rac/sign-in/**'"
+                  - "'POST:/sgn/sign-in/**'"

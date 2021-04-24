@@ -210,8 +210,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
-        final String  keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
-        final ISelect select   = () -> _mapper.select(c -> c.where(racAccount.domainId, isEqualTo(qo.getDomainId()),
+        final String keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
+        final ISelect select = () -> _mapper.select(c -> c.where(racAccount.domainId, isEqualTo(qo.getDomainId()),
             and(racAccount.signInNickname, isLikeWhenPresent(keywords), or(racAccount.signInName, isLikeWhenPresent(keywords)),
                 or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
                 or(racAccount.signInEmail, isLikeWhenPresent(keywords)), or(racAccount.signInMobile, isLikeWhenPresent(keywords)),

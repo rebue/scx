@@ -19,6 +19,11 @@
 
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-turing</artifactId>
 		</dependency>
 
@@ -62,6 +67,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-net</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>

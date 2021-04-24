@@ -23,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,7 +50,7 @@ import rebue.scx.rrl.to.RrlRespLogAddTo;
  * @author zbz
  */
 @Slf4j
-@Component
+// @Component
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     @Value("${scx.gateway.send-timeout:5000}")
@@ -135,7 +134,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
                 // FIXME 这里只判断了JSON格式的Body，不知道后面会不会碰到其它格式的Body
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
-                    || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
+                        || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     final Map<String, Object> bodyParmams = new LinkedHashMap<>(jsonParser.parseMap(bodyString));
                     if (bodyParmams != null && !bodyParmams.isEmpty()) {
                         // 缓存参数
@@ -147,7 +146,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                         String jsonText = null;
                         try {
                             jsonText = objectMapper.writerWithDefaultPrettyPrinter()
-                                .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
+                                    .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
                             jsonText = "*    " + jsonText.replaceAll("\n", "\n*    ");
                         } catch (final JsonProcessingException e) {
                             jsonText = "*    JSON格式不正确: " + bodyString;
@@ -206,8 +205,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 文件日志
             final StringBuilder sb3 = new StringBuilder();
             sb3.append("结束CacheRequestBodyPreGlobalFilter过滤器!!!\r\n"
-                + "======================= CacheRequestBodyPreGlobalFilter过滤器被调用详情 =======================\r\n"
-                + "* 结束类型:\r\n*    ");
+                    + "======================= CacheRequestBodyPreGlobalFilter过滤器被调用详情 =======================\r\n"
+                    + "* 结束类型:\r\n*    ");
             sb3.append(signalType);
             sb3.append("\r\n* 响应状态:\r\n*    ");
             sb3.append(responseStatusCode);

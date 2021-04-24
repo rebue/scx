@@ -1,11 +1,39 @@
 package rebue.scx.rac.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.createTimestamp;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.domainId;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isEnabled;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isTester;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.orgId;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.payPswd;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.payPswdSalt;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqAvatar;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqNickname;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqOpenId;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqUnionId;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.remark;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInAvatar;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInEmail;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInMobile;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInName;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInNickname;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInPswd;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInPswdSalt;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.updateTimestamp;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.userId;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxAvatar;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxNickname;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxOpenId;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxUnionId;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +57,7 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacAccountMo;
 

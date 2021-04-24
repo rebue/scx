@@ -17,11 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.StringRa;
 import rebue.robotech.ro.Ro;
-import rebue.wheel.JacksonUtils;
 import rebue.wheel.MapUtils;
 import rebue.wheel.RandomEx;
-import rebue.wheel.http.HttpClient;
-import rebue.wheel.http.impl.OkHttpClientImpl;
+import rebue.wheel.net.httpclient.HttpClient;
+import rebue.wheel.net.httpclient.impl.OkHttpClientImpl;
+import rebue.wheel.serialization.jackson.JacksonUtils;
 import rebue.wheel.turing.SignUtils;
 
 /**
@@ -30,7 +30,7 @@ import rebue.wheel.turing.SignUtils;
 @Slf4j
 public class SgnVerifyHttpTests {
 
-    private final String        _hostUrl     = "http://127.0.0.1:10080";
+    private final String        _hostUrl     = "http://127.0.0.1:10080/sgn-svr";
     private final static Long   SIGN_ID      = 1L;
     private final static String SIGN_KEY     = "sign-key-456";
 

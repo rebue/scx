@@ -2,11 +2,14 @@ package rebue.scx.sgn.test.http;
 
 import java.io.IOException;
 import java.security.KeyPair;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
+
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
@@ -16,10 +19,10 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
-import rebue.wheel.JacksonUtils;
 import rebue.wheel.RandomEx;
-import rebue.wheel.http.HttpClient;
-import rebue.wheel.http.impl.OkHttpClientImpl;
+import rebue.wheel.net.httpclient.HttpClient;
+import rebue.wheel.net.httpclient.impl.OkHttpClientImpl;
+import rebue.wheel.serialization.jackson.JacksonUtils;
 import rebue.wheel.turing.Sm2Utils;
 
 /**
@@ -42,7 +45,7 @@ public class SgnSecretHttpTests {
     @Test
     public void testCrud() throws IOException {
         SgnSecretAddTo addTo = null;
-        Long id = null;
+        Long           id    = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             // XXX 生成公钥并保存
@@ -68,9 +71,9 @@ public class SgnSecretHttpTests {
         final SgnSecretModifyTo modifyTo = _dozerMapper.map(addTo, SgnSecretModifyTo.class);
         modifyTo.setId(id);
         log.info("修改签名密钥的参数为：" + modifyTo);
-        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/sgn/secret", modifyTo);
-        final Ro<PojoRa<SgnSecretMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<SgnSecretMo>>>() {
-        });
+        final String                  modifyResult = _httpClient.putByJsonParams(_hostUrl + "/sgn/secret", modifyTo);
+        final Ro<PojoRa<SgnSecretMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<SgnSecretMo>>>() {
+                                                   });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         SgnSecretMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();

@@ -17,7 +17,6 @@ import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.server.ServerWebExchange;
@@ -43,7 +42,7 @@ import rebue.scx.gateway.server.co.CachedKeyCo;
  * @author zbz
  */
 @Slf4j
-@Component
+// @Component
 public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     @Resource

@@ -46,16 +46,16 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
 
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
-                    && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
-                    log.debug("经判断不过滤此URL-{}", url);
+                        && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
+                    log.debug("经判断不过滤此URL");
                     return returnFilter(chain, exchange);
                 }
                 if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
-                    && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
-                    log.debug("经判断忽略此URL-{}", url);
+                        && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
+                    log.debug("经判断忽略此URL");
                     return returnFilter(chain, exchange);
                 }
-                log.info("经判断要过滤此URL-{}", url);
+                log.info("经判断要过滤此URL");
 
                 // 获取请求参数
                 Map<String, Object> requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_QUERY_PARAMS);

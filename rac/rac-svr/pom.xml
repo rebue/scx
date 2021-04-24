@@ -22,14 +22,19 @@
             <artifactId>jwt-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.robotech</groupId>
-            <artifactId>robotech-bll</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-net</artifactId>
+		</dependency>
 
         <dependency>
             <groupId>com.github.rebue.wheel</groupId>
             <artifactId>wheel-turing</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.rebue.robotech</groupId>
+            <artifactId>robotech-bll</artifactId>
         </dependency>
 
 		<dependency>
