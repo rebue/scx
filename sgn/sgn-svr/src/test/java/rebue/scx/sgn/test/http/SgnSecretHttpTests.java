@@ -50,6 +50,7 @@ public class SgnSecretHttpTests {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             // XXX 生成公钥并保存
             final KeyPair keyPair = Sm2Utils.generateKeyPair();
+            log.info("private key: {}", Sm2Utils.getPrivateKeyString(keyPair));
             addTo.setSecret(Sm2Utils.getPublicKeyString(keyPair));
             log.info("添加签名密钥的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/sgn/secret", addTo);
@@ -70,6 +71,7 @@ public class SgnSecretHttpTests {
         log.info("获取单个签名密钥的返回值为：" + getByIdResult);
         final SgnSecretModifyTo modifyTo = _dozerMapper.map(addTo, SgnSecretModifyTo.class);
         modifyTo.setId(id);
+        modifyTo.setAlgorithm((byte) 3);
         log.info("修改签名密钥的参数为：" + modifyTo);
         final String                  modifyResult = _httpClient.putByJsonParams(_hostUrl + "/sgn/secret", modifyTo);
         final Ro<PojoRa<SgnSecretMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<SgnSecretMo>>>() {
@@ -80,11 +82,13 @@ public class SgnSecretHttpTests {
         log.info("修改签名密钥的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-        log.info("删除签名密钥的参数为：" + mo.getId());
-        final String deleteResult = _httpClient.delete(_hostUrl + "/sgn/secret?id=" + mo.getId());
-        log.info("删除签名密钥的返回值为：" + deleteResult);
-        final Ro<?> deleteRo = JacksonUtils.deserialize(deleteResult, Ro.class);
-        log.info(deleteRo.toString());
-        Assertions.assertEquals(ResultDic.SUCCESS, deleteRo.getResult());
+
+        // XXX 这里注释起来不删除，是因为要保留这个添加的记录的实体做签名测试
+        // log.info("删除签名密钥的参数为：" + mo.getId());
+        // final String deleteResult = _httpClient.delete(_hostUrl + "/sgn/secret?id=" + mo.getId());
+        // log.info("删除签名密钥的返回值为：" + deleteResult);
+        // final Ro<?> deleteRo = JacksonUtils.deserialize(deleteResult, Ro.class);
+        // log.info(deleteRo.toString());
+        // Assertions.assertEquals(ResultDic.SUCCESS, deleteRo.getResult());
     }
 }

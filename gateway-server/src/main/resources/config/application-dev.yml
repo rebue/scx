@@ -15,6 +15,6 @@ spring:
             - name: SignPre
               args:
                 filter-urls:
-                  - "'/sgn/**'"
-                ignore-urls:
-                  - "'POST:/sgn/sign-in/**'"
+                  - "'/ctid/**'"
+#                ignore-urls:
+#                  - "'POST:/sgn/sign-in/**'"
