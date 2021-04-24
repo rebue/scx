@@ -44,14 +44,6 @@ public class RrlReqLogModifyTo implements Serializable {
     private String            method;
 
     /**
-     * 请求地址
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 512, message = "请求地址的长度不能大于512")
-    private String            uri;
-
-    /**
      * 请求头
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -82,4 +74,43 @@ public class RrlReqLogModifyTo implements Serializable {
      */
     @Length(max = 2048, message = "请求主体的长度不能大于2048")
     private String            body;
+
+    /**
+     * 请求协议
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 10, message = "请求协议的长度不能大于10")
+    private String            scheme;
+
+    /**
+     * 请求主机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 30, message = "请求主机的长度不能大于30")
+    private String            host;
+
+    /**
+     * 请求端口号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Integer           port;
+
+    /**
+     * 请求路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 512, message = "请求路径的长度不能大于512")
+    private String            path;
+
+    /**
+     * 请求地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 512, message = "请求地址的长度不能大于512")
+    private String            uri;
 }

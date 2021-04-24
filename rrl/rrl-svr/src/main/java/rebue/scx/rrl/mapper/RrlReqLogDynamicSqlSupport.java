@@ -26,6 +26,34 @@ public final class RrlReqLogDynamicSqlSupport {
     public static final SqlColumn<String> method = rrlReqLog.method;
 
     /**
+    * 请求协议
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> scheme = rrlReqLog.scheme;
+
+    /**
+    * 请求主机
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> host = rrlReqLog.host;
+
+    /**
+    * 请求端口号
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Integer> port = rrlReqLog.port;
+
+    /**
+    * 请求路径
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> path = rrlReqLog.path;
+
+    /**
     * 请求地址
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -64,6 +92,14 @@ public final class RrlReqLogDynamicSqlSupport {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> method = column("METHOD", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> scheme = column("SCHEME", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> host = column("HOST", JDBCType.VARCHAR);
+
+        public final SqlColumn<Integer> port = column("PORT", JDBCType.INTEGER);
+
+        public final SqlColumn<String> path = column("PATH", JDBCType.VARCHAR);
 
         public final SqlColumn<String> uri = column("URI", JDBCType.VARCHAR);
 

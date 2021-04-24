@@ -5,10 +5,14 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.body;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.contentType;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.headers;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.host;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.id;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.method;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.path;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.port;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.queryParams;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.rrlReqLog;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.scheme;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.uri;
 
 import java.util.Collection;
@@ -47,7 +51,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, method, uri, headers, contentType, queryParams, body);
+    BasicColumn[] selectList = BasicColumn.columnList(id, method, scheme, host, port, path, uri, headers, contentType, queryParams, body);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -87,6 +91,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     @Results(id="RrlReqLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="METHOD", property="method", jdbcType=JdbcType.VARCHAR),
+        @Result(column="SCHEME", property="scheme", jdbcType=JdbcType.VARCHAR),
+        @Result(column="HOST", property="host", jdbcType=JdbcType.VARCHAR),
+        @Result(column="PORT", property="port", jdbcType=JdbcType.INTEGER),
+        @Result(column="PATH", property="path", jdbcType=JdbcType.VARCHAR),
         @Result(column="URI", property="uri", jdbcType=JdbcType.VARCHAR),
         @Result(column="HEADERS", property="headers", jdbcType=JdbcType.VARCHAR),
         @Result(column="CONTENT_TYPE", property="contentType", jdbcType=JdbcType.VARCHAR),
@@ -131,6 +139,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return MyBatis3Utils.insert(this::insert, record, rrlReqLog, c ->
             c.map(id).toProperty("id")
             .map(method).toProperty("method")
+            .map(scheme).toProperty("scheme")
+            .map(host).toProperty("host")
+            .map(port).toProperty("port")
+            .map(path).toProperty("path")
             .map(uri).toProperty("uri")
             .map(headers).toProperty("headers")
             .map(contentType).toProperty("contentType")
@@ -146,6 +158,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, rrlReqLog, c ->
             c.map(id).toProperty("id")
             .map(method).toProperty("method")
+            .map(scheme).toProperty("scheme")
+            .map(host).toProperty("host")
+            .map(port).toProperty("port")
+            .map(path).toProperty("path")
             .map(uri).toProperty("uri")
             .map(headers).toProperty("headers")
             .map(contentType).toProperty("contentType")
@@ -161,6 +177,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return MyBatis3Utils.insert(this::insert, record, rrlReqLog, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(method).toPropertyWhenPresent("method", record::getMethod)
+            .map(scheme).toPropertyWhenPresent("scheme", record::getScheme)
+            .map(host).toPropertyWhenPresent("host", record::getHost)
+            .map(port).toPropertyWhenPresent("port", record::getPort)
+            .map(path).toPropertyWhenPresent("path", record::getPath)
             .map(uri).toPropertyWhenPresent("uri", record::getUri)
             .map(headers).toPropertyWhenPresent("headers", record::getHeaders)
             .map(contentType).toPropertyWhenPresent("contentType", record::getContentType)
@@ -212,6 +232,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     static UpdateDSL<UpdateModel> updateAllColumns(RrlReqLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(method).equalTo(record::getMethod)
+                .set(scheme).equalTo(record::getScheme)
+                .set(host).equalTo(record::getHost)
+                .set(port).equalTo(record::getPort)
+                .set(path).equalTo(record::getPath)
                 .set(uri).equalTo(record::getUri)
                 .set(headers).equalTo(record::getHeaders)
                 .set(contentType).equalTo(record::getContentType)
@@ -225,6 +249,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RrlReqLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(method).equalToWhenPresent(record::getMethod)
+                .set(scheme).equalToWhenPresent(record::getScheme)
+                .set(host).equalToWhenPresent(record::getHost)
+                .set(port).equalToWhenPresent(record::getPort)
+                .set(path).equalToWhenPresent(record::getPath)
                 .set(uri).equalToWhenPresent(record::getUri)
                 .set(headers).equalToWhenPresent(record::getHeaders)
                 .set(contentType).equalToWhenPresent(record::getContentType)
@@ -238,6 +266,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int updateByPrimaryKey(RrlReqLogMo record) {
         return update(c ->
             c.set(method).equalTo(record::getMethod)
+            .set(scheme).equalTo(record::getScheme)
+            .set(host).equalTo(record::getHost)
+            .set(port).equalTo(record::getPort)
+            .set(path).equalTo(record::getPath)
             .set(uri).equalTo(record::getUri)
             .set(headers).equalTo(record::getHeaders)
             .set(contentType).equalTo(record::getContentType)
@@ -253,6 +285,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int updateByPrimaryKeySelective(RrlReqLogMo record) {
         return update(c ->
             c.set(method).equalToWhenPresent(record::getMethod)
+            .set(scheme).equalToWhenPresent(record::getScheme)
+            .set(host).equalToWhenPresent(record::getHost)
+            .set(port).equalToWhenPresent(record::getPort)
+            .set(path).equalToWhenPresent(record::getPath)
             .set(uri).equalToWhenPresent(record::getUri)
             .set(headers).equalToWhenPresent(record::getHeaders)
             .set(contentType).equalToWhenPresent(record::getContentType)
@@ -269,6 +305,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(method, isEqualToWhenPresent(record::getMethod))
+            .and(scheme, isEqualToWhenPresent(record::getScheme))
+            .and(host, isEqualToWhenPresent(record::getHost))
+            .and(port, isEqualToWhenPresent(record::getPort))
+            .and(path, isEqualToWhenPresent(record::getPath))
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))
@@ -284,6 +324,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(method, isEqualToWhenPresent(record::getMethod))
+            .and(scheme, isEqualToWhenPresent(record::getScheme))
+            .and(host, isEqualToWhenPresent(record::getHost))
+            .and(port, isEqualToWhenPresent(record::getPort))
+            .and(path, isEqualToWhenPresent(record::getPath))
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))
@@ -299,6 +343,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(method, isEqualToWhenPresent(record::getMethod))
+            .and(scheme, isEqualToWhenPresent(record::getScheme))
+            .and(host, isEqualToWhenPresent(record::getHost))
+            .and(port, isEqualToWhenPresent(record::getPort))
+            .and(path, isEqualToWhenPresent(record::getPath))
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))
@@ -328,6 +376,10 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(method, isEqualToWhenPresent(record::getMethod))
+            .and(scheme, isEqualToWhenPresent(record::getScheme))
+            .and(host, isEqualToWhenPresent(record::getHost))
+            .and(port, isEqualToWhenPresent(record::getPort))
+            .and(path, isEqualToWhenPresent(record::getPath))
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))

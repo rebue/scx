@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -31,11 +31,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
-import rebue.sbs.amqp.RabbitTemplateUtils;
 import rebue.scx.gateway.server.co.CachedKeyCo;
-import rebue.scx.rrl.co.RrlAmpqCo;
+import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlReqLogAddTo;
 import rebue.scx.rrl.to.RrlRespLogAddTo;
+import rebue.wheel.idworker.IdWorker3;
 
 /**
  * 缓存Body
@@ -54,17 +54,23 @@ import rebue.scx.rrl.to.RrlRespLogAddTo;
 @Component
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
-    @Value("${scx.gateway.send-timeout:5000}")
-    private Long           sendTimeout;
+    protected IdWorker3  _idWorker;
+    @Value("${robotech.appid:0}")
+    private int          _appid;
 
     @Resource
-    private RabbitTemplate rabbitTemplate;
+    private RrlPub       rrlPub;
 
     @Resource
-    private JsonParser     jsonParser;
+    private JsonParser   jsonParser;
 
     @Resource
-    private ObjectMapper   objectMapper;
+    private ObjectMapper objectMapper;
+
+    @PostConstruct
+    public void init() {
+        _idWorker = new IdWorker3(_appid);
+    }
 
     /**
      * 注意我开始使用@Order注解没有起作用，所以以实现Ordered接口的方式设置最高的优先级
@@ -79,10 +85,14 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-
+        final Long              requestId      = _idWorker.getId();
         final ServerHttpRequest request        = exchange.getRequest();
         final HttpMethod        requestMethod  = request.getMethod();
         final URI               requestUri     = request.getURI();
+        final String            requestScheme  = requestUri.getScheme();
+        final String            requestHost    = requestUri.getHost();
+        final int               requestPort    = requestUri.getPort();
+        final String            requestPath    = requestUri.getPath();
         final HttpHeaders       requestHeaders = request.getHeaders();
         final MediaType         contentType    = requestHeaders.getContentType();
         final StringBuilder     sb1            = new StringBuilder();
@@ -172,7 +182,12 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 数据库日志
             // 构造消息对象
             final RrlReqLogAddTo to = new RrlReqLogAddTo();
+            to.setId(requestId);    // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
             to.setMethod(requestMethod.toString());
+            to.setScheme(requestScheme);
+            to.setHost(requestHost);
+            to.setPort(requestPort);
+            to.setPath(requestPath);
             to.setUri(requestUri.toString());
             to.setHeaders(sjHeaders.toString());
             if (contentType != null) {
@@ -190,11 +205,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 }
             }
             // 发送消息
-            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_REQ_LOG, RrlAmpqCo.ADD_REQ_LOG, to, sendTimeout)) {
-                final String msg = "发送添加请求日志的消息失败";
-                log.error(msg);
-                throw new RuntimeException(msg);
-            }
+            rrlPub.addReqLog(to);
         }).then(chain.filter(exchange)).doFinally(signalType -> {
             // 调用所有过滤器完成，又回到本优先级最高的过滤器
             stopWatch.stop();
@@ -225,15 +236,10 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 数据库日志
             // 构造消息对象
             final RrlRespLogAddTo to = new RrlRespLogAddTo();
+            to.setId(requestId);    // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
             to.setHeaders(sjHeaders.toString());
-            // FIXME 超出数据库字段的范围了，还要添加请求ID字段
-            to.setStatusCode((byte) responseStatusCode.value());
-            // 发送消息
-            if (!RabbitTemplateUtils.send(rabbitTemplate, RrlAmpqCo.ADD_RESP_LOG, RrlAmpqCo.ADD_RESP_LOG, to, sendTimeout)) {
-                final String msg = "发送添加响应日志的消息失败";
-                log.error(msg);
-                throw new RuntimeException(msg);
-            }
+            to.setStatusCode(String.valueOf(responseStatusCode.value()));
+            rrlPub.addRespLog(to);
         });
     }
 

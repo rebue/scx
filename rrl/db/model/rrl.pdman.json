@@ -23,6 +23,34 @@
               "notNull": true
             },
             {
+              "name": "SCHEME",
+              "type": "String-10",
+              "remark": "",
+              "chnname": "请求协议",
+              "notNull": true
+            },
+            {
+              "name": "HOST",
+              "type": "String-30",
+              "remark": "",
+              "chnname": "请求主机",
+              "notNull": true
+            },
+            {
+              "name": "PORT",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "请求端口号",
+              "notNull": true
+            },
+            {
+              "name": "PATH",
+              "type": "String-512",
+              "remark": "",
+              "chnname": "请求路径",
+              "notNull": true
+            },
+            {
               "name": "URI",
               "type": "String-512",
               "remark": "",
@@ -185,8 +213,8 @@
             "shape": "table",
             "title": "RRL_REQ_LOG",
             "moduleName": false,
-            "x": 160,
-            "y": 90,
+            "x": 190,
+            "y": 150,
             "id": "38838077"
           },
           {
@@ -194,7 +222,7 @@
             "title": "RRL_RESP_LOG",
             "moduleName": false,
             "x": 510,
-            "y": 50,
+            "y": 80,
             "id": "ed342195"
           }
         ],
@@ -210,19 +238,19 @@
         "code": "StatusCode",
         "apply": {
           "JAVA": {
-            "type": "Integer"
+            "type": "String"
           },
           "MYSQL": {
-            "type": "TINYINT(3)"
+            "type": "CHAR(3)"
           },
           "ORACLE": {
-            "type": "INT"
+            "type": "CHAR(3)"
           },
           "SQLServer": {
-            "type": "INT"
+            "type": "CHAR(3)"
           },
           "PostgreSQL": {
-            "type": "INT"
+            "type": "CHAR(3)"
           }
         }
       },

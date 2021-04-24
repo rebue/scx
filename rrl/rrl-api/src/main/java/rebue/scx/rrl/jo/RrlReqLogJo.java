@@ -51,15 +51,6 @@ public class RrlReqLogJo implements Serializable {
     private String            method;
 
     /**
-     * 请求地址
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "URI", nullable = false, length = 512)
-    private String            uri;
-
-    /**
      * 请求头
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -126,4 +117,49 @@ public class RrlReqLogJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 请求协议
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "SCHEME", nullable = false, length = 10)
+    private String  scheme;
+
+    /**
+     * 请求主机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "HOST", nullable = false, length = 30)
+    private String  host;
+
+    /**
+     * 请求端口号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "PORT", nullable = false, length = 10)
+    private Integer port;
+
+    /**
+     * 请求路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "PATH", nullable = false, length = 512)
+    private String  path;
+
+    /**
+     * 请求地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "URI", nullable = false, length = 512)
+    private String  uri;
 }

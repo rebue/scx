@@ -82,7 +82,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RrlRespLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="STATUS_CODE", property="statusCode", jdbcType=JdbcType.TINYINT),
+        @Result(column="STATUS_CODE", property="statusCode", jdbcType=JdbcType.CHAR),
         @Result(column="HEADERS", property="headers", jdbcType=JdbcType.VARCHAR)
     })
     List<RrlRespLogMo> selectMany(SelectStatementProvider selectStatement);

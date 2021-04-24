@@ -56,7 +56,7 @@ public class RrlReqLogHttpTests {
     @Test
     public void testCrud() throws IOException {
         RrlReqLogAddTo addTo = null;
-        Long           id    = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RrlReqLogAddTo) RandomEx.randomPojo(RrlReqLogAddTo.class);
             log.info("添加请求日志的参数为：" + addTo);
@@ -79,9 +79,9 @@ public class RrlReqLogHttpTests {
         final RrlReqLogModifyTo modifyTo = _dozerMapper.map(addTo, RrlReqLogModifyTo.class);
         modifyTo.setId(id);
         log.info("修改请求日志的参数为：" + modifyTo);
-        final String                  modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rrl/req-log", modifyTo);
-        final Ro<PojoRa<RrlReqLogMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RrlReqLogMo>>>() {
-                                                   });
+        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rrl/req-log", modifyTo);
+        final Ro<PojoRa<RrlReqLogMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RrlReqLogMo>>>() {
+        });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         RrlReqLogMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();

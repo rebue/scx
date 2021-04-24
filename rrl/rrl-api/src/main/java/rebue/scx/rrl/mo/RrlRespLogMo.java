@@ -37,8 +37,9 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "响应状态码不能为空")
-    private Byte              statusCode;
+    @NotBlank(groups = AddGroup.class, message = "响应状态码不能为空")
+    @Length(max = 3, message = "响应状态码的长度不能大于3")
+    private String            statusCode;
 
     /**
      * 响应头部
@@ -77,17 +78,8 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public Byte getStatusCode() {
+    public String getStatusCode() {
         return statusCode;
-    }
-
-    /**
-     * 响应状态码
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setStatusCode(Byte statusCode) {
-        this.statusCode = statusCode;
     }
 
     /**
@@ -162,5 +154,14 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 响应状态码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
     }
 }

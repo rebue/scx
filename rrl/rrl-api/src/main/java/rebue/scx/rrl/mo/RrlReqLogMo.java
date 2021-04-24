@@ -42,15 +42,6 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
     private String            method;
 
     /**
-     * 请求地址
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "请求地址不能为空")
-    @Length(max = 512, message = "请求地址的长度不能大于512")
-    private String            uri;
-
-    /**
      * 请求头
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -121,24 +112,6 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
      */
     public void setMethod(String method) {
         this.method = method;
-    }
-
-    /**
-     * 请求地址
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getUri() {
-        return uri;
-    }
-
-    /**
-     * 请求地址
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 
     /**
@@ -224,6 +197,10 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", method=").append(method);
+        sb.append(", scheme=").append(scheme);
+        sb.append(", host=").append(host);
+        sb.append(", port=").append(port);
+        sb.append(", path=").append(path);
         sb.append(", uri=").append(uri);
         sb.append(", headers=").append(headers);
         sb.append(", contentType=").append(contentType);
@@ -271,5 +248,139 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 请求协议
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "请求协议不能为空")
+    @Length(max = 10, message = "请求协议的长度不能大于10")
+    private String  scheme;
+
+    /**
+     * 请求主机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "请求主机不能为空")
+    @Length(max = 30, message = "请求主机的长度不能大于30")
+    private String  host;
+
+    /**
+     * 请求端口号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "请求端口号不能为空")
+    private Integer port;
+
+    /**
+     * 请求协议
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getScheme() {
+        return scheme;
+    }
+
+    /**
+     * 请求协议
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
+    }
+
+    /**
+     * 请求主机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getHost() {
+        return host;
+    }
+
+    /**
+     * 请求主机
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    /**
+     * 请求端口号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Integer getPort() {
+        return port;
+    }
+
+    /**
+     * 请求端口号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    /**
+     * 请求路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "请求路径不能为空")
+    @Length(max = 512, message = "请求路径的长度不能大于512")
+    private String path;
+
+    /**
+     * 请求路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * 请求路径
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    /**
+     * 请求地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "请求地址不能为空")
+    @Length(max = 512, message = "请求地址的长度不能大于512")
+    private String uri;
+
+    /**
+     * 请求地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getUri() {
+        return uri;
+    }
+
+    /**
+     * 请求地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

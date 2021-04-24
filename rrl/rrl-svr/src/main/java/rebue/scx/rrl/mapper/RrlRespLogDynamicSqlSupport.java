@@ -23,7 +23,7 @@ public final class RrlRespLogDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<Byte> statusCode = rrlRespLog.statusCode;
+    public static final SqlColumn<String> statusCode = rrlRespLog.statusCode;
 
     /**
     * 响应头部
@@ -35,7 +35,7 @@ public final class RrlRespLogDynamicSqlSupport {
     public static final class RrlRespLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<Byte> statusCode = column("STATUS_CODE", JDBCType.TINYINT);
+        public final SqlColumn<String> statusCode = column("STATUS_CODE", JDBCType.CHAR);
 
         public final SqlColumn<String> headers = column("HEADERS", JDBCType.VARCHAR);
 

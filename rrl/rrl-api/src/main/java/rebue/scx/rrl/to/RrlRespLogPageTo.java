@@ -31,7 +31,8 @@ public class RrlRespLogPageTo extends PageTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Byte              statusCode;
+    @Length(max = 3, message = "响应状态码的长度不能大于3")
+    private String            statusCode;
 
     /**
      * 响应头部

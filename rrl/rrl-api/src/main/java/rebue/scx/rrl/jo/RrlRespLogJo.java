@@ -48,7 +48,7 @@ public class RrlRespLogJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "STATUS_CODE", nullable = false, length = 3)
-    private Byte              statusCode;
+    private String            statusCode;
 
     /**
      * 响应头部
