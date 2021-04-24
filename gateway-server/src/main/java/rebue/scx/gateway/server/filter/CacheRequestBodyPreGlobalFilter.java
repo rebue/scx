@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,7 +51,7 @@ import rebue.scx.rrl.to.RrlRespLogAddTo;
  * @author zbz
  */
 @Slf4j
-// @Component
+@Component
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     @Value("${scx.gateway.send-timeout:5000}")
