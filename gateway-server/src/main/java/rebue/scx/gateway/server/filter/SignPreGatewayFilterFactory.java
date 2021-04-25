@@ -1,6 +1,7 @@
 package rebue.scx.gateway.server.filter;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,20 +48,28 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
 
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
-                        && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
+                    && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
                     log.debug("经判断不过滤此URL");
                     return returnFilter(chain, exchange);
                 }
                 if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
-                        && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
+                    && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
                     log.debug("经判断忽略此URL");
                     return returnFilter(chain, exchange);
                 }
                 log.info("经判断要过滤此URL");
 
                 // 获取请求参数
-                Map<String, Object> requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_QUERY_PARAMS);
-                if (requestParams == null) {
+                Map<String, Object>                 requestParams;
+                final MultiValueMap<String, String> requestQueryParams = request.getQueryParams();
+                if (requestQueryParams != null && requestQueryParams.size() > 0) {
+                    requestParams = new LinkedHashMap<>();
+                    requestQueryParams.forEach((key, values) -> {
+                        // XXX 签名的请求不允许有数组参数
+                        requestParams.put(key, values.get(0));
+                    });
+                }
+                else {
                     requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
                 }
 
@@ -73,7 +83,7 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
 
                 return returnFilter(chain, exchange);
             } finally {
-                log.info(StringUtils.rightPad("~~~ 结束SignPreFilter过滤器 ~~~", 100));
+                log.info(StringUtils.rightPad("~~~ 结束 SignPreFilter 过滤器 ~~~", 100));
             }
         }, 5);
     }

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -18,6 +19,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.server.ServerWebExchange;
@@ -62,42 +64,55 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
-
-        final Map<String, Object> requestBodyParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
-        if (requestBodyParams == null) {
-            return chain.filter(exchange);
-        }
-
-        final ServerHttpRequest request        = exchange.getRequest();
-        final HttpHeaders       requestHeaders = request.getHeaders();
-
-        // 重新构造request，参考ModifyRequestBodyGatewayFilterFactory
-        // FIXME 这里默认构造JSON格式的Body，不知道后面会不会碰到其它格式的Body
-        Mono<String> modifiedBody;
+        log.info(StringUtils.rightPad("*** 进入 ModifyRequestBodyPreGlobalFilter 过滤器 ***", 100));
         try {
-            modifiedBody = Mono.just(objectMapper.writeValueAsString(requestBodyParams));
-        } catch (final JsonProcessingException e) {
-            e.printStackTrace();
-            log.error("ModifyRequestBodyPreGlobalFilter 序列化JSON对象失败: requestParams-{}", requestBodyParams);
-            final ServerHttpResponse response = exchange.getResponse();
-            response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
-            return response.setComplete();
+            final ServerHttpRequest             request        = exchange.getRequest();
+            final HttpHeaders                   requestHeaders = request.getHeaders();
+            final MultiValueMap<String, String> queryParams    = request.getQueryParams();
+
+            if (queryParams != null && queryParams.size() > 0) {
+                log.info("要转发的queryParams: {}", queryParams);
+            }
+
+            final Map<String, Object> requestBodyParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
+            if (requestBodyParams == null) {
+                return chain.filter(exchange);
+            }
+
+            if (requestBodyParams != null && requestBodyParams.size() > 0) {
+                log.info("要转发的bodyParams: {}", requestBodyParams);
+            }
+
+            // 重新构造request，参考ModifyRequestBodyGatewayFilterFactory
+            // FIXME 这里默认构造JSON格式的Body，不知道后面会不会碰到其它格式的Body
+            Mono<String> modifiedBody;
+            try {
+                modifiedBody = Mono.just(objectMapper.writeValueAsString(requestBodyParams));
+            } catch (final JsonProcessingException e) {
+                e.printStackTrace();
+                log.error("ModifyRequestBodyPreGlobalFilter 序列化JSON对象失败: requestParams-{}", requestBodyParams);
+                final ServerHttpResponse response = exchange.getResponse();
+                response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+                return response.setComplete();
+            }
+
+            // 删除headers中的content length，避免修改Body后Body的数据长度有变化被检测出来报400异常
+            // 猜测这个就是之前报400错误的元凶，之前修改了body但是没有重新写content length
+            final HttpHeaders newHeaders = new HttpHeaders();
+            newHeaders.putAll(exchange.getRequest().getHeaders());
+            // the new content type will be computed by bodyInserter
+            // and then set in the request decorator
+            newHeaders.remove(HttpHeaders.CONTENT_LENGTH);
+
+            final BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter  = BodyInserters.fromPublisher(modifiedBody, String.class);
+            final CachedBodyOutputMessage                               outputMessage = new CachedBodyOutputMessage(exchange, newHeaders);
+            return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
+                final ServerHttpRequest decorator = decorate(exchange, requestHeaders, outputMessage);
+                return chain.filter(exchange.mutate().request(decorator).build());
+            }));
+        } finally {
+            log.info(StringUtils.rightPad("~~~ 结束 ModifyRequestBodyPreGlobalFilter 过滤器 ~~~", 100));
         }
-
-        // 删除headers中的content length，避免修改Body后Body的数据长度有变化被检测出来报400异常
-        // 猜测这个就是之前报400错误的元凶，之前修改了body但是没有重新写content length
-        final HttpHeaders newHeaders = new HttpHeaders();
-        newHeaders.putAll(exchange.getRequest().getHeaders());
-        // the new content type will be computed by bodyInserter
-        // and then set in the request decorator
-        newHeaders.remove(HttpHeaders.CONTENT_LENGTH);
-
-        final BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter  = BodyInserters.fromPublisher(modifiedBody, String.class);
-        final CachedBodyOutputMessage                               outputMessage = new CachedBodyOutputMessage(exchange, newHeaders);
-        return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
-            final ServerHttpRequest decorator = decorate(exchange, requestHeaders, outputMessage);
-            return chain.filter(exchange.mutate().request(decorator).build());
-        }));
     }
 
     ServerHttpRequestDecorator decorate(final ServerWebExchange exchange, final HttpHeaders headers, final CachedBodyOutputMessage outputMessage) {

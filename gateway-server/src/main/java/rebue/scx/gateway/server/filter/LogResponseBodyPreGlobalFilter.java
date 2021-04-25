@@ -73,60 +73,66 @@ public class LogResponseBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
-        final ServerHttpResponse                    originalResponse   = exchange.getResponse();
+        log.info(StringUtils.rightPad("*** 进入 LogResponseBodyPreGlobalFilter 过滤器 ***", 100));
+        try {
+            final ServerHttpResponse                    originalResponse   = exchange.getResponse();
 
-        final HttpStatus                            responseStatusCode = originalResponse.getStatusCode();
-        final HttpHeaders                           responseHeaders    = originalResponse.getHeaders();
-        final MultiValueMap<String, ResponseCookie> responseCookies    = originalResponse.getCookies();
+            final HttpStatus                            responseStatusCode = originalResponse.getStatusCode();
+            final HttpHeaders                           responseHeaders    = originalResponse.getHeaders();
+            final MultiValueMap<String, ResponseCookie> responseCookies    = originalResponse.getCookies();
 
-        // 获取请求ID
-        final Long                        requestId         = exchange.getAttribute(CachedKeyCo.REQUEST_ID);
-        // 获取请求时间
-        final Long                        requestTimestamp  = exchange.getAttribute(CachedKeyCo.REQUEST_TIMESTAMP);
-        final String                      requestTime       = _dateTimeFormatter.format(LocalDateUtils.getDateTimeOfTimestamp(requestTimestamp));
-        // 当前响应时间
-        final Long                        responseTimestamp = System.currentTimeMillis();
-        final String                      responseTime      = _dateTimeFormatter.format(LocalDateUtils.getDateTimeOfTimestamp(responseTimestamp));
-        // 处理耗时
-        final Long                        spendTimestamp    = responseTimestamp - requestTimestamp;
+            // 获取请求ID
+            final Long                        requestId         = exchange.getAttribute(CachedKeyCo.REQUEST_ID);
+            // 获取请求时间
+            final Long                        requestTimestamp  = exchange.getAttribute(CachedKeyCo.REQUEST_TIMESTAMP);
+            final String                      requestTime       = _dateTimeFormatter.format(LocalDateUtils.getDateTimeOfTimestamp(requestTimestamp));
+            // 当前响应时间
+            final Long                        responseTimestamp = System.currentTimeMillis();
+            final String                      responseTime      = _dateTimeFormatter.format(LocalDateUtils.getDateTimeOfTimestamp(responseTimestamp));
+            // 处理耗时
+            final Long                        spendTimestamp    = responseTimestamp - requestTimestamp;
 
-        final DataBufferFactory           bufferFactory     = originalResponse.bufferFactory();
-        final ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
-                                                                @Override
-                                                                public Mono<Void> writeWith(final Publisher<? extends DataBuffer> body) {
-                                                                    if (body instanceof Flux) {
-                                                                        final Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
-                                                                        return super.writeWith(fluxBody.map(//
-                                                                            dataBuffer -> {
-                                                                                // probably should reuse buffers
-                                                                                final byte[] content = new byte[dataBuffer.readableByteCount()];
-                                                                                dataBuffer.read(content);
-                                                                                // 释放掉内存
-                                                                                DataBufferUtils.release(dataBuffer);
+            final DataBufferFactory           bufferFactory     = originalResponse.bufferFactory();
+            final ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
+                                                                    @Override
+                                                                    public Mono<Void> writeWith(final Publisher<? extends DataBuffer> body) {
+                                                                        if (body instanceof Flux) {
+                                                                            final Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
+                                                                            return super.writeWith(fluxBody.map(//
+                                                                                dataBuffer -> {
+                                                                                    // probably should reuse buffers
+                                                                                    final byte[] content = new byte[dataBuffer.readableByteCount()];
+                                                                                    dataBuffer.read(content);
+                                                                                    // 释放掉内存
+                                                                                    DataBufferUtils.release(dataBuffer);
 
-                                                                                String bodyString = null;
-                                                                                if (content != null && content.length > 0) {
-                                                                                    bodyString = new String(content, Charset.forName("UTF-8"));
-                                                                                }
+                                                                                    String bodyString = null;
+                                                                                    if (content != null && content.length > 0) {
+                                                                                        bodyString = new String(content, Charset.forName("UTF-8"));
+                                                                                    }
 
-                                                                                // 记录文件日志
-                                                                                logFile(responseStatusCode, responseHeaders, requestId, requestTime, responseTime, spendTimestamp,
-                                                                                    responseCookies, bodyString);
+                                                                                    // 记录文件日志
+                                                                                    logFile(responseStatusCode, responseHeaders, requestId, requestTime, responseTime,
+                                                                                        spendTimestamp,
+                                                                                        responseCookies, bodyString);
 
-                                                                                // 记录数据库日志
-                                                                                logRrl(responseStatusCode, responseHeaders, requestId, responseTimestamp, responseCookies,
-                                                                                    bodyString);
+                                                                                    // 记录数据库日志
+                                                                                    logRrl(responseStatusCode, responseHeaders, requestId, responseTimestamp, responseCookies,
+                                                                                        bodyString);
 
-                                                                                return bufferFactory.wrap(content);
-                                                                            }));
+                                                                                    return bufferFactory.wrap(content);
+                                                                                }));
+                                                                        }
+                                                                        // if body is not a flux. never got there.
+                                                                        return super.writeWith(body);
                                                                     }
-                                                                    // if body is not a flux. never got there.
-                                                                    return super.writeWith(body);
-                                                                }
 
-                                                            };
-        // replace response with decorator
-        return chain.filter(exchange.mutate().response(decoratedResponse).build());
+                                                                };
+            // replace response with decorator
+            return chain.filter(exchange.mutate().response(decoratedResponse).build());
+        } finally {
+            log.info(StringUtils.rightPad("~~~ 结束 LogResponseBodyPreGlobalFilter 过滤器 ~~~", 100));
+        }
     }
 
     /**

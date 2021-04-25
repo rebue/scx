@@ -53,6 +53,11 @@ import rebue.wheel.idworker.IdWorker3;
 @Component
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
+    /**
+     * 加入参数中requestId的参数名称
+     */
+    private static final String      REQUEST_ID_PARAM_NAME = "requestId";
+
     protected IdWorker3              _idWorker;
     @Value("${robotech.appid:0}")
     private int                      _appid;
@@ -66,7 +71,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     @Resource
     private ObjectMapper             objectMapper;
 
-    private static DateTimeFormatter _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private static DateTimeFormatter _dateTimeFormatter    = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     @PostConstruct
     public void init() {
@@ -84,10 +89,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     @SuppressWarnings("deprecation")
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
-        // final StopWatch stopWatch = new StopWatch();
-        // stopWatch.start();
         // 缓存请求开始时间戳
-        exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY, System.currentTimeMillis());
+        exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_STRING, System.currentTimeMillis());
 
         // 获取请求信息
         final Long                              requestId        = _idWorker.getId();
@@ -110,74 +113,40 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         exchange.getAttributes().put(CachedKeyCo.REQUEST_ID, requestId);
         // 缓存请求时间戳
         exchange.getAttributes().put(CachedKeyCo.REQUEST_TIMESTAMP, requestTimestamp);
-        // 缓存请求查询参数
-        exchange.getAttributes().put(CachedKeyCo.REQUEST_QUERY_PARAMS, queryParams);
 
         return DataBufferUtils.join(request.getBody()).doOnNext(dataBuffer -> {
             if (dataBuffer.readableByteCount() > 0) {
                 // 将body读到字符串中
                 final String bodyString = StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer()).toString();
                 if (StringUtils.isBlank(bodyString)) {
+                    // 如果没有Body，在请求参数中加入请求ID
+                    queryParams.add(REQUEST_ID_PARAM_NAME, requestId.toString());
                     return;
                 }
                 // 缓存请求body
-                exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY, bodyString);
+                exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_STRING, bodyString);
 
                 // FIXME 这里只判断了JSON格式的Body，不知道后面会不会碰到其它格式的Body
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
                     || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     final Map<String, Object> bodyParmams = new LinkedHashMap<>(jsonParser.parseMap(bodyString));
-                    if (bodyParmams != null && !bodyParmams.isEmpty()) {
-                        // 缓存请求Body中的参数
-                        exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_PARAMS, bodyParmams);
-                    }
+                    // Body中加入请求ID
+                    bodyParmams.put(REQUEST_ID_PARAM_NAME, requestId);
+                    // 缓存请求Body中的参数
+                    exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_PARAMS, bodyParmams);
                 }
             }
         }).doOnTerminate(() -> {
             // 上一步结束，在then之前，记录一下日志
             // 从缓存中获取Body
-            final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY);
+            final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY_STRING);
 
             // 记录文件日志
             logFile(requestId, requestTime, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
 
             logDb(requestId, requestTimestamp, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
                 queryParams, body);
-        }).then(chain.filter(exchange)).doFinally(signalType -> {
-            // // 调用所有过滤器完成，又回到本优先级最高的过滤器
-            // stopWatch.stop();
-            //
-            // final ServerHttpResponse response = exchange.getResponse();
-            // final HttpStatus responseStatusCode = response.getStatusCode();
-            // final HttpHeaders responseHeaders = response.getHeaders();
-            //
-            // // 文件日志
-            // final StringBuilder sb3 = new StringBuilder();
-            // sb3.append("结束CacheRequestBodyPreGlobalFilter过滤器!!!\r\n"
-            // + "======================= CacheRequestBodyPreGlobalFilter过滤器被调用详情 =======================\r\n"
-            // + "* 结束类型:\r\n* ");
-            // sb3.append(signalType);
-            // sb3.append("\r\n* 响应状态:\r\n* ");
-            // sb3.append(responseStatusCode);
-            // sb3.append("\r\n* 响应Headers:");
-            // responseHeaders.forEach((name, values) -> {
-            // values.forEach(value -> {
-            // sb3.append("\r\n* ").append(name).append(":").append(value);
-            // });
-            // });
-            // sb3.append("\r\n* 处理耗时:\r\n* ");
-            // sb3.append(stopWatch.formatTime());
-            // sb3.append(StringUtils.rightPad("\r\n===================================================================================", 100));
-            // log.info(sb3.toString());
-            //
-            // // 数据库日志
-            // // 构造消息对象
-            // final RrlRespLogAddTo to = new RrlRespLogAddTo();
-            // to.setId(requestId); // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
-            // to.setHeaders(sjHeaders.toString());
-            // to.setStatusCode(String.valueOf(responseStatusCode.value()));
-            // rrlPub.addRespLog(to);
-        });
+        }).then(chain.filter(exchange));
     }
 
     /**
