@@ -70,6 +70,12 @@
               "chnname": "内容类型"
             },
             {
+              "name": "COOKIES",
+              "type": "String-2048",
+              "remark": "",
+              "chnname": "COOKIES"
+            },
+            {
               "name": "QUERY_PARAMS",
               "type": "String-2048",
               "remark": "",
@@ -80,6 +86,13 @@
               "type": "String-2048",
               "remark": "",
               "chnname": "请求主体"
+            },
+            {
+              "name": "CREATE_TIMESTAMP",
+              "type": "Timestamp",
+              "remark": "",
+              "chnname": "请求时间戳",
+              "notNull": true
             }
           ],
           "indexs": [],
@@ -155,6 +168,25 @@
               "remark": "",
               "chnname": "响应头部",
               "notNull": true
+            },
+            {
+              "name": "COOKIES",
+              "type": "String-2048",
+              "remark": "",
+              "chnname": "COOKIES"
+            },
+            {
+              "name": "BODY",
+              "type": "String-2048",
+              "remark": "",
+              "chnname": "响应主体"
+            },
+            {
+              "name": "CREATE_TIMESTAMP",
+              "type": "Timestamp",
+              "remark": "",
+              "chnname": "响应时间戳",
+              "notNull": true
             }
           ],
           "indexs": [],
@@ -221,7 +253,7 @@
             "shape": "table",
             "title": "RRL_RESP_LOG",
             "moduleName": false,
-            "x": 510,
+            "x": 550,
             "y": 80,
             "id": "ed342195"
           }
@@ -233,6 +265,27 @@
   ],
   "dataTypeDomains": {
     "datatype": [
+      {
+        "name": "ID-Long",
+        "code": "Long",
+        "apply": {
+          "MYSQL": {
+            "type": "BIGINT UNSIGNED"
+          },
+          "JAVA": {
+            "type": "Long"
+          },
+          "ORACLE": {
+            "type": "NUMBER"
+          },
+          "SQLServer": {
+            "type": "BIGINT"
+          },
+          "PostgreSQL": {
+            "type": "BIGINT"
+          }
+        }
+      },
       {
         "name": "状态码",
         "code": "StatusCode",
@@ -255,8 +308,8 @@
         }
       },
       {
-        "name": "ID-Long",
-        "code": "Long",
+        "name": "时间戳",
+        "code": "Timestamp",
         "apply": {
           "MYSQL": {
             "type": "BIGINT UNSIGNED"

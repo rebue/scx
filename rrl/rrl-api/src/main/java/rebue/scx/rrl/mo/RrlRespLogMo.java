@@ -112,6 +112,9 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", statusCode=").append(statusCode);
         sb.append(", headers=").append(headers);
+        sb.append(", body=").append(body);
+        sb.append(", createTimestamp=").append(createTimestamp);
+        sb.append(", cookies=").append(cookies);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -163,5 +166,84 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
      */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
+    }
+
+    /**
+     * 响应主体
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 2048, message = "响应主体的长度不能大于2048")
+    private String body;
+
+    /**
+     * 响应时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "响应时间戳不能为空")
+    @PositiveOrZero(message = "响应时间戳不能为负数")
+    private Long   createTimestamp;
+
+    /**
+     * 响应主体
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getBody() {
+        return body;
+    }
+
+    /**
+     * 响应主体
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    /**
+     * 响应时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    /**
+     * 响应时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCreateTimestamp(Long createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 2048, message = "COOKIES的长度不能大于2048")
+    private String cookies;
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getCookies() {
+        return cookies;
+    }
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCookies(String cookies) {
+        this.cookies = cookies;
     }
 }

@@ -206,6 +206,8 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
         sb.append(", contentType=").append(contentType);
         sb.append(", queryParams=").append(queryParams);
         sb.append(", body=").append(body);
+        sb.append(", cookies=").append(cookies);
+        sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -382,5 +384,58 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
      */
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    /**
+     * 请求时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "请求时间戳不能为空")
+    @PositiveOrZero(message = "请求时间戳不能为负数")
+    private Long createTimestamp;
+
+    /**
+     * 请求时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    /**
+     * 请求时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCreateTimestamp(Long createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 2048, message = "COOKIES的长度不能大于2048")
+    private String cookies;
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getCookies() {
+        return cookies;
+    }
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCookies(String cookies) {
+        this.cookies = cookies;
     }
 }

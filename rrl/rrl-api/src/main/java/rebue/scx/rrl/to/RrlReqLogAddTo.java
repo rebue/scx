@@ -118,4 +118,21 @@ public class RrlReqLogAddTo implements Serializable {
     @NotBlank(message = "请求地址不能为空")
     @Length(max = 512, message = "请求地址的长度不能大于512")
     private String            uri;
+
+    /**
+     * 请求时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(message = "请求时间戳不能为空")
+    @PositiveOrZero(message = "请求时间戳不能为负数")
+    private Long              createTimestamp;
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 2048, message = "COOKIES的长度不能大于2048")
+    private String            cookies;
 }

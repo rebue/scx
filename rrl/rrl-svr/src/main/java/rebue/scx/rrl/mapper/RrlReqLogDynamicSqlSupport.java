@@ -88,6 +88,20 @@ public final class RrlReqLogDynamicSqlSupport {
     */
     public static final SqlColumn<String> body = rrlReqLog.body;
 
+    /**
+    * COOKIES
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> cookies = rrlReqLog.cookies;
+
+    /**
+    * 请求时间戳
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> createTimestamp = rrlReqLog.createTimestamp;
+
     public static final class RrlReqLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
@@ -110,6 +124,10 @@ public final class RrlReqLogDynamicSqlSupport {
         public final SqlColumn<String> queryParams = column("QUERY_PARAMS", JDBCType.VARCHAR);
 
         public final SqlColumn<String> body = column("BODY", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> cookies = column("COOKIES", JDBCType.VARCHAR);
+
+        public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
 
         public RrlReqLog() {
             super("RRL_REQ_LOG");

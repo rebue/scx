@@ -90,4 +90,31 @@ public class RrlRespLogJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 响应主体
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "BODY", nullable = true, length = 2048)
+    private String body;
+
+    /**
+     * 响应时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "CREATE_TIMESTAMP", nullable = false, length = 20)
+    private Long   createTimestamp;
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "COOKIES", nullable = true, length = 2048)
+    private String cookies;
 }

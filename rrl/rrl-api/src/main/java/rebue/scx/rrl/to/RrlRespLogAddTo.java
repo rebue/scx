@@ -51,4 +51,29 @@ public class RrlRespLogAddTo implements Serializable {
     @NotNull(message = "ID不能为空")
     @PositiveOrZero(message = "ID不能为负数")
     private Long              id;
+
+    /**
+     * 响应主体
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 2048, message = "响应主体的长度不能大于2048")
+    private String            body;
+
+    /**
+     * 响应时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(message = "响应时间戳不能为空")
+    @PositiveOrZero(message = "响应时间戳不能为负数")
+    private Long              createTimestamp;
+
+    /**
+     * COOKIES
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 2048, message = "COOKIES的长度不能大于2048")
+    private String            cookies;
 }

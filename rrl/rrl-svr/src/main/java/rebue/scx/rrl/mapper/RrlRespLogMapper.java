@@ -2,6 +2,9 @@ package rebue.scx.rrl.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.body;
+import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.cookies;
+import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.createTimestamp;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.headers;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.id;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.rrlRespLog;
@@ -43,7 +46,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, statusCode, headers);
+    BasicColumn[] selectList = BasicColumn.columnList(id, statusCode, headers, body, createTimestamp, cookies);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -83,7 +86,10 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     @Results(id="RrlRespLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="STATUS_CODE", property="statusCode", jdbcType=JdbcType.CHAR),
-        @Result(column="HEADERS", property="headers", jdbcType=JdbcType.VARCHAR)
+        @Result(column="HEADERS", property="headers", jdbcType=JdbcType.VARCHAR),
+        @Result(column="BODY", property="body", jdbcType=JdbcType.VARCHAR),
+        @Result(column="CREATE_TIMESTAMP", property="createTimestamp", jdbcType=JdbcType.BIGINT),
+        @Result(column="COOKIES", property="cookies", jdbcType=JdbcType.VARCHAR)
     })
     List<RrlRespLogMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -124,6 +130,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             c.map(id).toProperty("id")
             .map(statusCode).toProperty("statusCode")
             .map(headers).toProperty("headers")
+            .map(body).toProperty("body")
+            .map(createTimestamp).toProperty("createTimestamp")
+            .map(cookies).toProperty("cookies")
         );
     }
 
@@ -135,6 +144,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             c.map(id).toProperty("id")
             .map(statusCode).toProperty("statusCode")
             .map(headers).toProperty("headers")
+            .map(body).toProperty("body")
+            .map(createTimestamp).toProperty("createTimestamp")
+            .map(cookies).toProperty("cookies")
         );
     }
 
@@ -146,6 +158,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(statusCode).toPropertyWhenPresent("statusCode", record::getStatusCode)
             .map(headers).toPropertyWhenPresent("headers", record::getHeaders)
+            .map(body).toPropertyWhenPresent("body", record::getBody)
+            .map(createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp)
+            .map(cookies).toPropertyWhenPresent("cookies", record::getCookies)
         );
     }
 
@@ -192,7 +207,10 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     static UpdateDSL<UpdateModel> updateAllColumns(RrlRespLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(statusCode).equalTo(record::getStatusCode)
-                .set(headers).equalTo(record::getHeaders);
+                .set(headers).equalTo(record::getHeaders)
+                .set(body).equalTo(record::getBody)
+                .set(createTimestamp).equalTo(record::getCreateTimestamp)
+                .set(cookies).equalTo(record::getCookies);
     }
 
     /**
@@ -201,7 +219,10 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RrlRespLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(statusCode).equalToWhenPresent(record::getStatusCode)
-                .set(headers).equalToWhenPresent(record::getHeaders);
+                .set(headers).equalToWhenPresent(record::getHeaders)
+                .set(body).equalToWhenPresent(record::getBody)
+                .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
+                .set(cookies).equalToWhenPresent(record::getCookies);
     }
 
     /**
@@ -211,6 +232,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return update(c ->
             c.set(statusCode).equalTo(record::getStatusCode)
             .set(headers).equalTo(record::getHeaders)
+            .set(body).equalTo(record::getBody)
+            .set(createTimestamp).equalTo(record::getCreateTimestamp)
+            .set(cookies).equalTo(record::getCookies)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -222,6 +246,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return update(c ->
             c.set(statusCode).equalToWhenPresent(record::getStatusCode)
             .set(headers).equalToWhenPresent(record::getHeaders)
+            .set(body).equalToWhenPresent(record::getBody)
+            .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
+            .set(cookies).equalToWhenPresent(record::getCookies)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -234,6 +261,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
+            .and(body, isEqualToWhenPresent(record::getBody))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
         );
     }
 
@@ -245,6 +275,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
+            .and(body, isEqualToWhenPresent(record::getBody))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
         );
     }
 
@@ -256,6 +289,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
+            .and(body, isEqualToWhenPresent(record::getBody))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
         );
     }
 
@@ -281,6 +317,9 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
+            .and(body, isEqualToWhenPresent(record::getBody))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
         );
     }
 }

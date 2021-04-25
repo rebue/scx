@@ -4,6 +4,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.body;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.contentType;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.cookies;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.createTimestamp;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.headers;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.host;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.id;
@@ -51,7 +53,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, method, scheme, host, port, path, uri, headers, contentType, queryParams, body);
+    BasicColumn[] selectList = BasicColumn.columnList(id, method, scheme, host, port, path, uri, headers, contentType, queryParams, body, cookies, createTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -99,7 +101,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         @Result(column="HEADERS", property="headers", jdbcType=JdbcType.VARCHAR),
         @Result(column="CONTENT_TYPE", property="contentType", jdbcType=JdbcType.VARCHAR),
         @Result(column="QUERY_PARAMS", property="queryParams", jdbcType=JdbcType.VARCHAR),
-        @Result(column="BODY", property="body", jdbcType=JdbcType.VARCHAR)
+        @Result(column="BODY", property="body", jdbcType=JdbcType.VARCHAR),
+        @Result(column="COOKIES", property="cookies", jdbcType=JdbcType.VARCHAR),
+        @Result(column="CREATE_TIMESTAMP", property="createTimestamp", jdbcType=JdbcType.BIGINT)
     })
     List<RrlReqLogMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -148,6 +152,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .map(contentType).toProperty("contentType")
             .map(queryParams).toProperty("queryParams")
             .map(body).toProperty("body")
+            .map(cookies).toProperty("cookies")
+            .map(createTimestamp).toProperty("createTimestamp")
         );
     }
 
@@ -167,6 +173,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .map(contentType).toProperty("contentType")
             .map(queryParams).toProperty("queryParams")
             .map(body).toProperty("body")
+            .map(cookies).toProperty("cookies")
+            .map(createTimestamp).toProperty("createTimestamp")
         );
     }
 
@@ -186,6 +194,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .map(contentType).toPropertyWhenPresent("contentType", record::getContentType)
             .map(queryParams).toPropertyWhenPresent("queryParams", record::getQueryParams)
             .map(body).toPropertyWhenPresent("body", record::getBody)
+            .map(cookies).toPropertyWhenPresent("cookies", record::getCookies)
+            .map(createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp)
         );
     }
 
@@ -240,7 +250,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
                 .set(headers).equalTo(record::getHeaders)
                 .set(contentType).equalTo(record::getContentType)
                 .set(queryParams).equalTo(record::getQueryParams)
-                .set(body).equalTo(record::getBody);
+                .set(body).equalTo(record::getBody)
+                .set(cookies).equalTo(record::getCookies)
+                .set(createTimestamp).equalTo(record::getCreateTimestamp);
     }
 
     /**
@@ -257,7 +269,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
                 .set(headers).equalToWhenPresent(record::getHeaders)
                 .set(contentType).equalToWhenPresent(record::getContentType)
                 .set(queryParams).equalToWhenPresent(record::getQueryParams)
-                .set(body).equalToWhenPresent(record::getBody);
+                .set(body).equalToWhenPresent(record::getBody)
+                .set(cookies).equalToWhenPresent(record::getCookies)
+                .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp);
     }
 
     /**
@@ -275,6 +289,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .set(contentType).equalTo(record::getContentType)
             .set(queryParams).equalTo(record::getQueryParams)
             .set(body).equalTo(record::getBody)
+            .set(cookies).equalTo(record::getCookies)
+            .set(createTimestamp).equalTo(record::getCreateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -294,6 +310,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .set(contentType).equalToWhenPresent(record::getContentType)
             .set(queryParams).equalToWhenPresent(record::getQueryParams)
             .set(body).equalToWhenPresent(record::getBody)
+            .set(cookies).equalToWhenPresent(record::getCookies)
+            .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -314,6 +332,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(contentType, isEqualToWhenPresent(record::getContentType))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }
 
@@ -333,6 +353,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(contentType, isEqualToWhenPresent(record::getContentType))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }
 
@@ -352,6 +374,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(contentType, isEqualToWhenPresent(record::getContentType))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }
 
@@ -385,6 +409,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(contentType, isEqualToWhenPresent(record::getContentType))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
+            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }
 }

@@ -77,13 +77,12 @@ public class SgnSecretHttpTests {
         final Ro<PojoRa<SgnSecretMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<SgnSecretMo>>>() {
                                                    });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
-        SgnSecretMo mo = getByIdRo.getExtra().getOne();
-        mo = getByIdRo.getExtra().getOne();
         log.info("修改签名密钥的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
 
         // XXX 这里注释起来不删除，是因为要保留这个添加的记录的实体做签名测试
+        // final SgnSecretMo mo = getByIdRo.getExtra().getOne();
         // log.info("删除签名密钥的参数为：" + mo.getId());
         // final String deleteResult = _httpClient.delete(_hostUrl + "/sgn/secret?id=" + mo.getId());
         // log.info("删除签名密钥的返回值为：" + deleteResult);
