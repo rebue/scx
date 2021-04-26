@@ -2,8 +2,7 @@
 scx:
   gateway:
     # 发送消息的超时时间(发送添加请求和响应日志的消息时使用)
-    send-timeout: 1000
-
+    send-timeout: 5000
 
 spring:
   cloud:
@@ -18,3 +17,9 @@ spring:
                   - "'/ctid/**'"
 #                ignore-urls:
 #                  - "'POST:/sgn/sign-in/**'"
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /    
