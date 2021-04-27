@@ -34,8 +34,8 @@ import rebue.wheel.turing.Sm2Utils;
 public class SgnSecretHttpTests {
 
     // private final String _hostUrl = "http://127.0.0.1:9436";
-    private final String _hostUrl = "http://127.0.0.1:10080/sgn-svr";
-    // private final String _hostUrl = "http://ctid:10080/sgn-svr";
+    // private final String _hostUrl = "http://127.0.0.1:10080/sgn-svr";
+    private final String     _hostUrl     = "http://ctid:10080/sgn-svr";
 
     private final HttpClient _httpClient  = new OkHttpClientImpl();
 

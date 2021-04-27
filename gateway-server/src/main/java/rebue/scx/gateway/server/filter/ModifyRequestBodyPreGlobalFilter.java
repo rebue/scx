@@ -1,5 +1,6 @@
 package rebue.scx.gateway.server.filter;
 
+import java.net.URI;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,10 +19,10 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,9 +68,8 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         log.info(StringUtils.rightPad("*** 进入 ModifyRequestBodyPreGlobalFilter 过滤器 ***", 100));
         try {
-            final ServerHttpRequest             request        = exchange.getRequest();
-            final HttpHeaders                   requestHeaders = request.getHeaders();
-            final MultiValueMap<String, String> queryParams    = request.getQueryParams();
+            final ServerHttpRequest request        = exchange.getRequest();
+            final HttpHeaders       requestHeaders = request.getHeaders();
 
             // 缓存请求ID
             final Long                requestId         = (Long) exchange.getAttributes().get(CachedKeyCo.REQUEST_ID);
@@ -79,9 +79,13 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 没有Body的直接往下走
             if (requestBodyParams == null || requestBodyParams.size() == 0) {
                 // 往查询参数中添加请求ID
-                queryParams.add(REQUEST_ID_PARAM_NAME, requestId.toString());
-                log.info("要转发的queryParams: {}", queryParams);
-                return chain.filter(exchange);
+                final URI    uri              = request.getURI();
+                final String originalRawQuery = uri.getRawQuery();
+                final String newRawQuery      = originalRawQuery + "&" + REQUEST_ID_PARAM_NAME + "=" + requestId;
+                final URI    newUri           = UriComponentsBuilder.fromUri(uri).replaceQuery(newRawQuery.toString()).build(true).toUri();
+                log.info("要转发的queryParams: {}", newRawQuery);
+                final ServerHttpRequest newRequest = exchange.getRequest().mutate().uri(newUri).build();
+                return chain.filter(exchange.mutate().request(newRequest).build());
             }
 
             // 有Body的重新构造新的Body，因为Body在CacheRequestBodyPreBolbalFilter过滤器中被出来，就要重新构建

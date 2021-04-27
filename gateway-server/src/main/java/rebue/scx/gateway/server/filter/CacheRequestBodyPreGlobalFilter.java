@@ -148,7 +148,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     private void logFile(final Long requestId, final String requestTimeString, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
                          final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         final StringBuilder sb = new StringBuilder();
-        sb.append("\r\n----------------------- 进入CacheRequestBodyPreGlobalFilter过滤器 -----------------------\r\n");
+        sb.append("接收到新的请求!!!\r\n----------------------- 请求的详情 -----------------------\r\n");
         sb.append("* 请求ID:\r\n*    ");
         sb.append(requestId);
         sb.append("\r\n* 请求时间:\r\n*    ");
