@@ -72,22 +72,21 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             }
 
             final Map<String, Object> requestBodyParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
-            if (requestBodyParams == null) {
+
+            // 没有Body的直接往下走
+            if (requestBodyParams == null || requestBodyParams.size() == 0) {
                 return chain.filter(exchange);
             }
 
-            if (requestBodyParams != null && requestBodyParams.size() > 0) {
-                log.info("要转发的bodyParams: {}", requestBodyParams);
-            }
-
+            // 有Body的重新构造新的Body，因为Body在CacheRequestBodyPreBolbalFilter过滤器中被出来，就要重新构建
+            log.info("要转发的bodyParams: {}", requestBodyParams);
             // 重新构造request，参考ModifyRequestBodyGatewayFilterFactory
             // FIXME 这里默认构造JSON格式的Body，不知道后面会不会碰到其它格式的Body
-            Mono<String> modifiedBody;
-            String       bodyString;
+            final Mono<String> modifiedBody;
+            String             bodyString;
             try {
                 bodyString = JacksonUtils.serialize(requestBodyParams);
-                // final String json = "{\"algorithm\":2,\"requestId\":861869767961608194}";
-                log.info("json: {}", bodyString);
+                log.info("bodyString: {}", bodyString);
                 modifiedBody = Mono.just(bodyString);
             } catch (final JsonProcessingException e) {
                 e.printStackTrace();
@@ -100,18 +99,15 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 删除headers中的content length，避免修改Body后Body的数据长度有变化被检测出来报400异常
             // 猜测这个就是之前报400错误的元凶，之前修改了body但是没有重新写content length
             final HttpHeaders newHeaders = new HttpHeaders();
-            newHeaders.putAll(exchange.getRequest().getHeaders());
+            newHeaders.putAll(requestHeaders);
             // the new content type will be computed by bodyInserter
             // and then set in the request decorator
             newHeaders.remove(HttpHeaders.CONTENT_LENGTH);
-            // final List<String> a = new ArrayList<>();
-            // a.add(String.valueOf(bodyString.length()));
-            // newHeaders.put(HttpHeaders.CONTENT_LENGTH, a);
 
             final BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter  = BodyInserters.fromPublisher(modifiedBody, String.class);
             final CachedBodyOutputMessage                               outputMessage = new CachedBodyOutputMessage(exchange, newHeaders);
             return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
-                final ServerHttpRequest decorator = decorate(exchange, requestHeaders, outputMessage);
+                final ServerHttpRequest decorator = decorate(exchange, newHeaders, outputMessage);
                 return chain.filter(exchange.mutate().request(decorator).build());
             }));
         } finally {

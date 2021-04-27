@@ -2,6 +2,7 @@ package rebue.scx.gateway.server.filter;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -93,26 +94,26 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_STRING, System.currentTimeMillis());
 
         // 获取请求信息
-        final Long                              requestId        = _idWorker.getId();
+        final Long                              requestId         = _idWorker.getId();
         // 获取请求时间
-        final long                              requestTimestamp = System.currentTimeMillis();
-        final String                            requestTime      = _dateTimeFormatter.format(LocalDateUtils.getDateTimeOfTimestamp(requestTimestamp));
-        final ServerHttpRequest                 request          = exchange.getRequest();
-        final HttpMethod                        requestMethod    = request.getMethod();
-        final URI                               requestUri       = request.getURI();
-        final String                            requestScheme    = requestUri.getScheme();
-        final String                            requestHost      = requestUri.getHost();
-        final int                               requestPort      = requestUri.getPort();
-        final String                            requestPath      = requestUri.getPath();
-        final HttpHeaders                       requestHeaders   = request.getHeaders();
-        final MediaType                         contentType      = requestHeaders.getContentType();
-        final MultiValueMap<String, HttpCookie> requestCookies   = request.getCookies();
-        final MultiValueMap<String, String>     queryParams      = request.getQueryParams();
+        final LocalDateTime                     requestTime       = LocalDateTime.now();
+        final String                            requestTimeString = _dateTimeFormatter.format(requestTime);
+        final ServerHttpRequest                 request           = exchange.getRequest();
+        final HttpMethod                        requestMethod     = request.getMethod();
+        final URI                               requestUri        = request.getURI();
+        final String                            requestScheme     = requestUri.getScheme();
+        final String                            requestHost       = requestUri.getHost();
+        final int                               requestPort       = requestUri.getPort();
+        final String                            requestPath       = requestUri.getPath();
+        final HttpHeaders                       requestHeaders    = request.getHeaders();
+        final MediaType                         contentType       = requestHeaders.getContentType();
+        final MultiValueMap<String, HttpCookie> requestCookies    = request.getCookies();
+        final MultiValueMap<String, String>     queryParams       = request.getQueryParams();
 
         // 缓存请求ID
         exchange.getAttributes().put(CachedKeyCo.REQUEST_ID, requestId);
         // 缓存请求时间戳
-        exchange.getAttributes().put(CachedKeyCo.REQUEST_TIMESTAMP, requestTimestamp);
+        exchange.getAttributes().put(CachedKeyCo.REQUEST_TIME, requestTime);
 
         return DataBufferUtils.join(request.getBody()).doOnNext(dataBuffer -> {
             if (dataBuffer.readableByteCount() > 0) {
@@ -128,7 +129,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
                 // FIXME 这里只判断了JSON格式的Body，不知道后面会不会碰到其它格式的Body
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
-                        || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
+                    || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     final Map<String, Object> bodyParmams = new LinkedHashMap<>(jsonParser.parseMap(bodyString));
                     // TODO Body中加入请求ID
                     bodyParmams.put(REQUEST_ID_PARAM_NAME, requestId);
@@ -142,10 +143,10 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY_STRING);
 
             // 记录文件日志
-            logFile(requestId, requestTime, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
+            logFile(requestId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
 
-            logDb(requestId, requestTimestamp, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
-                    queryParams, body);
+            logDb(requestId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
+                queryParams, body);
         }).then(chain.filter(exchange));
     }
 
@@ -153,14 +154,14 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
      * 记录文件日志
      */
     @SuppressWarnings("deprecation")
-    private void logFile(final Long requestId, final String requestTime, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
-            final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+    private void logFile(final Long requestId, final String requestTimeString, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
+                         final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         final StringBuilder sb = new StringBuilder();
         sb.append("\r\n----------------------- 进入CacheRequestBodyPreGlobalFilter过滤器 -----------------------\r\n");
         sb.append("* 请求ID:\r\n*    ");
         sb.append(requestId);
         sb.append("\r\n* 请求时间:\r\n*    ");
-        sb.append(requestTime);
+        sb.append(requestTimeString);
         sb.append("\r\n* 请求链接:\r\n*    ");
         sb.append(requestMethod);
         sb.append(" ");
@@ -198,12 +199,12 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             if (StringUtils.isNotBlank(bodyString)) {
                 sb.append("\r\n* 请求的Body:\r\n");
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
-                        || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
+                    || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     // 格式化JSON
                     String jsonText = null;
                     try {
                         jsonText = objectMapper.writerWithDefaultPrettyPrinter()
-                                .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
+                            .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
                         jsonText = "*    " + jsonText.replaceAll("\n", "\n*    ");
                     } catch (final JsonProcessingException e) {
                         jsonText = "*    JSON格式不正确: " + bodyString;
@@ -222,14 +223,14 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     /**
      * 记录数据库日志
      */
-    private void logDb(final Long requestId, final long requestTimestamp, final HttpMethod requestMethod, final URI requestUri, final String requestScheme,
-            final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
-            final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+    private void logDb(final Long requestId, final LocalDateTime requestTime, final HttpMethod requestMethod, final URI requestUri, final String requestScheme,
+                       final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
+                       final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         // 记录数据库日志
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();
         to.setId(requestId);    // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
-        to.setCreateTimestamp(requestTimestamp);
+        to.setCreateTimestamp(LocalDateUtils.getMillis(requestTime));
         to.setMethod(requestMethod.toString());
         to.setScheme(requestScheme);
         to.setHost(requestHost);

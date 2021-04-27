@@ -9,9 +9,9 @@ package rebue.scx.gateway.server.co;
  */
 public class CachedKeyCo {
     /**
-     * 请求开始时间戳(值为Long)
+     * 请求开始时间(值为LocalDateTime)
      */
-    public static final String REQUEST_TIMESTAMP   = "@requestTimestamp";
+    public static final String REQUEST_TIME   = "@requestDateTime";
     /**
      * 请求ID(值为Long)
      */

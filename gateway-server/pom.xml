@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -127,11 +128,11 @@
 					<execution>
 						<id>default</id>
 						<!-- 绑定到install阶段执行 -->
-						<phase>install</phase>
+						<!-- <phase>install</phase> -->
 						<!-- 绑定到deploy阶段执行 -->
 						<!-- <phase>deploy</phase> -->
 						<!-- 不绑定到任何阶段，也就不会执行 -->
-						<!-- <phase></phase> -->
+						<phase></phase>
 						<goals>
 							<goal>build</goal>
 							<goal>push</goal>
