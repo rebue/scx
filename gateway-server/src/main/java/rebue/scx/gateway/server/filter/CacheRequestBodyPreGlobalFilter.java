@@ -119,7 +119,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 // 将body读到字符串中
                 final String bodyString = StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer()).toString();
                 if (StringUtils.isBlank(bodyString)) {
-                    // 如果没有Body，在请求参数中加入请求ID
+                    // TODO 如果没有Body，在请求参数中加入请求ID
                     queryParams.add(REQUEST_ID_PARAM_NAME, requestId.toString());
                     return;
                 }
@@ -128,9 +128,9 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
                 // FIXME 这里只判断了JSON格式的Body，不知道后面会不会碰到其它格式的Body
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
-                    || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
+                        || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     final Map<String, Object> bodyParmams = new LinkedHashMap<>(jsonParser.parseMap(bodyString));
-                    // Body中加入请求ID
+                    // TODO Body中加入请求ID
                     bodyParmams.put(REQUEST_ID_PARAM_NAME, requestId);
                     // 缓存请求Body中的参数
                     exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_PARAMS, bodyParmams);
@@ -145,7 +145,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             logFile(requestId, requestTime, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
 
             logDb(requestId, requestTimestamp, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
-                queryParams, body);
+                    queryParams, body);
         }).then(chain.filter(exchange));
     }
 
@@ -154,7 +154,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
      */
     @SuppressWarnings("deprecation")
     private void logFile(final Long requestId, final String requestTime, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
-                         final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+            final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         final StringBuilder sb = new StringBuilder();
         sb.append("\r\n----------------------- 进入CacheRequestBodyPreGlobalFilter过滤器 -----------------------\r\n");
         sb.append("* 请求ID:\r\n*    ");
@@ -198,12 +198,12 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             if (StringUtils.isNotBlank(bodyString)) {
                 sb.append("\r\n* 请求的Body:\r\n");
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
-                    || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
+                        || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     // 格式化JSON
                     String jsonText = null;
                     try {
                         jsonText = objectMapper.writerWithDefaultPrettyPrinter()
-                            .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
+                                .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
                         jsonText = "*    " + jsonText.replaceAll("\n", "\n*    ");
                     } catch (final JsonProcessingException e) {
                         jsonText = "*    JSON格式不正确: " + bodyString;
@@ -223,8 +223,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
      * 记录数据库日志
      */
     private void logDb(final Long requestId, final long requestTimestamp, final HttpMethod requestMethod, final URI requestUri, final String requestScheme,
-                       final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
-                       final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+            final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
+            final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         // 记录数据库日志
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();

@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.json.JsonParser;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutputMessage;
@@ -31,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
+import rebue.wheel.serialization.jackson.JacksonUtils;
 
 /**
  * 重新构造Body
@@ -47,9 +47,6 @@ import rebue.scx.gateway.server.co.CachedKeyCo;
 @Slf4j
 @Component
 public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
-
-    @Resource
-    private JsonParser   jsonParser;
 
     @Resource
     private ObjectMapper objectMapper;
@@ -86,8 +83,12 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 重新构造request，参考ModifyRequestBodyGatewayFilterFactory
             // FIXME 这里默认构造JSON格式的Body，不知道后面会不会碰到其它格式的Body
             Mono<String> modifiedBody;
+            String       bodyString;
             try {
-                modifiedBody = Mono.just(objectMapper.writeValueAsString(requestBodyParams));
+                bodyString = JacksonUtils.serialize(requestBodyParams);
+                // final String json = "{\"algorithm\":2,\"requestId\":861869767961608194}";
+                log.info("json: {}", bodyString);
+                modifiedBody = Mono.just(bodyString);
             } catch (final JsonProcessingException e) {
                 e.printStackTrace();
                 log.error("ModifyRequestBodyPreGlobalFilter 序列化JSON对象失败: requestParams-{}", requestBodyParams);
@@ -103,6 +104,9 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // the new content type will be computed by bodyInserter
             // and then set in the request decorator
             newHeaders.remove(HttpHeaders.CONTENT_LENGTH);
+            // final List<String> a = new ArrayList<>();
+            // a.add(String.valueOf(bodyString.length()));
+            // newHeaders.put(HttpHeaders.CONTENT_LENGTH, a);
 
             final BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter  = BodyInserters.fromPublisher(modifiedBody, String.class);
             final CachedBodyOutputMessage                               outputMessage = new CachedBodyOutputMessage(exchange, newHeaders);
