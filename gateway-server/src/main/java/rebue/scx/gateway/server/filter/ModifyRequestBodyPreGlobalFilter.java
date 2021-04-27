@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
-import rebue.wheel.serialization.jackson.JacksonUtils;
 
 /**
  * 重新构造Body
@@ -48,8 +47,13 @@ import rebue.wheel.serialization.jackson.JacksonUtils;
 @Component
 public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
+    /**
+     * 加入参数中requestId的参数名称
+     */
+    private static final String REQUEST_ID_PARAM_NAME = "requestId";
+
     @Resource
-    private ObjectMapper objectMapper;
+    private ObjectMapper        objectMapper;
 
     /**
      * 注意我开始使用@Order注解没有起作用，所以以实现Ordered接口的方式设置最低的优先级
@@ -67,25 +71,29 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             final HttpHeaders                   requestHeaders = request.getHeaders();
             final MultiValueMap<String, String> queryParams    = request.getQueryParams();
 
-            if (queryParams != null && queryParams.size() > 0) {
-                log.info("要转发的queryParams: {}", queryParams);
-            }
+            // 缓存请求ID
+            final Long                requestId         = (Long) exchange.getAttributes().get(CachedKeyCo.REQUEST_ID);
 
             final Map<String, Object> requestBodyParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
 
             // 没有Body的直接往下走
             if (requestBodyParams == null || requestBodyParams.size() == 0) {
+                // 往查询参数中添加请求ID
+                queryParams.add(REQUEST_ID_PARAM_NAME, requestId.toString());
+                log.info("要转发的queryParams: {}", queryParams);
                 return chain.filter(exchange);
             }
 
             // 有Body的重新构造新的Body，因为Body在CacheRequestBodyPreBolbalFilter过滤器中被出来，就要重新构建
+            // 往Body中加入请求ID
+            requestBodyParams.put(REQUEST_ID_PARAM_NAME, requestId);
             log.info("要转发的bodyParams: {}", requestBodyParams);
             // 重新构造request，参考ModifyRequestBodyGatewayFilterFactory
             // FIXME 这里默认构造JSON格式的Body，不知道后面会不会碰到其它格式的Body
             final Mono<String> modifiedBody;
             String             bodyString;
             try {
-                bodyString = JacksonUtils.serialize(requestBodyParams);
+                bodyString = objectMapper.writeValueAsString(requestBodyParams);
                 log.info("bodyString: {}", bodyString);
                 modifiedBody = Mono.just(bodyString);
             } catch (final JsonProcessingException e) {

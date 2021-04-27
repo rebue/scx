@@ -54,11 +54,6 @@ import rebue.wheel.idworker.IdWorker3;
 @Component
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
-    /**
-     * 加入参数中requestId的参数名称
-     */
-    private static final String      REQUEST_ID_PARAM_NAME = "requestId";
-
     protected IdWorker3              _idWorker;
     @Value("${robotech.appid:0}")
     private int                      _appid;
@@ -72,7 +67,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     @Resource
     private ObjectMapper             objectMapper;
 
-    private static DateTimeFormatter _dateTimeFormatter    = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private static DateTimeFormatter _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     @PostConstruct
     public void init() {
@@ -120,8 +115,6 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 // 将body读到字符串中
                 final String bodyString = StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer()).toString();
                 if (StringUtils.isBlank(bodyString)) {
-                    // TODO 如果没有Body，在请求参数中加入请求ID
-                    queryParams.add(REQUEST_ID_PARAM_NAME, requestId.toString());
                     return;
                 }
                 // 缓存请求body
@@ -131,8 +124,6 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
                     || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     final Map<String, Object> bodyParmams = new LinkedHashMap<>(jsonParser.parseMap(bodyString));
-                    // TODO Body中加入请求ID
-                    bodyParmams.put(REQUEST_ID_PARAM_NAME, requestId);
                     // 缓存请求Body中的参数
                     exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_PARAMS, bodyParmams);
                 }
