@@ -19,7 +19,7 @@ import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 权限 API层测试

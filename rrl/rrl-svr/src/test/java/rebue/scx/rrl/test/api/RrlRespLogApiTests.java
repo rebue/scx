@@ -19,7 +19,7 @@ import rebue.scx.rrl.mo.RrlRespLogMo;
 import rebue.scx.rrl.to.RrlRespLogAddTo;
 import rebue.scx.rrl.to.RrlRespLogModifyTo;
 import rebue.scx.rrl.to.RrlRespLogPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 响应日志 API层测试

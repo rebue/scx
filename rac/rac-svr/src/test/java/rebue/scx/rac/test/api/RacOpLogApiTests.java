@@ -19,7 +19,7 @@ import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.scx.rac.to.RacOpLogPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 操作日志 API层测试

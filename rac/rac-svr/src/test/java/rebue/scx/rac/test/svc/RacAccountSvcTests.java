@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 账户 Service层测试

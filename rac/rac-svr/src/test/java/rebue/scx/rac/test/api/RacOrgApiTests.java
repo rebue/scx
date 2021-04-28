@@ -19,7 +19,7 @@ import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 组织 API层测试

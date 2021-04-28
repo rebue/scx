@@ -19,7 +19,7 @@ import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.to.RacSysAddTo;
 import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 系统 API层测试

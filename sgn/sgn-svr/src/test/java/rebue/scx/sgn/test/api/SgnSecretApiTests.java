@@ -21,7 +21,7 @@ import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
 import rebue.scx.sgn.to.SgnSecretPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 import rebue.wheel.turing.Sm2Utils;
 
 /**

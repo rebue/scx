@@ -13,7 +13,7 @@ import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
 import rebue.scx.sgn.to.SgnSecretPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 import rebue.wheel.turing.Sm2Utils;
 
 /**

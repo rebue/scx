@@ -19,7 +19,7 @@ import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 用户 API层测试

@@ -25,7 +25,7 @@ import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.jwt.to.JwtVerifyTo;
-import rebue.wheel.LocalDateTimeUtils;
+import rebue.wheel.core.LocalDateTimeUtils;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j

@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacPermGroupSvc;
 import rebue.scx.rac.to.RacPermGroupAddTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermGroupPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 权限分组 Service层测试

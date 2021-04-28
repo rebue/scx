@@ -19,7 +19,7 @@ import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.RacLockLogPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 锁定日志 API层测试

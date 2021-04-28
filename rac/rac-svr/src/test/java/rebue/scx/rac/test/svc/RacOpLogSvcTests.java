@@ -14,7 +14,7 @@ import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.scx.rac.to.RacOpLogPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 操作日志 Service层测试

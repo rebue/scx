@@ -23,7 +23,7 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.scx.gateway.server.co.CachedKeyCo;
 import rebue.scx.sgn.api.ex.SgnVerifyApi;
-import rebue.wheel.spring.AntPathMatcherUtils;
+import rebue.wheel.core.spring.AntPathMatcherUtils;
 
 @Slf4j
 @Component

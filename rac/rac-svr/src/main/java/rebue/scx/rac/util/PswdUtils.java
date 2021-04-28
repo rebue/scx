@@ -1,6 +1,6 @@
 package rebue.scx.rac.util;
 
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 import rebue.wheel.turing.DigestUtils;
 
 public class PswdUtils {

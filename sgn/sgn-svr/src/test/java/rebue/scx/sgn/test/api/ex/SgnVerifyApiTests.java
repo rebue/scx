@@ -16,7 +16,7 @@ import rebue.scx.sgn.api.SgnSecretApi;
 import rebue.scx.sgn.api.ex.SgnVerifyApi;
 import rebue.scx.sgn.dic.SignAlgorithmDic;
 import rebue.scx.sgn.to.SgnSecretAddTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 import rebue.wheel.turing.SignUtils;
 import rebue.wheel.turing.Sm2Utils;
 

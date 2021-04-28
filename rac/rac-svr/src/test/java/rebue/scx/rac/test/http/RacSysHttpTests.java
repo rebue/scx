@@ -19,7 +19,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.to.RacSysAddTo;
 import rebue.scx.rac.to.RacSysModifyTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 import rebue.wheel.net.httpclient.HttpClient;
 import rebue.wheel.net.httpclient.impl.OkHttpClientImpl;
 import rebue.wheel.serialization.jackson.JacksonUtils;

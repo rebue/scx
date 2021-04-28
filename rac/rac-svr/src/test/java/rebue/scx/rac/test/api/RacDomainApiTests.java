@@ -19,7 +19,7 @@ import rebue.scx.rac.mo.RacDomainMo;
 import rebue.scx.rac.to.RacDomainAddTo;
 import rebue.scx.rac.to.RacDomainModifyTo;
 import rebue.scx.rac.to.RacDomainPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 领域 API层测试

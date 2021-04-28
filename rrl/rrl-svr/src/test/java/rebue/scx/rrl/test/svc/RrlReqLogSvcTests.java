@@ -14,7 +14,7 @@ import rebue.scx.rrl.svc.RrlReqLogSvc;
 import rebue.scx.rrl.to.RrlReqLogAddTo;
 import rebue.scx.rrl.to.RrlReqLogModifyTo;
 import rebue.scx.rrl.to.RrlReqLogPageTo;
-import rebue.wheel.RandomEx;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 请求日志 Service层测试
