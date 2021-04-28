@@ -35,7 +35,7 @@ import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
 import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlRespLogAddTo;
-import rebue.wheel.LocalDateUtils;
+import rebue.wheel.LocalDateTimeUtils;
 
 /**
  * 记录响应包括Body在内的详细信息
@@ -205,7 +205,7 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
         if (StringUtils.isNotBlank(bodyString)) {
             to.setBody(bodyString);
         }
-        to.setCreateTimestamp(LocalDateUtils.getMillis(responseTime));
+        to.setCreateTimestamp(LocalDateTimeUtils.getMillis(responseTime));
         rrlPub.addRespLog(to);
     }
 }

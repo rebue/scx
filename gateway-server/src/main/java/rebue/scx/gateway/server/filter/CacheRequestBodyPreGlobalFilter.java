@@ -34,7 +34,7 @@ import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
 import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlReqLogAddTo;
-import rebue.wheel.LocalDateUtils;
+import rebue.wheel.LocalDateTimeUtils;
 import rebue.wheel.idworker.IdWorker3;
 
 /**
@@ -221,7 +221,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();
         to.setId(requestId);    // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
-        to.setCreateTimestamp(LocalDateUtils.getMillis(requestTime));
+        to.setCreateTimestamp(LocalDateTimeUtils.getMillis(requestTime));
         to.setMethod(requestMethod.toString());
         to.setScheme(requestScheme);
         to.setHost(requestHost);

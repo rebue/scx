@@ -25,7 +25,7 @@ import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.jwt.to.JwtVerifyTo;
-import rebue.wheel.LocalDateUtils;
+import rebue.wheel.LocalDateTimeUtils;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
@@ -47,8 +47,8 @@ public class JwtSvcImpl implements JwtSvc {
             // Prepare JWT with claims set
             final LocalDateTime nowLocalDateTime            = LocalDateTime.now();
             final LocalDateTime expirationTimeLocalDateTime = nowLocalDateTime.plusSeconds(jwtProperties.getExpirationDuration().getSeconds());
-            final Date          now                         = LocalDateUtils.localDateTime2Date(nowLocalDateTime);
-            final Date          expirationTime              = LocalDateUtils.localDateTime2Date(expirationTimeLocalDateTime);
+            final Date          now                         = LocalDateTimeUtils.localDateTime2Date(nowLocalDateTime);
+            final Date          expirationTime              = LocalDateTimeUtils.localDateTime2Date(expirationTimeLocalDateTime);
 
             Builder             builder                     = new JWTClaimsSet.Builder()    //
                 .issuer(jwtProperties.getIssuer())                                      // 签发者
