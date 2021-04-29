@@ -64,4 +64,12 @@ public class RrlRespLogDelTo implements Serializable {
      */
     @Length(max = 2048, message = "COOKIES的长度不能大于2048")
     private String            cookies;
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 30, message = "事件ID的长度不能大于30")
+    private String            eventId;
 }

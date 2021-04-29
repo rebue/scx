@@ -33,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
+import rebue.scx.gateway.server.co.GatewayServerCo;
 import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlRespLogAddTo;
 import rebue.wheel.core.LocalDateTimeUtils;
@@ -196,6 +197,7 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
         // 数据库日志
         // 构造消息对象
         final RrlRespLogAddTo to = new RrlRespLogAddTo();
+        to.setEventId(GatewayServerCo.RRL_EVENT_ID);
         to.setId(requestId); // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
         to.setHeaders(responseHeaders.toString());
         to.setStatusCode(String.valueOf(responseStatusCode.value()));

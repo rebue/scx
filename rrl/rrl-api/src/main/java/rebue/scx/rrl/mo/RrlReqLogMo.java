@@ -196,6 +196,7 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", eventId=").append(eventId);
         sb.append(", method=").append(method);
         sb.append(", scheme=").append(scheme);
         sb.append(", host=").append(host);
@@ -204,9 +205,9 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
         sb.append(", uri=").append(uri);
         sb.append(", headers=").append(headers);
         sb.append(", contentType=").append(contentType);
+        sb.append(", cookies=").append(cookies);
         sb.append(", queryParams=").append(queryParams);
         sb.append(", body=").append(body);
-        sb.append(", cookies=").append(cookies);
         sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
@@ -437,5 +438,32 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
      */
     public void setCookies(String cookies) {
         this.cookies = cookies;
+    }
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "事件ID不能为空")
+    @Length(max = 30, message = "事件ID的长度不能大于30")
+    private String eventId;
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getEventId() {
+        return eventId;
+    }
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 }

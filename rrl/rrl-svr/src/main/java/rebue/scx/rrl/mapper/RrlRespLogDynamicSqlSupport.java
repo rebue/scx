@@ -12,11 +12,18 @@ public final class RrlRespLogDynamicSqlSupport {
     public static final RrlRespLog rrlRespLog = new RrlRespLog();
 
     /**
-    * ID
+    * ID 等于请求ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Long> id = rrlRespLog.id;
+
+    /**
+    * 事件ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> eventId = rrlRespLog.eventId;
 
     /**
     * 响应状态码
@@ -33,6 +40,13 @@ public final class RrlRespLogDynamicSqlSupport {
     public static final SqlColumn<String> headers = rrlRespLog.headers;
 
     /**
+    * COOKIES
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> cookies = rrlRespLog.cookies;
+
+    /**
     * 响应主体
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -46,25 +60,20 @@ public final class RrlRespLogDynamicSqlSupport {
     */
     public static final SqlColumn<Long> createTimestamp = rrlRespLog.createTimestamp;
 
-    /**
-    * COOKIES
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> cookies = rrlRespLog.cookies;
-
     public static final class RrlRespLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
+
+        public final SqlColumn<String> eventId = column("EVENT_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> statusCode = column("STATUS_CODE", JDBCType.CHAR);
 
         public final SqlColumn<String> headers = column("HEADERS", JDBCType.VARCHAR);
 
+        public final SqlColumn<String> cookies = column("COOKIES", JDBCType.VARCHAR);
+
         public final SqlColumn<String> body = column("BODY", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
-
-        public final SqlColumn<String> cookies = column("COOKIES", JDBCType.VARCHAR);
 
         public RrlRespLog() {
             super("RRL_RESP_LOG");

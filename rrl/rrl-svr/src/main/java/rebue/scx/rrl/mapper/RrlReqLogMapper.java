@@ -6,6 +6,7 @@ import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.body;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.contentType;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.cookies;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.createTimestamp;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.eventId;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.headers;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.host;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.id;
@@ -53,7 +54,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, method, scheme, host, port, path, uri, headers, contentType, queryParams, body, cookies, createTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, eventId, method, scheme, host, port, path, uri, headers, contentType, cookies, queryParams, body, createTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -92,6 +93,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RrlReqLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
+        @Result(column="EVENT_ID", property="eventId", jdbcType=JdbcType.VARCHAR),
         @Result(column="METHOD", property="method", jdbcType=JdbcType.VARCHAR),
         @Result(column="SCHEME", property="scheme", jdbcType=JdbcType.VARCHAR),
         @Result(column="HOST", property="host", jdbcType=JdbcType.VARCHAR),
@@ -100,9 +102,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         @Result(column="URI", property="uri", jdbcType=JdbcType.VARCHAR),
         @Result(column="HEADERS", property="headers", jdbcType=JdbcType.VARCHAR),
         @Result(column="CONTENT_TYPE", property="contentType", jdbcType=JdbcType.VARCHAR),
+        @Result(column="COOKIES", property="cookies", jdbcType=JdbcType.VARCHAR),
         @Result(column="QUERY_PARAMS", property="queryParams", jdbcType=JdbcType.VARCHAR),
         @Result(column="BODY", property="body", jdbcType=JdbcType.VARCHAR),
-        @Result(column="COOKIES", property="cookies", jdbcType=JdbcType.VARCHAR),
         @Result(column="CREATE_TIMESTAMP", property="createTimestamp", jdbcType=JdbcType.BIGINT)
     })
     List<RrlReqLogMo> selectMany(SelectStatementProvider selectStatement);
@@ -142,6 +144,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int insert(RrlReqLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, rrlReqLog, c ->
             c.map(id).toProperty("id")
+            .map(eventId).toProperty("eventId")
             .map(method).toProperty("method")
             .map(scheme).toProperty("scheme")
             .map(host).toProperty("host")
@@ -150,9 +153,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .map(uri).toProperty("uri")
             .map(headers).toProperty("headers")
             .map(contentType).toProperty("contentType")
+            .map(cookies).toProperty("cookies")
             .map(queryParams).toProperty("queryParams")
             .map(body).toProperty("body")
-            .map(cookies).toProperty("cookies")
             .map(createTimestamp).toProperty("createTimestamp")
         );
     }
@@ -163,6 +166,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int insertMultiple(Collection<RrlReqLogMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, rrlReqLog, c ->
             c.map(id).toProperty("id")
+            .map(eventId).toProperty("eventId")
             .map(method).toProperty("method")
             .map(scheme).toProperty("scheme")
             .map(host).toProperty("host")
@@ -171,9 +175,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .map(uri).toProperty("uri")
             .map(headers).toProperty("headers")
             .map(contentType).toProperty("contentType")
+            .map(cookies).toProperty("cookies")
             .map(queryParams).toProperty("queryParams")
             .map(body).toProperty("body")
-            .map(cookies).toProperty("cookies")
             .map(createTimestamp).toProperty("createTimestamp")
         );
     }
@@ -184,6 +188,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int insertSelective(RrlReqLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, rrlReqLog, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
+            .map(eventId).toPropertyWhenPresent("eventId", record::getEventId)
             .map(method).toPropertyWhenPresent("method", record::getMethod)
             .map(scheme).toPropertyWhenPresent("scheme", record::getScheme)
             .map(host).toPropertyWhenPresent("host", record::getHost)
@@ -192,9 +197,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .map(uri).toPropertyWhenPresent("uri", record::getUri)
             .map(headers).toPropertyWhenPresent("headers", record::getHeaders)
             .map(contentType).toPropertyWhenPresent("contentType", record::getContentType)
+            .map(cookies).toPropertyWhenPresent("cookies", record::getCookies)
             .map(queryParams).toPropertyWhenPresent("queryParams", record::getQueryParams)
             .map(body).toPropertyWhenPresent("body", record::getBody)
-            .map(cookies).toPropertyWhenPresent("cookies", record::getCookies)
             .map(createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp)
         );
     }
@@ -241,6 +246,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RrlReqLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
+                .set(eventId).equalTo(record::getEventId)
                 .set(method).equalTo(record::getMethod)
                 .set(scheme).equalTo(record::getScheme)
                 .set(host).equalTo(record::getHost)
@@ -249,9 +255,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
                 .set(uri).equalTo(record::getUri)
                 .set(headers).equalTo(record::getHeaders)
                 .set(contentType).equalTo(record::getContentType)
+                .set(cookies).equalTo(record::getCookies)
                 .set(queryParams).equalTo(record::getQueryParams)
                 .set(body).equalTo(record::getBody)
-                .set(cookies).equalTo(record::getCookies)
                 .set(createTimestamp).equalTo(record::getCreateTimestamp);
     }
 
@@ -260,6 +266,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RrlReqLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
+                .set(eventId).equalToWhenPresent(record::getEventId)
                 .set(method).equalToWhenPresent(record::getMethod)
                 .set(scheme).equalToWhenPresent(record::getScheme)
                 .set(host).equalToWhenPresent(record::getHost)
@@ -268,9 +275,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
                 .set(uri).equalToWhenPresent(record::getUri)
                 .set(headers).equalToWhenPresent(record::getHeaders)
                 .set(contentType).equalToWhenPresent(record::getContentType)
+                .set(cookies).equalToWhenPresent(record::getCookies)
                 .set(queryParams).equalToWhenPresent(record::getQueryParams)
                 .set(body).equalToWhenPresent(record::getBody)
-                .set(cookies).equalToWhenPresent(record::getCookies)
                 .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp);
     }
 
@@ -279,7 +286,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
      */
     default int updateByPrimaryKey(RrlReqLogMo record) {
         return update(c ->
-            c.set(method).equalTo(record::getMethod)
+            c.set(eventId).equalTo(record::getEventId)
+            .set(method).equalTo(record::getMethod)
             .set(scheme).equalTo(record::getScheme)
             .set(host).equalTo(record::getHost)
             .set(port).equalTo(record::getPort)
@@ -287,9 +295,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .set(uri).equalTo(record::getUri)
             .set(headers).equalTo(record::getHeaders)
             .set(contentType).equalTo(record::getContentType)
+            .set(cookies).equalTo(record::getCookies)
             .set(queryParams).equalTo(record::getQueryParams)
             .set(body).equalTo(record::getBody)
-            .set(cookies).equalTo(record::getCookies)
             .set(createTimestamp).equalTo(record::getCreateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -300,7 +308,8 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
      */
     default int updateByPrimaryKeySelective(RrlReqLogMo record) {
         return update(c ->
-            c.set(method).equalToWhenPresent(record::getMethod)
+            c.set(eventId).equalToWhenPresent(record::getEventId)
+            .set(method).equalToWhenPresent(record::getMethod)
             .set(scheme).equalToWhenPresent(record::getScheme)
             .set(host).equalToWhenPresent(record::getHost)
             .set(port).equalToWhenPresent(record::getPort)
@@ -308,9 +317,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .set(uri).equalToWhenPresent(record::getUri)
             .set(headers).equalToWhenPresent(record::getHeaders)
             .set(contentType).equalToWhenPresent(record::getContentType)
+            .set(cookies).equalToWhenPresent(record::getCookies)
             .set(queryParams).equalToWhenPresent(record::getQueryParams)
             .set(body).equalToWhenPresent(record::getBody)
-            .set(cookies).equalToWhenPresent(record::getCookies)
             .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
             .where(id, isEqualTo(record::getId))
         );
@@ -322,6 +331,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int deleteSelective(RrlReqLogMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(eventId, isEqualToWhenPresent(record::getEventId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))
@@ -330,9 +340,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
-            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }
@@ -343,6 +353,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default Optional<RrlReqLogMo> selectOne(RrlReqLogMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(eventId, isEqualToWhenPresent(record::getEventId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))
@@ -351,9 +362,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
-            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }
@@ -364,6 +375,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default long countSelective(RrlReqLogMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(eventId, isEqualToWhenPresent(record::getEventId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))
@@ -372,9 +384,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
-            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }
@@ -399,6 +411,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default List<RrlReqLogMo> selectSelective(RrlReqLogMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
+            .and(eventId, isEqualToWhenPresent(record::getEventId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))
@@ -407,9 +420,9 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
             .and(uri, isEqualToWhenPresent(record::getUri))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(contentType, isEqualToWhenPresent(record::getContentType))
+            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(queryParams, isEqualToWhenPresent(record::getQueryParams))
             .and(body, isEqualToWhenPresent(record::getBody))
-            .and(cookies, isEqualToWhenPresent(record::getCookies))
             .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
         );
     }

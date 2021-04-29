@@ -19,6 +19,13 @@ public final class RrlReqLogDynamicSqlSupport {
     public static final SqlColumn<Long> id = rrlReqLog.id;
 
     /**
+    * 事件ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> eventId = rrlReqLog.eventId;
+
+    /**
     * 请求方法
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -75,6 +82,13 @@ public final class RrlReqLogDynamicSqlSupport {
     public static final SqlColumn<String> contentType = rrlReqLog.contentType;
 
     /**
+    * COOKIES
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> cookies = rrlReqLog.cookies;
+
+    /**
     * 请求查询参数
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -89,13 +103,6 @@ public final class RrlReqLogDynamicSqlSupport {
     public static final SqlColumn<String> body = rrlReqLog.body;
 
     /**
-    * COOKIES
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> cookies = rrlReqLog.cookies;
-
-    /**
     * 请求时间戳
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -104,6 +111,8 @@ public final class RrlReqLogDynamicSqlSupport {
 
     public static final class RrlReqLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
+
+        public final SqlColumn<String> eventId = column("EVENT_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> method = column("METHOD", JDBCType.VARCHAR);
 
@@ -121,11 +130,11 @@ public final class RrlReqLogDynamicSqlSupport {
 
         public final SqlColumn<String> contentType = column("CONTENT_TYPE", JDBCType.VARCHAR);
 
+        public final SqlColumn<String> cookies = column("COOKIES", JDBCType.VARCHAR);
+
         public final SqlColumn<String> queryParams = column("QUERY_PARAMS", JDBCType.VARCHAR);
 
         public final SqlColumn<String> body = column("BODY", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> cookies = column("COOKIES", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
 

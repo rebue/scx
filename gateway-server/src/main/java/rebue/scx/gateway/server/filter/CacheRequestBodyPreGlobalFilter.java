@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
+import rebue.scx.gateway.server.co.GatewayServerCo;
 import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlReqLogAddTo;
 import rebue.wheel.core.LocalDateTimeUtils;
@@ -220,6 +221,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         // 记录数据库日志
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();
+        to.setEventId(GatewayServerCo.RRL_EVENT_ID);
         to.setId(requestId);    // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
         to.setCreateTimestamp(LocalDateTimeUtils.getMillis(requestTime));
         to.setMethod(requestMethod.toString());

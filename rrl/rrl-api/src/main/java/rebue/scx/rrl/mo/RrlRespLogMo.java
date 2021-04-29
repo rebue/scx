@@ -24,7 +24,7 @@ import rebue.robotech.valid.ModifyGroup;
 public class RrlRespLogMo implements Serializable, Mo<Long> {
 
     /**
-     * ID
+     * ID 等于请求ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -56,7 +56,7 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * ID 等于请求ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -65,7 +65,7 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * ID
+     * ID 等于请求ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -110,11 +110,12 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", eventId=").append(eventId);
         sb.append(", statusCode=").append(statusCode);
         sb.append(", headers=").append(headers);
+        sb.append(", cookies=").append(cookies);
         sb.append(", body=").append(body);
         sb.append(", createTimestamp=").append(createTimestamp);
-        sb.append(", cookies=").append(cookies);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -245,5 +246,32 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
      */
     public void setCookies(String cookies) {
         this.cookies = cookies;
+    }
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "事件ID不能为空")
+    @Length(max = 30, message = "事件ID的长度不能大于30")
+    private String eventId;
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getEventId() {
+        return eventId;
+    }
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 }

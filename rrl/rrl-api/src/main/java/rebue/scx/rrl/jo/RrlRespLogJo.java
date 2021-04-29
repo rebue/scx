@@ -32,7 +32,7 @@ public class RrlRespLogJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * ID 等于请求ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -117,4 +117,13 @@ public class RrlRespLogJo implements Serializable {
     @Basic(optional = true)
     @Column(name = "COOKIES", nullable = true, length = 2048)
     private String cookies;
+
+    /**
+     * 事件ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "EVENT_ID", nullable = false, length = 30)
+    private String eventId;
 }
