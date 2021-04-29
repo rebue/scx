@@ -19,7 +19,7 @@ import rebue.scx.rrl.to.RrlRespLogAddTo;
 @Service
 public class RrlPub {
 
-    @Value("${scx.gateway.send-timeout:5000}")
+    @Value("${rrl.send-timeout:5000}")
     private Long           sendTimeout;
 
     @Resource
