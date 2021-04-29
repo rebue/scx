@@ -16,6 +16,13 @@
               "notNull": true
             },
             {
+              "name": "EVENT_ID",
+              "type": "String-30",
+              "remark": "",
+              "chnname": "事件ID",
+              "notNull": true
+            },
+            {
               "name": "METHOD",
               "type": "String-10",
               "remark": "",
@@ -150,9 +157,16 @@
             {
               "name": "ID",
               "type": "Long",
-              "remark": "",
+              "remark": "等于请求ID",
               "chnname": "ID",
               "pk": true,
+              "notNull": true
+            },
+            {
+              "name": "EVENT_ID",
+              "type": "String-30",
+              "remark": "",
+              "chnname": "事件ID",
               "notNull": true
             },
             {
