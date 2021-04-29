@@ -6,9 +6,9 @@ package rebue.scx.gateway.server.co;
  * @author zbz
  *
  */
-public class GatewayServerCo {
+public interface GatewayServerCo {
     /**
      * 请求与响应日志的事件ID
      */
-    public static final String RRL_EVENT_ID = "gateway";
+    String RRL_EVENT_ID = "gateway";
 }

@@ -9,6 +9,7 @@ import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.eventId;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.headers;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.id;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.rrlRespLog;
+import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.sessionId;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.statusCode;
 
 import java.util.Collection;
@@ -47,7 +48,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, eventId, statusCode, headers, cookies, body, createTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, eventId, sessionId, statusCode, headers, cookies, body, createTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -87,6 +88,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     @Results(id="RrlRespLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="EVENT_ID", property="eventId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="SESSION_ID", property="sessionId", jdbcType=JdbcType.BIGINT),
         @Result(column="STATUS_CODE", property="statusCode", jdbcType=JdbcType.CHAR),
         @Result(column="HEADERS", property="headers", jdbcType=JdbcType.VARCHAR),
         @Result(column="COOKIES", property="cookies", jdbcType=JdbcType.VARCHAR),
@@ -131,6 +133,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return MyBatis3Utils.insert(this::insert, record, rrlRespLog, c ->
             c.map(id).toProperty("id")
             .map(eventId).toProperty("eventId")
+            .map(sessionId).toProperty("sessionId")
             .map(statusCode).toProperty("statusCode")
             .map(headers).toProperty("headers")
             .map(cookies).toProperty("cookies")
@@ -146,6 +149,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, rrlRespLog, c ->
             c.map(id).toProperty("id")
             .map(eventId).toProperty("eventId")
+            .map(sessionId).toProperty("sessionId")
             .map(statusCode).toProperty("statusCode")
             .map(headers).toProperty("headers")
             .map(cookies).toProperty("cookies")
@@ -161,6 +165,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return MyBatis3Utils.insert(this::insert, record, rrlRespLog, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(eventId).toPropertyWhenPresent("eventId", record::getEventId)
+            .map(sessionId).toPropertyWhenPresent("sessionId", record::getSessionId)
             .map(statusCode).toPropertyWhenPresent("statusCode", record::getStatusCode)
             .map(headers).toPropertyWhenPresent("headers", record::getHeaders)
             .map(cookies).toPropertyWhenPresent("cookies", record::getCookies)
@@ -212,6 +217,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     static UpdateDSL<UpdateModel> updateAllColumns(RrlRespLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(eventId).equalTo(record::getEventId)
+                .set(sessionId).equalTo(record::getSessionId)
                 .set(statusCode).equalTo(record::getStatusCode)
                 .set(headers).equalTo(record::getHeaders)
                 .set(cookies).equalTo(record::getCookies)
@@ -225,6 +231,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RrlRespLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(eventId).equalToWhenPresent(record::getEventId)
+                .set(sessionId).equalToWhenPresent(record::getSessionId)
                 .set(statusCode).equalToWhenPresent(record::getStatusCode)
                 .set(headers).equalToWhenPresent(record::getHeaders)
                 .set(cookies).equalToWhenPresent(record::getCookies)
@@ -238,6 +245,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     default int updateByPrimaryKey(RrlRespLogMo record) {
         return update(c ->
             c.set(eventId).equalTo(record::getEventId)
+            .set(sessionId).equalTo(record::getSessionId)
             .set(statusCode).equalTo(record::getStatusCode)
             .set(headers).equalTo(record::getHeaders)
             .set(cookies).equalTo(record::getCookies)
@@ -253,6 +261,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
     default int updateByPrimaryKeySelective(RrlRespLogMo record) {
         return update(c ->
             c.set(eventId).equalToWhenPresent(record::getEventId)
+            .set(sessionId).equalToWhenPresent(record::getSessionId)
             .set(statusCode).equalToWhenPresent(record::getStatusCode)
             .set(headers).equalToWhenPresent(record::getHeaders)
             .set(cookies).equalToWhenPresent(record::getCookies)
@@ -269,6 +278,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(cookies, isEqualToWhenPresent(record::getCookies))
@@ -284,6 +294,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(cookies, isEqualToWhenPresent(record::getCookies))
@@ -299,6 +310,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(cookies, isEqualToWhenPresent(record::getCookies))
@@ -328,6 +340,7 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders))
             .and(cookies, isEqualToWhenPresent(record::getCookies))

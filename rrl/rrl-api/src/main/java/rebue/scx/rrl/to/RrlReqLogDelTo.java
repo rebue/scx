@@ -127,4 +127,12 @@ public class RrlReqLogDelTo implements Serializable {
      */
     @Length(max = 30, message = "事件ID的长度不能大于30")
     private String            eventId;
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "会话ID不能为负数")
+    private Long              sessionId;
 }

@@ -189,4 +189,13 @@ public class RrlReqLogJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "EVENT_ID", nullable = false, length = 30)
     private String  eventId;
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "SESSION_ID", nullable = false, length = 20)
+    private Long    sessionId;
 }

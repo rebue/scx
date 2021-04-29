@@ -90,7 +90,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_STRING, System.currentTimeMillis());
 
         // 获取请求信息
-        final Long                              requestId         = _idWorker.getId();
+        // 会话ID
+        final Long                              sessionId         = _idWorker.getId();
         // 获取请求时间
         final LocalDateTime                     requestTime       = LocalDateTime.now();
         final String                            requestTimeString = _dateTimeFormatter.format(requestTime);
@@ -107,7 +108,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         final MultiValueMap<String, String>     queryParams       = request.getQueryParams();
 
         // 缓存请求ID
-        exchange.getAttributes().put(CachedKeyCo.REQUEST_ID, requestId);
+        exchange.getAttributes().put(CachedKeyCo.SESSION_ID, sessionId);
         // 缓存请求时间戳
         exchange.getAttributes().put(CachedKeyCo.REQUEST_TIME, requestTime);
 
@@ -135,9 +136,9 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY_STRING);
 
             // 记录文件日志
-            logFile(requestId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
+            logFile(sessionId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
 
-            logDb(requestId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
+            logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
                 queryParams, body);
         }).then(chain.filter(exchange));
     }
@@ -146,12 +147,12 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
      * 记录文件日志
      */
     @SuppressWarnings("deprecation")
-    private void logFile(final Long requestId, final String requestTimeString, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
+    private void logFile(final Long sessionId, final String requestTimeString, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
                          final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         final StringBuilder sb = new StringBuilder();
         sb.append("接收到新的请求!!!\r\n----------------------- 请求的详情 -----------------------\r\n");
-        sb.append("* 请求ID:\r\n*    ");
-        sb.append(requestId);
+        sb.append("* 会话ID:\r\n*    ");
+        sb.append(sessionId);
         sb.append("\r\n* 请求时间:\r\n*    ");
         sb.append(requestTimeString);
         sb.append("\r\n* 请求链接:\r\n*    ");
@@ -215,14 +216,14 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     /**
      * 记录数据库日志
      */
-    private void logDb(final Long requestId, final LocalDateTime requestTime, final HttpMethod requestMethod, final URI requestUri, final String requestScheme,
+    private void logDb(final Long sessionId, final LocalDateTime requestTime, final HttpMethod requestMethod, final URI requestUri, final String requestScheme,
                        final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
                        final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         // 记录数据库日志
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();
         to.setEventId(GatewayServerCo.RRL_EVENT_ID);
-        to.setId(requestId);    // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
+        to.setSessionId(sessionId);    // XXX 本次请求的会话ID与响应的会话ID相同
         to.setCreateTimestamp(LocalDateTimeUtils.getMillis(requestTime));
         to.setMethod(requestMethod.toString());
         to.setScheme(requestScheme);

@@ -16,6 +16,7 @@ import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.port;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.queryParams;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.rrlReqLog;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.scheme;
+import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.sessionId;
 import static rebue.scx.rrl.mapper.RrlReqLogDynamicSqlSupport.uri;
 
 import java.util.Collection;
@@ -54,7 +55,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, eventId, method, scheme, host, port, path, uri, headers, contentType, cookies, queryParams, body, createTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, eventId, sessionId, method, scheme, host, port, path, uri, headers, contentType, cookies, queryParams, body, createTimestamp);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -94,6 +95,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     @Results(id="RrlReqLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="EVENT_ID", property="eventId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="SESSION_ID", property="sessionId", jdbcType=JdbcType.BIGINT),
         @Result(column="METHOD", property="method", jdbcType=JdbcType.VARCHAR),
         @Result(column="SCHEME", property="scheme", jdbcType=JdbcType.VARCHAR),
         @Result(column="HOST", property="host", jdbcType=JdbcType.VARCHAR),
@@ -145,6 +147,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return MyBatis3Utils.insert(this::insert, record, rrlReqLog, c ->
             c.map(id).toProperty("id")
             .map(eventId).toProperty("eventId")
+            .map(sessionId).toProperty("sessionId")
             .map(method).toProperty("method")
             .map(scheme).toProperty("scheme")
             .map(host).toProperty("host")
@@ -167,6 +170,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, rrlReqLog, c ->
             c.map(id).toProperty("id")
             .map(eventId).toProperty("eventId")
+            .map(sessionId).toProperty("sessionId")
             .map(method).toProperty("method")
             .map(scheme).toProperty("scheme")
             .map(host).toProperty("host")
@@ -189,6 +193,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return MyBatis3Utils.insert(this::insert, record, rrlReqLog, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
             .map(eventId).toPropertyWhenPresent("eventId", record::getEventId)
+            .map(sessionId).toPropertyWhenPresent("sessionId", record::getSessionId)
             .map(method).toPropertyWhenPresent("method", record::getMethod)
             .map(scheme).toPropertyWhenPresent("scheme", record::getScheme)
             .map(host).toPropertyWhenPresent("host", record::getHost)
@@ -247,6 +252,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     static UpdateDSL<UpdateModel> updateAllColumns(RrlReqLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
                 .set(eventId).equalTo(record::getEventId)
+                .set(sessionId).equalTo(record::getSessionId)
                 .set(method).equalTo(record::getMethod)
                 .set(scheme).equalTo(record::getScheme)
                 .set(host).equalTo(record::getHost)
@@ -267,6 +273,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RrlReqLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
                 .set(eventId).equalToWhenPresent(record::getEventId)
+                .set(sessionId).equalToWhenPresent(record::getSessionId)
                 .set(method).equalToWhenPresent(record::getMethod)
                 .set(scheme).equalToWhenPresent(record::getScheme)
                 .set(host).equalToWhenPresent(record::getHost)
@@ -287,6 +294,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int updateByPrimaryKey(RrlReqLogMo record) {
         return update(c ->
             c.set(eventId).equalTo(record::getEventId)
+            .set(sessionId).equalTo(record::getSessionId)
             .set(method).equalTo(record::getMethod)
             .set(scheme).equalTo(record::getScheme)
             .set(host).equalTo(record::getHost)
@@ -309,6 +317,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
     default int updateByPrimaryKeySelective(RrlReqLogMo record) {
         return update(c ->
             c.set(eventId).equalToWhenPresent(record::getEventId)
+            .set(sessionId).equalToWhenPresent(record::getSessionId)
             .set(method).equalToWhenPresent(record::getMethod)
             .set(scheme).equalToWhenPresent(record::getScheme)
             .set(host).equalToWhenPresent(record::getHost)
@@ -332,6 +341,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))
@@ -354,6 +364,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))
@@ -376,6 +387,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))
@@ -412,6 +424,7 @@ public interface RrlReqLogMapper extends MapperRootInterface<RrlReqLogMo, Long> 
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
             .and(eventId, isEqualToWhenPresent(record::getEventId))
+            .and(sessionId, isEqualToWhenPresent(record::getSessionId))
             .and(method, isEqualToWhenPresent(record::getMethod))
             .and(scheme, isEqualToWhenPresent(record::getScheme))
             .and(host, isEqualToWhenPresent(record::getHost))

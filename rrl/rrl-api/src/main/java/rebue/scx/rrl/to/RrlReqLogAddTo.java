@@ -95,13 +95,6 @@ public class RrlReqLogAddTo implements Serializable {
     private Integer           port;
 
     /**
-     * ID(传入请求ID，不自动生成，就可以设置响应ID等于请求ID)
-     */
-    @NotNull(message = "ID不能为空")
-    @PositiveOrZero(message = "ID不能为负数")
-    private Long              id;
-
-    /**
      * 请求路径
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -144,4 +137,13 @@ public class RrlReqLogAddTo implements Serializable {
     @NotBlank(message = "事件ID不能为空")
     @Length(max = 30, message = "事件ID的长度不能大于30")
     private String            eventId;
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(message = "会话ID不能为空")
+    @PositiveOrZero(message = "会话ID不能为负数")
+    private Long              sessionId;
 }

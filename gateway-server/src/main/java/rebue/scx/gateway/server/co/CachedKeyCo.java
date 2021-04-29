@@ -7,21 +7,21 @@ package rebue.scx.gateway.server.co;
  * @author zbz
  *
  */
-public class CachedKeyCo {
+public interface CachedKeyCo {
     /**
      * 请求开始时间(值为LocalDateTime)
      */
-    public static final String REQUEST_TIME   = "@requestDateTime";
+    String REQUEST_TIME        = "@requestDateTime";
     /**
-     * 请求ID(值为Long)
+     * 会话ID(值为Long)
      */
-    public static final String REQUEST_ID          = "@requestId";
+    String SESSION_ID          = "@sessionId";
     /**
      * 请求Body中的参数(值为Map<String,Object>)
      */
-    public static final String REQUEST_BODY_PARAMS = "@requestBodyParams";
+    String REQUEST_BODY_PARAMS = "@requestBodyParams";
     /**
      * 请求Body(值为String)
      */
-    public static final String REQUEST_BODY_STRING = "@requestBody";
+    String REQUEST_BODY_STRING = "@requestBody";
 }

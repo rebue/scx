@@ -24,7 +24,7 @@ import rebue.robotech.valid.ModifyGroup;
 public class RrlRespLogMo implements Serializable, Mo<Long> {
 
     /**
-     * ID 等于请求ID
+     * ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -56,7 +56,7 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID 等于请求ID
+     * ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -65,7 +65,7 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * ID 等于请求ID
+     * ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -111,6 +111,7 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", eventId=").append(eventId);
+        sb.append(", sessionId=").append(sessionId);
         sb.append(", statusCode=").append(statusCode);
         sb.append(", headers=").append(headers);
         sb.append(", cookies=").append(cookies);
@@ -273,5 +274,32 @@ public class RrlRespLogMo implements Serializable, Mo<Long> {
      */
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "会话ID不能为空")
+    @PositiveOrZero(message = "会话ID不能为负数")
+    private Long sessionId;
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 }

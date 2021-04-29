@@ -12,7 +12,7 @@ public final class RrlRespLogDynamicSqlSupport {
     public static final RrlRespLog rrlRespLog = new RrlRespLog();
 
     /**
-    * ID 等于请求ID
+    * ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
@@ -24,6 +24,13 @@ public final class RrlRespLogDynamicSqlSupport {
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<String> eventId = rrlRespLog.eventId;
+
+    /**
+    * 会话ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> sessionId = rrlRespLog.sessionId;
 
     /**
     * 响应状态码
@@ -64,6 +71,8 @@ public final class RrlRespLogDynamicSqlSupport {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> eventId = column("EVENT_ID", JDBCType.VARCHAR);
+
+        public final SqlColumn<Long> sessionId = column("SESSION_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> statusCode = column("STATUS_CODE", JDBCType.CHAR);
 

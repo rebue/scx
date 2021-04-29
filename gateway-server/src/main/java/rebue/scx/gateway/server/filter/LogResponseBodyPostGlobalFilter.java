@@ -102,8 +102,8 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
                                                                                     final HttpHeaders                       responseHeaders    = originalResponse.getHeaders();
                                                                                     final MultiValueMap<String, ResponseCookie> responseCookies = originalResponse.getCookies();
 
-                                                                                    // 获取请求ID
-                                                                                    final Long      requestId          = exchange.getAttribute(CachedKeyCo.REQUEST_ID);
+                                                                                    // 获取会话ID
+                                                                                    final Long      sessionId          = exchange.getAttribute(CachedKeyCo.SESSION_ID);
                                                                                     // 获取请求时间
                                                                                     final LocalDateTime requestTime    = exchange.getAttribute(CachedKeyCo.REQUEST_TIME);
                                                                                     final String    requestTimeString  = _dateTimeFormatter.format(requestTime);
@@ -114,11 +114,11 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
                                                                                     final Long      spendMillis        = Duration.between(requestTime, responseTime).toMillis();
 
                                                                                     // 记录文件日志
-                                                                                    logFile(responseStatusCode, responseHeaders, requestId, requestTimeString, responseTimeString,
+                                                                                    logFile(responseStatusCode, responseHeaders, sessionId, requestTimeString, responseTimeString,
                                                                                         spendMillis, responseCookies, bodyString);
 
                                                                                     // 记录数据库日志
-                                                                                    logRrl(responseStatusCode, responseHeaders, requestId, responseTime, responseCookies,
+                                                                                    logRrl(responseStatusCode, responseHeaders, sessionId, responseTime, responseCookies,
                                                                                         bodyString);
 
                                                                                     return bufferFactory.wrap(content);
@@ -140,13 +140,13 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
     /**
      * 记录文件日志
      */
-    private void logFile(final HttpStatus responseStatusCode, final HttpHeaders responseHeaders, final Long requestId, final String requestTimeString,
+    private void logFile(final HttpStatus responseStatusCode, final HttpHeaders responseHeaders, final Long sessionId, final String requestTimeString,
                          final String responseTimeString, final Long spendMillis, final MultiValueMap<String, ResponseCookie> responseCookies, final String bodyString) {
         // 文件日志
         final StringBuilder sb = new StringBuilder();
         sb.append("请求处理完成，准备响应!!!\r\n======================= 请求及响应详情 =======================\r\n");
-        sb.append("* 请求ID:\r\n*    ");
-        sb.append(requestId);
+        sb.append("* 会话ID:\r\n*    ");
+        sb.append(sessionId);
         sb.append("\r\n* 请求时间:\r\n*    ");
         sb.append(requestTimeString);
         sb.append("\r\n* 响应时间:\r\n*    ");
@@ -192,13 +192,13 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
     /**
      * 记录数据库日志
      */
-    private void logRrl(final HttpStatus responseStatusCode, final HttpHeaders responseHeaders, final Long requestId,
+    private void logRrl(final HttpStatus responseStatusCode, final HttpHeaders responseHeaders, final Long sessionId,
                         final LocalDateTime responseTime, final MultiValueMap<String, ResponseCookie> responseCookies, final String bodyString) {
         // 数据库日志
         // 构造消息对象
         final RrlRespLogAddTo to = new RrlRespLogAddTo();
         to.setEventId(GatewayServerCo.RRL_EVENT_ID);
-        to.setId(requestId); // XXX 不自动生成ID，因为要让本次请求的请求ID等于响应ID
+        to.setSessionId(sessionId);    // XXX 本次请求的会话ID与响应的会话ID相同
         to.setHeaders(responseHeaders.toString());
         to.setStatusCode(String.valueOf(responseStatusCode.value()));
         if (responseCookies != null && responseCookies.size() > 0) {

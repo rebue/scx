@@ -23,6 +23,13 @@
               "notNull": true
             },
             {
+              "name": "SESSION_ID",
+              "type": "Long",
+              "remark": "",
+              "chnname": "会话ID",
+              "notNull": true
+            },
+            {
               "name": "METHOD",
               "type": "String-10",
               "remark": "",
@@ -157,7 +164,7 @@
             {
               "name": "ID",
               "type": "Long",
-              "remark": "等于请求ID",
+              "remark": "",
               "chnname": "ID",
               "pk": true,
               "notNull": true
@@ -167,6 +174,13 @@
               "type": "String-30",
               "remark": "",
               "chnname": "事件ID",
+              "notNull": true
+            },
+            {
+              "name": "SESSION_ID",
+              "type": "Long",
+              "remark": "",
+              "chnname": "会话ID",
               "notNull": true
             },
             {
@@ -257,19 +271,19 @@
         "nodes": [
           {
             "shape": "table",
-            "title": "RRL_REQ_LOG",
+            "title": "RRL_RESP_LOG",
             "moduleName": false,
-            "x": 190,
-            "y": 150,
-            "id": "38838077"
+            "x": 560,
+            "y": 110,
+            "id": "ed342195"
           },
           {
             "shape": "table",
-            "title": "RRL_RESP_LOG",
+            "title": "RRL_REQ_LOG",
             "moduleName": false,
-            "x": 550,
-            "y": 80,
-            "id": "ed342195"
+            "x": 200,
+            "y": 180,
+            "id": "38838077"
           }
         ],
         "edges": []

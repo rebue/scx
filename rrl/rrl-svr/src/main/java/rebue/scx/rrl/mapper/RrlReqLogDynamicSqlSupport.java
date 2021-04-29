@@ -26,6 +26,13 @@ public final class RrlReqLogDynamicSqlSupport {
     public static final SqlColumn<String> eventId = rrlReqLog.eventId;
 
     /**
+    * 会话ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> sessionId = rrlReqLog.sessionId;
+
+    /**
     * 请求方法
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -113,6 +120,8 @@ public final class RrlReqLogDynamicSqlSupport {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> eventId = column("EVENT_ID", JDBCType.VARCHAR);
+
+        public final SqlColumn<Long> sessionId = column("SESSION_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> method = column("METHOD", JDBCType.VARCHAR);
 

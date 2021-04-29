@@ -197,6 +197,7 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", eventId=").append(eventId);
+        sb.append(", sessionId=").append(sessionId);
         sb.append(", method=").append(method);
         sb.append(", scheme=").append(scheme);
         sb.append(", host=").append(host);
@@ -465,5 +466,32 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
      */
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "会话ID不能为空")
+    @PositiveOrZero(message = "会话ID不能为负数")
+    private Long sessionId;
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    /**
+     * 会话ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 }

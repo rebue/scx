@@ -49,9 +49,9 @@ import rebue.scx.gateway.server.co.CachedKeyCo;
 public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
     /**
-     * 加入参数中requestId的参数名称
+     * 加入参数中sessionId的参数名称
      */
-    private static final String REQUEST_ID_PARAM_NAME = "requestId";
+    private static final String SESSION_ID_PARAM_NAME = "sessionId";
 
     @Resource
     private ObjectMapper        objectMapper;
@@ -72,7 +72,7 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             final HttpHeaders       requestHeaders = request.getHeaders();
 
             // 缓存请求ID
-            final Long                requestId         = (Long) exchange.getAttributes().get(CachedKeyCo.REQUEST_ID);
+            final Long                sessionId         = (Long) exchange.getAttributes().get(CachedKeyCo.SESSION_ID);
 
             final Map<String, Object> requestBodyParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
 
@@ -81,7 +81,7 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 // 往查询参数中添加请求ID
                 final URI    uri              = request.getURI();
                 final String originalRawQuery = uri.getRawQuery();
-                final String newRawQuery      = originalRawQuery + "&" + REQUEST_ID_PARAM_NAME + "=" + requestId;
+                final String newRawQuery      = originalRawQuery + "&" + SESSION_ID_PARAM_NAME + "=" + sessionId;
                 final URI    newUri           = UriComponentsBuilder.fromUri(uri).replaceQuery(newRawQuery.toString()).build(true).toUri();
                 log.info("要转发的queryParams: {}", newRawQuery);
                 final ServerHttpRequest newRequest = exchange.getRequest().mutate().uri(newUri).build();
@@ -90,7 +90,7 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
             // 有Body的重新构造新的Body，因为Body在CacheRequestBodyPreBolbalFilter过滤器中被出来，就要重新构建
             // 往Body中加入请求ID
-            requestBodyParams.put(REQUEST_ID_PARAM_NAME, requestId);
+            requestBodyParams.put(SESSION_ID_PARAM_NAME, sessionId);
             log.info("要转发的bodyParams: {}", requestBodyParams);
             // 重新构造request，参考ModifyRequestBodyGatewayFilterFactory
             // FIXME 这里默认构造JSON格式的Body，不知道后面会不会碰到其它格式的Body
