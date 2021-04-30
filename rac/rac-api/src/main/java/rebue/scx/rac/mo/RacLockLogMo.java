@@ -47,6 +47,12 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private String            sysId;
 
     /**
+	 * 领域ID
+	 *
+	 */
+	private String domainId;
+	
+    /**
      * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -186,6 +192,13 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         this.sysId = sysId;
     }
 
+	public String getDomainId() {
+		return domainId;
+	}
+
+	public void setDomainId(String domainId) {
+		this.domainId = domainId;
+	}
     /**
      * 锁定账户的账户ID
      *
@@ -323,6 +336,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", sysId=").append(sysId);
+        sb.append(", domainId=").append(domainId);
         sb.append(", lockAccountId=").append(lockAccountId);
         sb.append(", lockOpId=").append(lockOpId);
         sb.append(", lockReason=").append(lockReason);
@@ -373,4 +387,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     public String getIdType() {
         return "Long";
     }
+
+
 }

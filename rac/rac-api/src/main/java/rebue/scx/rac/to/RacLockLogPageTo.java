@@ -2,6 +2,7 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.validation.constraints.PositiveOrZero;
 
@@ -30,7 +31,25 @@ public class RacLockLogPageTo extends PageTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
-
+    
+    /**
+     * 查询关键字
+     */
+    private String keywords;
+    /**
+     * 领域id
+     */
+    private String domainId;
+    
+    /**
+     * 时间段查询
+     * startDate开始时间
+     * endtDate结束时间
+     */
+    private String startDate;
+    private String endDate;
+    
+    
     /**
      * 系统ID
      *

@@ -38,6 +38,13 @@ public class RacLockLogAddTo implements Serializable {
     @NotBlank(message = "系统ID不能为空")
     @Length(max = 32, message = "系统ID的长度不能大于32")
     private String            sysId;
+    
+    /**
+	 * 领域ID
+	 *
+	 */
+	private String domainId;
+	
 
     /**
      * 锁定账户的账户ID
@@ -79,9 +86,7 @@ public class RacLockLogAddTo implements Serializable {
     /**
      * 解锁原因
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "解锁原因不能为空")
     @Length(max = 100, message = "解锁原因的长度不能大于100")
     private String            unlockReason;
 

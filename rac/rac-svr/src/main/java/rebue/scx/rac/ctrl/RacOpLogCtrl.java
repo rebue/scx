@@ -95,9 +95,8 @@ public class RacOpLogCtrl {
      * 查询操作日志的信息
      *
      * @param qo 查询的具体条件
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @GetMapping("/rac/op-log/page")
+    @GetMapping("/rac/op-log/page")//FIXME 接受筛选数组参数问题待解决 qo.opTpye[]
     public Mono<Ro<PageRa<RacOpLogMo>>> page(final RacOpLogPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
