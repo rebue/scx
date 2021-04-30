@@ -18,9 +18,11 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
@@ -41,6 +43,8 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacOpLogMo;
+import rebue.scx.rac.mo.Ex.RacOpLogExMo;
+import rebue.scx.rac.to.RacOpLogPageTo;
 
 @Mapper
 public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
@@ -335,4 +339,26 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
             .and(opDatetime, isEqualToWhenPresent(record::getOpDatetime))
         );
     }
+    
+    /**
+     * 分页查询/条件分页查询
+     * @param record
+     * @return
+     */
+    @Select({"<script>"
+    		+ "SELECT op.*,a.SIGN_IN_NAME,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME,"
+    		+ " s.NAME sysName,s.MENU_URN menuUrn,s.DOMAIN_ID domainId, s.REMARK remark "
+    		+ " FROM RAC_OP_LOG op "
+    		+ " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
+    		+ " left join RAC_SYS s on op.sys_id=s.id where 1=1 and a.domain_Id=#{record.domainId} "
+    		+ "<if test='record.keywords!=null'> "
+    		+ " and (a.SIGN_IN_NAME like '%${record.keywords}%' or op.OP_TITLE like '%${record.keywords}%')"
+    		+ "</if> "
+    		+ "<if test='((record.opType!=null) and (record.opType.length>0))'> and op.OP_TYPE in "
+    		+ "<foreach collection='record.opType' open='(' close= ')'  separator=',' item='otype'> "
+    		+ " #{otype} </foreach>"
+    		+ "</if>"
+    		+ "</script>"})
+    List<RacOpLogExMo> selectEx(@Param(value = "record") RacOpLogPageTo record) ;
+       
 }

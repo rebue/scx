@@ -136,6 +136,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -145,7 +146,8 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setId(Long id) {
+    @Override
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -163,7 +165,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockAccountId(Long lockAccountId) {
+    public void setLockAccountId(final Long lockAccountId) {
         this.lockAccountId = lockAccountId;
     }
 
@@ -181,7 +183,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockOpId(Long lockOpId) {
+    public void setLockOpId(final Long lockOpId) {
         this.lockOpId = lockOpId;
     }
 
@@ -199,7 +201,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockReason(String lockReason) {
+    public void setLockReason(final String lockReason) {
         this.lockReason = lockReason;
     }
 
@@ -217,7 +219,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockDatetime(LocalDateTime lockDatetime) {
+    public void setLockDatetime(final LocalDateTime lockDatetime) {
         this.lockDatetime = lockDatetime;
     }
 
@@ -235,7 +237,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUnlockReason(String unlockReason) {
+    public void setUnlockReason(final String unlockReason) {
         this.unlockReason = unlockReason;
     }
 
@@ -253,7 +255,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUnlockDatetime(LocalDateTime unlockDatetime) {
+    public void setUnlockDatetime(final LocalDateTime unlockDatetime) {
         this.unlockDatetime = unlockDatetime;
     }
 
@@ -271,7 +273,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUnlockOpId(Long unlockOpId) {
+    public void setUnlockOpId(final Long unlockOpId) {
         this.unlockOpId = unlockOpId;
     }
 
@@ -280,7 +282,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -302,7 +304,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object that) {
+    public boolean equals(final Object that) {
         if (this == that) {
             return true;
         }
@@ -312,8 +314,8 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        RacLockLogMo other = (RacLockLogMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+        final RacLockLogMo other = (RacLockLogMo) that;
+        return getId() == null ? other.getId() == null : getId().equals(other.getId());
     }
 
     /**
@@ -321,9 +323,9 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        final int prime  = 31;
+        int       result = 1;
+        result = prime * result + (getId() == null ? 0 : getId().hashCode());
         return result;
     }
 
@@ -369,7 +371,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setDomainId(String domainId) {
+    public void setDomainId(final String domainId) {
         this.domainId = domainId;
     }
 }

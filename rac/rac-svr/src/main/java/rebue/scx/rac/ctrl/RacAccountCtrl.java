@@ -1,5 +1,7 @@
 package rebue.scx.rac.ctrl;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -48,6 +50,7 @@ public class RacAccountCtrl {
      * 添加账户
      *
      * @param to 添加的具体信息
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/account")
@@ -59,6 +62,7 @@ public class RacAccountCtrl {
      * 修改账户的信息
      *
      * @param to 修改的具体数据
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/account")
@@ -70,6 +74,7 @@ public class RacAccountCtrl {
      * 删除账户
      *
      * @param id 账户ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/account")
@@ -81,6 +86,7 @@ public class RacAccountCtrl {
      * 获取单个账户的信息
      *
      * @param id 账户ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/get-by-id")
@@ -92,6 +98,7 @@ public class RacAccountCtrl {
      * 判断账户是否存在
      *
      * @param id 账户ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/exist-by-id")
@@ -103,6 +110,7 @@ public class RacAccountCtrl {
      * 查询账户的信息
      *
      * @param qo 查询的具体条件
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/page")
@@ -126,8 +134,15 @@ public class RacAccountCtrl {
      * @param to 启用或禁用的具体数据
      */
     @PutMapping("/rac/account/enable")
-    public Mono<Ro<?>> enable(@RequestBody final RacAccountEnableTo to) {
-        return Mono.create(callback -> callback.success(api.enable(to)));
+    public Mono<Ro<?>> enable(@RequestBody final RacAccountEnableTo qo) {
+        // FIXME 下列数据为当前操作的用户的数据，从浏览器cookie获取
+        qo.setLockOpId(1L);
+        qo.setLockDatetime(LocalDateTime.now());
+
+        qo.setUnlockOpId(1L);
+        qo.setUnlockDatetime(LocalDateTime.now());
+
+        return Mono.create(callback -> callback.success(api.enable(qo)));
     }
 
     /**

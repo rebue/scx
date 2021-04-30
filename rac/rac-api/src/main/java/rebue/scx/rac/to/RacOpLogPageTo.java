@@ -25,20 +25,29 @@ import rebue.robotech.to.PageTo;
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
 public class RacOpLogPageTo extends PageTo implements Serializable {
-
+	
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
+    
 
+	/**
+	 * 关键字查询
+	 */
+	private String keywords;
+	/**
+	 * 领域id
+	 */
+	private String domainId;
     /**
      * 系统ID
-     *
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 32, message = "系统ID的长度不能大于32")
     private String            sysId;
-
+    
     /**
      * 账户ID
      *
@@ -50,10 +59,10 @@ public class RacOpLogPageTo extends PageTo implements Serializable {
     /**
      * 操作类型
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
+    
      */
-    @Length(max = 20, message = "操作类型的长度不能大于20")
-    private String            opType;
+    //@Length(max = 20, message = "操作类型的长度不能大于20")
+    private String[]            opType;
 
     /**
      * 操作标题

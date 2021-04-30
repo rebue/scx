@@ -32,6 +32,19 @@ public class RacLockLogPageTo extends PageTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 查询关键字
+     */
+    private String            keywords;
+
+    /**
+     * 时间段查询
+     * startDate开始时间
+     * endtDate结束时间
+     */
+    private String            startDate;
+    private String            endDate;
+
+    /**
      * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
