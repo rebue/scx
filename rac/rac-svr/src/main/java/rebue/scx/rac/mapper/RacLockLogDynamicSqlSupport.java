@@ -20,11 +20,11 @@ public final class RacLockLogDynamicSqlSupport {
     public static final SqlColumn<Long> id = racLockLog.id;
 
     /**
-    * 系统ID
+    * 领域ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> sysId = racLockLog.sysId;
+    public static final SqlColumn<String> domainId = racLockLog.domainId;
 
     /**
     * 锁定账户的账户ID
@@ -78,7 +78,7 @@ public final class RacLockLogDynamicSqlSupport {
     public static final class RacLockLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> lockAccountId = column("LOCK_ACCOUNT_ID", JDBCType.BIGINT);
 

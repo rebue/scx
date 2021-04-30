@@ -38,15 +38,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private Long              id;
 
     /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            sysId;
-
-    /**
      * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,7 +79,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "解锁原因不能为空")
     @Length(max = 100, message = "解锁原因的长度不能大于100")
     private String            unlockReason;
 
@@ -133,15 +123,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private RacAccountMo      lockAccount;
 
     /**
-     * 系统
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacSysMo          sys;
-
-    /**
      * 解锁操作员的账户
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
@@ -166,24 +147,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getSysId() {
-        return sysId;
-    }
-
-    /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
     }
 
     /**
@@ -322,7 +285,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", sysId=").append(sysId);
+        sb.append(", domainId=").append(domainId);
         sb.append(", lockAccountId=").append(lockAccountId);
         sb.append(", lockOpId=").append(lockOpId);
         sb.append(", lockReason=").append(lockReason);
@@ -372,5 +335,41 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String      domainId;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacDomainMo domain;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDomainId() {
+        return domainId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDomainId(String domainId) {
+        this.domainId = domainId;
     }
 }

@@ -2,13 +2,13 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockAccountId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockDatetime;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockOpId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockReason;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.racLockLog;
-import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.sysId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.unlockDatetime;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.unlockOpId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.unlockReason;
@@ -49,7 +49,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, sysId, lockAccountId, lockOpId, lockReason, lockDatetime, unlockReason, unlockDatetime, unlockOpId);
+    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, lockAccountId, lockOpId, lockReason, lockDatetime, unlockReason, unlockDatetime, unlockOpId);
 
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,7 +88,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="RacLockLogMoResult", value = {
         @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="SYS_ID", property="sysId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
         @Result(column="LOCK_ACCOUNT_ID", property="lockAccountId", jdbcType=JdbcType.BIGINT),
         @Result(column="LOCK_OP_ID", property="lockOpId", jdbcType=JdbcType.BIGINT),
         @Result(column="LOCK_REASON", property="lockReason", jdbcType=JdbcType.VARCHAR),
@@ -134,7 +134,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default int insert(RacLockLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racLockLog, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
+            .map(domainId).toProperty("domainId")
             .map(lockAccountId).toProperty("lockAccountId")
             .map(lockOpId).toProperty("lockOpId")
             .map(lockReason).toProperty("lockReason")
@@ -151,7 +151,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default int insertMultiple(Collection<RacLockLogMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racLockLog, c ->
             c.map(id).toProperty("id")
-            .map(sysId).toProperty("sysId")
+            .map(domainId).toProperty("domainId")
             .map(lockAccountId).toProperty("lockAccountId")
             .map(lockOpId).toProperty("lockOpId")
             .map(lockReason).toProperty("lockReason")
@@ -168,7 +168,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default int insertSelective(RacLockLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racLockLog, c ->
             c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(sysId).toPropertyWhenPresent("sysId", record::getSysId)
+            .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
             .map(lockAccountId).toPropertyWhenPresent("lockAccountId", record::getLockAccountId)
             .map(lockOpId).toPropertyWhenPresent("lockOpId", record::getLockOpId)
             .map(lockReason).toPropertyWhenPresent("lockReason", record::getLockReason)
@@ -221,7 +221,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacLockLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId)
-                .set(sysId).equalTo(record::getSysId)
+                .set(domainId).equalTo(record::getDomainId)
                 .set(lockAccountId).equalTo(record::getLockAccountId)
                 .set(lockOpId).equalTo(record::getLockOpId)
                 .set(lockReason).equalTo(record::getLockReason)
@@ -236,7 +236,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacLockLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(sysId).equalToWhenPresent(record::getSysId)
+                .set(domainId).equalToWhenPresent(record::getDomainId)
                 .set(lockAccountId).equalToWhenPresent(record::getLockAccountId)
                 .set(lockOpId).equalToWhenPresent(record::getLockOpId)
                 .set(lockReason).equalToWhenPresent(record::getLockReason)
@@ -251,7 +251,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default int updateByPrimaryKey(RacLockLogMo record) {
         return update(c ->
-            c.set(sysId).equalTo(record::getSysId)
+            c.set(domainId).equalTo(record::getDomainId)
             .set(lockAccountId).equalTo(record::getLockAccountId)
             .set(lockOpId).equalTo(record::getLockOpId)
             .set(lockReason).equalTo(record::getLockReason)
@@ -268,7 +268,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default int updateByPrimaryKeySelective(RacLockLogMo record) {
         return update(c ->
-            c.set(sysId).equalToWhenPresent(record::getSysId)
+            c.set(domainId).equalToWhenPresent(record::getDomainId)
             .set(lockAccountId).equalToWhenPresent(record::getLockAccountId)
             .set(lockOpId).equalToWhenPresent(record::getLockOpId)
             .set(lockReason).equalToWhenPresent(record::getLockReason)
@@ -286,7 +286,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default int deleteSelective(RacLockLogMo record) {
         return delete(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId))
             .and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
             .and(lockReason, isEqualToWhenPresent(record::getLockReason))
@@ -303,7 +303,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default Optional<RacLockLogMo> selectOne(RacLockLogMo record) {
         return selectOne(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId))
             .and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
             .and(lockReason, isEqualToWhenPresent(record::getLockReason))
@@ -320,7 +320,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default long countSelective(RacLockLogMo record) {
         return count(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId))
             .and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
             .and(lockReason, isEqualToWhenPresent(record::getLockReason))
@@ -351,7 +351,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default List<RacLockLogMo> selectSelective(RacLockLogMo record) {
         return select(c ->
             c.where(id, isEqualToWhenPresent(record::getId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId))
+            .and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId))
             .and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
             .and(lockReason, isEqualToWhenPresent(record::getLockReason))

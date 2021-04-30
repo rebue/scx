@@ -67,8 +67,8 @@ public class RacLockLogJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "UNLOCK_REASON", nullable = false, length = 100)
+    @Basic(optional = true)
+    @Column(name = "UNLOCK_REASON", nullable = true, length = 100)
     private String            unlockReason;
 
     /**
@@ -97,15 +97,6 @@ public class RacLockLogJo implements Serializable {
     @JoinColumn(name = "LOCK_ACCOUNT_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacAccountJo      lockAccount;
-
-    /**
-     * 系统
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacSysJo          sys;
 
     /**
      * 解锁操作员的账户
@@ -147,4 +138,13 @@ public class RacLockLogJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacDomainJo domain;
 }

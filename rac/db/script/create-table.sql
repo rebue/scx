@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/3/8 8:41:33                             */
+/* Created on:     2021/4/30 13:11:54                           */
 /*==============================================================*/
 
 
@@ -29,9 +29,6 @@ drop table if exists RAC_DOMAIN;
 
 
 alter table RAC_LOCK_LOG 
-   drop foreign key FK_LOCK_LOG_AND_SYS;
-
-alter table RAC_LOCK_LOG 
    drop foreign key FK_LOCK_LOG_AND_LOCK_ACCOUNT;
 
 alter table RAC_LOCK_LOG 
@@ -39,6 +36,9 @@ alter table RAC_LOCK_LOG
 
 alter table RAC_LOCK_LOG 
    drop foreign key FK_LOCK_LOG_AND_UNLOCK_OP;
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_LOCK_LOG_AND_DOMAIN;
 
 drop table if exists RAC_LOCK_LOG;
 
@@ -203,12 +203,12 @@ alter table RAC_DOMAIN comment '领域';
 create table RAC_LOCK_LOG
 (
    ID                   bigint unsigned not null  comment '锁定日志ID',
-   SYS_ID               varchar(32) not null  comment '系统ID',
+   DOMAIN_ID            varchar(32) not null  comment '领域ID',
    LOCK_ACCOUNT_ID      bigint unsigned not null  comment '锁定账户的账户ID',
    LOCK_OP_ID           bigint unsigned not null  comment '锁定操作员的账户ID',
    LOCK_REASON          varchar(100) not null  comment '锁定原因',
    LOCK_DATETIME        datetime not null  comment '锁定时间',
-   UNLOCK_REASON        varchar(100) not null  comment '解锁原因',
+   UNLOCK_REASON        varchar(100)  comment '解锁原因',
    UNLOCK_DATETIME      datetime  comment '解锁时间',
    UNLOCK_OP_ID         bigint unsigned  comment '解锁操作员的账户ID',
    primary key (ID),
@@ -422,9 +422,6 @@ alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ROLE foreign key
 alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_SYS foreign key (SYS_ID)
-      references RAC_SYS (ID) on delete restrict on update restrict;
-
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_ACCOUNT foreign key (LOCK_ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
@@ -433,6 +430,9 @@ alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_OP foreign key (LOC
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_UNLOCK_OP foreign key (UNLOCK_OP_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_DOMAIN foreign key (DOMAIN_ID)
+      references RAC_DOMAIN (ID) on delete restrict on update restrict;
 
 alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;

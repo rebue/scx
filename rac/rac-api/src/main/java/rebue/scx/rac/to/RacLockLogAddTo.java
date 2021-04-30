@@ -31,15 +31,6 @@ public class RacLockLogAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            sysId;
-
-    /**
      * 锁定账户的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -81,7 +72,6 @@ public class RacLockLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "解锁原因不能为空")
     @Length(max = 100, message = "解锁原因的长度不能大于100")
     private String            unlockReason;
 
@@ -101,4 +91,13 @@ public class RacLockLogAddTo implements Serializable {
      */
     @PositiveOrZero(message = "解锁操作员的账户ID不能为负数")
     private Long              unlockOpId;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            domainId;
 }
