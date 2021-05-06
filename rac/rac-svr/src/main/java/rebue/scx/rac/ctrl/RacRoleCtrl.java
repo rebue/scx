@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacRoleApi;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.to.RacRoleAddTo;
+import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRolePageTo;
 
@@ -100,5 +102,15 @@ public class RacRoleCtrl {
     @GetMapping("/rac/role/page")
     public Mono<Ro<PageRa<RacRoleMo>>> page(final RacRolePageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+    
+    /**
+     * 查询角色的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @GetMapping("/rac/role/list")
+    public Mono<Ro<ListRa<RacRoleMo>>> list(final RacRoleListTo qo) {
+        return Mono.create(callback -> callback.success(api.list(qo)));
     }
 }
