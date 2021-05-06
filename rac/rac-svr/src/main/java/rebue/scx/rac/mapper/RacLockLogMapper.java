@@ -379,9 +379,9 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @return
      */
     @Update("update RAC_LOCK_LOG lo set lo.unlock_reason=#{record.unlockReason}, lo.unlock_datetime=#{record.unlockDatetime}, lo.unlock_op_id=#{record.unlockOpId}  "
-        + " where lo.lock_account_id=#{record.lockAccountId}  "
+        + " where lo.lock_account_id=#{record.lockAccountId} and lo.unlock_op_id is null  "
         + " order by  lo.lock_datetime desc limit 1")
-    Integer updateByPrimaryKeySelectEx(@Param(value = "record") RacLockLogMo record);
+    int updateByPrimaryKeySelectEx(@Param(value = "record") RacLockLogMo record);
 
     /**
      * 查询日志/条件/分页
@@ -393,10 +393,10 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     @Select({ "<script>"
         + "SELECT lo.*, a.SIGN_IN_NAME signInName, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
         + "  b.SIGN_IN_NAME locksignInName, b.WX_NICKNAME lockwxNickname, b.QQ_NICKNAME lockqqNickname, b.SIGN_IN_NICKNAME locksignInNickname,"
-        + "  s.NAME sysName, s.DOMAIN_ID domainId, s.MENU_URN menuUrn, s.REMARK remark,"
+        //+ "  s.NAME sysName, s.DOMAIN_ID domainId, s.MENU_URN menuUrn, s.REMARK remark,"
         + "  c.SIGN_IN_NAME unlocksignInName, c.WX_NICKNAME unlockwxNickname, c.QQ_NICKNAME unlockqqNickname, c.SIGN_IN_NICKNAME unlocksignInNickname"
         + "  FROM RAC_LOCK_LOG lo " + "  left join RAC_ACCOUNT a ON lo.LOCK_ACCOUNT_ID=a.ID"
-        + "  left join RAC_ACCOUNT b ON lo.LOCK_OP_ID=b.ID " + "  left join RAC_SYS s ON lo.SYS_ID=s.ID "
+        + "  left join RAC_ACCOUNT b ON lo.LOCK_OP_ID=b.ID " //+ "  left join RAC_SYS s ON lo.SYS_ID=s.ID "
         + "  left join RAC_ACCOUNT c ON lo.UNLOCK_OP_ID=c.ID " + "  where 1=1 and a.domain_Id=#{record.domainId} "
         + "<if test='record.keywords!=null'> "
         + "  and (a.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or c.SIGN_IN_NAME like '%${record.keywords}%') </if>"

@@ -346,11 +346,12 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      * @return
      */
     @Select({"<script>"
-    		+ "SELECT op.*,a.SIGN_IN_NAME,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME,"
+    		+ "SELECT op.*,a.SIGN_IN_NAME,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
     		+ " s.NAME sysName,s.MENU_URN menuUrn,s.DOMAIN_ID domainId, s.REMARK remark "
     		+ " FROM RAC_OP_LOG op "
     		+ " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
-    		+ " left join RAC_SYS s on op.sys_id=s.id where 1=1 and a.domain_Id=#{record.domainId} "
+    		+ " left join RAC_SYS s on op.sys_id=s.id "
+    		+ " where 1=1 and a.domain_Id=#{record.domainId} "
     		+ "<if test='record.keywords!=null'> "
     		+ " and (a.SIGN_IN_NAME like '%${record.keywords}%' or op.OP_TITLE like '%${record.keywords}%')"
     		+ "</if> "

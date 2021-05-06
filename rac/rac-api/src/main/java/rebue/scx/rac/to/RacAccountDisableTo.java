@@ -16,11 +16,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Data;
 
 /**
- * 启用或禁用账户并记录日志
+ * 禁用账户并记录日志
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class RacAccountEnableTo implements Serializable {
+public class RacAccountDisableTo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

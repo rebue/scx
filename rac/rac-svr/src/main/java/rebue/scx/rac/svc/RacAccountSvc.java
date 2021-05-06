@@ -13,6 +13,7 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
+import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
@@ -46,11 +47,18 @@ public interface RacAccountSvc
     void modifySignInPswd(@Valid RacAccountModifySignInPswdTo to);
 
     /**
-     * 启用或禁用账户
+     * 启用账户
      *
-     * @param to 启用或禁用的具体数据
+     * @param to 启用的具体数据
      */
     void enable(@Valid RacAccountEnableTo to);
+    
+    /**
+     * 禁用账户
+     *
+     * @param to 禁用的具体数据
+     */
+    void disable(RacAccountDisableTo to);
 
     /**
      * 通过email获取账户信息
@@ -91,4 +99,5 @@ public interface RacAccountSvc
      * @return 当前账户信息
      */
     Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, @NotBlank String sysId);
+
 }

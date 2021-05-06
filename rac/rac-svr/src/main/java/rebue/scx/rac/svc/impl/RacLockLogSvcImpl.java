@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -10,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageInfo;
 
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacLockLogDao;
@@ -17,6 +21,7 @@ import rebue.scx.rac.jo.RacLockLogJo;
 import rebue.scx.rac.mapper.RacLockLogMapper;
 import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.svc.RacLockLogSvc;
+import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogDelTo;
 import rebue.scx.rac.to.RacLockLogListTo;
@@ -76,18 +81,39 @@ public class RacLockLogSvcImpl extends
         return thisSvc;
     }
 
+//    @Override
+//    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+//    public RacLockLogMo modifyMoById(final RacLockLogMo mo) {
+//        final int rowCount = _mapper.updateByPrimaryKeySelectEx(mo);
+//        if (rowCount == 0) {
+//            throw new RuntimeExceptionX("修改记录异常，记录已不存在或有变动");
+//        }
+//        if (rowCount != 1) {
+//            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
+//        }
+//        // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
+//        return getById(mo.getId());
+//    }
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacLockLogMo modifyMoById(final RacLockLogMo mo) {
-        final int rowCount = _mapper.updateByPrimaryKeySelectEx(mo);
-        if (rowCount == 0) {
-            throw new RuntimeExceptionX("修改记录异常，记录已不存在或有变动");
-        }
-        if (rowCount != 1) {
-            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
-        }
-        // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
-        return getById(mo.getId());
+    public RacLockLogMo updateLockLog(RacLockLogMo qo) {
+    	final int rowCount = _mapper.updateByPrimaryKeySelectEx(qo);
+		if(rowCount==0) {
+			RacLockLogAddTo ato = new RacLockLogAddTo();
+			ato.setDomainId(qo.getDomainId());
+			ato.setLockOpId(0L);
+			ato.setLockDatetime(LocalDateTime.now());
+			ato.setLockReason("系统未找到锁定记录");	
+			ato.setLockAccountId(qo.getLockAccountId());
+			
+			//ato.setLockAccountId(qo.getLockAccountId());
+			ato.setUnlockOpId(qo.getUnlockOpId());
+			ato.setUnlockDatetime(LocalDateTime.now());
+			ato.setUnlockReason(qo.getUnlockReason());
+			thisSvc.add(ato);// 系统未找到锁定记录时添加锁定日志
+		}
+         // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
+         return this.getById(qo.getId());
     }
 
     @Override
@@ -96,5 +122,6 @@ public class RacLockLogSvcImpl extends
         final ISelect select = () -> _mapper.selectEx(qo);
         return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
     }
+
 
 }

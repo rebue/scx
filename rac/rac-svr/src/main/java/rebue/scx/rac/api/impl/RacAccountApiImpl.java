@@ -12,6 +12,7 @@ import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
+import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
@@ -41,16 +42,26 @@ public class RacAccountApiImpl extends
     }
 
     /**
-     * 启用或禁用账户
+     * 启用账户
      *
-     * @param to 启用或禁用的具体数据
+     * @param to 启用的具体数据
      */
     @Override
     public Ro<?> enable(RacAccountEnableTo to) {
         _svc.enable(to);
-        return new Ro<>(ResultDic.SUCCESS, "启用或禁用账户成功");
+        return new Ro<>(ResultDic.SUCCESS, "启用账户成功");
     }
 
+    /**
+     * 禁用账户
+     *
+     * @param to 禁用的具体数据
+     */
+    @Override
+    public Ro<?> disable(RacAccountDisableTo to) {
+    	_svc.disable(to);
+        return new Ro<>(ResultDic.SUCCESS, "禁用账户成功");
+    }
     /**
      * 获取当前账户信息
      *
@@ -63,4 +74,5 @@ public class RacAccountApiImpl extends
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
         return _svc.getCurAccountInfo(curAccountId, sysId);
     }
+
 }

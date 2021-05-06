@@ -5,6 +5,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
@@ -25,11 +26,17 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
     Ro<?> modifySignInPswd(RacAccountModifySignInPswdTo to);
 
     /**
-     * 启用或禁用账户
+     * 启用账户
      *
-     * @param to 启用或禁用的具体数据
+     * @param to 启用的具体数据
      */
     Ro<?> enable(RacAccountEnableTo to);
+    /**
+     * 禁用账户
+     *
+     * @param to 禁用的具体数据
+     */
+    Ro<?> disable(RacAccountDisableTo to);
 
     /**
      * 获取当前账户信息

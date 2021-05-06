@@ -35,6 +35,7 @@ import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.svc.RacPermMenuSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
+import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
@@ -134,17 +135,38 @@ public class RacAccountSvcImpl extends
 	}
 
 	/**
-	 * 启用或禁用账户
+	 * 启用账户
 	 *
-	 * @param to 启用或禁用的具体数据
+	 * @param to 启用的具体数据
 	 */
 	@Override
-	//@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void enable(final RacAccountEnableTo to) {
 		final RacAccountMo mo = new RacAccountMo();
-		mo.setId(to.getId());
+		mo.setId(to.getLockAccountId());
 		mo.setIsEnabled(to.getIsEnabled());
 		RacLockLogMo qo = new RacLockLogMo();
+		if (to.getIsEnabled()) {
+			qo.setDomainId(to.getDomainId());
+			qo.setUnlockOpId(to.getUnlockOpId());
+			qo.setUnlockDatetime(LocalDateTime.now());
+			qo.setUnlockReason(to.getUnlockReason());
+			qo.setLockAccountId(to.getLockAccountId());
+			lockLogSvc.updateLockLog(qo);
+			_mapper.updateByPrimaryKeySelective(mo);
+		}
+	}
+	/**
+	 * 禁用账户
+	 *
+	 * @param to 禁用的具体数据
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void disable(RacAccountDisableTo to) {
+		final RacAccountMo mo = new RacAccountMo();
+		mo.setId(to.getLockAccountId());
+		mo.setIsEnabled(to.getIsEnabled());
 		RacLockLogAddTo ato = new RacLockLogAddTo();
 		if (!to.getIsEnabled()) {
 			ato.setDomainId(to.getDomainId());
@@ -152,16 +174,9 @@ public class RacAccountSvcImpl extends
 			ato.setLockDatetime(LocalDateTime.now());
 			ato.setLockReason(to.getLockReason());	
 			ato.setLockAccountId(to.getLockAccountId());
-			lockLogSvc.add(ato);
+			lockLogSvc.add(ato);// 禁用时添加锁定日志
+			_mapper.updateByPrimaryKeySelective(mo);			
 		}
-		if (to.getIsEnabled()) {
-			qo.setUnlockOpId(to.getUnlockOpId());
-			qo.setUnlockDatetime(LocalDateTime.now());
-			qo.setUnlockReason(to.getUnlockReason());
-			qo.setLockAccountId(to.getLockAccountId());
-			lockLogSvc.modifyMoById(qo);// 锁定日志
-		}
-		_mapper.updateByPrimaryKeySelective(mo);
 	}
 
 	/**
@@ -267,4 +282,5 @@ public class RacAccountSvcImpl extends
 	protected BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> getThisSvc() {
 		return thisSvc;
 	}
+
 }

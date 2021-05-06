@@ -25,6 +25,7 @@ import rebue.scx.rac.co.RacCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
@@ -129,20 +130,28 @@ public class RacAccountCtrl {
     }
 
     /**
-     * 启用或禁用账户
+     * 启用账户
      *
-     * @param to 启用或禁用的具体数据
+     * @param to 启用的具体数据
      */
     @PutMapping("/rac/account/enable")
     public Mono<Ro<?>> enable(@RequestBody final RacAccountEnableTo qo) {
         // FIXME 下列数据为当前操作的用户的数据，从浏览器cookie获取
         qo.setLockOpId(1L);
         qo.setLockDatetime(LocalDateTime.now());
-
+        return Mono.create(callback -> callback.success(api.enable(qo)));
+    }
+    /**
+     * 禁用账户
+     *
+     * @param to 禁用的具体数据
+     */
+    @PutMapping("/rac/account/disable")
+    public Mono<Ro<?>> disable(@RequestBody final RacAccountDisableTo qo) {
+        // FIXME 下列数据为当前操作的用户的数据，从浏览器cookie获取
         qo.setUnlockOpId(1L);
         qo.setUnlockDatetime(LocalDateTime.now());
-
-        return Mono.create(callback -> callback.success(api.enable(qo)));
+        return Mono.create(callback -> callback.success(api.disable(qo)));
     }
 
     /**
