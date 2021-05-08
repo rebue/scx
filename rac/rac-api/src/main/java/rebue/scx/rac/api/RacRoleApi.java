@@ -15,5 +15,13 @@ import rebue.scx.rac.to.RacRolePageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 public interface RacRoleApi extends BaseApi<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRolePageTo, RacRoleMo> {
-	 Ro<ListRa<RacRoleMo>> list(RacRoleListTo qo);
+	Ro<ListRa<RacRoleMo>> list(RacRoleListTo qo);
+
+	Ro<?> moveUp(RacRoleModifyTo qo);
+
+	Ro<?> moveDown(RacRoleModifyTo qo);
+
+	Ro<?> enable(RacRoleModifyTo qo);
+
+	Ro<?> disable(RacRoleModifyTo qo);
 }

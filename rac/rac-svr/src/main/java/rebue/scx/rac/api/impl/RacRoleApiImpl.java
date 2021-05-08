@@ -32,4 +32,28 @@ public class RacRoleApiImpl extends
 		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
 	}
 
+	@Override
+	public Ro<?> moveUp(RacRoleModifyTo qo) {
+		_svc.moveUp(qo);
+		return new Ro<>(ResultDic.SUCCESS, "修改成功");
+	}
+
+	@Override
+	public Ro<?> moveDown(RacRoleModifyTo qo) {
+		_svc.moveDown(qo);
+		return new Ro<>(ResultDic.SUCCESS, "修改成功");
+	}
+
+	@Override
+	public Ro<?> enable(RacRoleModifyTo qo) {
+		_svc.enable(qo);
+		return new Ro<>(ResultDic.SUCCESS, "启用角色成功");
+	}
+
+	@Override
+	public Ro<?> disable(RacRoleModifyTo qo) {
+		_svc.disable(qo);
+		return new Ro<>(ResultDic.SUCCESS, "禁用角色成功");
+	}
+
 }

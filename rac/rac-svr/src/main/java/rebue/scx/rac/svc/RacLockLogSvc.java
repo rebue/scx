@@ -1,13 +1,10 @@
 package rebue.scx.rac.svc;
 
-import javax.validation.Valid;
-
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacLockLogJo;
 import rebue.scx.rac.mo.RacLockLogMo;
-import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogDelTo;
 import rebue.scx.rac.to.RacLockLogListTo;
