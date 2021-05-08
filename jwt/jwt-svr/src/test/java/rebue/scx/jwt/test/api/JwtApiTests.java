@@ -22,7 +22,7 @@ import rebue.scx.jwt.to.JwtVerifyTo;
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)   // 非Web环境下测试
 public class JwtApiTests {
 
-    private final Long   _accountId    = 517928358546243583L;
+    private final Long   _accountId = 517928358546243583L;
 
     private final String _sysId     = "rebue-platform";
     private final String _wxOpenId  = "oqTsm0gdD148UcBzibH4JTm2d9q4";
@@ -48,14 +48,15 @@ public class JwtApiTests {
         Assertions.assertEquals(ResultDic.SUCCESS, signRo.getResult());
 
         log.info("验证签名");
-        Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(_accountId.toString(), signRo.getExtra().getSign()));
+        Ro<JwtSignRa> veryfyRo = api.verify(new JwtVerifyTo(signRo.getExtra().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);
         Assertions.assertEquals(ResultDic.SUCCESS, veryfyRo.getResult());
 
+        // 测试过期，要打开application-dev.yam文件中相对过期为3秒的设置
         Thread.sleep(3000);
-        veryfyRo = api.verify(new JwtVerifyTo(_accountId.toString(), signRo.getExtra().getSign()));
+        veryfyRo = api.verify(new JwtVerifyTo(signRo.getExtra().getSign()));
         log.info("验证签名返回: {}", veryfyRo);
         Assertions.assertNotNull(veryfyRo);
         System.out.println(veryfyRo);

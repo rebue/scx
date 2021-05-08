@@ -3,7 +3,6 @@ rrl:
   # 发送消息的超时时间(发送添加请求和响应日志的消息时使用)
   send-timeout: 1000
 
-
 spring:
   cloud:
     gateway:
@@ -15,5 +14,9 @@ spring:
               args:
                 filter-urls:
                   - "'/ctid/**'"
-#                ignore-urls:
-#                  - "'POST:/sgn/sign-in/**'"
+            - name: JwtPre
+              args:
+                filter-urls:
+                  - "'/rac/**'"
+                ignore-urls:
+                  - "'POST:/rac/sign-in/**'"

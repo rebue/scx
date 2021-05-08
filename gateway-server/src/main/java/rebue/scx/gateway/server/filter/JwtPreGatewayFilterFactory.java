@@ -1,9 +1,7 @@
 package rebue.scx.gateway.server.filter;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -15,31 +13,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
-import rebue.scx.gateway.server.co.CachedKeyCo;
-import rebue.scx.sgn.api.ex.SgnVerifyApi;
+import rebue.scx.jwt.api.JwtApi;
+import rebue.scx.jwt.to.JwtVerifyTo;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
+import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
 @Component
-public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<SignPreGatewayFilterFactory.Config> {
+public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<JwtPreGatewayFilterFactory.Config> {
 
     @DubboReference
-    private SgnVerifyApi sgnVerifyApi;
+    private JwtApi jwtApi;
 
-    public SignPreGatewayFilterFactory() {
+    public JwtPreGatewayFilterFactory() {
         super(Config.class);
     }
 
     @Override
     public GatewayFilter apply(final Config config) {
         return new OrderedGatewayFilter((exchange, chain) -> {
-            log.info(StringUtils.rightPad("*** 进入SignPreFilter过滤器 ***", 100));
+            log.info(StringUtils.rightPad("*** 进入JwtPreFilter过滤器 ***", 100));
             try {
                 final ServerHttpRequest request = exchange.getRequest();
                 final String            method  = request.getMethod().toString();
@@ -59,35 +57,31 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
                 }
                 log.info("经判断要过滤此URL");
 
-                // 获取请求参数
-                Map<String, Object>                 requestParams;
-                final MultiValueMap<String, String> requestQueryParams = request.getQueryParams();
-                if (requestQueryParams != null && requestQueryParams.size() > 0) {
-                    requestParams = new LinkedHashMap<>();
-                    requestQueryParams.forEach((key, values) -> {
-                        // XXX 签名的请求不允许有数组参数
-                        requestParams.put(key, values.get(0));
-                    });
-                }
-                else {
-                    requestParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
-                }
-
-                if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(requestParams).getResult())) {
-                    log.warn("认证失败: url-{}, requestParams-{}", url, requestParams);
+                // 获取签名
+                final String sign = JwtUtils.getSignInCookies(request);
+                if (StringUtils.isBlank(sign)) {
+                    log.warn("JWT签名校验失败: 在Cookie中并没有找到签名");
                     final ServerHttpResponse response = exchange.getResponse();
                     // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
                 }
 
-                log.info("认证成功");
+                if (!ResultDic.SUCCESS.equals(jwtApi.verify(new JwtVerifyTo(sign)).getResult())) {
+                    log.warn("JWT签名校验失败: url-{}", url);
+                    final ServerHttpResponse response = exchange.getResponse();
+                    // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return response.setComplete();
+                }
+
+                log.info("JWT签名校验成功");
 
                 return returnFilter(chain, exchange);
             } finally {
-                log.info(StringUtils.rightPad("~~~ 结束 SignPreFilter 过滤器 ~~~", 100));
+                log.info(StringUtils.rightPad("~~~ 结束 JwtPreFilter 过滤器 ~~~", 100));
             }
-        }, 5);
+        }, 7);
     }
 
     private Mono<Void> returnFilter(final GatewayFilterChain chain, final ServerWebExchange exchange) {
