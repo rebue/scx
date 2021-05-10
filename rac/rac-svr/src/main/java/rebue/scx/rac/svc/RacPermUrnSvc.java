@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
@@ -29,4 +31,13 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
 @Validated
 public interface RacPermUrnSvc
     extends BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> {
+
+    /**
+     * 获取账户的链接列表
+     *
+     * @param accountId 账户ID
+     *
+     * @return 指定账户的链接列表
+     */
+    List<String> getUrnsOfAccount(Long accountId);
 }

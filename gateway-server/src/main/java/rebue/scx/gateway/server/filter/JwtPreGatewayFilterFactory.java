@@ -22,10 +22,12 @@ import org.springframework.web.server.ServerWebExchange;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtVerifyTo;
+import rebue.scx.rac.api.RacPermUrnApi;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
 import rebue.wheel.turing.JwtUtils;
 
@@ -34,7 +36,10 @@ import rebue.wheel.turing.JwtUtils;
 public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<JwtPreGatewayFilterFactory.Config> {
 
     @DubboReference
-    private JwtApi jwtApi;
+    private JwtApi        jwtApi;
+
+    @DubboReference
+    private RacPermUrnApi racPermUrnApi;
 
     public JwtPreGatewayFilterFactory() {
         super(Config.class);
@@ -83,12 +88,33 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 }
                 log.info("JWT签名校验成功");
 
+                log.info("获取可访问的链接列表");
+                final Long               accountId = JwtUtils.getJwtAccountIdInSign(sign);
+                final Ro<ListRa<String>> urnsRo    = racPermUrnApi.getUrnsOfAccount(accountId);
+                if (!ResultDic.SUCCESS.equals(urnsRo.getResult())) {
+                    log.warn("获取可访问的链接列表失败: url-{}", url);
+                    final ServerHttpResponse response = exchange.getResponse();
+                    // 503:服务失效
+                    response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
+                    return response.setComplete();
+                }
+                log.info("判断账户是否有该链接的访问权限: accountId-{}, url-{}", accountId, url);
+                if (AntPathMatcherUtils.noneMatch(method, path, urnsRo.getExtra().getList())) {
+                    log.warn("账户没有访问该链接的权限: accountId-{}, url-{}", accountId, url);
+                    final ServerHttpResponse response = exchange.getResponse();
+                    // 403:没有访问该资源的权限
+                    response.setStatusCode(HttpStatus.FORBIDDEN);
+                    return response.setComplete();
+                }
+                log.info("账户有访问该链接的权限");
+
                 log.info("延长JWT签名时效");
                 final ServerHttpResponse                    response        = exchange.getResponse();
                 final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
                 final ResponseCookie                        jwtTokenCookie  = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getExtra().getSign()).maxAge(
                     Duration.between(LocalDateTime.now(), verifyRo.getExtra().getExpirationTime())).path("/").build();
                 responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
+                log.info("完成延长JWT签名时效");
 
                 return returnFilter(chain, exchange);
             } finally {

@@ -77,23 +77,6 @@ public class RacPermMenuSvcImpl extends
     }
 
     /**
-     * 获取账户的菜单列表
-     *
-     * @param accountId 账户ID
-     * @param sysId  系统ID
-     *
-     * @return 指定账户的菜单列表
-     */
-    @Override
-    public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
-        final List<RacPermMenuMo> list = _mapper
-            .select(c -> c.rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).rightJoin(racRole)
-                .on(racRole.id, equalTo(racRolePerm.roleId)).rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
-                    and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
-        return list.stream().map(item -> item.getMenuUrn()).distinct().collect(Collectors.toList());
-    }
-
-    /**
      * 从接口获取本服务的单例(提供给基类调用)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -102,4 +85,28 @@ public class RacPermMenuSvcImpl extends
     protected BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> getThisSvc() {
         return thisSvc;
     }
+
+    /**
+     * 获取账户的菜单列表
+     *
+     * @param accountId 账户ID
+     * @param sysId     系统ID
+     *
+     * @return 指定账户的菜单列表
+     */
+    @Override
+    public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
+        final List<RacPermMenuMo> list = _mapper.select(c -> c
+            .rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
+            .rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
+            .rightJoin(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
+            .rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
+            .where(
+                racPermMenu.sysId, isEqualTo(sysId),
+                and(racAccountRole.accountId, isEqualTo(accountId)),
+                and(racPerm.isEnabled, isTrue()),
+                and(racRole.isEnabled, isTrue())));
+        return list.stream().map(RacPermMenuMo::getMenuUrn).distinct().collect(Collectors.toList());
+    }
+
 }
