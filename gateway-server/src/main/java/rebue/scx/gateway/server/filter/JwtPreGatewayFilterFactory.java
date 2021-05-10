@@ -84,15 +84,13 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 log.info("JWT签名校验成功");
 
                 log.info("延长JWT签名时效");
-                return returnFilter(chain, exchange).doFinally(signalType -> {
-                    final ServerHttpResponse                    response        = exchange.getResponse();
-                    final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
-                    responseCookies.remove(JwtUtils.JWT_TOKEN_NAME);
+                final ServerHttpResponse                    response        = exchange.getResponse();
+                final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
+                final ResponseCookie                        jwtTokenCookie  = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getExtra().getSign()).maxAge(
+                    Duration.between(LocalDateTime.now(), verifyRo.getExtra().getExpirationTime())).path("/").build();
+                responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
 
-                    final ResponseCookie jwtTokenCookie = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getExtra().getSign()).maxAge(
-                        Duration.between(LocalDateTime.now(), verifyRo.getExtra().getExpirationTime())).path("/").build();
-                    responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
-                });
+                return returnFilter(chain, exchange);
             } finally {
                 log.info(StringUtils.rightPad("~~~ 结束 JwtPreFilter 过滤器 ~~~", 100));
             }
