@@ -35,13 +35,13 @@ public class RacRoleApiImpl extends
 	@Override
 	public Ro<?> moveUp(RacRoleModifyTo qo) {
 		_svc.moveUp(qo);
-		return new Ro<>(ResultDic.SUCCESS, "修改成功");
+		return new Ro<>(ResultDic.SUCCESS, "上移成功");
 	}
 
 	@Override
 	public Ro<?> moveDown(RacRoleModifyTo qo) {
 		_svc.moveDown(qo);
-		return new Ro<>(ResultDic.SUCCESS, "修改成功");
+		return new Ro<>(ResultDic.SUCCESS, "下移成功");
 	}
 
 	@Override

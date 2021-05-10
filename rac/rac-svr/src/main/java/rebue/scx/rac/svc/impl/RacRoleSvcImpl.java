@@ -75,56 +75,69 @@ public class RacRoleSvcImpl extends
 		return thisSvc;
 	}
 
+	/**
+	 * 添加角色
+	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public RacRoleMo add(RacRoleAddTo to) {
 		final RacRoleMo mo = _dozerMapper.map(to, getMoClass());
-		RacRoleOneTo roleOneTo = new RacRoleOneTo();
-		roleOneTo.setDomainId(to.getDomainId());
-		Long count = getThisSvc().countSelective(roleOneTo);
+		RacRoleOneTo qo = new RacRoleOneTo();
+		qo.setDomainId(to.getDomainId());
+		Long count = getThisSvc().countSelective(qo);
 		mo.setSeqNo((byte) (count + 0));// 最初添加的角色顺序从0开始,新添加的角色顺序为最大
 		return getThisSvc().addMo(mo);
 	}
 
+	/**
+	 * 上移动
+	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void moveUp(RacRoleModifyTo to) {
 		// 获取当前这条数据的具体数据
-		RacRoleMo role = _mapper.selectByPrimaryKey(to.getId())
+		RacRoleMo qo = _mapper.selectByPrimaryKey(to.getId())
 				.orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-		RacRoleMo ro = new RacRoleMo();
-		ro.setSeqNo((byte) (role.getSeqNo() - 1));
-		ro.setDomainId(to.getDomainId());
-		RacRoleMo roleup = _mapper.selectOne(ro).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		// 获取修改当前这条数据上面一条的数据的顺序号
+		RacRoleMo roleQo = new RacRoleMo();
+		roleQo.setSeqNo((byte) (qo.getSeqNo() - 1));
+		roleQo.setDomainId(to.getDomainId());
+		RacRoleMo roleup = _mapper.selectOne(roleQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
 		// 修改当前这条数据上面一条的数据的顺序号
 		roleup.setSeqNo((byte) (roleup.getSeqNo() + 1));
 		final RacRoleMo mo = _dozerMapper.map(roleup, getMoClass());
 		getThisSvc().modifyMoById(mo);
 		// 修改当前这条数据的顺序号
-		to.setSeqNo((byte) (role.getSeqNo() - 1));
+		to.setSeqNo((byte) (qo.getSeqNo() - 1));
 		getThisSvc().modifyById(to);
 	}
 
+	/**
+	 * 下移动
+	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void moveDown(RacRoleModifyTo to) {
 		// 获取当前这条数据的具体数据
-		RacRoleMo role = _mapper.selectByPrimaryKey(to.getId())
+		RacRoleMo qo = _mapper.selectByPrimaryKey(to.getId())
 				.orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
 		// 获取当前这条数据下面一条的具体数据
-		RacRoleMo ro = new RacRoleMo();
-		ro.setSeqNo((byte) (role.getSeqNo() + 1));
-		ro.setDomainId(to.getDomainId());
-		RacRoleMo roleup = _mapper.selectOne(ro).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		RacRoleMo roleQo = new RacRoleMo();
+		roleQo.setSeqNo((byte) (qo.getSeqNo() + 1));
+		roleQo.setDomainId(to.getDomainId());
+		RacRoleMo roleDown = _mapper.selectOne(roleQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
 		// 修改当前这条数据下面一条的数据的顺序号
-		roleup.setSeqNo((byte) (roleup.getSeqNo() - 1));
-		final RacRoleMo mo = _dozerMapper.map(roleup, getMoClass());
+		roleDown.setSeqNo((byte) (roleDown.getSeqNo() - 1));
+		final RacRoleMo mo = _dozerMapper.map(roleDown, getMoClass());
 		getThisSvc().modifyMoById(mo);
 		// 修改当前这条数据的顺序号
-		to.setSeqNo((byte) (role.getSeqNo() + 1));
+		to.setSeqNo((byte) (qo.getSeqNo() + 1));
 		getThisSvc().modifyById(to);
 	}
 
+	/**
+	 * 启用角色
+	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void enable(RacRoleModifyTo to) {
@@ -132,6 +145,9 @@ public class RacRoleSvcImpl extends
 		_mapper.updateByPrimaryKeySelective(mo);
 	}
 
+	/**
+	 * 禁用角色
+	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void disable(RacRoleModifyTo to) {
@@ -139,10 +155,13 @@ public class RacRoleSvcImpl extends
 		_mapper.updateByPrimaryKeySelective(mo);
 	}
 
+	/**
+	 * 删除角色
+	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void delById(Long id) {
-		final RacRoleMo roleOne = this.getById(id);
+		final RacRoleMo qo = this.getById(id);
 		final int rowCount = _mapper.deleteByPrimaryKey(id);
 		if (rowCount == 0) {
 			throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
@@ -151,9 +170,12 @@ public class RacRoleSvcImpl extends
 			throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
 		}
 		// 删除后对其余角色进行顺序号更新
-		_mapper.UpdateRoleByDelete(roleOne);
+		_mapper.UpdateRoleByDelete(qo);
 	}
 
+	/**
+	 * 查询角色
+	 */
 	@Override
 	public List<RacRoleMo> list(RacRoleListTo qo) {
 		final RacRoleMo mo = _dozerMapper.map(qo, getMoClass());

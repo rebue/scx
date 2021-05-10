@@ -294,7 +294,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
 	 * @param record
 	 * @return
 	 */
-	@Select({ "<script> SELECT * FROM RAC_ROLE ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
+	@Select({ "<script> SELECT ro.* FROM RAC_ROLE ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
 	List<RacRoleMo> selectListRole(@Param(value = "record") RacRoleMo record);
 	
 	/**

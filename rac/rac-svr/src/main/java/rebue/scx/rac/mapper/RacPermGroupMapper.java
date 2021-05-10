@@ -17,10 +17,13 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
@@ -322,4 +325,20 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
             .and(remark, isEqualToWhenPresent(record::getRemark))
         );
     }
+
+    /**
+	 * 因删除权限分组而进行的权限分组顺序号更新
+	 * @param record
+	 * @return
+	 */
+	@Update({ "<script>  UPDATE RAC_PERM_GROUP pg SET pg.SEQ_NO = (pg.SEQ_NO-1) WHERE pg.DOMAIN_ID=#{record.domainId} and pg.SEQ_NO > #{record.seqNo} </script>" })
+	int UpdatePermGroupByDelete(@Param(value = "record") RacPermGroupMo record);
+	
+	/**
+	 * 查询权限分组并排序
+	 * @param record
+	 * @return
+	 */
+	@Select({ "<script> SELECT ro.* FROM RAC_PERM_GROUP ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
+	List<RacPermGroupMo> selectListPermGroup(@Param(value = "record") RacPermGroupMo record);
 }

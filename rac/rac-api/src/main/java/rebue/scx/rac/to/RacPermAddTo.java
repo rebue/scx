@@ -16,6 +16,7 @@ import lombok.Data;
 /**
  * 权限
  *
+ * @mbg.removedMember seqNo,isEnabled
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -54,22 +55,22 @@ public class RacPermAddTo implements Serializable {
     @Length(max = 20, message = "权限名称的长度不能大于20")
     private String            name;
 
-    /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "是否启用不能为空")
-    private Boolean           isEnabled;
+//    /**
+//     * 是否启用
+//     *
+//     * @mbg.generated 自动生成，如需修改，请删除本行
+//     */
+//    @NotNull(message = "是否启用不能为空")
+//    private Boolean           isEnabled;
 
-    /**
-     * 顺序号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "顺序号不能为空")
-    @PositiveOrZero(message = "顺序号不能为负数")
-    private Byte              seqNo;
+//    /**
+//     * 顺序号
+//     *
+//     * @mbg.generated 自动生成，如需修改，请删除本行
+//     */
+//    @NotNull(message = "顺序号不能为空")
+//    @PositiveOrZero(message = "顺序号不能为负数")
+//    private Byte              seqNo;
 
     /**
      * 权限备注

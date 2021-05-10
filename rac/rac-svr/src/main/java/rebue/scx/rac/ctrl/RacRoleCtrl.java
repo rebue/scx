@@ -130,8 +130,7 @@ public class RacRoleCtrl {
      * @param to 启用的具体数据
      */
 	@PostMapping("/rac/role/enable")
-    public Mono<Ro<?>> enable(@RequestBody final RacRoleModifyTo qo) {
-        
+    public Mono<Ro<?>> enable(@RequestBody final RacRoleModifyTo qo) {       
         return Mono.create(callback -> callback.success(api.enable(qo)));
     }
     /**
@@ -140,8 +139,7 @@ public class RacRoleCtrl {
      * @param to 禁用的具体数据
      */
 	@PostMapping("/rac/role/disable")
-    public Mono<Ro<?>> disable(@RequestBody final RacRoleModifyTo qo) {
-       
+    public Mono<Ro<?>> disable(@RequestBody final RacRoleModifyTo qo) {     
         return Mono.create(callback -> callback.success(api.disable(qo)));
     }
 

@@ -3,6 +3,8 @@ package rebue.scx.rac.api.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacPermGroupApi;
 import rebue.scx.rac.jo.RacPermGroupJo;
 import rebue.scx.rac.mo.RacPermGroupMo;
@@ -21,6 +23,30 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
  */
 @DubboService
 public class RacPermGroupApiImpl extends
-    BaseApiImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupSvc>
-    implements RacPermGroupApi {
+		BaseApiImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupSvc>
+		implements RacPermGroupApi {
+
+	@Override
+	public Ro<?> moveUp(RacPermGroupModifyTo qo) {
+		_svc.moveUp(qo);
+		return new Ro<>(ResultDic.SUCCESS, "上移成功");
+	}
+
+	@Override
+	public Ro<?> moveDown(RacPermGroupModifyTo qo) {
+		_svc.moveDown(qo);
+		return new Ro<>(ResultDic.SUCCESS, "下移成功");
+	}
+
+	@Override
+	public Ro<?> enable(RacPermGroupModifyTo qo) {
+		_svc.enable(qo);
+		return new Ro<>(ResultDic.SUCCESS, "启用权限分组成功");
+	}
+
+	@Override
+	public Ro<?> disable(RacPermGroupModifyTo qo) {
+		_svc.disable(qo);
+		return new Ro<>(ResultDic.SUCCESS, "禁用权限分组成功");
+	}
 }

@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -20,6 +22,7 @@ import rebue.scx.rac.to.RacPermGroupListTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermGroupOneTo;
 import rebue.scx.rac.to.RacPermGroupPageTo;
+import rebue.wheel.core.exception.RuntimeExceptionX;
 
 /**
  * 权限分组服务实现
@@ -40,36 +43,144 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermGroupSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao>
-    implements RacPermGroupSvc {
+		BaseSvcImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao>
+		implements RacPermGroupSvc {
 
-    /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Lazy
-    @Resource
-    private RacPermGroupSvc thisSvc;
+	/**
+	 * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Lazy
+	@Resource
+	private RacPermGroupSvc thisSvc;
 
-    /**
-     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected Class<RacPermGroupMo> getMoClass() {
-        return RacPermGroupMo.class;
-    }
+	/**
+	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected Class<RacPermGroupMo> getMoClass() {
+		return RacPermGroupMo.class;
+	}
 
-    /**
-     * 从接口获取本服务的单例(提供给基类调用)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected BaseSvc<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo> getThisSvc() {
-        return thisSvc;
-    }
+	/**
+	 * 从接口获取本服务的单例(提供给基类调用)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected BaseSvc<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo> getThisSvc() {
+		return thisSvc;
+	}
+
+	/**
+	 * 添加权限分组
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public RacPermGroupMo add(RacPermGroupAddTo to) {
+		final RacPermGroupMo mo = _dozerMapper.map(to, getMoClass());
+		RacPermGroupOneTo qo = new RacPermGroupOneTo();
+		qo.setDomainId(to.getDomainId());
+		Long count = getThisSvc().countSelective(qo);
+		mo.setSeqNo((byte) (count + 0));// 最初添加的权限分组顺序从0开始,新添加的权限分组顺序为最大
+		return getThisSvc().addMo(mo);
+	}
+
+	/**
+	 * 删除权限分组
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void delById(Long id) {
+		final RacPermGroupMo qo = this.getById(id);
+		final int rowCount = _mapper.deleteByPrimaryKey(id);
+		if (rowCount == 0) {
+			throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
+		}
+		if (rowCount != 1) {
+			throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
+		}
+		// 删除后对其余权限分组进行顺序号更新
+		_mapper.UpdatePermGroupByDelete(qo);
+	}
+
+	/**
+	 * 上移动
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void moveUp(RacPermGroupModifyTo to) {
+		// 获取当前这条数据的具体数据
+		RacPermGroupMo qo = _mapper.selectByPrimaryKey(to.getId())
+				.orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		RacPermGroupMo permGroupQo = new RacPermGroupMo();
+		permGroupQo.setSeqNo((byte) (qo.getSeqNo() - 1));
+		permGroupQo.setDomainId(qo.getDomainId());
+		RacPermGroupMo permGroupUp = _mapper.selectOne(permGroupQo)
+				.orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		// 修改当前这条数据上面一条的数据的顺序号
+		permGroupUp.setSeqNo((byte) (permGroupUp.getSeqNo() + 1));
+		final RacPermGroupMo mo = _dozerMapper.map(permGroupUp, getMoClass());
+		getThisSvc().modifyMoById(mo);
+		// 修改当前这条数据的顺序号
+		to.setSeqNo((byte) (qo.getSeqNo() - 1));
+		getThisSvc().modifyById(to);
+	}
+
+	/**
+	 * 下移动
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void moveDown(RacPermGroupModifyTo to) {
+		// 获取当前这条数据的具体数据
+		RacPermGroupMo qo = _mapper.selectByPrimaryKey(to.getId())
+				.orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		// 获取当前这条数据下面一条的具体数据
+		RacPermGroupMo permGroupQo = new RacPermGroupMo();
+		permGroupQo.setSeqNo((byte) (qo.getSeqNo() + 1));
+		permGroupQo.setDomainId(qo.getDomainId());
+		RacPermGroupMo permGroupDown = _mapper.selectOne(permGroupQo)
+				.orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		// 修改当前这条数据下面一条的数据的顺序号
+		permGroupDown.setSeqNo((byte) (permGroupDown.getSeqNo() - 1));
+		final RacPermGroupMo mo = _dozerMapper.map(permGroupDown, getMoClass());
+		getThisSvc().modifyMoById(mo);
+		// 修改当前这条数据的顺序号
+		to.setSeqNo((byte) (qo.getSeqNo() + 1));
+		getThisSvc().modifyById(to);
+	}
+
+	/**
+	 * 启用权限分组
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void enable(RacPermGroupModifyTo to) {
+		final RacPermGroupMo mo = _dozerMapper.map(to, getMoClass());
+		_mapper.updateByPrimaryKeySelective(mo);
+	}
+
+	/**
+	 * 禁用权限分组
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void disable(RacPermGroupModifyTo to) {
+		final RacPermGroupMo mo = _dozerMapper.map(to, getMoClass());
+		_mapper.updateByPrimaryKeySelective(mo);
+	}
+
+	/**
+	 * 查询权限分组
+	 */
+	@Override
+	public List<RacPermGroupMo> list(RacPermGroupListTo qo) {
+		final RacPermGroupMo mo = _dozerMapper.map(qo, getMoClass());
+		return _mapper.selectListPermGroup(mo);
+	}
+
 }

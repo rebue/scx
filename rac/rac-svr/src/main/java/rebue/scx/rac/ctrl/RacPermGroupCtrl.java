@@ -101,4 +101,43 @@ public class RacPermGroupCtrl {
     public Mono<Ro<PageRa<RacPermGroupMo>>> page(final RacPermGroupPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
+    
+    /**
+	 * 上移动权限分组的信息
+	 *
+	 * @param qo
+	 */
+	@PostMapping("/rac/perm-group/move-up")
+	public Mono<Ro<?>> moveUp(@RequestBody final RacPermGroupModifyTo qo) {
+		return Mono.create(callback -> callback.success(api.moveUp(qo)));
+	}
+
+	/**
+	 * 下移动权限分组的信息
+	 *
+	 * @param qo
+	 */
+	@PostMapping("/rac/perm-group/move-down")
+	public Mono<Ro<?>> moveDown(@RequestBody final RacPermGroupModifyTo qo) {
+		return Mono.create(callback -> callback.success(api.moveDown(qo)));
+	}
+	
+	/**
+     * 启用权限分组
+     *
+     * @param to 启用的具体数据
+     */
+	@PostMapping("/rac/perm-group/enable")
+    public Mono<Ro<?>> enable(@RequestBody final RacPermGroupModifyTo qo) {
+        return Mono.create(callback -> callback.success(api.enable(qo)));
+    }
+    /**
+     * 禁用权限分组
+     *
+     * @param to 禁用的具体数据
+     */
+	@PostMapping("/rac/perm-group/disable")
+    public Mono<Ro<?>> disable(@RequestBody final RacPermGroupModifyTo qo) {
+        return Mono.create(callback -> callback.success(api.disable(qo)));
+    }
 }

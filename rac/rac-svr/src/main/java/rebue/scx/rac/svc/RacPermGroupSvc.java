@@ -29,4 +29,12 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
 @Validated
 public interface RacPermGroupSvc extends
     BaseSvc<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo> {
+
+	void moveUp(RacPermGroupModifyTo qo);
+
+	void moveDown(RacPermGroupModifyTo qo);
+
+	void enable(RacPermGroupModifyTo qo);
+
+	void disable(RacPermGroupModifyTo qo);
 }

@@ -37,4 +37,12 @@ public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPer
      * @param domainId 领域ID
      */
     Ro<PermListWithGroupRa> listWithGroup(String domainId);
+
+	void moveUp(RacPermModifyTo qo);
+
+	void moveDown(RacPermModifyTo qo);
+
+	void enable(RacPermModifyTo qo);
+
+	void disable(RacPermModifyTo qo);
 }

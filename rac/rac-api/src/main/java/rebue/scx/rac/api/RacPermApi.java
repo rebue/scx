@@ -21,4 +21,12 @@ public interface RacPermApi extends BaseApi<java.lang.Long, RacPermAddTo, RacPer
      * @param domainId 领域ID
      */
     Ro<PermListWithGroupRa> listWithGroup(String domainId);
+
+	Ro<?> moveUp(RacPermModifyTo qo);
+
+	Ro<?> moveDown(RacPermModifyTo qo);
+
+	Ro<?> enable(RacPermModifyTo qo);
+
+	Ro<?> disable(RacPermModifyTo qo);
 }
