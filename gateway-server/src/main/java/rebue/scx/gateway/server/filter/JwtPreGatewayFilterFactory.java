@@ -1,5 +1,7 @@
 package rebue.scx.gateway.server.filter;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,15 +12,19 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
+import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtVerifyTo;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
 import rebue.wheel.turing.JwtUtils;
@@ -67,17 +73,26 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     return response.setComplete();
                 }
 
-                if (!ResultDic.SUCCESS.equals(jwtApi.verify(new JwtVerifyTo(sign)).getResult())) {
+                final Ro<JwtSignRa> verifyRo = jwtApi.verify(new JwtVerifyTo(sign));
+                if (!ResultDic.SUCCESS.equals(verifyRo.getResult())) {
                     log.warn("JWT签名校验失败: url-{}", url);
                     final ServerHttpResponse response = exchange.getResponse();
                     // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
                 }
-
                 log.info("JWT签名校验成功");
 
-                return returnFilter(chain, exchange);
+                log.info("延长JWT签名时效");
+                return returnFilter(chain, exchange).doFinally(signalType -> {
+                    final ServerHttpResponse                    response        = exchange.getResponse();
+                    final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
+                    responseCookies.remove(JwtUtils.JWT_TOKEN_NAME);
+
+                    final ResponseCookie jwtTokenCookie = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getExtra().getSign()).maxAge(
+                        Duration.between(LocalDateTime.now(), verifyRo.getExtra().getExpirationTime())).path("/").build();
+                    responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
+                });
             } finally {
                 log.info(StringUtils.rightPad("~~~ 结束 JwtPreFilter 过滤器 ~~~", 100));
             }

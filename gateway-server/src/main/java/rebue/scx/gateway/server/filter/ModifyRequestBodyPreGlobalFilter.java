@@ -72,12 +72,15 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             final HttpHeaders       requestHeaders = request.getHeaders();
 
             // 缓存请求ID
-            final Long                sessionId         = (Long) exchange.getAttributes().get(CachedKeyCo.SESSION_ID);
+            final Long sessionId = (Long) exchange.getAttributes().get(CachedKeyCo.SESSION_ID);
 
+            // 获取缓存中的请求Body的参数
             final Map<String, Object> requestBodyParams = exchange.getAttribute(CachedKeyCo.REQUEST_BODY_PARAMS);
+            // 是否存在Body的参数
+            final boolean             existBodyParams   = requestBodyParams != null && requestBodyParams.size() > 0;
 
             // 没有Body的直接往下走
-            if (requestBodyParams == null || requestBodyParams.size() == 0) {
+            if (!existBodyParams) {
                 // 往查询参数中添加请求ID
                 final URI    uri              = request.getURI();
                 final String originalRawQuery = uri.getRawQuery();
@@ -87,6 +90,15 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 final ServerHttpRequest newRequest = exchange.getRequest().mutate().uri(newUri).build();
                 return chain.filter(exchange.mutate().request(newRequest).build());
             }
+
+            log.info("构建新的headers");
+            final HttpHeaders newRequestHeaders = new HttpHeaders();
+            newRequestHeaders.putAll(requestHeaders);
+            // 删除headers中的content length，避免修改Body后Body的数据长度有变化被检测出来报400异常
+            // 猜测这个就是之前报400错误的元凶，之前修改了body但是没有重新写content length
+            // the new content type will be computed by bodyInserter
+            // and then set in the request decorator
+            newRequestHeaders.remove(HttpHeaders.CONTENT_LENGTH);
 
             // 有Body的重新构造新的Body，因为Body在CacheRequestBodyPreBolbalFilter过滤器中被出来，就要重新构建
             // 往Body中加入请求ID
@@ -107,19 +119,10 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
                 return response.setComplete();
             }
-
-            // 删除headers中的content length，避免修改Body后Body的数据长度有变化被检测出来报400异常
-            // 猜测这个就是之前报400错误的元凶，之前修改了body但是没有重新写content length
-            final HttpHeaders newHeaders = new HttpHeaders();
-            newHeaders.putAll(requestHeaders);
-            // the new content type will be computed by bodyInserter
-            // and then set in the request decorator
-            newHeaders.remove(HttpHeaders.CONTENT_LENGTH);
-
             final BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter  = BodyInserters.fromPublisher(modifiedBody, String.class);
-            final CachedBodyOutputMessage                               outputMessage = new CachedBodyOutputMessage(exchange, newHeaders);
+            final CachedBodyOutputMessage                               outputMessage = new CachedBodyOutputMessage(exchange, newRequestHeaders);
             return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
-                final ServerHttpRequest decorator = decorate(exchange, newHeaders, outputMessage);
+                final ServerHttpRequest decorator = decorate(request, newRequestHeaders, outputMessage);
                 return chain.filter(exchange.mutate().request(decorator).build());
             }));
         } finally {
@@ -127,8 +130,8 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         }
     }
 
-    ServerHttpRequestDecorator decorate(final ServerWebExchange exchange, final HttpHeaders headers, final CachedBodyOutputMessage outputMessage) {
-        return new ServerHttpRequestDecorator(exchange.getRequest()) {
+    ServerHttpRequestDecorator decorate(final ServerHttpRequest request, final HttpHeaders headers, final CachedBodyOutputMessage outputMessage) {
+        return new ServerHttpRequestDecorator(request) {
             @Override
             public HttpHeaders getHeaders() {
                 final long        contentLength = headers.getContentLength();
@@ -145,8 +148,12 @@ public class ModifyRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
             @Override
             public Flux<DataBuffer> getBody() {
+                if (outputMessage == null) {
+                    return super.getBody();
+                }
                 return outputMessage.getBody();
             }
+
         };
     }
 
