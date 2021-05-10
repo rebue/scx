@@ -22,12 +22,6 @@ public class JwtVerifyTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 账户ID
-     */
-    @NotBlank(message = "账户ID不能为空")
-    private String            accountId;
-
-    /**
      * 要验证的签名
      */
     @NotBlank(message = "要验证的签名不能为空")

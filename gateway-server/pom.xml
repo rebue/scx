@@ -20,12 +20,22 @@
 
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>jwt-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rrl-api</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-turing</artifactId>
 		</dependency>
 
 		<dependency>
@@ -87,6 +97,13 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>

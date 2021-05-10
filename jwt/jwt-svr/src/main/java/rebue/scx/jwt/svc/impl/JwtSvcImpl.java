@@ -109,9 +109,6 @@ public class JwtSvcImpl implements JwtSvc {
             if (accountId == null) {
                 return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 账户ID为空");
             }
-            if (!to.getAccountId().equals(accountId)) {
-                return new Ro<>(ResultDic.FAIL, "验证JWT签名失败: 错误的账户ID-" + accountId + ", 正确的应该是-" + to.getAccountId());
-            }
             if (!JwtUtils.verify(jwtProperties.getSignKey(), signedJWT)) {
                 return new Ro<>(ResultDic.FAIL,
                     "验证JWT签名失败: 错误的签名-" + to.getSign() + ", 正确的应该是-" + signedJWT.getSignature());
