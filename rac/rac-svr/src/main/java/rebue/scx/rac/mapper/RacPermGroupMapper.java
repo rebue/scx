@@ -21,7 +21,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
@@ -46,299 +45,273 @@ import rebue.scx.rac.mo.RacPermGroupMo;
 
 @Mapper
 public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, Long> {
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, name, isEnabled, seqNo, remark);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	BasicColumn[] selectList = BasicColumn.columnList(id, domainId, name, isEnabled, seqNo, remark);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    long count(SelectStatementProvider selectStatement);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	long count(SelectStatementProvider selectStatement);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
-    int delete(DeleteStatementProvider deleteStatement);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
+	int delete(DeleteStatementProvider deleteStatement);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @InsertProvider(type=SqlProviderAdapter.class, method="insert")
-    int insert(InsertStatementProvider<RacPermGroupMo> insertStatement);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@InsertProvider(type = SqlProviderAdapter.class, method = "insert")
+	int insert(InsertStatementProvider<RacPermGroupMo> insertStatement);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @InsertProvider(type=SqlProviderAdapter.class, method="insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<RacPermGroupMo> multipleInsertStatement);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
+	int insertMultiple(MultiRowInsertStatementProvider<RacPermGroupMo> multipleInsertStatement);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @ResultMap("RacPermGroupMoResult")
-    Optional<RacPermGroupMo> selectOne(SelectStatementProvider selectStatement);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@ResultMap("RacPermGroupMoResult")
+	Optional<RacPermGroupMo> selectOne(SelectStatementProvider selectStatement);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="RacPermGroupMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="DOMAIN_ID", property="domainId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="NAME", property="name", jdbcType=JdbcType.VARCHAR),
-        @Result(column="IS_ENABLED", property="isEnabled", jdbcType=JdbcType.BIT),
-        @Result(column="SEQ_NO", property="seqNo", jdbcType=JdbcType.TINYINT),
-        @Result(column="REMARK", property="remark", jdbcType=JdbcType.VARCHAR)
-    })
-    List<RacPermGroupMo> selectMany(SelectStatementProvider selectStatement);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@Results(id = "RacPermGroupMoResult", value = {
+			@Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+			@Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR),
+			@Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
+			@Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT),
+			@Result(column = "SEQ_NO", property = "seqNo", jdbcType = JdbcType.TINYINT),
+			@Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR) })
+	List<RacPermGroupMo> selectMany(SelectStatementProvider selectStatement);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @UpdateProvider(type=SqlProviderAdapter.class, method="update")
-    int update(UpdateStatementProvider updateStatement);
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@UpdateProvider(type = SqlProviderAdapter.class, method = "update")
+	int update(UpdateStatementProvider updateStatement);
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, racPermGroup, completer);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default long count(CountDSLCompleter completer) {
+		return MyBatis3Utils.countFrom(this::count, racPermGroup, completer);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, racPermGroup, completer);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int delete(DeleteDSLCompleter completer) {
+		return MyBatis3Utils.deleteFrom(this::delete, racPermGroup, completer);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int deleteByPrimaryKey(Long id_) {
-        return delete(c -> 
-            c.where(id, isEqualTo(id_))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int deleteByPrimaryKey(Long id_) {
+		return delete(c -> c.where(id, isEqualTo(id_)));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int insert(RacPermGroupMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racPermGroup, c ->
-            c.map(id).toProperty("id")
-            .map(domainId).toProperty("domainId")
-            .map(name).toProperty("name")
-            .map(isEnabled).toProperty("isEnabled")
-            .map(seqNo).toProperty("seqNo")
-            .map(remark).toProperty("remark")
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int insert(RacPermGroupMo record) {
+		return MyBatis3Utils.insert(this::insert, record, racPermGroup,
+				c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(name).toProperty("name")
+						.map(isEnabled).toProperty("isEnabled").map(seqNo).toProperty("seqNo").map(remark)
+						.toProperty("remark"));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int insertMultiple(Collection<RacPermGroupMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPermGroup, c ->
-            c.map(id).toProperty("id")
-            .map(domainId).toProperty("domainId")
-            .map(name).toProperty("name")
-            .map(isEnabled).toProperty("isEnabled")
-            .map(seqNo).toProperty("seqNo")
-            .map(remark).toProperty("remark")
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int insertMultiple(Collection<RacPermGroupMo> records) {
+		return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPermGroup,
+				c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(name).toProperty("name")
+						.map(isEnabled).toProperty("isEnabled").map(seqNo).toProperty("seqNo").map(remark)
+						.toProperty("remark"));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int insertSelective(RacPermGroupMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racPermGroup, c ->
-            c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(domainId).toPropertyWhenPresent("domainId", record::getDomainId)
-            .map(name).toPropertyWhenPresent("name", record::getName)
-            .map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled)
-            .map(seqNo).toPropertyWhenPresent("seqNo", record::getSeqNo)
-            .map(remark).toPropertyWhenPresent("remark", record::getRemark)
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int insertSelective(RacPermGroupMo record) {
+		return MyBatis3Utils.insert(this::insert, record, racPermGroup,
+				c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(domainId)
+						.toPropertyWhenPresent("domainId", record::getDomainId).map(name)
+						.toPropertyWhenPresent("name", record::getName).map(isEnabled)
+						.toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(seqNo)
+						.toPropertyWhenPresent("seqNo", record::getSeqNo).map(remark)
+						.toPropertyWhenPresent("remark", record::getRemark));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default Optional<RacPermGroupMo> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, racPermGroup, completer);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default Optional<RacPermGroupMo> selectOne(SelectDSLCompleter completer) {
+		return MyBatis3Utils.selectOne(this::selectOne, selectList, racPermGroup, completer);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default List<RacPermGroupMo> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, racPermGroup, completer);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default List<RacPermGroupMo> select(SelectDSLCompleter completer) {
+		return MyBatis3Utils.selectList(this::selectMany, selectList, racPermGroup, completer);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default List<RacPermGroupMo> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racPermGroup, completer);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default List<RacPermGroupMo> selectDistinct(SelectDSLCompleter completer) {
+		return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racPermGroup, completer);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default Optional<RacPermGroupMo> selectByPrimaryKey(Long id_) {
-        return selectOne(c ->
-            c.where(id, isEqualTo(id_))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default Optional<RacPermGroupMo> selectByPrimaryKey(Long id_) {
+		return selectOne(c -> c.where(id, isEqualTo(id_)));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, racPermGroup, completer);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int update(UpdateDSLCompleter completer) {
+		return MyBatis3Utils.update(this::update, racPermGroup, completer);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    static UpdateDSL<UpdateModel> updateAllColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId)
-                .set(domainId).equalTo(record::getDomainId)
-                .set(name).equalTo(record::getName)
-                .set(isEnabled).equalTo(record::getIsEnabled)
-                .set(seqNo).equalTo(record::getSeqNo)
-                .set(remark).equalTo(record::getRemark);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	static UpdateDSL<UpdateModel> updateAllColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
+		return dsl.set(id).equalTo(record::getId).set(domainId).equalTo(record::getDomainId).set(name)
+				.equalTo(record::getName).set(isEnabled).equalTo(record::getIsEnabled).set(seqNo)
+				.equalTo(record::getSeqNo).set(remark).equalTo(record::getRemark);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(domainId).equalToWhenPresent(record::getDomainId)
-                .set(name).equalToWhenPresent(record::getName)
-                .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-                .set(seqNo).equalToWhenPresent(record::getSeqNo)
-                .set(remark).equalToWhenPresent(record::getRemark);
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
+		return dsl.set(id).equalToWhenPresent(record::getId).set(domainId).equalToWhenPresent(record::getDomainId)
+				.set(name).equalToWhenPresent(record::getName).set(isEnabled).equalToWhenPresent(record::getIsEnabled)
+				.set(seqNo).equalToWhenPresent(record::getSeqNo).set(remark).equalToWhenPresent(record::getRemark);
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int updateByPrimaryKey(RacPermGroupMo record) {
-        return update(c ->
-            c.set(domainId).equalTo(record::getDomainId)
-            .set(name).equalTo(record::getName)
-            .set(isEnabled).equalTo(record::getIsEnabled)
-            .set(seqNo).equalTo(record::getSeqNo)
-            .set(remark).equalTo(record::getRemark)
-            .where(id, isEqualTo(record::getId))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int updateByPrimaryKey(RacPermGroupMo record) {
+		return update(c -> c.set(domainId).equalTo(record::getDomainId).set(name).equalTo(record::getName)
+				.set(isEnabled).equalTo(record::getIsEnabled).set(seqNo).equalTo(record::getSeqNo).set(remark)
+				.equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int updateByPrimaryKeySelective(RacPermGroupMo record) {
-        return update(c ->
-            c.set(domainId).equalToWhenPresent(record::getDomainId)
-            .set(name).equalToWhenPresent(record::getName)
-            .set(isEnabled).equalToWhenPresent(record::getIsEnabled)
-            .set(seqNo).equalToWhenPresent(record::getSeqNo)
-            .set(remark).equalToWhenPresent(record::getRemark)
-            .where(id, isEqualTo(record::getId))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int updateByPrimaryKeySelective(RacPermGroupMo record) {
+		return update(c -> c.set(domainId).equalToWhenPresent(record::getDomainId).set(name)
+				.equalToWhenPresent(record::getName).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(seqNo)
+				.equalToWhenPresent(record::getSeqNo).set(remark).equalToWhenPresent(record::getRemark)
+				.where(id, isEqualTo(record::getId)));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default int deleteSelective(RacPermGroupMo record) {
-        return delete(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(name, isEqualToWhenPresent(record::getName))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default int deleteSelective(RacPermGroupMo record) {
+		return delete(c -> c.where(id, isEqualToWhenPresent(record::getId))
+				.and(domainId, isEqualToWhenPresent(record::getDomainId))
+				.and(name, isEqualToWhenPresent(record::getName))
+				.and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+				.and(seqNo, isEqualToWhenPresent(record::getSeqNo))
+				.and(remark, isEqualToWhenPresent(record::getRemark)));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default Optional<RacPermGroupMo> selectOne(RacPermGroupMo record) {
-        return selectOne(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(name, isEqualToWhenPresent(record::getName))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default Optional<RacPermGroupMo> selectOne(RacPermGroupMo record) {
+		return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId))
+				.and(domainId, isEqualToWhenPresent(record::getDomainId))
+				.and(name, isEqualToWhenPresent(record::getName))
+				.and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+				.and(seqNo, isEqualToWhenPresent(record::getSeqNo))
+				.and(remark, isEqualToWhenPresent(record::getRemark)));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default long countSelective(RacPermGroupMo record) {
-        return count(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(name, isEqualToWhenPresent(record::getName))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default long countSelective(RacPermGroupMo record) {
+		return count(c -> c.where(id, isEqualToWhenPresent(record::getId))
+				.and(domainId, isEqualToWhenPresent(record::getDomainId))
+				.and(name, isEqualToWhenPresent(record::getName))
+				.and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+				.and(seqNo, isEqualToWhenPresent(record::getSeqNo))
+				.and(remark, isEqualToWhenPresent(record::getRemark)));
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default boolean existByPrimaryKey(Long id_) {
-        return count(c -> c.where(id, isEqualTo(id_))) > 0;
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default boolean existByPrimaryKey(Long id_) {
+		return count(c -> c.where(id, isEqualTo(id_))) > 0;
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default boolean existSelective(RacPermGroupMo record) {
-        return countSelective(record) > 0;
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default boolean existSelective(RacPermGroupMo record) {
+		return countSelective(record) > 0;
+	}
 
-    /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default List<RacPermGroupMo> selectSelective(RacPermGroupMo record) {
-        return select(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(name, isEqualToWhenPresent(record::getName))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark))
-        );
-    }
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	default List<RacPermGroupMo> selectSelective(RacPermGroupMo record) {
+		return select(c -> c.where(id, isEqualToWhenPresent(record::getId))
+				.and(domainId, isEqualToWhenPresent(record::getDomainId))
+				.and(name, isEqualToWhenPresent(record::getName))
+				.and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+				.and(seqNo, isEqualToWhenPresent(record::getSeqNo))
+				.and(remark, isEqualToWhenPresent(record::getRemark)));
+	}
 
-    /**
+	/**
 	 * 因删除权限分组而进行的权限分组顺序号更新
+	 * 
 	 * @param record
 	 * @return
 	 */
-	@Update({ "<script>  UPDATE RAC_PERM_GROUP pg SET pg.SEQ_NO = (pg.SEQ_NO-1) WHERE pg.DOMAIN_ID=#{record.domainId} and pg.SEQ_NO > #{record.seqNo} </script>" })
-	int UpdatePermGroupByDelete(@Param(value = "record") RacPermGroupMo record);
-	
+	@Update({
+			"<script>  UPDATE RAC_PERM_GROUP pg SET pg.SEQ_NO = (pg.SEQ_NO-1) WHERE pg.DOMAIN_ID=#{record.domainId} and pg.SEQ_NO > #{record.seqNo} </script>" })
+	int UpdateSeqNoByDeleteAfter(@Param(value = "record") RacPermGroupMo record);
+
 	/**
 	 * 查询权限分组并排序
+	 * 
 	 * @param record
 	 * @return
 	 */
-	@Select({ "<script> SELECT ro.* FROM RAC_PERM_GROUP ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
-	List<RacPermGroupMo> selectListPermGroup(@Param(value = "record") RacPermGroupMo record);
+	default List<RacPermGroupMo> selectListOrderByPermGroup(@Param(value = "record") RacPermGroupMo record) {
+		return select(c -> c.where(domainId, isEqualToWhenPresent(record::getDomainId)).orderBy(seqNo));
+	}
+//	/**
+//	 * 查询权限分组并排序
+//	 * @param record
+//	 * @return
+//	 */
+//	@Select({ "<script> SELECT ro.* FROM RAC_PERM_GROUP ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
+//	List<RacPermGroupMo> selectListOrderByPermGroup(@Param(value = "record") RacPermGroupMo record);
 }

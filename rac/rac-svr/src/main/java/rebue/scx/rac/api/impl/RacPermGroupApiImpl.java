@@ -40,13 +40,13 @@ public class RacPermGroupApiImpl extends
 
 	@Override
 	public Ro<?> enable(RacPermGroupModifyTo qo) {
-		_svc.enable(qo);
+		_svc.enableLinkage(qo);
 		return new Ro<>(ResultDic.SUCCESS, "启用权限分组成功");
 	}
 
 	@Override
 	public Ro<?> disable(RacPermGroupModifyTo qo) {
-		_svc.disable(qo);
+		_svc.disableLinkage(qo);
 		return new Ro<>(ResultDic.SUCCESS, "禁用权限分组成功");
 	}
 }

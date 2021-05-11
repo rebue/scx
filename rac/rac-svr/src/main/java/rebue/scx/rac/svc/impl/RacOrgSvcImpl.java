@@ -39,37 +39,44 @@ import rebue.scx.rac.to.RacOrgPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacOrgSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo, RacOrgMapper, RacOrgDao>
-    implements RacOrgSvc {
+public class RacOrgSvcImpl extends
+		BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo, RacOrgMapper, RacOrgDao>
+		implements RacOrgSvc {
 
-    /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Lazy
-    @Resource
-    private RacOrgSvc thisSvc;
+	/**
+	 * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Lazy
+	@Resource
+	private RacOrgSvc thisSvc;
 
-    /**
-     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected Class<RacOrgMo> getMoClass() {
-        return RacOrgMo.class;
-    }
+	/**
+	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected Class<RacOrgMo> getMoClass() {
+		return RacOrgMo.class;
+	}
 
-    /**
-     * 从接口获取本服务的单例(提供给基类调用)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> getThisSvc() {
-        return thisSvc;
-    }
+	/**
+	 * 从接口获取本服务的单例(提供给基类调用)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> getThisSvc() {
+		return thisSvc;
+	}
+
+	@Override
+	public RacOrgMo add(RacOrgAddTo to) {
+		final RacOrgMo mo = _dozerMapper.map(to, getMoClass());
+		// mo中需要添加一个树编码
+		return getThisSvc().addMo(mo);
+	}
+
 }

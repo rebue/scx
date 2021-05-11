@@ -29,14 +29,15 @@ import rebue.scx.rac.to.RacPermPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> {
+public interface RacPermSvc extends
+		BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> {
 
-    /**
-     * 查询带分组的权限列表
-     *
-     * @param domainId 领域ID
-     */
-    Ro<PermListWithGroupRa> listWithGroup(String domainId);
+	/**
+	 * 查询带分组的权限列表
+	 *
+	 * @param domainId 领域ID
+	 */
+	Ro<PermListWithGroupRa> listWithGroup(String domainId);
 
 	void moveUp(RacPermModifyTo qo);
 
@@ -45,4 +46,6 @@ public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPer
 	void enable(RacPermModifyTo qo);
 
 	void disable(RacPermModifyTo qo);
+
+	int updateByGroupId(RacPermMo qo);
 }

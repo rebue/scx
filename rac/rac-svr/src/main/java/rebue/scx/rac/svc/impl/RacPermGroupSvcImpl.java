@@ -15,7 +15,9 @@ import rebue.scx.rac.dao.RacPermGroupDao;
 import rebue.scx.rac.jo.RacPermGroupJo;
 import rebue.scx.rac.mapper.RacPermGroupMapper;
 import rebue.scx.rac.mo.RacPermGroupMo;
+import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.svc.RacPermGroupSvc;
+import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermGroupAddTo;
 import rebue.scx.rac.to.RacPermGroupDelTo;
 import rebue.scx.rac.to.RacPermGroupListTo;
@@ -54,6 +56,9 @@ public class RacPermGroupSvcImpl extends
 	@Lazy
 	@Resource
 	private RacPermGroupSvc thisSvc;
+
+	@Resource
+	private RacPermSvc racPermSvc;
 
 	/**
 	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -104,7 +109,7 @@ public class RacPermGroupSvcImpl extends
 			throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
 		}
 		// 删除后对其余权限分组进行顺序号更新
-		_mapper.UpdatePermGroupByDelete(qo);
+		_mapper.UpdateSeqNoByDeleteAfter(qo);
 	}
 
 	/**
@@ -163,6 +168,21 @@ public class RacPermGroupSvcImpl extends
 		final RacPermGroupMo mo = _dozerMapper.map(to, getMoClass());
 		_mapper.updateByPrimaryKeySelective(mo);
 	}
+	
+	/**
+	 * 启动权限分组联动子节点
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void enableLinkage(RacPermGroupModifyTo to) {
+		final RacPermGroupMo mo = _dozerMapper.map(to, getMoClass());
+		_mapper.updateByPrimaryKeySelective(mo);
+		// 禁用字节点权限
+		RacPermMo permTo = new RacPermMo();
+		permTo.setGroupId(to.getId());
+		permTo.setIsEnabled(to.getIsEnabled());
+		racPermSvc.updateByGroupId(permTo);
+	}
 
 	/**
 	 * 禁用权限分组
@@ -172,6 +192,20 @@ public class RacPermGroupSvcImpl extends
 	public void disable(RacPermGroupModifyTo to) {
 		final RacPermGroupMo mo = _dozerMapper.map(to, getMoClass());
 		_mapper.updateByPrimaryKeySelective(mo);
+
+	}
+	/**
+	 *  禁用权限分组联动子节点
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void disableLinkage(RacPermGroupModifyTo to) {
+		thisSvc.disable(to);
+		// 禁用字节点权限
+		RacPermMo permTo = new RacPermMo();
+		permTo.setGroupId(to.getId());
+		permTo.setIsEnabled(to.getIsEnabled());
+		racPermSvc.updateByGroupId(permTo);
 	}
 
 	/**
@@ -180,7 +214,7 @@ public class RacPermGroupSvcImpl extends
 	@Override
 	public List<RacPermGroupMo> list(RacPermGroupListTo qo) {
 		final RacPermGroupMo mo = _dozerMapper.map(qo, getMoClass());
-		return _mapper.selectListPermGroup(mo);
+		return _mapper.selectListOrderByPermGroup(mo);
 	}
 
 }

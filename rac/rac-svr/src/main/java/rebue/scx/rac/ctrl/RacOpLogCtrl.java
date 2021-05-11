@@ -2,6 +2,7 @@ package rebue.scx.rac.ctrl;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.scx.rac.to.RacOpLogPageTo;
+import rebue.wheel.turing.JwtUtils;
 
 /**
  * 操作日志控制器
@@ -43,7 +45,7 @@ public class RacOpLogCtrl {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/op-log")
-    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOpLogAddTo to) {
+    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOpLogAddTo to,@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         return Mono.create(callback -> callback.success(api.add(to)));
     }
 

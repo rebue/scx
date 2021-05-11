@@ -21,7 +21,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
@@ -288,21 +287,34 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
 						.and(seqNo, isEqualToWhenPresent(record::getSeqNo))
 						.and(remark, isEqualToWhenPresent(record::getRemark)));
 	}
-	
+
 	/**
 	 * 查询角色并排序
+	 * 
 	 * @param record
 	 * @return
 	 */
-	@Select({ "<script> SELECT ro.* FROM RAC_ROLE ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
-	List<RacRoleMo> selectListRole(@Param(value = "record") RacRoleMo record);
-	
+	default List<RacRoleMo> selectListOrderByRole(RacRoleMo record) {
+		return select(c -> c.where(domainId, isEqualToWhenPresent(record::getDomainId)).orderBy(seqNo));
+	}
+//	/**
+//	 * 查询角色并排序
+//	 * 
+//	 * @param record
+//	 * @return
+//	 */
+//	@Select({
+//			"<script> SELECT ro.* FROM RAC_ROLE ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
+//	List<RacRoleMo> selectListOrderByRole(@Param(value = "record") RacRoleMo record);
+
 	/**
 	 * 因删除角色而进行的角色顺序号更新
+	 * 
 	 * @param record
 	 * @return
 	 */
-	@Update({ "<script>  UPDATE RAC_ROLE ro SET ro.SEQ_NO = (ro.SEQ_NO-1) WHERE ro.DOMAIN_ID=#{record.domainId} and ro.SEQ_NO > #{record.seqNo} </script>" })
-	int UpdateRoleByDelete(@Param(value = "record") RacRoleMo record);
+	@Update({
+			"<script>  UPDATE RAC_ROLE ro SET ro.SEQ_NO = (ro.SEQ_NO-1) WHERE ro.DOMAIN_ID=#{record.domainId} and ro.SEQ_NO > #{record.seqNo} </script>" })
+	int UpdateSeqNoByDeleteAfter(@Param(value = "record") RacRoleMo record);
 
 }

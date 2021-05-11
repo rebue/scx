@@ -37,4 +37,8 @@ public interface RacPermGroupSvc extends
 	void enable(RacPermGroupModifyTo qo);
 
 	void disable(RacPermGroupModifyTo qo);
+
+	void disableLinkage(RacPermGroupModifyTo to);
+
+	void enableLinkage(RacPermGroupModifyTo to);
 }

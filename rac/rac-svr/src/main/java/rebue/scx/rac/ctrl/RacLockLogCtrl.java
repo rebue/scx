@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.RacLockLogPageTo;
+import rebue.wheel.turing.JwtUtils;
 
 /**
  * 锁定日志控制器
@@ -44,8 +47,11 @@ public class RacLockLogCtrl {
      * @param to 添加的具体信息
      */
     @PostMapping("/rac/lock-log")
-    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacLockLogAddTo to) {
-    	to.setLockOpId(1L);
+    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacLockLogAddTo to,@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
+    	if (StringUtils.isBlank(jwtToken)) {
+            throw new IllegalArgumentException("在Cookie中找不到JWT签名");
+        }
+        to.setLockOpId(JwtUtils.getJwtAccountIdInSign(jwtToken));
     	to.setLockDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.add(to)));
     }
@@ -56,8 +62,11 @@ public class RacLockLogCtrl {
      * @param to 修改的具体数据
      */
     @PutMapping("/rac/lock-log")
-    public Mono<Ro<?>> modify(@RequestBody final RacLockLogModifyTo to) {
-    	to.setUnlockOpId(1L);
+    public Mono<Ro<?>> modify(@RequestBody final RacLockLogModifyTo to,@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
+    	if (StringUtils.isBlank(jwtToken)) {
+            throw new IllegalArgumentException("在Cookie中找不到JWT签名");
+        }
+        to.setLockOpId(JwtUtils.getJwtAccountIdInSign(jwtToken));
     	to.setUnlockDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.modify(to)));
     }

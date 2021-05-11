@@ -170,7 +170,7 @@ public class RacRoleSvcImpl extends
 			throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
 		}
 		// 删除后对其余角色进行顺序号更新
-		_mapper.UpdateRoleByDelete(qo);
+		_mapper.UpdateSeqNoByDeleteAfter(qo);
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class RacRoleSvcImpl extends
 	@Override
 	public List<RacRoleMo> list(RacRoleListTo qo) {
 		final RacRoleMo mo = _dozerMapper.map(qo, getMoClass());
-		return _mapper.selectListRole(mo);
+		return _mapper.selectListOrderByRole(mo);
 	}
 
 }

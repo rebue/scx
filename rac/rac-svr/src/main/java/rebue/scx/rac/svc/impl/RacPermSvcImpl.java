@@ -23,6 +23,7 @@ import rebue.scx.rac.svc.RacPermSvc;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermDelTo;
 import rebue.scx.rac.to.RacPermGroupListTo;
+import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermListTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermOneTo;
@@ -60,6 +61,7 @@ public class RacPermSvcImpl extends
 	@Resource
 	private RacPermSvc thisSvc;
 
+	@Lazy
 	@Resource
 	private RacPermGroupSvc permGroupSvc;
 
@@ -130,7 +132,7 @@ public class RacPermSvcImpl extends
 			throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
 		}
 		// 删除后对其余权限进行顺序号更新
-		_mapper.UpdatePermByDelete(qo);
+		_mapper.updateSeqNoByDeleteAfter(qo);
 	}
 
 	/**
@@ -189,6 +191,18 @@ public class RacPermSvcImpl extends
 	public void enable(RacPermModifyTo to) {
 		final RacPermMo mo = _dozerMapper.map(to, getMoClass());
 		_mapper.updateByPrimaryKeySelective(mo);
+		// 进行判断联动启用
+		RacPermMo qo = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		RacPermOneTo permTo = new RacPermOneTo();
+		permTo.setGroupId(qo.getGroupId());
+		permTo.setIsEnabled(to.getIsEnabled());
+		Long count = countSelective(permTo);
+		if (count > 0) {
+			RacPermGroupModifyTo permGroupModifyTo = new RacPermGroupModifyTo();
+			permGroupModifyTo.setId(qo.getGroupId());
+			permGroupModifyTo.setIsEnabled(qo.getIsEnabled());
+			permGroupSvc.enable(permGroupModifyTo);
+		}
 	}
 
 	/**
@@ -199,6 +213,18 @@ public class RacPermSvcImpl extends
 	public void disable(RacPermModifyTo to) {
 		final RacPermMo mo = _dozerMapper.map(to, getMoClass());
 		_mapper.updateByPrimaryKeySelective(mo);
+		// 进行判断联动禁用
+		RacPermMo qo = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+		RacPermOneTo permTo = new RacPermOneTo();
+		permTo.setGroupId(qo.getGroupId());
+		permTo.setIsEnabled(!to.getIsEnabled());
+		Long count = countSelective(permTo);
+		if (count == 0) {
+			RacPermGroupModifyTo permGroupModifyTo = new RacPermGroupModifyTo();
+			permGroupModifyTo.setId(qo.getGroupId());
+			permGroupModifyTo.setIsEnabled(qo.getIsEnabled());
+			permGroupSvc.disable(permGroupModifyTo);
+		}
 	}
 
 	/**
@@ -207,7 +233,17 @@ public class RacPermSvcImpl extends
 	@Override
 	public List<RacPermMo> list(RacPermListTo qo) {
 		final RacPermMo mo = _dozerMapper.map(qo, getMoClass());
-		return _mapper.selectPerm(mo);
+		return _mapper.selectOrderByPerm(mo);
 	}
 
+	/**
+	 * 根据groupId 修改是否启用/禁用权限
+	 * 
+	 * @param qo
+	 * @return
+	 */
+	@Override
+	public int updateByGroupId(RacPermMo qo) {
+		return _mapper.updateByGroupId(qo);
+	}
 }
