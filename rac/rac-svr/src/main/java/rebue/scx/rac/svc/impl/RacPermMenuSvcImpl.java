@@ -97,10 +97,10 @@ public class RacPermMenuSvcImpl extends
     @Override
     public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
         final List<RacPermMenuMo> list = _mapper.select(c -> c
-            .rightJoin(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
-            .rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
-            .rightJoin(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
-            .rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
+            .join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
+            .join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
+            .join(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
+            .join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
             .where(
                 racPermMenu.sysId, isEqualTo(sysId),
                 and(racAccountRole.accountId, isEqualTo(accountId)),

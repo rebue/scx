@@ -96,10 +96,10 @@ public class RacPermUrnSvcImpl extends
     @Override
     public List<String> getUrnsOfAccount(final Long accountId) {
         final List<RacPermUrnMo> list = _mapper.select(c -> c
-            .rightJoin(racPerm).on(racPerm.id, equalTo(racPermUrn.permId))
-            .rightJoin(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
-            .rightJoin(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
-            .rightJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
+            .join(racPerm).on(racPerm.id, equalTo(racPermUrn.permId))
+            .join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
+            .join(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
+            .join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
             .where(
                 racAccountRole.accountId, isEqualTo(accountId),
                 and(racPerm.isEnabled, isTrue()),
