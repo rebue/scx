@@ -6,6 +6,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 添加操作日志注解
+ *
+ * XXX 此注解放在API实现层
+ *
+ * @author zbz
+ *
+ */
 @Target({ ElementType.METHOD
 })
 @Retention(RetentionPolicy.RUNTIME)
