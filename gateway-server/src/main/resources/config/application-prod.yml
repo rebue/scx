@@ -13,9 +13,14 @@ spring:
             - name: SignPre
               args:
                 filter-urls:
-                  - "'/ctid/**'"
-#                ignore-urls:
-#                  - "'POST:/sgn/sign-in/**'"
+#                  - "'/ctid/**'"
+            - name: JwtPre
+              args:
+                filter-urls:
+                  - "'/sgn/**'"
+                  - "'/rac/**'"
+                ignore-urls:
+                  - "'POST:/rac/sign-in/**'"
   rabbitmq:
     host: 127.0.0.1
     port: 5672
