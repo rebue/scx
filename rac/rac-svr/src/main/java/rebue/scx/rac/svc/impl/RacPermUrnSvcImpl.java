@@ -1,5 +1,18 @@
 package rebue.scx.rac.svc.impl;
 
+import static org.mybatis.dynamic.sql.SqlBuilder.and;
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isTrue;
+import static rebue.scx.rac.mapper.RacAccountRoleDynamicSqlSupport.racAccountRole;
+import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
+import static rebue.scx.rac.mapper.RacPermUrnDynamicSqlSupport.racPermUrn;
+import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
+import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.racRolePerm;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -72,4 +85,26 @@ public class RacPermUrnSvcImpl extends
     protected BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> getThisSvc() {
         return thisSvc;
     }
+
+    /**
+     * 获取账户的菜单列表
+     *
+     * @param accountId 账户ID
+     *
+     * @return 指定账户的菜单列表
+     */
+    @Override
+    public List<String> getUrnsOfAccount(final Long accountId) {
+        final List<RacPermUrnMo> list = _mapper.select(c -> c
+            .join(racPerm).on(racPerm.id, equalTo(racPermUrn.permId))
+            .join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
+            .join(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
+            .join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
+            .where(
+                racAccountRole.accountId, isEqualTo(accountId),
+                and(racPerm.isEnabled, isTrue()),
+                and(racRole.isEnabled, isTrue())));
+        return list.stream().map(RacPermUrnMo::getUrn).distinct().collect(Collectors.toList());
+    }
+
 }

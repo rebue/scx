@@ -17,12 +17,14 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>sgn-api</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>jwt-api</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rrl-api</artifactId>

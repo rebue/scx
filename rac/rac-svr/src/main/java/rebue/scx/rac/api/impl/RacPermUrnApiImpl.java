@@ -1,8 +1,13 @@
 package rebue.scx.rac.api.impl;
 
+import java.util.List;
+
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.ListRa;
+import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacPermUrnApi;
 import rebue.scx.rac.jo.RacPermUrnJo;
 import rebue.scx.rac.mo.RacPermUrnMo;
@@ -23,4 +28,17 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
 public class RacPermUrnApiImpl extends
     BaseApiImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnSvc>
     implements RacPermUrnApi {
+
+    /**
+     * 获取账户的链接列表
+     *
+     * @param accountId 账户ID
+     *
+     * @return 指定账户的链接列表
+     */
+    @Override
+    public Ro<ListRa<String>> getUrnsOfAccount(final Long accountId) {
+        final List<String> urns = _svc.getUrnsOfAccount(accountId);
+        return new Ro<>(ResultDic.SUCCESS, "获取列表成功", new ListRa<>(urns));
+    }
 }
