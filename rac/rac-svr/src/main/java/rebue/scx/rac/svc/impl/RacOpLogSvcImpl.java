@@ -75,6 +75,9 @@ public class RacOpLogSvcImpl extends
 		return thisSvc;
 	}
 
+	/**
+	 * 分页查询日志
+	 */
 	@Override
 	public PageInfo<RacOpLogMo> page(RacOpLogPageTo qo) {
 		// final MO mo = _dozerMapper.map(qo, getMoClass());

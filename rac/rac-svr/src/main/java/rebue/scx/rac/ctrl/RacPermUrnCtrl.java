@@ -46,6 +46,16 @@ public class RacPermUrnCtrl {
     public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacPermUrnAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
     }
+    
+    /**
+     * 添加修改URN
+     *
+     * @param to 添加的具体信息
+     */
+    @PostMapping("/rac/perm-urn/modifyByPermId")
+    public Mono<Ro<?>> modifyByPermId(@RequestBody final RacPermUrnAddTo to) {
+        return Mono.create(callback -> callback.success(api.modifyByPermId(to)));
+    }
 
     /**
      * 修改权限URN的信息

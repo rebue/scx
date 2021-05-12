@@ -45,79 +45,68 @@ import rebue.scx.rac.to.RacLockLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacLockLogSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogMapper, RacLockLogDao>
-    implements RacLockLogSvc {
+		BaseSvcImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogMapper, RacLockLogDao>
+		implements RacLockLogSvc {
 
-    /**
-     * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Lazy
-    @Resource
-    private RacLockLogSvc thisSvc;
+	/**
+	 * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Lazy
+	@Resource
+	private RacLockLogSvc thisSvc;
 
-    /**
-     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected Class<RacLockLogMo> getMoClass() {
-        return RacLockLogMo.class;
-    }
+	/**
+	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected Class<RacLockLogMo> getMoClass() {
+		return RacLockLogMo.class;
+	}
 
-    /**
-     * 从接口获取本服务的单例(提供给基类调用)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected BaseSvc<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo> getThisSvc() {
-        return thisSvc;
-    }
+	/**
+	 * 从接口获取本服务的单例(提供给基类调用)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected BaseSvc<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo> getThisSvc() {
+		return thisSvc;
+	}
 
-//    @Override
-//    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-//    public RacLockLogMo modifyMoById(final RacLockLogMo mo) {
-//        final int rowCount = _mapper.updateByPrimaryKeySelectEx(mo);
-//        if (rowCount == 0) {
-//            throw new RuntimeExceptionX("修改记录异常，记录已不存在或有变动");
-//        }
-//        if (rowCount != 1) {
-//            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
-//        }
-//        // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
-//        return getById(mo.getId());
-//    }
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacLockLogMo updateLockLog(RacLockLogMo qo) {
-    	final int rowCount = _mapper.updateByPrimaryKeySelectEx(qo);
-		if(rowCount==0) {
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public RacLockLogMo updateLockLog(RacLockLogMo qo) {
+		final int rowCount = _mapper.updateByPrimaryKeySelectEx(qo);
+		if (rowCount == 0) {
 			RacLockLogAddTo ato = new RacLockLogAddTo();
 			ato.setDomainId(qo.getDomainId());
 			ato.setLockOpId(0L);
 			ato.setLockDatetime(LocalDateTime.now());
-			ato.setLockReason("系统未找到锁定记录");	
+			ato.setLockReason("系统未找到锁定记录");
 			ato.setLockAccountId(qo.getLockAccountId());
-			
-			//ato.setLockAccountId(qo.getLockAccountId());
+
+			// ato.setLockAccountId(qo.getLockAccountId());
 			ato.setUnlockOpId(qo.getUnlockOpId());
 			ato.setUnlockDatetime(LocalDateTime.now());
 			ato.setUnlockReason(qo.getUnlockReason());
 			thisSvc.add(ato);// 系统未找到锁定记录时添加锁定日志
 		}
-         // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
-         return this.getById(qo.getId());
-    }
+		// XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
+		return this.getById(qo.getId());
+	}
 
-    @Override
-    public PageInfo<RacLockLogMo> page(final RacLockLogPageTo qo) {
-        // final MO mo = _dozerMapper.map(qo, getMoClass());
-        final ISelect select = () -> _mapper.selectEx(qo);
-        return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-    }
-
+	/**
+	 * 分页查询日志
+	 */
+	@Override
+	public PageInfo<RacLockLogMo> page(final RacLockLogPageTo qo) {
+		// final MO mo = _dozerMapper.map(qo, getMoClass());
+		final ISelect select = () -> _mapper.selectEx(qo);
+		return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+	}
 
 }
