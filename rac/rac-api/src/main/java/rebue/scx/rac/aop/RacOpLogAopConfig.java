@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
@@ -24,6 +26,7 @@ import rebue.scx.rac.pub.RacPub;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.wheel.turing.JwtUtils;
 
+@Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
 public class RacOpLogAopConfig {
@@ -53,24 +56,31 @@ public class RacOpLogAopConfig {
         }
 
         if (StringUtils.isNoneBlank(sign, sysId)) {
-            final Ro<?> ro = (Ro<?>) result;
-            if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                final Long accountId = JwtUtils.getJwtAccountIdInSign(sign);
-                if (accountId != null) {
-                    final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-                    final Method          method          = methodSignature.getMethod();
-                    final RacOpLog        annotation      = method.getAnnotation(RacOpLog.class);
+            final String      signFinal  = sign;
+            final String      sysIdFinal = sysId;
 
-                    final RacOpLogAddTo   to              = new RacOpLogAddTo();
-                    to.setOpType(annotation.opType());
-                    to.setOpTitle(annotation.opTitle());
-                    to.setOpDetail(annotation.opDetail());
-                    to.setAccountId(accountId);
-                    to.setSysId(sysId);
-                    to.setOpDatetime(LocalDateTime.now());
-                    racPub.addOpLog(to);
+            @SuppressWarnings("unchecked")
+            final Mono<Ro<?>> mono       = (Mono<Ro<?>>) result;
+            // final Ro<?> ro = mono.block();
+            mono.subscribe(ro -> {
+                if (ResultDic.SUCCESS.equals(ro.getResult())) {
+                    final Long accountId = JwtUtils.getJwtAccountIdInSign(signFinal);
+                    if (accountId != null) {
+                        final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+                        final Method          method          = methodSignature.getMethod();
+                        final RacOpLog        annotation      = method.getAnnotation(RacOpLog.class);
+
+                        final RacOpLogAddTo   to              = new RacOpLogAddTo();
+                        to.setOpType(annotation.opType());
+                        to.setOpTitle(annotation.opTitle());
+                        to.setOpDetail(annotation.opDetail());
+                        to.setAccountId(accountId);
+                        to.setSysId(sysIdFinal);
+                        to.setOpDatetime(LocalDateTime.now());
+                        racPub.addOpLog(to);
+                    }
                 }
-            }
+            });
         }
         return result;
     }

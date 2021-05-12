@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * 添加操作日志注解
  *
- * XXX 此注解放在API实现层
+ * XXX 此注解放在控制器层的方法上
  *
  * @author zbz
  *
