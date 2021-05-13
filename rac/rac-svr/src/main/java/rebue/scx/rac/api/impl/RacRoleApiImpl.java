@@ -26,30 +26,44 @@ import rebue.scx.rac.to.RacRolePageTo;
 public class RacRoleApiImpl extends
 		BaseApiImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleSvc>
 		implements RacRoleApi {
-
+	/**
+	 * 查询角色
+	 */
 	@Override
 	public Ro<ListRa<RacRoleMo>> list(RacRoleListTo qo) {
 		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
 	}
 
+	/**
+	 * 上移动
+	 */
 	@Override
 	public Ro<?> moveUp(RacRoleModifyTo qo) {
 		_svc.moveUp(qo);
 		return new Ro<>(ResultDic.SUCCESS, "上移成功");
 	}
 
+	/**
+	 * 下移动
+	 */
 	@Override
 	public Ro<?> moveDown(RacRoleModifyTo qo) {
 		_svc.moveDown(qo);
 		return new Ro<>(ResultDic.SUCCESS, "下移成功");
 	}
 
+	/**
+	 * 启用角色
+	 */
 	@Override
 	public Ro<?> enable(RacRoleModifyTo qo) {
 		_svc.enable(qo);
 		return new Ro<>(ResultDic.SUCCESS, "启用角色成功");
 	}
 
+	/**
+	 * 禁用角色
+	 */
 	@Override
 	public Ro<?> disable(RacRoleModifyTo qo) {
 		_svc.disable(qo);

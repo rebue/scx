@@ -53,58 +53,73 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermUrnSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao>
-    implements RacPermUrnSvc {
+		BaseSvcImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnMapper, RacPermUrnDao>
+		implements RacPermUrnSvc {
 
-    /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Lazy
-    @Resource
-    private RacPermUrnSvc thisSvc;
+	/**
+	 * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Lazy
+	@Resource
+	private RacPermUrnSvc thisSvc;
 
-    /**
-     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected Class<RacPermUrnMo> getMoClass() {
-        return RacPermUrnMo.class;
-    }
+	/**
+	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected Class<RacPermUrnMo> getMoClass() {
+		return RacPermUrnMo.class;
+	}
 
-    /**
-     * 从接口获取本服务的单例(提供给基类调用)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> getThisSvc() {
-        return thisSvc;
-    }
+	/**
+	 * 从接口获取本服务的单例(提供给基类调用)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> getThisSvc() {
+		return thisSvc;
+	}
 
-    /**
-     * 获取账户的菜单列表
-     *
-     * @param accountId 账户ID
-     *
-     * @return 指定账户的菜单列表
-     */
-    @Override
-    public List<String> getUrnsOfAccount(final Long accountId) {
-        final List<RacPermUrnMo> list = _mapper.select(c -> c
-            .join(racPerm).on(racPerm.id, equalTo(racPermUrn.permId))
-            .join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
-            .join(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
-            .join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
-            .where(
-                racAccountRole.accountId, isEqualTo(accountId),
-                and(racPerm.isEnabled, isTrue()),
-                and(racRole.isEnabled, isTrue())));
-        return list.stream().map(RacPermUrnMo::getUrn).distinct().collect(Collectors.toList());
-    }
+	/**
+	 * 添加修改URN
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void modifyByPermId(RacPermUrnAddTo to) {
+		// 先删除
+		final RacPermUrnMo delMo = new RacPermUrnMo();
+		delMo.setPermId(to.getPermId());
+		_mapper.deleteSelective(delMo);
+		List<String> urns = to.getUrn();
+		// 后添加
+		for (String urn : urns) {
+			final RacPermUrnMo mo = new RacPermUrnMo();
+			mo.setPermId(to.getPermId());
+			mo.setUrn(urn);
+			getThisSvc().addMo(mo);
+		}
+	}
+
+	/**
+	 * 获取账户的菜单列表
+	 *
+	 * @param accountId 账户ID
+	 *
+	 * @return 指定账户的菜单列表
+	 */
+	@Override
+	public List<String> getUrnsOfAccount(final Long accountId) {
+		final List<RacPermUrnMo> list = _mapper.select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermUrn.permId))
+				.join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
+				.on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole)
+				.on(racAccountRole.roleId, equalTo(racRole.id)).where(racAccountRole.accountId, isEqualTo(accountId),
+						and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
+		return list.stream().map(RacPermUrnMo::getUrn).distinct().collect(Collectors.toList());
+	}
 
 }

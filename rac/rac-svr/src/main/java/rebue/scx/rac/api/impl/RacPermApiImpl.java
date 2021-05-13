@@ -37,24 +37,36 @@ public class RacPermApiImpl extends
 		return _svc.listWithGroup(domainId);
 	}
 
+	/**
+	 * 上移动
+	 */
 	@Override
 	public Ro<?> moveUp(RacPermModifyTo qo) {
 		_svc.moveUp(qo);
 		return new Ro<>(ResultDic.SUCCESS, "上移成功");
 	}
 
+	/**
+	 * 下移动
+	 */
 	@Override
 	public Ro<?> moveDown(RacPermModifyTo qo) {
 		_svc.moveDown(qo);
 		return new Ro<>(ResultDic.SUCCESS, "下移成功");
 	}
 
+	/**
+	 * 启用权限
+	 */
 	@Override
 	public Ro<?> enable(RacPermModifyTo qo) {
 		_svc.enable(qo);
 		return new Ro<>(ResultDic.SUCCESS, "启用权限成功");
 	}
 
+	/**
+	 * 禁用权限
+	 */
 	@Override
 	public Ro<?> disable(RacPermModifyTo qo) {
 		_svc.disable(qo);

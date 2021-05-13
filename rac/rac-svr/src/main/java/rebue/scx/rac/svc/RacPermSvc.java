@@ -39,13 +39,28 @@ public interface RacPermSvc extends
 	 */
 	Ro<PermListWithGroupRa> listWithGroup(String domainId);
 
+	/**
+	 * 上移动
+	 */
 	void moveUp(RacPermModifyTo qo);
 
+	/**
+	 * 下移动
+	 */
 	void moveDown(RacPermModifyTo qo);
 
+	/**
+	 * 启用权限
+	 */
 	void enable(RacPermModifyTo qo);
 
+	/**
+	 * 禁用权限
+	 */
 	void disable(RacPermModifyTo qo);
 
+	/**
+	 * 根据groupId 修改是否启用/禁用权限
+	 */
 	int updateByGroupId(RacPermMo qo);
 }

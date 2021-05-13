@@ -25,25 +25,36 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
 public class RacPermGroupApiImpl extends
 		BaseApiImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupSvc>
 		implements RacPermGroupApi {
-
+	/**
+	 * 上移
+	 */
 	@Override
 	public Ro<?> moveUp(RacPermGroupModifyTo qo) {
 		_svc.moveUp(qo);
 		return new Ro<>(ResultDic.SUCCESS, "上移成功");
 	}
 
+	/**
+	 * 下移
+	 */
 	@Override
 	public Ro<?> moveDown(RacPermGroupModifyTo qo) {
 		_svc.moveDown(qo);
 		return new Ro<>(ResultDic.SUCCESS, "下移成功");
 	}
 
+	/**
+	 * 启用权限
+	 */
 	@Override
 	public Ro<?> enable(RacPermGroupModifyTo qo) {
 		_svc.enableLinkage(qo);
 		return new Ro<>(ResultDic.SUCCESS, "启用权限分组成功");
 	}
 
+	/**
+	 * 禁用权限
+	 */
 	@Override
 	public Ro<?> disable(RacPermGroupModifyTo qo) {
 		_svc.disableLinkage(qo);

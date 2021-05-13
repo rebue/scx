@@ -15,18 +15,30 @@ import rebue.scx.rac.to.RacPermPageTo;
  */
 public interface RacPermApi extends BaseApi<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermPageTo, RacPermMo> {
 
-    /**
-     * 查询带分组的权限列表
-     *
-     * @param domainId 领域ID
-     */
-    Ro<PermListWithGroupRa> listWithGroup(String domainId);
+	/**
+	 * 查询带分组的权限列表
+	 *
+	 * @param domainId 领域ID
+	 */
+	Ro<PermListWithGroupRa> listWithGroup(String domainId);
 
+	/**
+	 * 上移动
+	 */
 	Ro<?> moveUp(RacPermModifyTo qo);
 
+	/**
+	 * 下移动
+	 */
 	Ro<?> moveDown(RacPermModifyTo qo);
 
+	/**
+	 * 启用权限
+	 */
 	Ro<?> enable(RacPermModifyTo qo);
 
+	/**
+	 * 禁用权限
+	 */
 	Ro<?> disable(RacPermModifyTo qo);
 }
