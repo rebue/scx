@@ -72,11 +72,32 @@ public class RacOrgSvcImpl extends
 		return thisSvc;
 	}
 
+	/**
+	 * 添加记录
+	 *
+	 * @param to 添加的参数
+	 *
+	 * @return 如果成功，且仅添加一条记录，返回添加时自动生成的ID，否则会抛出运行时异常
+	 */
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public RacOrgMo add(RacOrgAddTo to) {
 		final RacOrgMo mo = _dozerMapper.map(to, getMoClass());
 		// mo中需要添加一个树编码
-		mo.setTreeCode("000");
+		if (to.getParentId() == null) {
+			final RacOrgMo qo = new RacOrgMo();
+			qo.setParentId(null);
+			Long count = _mapper.getCount(qo);
+			mo.setTreeCode("00" + count);
+		}
+		if (to.getParentId() != null) {
+			final RacOrgMo orgMo = thisSvc.getById(to.getParentId());
+			final String treeCode = orgMo.getTreeCode();
+			final RacOrgOneTo qo = new RacOrgOneTo();
+			qo.setParentId(to.getParentId());
+			Long count = thisSvc.countSelective(qo);
+			mo.setTreeCode(treeCode + "00" + count);
+		}
 		return getThisSvc().addMo(mo);
 	}
 
