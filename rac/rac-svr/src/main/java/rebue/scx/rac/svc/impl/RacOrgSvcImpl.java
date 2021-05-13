@@ -76,6 +76,7 @@ public class RacOrgSvcImpl extends
 	public RacOrgMo add(RacOrgAddTo to) {
 		final RacOrgMo mo = _dozerMapper.map(to, getMoClass());
 		// mo中需要添加一个树编码
+		mo.setTreeCode("000");
 		return getThisSvc().addMo(mo);
 	}
 

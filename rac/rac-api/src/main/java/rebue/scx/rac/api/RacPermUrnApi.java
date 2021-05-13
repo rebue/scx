@@ -5,6 +5,7 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.to.RacPermUrnAddTo;
+import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.scx.rac.to.RacPermUrnPageTo;
 
@@ -29,5 +30,12 @@ public interface RacPermUrnApi
 	 * 添加修改URN
 	 */
 	Ro<?> modifyByPermId(RacPermUrnAddTo to);
+
+	/**
+	 * 通过permId查询权限URN的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	Ro<ListRa<RacPermUrnMo>> list(RacPermUrnListTo qo);
 
 }

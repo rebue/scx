@@ -51,4 +51,14 @@ public class RacPermUrnApiImpl extends
 		return new Ro<>(ResultDic.SUCCESS, "修改成功");
 	}
 
+	/**
+	 * 通过permId查询权限URN的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@Override
+	public Ro<ListRa<RacPermUrnMo>> list(RacPermUrnListTo qo) {
+		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
+	}
+
 }
