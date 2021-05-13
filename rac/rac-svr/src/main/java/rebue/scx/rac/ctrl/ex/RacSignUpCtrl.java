@@ -3,8 +3,8 @@ package rebue.scx.rac.ctrl.ex;
 import static rebue.scx.rac.ctrl.ex.SignUpOrInCtrlCommon.jwtSignWithCookie;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,11 +29,12 @@ public class RacSignUpCtrl {
      * 通过账户名称注册
      */
     @PostMapping("/rac/sign-up/sign-up-by-account-name")
-    public Mono<Ro<SignUpOrInRa>> signUpByAccountName(@RequestBody final SignUpByAccountNameTo to, HttpServletResponse resp) {
+    public Mono<Ro<SignUpOrInRa>> signUpByAccountName(@RequestBody final SignUpByAccountNameTo to, final ServerHttpResponse resp) {
         return Mono.create(callback -> {
-            Ro<SignUpOrInRa> ro = api.signUpByAccountName(to);
-            if (ResultDic.SUCCESS.equals(ro.getResult()))
+            final Ro<SignUpOrInRa> ro = api.signUpByAccountName(to);
+            if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
+            }
             callback.success(ro);
         });
     }
