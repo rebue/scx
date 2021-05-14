@@ -10,6 +10,7 @@ import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
@@ -36,68 +37,76 @@ import rebue.scx.rac.to.RacAccountPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacAccountSvc
-    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+public interface RacAccountSvc extends
+		BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
-    /**
-     * 修改账户登录密码
-     *
-     * @param to 修改账户登录密码的具体数据
-     */
-    void modifySignInPswd(@Valid RacAccountModifySignInPswdTo to);
+	/**
+	 * 修改账户登录密码
+	 *
+	 * @param to 修改账户登录密码的具体数据
+	 */
+	void modifySignInPswd(@Valid RacAccountModifySignInPswdTo to);
 
-    /**
-     * 启用账户
-     *
-     * @param to 启用的具体数据
-     */
-    void enable(@Valid RacAccountEnableTo to);
-    
-    /**
-     * 禁用账户
-     *
-     * @param to 禁用的具体数据
-     */
-    void disable(RacAccountDisableTo to);
+	/**
+	 * 启用账户
+	 *
+	 * @param to 启用的具体数据
+	 */
+	void enable(@Valid RacAccountEnableTo to);
 
-    /**
-     * 通过email获取账户信息
-     *
-     * @param domainId 领域ID
-     * @param email    电子邮箱
-     *
-     * @return 账户信息
-     */
-    RacAccountMo getOneByEmail(@NotBlank String domainId, @NotBlank String email);
+	/**
+	 * 禁用账户
+	 *
+	 * @param to 禁用的具体数据
+	 */
+	void disable(RacAccountDisableTo to);
 
-    /**
-     * 通过手机号获取账户信息
-     *
-     * @param domainId 领域ID
-     * @param mobile   手机号
-     *
-     * @return 账户信息
-     */
-    RacAccountMo getOneByMobile(@NotBlank String domainId, @NotBlank String mobile);
+	/**
+	 * 通过email获取账户信息
+	 *
+	 * @param domainId 领域ID
+	 * @param email    电子邮箱
+	 *
+	 * @return 账户信息
+	 */
+	RacAccountMo getOneByEmail(@NotBlank String domainId, @NotBlank String email);
 
-    /**
-     * 通过登录名称获取账户信息
-     *
-     * @param domainId   领域ID
-     * @param signInName 登录名称
-     *
-     * @return 账户信息
-     */
-    RacAccountMo getOneBySignInName(@NotBlank String domainId, @NotBlank String signInName);
+	/**
+	 * 通过手机号获取账户信息
+	 *
+	 * @param domainId 领域ID
+	 * @param mobile   手机号
+	 *
+	 * @return 账户信息
+	 */
+	RacAccountMo getOneByMobile(@NotBlank String domainId, @NotBlank String mobile);
 
-    /**
-     * 获取当前账户信息
-     *
-     * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
-     *
-     * @return 当前账户信息
-     */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, @NotBlank String sysId);
+	/**
+	 * 通过登录名称获取账户信息
+	 *
+	 * @param domainId   领域ID
+	 * @param signInName 登录名称
+	 *
+	 * @return 账户信息
+	 */
+	RacAccountMo getOneBySignInName(@NotBlank String domainId, @NotBlank String signInName);
+
+	/**
+	 * 获取当前账户信息
+	 *
+	 * @param curAccountId 当前账户ID
+	 * @param sysId        系统ID
+	 *
+	 * @return 当前账户信息
+	 */
+	Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, @NotBlank String sysId);
+
+	/**
+	 * 根据domainId和orgId查询账户的信息
+	 *
+	 * @param qo 查询的具体条件
+	 *
+	 */
+	Ro<RacAccountAndIdsMo> listByDomainIdOrOrgId(RacAccountListTo qo);
 
 }

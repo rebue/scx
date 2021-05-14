@@ -8,6 +8,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -27,8 +29,11 @@ import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacAccountDao;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mapper.RacAccountMapper;
+import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacLockLogMo;
+import rebue.scx.rac.mo.RacOrgAccountMo;
+import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacLockLogSvc;
@@ -81,6 +86,8 @@ public class RacAccountSvcImpl extends
 	private RacPermMenuSvc permMenuSvc;
 	@Resource
 	private RacLockLogSvc lockLogSvc;
+	@Resource
+	private RacOrgAccountMapper orgAccountMapper;
 
 	/**
 	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -135,6 +142,39 @@ public class RacAccountSvcImpl extends
 	}
 
 	/**
+	 * 根据domainId和orgId查询账户的信息
+	 *
+	 * @param qo 查询的具体条件
+	 *
+	 */
+	@Override
+	public Ro<RacAccountAndIdsMo> listByDomainIdOrOrgId(RacAccountListTo qo) {
+		// 先查询所有用户
+		final RacOrgAccountMo orgQo = new RacOrgAccountMo();
+		orgQo.setOrgId(qo.getOrgId());
+		List<RacOrgAccountMo> orgAccountList = orgAccountMapper.selectSelective(orgQo);
+		final RacAccountListTo accountQo = new RacAccountListTo();
+		accountQo.setDomainId(qo.getDomainId());
+		List<RacAccountMo> accountList = thisSvc.list(accountQo);
+		// 提取符合当前组织下的账户
+		List<Long> orgIds = new ArrayList<Long>();
+		for (RacOrgAccountMo racOrgAccountMo : orgAccountList) {
+			orgIds.add(racOrgAccountMo.getAccountId());
+		}
+		for (RacAccountMo racAccountMo : accountList) {
+			if (racAccountMo.getOrgId() == qo.getOrgId()) {
+				orgIds.add(racAccountMo.getOrgId());
+			}
+		}
+		// 添加到RacAccountAndIdsMo中返回
+		final RacAccountAndIdsMo racAccountAndIds = new RacAccountAndIdsMo();
+		racAccountAndIds.setOrgIds(orgIds);
+		racAccountAndIds.setIds(orgAccountList);
+		racAccountAndIds.setList(accountList);
+		return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", racAccountAndIds);
+	}
+
+	/**
 	 * 启用账户
 	 *
 	 * @param to 启用的具体数据
@@ -156,6 +196,7 @@ public class RacAccountSvcImpl extends
 			_mapper.updateByPrimaryKeySelective(mo);
 		}
 	}
+
 	/**
 	 * 禁用账户
 	 *
@@ -172,10 +213,10 @@ public class RacAccountSvcImpl extends
 			ato.setDomainId(to.getDomainId());
 			ato.setLockOpId(to.getLockOpId());
 			ato.setLockDatetime(LocalDateTime.now());
-			ato.setLockReason(to.getLockReason());	
+			ato.setLockReason(to.getLockReason());
 			ato.setLockAccountId(to.getLockAccountId());
 			lockLogSvc.add(ato);// 禁用时添加锁定日志
-			_mapper.updateByPrimaryKeySelective(mo);			
+			_mapper.updateByPrimaryKeySelective(mo);
 		}
 	}
 

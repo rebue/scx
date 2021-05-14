@@ -5,6 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacOrgJo;
 import rebue.scx.rac.mo.RacOrgMo;
+import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgDelTo;
 import rebue.scx.rac.to.RacOrgListTo;
@@ -27,5 +28,12 @@ import rebue.scx.rac.to.RacOrgPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacOrgSvc extends BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> {
+public interface RacOrgSvc extends
+		BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> {
+	/**
+	 * 添加组织账户
+	 *
+	 * @param to 添加的具体信息
+	 */
+	void addOrgAccount(RacOrgAccountAddTo to);
 }

@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -11,15 +13,19 @@ import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacOrgDao;
 import rebue.scx.rac.jo.RacOrgJo;
+import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mapper.RacOrgMapper;
+import rebue.scx.rac.mo.RacOrgAccountMo;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.svc.RacOrgSvc;
+import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgDelTo;
 import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.wheel.core.exception.RuntimeExceptionX;
 
 /**
  * 组织服务实现
@@ -51,6 +57,8 @@ public class RacOrgSvcImpl extends
 	@Lazy
 	@Resource
 	private RacOrgSvc thisSvc;
+	@Resource
+	private RacOrgAccountMapper orgAccountMapper;
 
 	/**
 	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -112,13 +120,35 @@ public class RacOrgSvcImpl extends
 			} else if (count >= 10 && count < 100) {
 				treeCode2 = "0" + count;
 			} else if (count >= 100 && count < 1000) {
-				treeCode2 = count+"";
+				treeCode2 = count + "";
 			} else {
 				throw new RuntimeException("系统繁忙，请尽快联系管理员处理");
 			}
 			mo.setTreeCode(treeCode1 + treeCode2);
 		}
 		return getThisSvc().addMo(mo);
+	}
+
+	/**
+	 * 添加组织账户
+	 *
+	 * @param to 添加的具体信息
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void addOrgAccount(RacOrgAccountAddTo to) {
+		List<Long> lists = to.getAccountId();
+		for (Long list : lists) {
+			final RacOrgAccountMo mo = new RacOrgAccountMo();
+			// 如果id为空那么自动生成分布式id
+			mo.setId(_idWorker.getId());
+			mo.setOrgId(to.getOrgId());
+			mo.setAccountId(list);
+			final int rowCount = orgAccountMapper.insertSelective(mo);
+			if (rowCount != 1) {
+				throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
+			}
+		}
 	}
 
 }

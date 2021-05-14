@@ -8,6 +8,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
@@ -27,52 +28,64 @@ import rebue.scx.rac.to.RacAccountPageTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-    implements RacAccountApi {
+		BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+		implements RacAccountApi {
 
-    /**
-     * 修改账户登录密码
-     *
-     * @param to 修改账户登录密码的具体数据
-     */
-    @Override
-    public Ro<?> modifySignInPswd(RacAccountModifySignInPswdTo to) {
-        _svc.modifySignInPswd(to);
-        return new Ro<>(ResultDic.SUCCESS, "修改成功");
-    }
+	/**
+	 * 修改账户登录密码
+	 *
+	 * @param to 修改账户登录密码的具体数据
+	 */
+	@Override
+	public Ro<?> modifySignInPswd(RacAccountModifySignInPswdTo to) {
+		_svc.modifySignInPswd(to);
+		return new Ro<>(ResultDic.SUCCESS, "修改成功");
+	}
 
-    /**
-     * 启用账户
-     *
-     * @param to 启用的具体数据
-     */
-    @Override
-    public Ro<?> enable(RacAccountEnableTo to) {
-        _svc.enable(to);
-        return new Ro<>(ResultDic.SUCCESS, "启用账户成功");
-    }
+	/**
+	 * 启用账户
+	 *
+	 * @param to 启用的具体数据
+	 */
+	@Override
+	public Ro<?> enable(RacAccountEnableTo to) {
+		_svc.enable(to);
+		return new Ro<>(ResultDic.SUCCESS, "启用账户成功");
+	}
 
-    /**
-     * 禁用账户
-     *
-     * @param to 禁用的具体数据
-     */
-    @Override
-    public Ro<?> disable(RacAccountDisableTo to) {
-    	_svc.disable(to);
-        return new Ro<>(ResultDic.SUCCESS, "禁用账户成功");
-    }
-    /**
-     * 获取当前账户信息
-     *
-     * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
-     *
-     * @return 当前账户信息
-     */
-    @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
-        return _svc.getCurAccountInfo(curAccountId, sysId);
-    }
+	/**
+	 * 禁用账户
+	 *
+	 * @param to 禁用的具体数据
+	 */
+	@Override
+	public Ro<?> disable(RacAccountDisableTo to) {
+		_svc.disable(to);
+		return new Ro<>(ResultDic.SUCCESS, "禁用账户成功");
+	}
+
+	/**
+	 * 根据domainId和orgId查询账户的信息
+	 *
+	 * @param qo 查询的具体条件
+	 *
+	 */
+	@Override
+	public Ro<RacAccountAndIdsMo> list(RacAccountListTo qo) {
+		return _svc.listByDomainIdOrOrgId(qo);
+	}
+
+	/**
+	 * 获取当前账户信息
+	 *
+	 * @param curAccountId 当前账户ID
+	 * @param sysId        系统ID
+	 *
+	 * @return 当前账户信息
+	 */
+	@Override
+	public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
+		return _svc.getCurAccountInfo(curAccountId, sysId);
+	}
 
 }
