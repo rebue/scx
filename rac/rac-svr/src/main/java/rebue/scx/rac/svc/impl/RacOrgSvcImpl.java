@@ -88,15 +88,35 @@ public class RacOrgSvcImpl extends
 			final RacOrgMo qo = new RacOrgMo();
 			qo.setParentId(null);
 			Long count = _mapper.getCount(qo);
-			mo.setTreeCode("00" + count);
+			String treeCode = "";
+			if (count < 10) {
+				treeCode = "00" + count;
+			} else if (count >= 10 && count < 100) {
+				treeCode = "0" + count;
+			} else if (count >= 100 && count < 1000) {
+				treeCode = count.toString();
+			} else {
+				throw new RuntimeException("系统繁忙，请尽快联系管理员处理");
+			}
+			mo.setTreeCode(treeCode);
 		}
 		if (to.getParentId() != null) {
 			final RacOrgMo orgMo = thisSvc.getById(to.getParentId());
-			final String treeCode = orgMo.getTreeCode();
+			final String treeCode1 = orgMo.getTreeCode();
 			final RacOrgOneTo qo = new RacOrgOneTo();
 			qo.setParentId(to.getParentId());
 			Long count = thisSvc.countSelective(qo);
-			mo.setTreeCode(treeCode + "00" + count);
+			String treeCode2 = "";
+			if (count < 10) {
+				treeCode2 = "00" + count;
+			} else if (count >= 10 && count < 100) {
+				treeCode2 = "0" + count;
+			} else if (count >= 100 && count < 1000) {
+				treeCode2 = count+"";
+			} else {
+				throw new RuntimeException("系统繁忙，请尽快联系管理员处理");
+			}
+			mo.setTreeCode(treeCode1 + treeCode2);
 		}
 		return getThisSvc().addMo(mo);
 	}
