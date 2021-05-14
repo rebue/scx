@@ -49,13 +49,22 @@ public class RacOrgCtrl {
 	}
 
 	/**
-	 * 添加组织账户
+	 * 添加组织和账户的关系
 	 *
 	 * @param to 添加的具体信息
 	 */
 	@PostMapping("/rac/org/addOrgAccount")
 	public Mono<Ro<?>> addOrgAccount(@RequestBody final RacOrgAccountAddTo to) {
 		return Mono.create(callback -> callback.success(api.addOrgAccount(to)));
+	}
+	/**
+	 * 删除组织和账户的关系
+	 *
+	 * @param to 删除的具体信息
+	 */
+	@PostMapping("/rac/org/delOrgAccount")
+	public Mono<Ro<?>> delOrgAccount( @RequestParam("id") final java.lang.Long id) {
+		return Mono.create(callback -> callback.success(api.del(id)));
 	}
 
 	/**
