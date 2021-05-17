@@ -326,4 +326,32 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
 	default long getCount(RacOrgMo record) {
 		return count(c -> c.where(parentId, SqlBuilder.isNull()));
 	}
+	/**
+	 * 查询根组织
+	 */
+	default List<RacOrgMo> selectByDomainId(RacOrgMo record) {
+		return select(
+				c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
+						.and(parentId, SqlBuilder.isNull())
+						.and(domainId, isEqualToWhenPresent(record::getDomainId))
+						.and(orgType, isEqualToWhenPresent(record::getOrgType))
+						.and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+						.and(fullName, isEqualToWhenPresent(record::getFullName))
+						.and(introduction, isEqualToWhenPresent(record::getIntroduction))
+						.and(remark, isEqualToWhenPresent(record::getRemark)));
+	}
+	/**
+	 * 查询根组织
+	 */
+	default List<RacOrgMo> selectByDomainIdEx(RacOrgMo record) {
+		return select(
+				c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
+						.and(parentId, SqlBuilder.isNotNull())
+						.and(domainId, isEqualToWhenPresent(record::getDomainId))
+						.and(orgType, isEqualToWhenPresent(record::getOrgType))
+						.and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+						.and(fullName, isEqualToWhenPresent(record::getFullName))
+						.and(introduction, isEqualToWhenPresent(record::getIntroduction))
+						.and(remark, isEqualToWhenPresent(record::getRemark)));
+	}
 }

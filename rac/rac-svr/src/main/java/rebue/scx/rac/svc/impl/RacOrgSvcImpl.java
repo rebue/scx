@@ -1,6 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacOrgDao;
@@ -16,9 +20,11 @@ import rebue.scx.rac.jo.RacOrgJo;
 import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mapper.RacOrgMapper;
 import rebue.scx.rac.mo.RacOrgAccountMo;
+import rebue.scx.rac.mo.RacOrgLeafMo;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
+import rebue.scx.rac.to.RacOrgAccountDelTo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgDelTo;
 import rebue.scx.rac.to.RacOrgListTo;
@@ -130,7 +136,7 @@ public class RacOrgSvcImpl extends
 	}
 
 	/**
-	 * 添加组织账户
+	 * 添加组织账户关系
 	 *
 	 * @param to 添加的具体信息
 	 */
@@ -149,6 +155,69 @@ public class RacOrgSvcImpl extends
 				throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
 			}
 		}
+	}
+
+	/**
+	 * 删除组织账户关系
+	 *
+	 * @param to 添加的具体信息
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void delOrgAccount(RacOrgAccountDelTo to) {
+		List<Long> accountIds = to.getAccountIds();
+		for (Long accountId : accountIds) {
+			final RacOrgAccountMo mo = new RacOrgAccountMo();
+			mo.setAccountId(accountId);
+			mo.setOrgId(to.getOrgId());
+			orgAccountMapper.deleteSelective(mo);
+		}
+	}
+
+	@Override
+	public PageInfo<RacOrgMo> page(ISelect select, Integer pageNum, Integer pageSize, String orderBy) {
+		// TODO Auto-generated method stub
+		return super.page(select, pageNum, pageSize, orderBy);
+	}
+
+	/**
+	 * 分页查询列表
+	 *
+	 * @param qo 查询条件
+	 *
+	 * @return 查询到的分页信息
+	 */
+	@Override
+	public PageInfo<RacOrgMo> page(RacOrgPageTo qo) {
+		final RacOrgMo mo = _dozerMapper.map(qo, getMoClass());
+		final ISelect select = () -> _mapper.selectByDomainId(mo);
+		PageInfo<RacOrgMo> orgMo = getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+		List<RacOrgMo> list = orgMo.getList().stream().map(item -> {
+			RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
+			RacOrgMo existQo = new RacOrgMo();
+			existQo.setParentId(racOrgLeafMo.getId());
+			racOrgLeafMo.setIsLeaf(!_mapper.existSelective(existQo));
+			return racOrgLeafMo;
+		}).collect(Collectors.toList());
+		orgMo.setList(list);
+		return orgMo;
+	}
+
+	/**
+	 * 查询组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@Override
+	public List<RacOrgMo> list(RacOrgListTo qo) {
+		List<RacOrgMo> list = super.list(qo);
+		return list.stream().map(item -> {
+			RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
+			RacOrgMo existQo = new RacOrgMo();
+			existQo.setParentId(racOrgLeafMo.getId());
+			racOrgLeafMo.setIsLeaf(!_mapper.existSelective(existQo));
+			return racOrgLeafMo;
+		}).collect(Collectors.toList());
 	}
 
 }

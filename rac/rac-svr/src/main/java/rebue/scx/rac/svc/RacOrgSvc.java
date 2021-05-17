@@ -6,6 +6,7 @@ import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacOrgJo;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
+import rebue.scx.rac.to.RacOrgAccountDelTo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgDelTo;
 import rebue.scx.rac.to.RacOrgListTo;
@@ -31,9 +32,16 @@ import rebue.scx.rac.to.RacOrgPageTo;
 public interface RacOrgSvc extends
 		BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> {
 	/**
-	 * 添加组织账户
+	 * 添加组织账户关系
 	 *
 	 * @param to 添加的具体信息
 	 */
 	void addOrgAccount(RacOrgAccountAddTo to);
+
+	/**
+	 * 删除组织账户关系
+	 *
+	 * @param to 添加的具体信息
+	 */
+	void delOrgAccount(RacOrgAccountDelTo to);
 }

@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacOrgApi;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
+import rebue.scx.rac.to.RacOrgAccountDelTo;
 import rebue.scx.rac.to.RacOrgAddTo;
+import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 
@@ -57,14 +60,15 @@ public class RacOrgCtrl {
 	public Mono<Ro<?>> addOrgAccount(@RequestBody final RacOrgAccountAddTo to) {
 		return Mono.create(callback -> callback.success(api.addOrgAccount(to)));
 	}
+
 	/**
 	 * 删除组织和账户的关系
 	 *
 	 * @param to 删除的具体信息
 	 */
-	@PostMapping("/rac/org/delOrgAccount")
-	public Mono<Ro<?>> delOrgAccount( @RequestParam("id") final java.lang.Long id) {
-		return Mono.create(callback -> callback.success(api.del(id)));
+	@DeleteMapping("/rac/org/delOrgAccount")
+	public Mono<Ro<?>> delOrgAccount(@RequestBody final RacOrgAccountDelTo to) {
+		return Mono.create(callback -> callback.success(api.delOrgAccount(to)));
 	}
 
 	/**
@@ -109,6 +113,16 @@ public class RacOrgCtrl {
 	@GetMapping("/rac/org/exist-by-id")
 	public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.Long id) {
 		return Mono.create(callback -> callback.success(api.existById(id)));
+	}
+
+	/**
+	 * 查询组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@GetMapping("/rac/org/list")
+	public Mono<Ro<ListRa<RacOrgMo>>> list(final RacOrgListTo qo) {
+		return Mono.create(callback -> callback.success(api.list(qo)));
 	}
 
 	/**
