@@ -513,7 +513,10 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
 	 * @return
 	 */
 	@Select({ "<script>" + "SELECT  " + "    ac.* " + "FROM " + "    RAC_ACCOUNT ac " + "        LEFT JOIN "
-			+ "    RAC_ORG_ACCOUNT oac ON ac.ID = oac.ACCOUNT_ID " + "WHERE " + "    ac.DOMAIN_ID = #{record.domainId} "
+			+ "    RAC_ORG_ACCOUNT oac ON ac.ID = oac.ACCOUNT_ID " + "WHERE " + "    ac.DOMAIN_ID = #{record.domainId}"
+			+ "<if test='record.keywords!=null'> "
+    		+ " and (ac.SIGN_IN_NAME like '%${record.keywords}%' or ac.SIGN_IN_MOBILE like '%${record.keywords}%' or ac.SIGN_IN_EMAIL like '%${record.keywords}%') "
+    		+ "</if> "
 			+ "        AND ((ac.ORG_ID IS NULL " + "        OR NOT EXISTS( SELECT  " + "            a.ID "
 			+ "        FROM " + "            RAC_ORG_ACCOUNT a " + "        WHERE "
 			+ "            a.ORG_ID = #{record.orgId} " + "                AND ac.ID = a.ACCOUNT_ID))) "

@@ -35,7 +35,7 @@ public class RacAccountPageTo extends PageTo implements Serializable {
     /**
      * 关键字
      */
-    @Length(max = 256, message = "QQ的OpenId的长度不能大于256")
+    @Length(max = 256, message = "搜索关键字不能超过20位数")
     private String            keywords;
 
     /**

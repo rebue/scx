@@ -346,7 +346,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      * @return
      */
     @Select({"<script>"
-    		+ "SELECT op.*,a.SIGN_IN_NAME,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
+    		+ "SELECT op.*,a.SIGN_IN_NAME,a.SIGN_IN_MOBILE,a.SIGN_IN_EMAIL,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
     		+ " s.NAME sysName,s.MENU_URN menuUrn,s.DOMAIN_ID domainId, s.REMARK remark "
     		+ " FROM RAC_OP_LOG op "
     		+ " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "

@@ -49,6 +49,7 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
+import rebue.scx.rac.to.ex.RacAccountExMo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.NumberUtils;
 
@@ -154,6 +155,7 @@ public class RacAccountSvcImpl extends
 		mo.setSignInPswd(to.getSignInPswd());
 		thisSvc.modifyMoById(mo);
 	}
+
 	/**
 	 * 查询账户的信息
 	 *
@@ -167,9 +169,10 @@ public class RacAccountSvcImpl extends
 		existQo.setOrgId(to.getOrgId());
 		List<RacAccountMo> existAccountList = _mapper.getExistAccountList(existQo);
 		// 查询可添加的所有用户
-		final RacAccountMo addableQo = new RacAccountMo();
+		final RacAccountExMo addableQo = new RacAccountExMo();
 		addableQo.setDomainId(to.getDomainId());
 		addableQo.setOrgId(to.getOrgId());
+		addableQo.setKeywords(to.getKeywords());
 		final ISelect select = () -> _mapper.getAddablAccountList(addableQo);
 		PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
 		// 将所有记录添加到返回ListTransferOfOrgRa的对象中
