@@ -10,8 +10,8 @@ import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
+import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
 import rebue.scx.rac.to.RacAccountDisableTo;
@@ -102,11 +102,11 @@ public interface RacAccountSvc extends
 	Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, @NotBlank String sysId);
 
 	/**
-	 * 根据domainId和orgId查询账户的信息
+	 * 查询账户的信息
 	 *
 	 * @param qo 查询的具体条件
 	 *
 	 */
-	Ro<RacAccountAndIdsMo> listByDomainIdOrOrgId(RacAccountListTo qo);
+	Ro<ListTransferOfOrgRa> listTransferOfOrg(RacAccountPageTo qo);
 
 }

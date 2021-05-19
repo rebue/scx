@@ -23,12 +23,11 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.co.RacCo;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
+import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacAccountEnableTo;
-import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
@@ -121,14 +120,14 @@ public class RacAccountCtrl {
 	}
 
 	/**
-	 * 根据domainId和orgId查询账户的信息
+	 * 查询账户的信息
 	 *
 	 * @param qo 查询的具体条件
 	 *
 	 */
-	@GetMapping("/rac/account/list")
-	public Mono<Ro<RacAccountAndIdsMo>> list(final RacAccountListTo qo) {
-		return Mono.create(callback -> callback.success(api.list(qo)));
+	@GetMapping("/rac/account/listTransferOfOrg")
+	public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacAccountPageTo qo) {
+		return Mono.create(callback -> callback.success(api.listTransferOfOrg(qo)));
 	}
 
 	/**

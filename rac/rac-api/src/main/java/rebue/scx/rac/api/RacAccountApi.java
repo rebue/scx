@@ -3,12 +3,11 @@ package rebue.scx.rac.api;
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
+import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDisableTo;
 import rebue.scx.rac.to.RacAccountEnableTo;
-import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
@@ -53,10 +52,10 @@ public interface RacAccountApi
 	Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, String sysId);
 
 	/**
-	 * 根据domainId和orgId查询账户的信息
+	 * 查询账户的信息
 	 *
 	 * @param qo 查询的具体条件
 	 *
 	 */
-	Ro<RacAccountAndIdsMo> list(RacAccountListTo qo);
+	Ro<ListTransferOfOrgRa> listTransferOfOrg(RacAccountPageTo qo);
 }

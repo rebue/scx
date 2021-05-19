@@ -8,8 +8,8 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
+import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
@@ -65,14 +65,14 @@ public class RacAccountApiImpl extends
 	}
 
 	/**
-	 * 根据domainId和orgId查询账户的信息
+	 * 查询账户的信息
 	 *
 	 * @param qo 查询的具体条件
 	 *
 	 */
 	@Override
-	public Ro<RacAccountAndIdsMo> list(RacAccountListTo qo) {
-		return _svc.listByDomainIdOrOrgId(qo);
+	public Ro<ListTransferOfOrgRa> listTransferOfOrg(RacAccountPageTo qo) {
+		return _svc.listTransferOfOrg(qo);
 	}
 
 	/**

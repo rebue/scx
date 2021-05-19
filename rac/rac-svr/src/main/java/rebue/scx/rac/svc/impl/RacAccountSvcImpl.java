@@ -32,11 +32,11 @@ import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacLockLogMo;
-import rebue.scx.rac.mo.RacOrgAccountMo;
-import rebue.scx.rac.mo.Ex.RacAccountAndIdsMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
+import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacLockLogSvc;
+import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.svc.RacPermMenuSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
@@ -48,6 +48,7 @@ import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
+import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.NumberUtils;
 
@@ -88,6 +89,8 @@ public class RacAccountSvcImpl extends
 	private RacLockLogSvc lockLogSvc;
 	@Resource
 	private RacOrgAccountMapper orgAccountMapper;
+	@Resource
+	private RacOrgSvc racOrgSvc;
 
 	/**
 	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -111,7 +114,18 @@ public class RacAccountSvcImpl extends
 		final long now = System.currentTimeMillis();
 		mo.setCreateTimestamp(now);
 		mo.setUpdateTimestamp(now);
-		return super.addMo(mo);
+		RacAccountMo result = super.addMo(mo);
+		// 判断是否设置了默认组织，有则添加组织关系
+		if (result.getOrgId() != null) {
+			List<Long> accountId = new ArrayList<Long>();
+			accountId.add(result.getId());
+			RacOrgAccountAddTo to = new RacOrgAccountAddTo();
+			to.setOrgId(result.getOrgId());
+			to.setAccountId(accountId);
+			racOrgSvc.addOrgAccount(to);
+		}
+
+		return result;
 	}
 
 	@Override
@@ -140,38 +154,29 @@ public class RacAccountSvcImpl extends
 		mo.setSignInPswd(to.getSignInPswd());
 		thisSvc.modifyMoById(mo);
 	}
-
 	/**
-	 * 根据domainId和orgId查询账户的信息
+	 * 查询账户的信息
 	 *
-	 * @param qo 查询的具体条件
+	 * @param to 查询的具体条件
 	 *
 	 */
 	@Override
-	public Ro<RacAccountAndIdsMo> listByDomainIdOrOrgId(RacAccountListTo qo) {
-		// 先查询所有用户
-		final RacOrgAccountMo orgQo = new RacOrgAccountMo();
-		orgQo.setOrgId(qo.getOrgId());
-		List<RacOrgAccountMo> orgAccountList = orgAccountMapper.selectSelective(orgQo);
-		final RacAccountListTo accountQo = new RacAccountListTo();
-		accountQo.setDomainId(qo.getDomainId());
-		List<RacAccountMo> accountList = thisSvc.list(accountQo);
-		// 提取符合当前组织下的账户
-		List<Long> orgIds = new ArrayList<Long>();
-		for (RacOrgAccountMo racOrgAccountMo : orgAccountList) {
-			orgIds.add(racOrgAccountMo.getAccountId());
-		}
-		for (RacAccountMo racAccountMo : accountList) {
-			if (racAccountMo.getOrgId() == qo.getOrgId()) {
-				orgIds.add(racAccountMo.getOrgId());
-			}
-		}
-		// 添加到RacAccountAndIdsMo中返回
-		final RacAccountAndIdsMo racAccountAndIds = new RacAccountAndIdsMo();
-		racAccountAndIds.setOrgIds(orgIds);
-		racAccountAndIds.setIds(orgAccountList);
-		racAccountAndIds.setList(accountList);
-		return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", racAccountAndIds);
+	public Ro<ListTransferOfOrgRa> listTransferOfOrg(RacAccountPageTo to) {
+		// 查找存在当前组织下的账户
+		final RacAccountMo existQo = new RacAccountMo();
+		existQo.setOrgId(to.getOrgId());
+		List<RacAccountMo> existAccountList = _mapper.getExistAccountList(existQo);
+		// 查询可添加的所有用户
+		final RacAccountMo addableQo = new RacAccountMo();
+		addableQo.setDomainId(to.getDomainId());
+		addableQo.setOrgId(to.getOrgId());
+		final ISelect select = () -> _mapper.getAddablAccountList(addableQo);
+		PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
+		// 将所有记录添加到返回ListTransferOfOrgRa的对象中
+		ListTransferOfOrgRa ro = new ListTransferOfOrgRa();
+		ro.setAddableList(addableList);
+		ro.setExistList(existAccountList);
+		return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);
 	}
 
 	/**

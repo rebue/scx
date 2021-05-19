@@ -17,8 +17,10 @@ import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacOrgDao;
 import rebue.scx.rac.jo.RacOrgJo;
+import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mapper.RacOrgMapper;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacOrgAccountMo;
 import rebue.scx.rac.mo.RacOrgLeafMo;
 import rebue.scx.rac.mo.RacOrgMo;
@@ -65,6 +67,8 @@ public class RacOrgSvcImpl extends
 	private RacOrgSvc thisSvc;
 	@Resource
 	private RacOrgAccountMapper orgAccountMapper;
+	@Resource
+	private RacAccountMapper racAccountMapper;
 
 	/**
 	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -110,7 +114,7 @@ public class RacOrgSvcImpl extends
 			} else if (count >= 100 && count < 1000) {
 				treeCode = count.toString();
 			} else {
-				throw new RuntimeException("系统繁忙，请尽快联系管理员处理");
+				throw new RuntimeException("组织超过999系统繁忙，请尽快联系管理员处理");
 			}
 			mo.setTreeCode(treeCode);
 		}
@@ -128,7 +132,7 @@ public class RacOrgSvcImpl extends
 			} else if (count >= 100 && count < 1000) {
 				treeCode2 = count + "";
 			} else {
-				throw new RuntimeException("系统繁忙，请尽快联系管理员处理");
+				throw new RuntimeException("组织超过999系统繁忙，请尽快联系管理员处理");
 			}
 			mo.setTreeCode(treeCode1 + treeCode2);
 		}
@@ -144,15 +148,24 @@ public class RacOrgSvcImpl extends
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void addOrgAccount(RacOrgAccountAddTo to) {
 		List<Long> lists = to.getAccountId();
-		for (Long list : lists) {
+		for (Long accountId : lists) {
 			final RacOrgAccountMo mo = new RacOrgAccountMo();
 			// 如果id为空那么自动生成分布式id
 			mo.setId(_idWorker.getId());
 			mo.setOrgId(to.getOrgId());
-			mo.setAccountId(list);
+			mo.setAccountId(accountId);
 			final int rowCount = orgAccountMapper.insertSelective(mo);
 			if (rowCount != 1) {
 				throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
+			}
+			//查询判断是否存在默认组织，没有则添加
+			RacAccountMo accountMo = racAccountMapper.selectByPrimaryKey(accountId).get();
+			if (accountMo.getOrgId() == null) {
+				accountMo.setOrgId(to.getOrgId());
+				int count = racAccountMapper.updateByPrimaryKey(accountMo);
+				if (count != 1) {
+					throw new RuntimeExceptionX("添加默认组织关系记录异常，影响行数为" + rowCount);
+				}
 			}
 		}
 	}
@@ -160,7 +173,7 @@ public class RacOrgSvcImpl extends
 	/**
 	 * 删除组织账户关系
 	 *
-	 * @param to 添加的具体信息
+	 * @param to 删除的具体信息
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
