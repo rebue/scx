@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThan;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.isEnabled;
@@ -22,7 +23,6 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
@@ -294,9 +294,11 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
 	 * @param record
 	 * @return
 	 */
-	@Update({
-			"<script>  UPDATE RAC_PERM_GROUP pg SET pg.SEQ_NO = (pg.SEQ_NO-1) WHERE pg.DOMAIN_ID=#{record.domainId} and pg.SEQ_NO > #{record.seqNo} </script>" })
-	int updateSeqNoByDeleteAfter(@Param(value = "record") RacPermGroupMo record);
+	default int updateSeqNoByDeleteAfter(@Param(value = "record") RacPermGroupMo record) {
+		return update(c -> c.set(seqNo).equalToConstant("SEQ_NO-1")//
+				.where(domainId, isEqualTo(record::getDomainId))//
+				.and(seqNo, isGreaterThan(record::getSeqNo)));
+	};
 
 	/**
 	 * 查询权限分组并排序

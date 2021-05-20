@@ -1,8 +1,8 @@
 package rebue.scx.rac.mapper;
 
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.createTimestamp;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.id;
@@ -64,6 +64,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.to.ex.RacAccountExMo;
 
 @Mapper
 public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long> {
@@ -512,21 +513,16 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
 	 * @param record #{record.orgId}
 	 * @return
 	 */
-	@Select({ "<script>" + "SELECT  " + "    ac.* " + "FROM " + "    RAC_ACCOUNT ac " + "        LEFT JOIN "
-			+ "    RAC_ORG_ACCOUNT oac ON ac.ID = oac.ACCOUNT_ID " + "WHERE " + "    ac.DOMAIN_ID = #{record.domainId}"
-			+ "<if test='record.keywords!=null'> "
-    		+ " and (ac.SIGN_IN_NAME like '%${record.keywords}%' "
-    		+ " or ac.SIGN_IN_MOBILE like '%${record.keywords}%' "
-    		+ " or ac.SIGN_IN_EMAIL like '%${record.keywords}%' "
-    		+ " or ac.REMARK like '%${record.keywords}%' "
-    		+ " or ac.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-    		+ " or ac.WX_NICKNAME like '%${record.keywords}%' "
-    		+ " or ac.QQ_NICKNAME like '%${record.keywords}%' "
-    		+ " or ac.ID like '%${record.keywords}%' ) "
-    		+ "</if> "
-			+ "        AND ((ac.ORG_ID IS NULL " + "        OR NOT EXISTS( SELECT  " + "            a.ID "
-			+ "        FROM " + "            RAC_ORG_ACCOUNT a " + "        WHERE "
-			+ "            a.ORG_ID = #{record.orgId} " + "                AND ac.ID = a.ACCOUNT_ID))) "
-			+ "GROUP BY ac.ID " + "</script>" })
-	List<RacAccountMo> getAddablAccountList(@Param(value = "record") RacAccountMo record);
+	@Select({ "<script>" + "SELECT     ac.* FROM    RAC_ACCOUNT ac   LEFT JOIN "
+			+ "    RAC_ORG_ACCOUNT oac ON ac.ID = oac.ACCOUNT_ID " + "WHERE " + "   "
+			+ " ac.DOMAIN_ID = #{record.domainId}" + "<if test='record.keywords!=null'> "
+			+ " and (ac.SIGN_IN_NAME like '%${record.keywords}%' "
+			+ " or ac.SIGN_IN_MOBILE like '%${record.keywords}%' " + " or ac.SIGN_IN_EMAIL like '%${record.keywords}%' "
+			+ " or ac.REMARK like '%${record.keywords}%' " + " or ac.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+			+ " or ac.WX_NICKNAME like '%${record.keywords}%' " + " or ac.QQ_NICKNAME like '%${record.keywords}%' "
+			+ " or ac.ID like '%${record.keywords}%' ) " + "</if> " + "        AND ((ac.ORG_ID IS NULL "
+			+ "        OR NOT EXISTS( SELECT  " + "            a.ID " + "        FROM "
+			+ "            RAC_ORG_ACCOUNT a " + "        WHERE " + "            a.ORG_ID = #{record.orgId} "
+			+ "                AND ac.ID = a.ACCOUNT_ID))) " + "GROUP BY ac.ID " + "</script>" })
+	List<RacAccountMo> getAddablAccountList(@Param(value = "record") RacAccountExMo record);
 }

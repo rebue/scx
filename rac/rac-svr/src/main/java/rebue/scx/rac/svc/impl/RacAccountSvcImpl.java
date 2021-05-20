@@ -86,10 +86,13 @@ public class RacAccountSvcImpl extends
 
 	@Resource
 	private RacPermMenuSvc permMenuSvc;
+
 	@Resource
 	private RacLockLogSvc lockLogSvc;
+
 	@Resource
 	private RacOrgAccountMapper orgAccountMapper;
+
 	@Resource
 	private RacOrgSvc racOrgSvc;
 
