@@ -323,13 +323,4 @@ public interface RacPermMapper extends MapperRootInterface<RacPermMo, Long> {
 	default List<RacPermMo> selectOrderByPerm(RacPermMo record) {
 		return select(c -> c.where(domainId, isEqualToWhenPresent(record::getDomainId)).orderBy(seqNo));
 	}
-//	/**
-//	 * 查询权限并排序
-//	 * 
-//	 * @param record
-//	 * @return
-//	 */
-//	@Select({
-//			"<script> SELECT ro.* FROM RAC_PERM ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
-//	List<RacPermMo> selectOrderByPerm(@Param(value = "record") RacPermMo record);
 }

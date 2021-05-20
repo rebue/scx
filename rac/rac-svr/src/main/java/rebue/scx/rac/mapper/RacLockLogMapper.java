@@ -391,7 +391,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @return
      */
     @Select({ "<script>"
-        + "SELECT lo.*, a.SIGN_IN_NAME signInName, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
+        + "SELECT lo.*, a.SIGN_IN_NAME signInName,a.SIGN_IN_MOBILE signInMobile, a.SIGN_IN_EMAIL signInEmail, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
         + "  b.SIGN_IN_NAME locksignInName, b.WX_NICKNAME lockwxNickname, b.QQ_NICKNAME lockqqNickname, b.SIGN_IN_NICKNAME locksignInNickname,"
         //+ "  s.NAME sysName, s.DOMAIN_ID domainId, s.MENU_URN menuUrn, s.REMARK remark,"
         + "  c.SIGN_IN_NAME unlocksignInName, c.WX_NICKNAME unlockwxNickname, c.QQ_NICKNAME unlockqqNickname, c.SIGN_IN_NICKNAME unlocksignInNickname"

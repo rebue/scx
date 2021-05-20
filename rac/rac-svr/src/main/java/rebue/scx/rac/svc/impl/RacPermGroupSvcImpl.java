@@ -109,7 +109,7 @@ public class RacPermGroupSvcImpl extends
 			throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
 		}
 		// 删除后对其余权限分组进行顺序号更新
-		_mapper.UpdateSeqNoByDeleteAfter(qo);
+		_mapper.updateSeqNoByDeleteAfter(qo);
 	}
 
 	/**

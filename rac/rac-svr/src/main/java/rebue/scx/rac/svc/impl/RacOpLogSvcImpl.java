@@ -80,7 +80,6 @@ public class RacOpLogSvcImpl extends
 	 */
 	@Override
 	public PageInfo<RacOpLogMo> page(RacOpLogPageTo qo) {
-		// final MO mo = _dozerMapper.map(qo, getMoClass());
 		final ISelect select = () -> _mapper.selectEx(qo);
 		return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
 	}

@@ -297,15 +297,6 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
 	default List<RacRoleMo> selectListOrderByRole(RacRoleMo record) {
 		return select(c -> c.where(domainId, isEqualToWhenPresent(record::getDomainId)).orderBy(seqNo));
 	}
-//	/**
-//	 * 查询角色并排序
-//	 * 
-//	 * @param record
-//	 * @return
-//	 */
-//	@Select({
-//			"<script> SELECT ro.* FROM RAC_ROLE ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
-//	List<RacRoleMo> selectListOrderByRole(@Param(value = "record") RacRoleMo record);
 
 	/**
 	 * 因删除角色而进行的角色顺序号更新
@@ -315,6 +306,6 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
 	 */
 	@Update({
 			"<script>  UPDATE RAC_ROLE ro SET ro.SEQ_NO = (ro.SEQ_NO-1) WHERE ro.DOMAIN_ID=#{record.domainId} and ro.SEQ_NO > #{record.seqNo} </script>" })
-	int UpdateSeqNoByDeleteAfter(@Param(value = "record") RacRoleMo record);
+	int updateSeqNoByDeleteAfter(@Param(value = "record") RacRoleMo record);
 
 }

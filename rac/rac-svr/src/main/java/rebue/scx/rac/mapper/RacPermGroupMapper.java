@@ -296,7 +296,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
 	 */
 	@Update({
 			"<script>  UPDATE RAC_PERM_GROUP pg SET pg.SEQ_NO = (pg.SEQ_NO-1) WHERE pg.DOMAIN_ID=#{record.domainId} and pg.SEQ_NO > #{record.seqNo} </script>" })
-	int UpdateSeqNoByDeleteAfter(@Param(value = "record") RacPermGroupMo record);
+	int updateSeqNoByDeleteAfter(@Param(value = "record") RacPermGroupMo record);
 
 	/**
 	 * 查询权限分组并排序
@@ -307,11 +307,4 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
 	default List<RacPermGroupMo> selectListOrderByPermGroup(@Param(value = "record") RacPermGroupMo record) {
 		return select(c -> c.where(domainId, isEqualToWhenPresent(record::getDomainId)).orderBy(seqNo));
 	}
-//	/**
-//	 * 查询权限分组并排序
-//	 * @param record
-//	 * @return
-//	 */
-//	@Select({ "<script> SELECT ro.* FROM RAC_PERM_GROUP ro where ro.DOMAIN_ID=#{record.domainId} order by ro.SEQ_NO </script>" })
-//	List<RacPermGroupMo> selectListOrderByPermGroup(@Param(value = "record") RacPermGroupMo record);
 }
