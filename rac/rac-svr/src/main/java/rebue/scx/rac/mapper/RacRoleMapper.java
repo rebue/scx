@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThan;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.isEnabled;
@@ -22,7 +23,6 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
@@ -304,8 +304,12 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
 	 * @param record
 	 * @return
 	 */
-	@Update({
-			"<script>  UPDATE RAC_ROLE ro SET ro.SEQ_NO = (ro.SEQ_NO-1) WHERE ro.DOMAIN_ID=#{record.domainId} and ro.SEQ_NO > #{record.seqNo} </script>" })
-	int updateSeqNoByDeleteAfter(@Param(value = "record") RacRoleMo record);
-
+//	@Update({
+//			"<script>  UPDATE RAC_ROLE ro SET ro.SEQ_NO = (ro.SEQ_NO-1) WHERE ro.DOMAIN_ID=#{record.domainId} and ro.SEQ_NO > #{record.seqNo} </script>" })
+//	
+	default int updateSeqNoByDeleteAfter(@Param(value = "record") RacRoleMo record) {
+		return update(c -> c.set(seqNo).equalToConstant("SEQ_NO-1")//
+				.where(domainId, isEqualTo(record::getDomainId))//
+				.and(seqNo, isGreaterThan(record::getSeqNo)));
+	}
 }
