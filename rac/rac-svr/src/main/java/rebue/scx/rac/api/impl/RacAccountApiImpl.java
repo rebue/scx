@@ -20,6 +20,7 @@ import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
  * 账户API实现
@@ -71,7 +72,7 @@ public class RacAccountApiImpl extends
 	 *
 	 */
 	@Override
-	public Ro<ListTransferOfOrgRa> listTransferOfOrg(RacAccountPageTo qo) {
+	public Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo) {
 		return _svc.listTransferOfOrg(qo);
 	}
 

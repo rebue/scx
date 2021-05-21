@@ -31,6 +31,7 @@ import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.wheel.turing.JwtUtils;
 
 /**
@@ -126,7 +127,7 @@ public class RacAccountCtrl {
 	 *
 	 */
 	@GetMapping("/rac/account/listTransferOfOrg")
-	public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacAccountPageTo qo) {
+	public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
 		return Mono.create(callback -> callback.success(api.listTransferOfOrg(qo)));
 	}
 

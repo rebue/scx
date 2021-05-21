@@ -21,6 +21,7 @@ import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
  * 账户服务接口
@@ -107,6 +108,6 @@ public interface RacAccountSvc extends
 	 * @param qo 查询的具体条件
 	 *
 	 */
-	Ro<ListTransferOfOrgRa> listTransferOfOrg(RacAccountPageTo qo);
+	Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
 
 }

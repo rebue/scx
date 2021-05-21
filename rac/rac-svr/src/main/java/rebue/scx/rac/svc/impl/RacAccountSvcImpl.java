@@ -47,6 +47,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.ex.RacAccountExMo;
+import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.scx.rac.util.PswdUtils;
 
 /**
@@ -68,254 +69,254 @@ import rebue.scx.rac.util.PswdUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAccountSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
-    implements RacAccountSvc {
+		BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
+		implements RacAccountSvc {
 
-    /**
-     * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Lazy
-    @Resource
-    private RacAccountSvc       thisSvc;
+	/**
+	 * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Lazy
+	@Resource
+	private RacAccountSvc thisSvc;
 
-    @Resource
-    private RacPermMenuSvc      permMenuSvc;
+	@Resource
+	private RacPermMenuSvc permMenuSvc;
 
-    @Resource
-    private RacLockLogSvc       lockLogSvc;
+	@Resource
+	private RacLockLogSvc lockLogSvc;
 
-    @Resource
-    private RacOrgAccountMapper orgAccountMapper;
+	@Resource
+	private RacOrgAccountMapper orgAccountMapper;
 
-    @Resource
-    private RacOrgSvc           racOrgSvc;
+	@Resource
+	private RacOrgSvc racOrgSvc;
 
-    /**
-     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected Class<RacAccountMo> getMoClass() {
-        return RacAccountMo.class;
-    }
+	/**
+	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected Class<RacAccountMo> getMoClass() {
+		return RacAccountMo.class;
+	}
 
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacAccountMo addMo(final RacAccountMo mo) {
-        if (StringUtils.isNotBlank(mo.getSignInPswd())) {
-            // 随机生成盐值
-            mo.setSignInPswdSalt(PswdUtils.randomSalt());
-            // 根据生成的盐值进行摘要
-            mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
-        }
-        final long now = System.currentTimeMillis();
-        mo.setCreateTimestamp(now);
-        mo.setUpdateTimestamp(now);
-        final RacAccountMo result = super.addMo(mo);
-        // 判断是否设置了默认组织，有则添加组织关系
-        if (result.getOrgId() != null) {
-            final List<Long> accountId = new ArrayList<>();
-            accountId.add(result.getId());
-            final RacOrgAccountAddTo to = new RacOrgAccountAddTo();
-            to.setOrgId(result.getOrgId());
-            to.setAccountId(accountId);
-            racOrgSvc.addOrgAccount(to);
-        }
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public RacAccountMo addMo(final RacAccountMo mo) {
+		if (StringUtils.isNotBlank(mo.getSignInPswd())) {
+			// 随机生成盐值
+			mo.setSignInPswdSalt(PswdUtils.randomSalt());
+			// 根据生成的盐值进行摘要
+			mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
+		}
+		final long now = System.currentTimeMillis();
+		mo.setCreateTimestamp(now);
+		mo.setUpdateTimestamp(now);
+		final RacAccountMo result = super.addMo(mo);
+		// 判断是否设置了默认组织，有则添加组织关系
+		if (result.getOrgId() != null) {
+			final List<Long> accountId = new ArrayList<>();
+			accountId.add(result.getId());
+			final RacOrgAccountAddTo to = new RacOrgAccountAddTo();
+			to.setOrgId(result.getOrgId());
+			to.setAccountId(accountId);
+			racOrgSvc.addOrgAccount(to);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacAccountMo modifyMoById(final RacAccountMo mo) {
-        if (StringUtils.isNotBlank(mo.getSignInPswd())) {
-            // 随机生成盐值
-            mo.setSignInPswdSalt(PswdUtils.randomSalt());
-            // 根据生成的盐值进行摘要
-            mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
-        }
-        mo.setUpdateTimestamp(System.currentTimeMillis());
-        return super.modifyMoById(mo);
-    }
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public RacAccountMo modifyMoById(final RacAccountMo mo) {
+		if (StringUtils.isNotBlank(mo.getSignInPswd())) {
+			// 随机生成盐值
+			mo.setSignInPswdSalt(PswdUtils.randomSalt());
+			// 根据生成的盐值进行摘要
+			mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
+		}
+		mo.setUpdateTimestamp(System.currentTimeMillis());
+		return super.modifyMoById(mo);
+	}
 
-    /**
-     * 修改账户登录密码
-     *
-     * @param to 修改账户登录密码的具体数据
-     */
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void modifySignInPswd(final RacAccountModifySignInPswdTo to) {
-        final RacAccountMo mo = new RacAccountMo();
-        mo.setId(to.getId());
-        mo.setSignInPswd(to.getSignInPswd());
-        thisSvc.modifyMoById(mo);
-    }
+	/**
+	 * 修改账户登录密码
+	 *
+	 * @param to 修改账户登录密码的具体数据
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void modifySignInPswd(final RacAccountModifySignInPswdTo to) {
+		final RacAccountMo mo = new RacAccountMo();
+		mo.setId(to.getId());
+		mo.setSignInPswd(to.getSignInPswd());
+		thisSvc.modifyMoById(mo);
+	}
 
-    /**
-     * 查询账户的信息
-     *
-     * @param to 查询的具体条件
-     *
-     */
-    @Override
-    public Ro<ListTransferOfOrgRa> listTransferOfOrg(final RacAccountPageTo to) {
-        // 查找存在当前组织下的账户
-        final RacAccountListTo existQo = new RacAccountListTo();
-        existQo.setOrgId(to.getOrgId());
-        existQo.setKeywords(to.getKeywords());
-        final List<RacAccountMo> existAccountList = _mapper.list(existQo);
-        // 查询可添加的所有用户
-        final RacAccountExMo     addableQo        = new RacAccountExMo();
-        addableQo.setDomainId(to.getDomainId());
-        addableQo.setOrgId(to.getOrgId());
-        addableQo.setKeywords(to.getKeywords());
-        final ISelect                select      = () -> _mapper.getAddablAccountList(addableQo);
-        final PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
-        // 将所有记录添加到返回ListTransferOfOrgRa的对象中
-        final ListTransferOfOrgRa    ro          = new ListTransferOfOrgRa();
-        ro.setAddableList(addableList);
-        ro.setExistList(existAccountList);
-        return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);
-    }
+	/**
+	 * 查询账户的信息
+	 *
+	 * @param to 查询的具体条件
+	 *
+	 */
+	@Override
+	public Ro<ListTransferOfOrgRa> listTransferOfOrg(final RacListTransferOfOrgTo to) {
+		// 查找存在当前组织下的账户
+		final RacAccountListTo existQo = new RacAccountListTo();
+		existQo.setOrgId(to.getOrgId());
+		existQo.setKeywords(to.getExistKeywords());
+		final List<RacAccountMo> existAccountList = _mapper.list(existQo);
+		// 查询可添加的所有用户
+		final RacAccountExMo addableQo = new RacAccountExMo();
+		addableQo.setDomainId(to.getDomainId());
+		addableQo.setOrgId(to.getOrgId());
+		addableQo.setKeywords(to.getAddableKeywords());
+		final ISelect select = () -> _mapper.getAddablAccountList(addableQo);
+		final PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
+		// 将所有记录添加到返回ListTransferOfOrgRa的对象中
+		final ListTransferOfOrgRa ro = new ListTransferOfOrgRa();
+		ro.setAddableList(addableList);
+		ro.setExistList(existAccountList);
+		return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);
+	}
 
-    /**
-     * 启用账户
-     *
-     * @param to 启用的具体数据
-     */
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void enable(final RacAccountEnableTo to) {
-        final RacAccountMo mo = new RacAccountMo();
-        mo.setId(to.getLockAccountId());
-        mo.setIsEnabled(to.getIsEnabled());
-        final RacLockLogMo qo = new RacLockLogMo();
-        if (to.getIsEnabled()) {
-            qo.setDomainId(to.getDomainId());
-            qo.setUnlockOpId(to.getUnlockOpId());
-            qo.setUnlockDatetime(LocalDateTime.now());
-            qo.setUnlockReason(to.getUnlockReason());
-            qo.setLockAccountId(to.getLockAccountId());
-            lockLogSvc.updateLockLog(qo);
-            _mapper.updateByPrimaryKeySelective(mo);
-        }
-    }
+	/**
+	 * 启用账户
+	 *
+	 * @param to 启用的具体数据
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void enable(final RacAccountEnableTo to) {
+		final RacAccountMo mo = new RacAccountMo();
+		mo.setId(to.getLockAccountId());
+		mo.setIsEnabled(to.getIsEnabled());
+		final RacLockLogMo qo = new RacLockLogMo();
+		if (to.getIsEnabled()) {
+			qo.setDomainId(to.getDomainId());
+			qo.setUnlockOpId(to.getUnlockOpId());
+			qo.setUnlockDatetime(LocalDateTime.now());
+			qo.setUnlockReason(to.getUnlockReason());
+			qo.setLockAccountId(to.getLockAccountId());
+			lockLogSvc.updateLockLog(qo);
+			_mapper.updateByPrimaryKeySelective(mo);
+		}
+	}
 
-    /**
-     * 禁用账户
-     *
-     * @param to 禁用的具体数据
-     */
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void disable(final RacAccountDisableTo to) {
-        final RacAccountMo mo = new RacAccountMo();
-        mo.setId(to.getLockAccountId());
-        mo.setIsEnabled(to.getIsEnabled());
-        final RacLockLogAddTo ato = new RacLockLogAddTo();
-        if (!to.getIsEnabled()) {
-            ato.setDomainId(to.getDomainId());
-            ato.setLockOpId(to.getLockOpId());
-            ato.setLockDatetime(LocalDateTime.now());
-            ato.setLockReason(to.getLockReason());
-            ato.setLockAccountId(to.getLockAccountId());
-            lockLogSvc.add(ato);// 禁用时添加锁定日志
-            _mapper.updateByPrimaryKeySelective(mo);
-        }
-    }
+	/**
+	 * 禁用账户
+	 *
+	 * @param to 禁用的具体数据
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void disable(final RacAccountDisableTo to) {
+		final RacAccountMo mo = new RacAccountMo();
+		mo.setId(to.getLockAccountId());
+		mo.setIsEnabled(to.getIsEnabled());
+		final RacLockLogAddTo ato = new RacLockLogAddTo();
+		if (!to.getIsEnabled()) {
+			ato.setDomainId(to.getDomainId());
+			ato.setLockOpId(to.getLockOpId());
+			ato.setLockDatetime(LocalDateTime.now());
+			ato.setLockReason(to.getLockReason());
+			ato.setLockAccountId(to.getLockAccountId());
+			lockLogSvc.add(ato);// 禁用时添加锁定日志
+			_mapper.updateByPrimaryKeySelective(mo);
+		}
+	}
 
-    /**
-     * 通过email获取账户信息
-     *
-     * @param domainId 领域ID
-     * @param email    电子邮箱
-     *
-     * @return 账户信息
-     */
-    @Override
-    public RacAccountMo getOneByEmail(final String domainId, final String email) {
-        return _mapper.selectOne(
-            c -> c.where(racAccount.domainId, isEqualTo(domainId), and(racAccount.signInEmail, isEqualTo(email))))
-            .orElse(null);
-    }
+	/**
+	 * 通过email获取账户信息
+	 *
+	 * @param domainId 领域ID
+	 * @param email    电子邮箱
+	 *
+	 * @return 账户信息
+	 */
+	@Override
+	public RacAccountMo getOneByEmail(final String domainId, final String email) {
+		return _mapper.selectOne(
+				c -> c.where(racAccount.domainId, isEqualTo(domainId), and(racAccount.signInEmail, isEqualTo(email))))
+				.orElse(null);
+	}
 
-    /**
-     * 通过手机号获取账户信息
-     *
-     * @param domainId 领域ID
-     * @param mobile   手机号
-     *
-     * @return 账户信息
-     */
-    @Override
-    public RacAccountMo getOneByMobile(final String domainId, final String mobile) {
-        return _mapper.selectOne(
-            c -> c.where(racAccount.domainId, isEqualTo(domainId), and(racAccount.signInMobile, isEqualTo(mobile))))
-            .orElse(null);
-    }
+	/**
+	 * 通过手机号获取账户信息
+	 *
+	 * @param domainId 领域ID
+	 * @param mobile   手机号
+	 *
+	 * @return 账户信息
+	 */
+	@Override
+	public RacAccountMo getOneByMobile(final String domainId, final String mobile) {
+		return _mapper.selectOne(
+				c -> c.where(racAccount.domainId, isEqualTo(domainId), and(racAccount.signInMobile, isEqualTo(mobile))))
+				.orElse(null);
+	}
 
-    /**
-     * 通过登录名称获取账户信息
-     *
-     * @param domainId   领域ID
-     * @param signInName 登录名称
-     *
-     * @return 账户信息
-     */
-    @Override
-    public RacAccountMo getOneBySignInName(final String domainId, final String signInName) {
-        return _mapper.selectOne(c -> c.where(racAccount.domainId, isEqualTo(domainId),
-            and(racAccount.signInName, isEqualTo(signInName)))).orElse(null);
-    }
+	/**
+	 * 通过登录名称获取账户信息
+	 *
+	 * @param domainId   领域ID
+	 * @param signInName 登录名称
+	 *
+	 * @return 账户信息
+	 */
+	@Override
+	public RacAccountMo getOneBySignInName(final String domainId, final String signInName) {
+		return _mapper.selectOne(c -> c.where(racAccount.domainId, isEqualTo(domainId),
+				and(racAccount.signInName, isEqualTo(signInName)))).orElse(null);
+	}
 
-    /**
-     * 获取当前账户信息
-     *
-     * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
-     *
-     * @return 当前账户信息
-     */
-    @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
-        final RacAccountMo accountMo = thisSvc.getById(curAccountId);
-        if (accountMo == null) {
-            return new Ro<>(ResultDic.WARN, "查找不到当前账户");
-        }
-        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
-        _dozerMapper.map(accountMo, ra);
-        ra.setNickname(accountMo.getSignInNickname());
-        ra.setAvatar(accountMo.getSignInAvatar());
-        ra.setMenus(permMenuSvc.getMenusOfAccount(curAccountId, sysId));
-        return new Ro<>(ResultDic.SUCCESS, "获取当前账户信息成功", ra);
-    }
+	/**
+	 * 获取当前账户信息
+	 *
+	 * @param curAccountId 当前账户ID
+	 * @param sysId        系统ID
+	 *
+	 * @return 当前账户信息
+	 */
+	@Override
+	public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
+		final RacAccountMo accountMo = thisSvc.getById(curAccountId);
+		if (accountMo == null) {
+			return new Ro<>(ResultDic.WARN, "查找不到当前账户");
+		}
+		final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
+		_dozerMapper.map(accountMo, ra);
+		ra.setNickname(accountMo.getSignInNickname());
+		ra.setAvatar(accountMo.getSignInAvatar());
+		ra.setMenus(permMenuSvc.getMenusOfAccount(curAccountId, sysId));
+		return new Ro<>(ResultDic.SUCCESS, "获取当前账户信息成功", ra);
+	}
 
-    /**
-     * 分页查询列表
-     *
-     * @param qo 查询条件
-     *
-     * @return 查询到的分页信息
-     */
-    @Override
-    public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
-        final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
-        final ISelect          select = () -> _mapper.list(listTo);
-        return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-    }
+	/**
+	 * 分页查询列表
+	 *
+	 * @param qo 查询条件
+	 *
+	 * @return 查询到的分页信息
+	 */
+	@Override
+	public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
+		final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
+		final ISelect select = () -> _mapper.list(listTo);
+		return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+	}
 
-    /**
-     * 从接口获取本服务的单例(提供给基类调用)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> getThisSvc() {
-        return thisSvc;
-    }
+	/**
+	 * 从接口获取本服务的单例(提供给基类调用)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> getThisSvc() {
+		return thisSvc;
+	}
 
 }
