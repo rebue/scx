@@ -30,6 +30,7 @@ import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacLockLogMo;
+import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
@@ -295,11 +296,15 @@ public class RacAccountSvcImpl extends
      * @return 查询到的分页信息
      */
     @Override
-    public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
-        final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
-        final ISelect          select = () -> _mapper.list(listTo);
-        return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-    }
+	public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
+		final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
+		if (listTo.getOrgId() != null) {
+			RacOrgMo orgMo = racOrgSvc.getById(qo.getOrgId());
+			listTo.setOrgTreeCode(orgMo.getTreeCode());
+		}
+		final ISelect select = () -> _mapper.list(listTo);
+		return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+	}
 
     /**
      * 查询账户的信息
