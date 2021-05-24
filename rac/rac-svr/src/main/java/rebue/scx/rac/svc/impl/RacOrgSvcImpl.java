@@ -34,6 +34,7 @@ import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
+import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 import rebue.wheel.core.exception.RuntimeExceptionX;
 
 /**
@@ -169,6 +170,23 @@ public class RacOrgSvcImpl extends
 				}
 			}
 		}
+	}
+
+	/**
+	 * 修改账户默认组织的信息
+	 *
+	 * @param to 修改的具体数据
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void modifyDefaultOrg(RacOrgModifyDefaultOrgTo to) {
+		// 获得当前账户的默认orgId
+		RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
+		RacAccountMo accountMo = _dozerMapper.map(racAccountMo, RacAccountMo.class);
+		// 修改账户的默认orgId
+		accountMo.setOrgId(to.getOrgId());
+		racAccountMapper.updateByPrimaryKeySelective(accountMo);
+
 	}
 
 	/**

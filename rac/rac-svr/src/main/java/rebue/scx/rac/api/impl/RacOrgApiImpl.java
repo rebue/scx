@@ -19,6 +19,7 @@ import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
+import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 
 /**
  * 组织API实现
@@ -39,6 +40,17 @@ public class RacOrgApiImpl extends
 	public Ro<?> addOrgAccount(RacOrgAccountAddTo to) {
 		_svc.addOrgAccount(to);
 		return new Ro<>(ResultDic.SUCCESS, "添加成功");
+	}
+
+	/**
+	 * 修改账户默认组织的信息
+	 *
+	 * @param to 修改的具体数据
+	 */
+	@Override
+	public Ro<?> modifyDefaultOrg(RacOrgModifyDefaultOrgTo to) {
+		_svc.modifyDefaultOrg(to);
+		return new Ro<>(ResultDic.SUCCESS, "修改成功");
 	}
 
 	/**

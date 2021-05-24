@@ -540,7 +540,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
 	default List<RacAccountMo> list(final RacAccountListTo qo) {
 		final String keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
 
-		final String hierarchical = ((qo.getOrgId() != null) && qo.getHierarchical()) //
+		final String hierarchical = ((qo.getOrgId() != null) && qo.getHierarchical() != null && qo.getHierarchical()) //
 				? qo.getOrgTreeCode() + "%"
 				: null;
 

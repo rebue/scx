@@ -11,6 +11,7 @@ import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
+import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 
 /**
  * 组织API
@@ -45,5 +46,12 @@ public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgMo
 	 * @param qo 查询的具体条件
 	 */
 	Ro<ListRa<RacOrgMo>> listByAccountId(RacOrgListByAccountIdTo qo);
+
+	/**
+	 * 修改账户默认组织的信息
+	 *
+	 * @param to 修改的具体数据
+	 */
+	Ro<?> modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
 
 }

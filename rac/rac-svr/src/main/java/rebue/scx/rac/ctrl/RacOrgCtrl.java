@@ -26,6 +26,7 @@ import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
+import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 
 /**
  * 组织控制器
@@ -81,6 +82,16 @@ public class RacOrgCtrl {
 	@PutMapping("/rac/org")
 	public Mono<Ro<?>> modify(@RequestBody final RacOrgModifyTo to) {
 		return Mono.create(callback -> callback.success(api.modify(to)));
+	}
+	
+	/**
+	 * 修改账户默认组织的信息
+	 *
+	 * @param to 修改的具体数据
+	 */
+	@PutMapping("/rac/org/modifyDefaultOrg")
+	public Mono<Ro<?>> modifyDefaultOrg(@RequestBody final RacOrgModifyDefaultOrgTo to) {
+		return Mono.create(callback -> callback.success(api.modifyDefaultOrg(to)));
 	}
 
 	/**

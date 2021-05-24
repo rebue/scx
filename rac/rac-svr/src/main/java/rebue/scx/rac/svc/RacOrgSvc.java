@@ -16,6 +16,7 @@ import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
+import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 
 /**
  * 组织服务接口
@@ -54,4 +55,11 @@ public interface RacOrgSvc extends
 	 * @param qo 查询的具体条件
 	 */
 	List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo);
+
+	/**
+	 * 修改账户默认组织的信息
+	 *
+	 * @param to 修改的具体数据
+	 */
+	void modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
 }
