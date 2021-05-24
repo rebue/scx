@@ -18,6 +18,7 @@ import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 
 /**
  * 组织API实现
@@ -59,6 +60,16 @@ public class RacOrgApiImpl extends
 	@Override
 	public Ro<ListRa<RacOrgMo>> list(RacOrgListTo qo) {
 		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
+	}
+
+	/**
+	 * 查询当前账户所在的组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@Override
+	public Ro<ListRa<RacOrgMo>> listByAccountId(RacOrgListByAccountIdTo qo) {
+		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.listByAccountId(qo)));
 	}
 
 }

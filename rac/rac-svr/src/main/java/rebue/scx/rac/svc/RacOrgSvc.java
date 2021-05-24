@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
@@ -13,6 +15,7 @@ import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 
 /**
  * 组织服务接口
@@ -44,4 +47,11 @@ public interface RacOrgSvc extends
 	 * @param to 添加的具体信息
 	 */
 	void delOrgAccount(RacOrgAccountDelTo to);
+
+	/**
+	 * 查询当前账户所在的组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo);
 }

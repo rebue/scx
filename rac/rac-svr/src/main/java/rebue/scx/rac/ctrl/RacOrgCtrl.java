@@ -25,6 +25,7 @@ import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 
 /**
  * 组织控制器
@@ -123,6 +124,15 @@ public class RacOrgCtrl {
 	@GetMapping("/rac/org/list")
 	public Mono<Ro<ListRa<RacOrgMo>>> list(final RacOrgListTo qo) {
 		return Mono.create(callback -> callback.success(api.list(qo)));
+	}
+	/**
+	 * 查询当前账户所在的组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@GetMapping("/rac/org/list-by-account-id")
+	public Mono<Ro<ListRa<RacOrgMo>>> listByAccountId(final RacOrgListByAccountIdTo qo) {
+		return Mono.create(callback -> callback.success(api.listByAccountId(qo)));
 	}
 
 	/**

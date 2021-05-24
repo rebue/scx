@@ -10,6 +10,7 @@ import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 
 /**
  * 组织API
@@ -38,4 +39,11 @@ public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgMo
 	 * @param qo 查询的具体条件
 	 */
 	Ro<ListRa<RacOrgMo>> list(RacOrgListTo qo);
+	/**
+	 * 查询当前账户所在的组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	Ro<ListRa<RacOrgMo>> listByAccountId(RacOrgListByAccountIdTo qo);
+
 }

@@ -33,6 +33,7 @@ import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.wheel.core.exception.RuntimeExceptionX;
 
 /**
@@ -158,7 +159,7 @@ public class RacOrgSvcImpl extends
 			if (rowCount != 1) {
 				throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
 			}
-			//查询判断是否存在默认组织，没有则添加
+			// 查询判断是否存在默认组织，没有则添加
 			RacAccountMo accountMo = racAccountMapper.selectByPrimaryKey(accountId).get();
 			if (accountMo.getOrgId() == null) {
 				accountMo.setOrgId(to.getOrgId());
@@ -231,6 +232,17 @@ public class RacOrgSvcImpl extends
 			racOrgLeafMo.setIsLeaf(!_mapper.existSelective(existQo));
 			return racOrgLeafMo;
 		}).collect(Collectors.toList());
+	}
+
+	/**
+	 * 查询当前账户所在的组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@Override
+	public List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo) {
+		List<RacOrgMo> list = _mapper.listByAccountId(qo);
+		return list;
 	}
 
 }

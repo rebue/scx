@@ -1,7 +1,9 @@
 package rebue.scx.rac.mapper;
 
+import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.racOrgAccount;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.fullName;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.id;
@@ -44,6 +46,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacOrgMo;
+import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 
 @Mapper
 public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
@@ -339,5 +342,15 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
 						.and(fullName, isEqualToWhenPresent(record::getFullName))
 						.and(introduction, isEqualToWhenPresent(record::getIntroduction))
 						.and(remark, isEqualToWhenPresent(record::getRemark)));
+	}
+
+	/**
+	 * 查询当前账户所在的组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	default List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo) {
+		return select(c -> c.join(racOrgAccount).on(racOrg.id, equalTo(racOrgAccount.orgId))
+				.where(racOrgAccount.accountId, isEqualToWhenPresent(qo.getAccountId())));
 	}
 }
