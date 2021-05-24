@@ -1,5 +1,7 @@
 package rebue.scx.rac.api.impl;
 
+import java.io.InputStream;
+
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
@@ -28,64 +30,72 @@ import rebue.scx.rac.to.RacAccountPageTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-		BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-		implements RacAccountApi {
+    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+    implements RacAccountApi {
 
-	/**
-	 * 修改账户登录密码
-	 *
-	 * @param to 修改账户登录密码的具体数据
-	 */
-	@Override
-	public Ro<?> modifySignInPswd(RacAccountModifySignInPswdTo to) {
-		_svc.modifySignInPswd(to);
-		return new Ro<>(ResultDic.SUCCESS, "修改成功");
-	}
+    /**
+     * 修改账户登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    @Override
+    public Ro<?> modifySignInPswd(final RacAccountModifySignInPswdTo to) {
+        _svc.modifySignInPswd(to);
+        return new Ro<>(ResultDic.SUCCESS, "修改成功");
+    }
 
-	/**
-	 * 启用账户
-	 *
-	 * @param to 启用的具体数据
-	 */
-	@Override
-	public Ro<?> enable(RacAccountEnableTo to) {
-		_svc.enable(to);
-		return new Ro<>(ResultDic.SUCCESS, "启用账户成功");
-	}
+    /**
+     * 启用账户
+     *
+     * @param to 启用的具体数据
+     */
+    @Override
+    public Ro<?> enable(final RacAccountEnableTo to) {
+        _svc.enable(to);
+        return new Ro<>(ResultDic.SUCCESS, "启用账户成功");
+    }
 
-	/**
-	 * 禁用账户
-	 *
-	 * @param to 禁用的具体数据
-	 */
-	@Override
-	public Ro<?> disable(RacAccountDisableTo to) {
-		_svc.disable(to);
-		return new Ro<>(ResultDic.SUCCESS, "禁用账户成功");
-	}
+    /**
+     * 禁用账户
+     *
+     * @param to 禁用的具体数据
+     */
+    @Override
+    public Ro<?> disable(final RacAccountDisableTo to) {
+        _svc.disable(to);
+        return new Ro<>(ResultDic.SUCCESS, "禁用账户成功");
+    }
 
-	/**
-	 * 查询账户的信息
-	 *
-	 * @param qo 查询的具体条件
-	 *
-	 */
-	@Override
-	public Ro<ListTransferOfOrgRa> listTransferOfOrg(RacAccountPageTo qo) {
-		return _svc.listTransferOfOrg(qo);
-	}
+    /**
+     * 上传头像
+     */
+    @Override
+    public Ro<?> uploadAvatar(final InputStream inputStream) {
+        return _svc.uploadAvatar(inputStream);
+    }
 
-	/**
-	 * 获取当前账户信息
-	 *
-	 * @param curAccountId 当前账户ID
-	 * @param sysId        系统ID
-	 *
-	 * @return 当前账户信息
-	 */
-	@Override
-	public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
-		return _svc.getCurAccountInfo(curAccountId, sysId);
-	}
+    /**
+     * 查询账户的信息
+     *
+     * @param qo 查询的具体条件
+     *
+     */
+    @Override
+    public Ro<ListTransferOfOrgRa> listTransferOfOrg(final RacAccountPageTo qo) {
+        return _svc.listTransferOfOrg(qo);
+    }
+
+    /**
+     * 获取当前账户信息
+     *
+     * @param curAccountId 当前账户ID
+     * @param sysId        系统ID
+     *
+     * @return 当前账户信息
+     */
+    @Override
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
+        return _svc.getCurAccountInfo(curAccountId, sysId);
+    }
 
 }

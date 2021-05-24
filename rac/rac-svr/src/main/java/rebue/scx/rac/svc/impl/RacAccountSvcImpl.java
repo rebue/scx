@@ -4,6 +4,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.and;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,16 @@ public class RacAccountSvcImpl extends
     @Override
     protected Class<RacAccountMo> getMoClass() {
         return RacAccountMo.class;
+    }
+
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> getThisSvc() {
+        return thisSvc;
     }
 
     @Override
@@ -229,6 +240,15 @@ public class RacAccountSvcImpl extends
     }
 
     /**
+     * 上传头像
+     */
+    @Override
+    public Ro<?> uploadAvatar(final InputStream inputStream) {
+
+        return new Ro<>(ResultDic.SUCCESS, "上传头像成功");
+    }
+
+    /**
      * 通过email获取账户信息
      *
      * @param domainId 领域ID
@@ -306,16 +326,6 @@ public class RacAccountSvcImpl extends
         final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
         final ISelect          select = () -> _mapper.list(listTo);
         return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-    }
-
-    /**
-     * 从接口获取本服务的单例(提供给基类调用)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> getThisSvc() {
-        return thisSvc;
     }
 
 }
