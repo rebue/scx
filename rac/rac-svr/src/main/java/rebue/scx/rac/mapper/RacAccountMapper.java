@@ -558,11 +558,11 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             if (qo.getOrgId() != null) {
                 return c.join(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId))
                     .where(racOrgAccount.orgId, isEqualTo(qo::getOrgId),
-                        and(racAccount.domainId, isEqualTo(qo.getDomainId()), sqlCriterion));
+                        and(racAccount.domainId, isEqualToWhenPresent(qo.getDomainId()), sqlCriterion));
             }
             else {
                 return c
-                    .where(racAccount.domainId, isEqualTo(qo.getDomainId()), sqlCriterion);
+                    .where(racAccount.domainId, isEqualToWhenPresent(qo.getDomainId()), sqlCriterion);
             }
         });
     }

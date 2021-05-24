@@ -36,6 +36,7 @@ import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.wheel.turing.JwtUtils;
 
 /**
@@ -131,7 +132,7 @@ public class RacAccountCtrl {
      *
      */
     @GetMapping("/rac/account/listTransferOfOrg")
-    public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacAccountPageTo qo) {
+    public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
         return Mono.create(callback -> callback.success(api.listTransferOfOrg(qo)));
     }
 
@@ -170,7 +171,6 @@ public class RacAccountCtrl {
     public Mono<Ro<?>> disable(@RequestBody final RacAccountDisableTo qo,
                                @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         if (StringUtils.isBlank(jwtToken)) {
-            throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
         qo.setLockOpId(JwtUtils.getJwtAccountIdInSign(jwtToken));
         qo.setLockDatetime(LocalDateTime.now());

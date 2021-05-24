@@ -48,6 +48,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.ex.RacAccountExMo;
+import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.scx.rac.util.PswdUtils;
 
 /**
@@ -167,33 +168,6 @@ public class RacAccountSvcImpl extends
     }
 
     /**
-     * 查询账户的信息
-     *
-     * @param to 查询的具体条件
-     *
-     */
-    @Override
-    public Ro<ListTransferOfOrgRa> listTransferOfOrg(final RacAccountPageTo to) {
-        // 查找存在当前组织下的账户
-        final RacAccountListTo existQo = new RacAccountListTo();
-        existQo.setOrgId(to.getOrgId());
-        existQo.setKeywords(to.getKeywords());
-        final List<RacAccountMo> existAccountList = _mapper.list(existQo);
-        // 查询可添加的所有用户
-        final RacAccountExMo     addableQo        = new RacAccountExMo();
-        addableQo.setDomainId(to.getDomainId());
-        addableQo.setOrgId(to.getOrgId());
-        addableQo.setKeywords(to.getKeywords());
-        final ISelect                select      = () -> _mapper.getAddablAccountList(addableQo);
-        final PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
-        // 将所有记录添加到返回ListTransferOfOrgRa的对象中
-        final ListTransferOfOrgRa    ro          = new ListTransferOfOrgRa();
-        ro.setAddableList(addableList);
-        ro.setExistList(existAccountList);
-        return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);
-    }
-
-    /**
      * 启用账户
      *
      * @param to 启用的具体数据
@@ -244,7 +218,6 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public Ro<?> uploadAvatar(final InputStream inputStream) {
-
         return new Ro<>(ResultDic.SUCCESS, "上传头像成功");
     }
 
@@ -326,6 +299,33 @@ public class RacAccountSvcImpl extends
         final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
         final ISelect          select = () -> _mapper.list(listTo);
         return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+    }
+
+    /**
+     * 查询账户的信息
+     *
+     * @param to 查询的具体条件
+     *
+     */
+    @Override
+    public Ro<ListTransferOfOrgRa> listTransferOfOrg(final RacListTransferOfOrgTo to) {
+        // 查找存在当前组织下的账户
+        final RacAccountListTo existQo = new RacAccountListTo();
+        existQo.setOrgId(to.getOrgId());
+        existQo.setKeywords(to.getExistKeywords());
+        final List<RacAccountMo> existAccountList = _mapper.list(existQo);
+        // 查询可添加的所有用户
+        final RacAccountExMo     addableQo        = new RacAccountExMo();
+        addableQo.setDomainId(to.getDomainId());
+        addableQo.setOrgId(to.getOrgId());
+        addableQo.setKeywords(to.getAddableKeywords());
+        final ISelect                select      = () -> _mapper.getAddablAccountList(addableQo);
+        final PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
+        // 将所有记录添加到返回ListTransferOfOrgRa的对象中
+        final ListTransferOfOrgRa    ro          = new ListTransferOfOrgRa();
+        ro.setAddableList(addableList);
+        ro.setExistList(existAccountList);
+        return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);
     }
 
 }
