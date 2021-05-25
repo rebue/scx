@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
@@ -67,7 +69,7 @@ public interface RacAccountSvc extends
     /**
      * 上传头像
      */
-    Ro<?> uploadAvatar(InputStream inputStream);
+    Ro<?> uploadAvatar(Long accountId, String fileName, ContentDisposition contentDisposition, MediaType contentType, InputStream inputStream);
 
     /**
      * 通过email获取账户信息

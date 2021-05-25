@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -183,13 +185,23 @@ public class RacAccountCtrl {
      * @throws IOException
      */
     @PostMapping(value = "/rac/account/upload-avatar")
-    public Mono<?> uploadAvatar(@RequestPart("avatar") final Flux<FilePart> filePartFlux) {
-        // return filePartFlux.flatMap(it -> it.transferTo(Paths.get("/tmp/" + it.filename())))
-        // .then(Mono.just(api.uploadAvatar(null)));
-        return filePartFlux.flatMap(filePart -> filePart.content()
-            .map(dataBuffer -> dataBuffer.asInputStream(true))
-            .reduce(SequenceInputStream::new)
-            .map(api::uploadAvatar)).next();
+    public Mono<?> uploadAvatar(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux) {
+        if (StringUtils.isBlank(jwtToken)) {
+            throw new IllegalArgumentException("在Cookie中找不到JWT签名");
+        }
+        final Long curAccountId = JwtUtils.getJwtAccountIdInSign(jwtToken);
+        if (curAccountId == null) {
+            throw new IllegalArgumentException("在JWT签名中找不到账户ID");
+        }
+        return filePartFlux.flatMap(filePart -> {
+            final String             fileName           = filePart.filename();
+            final MediaType          contentType        = filePart.headers().getContentType();
+            final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
+            return filePart.content()
+                .map(dataBuffer -> dataBuffer.asInputStream(true))
+                .reduce(SequenceInputStream::new)
+                .map(inputStrem -> api.uploadAvatar(curAccountId, fileName, contentDisposition, contentType, inputStrem));
+        }).next();
     }
 
     /**

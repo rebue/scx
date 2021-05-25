@@ -7,23 +7,37 @@ import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageInfo;
+import com.google.common.io.Files;
 
+import io.minio.BucketExistsArgs;
+import io.minio.GetBucketPolicyArgs;
+import io.minio.MakeBucketArgs;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
+import io.minio.SetBucketPolicyArgs;
+import lombok.SneakyThrows;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
+import rebue.scx.rac.co.RacMinioCo;
 import rebue.scx.rac.dao.RacAccountDao;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mapper.RacAccountMapper;
@@ -94,6 +108,12 @@ public class RacAccountSvcImpl extends
 
     @Resource
     private RacOrgSvc           racOrgSvc;
+
+    @Resource
+    private MinioClient         minioClient;
+
+    @Value("${minio.endpoint:http://127.0.0.1:9000}")
+    private String              minioEndpoint;
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -218,7 +238,42 @@ public class RacAccountSvcImpl extends
      * 上传头像
      */
     @Override
-    public Ro<?> uploadAvatar(final InputStream inputStream) {
+    @SneakyThrows
+    public Ro<?> uploadAvatar(final Long accountId, final String fileName, final ContentDisposition contentDisposition, final MediaType contentType,
+                              final InputStream inputStream) {
+        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
+        if (!found) {
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
+            final String policyJson = String.format(
+                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+                RacMinioCo.AVATAR_BUCKET);
+            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).config(policyJson).build());
+        }
+
+        final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
+        System.out.println(bucketPolicy);
+
+        final String              contentTypeString = contentType.toString();
+        final Map<String, String> headers           = new HashMap<>();
+        headers.put("Content-Disposition", contentDisposition.toString());
+        headers.put("Content-Type", contentTypeString);
+        final String fileExt    = Files.getFileExtension(fileName);
+        final String objectName = accountId.toString() + "." + fileExt;
+
+        minioClient.putObject(
+            PutObjectArgs.builder()
+                .bucket(RacMinioCo.AVATAR_BUCKET)
+                .contentType(contentTypeString)
+                .headers(headers)
+                .object(objectName)
+                .stream(inputStream, -1, 10485760)
+                .build());
+
+        final RacAccountMo mo = new RacAccountMo();
+        mo.setId(accountId);
+        mo.setSignInAvatar(String.format("%s/%s/%s", minioEndpoint, RacMinioCo.AVATAR_BUCKET, objectName));
+        thisSvc.modifyMoById(mo);
+
         return new Ro<>(ResultDic.SUCCESS, "上传头像成功");
     }
 
@@ -296,15 +351,15 @@ public class RacAccountSvcImpl extends
      * @return 查询到的分页信息
      */
     @Override
-	public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
-		final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
-		if (listTo.getOrgId() != null) {
-			RacOrgMo orgMo = racOrgSvc.getById(qo.getOrgId());
-			listTo.setOrgTreeCode(orgMo.getTreeCode());
-		}
-		final ISelect select = () -> _mapper.list(listTo);
-		return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-	}
+    public PageInfo<RacAccountMo> page(final RacAccountPageTo qo) {
+        final RacAccountListTo listTo = _dozerMapper.map(qo, RacAccountListTo.class);
+        if (listTo.getOrgId() != null) {
+            final RacOrgMo orgMo = racOrgSvc.getById(qo.getOrgId());
+            listTo.setOrgTreeCode(orgMo.getTreeCode());
+        }
+        final ISelect select = () -> _mapper.list(listTo);
+        return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+    }
 
     /**
      * 查询账户的信息
