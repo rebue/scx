@@ -8,8 +8,10 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
@@ -185,7 +188,8 @@ public class RacAccountCtrl {
      * @throws IOException
      */
     @PostMapping(value = "/rac/account/upload-avatar")
-    public Mono<?> uploadAvatar(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux) {
+    public Mono<?> uploadAvatar(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux,
+                                final ServerHttpResponse response) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -195,12 +199,18 @@ public class RacAccountCtrl {
         }
         return filePartFlux.flatMap(filePart -> {
             final String             fileName           = filePart.filename();
-            final MediaType          contentType        = filePart.headers().getContentType();
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
+            final MediaType          contentType        = filePart.headers().getContentType();
             return filePart.content()
                 .map(dataBuffer -> dataBuffer.asInputStream(true))
                 .reduce(SequenceInputStream::new)
-                .map(inputStrem -> api.uploadAvatar(curAccountId, fileName, contentDisposition, contentType, inputStrem));
+                .map(inputStream -> {
+                    final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition, contentType, inputStream);
+                    if (!ResultDic.SUCCESS.equals(ro.getResult())) {
+                        response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                    return ro;
+                });
         }).next();
     }
 

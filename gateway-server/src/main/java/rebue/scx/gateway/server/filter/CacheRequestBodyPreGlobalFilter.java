@@ -112,6 +112,16 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         // 缓存请求时间戳
         exchange.getAttributes().put(CachedKeyCo.REQUEST_TIME, requestTime);
 
+        // 如果是文件上传，不要读取Body
+        if (contentType != null && "multipart".equals(contentType.getType())) {
+            // 记录文件日志
+            logFile(sessionId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, null);
+
+            logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
+                queryParams, null);
+            return chain.filter(exchange);
+        }
+
         return DataBufferUtils.join(request.getBody()).doOnNext(dataBuffer -> {
             if (dataBuffer.readableByteCount() > 0) {
                 // 将body读到字符串中
