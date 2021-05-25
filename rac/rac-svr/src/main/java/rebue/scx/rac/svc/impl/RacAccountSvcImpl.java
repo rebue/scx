@@ -271,7 +271,8 @@ public class RacAccountSvcImpl extends
 
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(accountId);
-        mo.setSignInAvatar(String.format("%s/%s/%s", minioEndpoint, RacMinioCo.AVATAR_BUCKET, objectName));
+        // XXX 添加a参数并设置时间戳，以防前端接收到地址未改变，图片不刷新
+        mo.setSignInAvatar(String.format("%s/%s/%s?a=%s", minioEndpoint, RacMinioCo.AVATAR_BUCKET, objectName, System.currentTimeMillis()));
         thisSvc.modifyMoById(mo);
 
         return new Ro<>(ResultDic.SUCCESS, "上传头像成功");
