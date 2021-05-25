@@ -7,15 +7,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import rebue.robotech.to.PageTo;
 
 /**
  * 组织
  *
  */
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
-public class RacOrgListByAccountIdTo implements Serializable {
+public class RacOrgListByAccountIdTo extends PageTo  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,5 +31,10 @@ public class RacOrgListByAccountIdTo implements Serializable {
 	 *
 	 */
 	private Long orgId;
+
+	/**
+	 * 查询关键字
+	 */
+	private String keywords;
 
 }

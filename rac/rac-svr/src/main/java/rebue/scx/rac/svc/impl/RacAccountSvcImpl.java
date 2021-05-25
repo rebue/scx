@@ -154,7 +154,7 @@ public class RacAccountSvcImpl extends
             accountId.add(result.getId());
             final RacOrgAccountAddTo to = new RacOrgAccountAddTo();
             to.setOrgId(result.getOrgId());
-            to.setAccountId(accountId);
+            to.setAccountIds(accountId);
             racOrgSvc.addOrgAccount(to);
         }
 

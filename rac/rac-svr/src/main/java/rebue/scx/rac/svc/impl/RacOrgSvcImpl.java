@@ -149,7 +149,7 @@ public class RacOrgSvcImpl extends
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void addOrgAccount(RacOrgAccountAddTo to) {
-		List<Long> lists = to.getAccountId();
+		List<Long> lists = to.getAccountIds();
 		for (Long accountId : lists) {
 			final RacOrgAccountMo mo = new RacOrgAccountMo();
 			// 如果id为空那么自动生成分布式id
@@ -206,10 +206,15 @@ public class RacOrgSvcImpl extends
 		}
 	}
 
+	/**
+	 * 查询可以添加的组织信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
 	@Override
-	public PageInfo<RacOrgMo> page(ISelect select, Integer pageNum, Integer pageSize, String orderBy) {
-		// TODO Auto-generated method stub
-		return super.page(select, pageNum, pageSize, orderBy);
+	public PageInfo<RacOrgMo> listAddableOrg(RacOrgListByAccountIdTo qo) {
+		final ISelect select = () -> _mapper.listAddableOrg(qo);
+		return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), null);
 	}
 
 	/**
@@ -259,8 +264,7 @@ public class RacOrgSvcImpl extends
 	 */
 	@Override
 	public List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo) {
-		List<RacOrgMo> list = _mapper.listByAccountId(qo);
-		return list;
+		return _mapper.listByAccountId(qo);
 	}
 
 }

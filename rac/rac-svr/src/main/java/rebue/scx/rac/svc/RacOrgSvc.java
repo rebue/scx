@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacOrgJo;
 import rebue.scx.rac.mo.RacOrgMo;
@@ -62,4 +64,11 @@ public interface RacOrgSvc extends
 	 * @param to 修改的具体数据
 	 */
 	void modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
+
+	/**
+	 * 查询可以添加的组织信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	PageInfo<RacOrgMo> listAddableOrg(RacOrgListByAccountIdTo qo);
 }

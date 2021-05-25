@@ -5,6 +5,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.ListRa;
+import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacOrgApi;
 import rebue.scx.rac.jo.RacOrgJo;
@@ -82,6 +83,16 @@ public class RacOrgApiImpl extends
 	@Override
 	public Ro<ListRa<RacOrgMo>> listByAccountId(RacOrgListByAccountIdTo qo) {
 		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.listByAccountId(qo)));
+	}
+
+	/**
+	 * 查询可以添加的组织信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@Override
+	public Ro<PageRa<RacOrgMo>> listAddableOrg(RacOrgListByAccountIdTo qo) {
+		return new Ro<>(ResultDic.SUCCESS, "分页查询成功", new PageRa<>(_svc.listAddableOrg(qo)));
 	}
 
 }

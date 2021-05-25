@@ -83,7 +83,7 @@ public class RacOrgCtrl {
 	public Mono<Ro<?>> modify(@RequestBody final RacOrgModifyTo to) {
 		return Mono.create(callback -> callback.success(api.modify(to)));
 	}
-	
+
 	/**
 	 * 修改账户默认组织的信息
 	 *
@@ -136,6 +136,7 @@ public class RacOrgCtrl {
 	public Mono<Ro<ListRa<RacOrgMo>>> list(final RacOrgListTo qo) {
 		return Mono.create(callback -> callback.success(api.list(qo)));
 	}
+
 	/**
 	 * 查询当前账户所在的组织的信息
 	 *
@@ -144,6 +145,16 @@ public class RacOrgCtrl {
 	@GetMapping("/rac/org/list-by-account-id")
 	public Mono<Ro<ListRa<RacOrgMo>>> listByAccountId(final RacOrgListByAccountIdTo qo) {
 		return Mono.create(callback -> callback.success(api.listByAccountId(qo)));
+	}
+
+	/**
+	 * 查询可以添加的组织信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@GetMapping("/rac/org/listAddableOrg")
+	public Mono<Ro<PageRa<RacOrgMo>>> listAddableOrg(final RacOrgListByAccountIdTo qo) {
+		return Mono.create(callback -> callback.success(api.listAddableOrg(qo)));
 	}
 
 	/**

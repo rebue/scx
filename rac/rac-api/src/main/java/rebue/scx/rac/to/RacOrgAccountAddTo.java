@@ -39,5 +39,5 @@ public class RacOrgAccountAddTo implements Serializable {
 	 */
 	@NotNull(message = "账户ID不能为空")
 	@PositiveOrZero(message = "账户ID不能为负数")
-	private List<Long> accountId;
+	private List<Long> accountIds;
 }

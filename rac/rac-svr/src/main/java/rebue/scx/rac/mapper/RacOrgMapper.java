@@ -22,9 +22,11 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
@@ -353,4 +355,16 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
 		return select(c -> c.join(racOrgAccount).on(racOrg.id, equalTo(racOrgAccount.orgId))
 				.where(racOrgAccount.accountId, isEqualToWhenPresent(qo.getAccountId())));
 	}
+
+	/**
+	 * 查询可以添加的组织信息
+	 */
+	@Select({ " <script>" + "SELECT  ao.* FROM  RAC_ORG ao left JOIN  RAC_ORG_ACCOUNT aoa ON ao.id = aoa.ORG_ID "
+			+ " WHERE  <if test='record.keywords!=null'>"
+			+ "(ao.NAME like '%${record.keywords}%' or ao.REMARK like '%${record.keywords}%') and </if>"
+			+ " ( not  EXISTS( SELECT a.ORG_ID FROM RAC_ORG_ACCOUNT a  "
+			+ "    WHERE   a.ACCOUNT_ID = #{record.accountId} and ao.id=a.ORG_ID)) " + "    GROUP BY ao.ID"
+			+ " </script>" })
+	List<RacOrgMo> listAddableOrg(@Param(value = "record") RacOrgListByAccountIdTo record);
+
 }
