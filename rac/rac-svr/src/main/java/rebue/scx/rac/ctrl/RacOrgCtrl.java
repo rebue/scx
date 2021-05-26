@@ -17,6 +17,7 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacOrgApi;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
@@ -48,6 +49,7 @@ public class RacOrgCtrl {
 	 * @param to 添加的具体信息
 	 * @mbg.generated 自动生成，如需修改，请删除本行
 	 */
+	@RacOpLog(opTitle = "添加组织",opType = "添加",opDetail = "添加组织")
 	@PostMapping("/rac/org")
 	public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOrgAddTo to) {
 		return Mono.create(callback -> callback.success(api.add(to)));
