@@ -57,7 +57,7 @@ public class RacOpLogAopConfig {
                             racPub.addOpLog(to);
                         }
                     }
-                    return mono;
+                    return Mono.just(ro);
                 });
             }
             else {
