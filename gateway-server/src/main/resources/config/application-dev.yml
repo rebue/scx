@@ -1,7 +1,14 @@
 # 配置中心的配置
-rrl:
-  # 发送消息的超时时间(发送添加请求和响应日志的消息时使用)
-  send-timeout: 1000
+scx:
+  gateway:
+    # 发送消息的超时时间(发送添加请求和响应日志的消息时使用)
+    send-timeout: 1000
+    multipart:
+      max-file-size:
+        default-limit: 1MB
+        specifies:
+          - url: POST:/rac/account/upload-avatar
+            limit: 75KB
 
 spring:
   cloud:

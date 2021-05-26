@@ -1,4 +1,4 @@
-package rebue.scx.gateway.server.configuration;
+package rebue.scx.gateway.server.config;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,11 +18,11 @@ import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBloc
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnExpression("#{!'false'.equals(environment.getProperty('spring.cloud.sentinel.enabled'))}")
-public class SentinelConfiguration {
+public class SentinelConfig {
     private final List<ViewResolver>    viewResolvers;
     private final ServerCodecConfigurer serverCodecConfigurer;
 
-    public SentinelConfiguration(final ObjectProvider<List<ViewResolver>> viewResolversProvider, final ServerCodecConfigurer serverCodecConfigurer) {
+    public SentinelConfig(final ObjectProvider<List<ViewResolver>> viewResolversProvider, final ServerCodecConfigurer serverCodecConfigurer) {
         viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
         this.serverCodecConfigurer = serverCodecConfigurer;
     }
