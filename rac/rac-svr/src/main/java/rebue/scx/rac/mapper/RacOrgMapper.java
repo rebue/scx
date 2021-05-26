@@ -3,6 +3,8 @@ package rebue.scx.rac.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.racOrgAccount;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.fullName;
@@ -19,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -48,7 +51,9 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacOrgMo;
+import rebue.scx.rac.mo.Ex.RacOrgExMo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
+import rebue.wheel.core.NumberUtils;
 
 @Mapper
 public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
@@ -335,15 +340,19 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
 	/**
 	 * 查询根组织
 	 */
-	default List<RacOrgMo> selectByDomainId(RacOrgMo record) {
-		return select(
-				c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
-						.and(parentId, SqlBuilder.isNull()).and(domainId, isEqualToWhenPresent(record::getDomainId))
-						.and(orgType, isEqualToWhenPresent(record::getOrgType))
-						.and(treeCode, isEqualToWhenPresent(record::getTreeCode))
-						.and(fullName, isEqualToWhenPresent(record::getFullName))
-						.and(introduction, isEqualToWhenPresent(record::getIntroduction))
-						.and(remark, isEqualToWhenPresent(record::getRemark)));
+	default List<RacOrgMo> selectByDomainId(RacOrgExMo record) {
+		final String keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
+		return select(c -> c.where(id, isEqualToWhenPresent(record::getId))//
+				.and(name, isEqualToWhenPresent(record::getName)).and(parentId, SqlBuilder.isNull())
+				.and(domainId, isEqualToWhenPresent(record::getDomainId))
+				.and(orgType, isEqualToWhenPresent(record::getOrgType))
+				.and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+				.and(fullName, isEqualToWhenPresent(record::getFullName))
+				.and(introduction, isEqualToWhenPresent(record::getIntroduction))
+				.and(remark, isEqualToWhenPresent(record::getRemark))//
+				.and(name, isLikeWhenPresent(keywords),
+						or(id, isLikeWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
+						or(remark, isLikeWhenPresent(keywords))));
 	}
 
 	/**

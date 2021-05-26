@@ -35,6 +35,13 @@ public class RacOrgMo implements Serializable, Mo<Long> {
 	private Long id;
 
 	/**
+	 * 关键字
+	 */
+	@Getter
+	@Setter
+	@Length(max = 256, message = "搜索关键字不能超过20位数")
+	private String keywords;
+	/**
 	 * 组织名称(简称)
 	 *
 	 * @mbg.generated 自动生成，如需修改，请删除本行
