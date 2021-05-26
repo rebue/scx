@@ -1,4 +1,4 @@
-package rebue.scx.rac.to.ex;
+package rebue.scx.rac.mo.Ex;
 
 import org.hibernate.validator.constraints.Length;
 

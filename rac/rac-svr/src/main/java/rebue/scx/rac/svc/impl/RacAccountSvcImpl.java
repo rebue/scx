@@ -45,6 +45,7 @@ import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.mo.RacOrgMo;
+import rebue.scx.rac.mo.Ex.RacAccountExMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
@@ -62,7 +63,6 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
-import rebue.scx.rac.to.ex.RacAccountExMo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.scx.rac.util.PswdUtils;
 
