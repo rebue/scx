@@ -34,9 +34,9 @@ public class RacOpLogAopConfig {
         final Object      result = joinPoint.proceed();
         @SuppressWarnings("unchecked")
         final Mono<Ro<?>> mono   = (Mono<Ro<?>>) result;
-        return mono.doOnNext(ro -> {
+        return mono.flatMap(ro -> {
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                ReactiveRequestContextHolder.getRequest().doOnNext(request -> {
+                return ReactiveRequestContextHolder.getRequest().map(request -> {
                     final String sign  = CookieUtils.getValue(request, JwtUtils.JWT_TOKEN_NAME);
                     final String sysId = CookieUtils.getValue(request, RacCo.SYS_ID_KEY);
 
@@ -57,8 +57,10 @@ public class RacOpLogAopConfig {
                             racPub.addOpLog(to);
                         }
                     }
+                    return ro;
                 });
             }
+            return Mono.just(ro);
         });
     }
 
