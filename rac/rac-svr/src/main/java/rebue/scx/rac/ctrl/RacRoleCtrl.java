@@ -17,6 +17,7 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacRoleApi;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.to.RacRoleAddTo;
@@ -42,8 +43,10 @@ public class RacRoleCtrl {
 	 * 添加角色
 	 *
 	 * @param to 添加的具体信息
+	 * @mbg.dontOverWriteAnnotation
 	 * @mbg.generated 自动生成，如需修改，请删除本行
 	 */
+	@RacOpLog(opType = "添加角色", opTitle = "添加角色: #{#p0.name}")
 	@PostMapping("/rac/role")
 	public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacRoleAddTo to) {
 		return Mono.create(callback -> callback.success(api.add(to)));
@@ -53,8 +56,10 @@ public class RacRoleCtrl {
 	 * 修改角色的信息
 	 *
 	 * @param to 修改的具体数据
+	 * @mbg.dontOverWriteAnnotation
 	 * @mbg.generated 自动生成，如需修改，请删除本行
 	 */
+	@RacOpLog(opType = "修改角色", opTitle = "修改角色: #{#p0.name}")
 	@PutMapping("/rac/role")
 	public Mono<Ro<?>> modify(@RequestBody final RacRoleModifyTo to) {
 		return Mono.create(callback -> callback.success(api.modify(to)));
@@ -64,8 +69,10 @@ public class RacRoleCtrl {
 	 * 删除角色
 	 *
 	 * @param id 角色ID
+	 * @mbg.dontOverWriteAnnotation
 	 * @mbg.generated 自动生成，如需修改，请删除本行
 	 */
+	@RacOpLog(opType = "删除角色", opTitle = "删除角色: #{#p0}")
 	@DeleteMapping("/rac/role")
 	public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
 		return Mono.create(callback -> callback.success(api.del(id)));
@@ -123,25 +130,28 @@ public class RacRoleCtrl {
 	public Mono<Ro<?>> moveDown(@RequestBody final RacRoleModifyTo qo) {
 		return Mono.create(callback -> callback.success(api.moveDown(qo)));
 	}
-	
+
 	/**
-     * 启用角色
-     *
-     * @param to 启用的具体数据
-     */
+	 * 启用角色
+	 *
+	 * @param to 启用的具体数据
+	 */
+	@RacOpLog(opType = "启用角色", opTitle = "启用角色: #{#p0.id}")
 	@PostMapping("/rac/role/enable")
-    public Mono<Ro<?>> enable(@RequestBody final RacRoleModifyTo qo) {       
-        return Mono.create(callback -> callback.success(api.enable(qo)));
-    }
-    /**
-     * 禁用角色
-     *
-     * @param to 禁用的具体数据
-     */
+	public Mono<Ro<?>> enable(@RequestBody final RacRoleModifyTo qo) {
+		return Mono.create(callback -> callback.success(api.enable(qo)));
+	}
+
+	/**
+	 * 禁用角色
+	 *
+	 * @param to 禁用的具体数据
+	 */
+	@RacOpLog(opType = "禁用角色", opTitle = "禁用角色: #{#p0.id}")
 	@PostMapping("/rac/role/disable")
-    public Mono<Ro<?>> disable(@RequestBody final RacRoleModifyTo qo) {     
-        return Mono.create(callback -> callback.success(api.disable(qo)));
-    }
+	public Mono<Ro<?>> disable(@RequestBody final RacRoleModifyTo qo) {
+		return Mono.create(callback -> callback.success(api.disable(qo)));
+	}
 
 	/**
 	 * 查询角色的信息

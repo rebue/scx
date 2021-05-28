@@ -64,6 +64,7 @@ public class RacOrgCtrl {
 	 *
 	 * @param to 添加的具体信息
 	 */
+	@RacOpLog(opType = "添加组织账户关系", opTitle = "添加组织账户关系: #{#p0.orgId}")
 	@PostMapping("/rac/org/addOrgAccount")
 	public Mono<Ro<?>> addOrgAccount(@RequestBody final RacOrgAccountAddTo to) {
 		return Mono.create(callback -> callback.success(api.addOrgAccount(to)));
@@ -74,6 +75,7 @@ public class RacOrgCtrl {
 	 *
 	 * @param to 删除的具体信息
 	 */
+	@RacOpLog(opType = "删除组织账户关系", opTitle = "删除组织账户关系: #{#p0.orgId}")
 	@DeleteMapping("/rac/org/delOrgAccount")
 	public Mono<Ro<?>> delOrgAccount(@RequestBody final RacOrgAccountDelTo to) {
 		return Mono.create(callback -> callback.success(api.delOrgAccount(to)));
@@ -83,9 +85,12 @@ public class RacOrgCtrl {
 	 * 修改组织的信息
 	 *
 	 * @param to 修改的具体数据
+	 * 
+	 * @mbg.dontOverWriteAnnotation
 	 *
 	 * @mbg.generated 自动生成，如需修改，请删除本行
 	 */
+	@RacOpLog(opType = "修改组织", opTitle = "修改组织: #{#p0.name}")
 	@PutMapping("/rac/org")
 	public Mono<Ro<?>> modify(@RequestBody final RacOrgModifyTo to) {
 		return Mono.create(callback -> callback.success(api.modify(to)));
@@ -96,6 +101,7 @@ public class RacOrgCtrl {
 	 *
 	 * @param to 修改的具体数据
 	 */
+	@RacOpLog(opType = "修改组织账户关系", opTitle = "修改组织账户关系: #{#p0.orgId}")
 	@PutMapping("/rac/org/modifyOrgAccount")
 	public Mono<Ro<?>> modifyOrgAccount(@RequestBody final RacModifyOrgAccountTo to) {
 		return Mono.create(callback -> callback.success(api.modifyOrgAccount(to)));
@@ -106,6 +112,7 @@ public class RacOrgCtrl {
 	 *
 	 * @param to 修改的具体数据
 	 */
+	@RacOpLog(opType = "修改默认组织", opTitle = "修改默认组织: #{#p0.orgId}")
 	@PutMapping("/rac/org/modifyDefaultOrg")
 	public Mono<Ro<?>> modifyDefaultOrg(@RequestBody final RacOrgModifyDefaultOrgTo to) {
 		return Mono.create(callback -> callback.success(api.modifyDefaultOrg(to)));
@@ -115,9 +122,12 @@ public class RacOrgCtrl {
 	 * 删除组织
 	 *
 	 * @param id 组织ID
+	 * 
+	 * @mbg.dontOverWriteAnnotation
 	 *
 	 * @mbg.generated 自动生成，如需修改，请删除本行
 	 */
+	@RacOpLog(opType = "删除组织", opTitle = "删除组织: #{#p0}")
 	@DeleteMapping("/rac/org")
 	public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
 		return Mono.create(callback -> callback.success(api.del(id)));

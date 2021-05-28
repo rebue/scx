@@ -17,6 +17,7 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacPermUrnApi;
 import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.to.RacPermUrnAddTo;
@@ -54,6 +55,7 @@ public class RacPermUrnCtrl {
      *
      * @param to 添加的具体信息
      */
+	@RacOpLog(opType = "添加/修改URN", opTitle = "添加/修改URN: #{#p0.permId}")
     @PostMapping("/rac/perm-urn/modifyByPermId")
     public Mono<Ro<?>> modifyByPermId(@RequestBody final RacPermUrnAddTo to) {
         return Mono.create(callback -> callback.success(api.modifyByPermId(to)));
