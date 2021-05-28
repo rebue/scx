@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/4/30 13:11:54                           */
+/* Created on:     2021/5/28 18:18:10                           */
 /*==============================================================*/
 
 
@@ -29,7 +29,7 @@ drop table if exists RAC_DOMAIN;
 
 
 alter table RAC_LOCK_LOG 
-   drop foreign key FK_LOCK_LOG_AND_LOCK_ACCOUNT;
+   drop foreign key FK_LOCK_LOG_AND_LOCK_AGENT;
 
 alter table RAC_LOCK_LOG 
    drop foreign key FK_LOCK_LOG_AND_LOCK_OP;
@@ -40,7 +40,22 @@ alter table RAC_LOCK_LOG
 alter table RAC_LOCK_LOG 
    drop foreign key FK_LOCK_LOG_AND_DOMAIN;
 
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_LOCK_LOG_AND_ACCOUNT;
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_LOCK_LOG_AND_UNLOCK_AGENT;
+
 drop table if exists RAC_LOCK_LOG;
+
+
+alter table RAC_OPS_ORG 
+   drop foreign key FK_OPS_ORG_AND_MASTER_ORG;
+
+alter table RAC_OPS_ORG 
+   drop foreign key FK_OPS_ORG_AND_SLAVE_ORG;
+
+drop table if exists RAC_OPS_ORG;
 
 
 alter table RAC_OP_LOG 
@@ -48,6 +63,9 @@ alter table RAC_OP_LOG
 
 alter table RAC_OP_LOG 
    drop foreign key FK_OP_LOG_AND_SYS;
+
+alter table RAC_OP_LOG 
+   drop foreign key FK_OP_LOG_AND_AGENT;
 
 drop table if exists RAC_OP_LOG;
 
@@ -206,17 +224,33 @@ create table RAC_LOCK_LOG
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
    LOCK_ACCOUNT_ID      bigint unsigned not null  comment '锁定账户的账户ID',
    LOCK_OP_ID           bigint unsigned not null  comment '锁定操作员的账户ID',
+   LOCK_OP_AGENT_ID     bigint unsigned  comment '锁定操作的代理人的账户ID',
    LOCK_REASON          varchar(100) not null  comment '锁定原因',
    LOCK_DATETIME        datetime not null  comment '锁定时间',
    UNLOCK_REASON        varchar(100)  comment '解锁原因',
    UNLOCK_DATETIME      datetime  comment '解锁时间',
    UNLOCK_OP_ID         bigint unsigned  comment '解锁操作员的账户ID',
+   UNLOCK_OP_AGENT_ID   bigint unsigned  comment '解锁操作的代理人的账户ID',
    primary key (ID),
-   key AK_ACCOUNT_AND_LOCK_DATETIME (LOCK_ACCOUNT_ID, LOCK_DATETIME),
-   key AK_ACCOUNT_AND_UNLOCK_DATETIME (LOCK_ACCOUNT_ID, UNLOCK_DATETIME)
+   unique key AK_ACCOUNT_AND_LOCK_DATETIME (LOCK_ACCOUNT_ID, LOCK_DATETIME),
+   unique key AK_ACCOUNT_AND_UNLOCK_DATETIME (LOCK_ACCOUNT_ID, UNLOCK_DATETIME)
 );
 
 alter table RAC_LOCK_LOG comment '锁定日志';
+
+/*==============================================================*/
+/* Table: RAC_OPS_ORG                                           */
+/*==============================================================*/
+create table RAC_OPS_ORG
+(
+   ID                   bigint unsigned not null  comment 'ID',
+   MASTER_ORG_ID        bigint unsigned not null  comment '主组织ID',
+   SLAVE_ORG_ID         bigint unsigned not null  comment '从组织ID',
+   primary key (ID),
+   unique key AK_MASTER_AND_SLAVE (MASTER_ORG_ID, SLAVE_ORG_ID)
+);
+
+alter table RAC_OPS_ORG comment '运营组织';
 
 /*==============================================================*/
 /* Table: RAC_OP_LOG                                            */
@@ -226,12 +260,13 @@ create table RAC_OP_LOG
    ID                   bigint unsigned not null  comment '操作日志ID',
    SYS_ID               varchar(32) not null  comment '系统ID',
    ACCOUNT_ID           bigint unsigned not null  comment '账户ID',
+   AGENT_ID             bigint unsigned  comment '代理人ID',
    OP_TYPE              varchar(20) not null  comment '操作类型',
    OP_TITLE             varchar(32) not null  comment '操作标题',
    OP_DETAIL            varchar(300) not null  comment '操作详情',
    OP_DATETIME          datetime not null  comment '操作时间',
    primary key (ID),
-   key AK_ACCOUNT_AND_OP_TYPE_AND_DATETIME (ACCOUNT_ID, OP_TYPE, OP_DATETIME)
+   unique key AK_ACCOUNT_AND_OP_TYPE_AND_DATETIME (ACCOUNT_ID, OP_TYPE, OP_DATETIME)
 );
 
 alter table RAC_OP_LOG comment '操作日志';
@@ -242,10 +277,10 @@ alter table RAC_OP_LOG comment '操作日志';
 create table RAC_ORG
 (
    ID                   bigint unsigned not null  comment '组织ID',
-   NAME                 varchar(30) not null  comment '组织名称(简称)',
+   NAME                 varchar(30) not null  comment '组织名称',
    PARENT_ID            bigint unsigned  comment '上级组织ID(根组织填0)',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
-   ORG_TYPE             tinyint unsigned not null  comment '组织类型(1.集团;20.政府单位;21.公司;80.部门)',
+   ORG_TYPE             tinyint unsigned not null  comment '组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)',
    TREE_CODE            varchar(50) not null  comment '树编码',
    FULL_NAME            varchar(80)  comment '组织全名',
    INTRODUCTION         varchar(200)  comment '组织简介',
@@ -400,9 +435,9 @@ create table RAC_USER
    CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
-   key AK_MOBILE (MOBILE),
-   key AK_EMAIL (EMAIL),
-   key AK_ID_CARD (ID_CARD)
+   unique key AK_MOBILE (MOBILE),
+   unique key AK_EMAIL (EMAIL),
+   unique key AK_ID_CARD (ID_CARD)
 );
 
 alter table RAC_USER comment '用户';
@@ -422,7 +457,7 @@ alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ROLE foreign key
 alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_ACCOUNT foreign key (LOCK_ACCOUNT_ID)
+alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_AGENT foreign key (LOCK_ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_OP foreign key (LOCK_OP_ID)
@@ -434,11 +469,26 @@ alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_UNLOCK_OP foreign key (U
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_DOMAIN foreign key (DOMAIN_ID)
       references RAC_DOMAIN (ID) on delete restrict on update restrict;
 
+alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_ACCOUNT foreign key (LOCK_OP_AGENT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_UNLOCK_AGENT foreign key (UNLOCK_OP_AGENT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_OPS_ORG add constraint FK_OPS_ORG_AND_MASTER_ORG foreign key (MASTER_ORG_ID)
+      references RAC_ORG (ID) on delete restrict on update restrict;
+
+alter table RAC_OPS_ORG add constraint FK_OPS_ORG_AND_SLAVE_ORG foreign key (SLAVE_ORG_ID)
+      references RAC_ORG (ID) on delete restrict on update restrict;
+
 alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
 alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_SYS foreign key (SYS_ID)
       references RAC_SYS (ID) on delete restrict on update restrict;
+
+alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_AGENT foreign key (AGENT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
 alter table RAC_ORG add constraint FK_ORG_AND_ORG foreign key (PARENT_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
