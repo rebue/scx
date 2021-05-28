@@ -32,5 +32,5 @@ public @interface RacOpLog {
     /**
      * 详情
      */
-    String opDetail();
+    String opDetail() default "参数: #{#p0.toString()}";
 }

@@ -11,6 +11,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.ParserContext;
+import org.springframework.expression.common.TemplateParserContext;
+import org.springframework.expression.spel.SpelParserConfiguration;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
@@ -20,6 +28,7 @@ import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.co.RacCo;
 import rebue.scx.rac.pub.RacPub;
 import rebue.scx.rac.to.RacOpLogAddTo;
+import rebue.wheel.core.LombokUtils;
 import rebue.wheel.net.CookieUtils;
 import rebue.wheel.turing.JwtUtils;
 
@@ -43,14 +52,18 @@ public class RacOpLogAopConfig {
                     if (StringUtils.isNoneBlank(sign, sysId)) {
                         final Long accountId = JwtUtils.getJwtAccountIdInSign(sign);
                         if (accountId != null) {
-                            final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-                            final Method          method          = methodSignature.getMethod();
-                            final RacOpLog        annotation      = method.getAnnotation(RacOpLog.class);
+                            final Object               target          = joinPoint.getTarget();
+                            final Object[]             args            = joinPoint.getArgs();
+                            final AspectExpressContext context         = new AspectExpressContext(target, args, result);
 
-                            final RacOpLogAddTo   to              = new RacOpLogAddTo();
+                            final MethodSignature      methodSignature = (MethodSignature) joinPoint.getSignature();
+                            final Method               method          = methodSignature.getMethod();
+                            final RacOpLog             annotation      = method.getAnnotation(RacOpLog.class);
+
+                            final RacOpLogAddTo        to              = new RacOpLogAddTo();
                             to.setOpType(annotation.opType());
-                            to.setOpTitle(annotation.opTitle());
-                            to.setOpDetail(annotation.opDetail());
+                            to.setOpTitle(context.getString(annotation.opTitle()));
+                            to.setOpDetail(context.getString(annotation.opDetail()));
                             to.setAccountId(accountId);
                             to.setSysId(sysId);
                             to.setOpDatetime(LocalDateTime.now());
@@ -64,4 +77,29 @@ public class RacOpLogAopConfig {
         });
     }
 
+    /**
+     * @author wurenhai
+     *
+     * @since 2019/1/11 9:44
+     */
+    class AspectExpressContext {
+
+        private final EvaluationContext context       = new StandardEvaluationContext();
+        private final ParserContext     parserContext = new TemplateParserContext();
+        private final ExpressionParser  parser        = new SpelExpressionParser(new SpelParserConfiguration(true, true));
+
+        public AspectExpressContext(final Object target, final Object[] args, final Object result) {
+            context.setVariable("target", target);
+            context.setVariable("result", result);
+            for (int i = 0; i < args.length; i++) {
+                context.setVariable("p" + i, args[i]);
+            }
+        }
+
+        public String getString(final String express) {
+            final Expression expression = parser.parseExpression(express, parserContext);
+            return LombokUtils.removeToStringNullValues(expression.getValue(context).toString());
+        }
+
+    }
 }

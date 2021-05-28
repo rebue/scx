@@ -50,7 +50,7 @@ public class RacOrgCtrl {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opTitle = "添加组织", opType = "添加", opDetail = "添加组织")
+    @RacOpLog(opType = "添加组织", opTitle = "添加组织: #{#p0.name}")
     @PostMapping("/rac/org")
     public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOrgAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
