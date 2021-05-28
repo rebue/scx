@@ -1,5 +1,6 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacModifyOrgAccountTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 import rebue.wheel.core.exception.RuntimeExceptionX;
@@ -187,7 +189,53 @@ public class RacOrgSvcImpl extends
 		// 修改账户的默认orgId
 		accountMo.setOrgId(to.getOrgId());
 		racAccountMapper.updateByPrimaryKeySelective(accountMo);
+	}
 
+	/**
+	 * 更改组织与账户的关系
+	 *
+	 * @param to 修改的具体数据
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void modifyOrgAccount(RacModifyOrgAccountTo to) {
+		// 获得当前账户的默认orgId
+		RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
+		if (racAccountMo.getOrgId().equals(to.getModifyOrgId())) {// 更改默认组织
+			RacAccountMo accountMo = _dozerMapper.map(racAccountMo, RacAccountMo.class);
+			// 修改账户的默认orgId
+			accountMo.setOrgId(to.getOrgId());
+			racAccountMapper.updateByPrimaryKeySelective(accountMo);
+			// 删除原来的组织关系
+			final RacOrgAccountDelTo delTo = new RacOrgAccountDelTo();
+			List<Long> delAccountIds = new ArrayList<Long>();
+			delAccountIds.add(to.getAccountId());
+			delTo.setOrgId(to.getModifyOrgId());
+			delTo.setAccountIds(delAccountIds);
+			thisSvc.delOrgAccount(delTo);
+			// 添加新的组织账户关系
+			final RacOrgAccountAddTo addTo = new RacOrgAccountAddTo();
+			List<Long> addAccountIds = new ArrayList<Long>();
+			addAccountIds.add(to.getAccountId());
+			addTo.setOrgId(to.getOrgId());
+			addTo.setAccountIds(addAccountIds);
+			thisSvc.addOrgAccount(addTo);
+		} else {// 更改非默认组织
+			// 删除原来的组织关系
+			final RacOrgAccountDelTo delTo = new RacOrgAccountDelTo();
+			List<Long> delAccountIds = new ArrayList<Long>();
+			delAccountIds.add(to.getAccountId());
+			delTo.setOrgId(to.getModifyOrgId());
+			delTo.setAccountIds(delAccountIds);
+			thisSvc.delOrgAccount(delTo);
+			// 添加新的组织账户关系
+			final RacOrgAccountAddTo addTo = new RacOrgAccountAddTo();
+			List<Long> addAccountIds = new ArrayList<Long>();
+			addAccountIds.add(to.getAccountId());
+			addTo.setOrgId(to.getOrgId());
+			addTo.setAccountIds(addAccountIds);
+			thisSvc.addOrgAccount(addTo);
+		}
 	}
 
 	/**

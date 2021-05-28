@@ -17,6 +17,7 @@ import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacModifyOrgAccountTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 
@@ -71,4 +72,11 @@ public interface RacOrgSvc extends
 	 * @param qo 查询的具体条件
 	 */
 	PageInfo<RacOrgMo> listAddableOrg(RacOrgListByAccountIdTo qo);
+
+	/**
+	 * 更改组织与账户的关系
+	 *
+	 * @param to 修改的具体数据
+	 */
+	void modifyOrgAccount(RacModifyOrgAccountTo to);
 }

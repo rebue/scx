@@ -26,6 +26,7 @@ import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
 import rebue.scx.rac.to.RacOrgPageTo;
+import rebue.scx.rac.to.ex.RacModifyOrgAccountTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 
@@ -37,142 +38,154 @@ import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 @RestController
 public class RacOrgCtrl {
 
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Resource
-    private RacOrgApi api;
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Resource
+	private RacOrgApi api;
 
-    /**
-     * 添加组织
-     *
-     * @param to 添加的具体信息
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @RacOpLog(opType = "添加组织", opTitle = "添加组织: #{#p0.name}")
-    @PostMapping("/rac/org")
-    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOrgAddTo to) {
-        return Mono.create(callback -> callback.success(api.add(to)));
-    }
+	/**
+	 * 添加组织
+	 *
+	 * @param to 添加的具体信息
+	 * 
+	 * @mbg.dontOverWriteAnnotation
+	 * 
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@RacOpLog(opType = "添加组织", opTitle = "添加组织: #{#p0.name}")
+	@PostMapping("/rac/org")
+	public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOrgAddTo to) {
+		return Mono.create(callback -> callback.success(api.add(to)));
+	}
 
-    /**
-     * 添加组织和账户的关系
-     *
-     * @param to 添加的具体信息
-     */
-    @PostMapping("/rac/org/addOrgAccount")
-    public Mono<Ro<?>> addOrgAccount(@RequestBody final RacOrgAccountAddTo to) {
-        return Mono.create(callback -> callback.success(api.addOrgAccount(to)));
-    }
+	/**
+	 * 添加组织和账户的关系
+	 *
+	 * @param to 添加的具体信息
+	 */
+	@PostMapping("/rac/org/addOrgAccount")
+	public Mono<Ro<?>> addOrgAccount(@RequestBody final RacOrgAccountAddTo to) {
+		return Mono.create(callback -> callback.success(api.addOrgAccount(to)));
+	}
 
-    /**
-     * 删除组织和账户的关系
-     *
-     * @param to 删除的具体信息
-     */
-    @DeleteMapping("/rac/org/delOrgAccount")
-    public Mono<Ro<?>> delOrgAccount(@RequestBody final RacOrgAccountDelTo to) {
-        return Mono.create(callback -> callback.success(api.delOrgAccount(to)));
-    }
+	/**
+	 * 删除组织和账户的关系
+	 *
+	 * @param to 删除的具体信息
+	 */
+	@DeleteMapping("/rac/org/delOrgAccount")
+	public Mono<Ro<?>> delOrgAccount(@RequestBody final RacOrgAccountDelTo to) {
+		return Mono.create(callback -> callback.success(api.delOrgAccount(to)));
+	}
 
-    /**
-     * 修改组织的信息
-     *
-     * @param to 修改的具体数据
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PutMapping("/rac/org")
-    public Mono<Ro<?>> modify(@RequestBody final RacOrgModifyTo to) {
-        return Mono.create(callback -> callback.success(api.modify(to)));
-    }
+	/**
+	 * 修改组织的信息
+	 *
+	 * @param to 修改的具体数据
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@PutMapping("/rac/org")
+	public Mono<Ro<?>> modify(@RequestBody final RacOrgModifyTo to) {
+		return Mono.create(callback -> callback.success(api.modify(to)));
+	}
 
-    /**
-     * 修改账户默认组织的信息
-     *
-     * @param to 修改的具体数据
-     */
-    @PutMapping("/rac/org/modifyDefaultOrg")
-    public Mono<Ro<?>> modifyDefaultOrg(@RequestBody final RacOrgModifyDefaultOrgTo to) {
-        return Mono.create(callback -> callback.success(api.modifyDefaultOrg(to)));
-    }
+	/**
+	 * 更改组织与账户的关系
+	 *
+	 * @param to 修改的具体数据
+	 */
+	@PutMapping("/rac/org/modifyOrgAccount")
+	public Mono<Ro<?>> modifyOrgAccount(@RequestBody final RacModifyOrgAccountTo to) {
+		return Mono.create(callback -> callback.success(api.modifyOrgAccount(to)));
+	}
 
-    /**
-     * 删除组织
-     *
-     * @param id 组织ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @DeleteMapping("/rac/org")
-    public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
-        return Mono.create(callback -> callback.success(api.del(id)));
-    }
+	/**
+	 * 修改账户默认组织的信息
+	 *
+	 * @param to 修改的具体数据
+	 */
+	@PutMapping("/rac/org/modifyDefaultOrg")
+	public Mono<Ro<?>> modifyDefaultOrg(@RequestBody final RacOrgModifyDefaultOrgTo to) {
+		return Mono.create(callback -> callback.success(api.modifyDefaultOrg(to)));
+	}
 
-    /**
-     * 获取单个组织的信息
-     *
-     * @param id 组织ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @GetMapping("/rac/org/get-by-id")
-    public Mono<Ro<PojoRa<RacOrgMo>>> getById(@RequestParam("id") final java.lang.Long id) {
-        return Mono.create(callback -> callback.success(api.getById(id)));
-    }
+	/**
+	 * 删除组织
+	 *
+	 * @param id 组织ID
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@DeleteMapping("/rac/org")
+	public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
+		return Mono.create(callback -> callback.success(api.del(id)));
+	}
 
-    /**
-     * 判断组织是否存在
-     *
-     * @param id 组织ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @GetMapping("/rac/org/exist-by-id")
-    public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.Long id) {
-        return Mono.create(callback -> callback.success(api.existById(id)));
-    }
+	/**
+	 * 获取单个组织的信息
+	 *
+	 * @param id 组织ID
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@GetMapping("/rac/org/get-by-id")
+	public Mono<Ro<PojoRa<RacOrgMo>>> getById(@RequestParam("id") final java.lang.Long id) {
+		return Mono.create(callback -> callback.success(api.getById(id)));
+	}
 
-    /**
-     * 查询组织的信息
-     *
-     * @param qo 查询的具体条件
-     */
-    @GetMapping("/rac/org/list")
-    public Mono<Ro<ListRa<RacOrgMo>>> list(final RacOrgListTo qo) {
-        return Mono.create(callback -> callback.success(api.list(qo)));
-    }
+	/**
+	 * 判断组织是否存在
+	 *
+	 * @param id 组织ID
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@GetMapping("/rac/org/exist-by-id")
+	public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.Long id) {
+		return Mono.create(callback -> callback.success(api.existById(id)));
+	}
 
-    /**
-     * 查询当前账户所在的组织的信息
-     *
-     * @param qo 查询的具体条件
-     */
-    @GetMapping("/rac/org/list-by-account-id")
-    public Mono<Ro<ListRa<RacOrgMo>>> listByAccountId(final RacOrgListByAccountIdTo qo) {
-        return Mono.create(callback -> callback.success(api.listByAccountId(qo)));
-    }
+	/**
+	 * 查询组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@GetMapping("/rac/org/list")
+	public Mono<Ro<ListRa<RacOrgMo>>> list(final RacOrgListTo qo) {
+		return Mono.create(callback -> callback.success(api.list(qo)));
+	}
 
-    /**
-     * 查询可以添加的组织信息
-     *
-     * @param qo 查询的具体条件
-     */
-    @GetMapping("/rac/org/listAddableOrg")
-    public Mono<Ro<PageRa<RacOrgMo>>> listAddableOrg(final RacOrgListByAccountIdTo qo) {
-        return Mono.create(callback -> callback.success(api.listAddableOrg(qo)));
-    }
+	/**
+	 * 查询当前账户所在的组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@GetMapping("/rac/org/list-by-account-id")
+	public Mono<Ro<ListRa<RacOrgMo>>> listByAccountId(final RacOrgListByAccountIdTo qo) {
+		return Mono.create(callback -> callback.success(api.listByAccountId(qo)));
+	}
 
-    /**
-     * 查询组织的信息
-     *
-     * @param qo 查询的具体条件
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @GetMapping("/rac/org/page")
-    public Mono<Ro<PageRa<RacOrgMo>>> page(final RacOrgPageTo qo) {
-        return Mono.create(callback -> callback.success(api.page(qo)));
-    }
+	/**
+	 * 查询可以添加的组织信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@GetMapping("/rac/org/listAddableOrg")
+	public Mono<Ro<PageRa<RacOrgMo>>> listAddableOrg(final RacOrgListByAccountIdTo qo) {
+		return Mono.create(callback -> callback.success(api.listAddableOrg(qo)));
+	}
+
+	/**
+	 * 查询组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@GetMapping("/rac/org/page")
+	public Mono<Ro<PageRa<RacOrgMo>>> page(final RacOrgPageTo qo) {
+		return Mono.create(callback -> callback.success(api.page(qo)));
+	}
 }
