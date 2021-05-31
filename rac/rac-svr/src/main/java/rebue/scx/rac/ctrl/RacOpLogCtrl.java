@@ -40,6 +40,17 @@ public class RacOpLogCtrl {
     private RacOpLogApi api;
 
     /**
+     * 添加操作日志
+     *
+     * @param to 添加的具体信息
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PostMapping("/rac/op-log")
+    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOpLogAddTo to) {
+        return Mono.create(callback -> callback.success(api.add(to)));
+    }
+
+    /**
      * 修改操作日志的信息
      *
      * @param to 修改的具体数据
@@ -83,20 +94,14 @@ public class RacOpLogCtrl {
         return Mono.create(callback -> callback.success(api.existById(id)));
     }
 
-    // FIXME 接受筛选数组参数问题待解决 qo.opTpye[]
+    /**
+     * 查询操作日志的信息
+     *
+     * @param qo 查询的具体条件
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @GetMapping("/rac/op-log/page")
     public Mono<Ro<PageRa<RacOpLogMo>>> page(final RacOpLogPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
-    }
-
-    /**
-     * 添加操作日志
-     *
-     * @param to 添加的具体信息
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PostMapping("/rac/op-log")
-    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacOpLogAddTo to) {
-        return Mono.create(callback -> callback.success(api.add(to)));
     }
 }
