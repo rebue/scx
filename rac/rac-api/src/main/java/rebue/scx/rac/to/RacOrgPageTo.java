@@ -33,6 +33,10 @@ public class RacOrgPageTo extends PageTo implements Serializable {
     private String            name;
 
     /**
+     * 判断是否为表格请求
+     */
+    private Boolean            isTable;
+    /**
      * 关键字
      */
     @Length(max = 20, message = "搜索关键字不能超过20位数")
