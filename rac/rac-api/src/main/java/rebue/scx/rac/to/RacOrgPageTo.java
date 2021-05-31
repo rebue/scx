@@ -35,7 +35,7 @@ public class RacOrgPageTo extends PageTo implements Serializable {
     /**
      * 判断是否为表格请求
      */
-    private Boolean            isTable;
+    private Boolean            deep;
     /**
      * 关键字
      */

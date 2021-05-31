@@ -112,7 +112,7 @@ public class RacOrgApiImpl extends
 
 	@Override
 	public Ro<PageRa<RacOrgMo>> page(RacOrgPageTo qo) {
-		if (qo.getIsTable()) {
+		if (qo.getDeep()) {
 			if (qo.getPageSize() != null && qo.getPageSize() > _limitPageSize) {
 				final String msg = "pageSize不能大于" + _limitPageSize;
 				log.error(msg);
