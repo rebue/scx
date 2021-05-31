@@ -10,7 +10,7 @@ import lombok.Data;
  * 角色
  *
  * @mbg.removedMember seqNo,isEnabled
- * 
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 import javax.validation.constraints.NotNull;
