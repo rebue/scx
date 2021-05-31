@@ -1,7 +1,6 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -44,7 +42,7 @@ public class RacOrgJo implements Serializable {
     private Long              id;
 
     /**
-     * 组织名称(简称)
+     * 组织名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -53,7 +51,7 @@ public class RacOrgJo implements Serializable {
     private String            name;
 
     /**
-     * 组织类型(1.集团;20.政府单位;21.公司;80.部门)
+     * 组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

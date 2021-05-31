@@ -1,15 +1,11 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 
 /**
@@ -36,7 +32,7 @@ public class RacOrgModifyTo implements Serializable {
     private Long              id;
 
     /**
-     * 组织名称(简称)
+     * 组织名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -60,7 +56,7 @@ public class RacOrgModifyTo implements Serializable {
     private String            domainId;
 
     /**
-     * 组织类型(1.集团;20.政府单位;21.公司;80.部门)
+     * 组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

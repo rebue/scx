@@ -2,18 +2,14 @@ package rebue.scx.rac.mo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -136,7 +132,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -146,8 +141,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -165,7 +159,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockAccountId(final Long lockAccountId) {
+    public void setLockAccountId(Long lockAccountId) {
         this.lockAccountId = lockAccountId;
     }
 
@@ -183,7 +177,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockOpId(final Long lockOpId) {
+    public void setLockOpId(Long lockOpId) {
         this.lockOpId = lockOpId;
     }
 
@@ -201,7 +195,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockReason(final String lockReason) {
+    public void setLockReason(String lockReason) {
         this.lockReason = lockReason;
     }
 
@@ -219,7 +213,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setLockDatetime(final LocalDateTime lockDatetime) {
+    public void setLockDatetime(LocalDateTime lockDatetime) {
         this.lockDatetime = lockDatetime;
     }
 
@@ -237,7 +231,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUnlockReason(final String unlockReason) {
+    public void setUnlockReason(String unlockReason) {
         this.unlockReason = unlockReason;
     }
 
@@ -255,7 +249,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUnlockDatetime(final LocalDateTime unlockDatetime) {
+    public void setUnlockDatetime(LocalDateTime unlockDatetime) {
         this.unlockDatetime = unlockDatetime;
     }
 
@@ -273,7 +267,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUnlockOpId(final Long unlockOpId) {
+    public void setUnlockOpId(Long unlockOpId) {
         this.unlockOpId = unlockOpId;
     }
 
@@ -282,7 +276,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -290,11 +284,13 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         sb.append(", domainId=").append(domainId);
         sb.append(", lockAccountId=").append(lockAccountId);
         sb.append(", lockOpId=").append(lockOpId);
+        sb.append(", lockOpAgentId=").append(lockOpAgentId);
         sb.append(", lockReason=").append(lockReason);
         sb.append(", lockDatetime=").append(lockDatetime);
         sb.append(", unlockReason=").append(unlockReason);
         sb.append(", unlockDatetime=").append(unlockDatetime);
         sb.append(", unlockOpId=").append(unlockOpId);
+        sb.append(", unlockOpAgentId=").append(unlockOpAgentId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -304,7 +300,7 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object that) {
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -314,8 +310,8 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        final RacLockLogMo other = (RacLockLogMo) that;
-        return getId() == null ? other.getId() == null : getId().equals(other.getId());
+        RacLockLogMo other = (RacLockLogMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
@@ -323,9 +319,9 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
-        result = prime * result + (getId() == null ? 0 : getId().hashCode());
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
 
@@ -371,7 +367,77 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setDomainId(final String domainId) {
+    public void setDomainId(String domainId) {
         this.domainId = domainId;
+    }
+
+    /**
+     * 锁定操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "锁定操作的代理人的账户ID不能为负数")
+    private Long         lockOpAgentId;
+
+    /**
+     * 解锁操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "解锁操作的代理人的账户ID不能为负数")
+    private Long         unlockOpAgentId;
+
+    /**
+     * 锁定操作的代理人的账户
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacAccountMo lockOpAgent;
+
+    /**
+     * 解锁操作的代理人的账户
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacAccountMo unlockOpAgent;
+
+    /**
+     * 锁定操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getLockOpAgentId() {
+        return lockOpAgentId;
+    }
+
+    /**
+     * 锁定操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setLockOpAgentId(Long lockOpAgentId) {
+        this.lockOpAgentId = lockOpAgentId;
+    }
+
+    /**
+     * 解锁操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getUnlockOpAgentId() {
+        return unlockOpAgentId;
+    }
+
+    /**
+     * 解锁操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setUnlockOpAgentId(Long unlockOpAgentId) {
+        this.unlockOpAgentId = unlockOpAgentId;
     }
 }

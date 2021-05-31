@@ -1,9 +1,7 @@
 package rebue.scx.rac.api.impl;
 
 import java.util.List;
-
 import org.apache.dubbo.config.annotation.DubboService;
-
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.ListRa;
@@ -26,39 +24,38 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
  */
 @DubboService
 public class RacPermUrnApiImpl extends
-		BaseApiImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnSvc>
-		implements RacPermUrnApi {
+    BaseApiImpl<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo, RacPermUrnSvc>
+    implements RacPermUrnApi {
 
-	/**
-	 * 获取账户的链接列表
-	 *
-	 * @param accountId 账户ID
-	 *
-	 * @return 指定账户的链接列表
-	 */
-	@Override
-	public Ro<ListRa<String>> getUrnsOfAccount(final Long accountId) {
-		final List<String> urns = _svc.getUrnsOfAccount(accountId);
-		return new Ro<>(ResultDic.SUCCESS, "获取列表成功", new ListRa<>(urns));
-	}
+    /**
+     * 获取账户的链接列表
+     *
+     * @param accountId 账户ID
+     *
+     * @return 指定账户的链接列表
+     */
+    @Override
+    public Ro<ListRa<String>> getUrnsOfAccount(final Long accountId) {
+        final List<String> urns = _svc.getUrnsOfAccount(accountId);
+        return new Ro<>(ResultDic.SUCCESS, "获取列表成功", new ListRa<>(urns));
+    }
 
-	/**
-	 * 添加修改URN
-	 */
-	@Override
-	public Ro<?> modifyByPermId(RacPermUrnAddTo to) {
-		_svc.modifyByPermId(to);
-		return new Ro<>(ResultDic.SUCCESS, "修改成功");
-	}
+    /**
+     * 添加修改URN
+     */
+    @Override
+    public Ro<?> modifyByPermId(RacPermUrnAddTo to) {
+        _svc.modifyByPermId(to);
+        return new Ro<>(ResultDic.SUCCESS, "修改成功");
+    }
 
-	/**
-	 * 通过permId查询权限URN的信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	@Override
-	public Ro<ListRa<RacPermUrnMo>> list(RacPermUrnListTo qo) {
-		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
-	}
-
+    /**
+     * 通过permId查询权限URN的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @Override
+    public Ro<ListRa<RacPermUrnMo>> list(RacPermUrnListTo qo) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
+    }
 }

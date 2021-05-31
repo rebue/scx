@@ -1,7 +1,6 @@
 package rebue.scx.rac.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -23,41 +22,42 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
  */
 @DubboService
 public class RacPermGroupApiImpl extends
-		BaseApiImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupSvc>
-		implements RacPermGroupApi {
-	/**
-	 * 上移
-	 */
-	@Override
-	public Ro<?> moveUp(RacPermGroupModifyTo qo) {
-		_svc.moveUp(qo);
-		return new Ro<>(ResultDic.SUCCESS, "上移成功");
-	}
+    BaseApiImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupSvc>
+    implements RacPermGroupApi {
 
-	/**
-	 * 下移
-	 */
-	@Override
-	public Ro<?> moveDown(RacPermGroupModifyTo qo) {
-		_svc.moveDown(qo);
-		return new Ro<>(ResultDic.SUCCESS, "下移成功");
-	}
+    /**
+     * 上移
+     */
+    @Override
+    public Ro<?> moveUp(RacPermGroupModifyTo qo) {
+        _svc.moveUp(qo);
+        return new Ro<>(ResultDic.SUCCESS, "上移成功");
+    }
 
-	/**
-	 * 启用权限
-	 */
-	@Override
-	public Ro<?> enable(RacPermGroupModifyTo qo) {
-		_svc.enableLinkage(qo);
-		return new Ro<>(ResultDic.SUCCESS, "启用权限分组成功");
-	}
+    /**
+     * 下移
+     */
+    @Override
+    public Ro<?> moveDown(RacPermGroupModifyTo qo) {
+        _svc.moveDown(qo);
+        return new Ro<>(ResultDic.SUCCESS, "下移成功");
+    }
 
-	/**
-	 * 禁用权限
-	 */
-	@Override
-	public Ro<?> disable(RacPermGroupModifyTo qo) {
-		_svc.disableLinkage(qo);
-		return new Ro<>(ResultDic.SUCCESS, "禁用权限分组成功");
-	}
+    /**
+     * 启用权限
+     */
+    @Override
+    public Ro<?> enable(RacPermGroupModifyTo qo) {
+        _svc.enableLinkage(qo);
+        return new Ro<>(ResultDic.SUCCESS, "启用权限分组成功");
+    }
+
+    /**
+     * 禁用权限
+     */
+    @Override
+    public Ro<?> disable(RacPermGroupModifyTo qo) {
+        _svc.disableLinkage(qo);
+        return new Ro<>(ResultDic.SUCCESS, "禁用权限分组成功");
+    }
 }

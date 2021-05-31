@@ -2,10 +2,10 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.permId;
-import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.racRolePerm;
-import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.roleId;
+import static rebue.scx.rac.mapper.RacOpsOrgDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacOpsOrgDynamicSqlSupport.masterOrgId;
+import static rebue.scx.rac.mapper.RacOpsOrgDynamicSqlSupport.racOpsOrg;
+import static rebue.scx.rac.mapper.RacOpsOrgDynamicSqlSupport.slaveOrgId;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,15 +36,15 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
-import rebue.scx.rac.mo.RacRolePermMo;
+import rebue.scx.rac.mo.RacOpsOrgMo;
 
 @Mapper
-public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Long> {
+public interface RacOpsOrgMapper extends MapperRootInterface<RacOpsOrgMo, Long> {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, roleId, permId);
+    BasicColumn[] selectList = BasicColumn.columnList(id, masterOrgId, slaveOrgId);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -62,29 +62,30 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-    int insert(InsertStatementProvider<RacRolePermMo> insertStatement);
+    int insert(InsertStatementProvider<RacOpsOrgMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<RacRolePermMo> multipleInsertStatement);
+    int insertMultiple(MultiRowInsertStatementProvider<RacOpsOrgMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @ResultMap("RacRolePermMoResult")
-    Optional<RacRolePermMo> selectOne(SelectStatementProvider selectStatement);
+    @ResultMap("RacOpsOrgMoResult")
+    Optional<RacOpsOrgMo> selectOne(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @Results(id = "RacRolePermMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "ROLE_ID", property = "roleId", jdbcType = JdbcType.BIGINT), @Result(column = "PERM_ID", property = "permId", jdbcType = JdbcType.BIGINT)
+    @Results(id = "RacOpsOrgMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+        @Result(column = "MASTER_ORG_ID", property = "masterOrgId", jdbcType = JdbcType.BIGINT),
+        @Result(column = "SLAVE_ORG_ID", property = "slaveOrgId", jdbcType = JdbcType.BIGINT)
     })
-    List<RacRolePermMo> selectMany(SelectStatementProvider selectStatement);
+    List<RacOpsOrgMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -96,14 +97,14 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, racRolePerm, completer);
+        return MyBatis3Utils.countFrom(this::count, racOpsOrg, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, racRolePerm, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, racOpsOrg, completer);
     }
 
     /**
@@ -116,51 +117,52 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insert(RacRolePermMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racRolePerm, c -> c.map(id).toProperty("id").map(roleId).toProperty("roleId").map(permId).toProperty("permId"));
+    default int insert(RacOpsOrgMo record) {
+        return MyBatis3Utils.insert(this::insert, record, racOpsOrg,
+            c -> c.map(id).toProperty("id").map(masterOrgId).toProperty("masterOrgId").map(slaveOrgId).toProperty("slaveOrgId"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertMultiple(Collection<RacRolePermMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racRolePerm,
-            c -> c.map(id).toProperty("id").map(roleId).toProperty("roleId").map(permId).toProperty("permId"));
+    default int insertMultiple(Collection<RacOpsOrgMo> records) {
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOpsOrg,
+            c -> c.map(id).toProperty("id").map(masterOrgId).toProperty("masterOrgId").map(slaveOrgId).toProperty("slaveOrgId"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertSelective(RacRolePermMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racRolePerm, c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(roleId)
-            .toPropertyWhenPresent("roleId", record::getRoleId).map(permId).toPropertyWhenPresent("permId", record::getPermId));
+    default int insertSelective(RacOpsOrgMo record) {
+        return MyBatis3Utils.insert(this::insert, record, racOpsOrg, c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(masterOrgId)
+            .toPropertyWhenPresent("masterOrgId", record::getMasterOrgId).map(slaveOrgId).toPropertyWhenPresent("slaveOrgId", record::getSlaveOrgId));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacRolePermMo> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, racRolePerm, completer);
+    default Optional<RacOpsOrgMo> selectOne(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, racOpsOrg, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacRolePermMo> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, racRolePerm, completer);
+    default List<RacOpsOrgMo> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, selectList, racOpsOrg, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacRolePermMo> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racRolePerm, completer);
+    default List<RacOpsOrgMo> selectDistinct(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racOpsOrg, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacRolePermMo> selectByPrimaryKey(Long id_) {
+    default Optional<RacOpsOrgMo> selectByPrimaryKey(Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
@@ -168,59 +170,60 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, racRolePerm, completer);
+        return MyBatis3Utils.update(this::update, racOpsOrg, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateAllColumns(RacRolePermMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(roleId).equalTo(record::getRoleId).set(permId).equalTo(record::getPermId);
+    static UpdateDSL<UpdateModel> updateAllColumns(RacOpsOrgMo record, UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(id).equalTo(record::getId).set(masterOrgId).equalTo(record::getMasterOrgId).set(slaveOrgId).equalTo(record::getSlaveOrgId);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacRolePermMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId).set(roleId).equalToWhenPresent(record::getRoleId).set(permId).equalToWhenPresent(record::getPermId);
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOpsOrgMo record, UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(id).equalToWhenPresent(record::getId).set(masterOrgId).equalToWhenPresent(record::getMasterOrgId).set(slaveOrgId).equalToWhenPresent(record::getSlaveOrgId);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKey(RacRolePermMo record) {
-        return update(c -> c.set(roleId).equalTo(record::getRoleId).set(permId).equalTo(record::getPermId).where(id, isEqualTo(record::getId)));
+    default int updateByPrimaryKey(RacOpsOrgMo record) {
+        return update(c -> c.set(masterOrgId).equalTo(record::getMasterOrgId).set(slaveOrgId).equalTo(record::getSlaveOrgId).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKeySelective(RacRolePermMo record) {
-        return update(c -> c.set(roleId).equalToWhenPresent(record::getRoleId).set(permId).equalToWhenPresent(record::getPermId).where(id, isEqualTo(record::getId)));
+    default int updateByPrimaryKeySelective(RacOpsOrgMo record) {
+        return update(
+            c -> c.set(masterOrgId).equalToWhenPresent(record::getMasterOrgId).set(slaveOrgId).equalToWhenPresent(record::getSlaveOrgId).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteSelective(RacRolePermMo record) {
-        return delete(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(permId, isEqualToWhenPresent(record::getPermId)));
+    default int deleteSelective(RacOpsOrgMo record) {
+        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(masterOrgId, isEqualToWhenPresent(record::getMasterOrgId)).and(slaveOrgId,
+            isEqualToWhenPresent(record::getSlaveOrgId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacRolePermMo> selectOne(RacRolePermMo record) {
-        return selectOne(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(permId, isEqualToWhenPresent(record::getPermId)));
+    default Optional<RacOpsOrgMo> selectOne(RacOpsOrgMo record) {
+        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(masterOrgId, isEqualToWhenPresent(record::getMasterOrgId)).and(slaveOrgId,
+            isEqualToWhenPresent(record::getSlaveOrgId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default long countSelective(RacRolePermMo record) {
-        return count(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(permId, isEqualToWhenPresent(record::getPermId)));
+    default long countSelective(RacOpsOrgMo record) {
+        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(masterOrgId, isEqualToWhenPresent(record::getMasterOrgId)).and(slaveOrgId,
+            isEqualToWhenPresent(record::getSlaveOrgId)));
     }
 
     /**
@@ -233,15 +236,15 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existSelective(RacRolePermMo record) {
+    default boolean existSelective(RacOpsOrgMo record) {
         return countSelective(record) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacRolePermMo> selectSelective(RacRolePermMo record) {
-        return select(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(permId, isEqualToWhenPresent(record::getPermId)));
+    default List<RacOpsOrgMo> selectSelective(RacOpsOrgMo record) {
+        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(masterOrgId, isEqualToWhenPresent(record::getMasterOrgId)).and(slaveOrgId,
+            isEqualToWhenPresent(record::getSlaveOrgId)));
     }
 }

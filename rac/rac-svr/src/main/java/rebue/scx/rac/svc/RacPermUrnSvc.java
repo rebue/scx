@@ -1,9 +1,7 @@
 package rebue.scx.rac.svc;
 
 import java.util.List;
-
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacPermUrnJo;
 import rebue.scx.rac.mo.RacPermUrnMo;
@@ -29,20 +27,20 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacPermUrnSvc extends
-		BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> {
+public interface RacPermUrnSvc
+    extends BaseSvc<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnDelTo, RacPermUrnOneTo, RacPermUrnListTo, RacPermUrnPageTo, RacPermUrnMo, RacPermUrnJo> {
 
-	/**
-	 * 获取账户的链接列表
-	 *
-	 * @param accountId 账户ID
-	 *
-	 * @return 指定账户的链接列表
-	 */
-	List<String> getUrnsOfAccount(Long accountId);
+    /**
+     * 获取账户的链接列表
+     *
+     * @param accountId 账户ID
+     *
+     * @return 指定账户的链接列表
+     */
+    List<String> getUrnsOfAccount(Long accountId);
 
-	/**
-	 * 添加修改URN
-	 */
-	void modifyByPermId(RacPermUrnAddTo to);
+    /**
+     * 添加修改URN
+     */
+    void modifyByPermId(RacPermUrnAddTo to);
 }

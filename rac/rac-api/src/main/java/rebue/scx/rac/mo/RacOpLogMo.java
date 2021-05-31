@@ -2,18 +2,14 @@ package rebue.scx.rac.mo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -253,6 +249,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", sysId=").append(sysId);
         sb.append(", accountId=").append(accountId);
+        sb.append(", agentId=").append(agentId);
         sb.append(", opType=").append(opType);
         sb.append(", opTitle=").append(opTitle);
         sb.append(", opDetail=").append(opDetail);
@@ -299,5 +296,40 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 代理人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "代理人ID不能为负数")
+    private Long         agentId;
+
+    /**
+     * 代理人
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacAccountMo agent;
+
+    /**
+     * 代理人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getAgentId() {
+        return agentId;
+    }
+
+    /**
+     * 代理人ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAgentId(Long agentId) {
+        this.agentId = agentId;
     }
 }

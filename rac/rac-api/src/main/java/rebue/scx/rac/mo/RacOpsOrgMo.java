@@ -1,10 +1,10 @@
 package rebue.scx.rac.mo;
 
-import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -12,55 +12,39 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
- * 系统
+ * 运营组织
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacSysMo implements Serializable, Mo<String> {
+public class RacOpsOrgMo implements Serializable, Mo<Long> {
 
     /**
-     * 系统ID
+     * ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = ModifyGroup.class, message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            id;
+    @NotNull(groups = ModifyGroup.class, message = "ID不能为空")
+    @PositiveOrZero(message = "ID不能为负数")
+    private Long              id;
 
     /**
-     * 系统名称
+     * 主组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "系统名称不能为空")
-    @Length(max = 20, message = "系统名称的长度不能大于20")
-    private String            name;
+    @NotNull(groups = AddGroup.class, message = "主组织ID不能为空")
+    @PositiveOrZero(message = "主组织ID不能为负数")
+    private Long              masterOrgId;
 
     /**
-     * 领域ID
+     * 从组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
-     * 菜单URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 100, message = "菜单URN的长度不能大于100")
-    private String            menuUrn;
-
-    /**
-     * 系统备注
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 50, message = "系统备注的长度不能大于50")
-    private String            remark;
+    @NotNull(groups = AddGroup.class, message = "从组织ID不能为空")
+    @PositiveOrZero(message = "从组织ID不能为负数")
+    private Long              slaveOrgId;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -68,102 +52,75 @@ public class RacSysMo implements Serializable, Mo<String> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 领域
+     * 主组织
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter
-    private RacDomainMo       domain;
+    private RacOrgMo          masterOrg;
 
     /**
-     * 系统ID
+     * 从组织
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacOrgMo          slaveOrg;
+
+    /**
+     * ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
     /**
-     * 系统ID
+     * ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * 系统名称
+     * 主组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getName() {
-        return name;
+    public Long getMasterOrgId() {
+        return masterOrgId;
     }
 
     /**
-     * 系统名称
+     * 主组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setMasterOrgId(Long masterOrgId) {
+        this.masterOrgId = masterOrgId;
     }
 
     /**
-     * 领域ID
+     * 从组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getDomainId() {
-        return domainId;
+    public Long getSlaveOrgId() {
+        return slaveOrgId;
     }
 
     /**
-     * 领域ID
+     * 从组织ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
-
-    /**
-     * 菜单URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getMenuUrn() {
-        return menuUrn;
-    }
-
-    /**
-     * 菜单URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setMenuUrn(String menuUrn) {
-        this.menuUrn = menuUrn;
-    }
-
-    /**
-     * 系统备注
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getRemark() {
-        return remark;
-    }
-
-    /**
-     * 系统备注
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setSlaveOrgId(Long slaveOrgId) {
+        this.slaveOrgId = slaveOrgId;
     }
 
     /**
@@ -176,10 +133,8 @@ public class RacSysMo implements Serializable, Mo<String> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", domainId=").append(domainId);
-        sb.append(", menuUrn=").append(menuUrn);
-        sb.append(", remark=").append(remark);
+        sb.append(", masterOrgId=").append(masterOrgId);
+        sb.append(", slaveOrgId=").append(slaveOrgId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -199,7 +154,7 @@ public class RacSysMo implements Serializable, Mo<String> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        RacSysMo other = (RacSysMo) that;
+        RacOpsOrgMo other = (RacOpsOrgMo) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
@@ -221,6 +176,6 @@ public class RacSysMo implements Serializable, Mo<String> {
      */
     @Override
     public String getIdType() {
-        return "String";
+        return "Long";
     }
 }

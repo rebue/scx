@@ -12,25 +12,25 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacPermGroupApi
-		extends BaseApi<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupPageTo, RacPermGroupMo> {
-	/**
-	 * 上移
-	 */
-	Ro<?> moveUp(RacPermGroupModifyTo qo);
+public interface RacPermGroupApi extends BaseApi<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupPageTo, RacPermGroupMo> {
 
-	/**
-	 * 下移
-	 */
-	Ro<?> moveDown(RacPermGroupModifyTo qo);
+    /**
+     * 上移
+     */
+    Ro<?> moveUp(RacPermGroupModifyTo qo);
 
-	/**
-	 * 启用权限
-	 */
-	Ro<?> enable(RacPermGroupModifyTo qo);
+    /**
+     * 下移
+     */
+    Ro<?> moveDown(RacPermGroupModifyTo qo);
 
-	/**
-	 * 禁用权限
-	 */
-	Ro<?> disable(RacPermGroupModifyTo qo);
+    /**
+     * 启用权限
+     */
+    Ro<?> enable(RacPermGroupModifyTo qo);
+
+    /**
+     * 禁用权限
+     */
+    Ro<?> disable(RacPermGroupModifyTo qo);
 }

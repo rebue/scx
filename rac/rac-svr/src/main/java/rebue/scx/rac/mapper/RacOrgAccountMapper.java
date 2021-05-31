@@ -40,247 +40,208 @@ import rebue.scx.rac.mo.RacOrgAccountMo;
 
 @Mapper
 public interface RacOrgAccountMapper extends MapperRootInterface<RacOrgAccountMo, Long> {
+
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     BasicColumn[] selectList = BasicColumn.columnList(id, orgId, accountId);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
+    @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @InsertProvider(type=SqlProviderAdapter.class, method="insert")
+    @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacOrgAccountMo> insertStatement);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @InsertProvider(type=SqlProviderAdapter.class, method="insertMultiple")
+    @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacOrgAccountMo> multipleInsertStatement);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacOrgAccountMoResult")
     Optional<RacOrgAccountMo> selectOne(SelectStatementProvider selectStatement);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="RacOrgAccountMoResult", value = {
-        @Result(column="ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="ORG_ID", property="orgId", jdbcType=JdbcType.BIGINT),
-        @Result(column="ACCOUNT_ID", property="accountId", jdbcType=JdbcType.BIGINT)
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    @Results(id = "RacOrgAccountMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+        @Result(column = "ORG_ID", property = "orgId", jdbcType = JdbcType.BIGINT), @Result(column = "ACCOUNT_ID", property = "accountId", jdbcType = JdbcType.BIGINT)
     })
     List<RacOrgAccountMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @UpdateProvider(type=SqlProviderAdapter.class, method="update")
+    @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racOrgAccount, completer);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racOrgAccount, completer);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteByPrimaryKey(Long id_) {
-        return delete(c -> 
-            c.where(id, isEqualTo(id_))
-        );
+        return delete(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insert(RacOrgAccountMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racOrgAccount, c ->
-            c.map(id).toProperty("id")
-            .map(orgId).toProperty("orgId")
-            .map(accountId).toProperty("accountId")
-        );
+        return MyBatis3Utils.insert(this::insert, record, racOrgAccount, c -> c.map(id).toProperty("id").map(orgId).toProperty("orgId").map(accountId).toProperty("accountId"));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertMultiple(Collection<RacOrgAccountMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOrgAccount, c ->
-            c.map(id).toProperty("id")
-            .map(orgId).toProperty("orgId")
-            .map(accountId).toProperty("accountId")
-        );
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOrgAccount,
+            c -> c.map(id).toProperty("id").map(orgId).toProperty("orgId").map(accountId).toProperty("accountId"));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertSelective(RacOrgAccountMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racOrgAccount, c ->
-            c.map(id).toPropertyWhenPresent("id", record::getId)
-            .map(orgId).toPropertyWhenPresent("orgId", record::getOrgId)
-            .map(accountId).toPropertyWhenPresent("accountId", record::getAccountId)
-        );
+        return MyBatis3Utils.insert(this::insert, record, racOrgAccount, c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(orgId)
+            .toPropertyWhenPresent("orgId", record::getOrgId).map(accountId).toPropertyWhenPresent("accountId", record::getAccountId));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<RacOrgAccountMo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racOrgAccount, completer);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<RacOrgAccountMo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racOrgAccount, completer);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<RacOrgAccountMo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racOrgAccount, completer);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<RacOrgAccountMo> selectByPrimaryKey(Long id_) {
-        return selectOne(c ->
-            c.where(id, isEqualTo(id_))
-        );
+        return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racOrgAccount, completer);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacOrgAccountMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId)
-                .set(orgId).equalTo(record::getOrgId)
-                .set(accountId).equalTo(record::getAccountId);
+        return dsl.set(id).equalTo(record::getId).set(orgId).equalTo(record::getOrgId).set(accountId).equalTo(record::getAccountId);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOrgAccountMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(orgId).equalToWhenPresent(record::getOrgId)
-                .set(accountId).equalToWhenPresent(record::getAccountId);
+        return dsl.set(id).equalToWhenPresent(record::getId).set(orgId).equalToWhenPresent(record::getOrgId).set(accountId).equalToWhenPresent(record::getAccountId);
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(RacOrgAccountMo record) {
-        return update(c ->
-            c.set(orgId).equalTo(record::getOrgId)
-            .set(accountId).equalTo(record::getAccountId)
-            .where(id, isEqualTo(record::getId))
-        );
+        return update(c -> c.set(orgId).equalTo(record::getOrgId).set(accountId).equalTo(record::getAccountId).where(id, isEqualTo(record::getId)));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKeySelective(RacOrgAccountMo record) {
-        return update(c ->
-            c.set(orgId).equalToWhenPresent(record::getOrgId)
-            .set(accountId).equalToWhenPresent(record::getAccountId)
-            .where(id, isEqualTo(record::getId))
-        );
+        return update(c -> c.set(orgId).equalToWhenPresent(record::getOrgId).set(accountId).equalToWhenPresent(record::getAccountId).where(id, isEqualTo(record::getId)));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteSelective(RacOrgAccountMo record) {
-        return delete(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(accountId, isEqualToWhenPresent(record::getAccountId))
-        );
+        return delete(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<RacOrgAccountMo> selectOne(RacOrgAccountMo record) {
-        return selectOne(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(accountId, isEqualToWhenPresent(record::getAccountId))
-        );
+        return selectOne(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long countSelective(RacOrgAccountMo record) {
-        return count(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(accountId, isEqualToWhenPresent(record::getAccountId))
-        );
+        return count(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default boolean existSelective(RacOrgAccountMo record) {
         return countSelective(record) > 0;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<RacOrgAccountMo> selectSelective(RacOrgAccountMo record) {
-        return select(c ->
-            c.where(id, isEqualToWhenPresent(record::getId))
-            .and(orgId, isEqualToWhenPresent(record::getOrgId))
-            .and(accountId, isEqualToWhenPresent(record::getAccountId))
-        );
+        return select(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 }

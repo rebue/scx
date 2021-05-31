@@ -1,15 +1,12 @@
 package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageInfo;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacOpLogDao;
@@ -43,44 +40,45 @@ import rebue.scx.rac.to.RacOpLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacOpLogSvcImpl extends
-		BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
-		implements RacOpLogSvc {
+    BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
+    implements RacOpLogSvc {
 
-	/**
-	 * 本服务的单例 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Lazy
-	@Resource
-	private RacOpLogSvc thisSvc;
+    /**
+     * 本服务的单例
+     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Lazy
+    @Resource
+    private RacOpLogSvc thisSvc;
 
-	/**
-	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected Class<RacOpLogMo> getMoClass() {
-		return RacOpLogMo.class;
-	}
+    /**
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected Class<RacOpLogMo> getMoClass() {
+        return RacOpLogMo.class;
+    }
 
-	/**
-	 * 从接口获取本服务的单例(提供给基类调用)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected BaseSvc<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo> getThisSvc() {
-		return thisSvc;
-	}
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo> getThisSvc() {
+        return thisSvc;
+    }
 
-	/**
-	 * 分页查询日志
-	 */
-	@Override
-	public PageInfo<RacOpLogMo> page(RacOpLogPageTo qo) {
-		final ISelect select = () -> _mapper.selectEx(qo);
-		return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-	}
+    /**
+     * 分页查询日志
+     */
+    @Override
+    public PageInfo<RacOpLogMo> page(RacOpLogPageTo qo) {
+        final ISelect select = () -> _mapper.selectEx(qo);
+        return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+    }
 }

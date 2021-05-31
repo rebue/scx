@@ -19,7 +19,7 @@ public final class RacOrgDynamicSqlSupport {
     public static final SqlColumn<Long> id = racOrg.id;
 
     /**
-    * 组织名称(简称)
+    * 组织名称
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
@@ -40,7 +40,7 @@ public final class RacOrgDynamicSqlSupport {
     public static final SqlColumn<String> domainId = racOrg.domainId;
 
     /**
-    * 组织类型(1.集团;20.政府单位;21.公司;80.部门)
+    * 组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */

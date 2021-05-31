@@ -1,7 +1,6 @@
 package rebue.scx.rac.svc;
 
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacLockLogJo;
 import rebue.scx.rac.mo.RacLockLogMo;
@@ -30,5 +29,5 @@ import rebue.scx.rac.to.RacLockLogPageTo;
 public interface RacLockLogSvc
     extends BaseSvc<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo> {
 
-	RacLockLogMo updateLockLog(RacLockLogMo mo);
+    RacLockLogMo updateLockLog(RacLockLogMo mo);
 }

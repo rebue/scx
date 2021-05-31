@@ -1,11 +1,9 @@
 package rebue.scx.rac.api.impl;
 
 import java.io.InputStream;
-
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
-
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -74,7 +72,7 @@ public class RacAccountApiImpl extends
      */
     @Override
     public Ro<?> uploadAvatar(final Long accountId, final String fileName, final ContentDisposition contentDisposition, final MediaType contentType,
-                              final InputStream inputStream) {
+        final InputStream inputStream) {
         return _svc.uploadAvatar(accountId, fileName, contentDisposition, contentType, inputStream);
     }
 
@@ -82,7 +80,6 @@ public class RacAccountApiImpl extends
      * 查询账户的信息
      *
      * @param qo 查询的具体条件
-     *
      */
     @Override
     public Ro<ListTransferOfOrgRa> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
@@ -101,5 +98,4 @@ public class RacAccountApiImpl extends
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
         return _svc.getCurAccountInfo(curAccountId, sysId);
     }
-
 }

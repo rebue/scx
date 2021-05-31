@@ -22,53 +22,52 @@ import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
  */
 public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgPageTo, RacOrgMo> {
 
-	/**
-	 * 添加组织账户关系
-	 *
-	 * @param to 添加的具体信息
-	 */
-	Ro<?> addOrgAccount(RacOrgAccountAddTo to);
+    /**
+     * 添加组织账户关系
+     *
+     * @param to 添加的具体信息
+     */
+    Ro<?> addOrgAccount(RacOrgAccountAddTo to);
 
-	/**
-	 * 删除组织账户关系
-	 *
-	 * @param to 添加的具体信息
-	 */
-	Ro<?> delOrgAccount(RacOrgAccountDelTo to);
+    /**
+     * 删除组织账户关系
+     *
+     * @param to 添加的具体信息
+     */
+    Ro<?> delOrgAccount(RacOrgAccountDelTo to);
 
-	/**
-	 * 查询组织的信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	Ro<ListRa<RacOrgMo>> list(RacOrgListTo qo);
+    /**
+     * 查询组织的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    Ro<ListRa<RacOrgMo>> list(RacOrgListTo qo);
 
-	/**
-	 * 查询当前账户所在的组织的信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	Ro<ListRa<RacOrgMo>> listByAccountId(RacOrgListByAccountIdTo qo);
+    /**
+     * 查询当前账户所在的组织的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    Ro<ListRa<RacOrgMo>> listByAccountId(RacOrgListByAccountIdTo qo);
 
-	/**
-	 * 修改账户默认组织的信息
-	 *
-	 * @param to 修改的具体数据
-	 */
-	Ro<?> modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
+    /**
+     * 修改账户默认组织的信息
+     *
+     * @param to 修改的具体数据
+     */
+    Ro<?> modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
 
-	/**
-	 * 查询可以添加的组织信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	Ro<PageRa<RacOrgMo>> listAddableOrg(RacOrgListByAccountIdTo qo);
-	
-	/**
-	 * 更改组织与账户的关系
-	 *
-	 * @param to 修改的具体数据
-	 */
-	Ro<?> modifyOrgAccount(RacModifyOrgAccountTo to);
+    /**
+     * 查询可以添加的组织信息
+     *
+     * @param qo 查询的具体条件
+     */
+    Ro<PageRa<RacOrgMo>> listAddableOrg(RacOrgListByAccountIdTo qo);
 
+    /**
+     * 更改组织与账户的关系
+     *
+     * @param to 修改的具体数据
+     */
+    Ro<?> modifyOrgAccount(RacModifyOrgAccountTo to);
 }

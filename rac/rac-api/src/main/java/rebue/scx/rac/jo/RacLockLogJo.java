@@ -2,7 +2,6 @@ package rebue.scx.rac.jo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -146,5 +144,23 @@ public class RacLockLogJo implements Serializable {
      */
     @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacDomainJo domain;
+    private RacDomainJo  domain;
+
+    /**
+     * 锁定操作的代理人的账户
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "LOCK_OP_AGENT_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private RacAccountJo lockOpAgent;
+
+    /**
+     * 解锁操作的代理人的账户
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "UNLOCK_OP_AGENT_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private RacAccountJo unlockOpAgent;
 }

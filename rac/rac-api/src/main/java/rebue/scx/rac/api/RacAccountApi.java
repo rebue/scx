@@ -1,10 +1,8 @@
 package rebue.scx.rac.api;
 
 import java.io.InputStream;
-
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
-
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
@@ -23,8 +21,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacAccountApi
-    extends BaseApi<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountPageTo, RacAccountMo> {
+public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountPageTo, RacAccountMo> {
 
     /**
      * 修改账户登录密码
@@ -66,7 +63,6 @@ public interface RacAccountApi
      * 查询账户的信息
      *
      * @param qo 查询的具体条件
-     *
      */
     Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
 }

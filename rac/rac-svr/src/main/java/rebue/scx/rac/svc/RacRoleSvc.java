@@ -1,7 +1,6 @@
 package rebue.scx.rac.svc;
 
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacRoleJo;
 import rebue.scx.rac.mo.RacRoleMo;
@@ -27,14 +26,13 @@ import rebue.scx.rac.to.RacRolePageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacRoleSvc extends
-		BaseSvc<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo> {
+public interface RacRoleSvc extends BaseSvc<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo> {
 
-	void moveUp(RacRoleModifyTo qo);
+    void moveUp(RacRoleModifyTo qo);
 
-	void moveDown(RacRoleModifyTo qo);
+    void moveDown(RacRoleModifyTo qo);
 
-	void enable(RacRoleModifyTo qo);
+    void enable(RacRoleModifyTo qo);
 
-	void disable(RacRoleModifyTo qo);
+    void disable(RacRoleModifyTo qo);
 }

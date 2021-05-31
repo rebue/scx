@@ -1,7 +1,6 @@
 package rebue.scx.rac.ctrl;
 
 import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
@@ -49,13 +47,13 @@ public class RacPermUrnCtrl {
     public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacPermUrnAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
     }
-    
+
     /**
      * 添加修改URN
      *
      * @param to 添加的具体信息
      */
-	@RacOpLog(opType = "添加/修改URN", opTitle = "添加/修改URN: #{#p0.permId}")
+    @RacOpLog(opType = "添加/修改URN", opTitle = "添加/修改URN: #{#p0.permId}")
     @PostMapping("/rac/perm-urn/modifyByPermId")
     public Mono<Ro<?>> modifyByPermId(@RequestBody final RacPermUrnAddTo to) {
         return Mono.create(callback -> callback.success(api.modifyByPermId(to)));
@@ -115,7 +113,7 @@ public class RacPermUrnCtrl {
     public Mono<Ro<PageRa<RacPermUrnMo>>> page(final RacPermUrnPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
-    
+
     /**
      * 通过permId查询权限URN的信息
      *

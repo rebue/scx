@@ -2,18 +2,14 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 
 /**
@@ -100,4 +96,20 @@ public class RacLockLogAddTo implements Serializable {
     @NotBlank(message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            domainId;
+
+    /**
+     * 锁定操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "锁定操作的代理人的账户ID不能为负数")
+    private Long              lockOpAgentId;
+
+    /**
+     * 解锁操作的代理人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "解锁操作的代理人的账户ID不能为负数")
+    private Long              unlockOpAgentId;
 }

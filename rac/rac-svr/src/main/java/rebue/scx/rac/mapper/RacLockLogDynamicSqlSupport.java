@@ -41,6 +41,13 @@ public final class RacLockLogDynamicSqlSupport {
     public static final SqlColumn<Long> lockOpId = racLockLog.lockOpId;
 
     /**
+    * 锁定操作的代理人的账户ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> lockOpAgentId = racLockLog.lockOpAgentId;
+
+    /**
     * 锁定原因
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -75,6 +82,13 @@ public final class RacLockLogDynamicSqlSupport {
     */
     public static final SqlColumn<Long> unlockOpId = racLockLog.unlockOpId;
 
+    /**
+    * 解锁操作的代理人的账户ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> unlockOpAgentId = racLockLog.unlockOpAgentId;
+
     public static final class RacLockLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
@@ -83,6 +97,8 @@ public final class RacLockLogDynamicSqlSupport {
         public final SqlColumn<Long> lockAccountId = column("LOCK_ACCOUNT_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> lockOpId = column("LOCK_OP_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> lockOpAgentId = column("LOCK_OP_AGENT_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> lockReason = column("LOCK_REASON", JDBCType.VARCHAR);
 
@@ -93,6 +109,8 @@ public final class RacLockLogDynamicSqlSupport {
         public final SqlColumn<LocalDateTime> unlockDatetime = column("UNLOCK_DATETIME", JDBCType.TIMESTAMP);
 
         public final SqlColumn<Long> unlockOpId = column("UNLOCK_OP_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> unlockOpAgentId = column("UNLOCK_OP_AGENT_ID", JDBCType.BIGINT);
 
         public RacLockLog() {
             super("RAC_LOCK_LOG");

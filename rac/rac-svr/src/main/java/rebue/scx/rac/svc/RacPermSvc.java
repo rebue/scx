@@ -1,7 +1,6 @@
 package rebue.scx.rac.svc;
 
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacPermJo;
@@ -29,38 +28,37 @@ import rebue.scx.rac.to.RacPermPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacPermSvc extends
-		BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> {
+public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> {
 
-	/**
-	 * 查询带分组的权限列表
-	 *
-	 * @param domainId 领域ID
-	 */
-	Ro<PermListWithGroupRa> listWithGroup(String domainId);
+    /**
+     * 查询带分组的权限列表
+     *
+     * @param domainId 领域ID
+     */
+    Ro<PermListWithGroupRa> listWithGroup(String domainId);
 
-	/**
-	 * 上移动
-	 */
-	void moveUp(RacPermModifyTo qo);
+    /**
+     * 上移动
+     */
+    void moveUp(RacPermModifyTo qo);
 
-	/**
-	 * 下移动
-	 */
-	void moveDown(RacPermModifyTo qo);
+    /**
+     * 下移动
+     */
+    void moveDown(RacPermModifyTo qo);
 
-	/**
-	 * 启用权限
-	 */
-	void enable(RacPermModifyTo qo);
+    /**
+     * 启用权限
+     */
+    void enable(RacPermModifyTo qo);
 
-	/**
-	 * 禁用权限
-	 */
-	void disable(RacPermModifyTo qo);
+    /**
+     * 禁用权限
+     */
+    void disable(RacPermModifyTo qo);
 
-	/**
-	 * 根据groupId 修改是否启用/禁用权限
-	 */
-	int updateByGroupId(RacPermMo qo);
+    /**
+     * 根据groupId 修改是否启用/禁用权限
+     */
+    int updateByGroupId(RacPermMo qo);
 }

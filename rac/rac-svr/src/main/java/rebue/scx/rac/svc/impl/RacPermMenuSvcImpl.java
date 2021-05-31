@@ -9,17 +9,13 @@ import static rebue.scx.rac.mapper.RacPermDynamicSqlSupport.racPerm;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.racPermMenu;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
 import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.racRolePerm;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacPermMenuDao;
@@ -96,17 +92,10 @@ public class RacPermMenuSvcImpl extends
      */
     @Override
     public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
-        final List<RacPermMenuMo> list = _mapper.select(c -> c
-            .join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId))
-            .join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id))
-            .join(racRole).on(racRole.id, equalTo(racRolePerm.roleId))
-            .join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
-            .where(
-                racPermMenu.sysId, isEqualTo(sysId),
-                and(racAccountRole.accountId, isEqualTo(accountId)),
-                and(racPerm.isEnabled, isTrue()),
-                and(racRole.isEnabled, isTrue())));
+        final List<RacPermMenuMo> list = _mapper
+            .select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
+                .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
+                    and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
         return list.stream().map(RacPermMenuMo::getMenuUrn).distinct().collect(Collectors.toList());
     }
-
 }

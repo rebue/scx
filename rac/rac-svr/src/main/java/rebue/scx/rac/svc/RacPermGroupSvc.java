@@ -1,7 +1,6 @@
 package rebue.scx.rac.svc;
 
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacPermGroupJo;
 import rebue.scx.rac.mo.RacPermGroupMo;
@@ -28,34 +27,35 @@ import rebue.scx.rac.to.RacPermGroupPageTo;
  */
 @Validated
 public interface RacPermGroupSvc extends
-		BaseSvc<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo> {
-	/**
-	 * 上移动
-	 */
-	void moveUp(RacPermGroupModifyTo qo);
+    BaseSvc<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo> {
 
-	/**
-	 * 下移动
-	 */
-	void moveDown(RacPermGroupModifyTo qo);
+    /**
+     * 上移动
+     */
+    void moveUp(RacPermGroupModifyTo qo);
 
-	/**
-	 * 启用权限分组
-	 */
-	void enable(RacPermGroupModifyTo qo);
+    /**
+     * 下移动
+     */
+    void moveDown(RacPermGroupModifyTo qo);
 
-	/**
-	 * 禁用权限分组
-	 */
-	void disable(RacPermGroupModifyTo qo);
+    /**
+     * 启用权限分组
+     */
+    void enable(RacPermGroupModifyTo qo);
 
-	/**
-	 * 禁用权限分组联动子节点
-	 */
-	void disableLinkage(RacPermGroupModifyTo to);
+    /**
+     * 禁用权限分组
+     */
+    void disable(RacPermGroupModifyTo qo);
 
-	/**
-	 * 启动权限分组联动子节点
-	 */
-	void enableLinkage(RacPermGroupModifyTo to);
+    /**
+     * 禁用权限分组联动子节点
+     */
+    void disableLinkage(RacPermGroupModifyTo to);
+
+    /**
+     * 启动权限分组联动子节点
+     */
+    void enableLinkage(RacPermGroupModifyTo to);
 }

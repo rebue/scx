@@ -1,11 +1,8 @@
 package rebue.scx.rac.svc;
 
 import java.util.List;
-
 import org.springframework.validation.annotation.Validated;
-
 import com.github.pagehelper.PageInfo;
-
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacOrgJo;
 import rebue.scx.rac.mo.RacOrgMo;
@@ -36,47 +33,47 @@ import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacOrgSvc extends
-		BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> {
-	/**
-	 * 添加组织账户关系
-	 *
-	 * @param to 添加的具体信息
-	 */
-	void addOrgAccount(RacOrgAccountAddTo to);
+public interface RacOrgSvc extends BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo> {
 
-	/**
-	 * 删除组织账户关系
-	 *
-	 * @param to 添加的具体信息
-	 */
-	void delOrgAccount(RacOrgAccountDelTo to);
+    /**
+     * 添加组织账户关系
+     *
+     * @param to 添加的具体信息
+     */
+    void addOrgAccount(RacOrgAccountAddTo to);
 
-	/**
-	 * 查询当前账户所在的组织的信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo);
+    /**
+     * 删除组织账户关系
+     *
+     * @param to 添加的具体信息
+     */
+    void delOrgAccount(RacOrgAccountDelTo to);
 
-	/**
-	 * 修改账户默认组织的信息
-	 *
-	 * @param to 修改的具体数据
-	 */
-	void modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
+    /**
+     * 查询当前账户所在的组织的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo);
 
-	/**
-	 * 查询可以添加的组织信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	PageInfo<RacOrgMo> listAddableOrg(RacOrgListByAccountIdTo qo);
+    /**
+     * 修改账户默认组织的信息
+     *
+     * @param to 修改的具体数据
+     */
+    void modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
 
-	/**
-	 * 更改组织与账户的关系
-	 *
-	 * @param to 修改的具体数据
-	 */
-	void modifyOrgAccount(RacModifyOrgAccountTo to);
+    /**
+     * 查询可以添加的组织信息
+     *
+     * @param qo 查询的具体条件
+     */
+    PageInfo<RacOrgMo> listAddableOrg(RacOrgListByAccountIdTo qo);
+
+    /**
+     * 更改组织与账户的关系
+     *
+     * @param to 修改的具体数据
+     */
+    void modifyOrgAccount(RacModifyOrgAccountTo to);
 }
