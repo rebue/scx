@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/5/28 18:18:10                           */
+/* Created on:     2021/6/1 11:19:17                            */
 /*==============================================================*/
 
 
@@ -24,6 +24,15 @@ alter table RAC_ACCOUNT_ROLE
    drop foreign key FK_ACCOUNT_ROLE_AND_ACCOUNT;
 
 drop table if exists RAC_ACCOUNT_ROLE;
+
+
+alter table RAC_DELEGATION 
+   drop foreign key FK_PRINCIPAL_AND_ACCOUNT;
+
+alter table RAC_DELEGATION 
+   drop foreign key FK_AGENT_AND_ACCOUNT;
+
+drop table if exists RAC_DELEGATION;
 
 drop table if exists RAC_DOMAIN;
 
@@ -200,6 +209,20 @@ create table RAC_ACCOUNT_ROLE
 );
 
 alter table RAC_ACCOUNT_ROLE comment '账户角色';
+
+/*==============================================================*/
+/* Table: RAC_DELEGATION                                        */
+/*==============================================================*/
+create table RAC_DELEGATION
+(
+   ID                   bigint unsigned not null  comment '账户ID',
+   PRINCIPAL_ID         bigint unsigned not null  comment '委托人的账户ID',
+   AGENT_ID             bigint unsigned not null  comment '代理人的账户ID',
+   primary key (ID),
+   unique key AK_PRINCIPAL_AND_AGENT (PRINCIPAL_ID, AGENT_ID)
+);
+
+alter table RAC_DELEGATION comment '委托';
 
 /*==============================================================*/
 /* Table: RAC_DOMAIN                                            */
@@ -455,6 +478,12 @@ alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ROLE foreign key
       references RAC_ROLE (ID) on delete restrict on update restrict;
 
 alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ACCOUNT foreign key (ACCOUNT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_DELEGATION add constraint FK_PRINCIPAL_AND_ACCOUNT foreign key (PRINCIPAL_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_DELEGATION add constraint FK_AGENT_AND_ACCOUNT foreign key (AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_AGENT foreign key (LOCK_ACCOUNT_ID)
