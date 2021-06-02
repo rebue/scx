@@ -25,7 +25,7 @@ spring:
               args:
                 filter-urls:
                   - "'/sgn/**'"
-                  - "'/rac/**'"
+#                  - "'/rac/**'"
                 ignore-urls:
                   - "'POST:/rac/sign-in/**'"
                   - "'GET:/rac/account/get-cur-account-info'"

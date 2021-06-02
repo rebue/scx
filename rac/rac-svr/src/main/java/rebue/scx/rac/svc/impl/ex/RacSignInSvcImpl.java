@@ -34,7 +34,7 @@ import rebue.wheel.core.DateUtils;
 import rebue.wheel.core.RegexUtils;
 
 /**
- * 账户注册服务的实现类
+ * 账户登录服务的实现类
  *
  * <pre>
  * 注意：
