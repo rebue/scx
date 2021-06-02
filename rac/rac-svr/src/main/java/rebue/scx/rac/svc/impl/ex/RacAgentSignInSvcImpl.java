@@ -157,7 +157,7 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
                 agentAccountMo.getId(),
                 signRo.getExtra().getSign(),
                 signRo.getExtra().getExpirationTime());
-            return new Ro<>(ResultDic.SUCCESS, "账户登录成功", ra);
+            return new Ro<>(ResultDic.SUCCESS, "账户代理登录成功", ra);
         }
         else {
             return new Ro<>(ResultDic.FAIL, "JWT签名失败");
