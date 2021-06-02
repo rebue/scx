@@ -287,12 +287,10 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     @Select({ "<script>" + "SELECT op.*,a.SIGN_IN_NAME,a.SIGN_IN_MOBILE,a.SIGN_IN_EMAIL,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
         + " s.NAME sysName,s.MENU_URN menuUrn,s.DOMAIN_ID domainId, s.REMARK remark " + " FROM RAC_OP_LOG op " + " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
         + " left join RAC_SYS s on op.sys_id=s.id " + " where 1=1 and a.domain_Id=#{record.domainId} " + "<if test='record.keywords!=null'> "
-        + " and (a.SIGN_IN_NAME like '%${record.keywords}%' or op.OP_TITLE like '%${record.keywords}%')" + "</if> "
-        +"<if test='record.startDate!=null and record.endDate!=null'>"
+        + " and (a.SIGN_IN_NAME like '%${record.keywords}%' or op.OP_TITLE like '%${record.keywords}%')" + "</if> " + "<if test='record.startDate!=null and record.endDate!=null'>"
         + "  and op.OP_DATETIME between  '${record.startDate}' and  '${record.endDate}'  </if>"
         + "<if test='((record.opType!=null) and (record.opType.length>0))'> and op.OP_TYPE in "
-        + "<foreach collection='record.opType' open='(' close= ')'  separator=',' item='otype'> " + ""
-        		+ " #{otype} </foreach>" + "</if>" + "</script>"
+        + "<foreach collection='record.opType' open='(' close= ')'  separator=',' item='otype'> " + "" + " #{otype} </foreach>" + "</if>" + "</script>"
     })
     List<RacOpLogExMo> selectEx(@Param(value = "record") RacOpLogPageTo record);
 }

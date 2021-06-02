@@ -108,4 +108,13 @@ public class RacSysJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 系统URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "URL", nullable = true, length = 100)
+    private String url;
 }

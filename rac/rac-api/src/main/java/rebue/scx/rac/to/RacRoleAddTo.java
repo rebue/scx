@@ -6,17 +6,13 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Data;
+
 /**
  * 角色
  *
  * @mbg.removedMember seqNo,isEnabled
- *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-
-// */
 @Data
 @JsonInclude(Include.NON_NULL)
 public class RacRoleAddTo implements Serializable {
@@ -51,21 +47,4 @@ public class RacRoleAddTo implements Serializable {
      */
     @Length(max = 50, message = "角色备注的长度不能大于50")
     private String            remark;
-
-    /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "是否启用不能为空")
-    private Boolean           isEnabled;
-
-    /**
-     * 顺序号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "顺序号不能为空")
-    @PositiveOrZero(message = "顺序号不能为负数")
-    private Byte              seqNo;
 }

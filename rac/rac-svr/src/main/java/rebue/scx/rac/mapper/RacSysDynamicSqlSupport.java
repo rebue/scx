@@ -33,6 +33,13 @@ public final class RacSysDynamicSqlSupport {
     public static final SqlColumn<String> domainId = racSys.domainId;
 
     /**
+    * 系统URL
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> url = racSys.url;
+
+    /**
     * 菜单URN
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -52,6 +59,8 @@ public final class RacSysDynamicSqlSupport {
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
         public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> url = column("URL", JDBCType.VARCHAR);
 
         public final SqlColumn<String> menuUrn = column("MENU_URN", JDBCType.VARCHAR);
 

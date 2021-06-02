@@ -178,6 +178,7 @@ public class RacSysMo implements Serializable, Mo<String> {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", domainId=").append(domainId);
+        sb.append(", url=").append(url);
         sb.append(", menuUrn=").append(menuUrn);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
@@ -222,5 +223,31 @@ public class RacSysMo implements Serializable, Mo<String> {
     @Override
     public String getIdType() {
         return "String";
+    }
+
+    /**
+     * 系统URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 100, message = "系统URL的长度不能大于100")
+    private String url;
+
+    /**
+     * 系统URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * 系统URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

@@ -51,4 +51,12 @@ public class RacSysOneTo implements Serializable {
      */
     @Length(max = 50, message = "系统备注的长度不能大于50")
     private String            remark;
+
+    /**
+     * 系统URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 100, message = "系统URL的长度不能大于100")
+    private String            url;
 }
