@@ -37,6 +37,31 @@ public class GetCurAccountInfoRa implements Serializable {
     private String            avatar;
 
     /**
+     * 代理账户ID
+     */
+    private Long              agentAccountId;
+
+    /**
+     * 代理账户昵称
+     */
+    private String            agentNickname;
+
+    /**
+     * 代理账户头像
+     */
+    private String            agentAvatar;
+
+    /**
+     * 账户组织ID
+     */
+    private Long              orgId;
+
+    /**
+     * 账户组织全名
+     */
+    private String            orgFullName;
+
+    /**
      * 是否测试者
      */
     private Boolean           isTester;

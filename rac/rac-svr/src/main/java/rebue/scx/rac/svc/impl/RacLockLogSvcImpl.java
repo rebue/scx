@@ -77,7 +77,7 @@ public class RacLockLogSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacLockLogMo updateLockLog(RacLockLogMo qo) {
-        final int rowCount = _mapper.updateByPrimaryKeySelectEx(qo);
+        final int rowCount = _mapper.updateUnLockOpLogEx(qo);
         if (rowCount == 0) {
             RacLockLogAddTo ato = new RacLockLogAddTo();
             ato.setDomainId(qo.getDomainId());
