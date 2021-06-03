@@ -1,15 +1,20 @@
 package rebue.scx.rac.svc;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacRoleJo;
 import rebue.scx.rac.mo.RacRoleMo;
+import rebue.scx.rac.mo.RacRolePermMo;
 import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleDelTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
+import rebue.scx.rac.to.RacRolePermAddTo;
 
 /**
  * 角色服务接口
@@ -35,4 +40,8 @@ public interface RacRoleSvc extends BaseSvc<java.lang.Long, RacRoleAddTo, RacRol
     void enable(RacRoleModifyTo qo);
 
     void disable(RacRoleModifyTo qo);
+
+    void addRolePerm(RacRolePermAddTo to);
+
+    List<RacRolePermMo> listRolePerm(Long roleId);
 }

@@ -3,13 +3,17 @@ package rebue.scx.rac.svc.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacOrgDao;
@@ -55,8 +59,8 @@ import rebue.wheel.core.exception.RuntimeExceptionX;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacOrgSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo, RacOrgMapper, RacOrgDao>
-    implements RacOrgSvc {
+        extends BaseSvcImpl<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgDelTo, RacOrgOneTo, RacOrgListTo, RacOrgPageTo, RacOrgMo, RacOrgJo, RacOrgMapper, RacOrgDao>
+        implements RacOrgSvc {
 
     /**
      * 本服务的单例
@@ -103,14 +107,14 @@ public class RacOrgSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacOrgMo add(RacOrgAddTo to) {
+    public RacOrgMo add(final RacOrgAddTo to) {
         final RacOrgMo mo = _dozerMapper.map(to, getMoClass());
         // mo中需要添加一个树编码
         if (to.getParentId() == null) {
             final RacOrgMo qo = new RacOrgMo();
             qo.setParentId(null);
-            Long count = _mapper.getCount(qo);
-            String treeCode = "";
+            final Long count    = _mapper.getCount(qo);
+            String     treeCode = "";
             if (count < 10) {
                 treeCode = "00" + count;
             }
@@ -126,12 +130,12 @@ public class RacOrgSvcImpl
             mo.setTreeCode(treeCode);
         }
         if (to.getParentId() != null) {
-            final RacOrgMo orgMo = thisSvc.getById(to.getParentId());
-            final String treeCode1 = orgMo.getTreeCode();
-            final RacOrgOneTo qo = new RacOrgOneTo();
+            final RacOrgMo    orgMo     = thisSvc.getById(to.getParentId());
+            final String      treeCode1 = orgMo.getTreeCode();
+            final RacOrgOneTo qo        = new RacOrgOneTo();
             qo.setParentId(to.getParentId());
-            Long count = thisSvc.countSelective(qo);
-            String treeCode2 = "";
+            final Long count     = thisSvc.countSelective(qo);
+            String     treeCode2 = "";
             if (count < 10) {
                 treeCode2 = "00" + count;
             }
@@ -156,9 +160,9 @@ public class RacOrgSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void addOrgAccount(RacOrgAccountAddTo to) {
-        List<Long> lists = to.getAccountIds();
-        for (Long accountId : lists) {
+    public void addOrgAccount(final RacOrgAccountAddTo to) {
+        final List<Long> lists = to.getAccountIds();
+        for (final Long accountId : lists) {
             final RacOrgAccountMo mo = new RacOrgAccountMo();
             // 如果id为空那么自动生成分布式id
             mo.setId(_idWorker.getId());
@@ -169,10 +173,10 @@ public class RacOrgSvcImpl
                 throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
             }
             // 查询判断是否存在默认组织，没有则添加
-            RacAccountMo accountMo = racAccountMapper.selectByPrimaryKey(accountId).get();
+            final RacAccountMo accountMo = racAccountMapper.selectByPrimaryKey(accountId).get();
             if (accountMo.getOrgId() == null) {
                 accountMo.setOrgId(to.getOrgId());
-                int count = racAccountMapper.updateByPrimaryKey(accountMo);
+                final int count = racAccountMapper.updateByPrimaryKey(accountMo);
                 if (count != 1) {
                     throw new RuntimeExceptionX("添加默认组织关系记录异常，影响行数为" + rowCount);
                 }
@@ -187,10 +191,10 @@ public class RacOrgSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void modifyDefaultOrg(RacOrgModifyDefaultOrgTo to) {
+    public void modifyDefaultOrg(final RacOrgModifyDefaultOrgTo to) {
         // 获得当前账户的默认orgId
-        RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
-        RacAccountMo accountMo = _dozerMapper.map(racAccountMo, RacAccountMo.class);
+        final RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
+        final RacAccountMo accountMo    = _dozerMapper.map(racAccountMo, RacAccountMo.class);
         // 修改账户的默认orgId
         accountMo.setOrgId(to.getOrgId());
         racAccountMapper.updateByPrimaryKeySelective(accountMo);
@@ -203,25 +207,25 @@ public class RacOrgSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void modifyOrgAccount(RacModifyOrgAccountTo to) {
+    public void modifyOrgAccount(final RacModifyOrgAccountTo to) {
         // 获得当前账户的默认orgId
-        RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
+        final RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
         if (racAccountMo.getOrgId().equals(to.getModifyOrgId())) {
             // 更改默认组织
-            RacAccountMo accountMo = _dozerMapper.map(racAccountMo, RacAccountMo.class);
+            final RacAccountMo accountMo = _dozerMapper.map(racAccountMo, RacAccountMo.class);
             // 修改账户的默认orgId
             accountMo.setOrgId(to.getOrgId());
             racAccountMapper.updateByPrimaryKeySelective(accountMo);
             // 删除原来的组织关系
-            final RacOrgAccountDelTo delTo = new RacOrgAccountDelTo();
-            List<Long> delAccountIds = new ArrayList<Long>();
+            final RacOrgAccountDelTo delTo         = new RacOrgAccountDelTo();
+            final List<Long>         delAccountIds = new ArrayList<Long>();
             delAccountIds.add(to.getAccountId());
             delTo.setOrgId(to.getModifyOrgId());
             delTo.setAccountIds(delAccountIds);
             thisSvc.delOrgAccount(delTo);
             // 添加新的组织账户关系
-            final RacOrgAccountAddTo addTo = new RacOrgAccountAddTo();
-            List<Long> addAccountIds = new ArrayList<Long>();
+            final RacOrgAccountAddTo addTo         = new RacOrgAccountAddTo();
+            final List<Long>         addAccountIds = new ArrayList<Long>();
             addAccountIds.add(to.getAccountId());
             addTo.setOrgId(to.getOrgId());
             addTo.setAccountIds(addAccountIds);
@@ -230,15 +234,15 @@ public class RacOrgSvcImpl
         else {
             // 更改非默认组织
             // 删除原来的组织关系
-            final RacOrgAccountDelTo delTo = new RacOrgAccountDelTo();
-            List<Long> delAccountIds = new ArrayList<Long>();
+            final RacOrgAccountDelTo delTo         = new RacOrgAccountDelTo();
+            final List<Long>         delAccountIds = new ArrayList<Long>();
             delAccountIds.add(to.getAccountId());
             delTo.setOrgId(to.getModifyOrgId());
             delTo.setAccountIds(delAccountIds);
             thisSvc.delOrgAccount(delTo);
             // 添加新的组织账户关系
-            final RacOrgAccountAddTo addTo = new RacOrgAccountAddTo();
-            List<Long> addAccountIds = new ArrayList<Long>();
+            final RacOrgAccountAddTo addTo         = new RacOrgAccountAddTo();
+            final List<Long>         addAccountIds = new ArrayList<Long>();
             addAccountIds.add(to.getAccountId());
             addTo.setOrgId(to.getOrgId());
             addTo.setAccountIds(addAccountIds);
@@ -253,9 +257,9 @@ public class RacOrgSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void delOrgAccount(RacOrgAccountDelTo to) {
-        List<Long> accountIds = to.getAccountIds();
-        for (Long accountId : accountIds) {
+    public void delOrgAccount(final RacOrgAccountDelTo to) {
+        final List<Long> accountIds = to.getAccountIds();
+        for (final Long accountId : accountIds) {
             final RacOrgAccountMo mo = new RacOrgAccountMo();
             mo.setAccountId(accountId);
             mo.setOrgId(to.getOrgId());
@@ -269,7 +273,7 @@ public class RacOrgSvcImpl
      * @param qo 查询的具体条件
      */
     @Override
-    public PageInfo<RacOrgMo> listAddableOrg(RacOrgListByAccountIdTo qo) {
+    public PageInfo<RacOrgMo> listAddableOrg(final RacOrgListByAccountIdTo qo) {
         return null;
         // final ISelect select = () -> _mapper.listAddableOrg(qo);
         // return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), null);
@@ -283,11 +287,11 @@ public class RacOrgSvcImpl
      * @return 查询到的分页信息
      */
     @Override
-    public PageInfo<RacOrgMo> page(RacOrgPageTo qo) {
-        final RacOrgExMo mo = _dozerMapper.map(qo, RacOrgExMo.class);
-        final ISelect select = () -> _mapper.selectByDomainId(mo);
-        PageInfo<RacOrgMo> orgMo = getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-        List<RacOrgMo> list = getSetLeafList(orgMo.getList());
+    public PageInfo<RacOrgMo> page(final RacOrgPageTo qo) {
+        final RacOrgExMo         mo     = _dozerMapper.map(qo, RacOrgExMo.class);
+        final ISelect            select = () -> _mapper.selectByDomainId(mo);
+        final PageInfo<RacOrgMo> orgMo  = getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+        final List<RacOrgMo>     list   = getSetLeafList(orgMo.getList());
         orgMo.setList(list);
         return orgMo;
     }
@@ -298,20 +302,22 @@ public class RacOrgSvcImpl
      * @param qo 查询的具体条件
      */
     @Override
-    public List<RacOrgMo> list(RacOrgListTo qo) {
-        List<RacOrgMo> list = super.list(qo);
+    public List<RacOrgMo> list(final RacOrgListTo qo) {
+        final List<RacOrgMo> list = super.list(qo);
         return getSetLeafList(list);
     }
 
     /**
      * 共用的遍历是否设置Leaf字段
+     * 
      * @param list
+     * 
      * @return
      */
-    List<RacOrgMo> getSetLeafList(List<RacOrgMo> list) {
+    List<RacOrgMo> getSetLeafList(final List<RacOrgMo> list) {
         return list.stream().map(item -> {
-            RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
-            RacOrgMo existQo = new RacOrgMo();
+            final RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
+            final RacOrgMo     existQo      = new RacOrgMo();
             existQo.setParentId(racOrgLeafMo.getId());
             racOrgLeafMo.setIsLeaf(!_mapper.existSelective(existQo));
             return racOrgLeafMo;
@@ -322,16 +328,16 @@ public class RacOrgSvcImpl
      * 获取根组织以及根组织下的在所有组织
      */
     @Override
-    public PageInfo<RacOrgMo> pageIsTable(RacOrgPageTo qo) {
-        final RacOrgExMo mo = _dozerMapper.map(qo, RacOrgExMo.class);
-        final ISelect select = () -> _mapper.selectByDomainId(mo);
-        PageInfo<RacOrgMo> orgMo = getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
-        List<RacOrgMo> listAll = new ArrayList<RacOrgMo>();
+    public PageInfo<RacOrgMo> pageIsTable(final RacOrgPageTo qo) {
+        final RacOrgExMo         mo      = _dozerMapper.map(qo, RacOrgExMo.class);
+        final ISelect            select  = () -> _mapper.selectByDomainId(mo);
+        final PageInfo<RacOrgMo> orgMo   = getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+        final List<RacOrgMo>     listAll = new ArrayList<RacOrgMo>();
         orgMo.getList().stream().map(item -> {
-            RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
-            RacOrgMo listQo = new RacOrgMo();
+            final RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
+            final RacOrgMo     listQo       = new RacOrgMo();
             listQo.setTreeCode(racOrgLeafMo.getTreeCode());
-            List<RacOrgMo> listPageOrgLikeTreeCode = _mapper.listPageOrgLikeTreeCode(listQo);
+            final List<RacOrgMo> listPageOrgLikeTreeCode = _mapper.listPageOrgLikeTreeCode(listQo);
             listAll.addAll(listPageOrgLikeTreeCode);
             return racOrgLeafMo;
         }).collect(Collectors.toList());
@@ -345,7 +351,7 @@ public class RacOrgSvcImpl
      * @param qo 查询的具体条件
      */
     @Override
-    public List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo) {
+    public List<RacOrgMo> listByAccountId(final RacOrgListByAccountIdTo qo) {
         return _mapper.listByAccountId(qo);
     }
 }
