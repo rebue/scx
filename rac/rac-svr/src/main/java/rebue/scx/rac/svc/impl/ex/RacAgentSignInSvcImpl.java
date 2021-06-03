@@ -55,13 +55,14 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
      *
      * @param accountId      登录账户ID
      * @param agentAccountId 代理账户ID
-     * @param sysId          系统ID
+     * @param sysId          要登录的系统ID
+     * @param agentSysId     代理账户之前登录的系统ID
      *
      * @return 登录成功或失败的结果
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<AgentSignInRa> signIn(final Long accountId, final Long agentAccountId, final String sysId) {
+    public Ro<AgentSignInRa> signIn(final Long accountId, final Long agentAccountId, final String sysId, final String agentSysId) {
         log.info("根据系统ID获取系统信息");
         final RacSysMo sysMo = sysSvc.getById(sysId);
         if (sysMo == null) {
@@ -106,7 +107,7 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
             return new Ro<>(ResultDic.WARN, msg);
         }
 
-        return returnSuccessSignIn(sysMo, accountMo, agentAccountMo);
+        return returnSuccessSignIn(accountMo, agentAccountMo, agentSysId);
     }
 
     /**
@@ -116,10 +117,11 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
      * @param agentAccountMo 获取到的代理账户信息
      * @param sysId          系统ID
      */
-    private Ro<AgentSignInRa> returnSuccessSignIn(final RacSysMo sysMo, final RacAccountMo accountMo, final RacAccountMo agentAccountMo) {
+    private Ro<AgentSignInRa> returnSuccessSignIn(final RacAccountMo accountMo, final RacAccountMo agentAccountMo, final String agentSysId) {
         final JwtSignTo           signTo   = new JwtSignTo(accountMo.getId().toString());
         final Map<String, Object> addition = new LinkedHashMap<>();
         addition.put("agentAccountId", agentAccountMo.getId());
+        addition.put("agentSysId", agentSysId);
         signTo.setAddition(addition);
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {
