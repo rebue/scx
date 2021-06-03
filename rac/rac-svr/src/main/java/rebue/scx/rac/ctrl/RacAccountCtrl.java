@@ -1,8 +1,11 @@
 package rebue.scx.rac.ctrl;
 
+import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.time.LocalDateTime;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.SneakyThrows;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
@@ -59,7 +64,9 @@ public class RacAccountCtrl {
      * 添加账户
      *
      * @mbg.dontOverWriteAnnotation
+     *
      * @param to 添加的具体信息
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加账户", opTitle = "添加账户: #{#p0.signInName}")
@@ -72,7 +79,9 @@ public class RacAccountCtrl {
      * 修改账户的信息
      *
      * @mbg.dontOverWriteAnnotation
+     *
      * @param to 修改的具体数据
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改账户", opTitle = "修改账户: #{#p0.signInName}")
@@ -85,7 +94,9 @@ public class RacAccountCtrl {
      * 删除账户
      *
      * @mbg.dontOverWriteAnnotation
+     *
      * @param id 账户ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除账户", opTitle = "删除账户: #{#p0.id}")
@@ -98,6 +109,7 @@ public class RacAccountCtrl {
      * 获取单个账户的信息
      *
      * @param id 账户ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/get-by-id")
@@ -109,6 +121,7 @@ public class RacAccountCtrl {
      * 判断账户是否存在
      *
      * @param id 账户ID
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/exist-by-id")
@@ -120,6 +133,7 @@ public class RacAccountCtrl {
      * 查询账户的信息
      *
      * @param qo 查询的具体条件
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/page")
@@ -159,7 +173,7 @@ public class RacAccountCtrl {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
-        qo.setUnlockOpId(JwtUtils.getJwtAccountIdInSign(jwtToken));
+        qo.setUnlockOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
         qo.setUnlockDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.enable(qo)));
     }
@@ -174,7 +188,7 @@ public class RacAccountCtrl {
     public Mono<Ro<?>> disable(@RequestBody final RacAccountDisableTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         if (StringUtils.isBlank(jwtToken)) {
         }
-        qo.setLockOpId(JwtUtils.getJwtAccountIdInSign(jwtToken));
+        qo.setLockOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
         qo.setLockDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.disable(qo)));
     }
@@ -186,18 +200,18 @@ public class RacAccountCtrl {
      */
     @PostMapping(value = "/rac/account/upload-avatar")
     public Mono<?> uploadAvatar(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux,
-        final ServerHttpResponse response) {
+                                final ServerHttpResponse response) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
-        final Long curAccountId = JwtUtils.getJwtAccountIdInSign(jwtToken);
+        final Long curAccountId = JwtUtils.getJwtAccountIdFromSign(jwtToken);
         if (curAccountId == null) {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
         return filePartFlux.flatMap(filePart -> {
-            final String fileName = filePart.filename();
+            final String             fileName           = filePart.filename();
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
-            final MediaType contentType = filePart.headers().getContentType();
+            final MediaType          contentType        = filePart.headers().getContentType();
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
                 final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition, contentType, inputStream);
                 if (!ResultDic.SUCCESS.equals(ro.getResult())) {
@@ -212,17 +226,30 @@ public class RacAccountCtrl {
      * 获取当前账户信息
      */
     @GetMapping("/rac/account/get-cur-account-info")
+    @SneakyThrows
     public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCo.SYS_ID_KEY) final String sysId) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
-        final Long curAccountId = JwtUtils.getJwtAccountIdInSign(jwtToken);
+        // 从JWT签名中获取当前账户ID
+        final Long curAccountId = JwtUtils.getJwtAccountIdFromSign(jwtToken);
         if (curAccountId == null) {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
+        // 从JWT签名中获取代理账户ID
+        Long         agentAccountId     = null;
+        final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(jwtToken, "agentAccountId");
+        if (agentAccountIdItem != null) {
+            final String agentAccountIdString = agentAccountIdItem.toString();
+            if (StringUtils.isNotBlank(agentAccountIdString)) {
+                agentAccountId = Long.valueOf(agentAccountIdString);
+            }
+        }
+        final Long agentAccountIdFinal = agentAccountId;
+        // 从JWT签名中获取系统ID
         if (StringUtils.isBlank(sysId)) {
             throw new IllegalArgumentException("在Cookie中找不到系统ID");
         }
-        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, sysId)));
+        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, sysId)));
     }
 }

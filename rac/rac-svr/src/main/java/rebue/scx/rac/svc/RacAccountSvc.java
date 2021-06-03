@@ -1,12 +1,15 @@
 package rebue.scx.rac.svc;
 
 import java.io.InputStream;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAccountJo;
@@ -101,12 +104,13 @@ public interface RacAccountSvc
     /**
      * 获取当前账户信息
      *
-     * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
+     * @param curAccountId   当前账户ID
+     * @param agentAccountId 代理账户ID
+     * @param sysId          系统ID
      *
      * @return 当前账户信息
      */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, @NotBlank String sysId);
+    Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, Long agentAccountId, @NotBlank String sysId);
 
     /**
      * 查询账户的信息

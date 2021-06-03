@@ -1,8 +1,10 @@
 package rebue.scx.rac.api;
 
 import java.io.InputStream;
+
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
+
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
@@ -57,7 +59,7 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      *
      * @return 当前账户信息
      */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, String sysId);
+    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String sysId);
 
     /**
      * 查询账户的信息

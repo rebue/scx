@@ -69,7 +69,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 log.info("经判断要过滤此URL");
 
                 // 获取签名
-                final String sign = JwtUtils.getSignInCookies(request);
+                final String sign = JwtUtils.getSignFromCookies(request);
                 if (StringUtils.isBlank(sign)) {
                     log.warn("JWT签名校验失败: 在Cookie中并没有找到签名");
                     final ServerHttpResponse response = exchange.getResponse();
@@ -89,7 +89,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 log.info("JWT签名校验成功");
 
                 log.info("获取可访问的链接列表");
-                final Long               accountId = JwtUtils.getJwtAccountIdInSign(sign);
+                final Long               accountId = JwtUtils.getJwtAccountIdFromSign(sign);
                 final Ro<ListRa<String>> urnsRo    = racPermUrnApi.getUrnsOfAccount(accountId);
                 if (!ResultDic.SUCCESS.equals(urnsRo.getResult())) {
                     log.warn("获取可访问的链接列表失败: url-{}", url);

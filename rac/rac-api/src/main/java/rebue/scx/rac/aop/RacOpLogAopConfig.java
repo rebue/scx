@@ -50,7 +50,7 @@ public class RacOpLogAopConfig {
                     final String sysId = CookieUtils.getValue(request, RacCo.SYS_ID_KEY);
 
                     if (StringUtils.isNoneBlank(sign, sysId)) {
-                        final Long accountId = JwtUtils.getJwtAccountIdInSign(sign);
+                        final Long accountId = JwtUtils.getJwtAccountIdFromSign(sign);
                         if (accountId != null) {
                             final Object               target          = joinPoint.getTarget();
                             final Object[]             args            = joinPoint.getArgs();

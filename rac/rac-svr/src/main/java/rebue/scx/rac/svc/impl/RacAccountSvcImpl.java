@@ -85,8 +85,8 @@ import rebue.scx.rac.util.PswdUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAccountSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
-        implements RacAccountSvc {
+    BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
+    implements RacAccountSvc {
 
     /**
      * 本服务的单例
@@ -241,13 +241,13 @@ public class RacAccountSvcImpl extends
     @Override
     @SneakyThrows
     public Ro<?> uploadAvatar(final Long accountId, final String fileName, final ContentDisposition contentDisposition, final MediaType contentType,
-            final InputStream inputStream) {
+                              final InputStream inputStream) {
         final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
             final String policyJson = String.format(
-                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                    RacMinioCo.AVATAR_BUCKET);
+                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+                RacMinioCo.AVATAR_BUCKET);
             minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).config(policyJson).build());
         }
         final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
@@ -259,8 +259,8 @@ public class RacAccountSvcImpl extends
         final String fileExt    = Files.getFileExtension(fileName);
         final String objectName = accountId.toString() + "." + fileExt;
         minioClient.putObject(
-                PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentTypeString).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
-                        .build());
+            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentTypeString).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
+                .build());
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(accountId);
         // XXX 添加a参数并设置时间戳，以防前端接收到地址未改变，图片不刷新
@@ -311,27 +311,43 @@ public class RacAccountSvcImpl extends
     /**
      * 获取当前账户信息
      *
-     * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
+     * @param curAccountId   当前账户ID
+     * @param agentAccountId 代理账户ID
+     * @param sysId          系统ID
      *
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
-        final RacAccountMo accountMo = thisSvc.getById(curAccountId);
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String sysId) {
+        final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
+
+        final RacAccountMo        accountMo = thisSvc.getById(curAccountId);
         if (accountMo == null) {
-            return new Ro<>(ResultDic.WARN, "查找不到当前账户");
+            return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
         }
-        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
         if (accountMo.getOrgId() != null) {
             final RacOrgMo racOrgMo = racOrgSvc.getById(accountMo.getOrgId());
             ra.setOrgId(accountMo.getOrgId());
             ra.setOrgFullName(racOrgMo.getFullName());
         }
+
+        RacAccountMo agentAccountMo = null;
+        if (agentAccountId != null) {
+            agentAccountMo = thisSvc.getById(agentAccountId);
+            if (agentAccountMo == null) {
+                return new Ro<>(ResultDic.WARN, "查找不到代理账户: " + agentAccountId);
+            }
+        }
+
         _dozerMapper.map(accountMo, ra);
         ra.setNickname(accountMo.getSignInNickname());
         ra.setAvatar(accountMo.getSignInAvatar());
         ra.setMenus(permMenuSvc.getMenusOfAccount(curAccountId, sysId));
+        if (agentAccountId != null) {
+            ra.setAgentAccountId(agentAccountId);
+            ra.setAgentNickname(agentAccountMo.getSignInNickname());
+            ra.setAgentAvatar(agentAccountMo.getSignInAvatar());
+        }
         return new Ro<>(ResultDic.SUCCESS, "获取当前账户信息成功", ra);
     }
 
