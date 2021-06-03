@@ -11,24 +11,24 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * 账户注册或登录返回的结果
+ * 退出代理登录返回的结果
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonInclude(Include.NON_NULL)
 @NoArgsConstructor
-public class AgentSignInRa extends SignUpOrInRa {
+public class AgentSignOutRa extends SignUpOrInRa {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 代理账户ID
+     * 代理之前的URL
      */
-    private Long              agentAccountId;
+    private String            urlBeforeAgent;
 
-    public AgentSignInRa(final Long accountId, final Long agentAccountId, final String sign, final LocalDateTime expirationTime) {
+    public AgentSignOutRa(final Long accountId, final String urlBeforeAgent, final String sign, final LocalDateTime expirationTime) {
         super(accountId, sign, expirationTime);
-        this.agentAccountId = agentAccountId;
+        this.urlBeforeAgent = urlBeforeAgent;
     }
 
 }

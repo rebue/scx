@@ -1,8 +1,5 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -16,16 +13,15 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
-import rebue.scx.rac.co.RacJwtSignCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacSysMo;
-import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.ra.AgentSignOutRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacSysSvc;
-import rebue.scx.rac.svc.ex.RacAgentSignInSvc;
+import rebue.scx.rac.svc.ex.RacAgentSignOutSvc;
 
 /**
- * 代理登录服务的实现类
+ * 退出代理登录服务的实现类
  *
  * <pre>
  * 注意：
@@ -41,7 +37,7 @@ import rebue.scx.rac.svc.ex.RacAgentSignInSvc;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @Slf4j
-public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
+public class RacAgentSignOutSvcImpl implements RacAgentSignOutSvc {
 
     @DubboReference(application = "jwt-svr")
     private JwtApi        jwtApi;
@@ -52,84 +48,59 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
     private RacSysSvc     sysSvc;
 
     /**
-     * 代理登录
+     * 退出代理登录
      *
-     * @param accountId      登录账户ID
      * @param agentAccountId 代理账户ID
-     * @param sysId          要登录的系统ID
      * @param agentSysId     代理账户之前登录的系统ID
-     * @param urlBeforeAgent 代理之前的URL(退出代理登录时回退到此URL)
+     * @param urlBeforeAgent 代理之前的URL
      *
      * @return 登录成功或失败的结果
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<SignUpOrInRa> signIn(final Long accountId, final Long agentAccountId, final String sysId, final String agentSysId, final String urlBeforeAgent) {
+    public Ro<AgentSignOutRa> signOut(final Long agentAccountId, final String agentSysId, final String urlBeforeAgent) {
         log.info("根据系统ID获取系统信息");
-        final RacSysMo sysMo = sysSvc.getById(sysId);
+        final RacSysMo sysMo = sysSvc.getById(agentSysId);
         if (sysMo == null) {
-            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + sysId);
+            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + agentSysId);
         }
 
-        final RacAccountMo accountMo = accountSvc.getById(accountId);
+        final RacAccountMo accountMo = accountSvc.getById(agentAccountId);
         if (accountMo == null) {
             final String msg = "找不到此账户";
-            log.warn(msg + ": {}", accountId);
+            log.warn(msg + ": {}", agentAccountId);
             return new Ro<>(ResultDic.WARN, msg);
         }
 
         if (accountMo.getSignInPswd() == null) {
             final String msg = "该账户没有设置登录密码，请设置好登录密码才能登录";
-            log.warn(msg + ": ", accountId);
+            log.warn(msg + ": ", agentAccountId);
             return new Ro<>(ResultDic.WARN, msg);
         }
 
         if (!accountMo.getIsEnabled()) {
             final String msg = "该账户已被禁止登录";
-            log.warn(msg + ": ", accountId);
-            return new Ro<>(ResultDic.WARN, msg);
-        }
-
-        final RacAccountMo agentAccountMo = accountSvc.getById(agentAccountId);
-        if (agentAccountMo == null) {
-            final String msg = "找不到代理账户";
-            log.warn(msg + ": {}", agentAccountId);
-            return new Ro<>(ResultDic.WARN, msg);
-        }
-
-        if (agentAccountMo.getSignInPswd() == null) {
-            final String msg = "代理账户没有设置登录密码，请设置好登录密码才能登录";
             log.warn(msg + ": ", agentAccountId);
             return new Ro<>(ResultDic.WARN, msg);
         }
 
-        if (!agentAccountMo.getIsEnabled()) {
-            final String msg = "代理账户已被禁止登录";
-            log.warn(msg + ": {}", agentAccountId);
-            return new Ro<>(ResultDic.WARN, msg);
-        }
-
-        return returnSuccessSignIn(accountMo, agentAccountMo, agentSysId, urlBeforeAgent);
+        return returnSuccessSignIn(accountMo, agentSysId, urlBeforeAgent);
     }
 
     /**
      * 返回成功登录
      *
      * @param accountMo      获取到的账户信息
-     * @param agentAccountMo 获取到的代理账户信息
-     * @param agentSysId     代理系统ID
+     * @param sysId          系统ID
+     * @param urlBeforeAgent 代理之前的URL
      */
-    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final RacAccountMo agentAccountMo, final String agentSysId, final String urlBeforeAgent) {
-        final JwtSignTo           signTo   = new JwtSignTo(accountMo.getId().toString());
-        final Map<String, Object> addition = new LinkedHashMap<>();
-        addition.put(RacJwtSignCo.AGENT_ACCOUNT_ID, agentAccountMo.getId());
-        addition.put(RacJwtSignCo.AGENT_SYS_ID, agentSysId);
-        addition.put(RacJwtSignCo.URL_BEFORE_AGENT, urlBeforeAgent);
-        signTo.setAddition(addition);
+    private Ro<AgentSignOutRa> returnSuccessSignIn(final RacAccountMo accountMo, final String sysId, final String urlBeforeAgent) {
+        final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString());
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {
-            final SignUpOrInRa ra = new SignUpOrInRa(
+            final AgentSignOutRa ra = new AgentSignOutRa(
                 accountMo.getId(),
+                urlBeforeAgent,
                 signRo.getExtra().getSign(),
                 signRo.getExtra().getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户代理登录成功", ra);

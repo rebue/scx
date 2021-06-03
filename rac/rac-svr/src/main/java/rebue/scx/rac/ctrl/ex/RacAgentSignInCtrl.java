@@ -17,8 +17,8 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.ex.RacAgentSignInApi;
-import rebue.scx.rac.co.RacCo;
-import rebue.scx.rac.ra.AgentSignInRa;
+import rebue.scx.rac.co.RacCookieCo;
+import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.ex.AgentSignInTo;
 import rebue.wheel.turing.JwtUtils;
 
@@ -36,10 +36,10 @@ public class RacAgentSignInCtrl {
      */
     @PostMapping("/rac/agent-sign-in/sign-in")
     @RacOpLog(opType = "登录", opTitle = "代理登录: #{#p0.accountId}")
-    public Mono<Ro<AgentSignInRa>> signIn(@RequestBody final AgentSignInTo to,
-                                          @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken,
-                                          @CookieValue(RacCo.SYS_ID_KEY) final String sysId,
-                                          final ServerHttpResponse resp) {
+    public Mono<Ro<SignUpOrInRa>> signIn(@RequestBody final AgentSignInTo to,
+                                         @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken,
+                                         @CookieValue(RacCookieCo.SYS_ID_KEY) final String sysId,
+                                         final ServerHttpResponse resp) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -54,11 +54,11 @@ public class RacAgentSignInCtrl {
         }
 
         return Mono.create(callback -> {
-            final Ro<AgentSignInRa> ro = api.signIn(to.getAccountId(), agentAccountId, to.getSysId(), sysId);
+            final Ro<SignUpOrInRa> ro = api.signIn(to.getAccountId(), agentAccountId, to.getSysId(), sysId, to.getCurUrl());
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                final ResponseCookie responseCookie = ResponseCookie.from(RacCo.SYS_ID_KEY, to.getSysId()).path("/").build();
+                final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.SYS_ID_KEY, to.getSysId()).path("/").build();
                 resp.addCookie(responseCookie);
-                jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
+                jwtSignWithCookie(ro.getExtra(), resp);
             }
             callback.success(ro);
         });

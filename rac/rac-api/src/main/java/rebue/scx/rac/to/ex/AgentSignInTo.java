@@ -33,4 +33,10 @@ public class AgentSignInTo implements Serializable {
     @Length(max = 20, message = "系统ID长度不能超过20")
     private String            sysId;
 
+    /**
+     * 当前的URL(退出代理时回退到此URL)
+     */
+    @NotBlank(message = "当前的URL不能为空")
+    private String            curUrl;
+
 }

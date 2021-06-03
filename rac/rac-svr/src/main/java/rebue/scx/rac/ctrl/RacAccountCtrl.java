@@ -33,7 +33,8 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacAccountApi;
-import rebue.scx.rac.co.RacCo;
+import rebue.scx.rac.co.RacCookieCo;
+import rebue.scx.rac.co.RacJwtSignCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
@@ -227,7 +228,7 @@ public class RacAccountCtrl {
      */
     @GetMapping("/rac/account/get-cur-account-info")
     @SneakyThrows
-    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCo.SYS_ID_KEY) final String sysId) {
+    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCookieCo.SYS_ID_KEY) final String sysId) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -238,7 +239,7 @@ public class RacAccountCtrl {
         }
         // 从JWT签名中获取代理账户ID
         Long         agentAccountId     = null;
-        final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(jwtToken, "agentAccountId");
+        final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(jwtToken, RacJwtSignCo.AGENT_ACCOUNT_ID);
         if (agentAccountIdItem != null) {
             final String agentAccountIdString = agentAccountIdItem.toString();
             if (StringUtils.isNotBlank(agentAccountIdString)) {

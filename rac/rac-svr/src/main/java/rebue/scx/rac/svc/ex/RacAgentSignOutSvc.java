@@ -1,14 +1,12 @@
 package rebue.scx.rac.svc.ex;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.ra.AgentSignOutRa;
 
 /**
- * 代理登录服务接口
+ * 退出代理登录服务接口
  *
  * <pre>
  * 1. 在接口上方必须写上 @Validated 注解
@@ -20,19 +18,17 @@ import rebue.scx.rac.ra.SignUpOrInRa;
  * </pre>
  */
 @Validated
-public interface RacAgentSignInSvc {
+public interface RacAgentSignOutSvc {
 
     /**
-     * 代理登录
+     * 退出代理登录
      *
-     * @param accountId      登录账户ID
      * @param agentAccountId 代理账户ID
-     * @param sysId          要登录的系统ID
      * @param agentSysId     代理账户之前登录的系统ID
-     * @param urlBeforeAgent 代理之前的URL(退出代理登录时回退到此URL)
+     * @param urlBeforeAgent 代理之前的URL
      *
      * @return 登录成功或失败的结果
      */
-    Ro<SignUpOrInRa> signIn(@NotNull Long accountId, @NotNull Long agentAccountId, @NotNull String sysId, String agentSysId, String urlBeforeAgent);
+    Ro<AgentSignOutRa> signOut(Long agentAccountId, String agentSysId, String urlBeforeAgent);
 
 }

@@ -35,7 +35,7 @@ public class RacSignUpCtrl {
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signUpByAccountName(to);
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                jwtSignWithCookie(ro.getExtra(), to.getSysId(), resp);
+                jwtSignWithCookie(ro.getExtra(), resp);
             }
             callback.success(ro);
         });

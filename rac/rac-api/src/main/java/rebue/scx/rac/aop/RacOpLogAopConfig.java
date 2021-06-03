@@ -27,7 +27,8 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.sbs.sb.ctx.ReactiveResponseContextHolder;
 import rebue.scx.rac.ann.RacOpLog;
-import rebue.scx.rac.co.RacCo;
+import rebue.scx.rac.co.RacCookieCo;
+import rebue.scx.rac.co.RacJwtSignCo;
 import rebue.scx.rac.pub.RacPub;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.wheel.core.LombokUtils;
@@ -50,7 +51,7 @@ public class RacOpLogAopConfig {
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 return ReactiveResponseContextHolder.getResponse().map(response -> {
                     final String sign  = CookieUtils.getValue(response, JwtUtils.JWT_TOKEN_NAME);
-                    final String sysId = CookieUtils.getValue(response, RacCo.SYS_ID_KEY);
+                    final String sysId = CookieUtils.getValue(response, RacCookieCo.SYS_ID_KEY);
 
                     if (StringUtils.isNoneBlank(sign, sysId)) {
                         final Long accountId = JwtUtils.getJwtAccountIdFromSign(sign);
@@ -66,9 +67,9 @@ public class RacOpLogAopConfig {
                             // 从JWT签名中获取代理账户ID
                             Long agentAccountId = null;
                             try {
-                                final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(sign, "agentAccountId");
-                                if (agentAccountIdItem != null) {
-                                    final String agentAccountIdString = agentAccountIdItem.toString();
+                                final Object agentAccountIdObj = JwtUtils.getJwtAdditionItemFromSign(sign, RacJwtSignCo.AGENT_ACCOUNT_ID);
+                                if (agentAccountIdObj != null) {
+                                    final String agentAccountIdString = agentAccountIdObj.toString();
                                     if (StringUtils.isNotBlank(agentAccountIdString)) {
                                         agentAccountId = Long.valueOf(agentAccountIdString);
                                     }
