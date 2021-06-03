@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.ex.RacSignUpApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.ex.SignUpByAccountNameTo;
@@ -29,6 +30,7 @@ public class RacSignUpCtrl {
      * 通过账户名称注册
      */
     @PostMapping("/rac/sign-up/sign-up-by-account-name")
+    @RacOpLog(opType = "登录", opTitle = "通过账户名称注册: #{#p0.accountName}")
     public Mono<Ro<SignUpOrInRa>> signUpByAccountName(@RequestBody final SignUpByAccountNameTo to, final ServerHttpResponse resp) {
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signUpByAccountName(to);

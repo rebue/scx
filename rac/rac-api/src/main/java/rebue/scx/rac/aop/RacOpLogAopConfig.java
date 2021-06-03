@@ -1,6 +1,7 @@
 package rebue.scx.rac.aop;
 
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 
 import javax.annotation.Resource;
@@ -20,10 +21,11 @@ import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.sbs.sb.ctx.ReactiveRequestContextHolder;
+import rebue.sbs.sb.ctx.ReactiveResponseContextHolder;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.co.RacCo;
 import rebue.scx.rac.pub.RacPub;
@@ -34,6 +36,7 @@ import rebue.wheel.turing.JwtUtils;
 
 @Aspect
 @Configuration(proxyBeanMethods = false)
+@Slf4j
 public class RacOpLogAopConfig {
     @Resource
     private RacPub racPub;
@@ -45,9 +48,9 @@ public class RacOpLogAopConfig {
         final Mono<Ro<?>> mono   = (Mono<Ro<?>>) result;
         return mono.flatMap(ro -> {
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                return ReactiveRequestContextHolder.getRequest().map(request -> {
-                    final String sign  = CookieUtils.getValue(request, JwtUtils.JWT_TOKEN_NAME);
-                    final String sysId = CookieUtils.getValue(request, RacCo.SYS_ID_KEY);
+                return ReactiveResponseContextHolder.getResponse().map(response -> {
+                    final String sign  = CookieUtils.getValue(response, JwtUtils.JWT_TOKEN_NAME);
+                    final String sysId = CookieUtils.getValue(response, RacCo.SYS_ID_KEY);
 
                     if (StringUtils.isNoneBlank(sign, sysId)) {
                         final Long accountId = JwtUtils.getJwtAccountIdFromSign(sign);
@@ -60,11 +63,26 @@ public class RacOpLogAopConfig {
                             final Method               method          = methodSignature.getMethod();
                             final RacOpLog             annotation      = method.getAnnotation(RacOpLog.class);
 
-                            final RacOpLogAddTo        to              = new RacOpLogAddTo();
+                            // 从JWT签名中获取代理账户ID
+                            Long agentAccountId = null;
+                            try {
+                                final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(sign, "agentAccountId");
+                                if (agentAccountIdItem != null) {
+                                    final String agentAccountIdString = agentAccountIdItem.toString();
+                                    if (StringUtils.isNotBlank(agentAccountIdString)) {
+                                        agentAccountId = Long.valueOf(agentAccountIdString);
+                                    }
+                                }
+                            } catch (final ParseException e) {
+                                log.error("解析JWT签名出现异常", e);
+                            }
+
+                            final RacOpLogAddTo to = new RacOpLogAddTo();
                             to.setOpType(annotation.opType());
                             to.setOpTitle(context.getString(annotation.opTitle()));
                             to.setOpDetail(context.getString(annotation.opDetail()));
                             to.setAccountId(accountId);
+                            to.setAgentId(agentAccountId);
                             to.setSysId(sysId);
                             to.setOpDatetime(LocalDateTime.now());
                             racPub.addOpLog(to);

@@ -1,12 +1,11 @@
 package rebue.scx.rac.api.ex;
 
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.AgentSignInRa;
-import rebue.scx.rac.to.ex.AgentSignInTo;
 
 /**
  * 代理登录API
@@ -21,7 +20,13 @@ public interface RacAgentSignInApi {
 
     /**
      * 代理登录
+     *
+     * @param accountId      登录账户ID
+     * @param agentAccountId 代理账户ID
+     * @param sysId          系统ID
+     *
+     * @return 登录成功或失败的结果
      */
-    Ro<AgentSignInRa> signIn(@Valid AgentSignInTo to);
+    Ro<AgentSignInRa> signIn(@NotNull Long accountId, @NotNull Long agentAccountId, @NotNull String sysId);
 
 }

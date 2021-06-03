@@ -1,19 +1,14 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.github.dozermapper.core.Mapper;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
@@ -25,11 +20,8 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacSysMo;
 import rebue.scx.rac.ra.AgentSignInRa;
 import rebue.scx.rac.svc.RacAccountSvc;
-import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.svc.ex.RacAgentSignInSvc;
-import rebue.scx.rac.to.RacOpLogAddTo;
-import rebue.scx.rac.to.ex.AgentSignInTo;
 
 /**
  * 代理登录服务的实现类
@@ -57,63 +49,61 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
     private RacAccountSvc accountSvc;
     @Resource
     private RacSysSvc     sysSvc;
-    @Resource
-    private RacOpLogSvc   opLogSvc;
-
-    @Resource
-    StringRedisTemplate   stringRedisTemplate;
-
-    @Resource
-    private Mapper        dozerMapper;
 
     /**
-     * 通过账户名称登录(按照 邮箱->手机->登录名 的顺序查找账户)
+     * 代理登录
+     *
+     * @param accountId      登录账户ID
+     * @param agentAccountId 代理账户ID
+     * @param sysId          系统ID
+     *
+     * @return 登录成功或失败的结果
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<AgentSignInRa> signIn(@Valid final AgentSignInTo to) {
+    public Ro<AgentSignInRa> signIn(final Long accountId, final Long agentAccountId, final String sysId) {
         log.info("根据系统ID获取系统信息");
-        final RacSysMo sysMo = sysSvc.getById(to.getSysId());
+        final RacSysMo sysMo = sysSvc.getById(sysId);
         if (sysMo == null) {
-            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
+            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + sysId);
         }
 
-        final RacAccountMo accountMo = accountSvc.getById(to.getAccountId());
+        final RacAccountMo accountMo = accountSvc.getById(accountId);
         if (accountMo == null) {
             final String msg = "找不到此账户";
-            log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountId());
+            log.warn(msg + ": {}", accountId);
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
         if (accountMo.getSignInPswd() == null) {
             final String msg = "该账户没有设置登录密码，请设置好登录密码才能登录";
-            log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountId());
+            log.warn(msg + ": ", accountId);
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
         if (!accountMo.getIsEnabled()) {
             final String msg = "该账户已被禁止登录";
-            log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountId());
+            log.warn(msg + ": ", accountId);
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
-        final RacAccountMo agentAccountMo = accountSvc.getById(to.getAgentAccountId());
+        final RacAccountMo agentAccountMo = accountSvc.getById(agentAccountId);
         if (agentAccountMo == null) {
-            final String msg = "找不到此账户";
-            log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountId());
+            final String msg = "找不到代理账户";
+            log.warn(msg + ": {}", agentAccountId);
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
         if (agentAccountMo.getSignInPswd() == null) {
-            final String msg = "该账户没有设置登录密码，请设置好登录密码才能登录";
-            log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountId());
+            final String msg = "代理账户没有设置登录密码，请设置好登录密码才能登录";
+            log.warn(msg + ": ", agentAccountId);
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
         if (!agentAccountMo.getIsEnabled()) {
-            final String msg = "该账户已被禁止登录";
-            log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountId());
+            final String msg = "代理账户已被禁止登录";
+            log.warn(msg + ": {}", agentAccountId);
+            return new Ro<>(ResultDic.WARN, msg);
         }
 
         return returnSuccessSignIn(sysMo, accountMo, agentAccountMo);
@@ -122,30 +112,11 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
     /**
      * 返回成功登录
      *
-     * @param loginTo
-     *                  登录参数
-     * @param loginType
-     *                  登录类型
-     * @param accountMo
-     *                  获取到的账户信息
-     *
-     * @param sysId
-     * @param accountMo
-     *
-     * @return
+     * @param accountMo      获取到的账户信息
+     * @param agentAccountMo 获取到的代理账户信息
+     * @param sysId          系统ID
      */
     private Ro<AgentSignInRa> returnSuccessSignIn(final RacSysMo sysMo, final RacAccountMo accountMo, final RacAccountMo agentAccountMo) {
-        final RacOpLogAddTo opLogAddTo = new RacOpLogAddTo();
-        final LocalDateTime now        = LocalDateTime.now();
-        opLogAddTo.setOpType("登录");
-        opLogAddTo.setSysId(sysMo.getId());
-        opLogAddTo.setAccountId(accountMo.getId());
-        opLogAddTo.setAgentId(agentAccountMo.getId());
-        opLogAddTo.setOpTitle("账户登录-代理登录");
-        opLogAddTo.setOpDetail("账户被代理登录系统");
-        opLogAddTo.setOpDatetime(now);
-        opLogSvc.add(opLogAddTo);
-
         final JwtSignTo           signTo   = new JwtSignTo(accountMo.getId().toString());
         final Map<String, Object> addition = new LinkedHashMap<>();
         addition.put("agentAccountId", agentAccountMo.getId());

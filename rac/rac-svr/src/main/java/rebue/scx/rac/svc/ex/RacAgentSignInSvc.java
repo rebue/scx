@@ -1,29 +1,36 @@
 package rebue.scx.rac.svc.ex;
 
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.AgentSignInRa;
-import rebue.scx.rac.to.ex.AgentSignInTo;
 
 /**
  * 代理登录服务接口
  *
- * Validated注解按规范应该写在接口上
- *
- * Valid注解在参数是POJO类时，写在参数类型的前面，具体约束的注解写在参数类型的属性的上方
- * Valid注解在参数是普通参数时，写在方法的上方，具体约束的注解直接写在参数类型的前面
- *
- * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ * <pre>
+ * 1. 在接口上方必须写上 @Validated 注解
+ * 2. 参数是POJO类时用 @Valid 注解在参数类型的前面进行修饰
+ *    参数是普通参数时，直接在参数类型的前面加上具体约束的注解
+ * 3. (待验证)有分组时，在方法上方必须写上 @Validated 注解及分组
+ * 4. 踩坑留痕：
+ *    如果方法的返回值为void，在方法上方加上 @Valid 注解会出现异常，报HV000132错误
+ * </pre>
  */
 @Validated
 public interface RacAgentSignInSvc {
 
     /**
      * 代理登录
+     *
+     * @param accountId      登录账户ID
+     * @param agentAccountId 代理账户ID
+     * @param sysId          系统ID
+     *
+     * @return 登录成功或失败的结果
      */
-    Ro<AgentSignInRa> signIn(@Valid AgentSignInTo to);
+    Ro<AgentSignInRa> signIn(@NotNull Long accountId, @NotNull Long agentAccountId, @NotNull String sysId);
 
 }

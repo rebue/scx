@@ -21,22 +21,16 @@ public class AgentSignInTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
-     */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 20, message = "系统ID长度不能超过20")
-    private String            sysId;
-
-    /**
      * 账户ID
      */
     @NotNull(message = "账户ID不能为空")
     private Long              accountId;
 
     /**
-     * 代理账户ID
+     * 系统ID
      */
-    @NotNull(message = "账户ID不能为空")
-    private Long              agentAccountId;
+    @NotBlank(message = "系统ID不能为空")
+    @Length(max = 20, message = "系统ID长度不能超过20")
+    private String            sysId;
 
 }
