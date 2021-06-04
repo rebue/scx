@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.sbs.sb.ctx.ReactiveResponseContextHolder;
+import rebue.sbs.sb.ctx.ReactiveRequestAndResponseContextHolder;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.co.RacJwtSignCo;
@@ -49,20 +49,25 @@ public class RacOpLogAopConfig {
         final Mono<Ro<?>> mono   = (Mono<Ro<?>>) result;
         return mono.flatMap(ro -> {
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                return ReactiveResponseContextHolder.getResponse().map(response -> {
-                    final String sign  = CookieUtils.getValue(response, JwtUtils.JWT_TOKEN_NAME);
-                    final String sysId = CookieUtils.getValue(response, RacCookieCo.SYS_ID_KEY);
+                return ReactiveRequestAndResponseContextHolder.getRequestAndResponseContext().map(context -> {
+                    String sign  = CookieUtils.getValue(context.getResponse(), JwtUtils.JWT_TOKEN_NAME);
+                    String sysId = CookieUtils.getValue(context.getResponse(), RacCookieCo.SYS_ID_KEY);
+
+                    if (!StringUtils.isNoneBlank(sign, sysId)) {
+                        sign  = CookieUtils.getValue(context.getRequest(), JwtUtils.JWT_TOKEN_NAME);
+                        sysId = CookieUtils.getValue(context.getRequest(), RacCookieCo.SYS_ID_KEY);
+                    }
 
                     if (StringUtils.isNoneBlank(sign, sysId)) {
                         final Long accountId = JwtUtils.getJwtAccountIdFromSign(sign);
                         if (accountId != null) {
-                            final Object               target          = joinPoint.getTarget();
-                            final Object[]             args            = joinPoint.getArgs();
-                            final AspectExpressContext context         = new AspectExpressContext(target, args, result);
+                            final Object               target               = joinPoint.getTarget();
+                            final Object[]             args                 = joinPoint.getArgs();
+                            final AspectExpressContext aspectExpressContext = new AspectExpressContext(target, args, result);
 
-                            final MethodSignature      methodSignature = (MethodSignature) joinPoint.getSignature();
-                            final Method               method          = methodSignature.getMethod();
-                            final RacOpLog             annotation      = method.getAnnotation(RacOpLog.class);
+                            final MethodSignature      methodSignature      = (MethodSignature) joinPoint.getSignature();
+                            final Method               method               = methodSignature.getMethod();
+                            final RacOpLog             annotation           = method.getAnnotation(RacOpLog.class);
 
                             // 从JWT签名中获取代理账户ID
                             Long agentAccountId = null;
@@ -80,8 +85,8 @@ public class RacOpLogAopConfig {
 
                             final RacOpLogAddTo to = new RacOpLogAddTo();
                             to.setOpType(annotation.opType());
-                            to.setOpTitle(context.getString(annotation.opTitle()));
-                            to.setOpDetail(context.getString(annotation.opDetail()));
+                            to.setOpTitle(aspectExpressContext.getString(annotation.opTitle()));
+                            to.setOpDetail(aspectExpressContext.getString(annotation.opDetail()));
                             to.setAccountId(accountId);
                             to.setAgentId(agentAccountId);
                             to.setSysId(sysId);
