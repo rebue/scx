@@ -3547,14 +3547,14 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:EntityAttribute>
 <o:EntityAttribute Id="o110">
 <a:ObjectID>93259C61-B23D-4EFB-8F01-9103F312834E</a:ObjectID>
-<a:Name>菜单URN</a:Name>
-<a:Code>MENU_URN</a:Code>
+<a:Name>菜单</a:Name>
+<a:Code>MENU</a:Code>
 <a:CreationDate>1608259888</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1608260724</a:ModificationDate>
+<a:ModificationDate>1622781935</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
-<a:DataType>VA100</a:DataType>
-<a:Length>100</a:Length>
+<a:DataType>VA3000</a:DataType>
+<a:Length>3000</a:Length>
 </o:EntityAttribute>
 <o:EntityAttribute Id="o111">
 <a:ObjectID>310EDB4E-3B64-4820-A83D-C797298E7C5B</a:ObjectID>
@@ -6614,12 +6614,12 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>rac-mysql</a:Code>
 <a:CreationDate>1591349233</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1622617100</a:ModificationDate>
+<a:ModificationDate>1622781989</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/rac-mysql.pdm</a:TargetModelURL>
 <a:TargetModelID>1657FC08-856D-4EF4-969A-6EA675BC94D7</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
-<a:TargetModelLastModificationDate>1622617102</a:TargetModelLastModificationDate>
+<a:TargetModelLastModificationDate>1622781989</a:TargetModelLastModificationDate>
 <c:SessionShortcuts>
 <o:Shortcut Ref="o3"/>
 </c:SessionShortcuts>

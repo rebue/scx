@@ -3,8 +3,8 @@ INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('default', '默认领域', '系
 INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('platform', '平台领域', '平台管理领域');
 INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('ops', '运营领域', '运营管理领域');
 -- 系统
-INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,MENU_URN,REMARK) VALUES ('platform-admin-web', '平台后台管理', 'platform','/','对平台的后台管理提供最基本的功能');
-INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,MENU_URN,REMARK) VALUES ('ops-admin-web', '运营后台管理', 'ops','/','对运营的后台管理提供最基本的功能');
+INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,REMARK) VALUES ('platform-admin-web', '平台后台管理', 'platform','对平台的后台管理提供最基本的功能');
+INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,REMARK) VALUES ('ops-admin-web', '运营后台管理', 'ops','对运营的后台管理提供最基本的功能');
 
 -- 空账号
 INSERT INTO RAC_ACCOUNT (ID,DOMAIN_ID,SIGN_IN_NAME,SIGN_IN_PSWD,SIGN_IN_PSWD_SALT,SIGN_IN_NICKNAME,CREATE_TIMESTAMP,UPDATE_TIMESTAMP)VALUES(0,'platform','null','','','空',UNIX_TIMESTAMP(SYSDATE()) * 1000,UNIX_TIMESTAMP(SYSDATE()) * 1000);
