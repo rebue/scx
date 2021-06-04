@@ -5,11 +5,15 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.mo.RacRolePermMo;
+import rebue.scx.rac.ra.ListTransferOfRoleRa;
+import rebue.scx.rac.to.RacAccountRoleAddTo;
+import rebue.scx.rac.to.RacAccountRoleDelTo;
 import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRolePageTo;
 import rebue.scx.rac.to.RacRolePermAddTo;
+import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
 
 /**
  * 角色API
@@ -56,4 +60,25 @@ public interface RacRoleApi extends BaseApi<java.lang.Long, RacRoleAddTo, RacRol
      * @param to 添加的具体信息
      */
     Ro<ListRa<RacRolePermMo>> listRolePerm(Long roleId);
+
+    /**
+     * 查询角色的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    Ro<ListTransferOfRoleRa> listTransferOfRole(RacListTransferOfRoleTo qo);
+
+    /**
+     * 添加角色和账户的关系
+     *
+     * @param to 添加的具体信息
+     */
+    Ro<?> addAccountRole(RacAccountRoleAddTo to);
+
+    /**
+     * 删除角色和账户的关系
+     *
+     * @param to 删除的具体信息
+     */
+    Ro<?> delAccountRole(RacAccountRoleDelTo to);
 }

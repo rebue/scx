@@ -9,15 +9,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacRoleDao;
 import rebue.scx.rac.jo.RacRoleJo;
+import rebue.scx.rac.mapper.RacAccountRoleMapper;
 import rebue.scx.rac.mapper.RacRoleMapper;
 import rebue.scx.rac.mapper.RacRolePermMapper;
+import rebue.scx.rac.mo.RacAccountRoleMo;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.mo.RacRolePermMo;
+import rebue.scx.rac.ra.ListTransferOfRoleRa;
 import rebue.scx.rac.svc.RacRoleSvc;
+import rebue.scx.rac.to.RacAccountRoleAddTo;
+import rebue.scx.rac.to.RacAccountRoleDelTo;
 import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleDelTo;
 import rebue.scx.rac.to.RacRoleListTo;
@@ -25,6 +32,7 @@ import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
 import rebue.scx.rac.to.RacRolePermAddTo;
+import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
 import rebue.wheel.core.exception.RuntimeExceptionX;
 
 /**
@@ -58,10 +66,13 @@ public class RacRoleSvcImpl
      */
     @Lazy
     @Resource
-    private RacRoleSvc        thisSvc;
+    private RacRoleSvc           thisSvc;
 
     @Resource
-    private RacRolePermMapper racRolePermMapper;
+    private RacRolePermMapper    racRolePermMapper;
+
+    @Resource
+    private RacAccountRoleMapper racAccountRoleMapper;
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -122,6 +133,44 @@ public class RacRoleSvcImpl
             if (rowCount != 1) {
                 throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
             }
+        }
+    }
+
+    /**
+     * 添加角色和账户的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void addAccountRole(final RacAccountRoleAddTo to) {
+        final List<Long> lists = to.getRoleIds();
+        for (final Long roleId : lists) {
+            final RacAccountRoleMo mo = new RacAccountRoleMo();
+            // 如果id为空那么自动生成分布式id
+            mo.setId(_idWorker.getId());
+            mo.setRoleId(roleId);
+            mo.setAccountId(to.getAccountId());
+            final int rowCount = racAccountRoleMapper.insertSelective(mo);
+            if (rowCount != 1) {
+                throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
+            }
+        }
+    }
+
+    /**
+     * 删除角色和账户的关系
+     *
+     * @param to 删除的具体信息
+     */
+    @Override
+    public void delAccountRole(final RacAccountRoleDelTo to) {
+        final List<Long> lists = to.getRoleIds();
+        for (final Long roleId : lists) {
+            final RacAccountRoleMo mo = new RacAccountRoleMo();
+            mo.setRoleId(roleId);
+            mo.setAccountId(to.getAccountId());
+            racAccountRoleMapper.deleteSelective(mo);
         }
     }
 
@@ -214,6 +263,21 @@ public class RacRoleSvcImpl
     public List<RacRoleMo> list(final RacRoleListTo qo) {
         final RacRoleMo mo = _dozerMapper.map(qo, getMoClass());
         return _mapper.selectListOrderByRole(mo);
+    }
+
+    @Override
+    public Ro<ListTransferOfRoleRa> listTransferOfRole(final RacListTransferOfRoleTo qo) {
+        final RacRoleMo roleMo = new RacRoleMo();
+        roleMo.setDomainId(qo.getDomainId());
+        final List<RacRoleMo>  listRole      = _mapper.selectListOrderByRole(roleMo);
+        final RacAccountRoleMo accountRoleMo = new RacAccountRoleMo();
+        accountRoleMo.setAccountId(qo.getAccountId());
+        final List<RacAccountRoleMo> listAccountRole = racAccountRoleMapper.selectSelective(accountRoleMo);
+        // 将所有记录添加到返回ListTransferOfRoleRa的对象中
+        final ListTransferOfRoleRa   ro              = new ListTransferOfRoleRa();
+        ro.setAddableList(listRole);
+        ro.setExistList(listAccountRole);
+        return new Ro<>(ResultDic.SUCCESS, "查询角色列表成功", ro);
     }
 
     /**

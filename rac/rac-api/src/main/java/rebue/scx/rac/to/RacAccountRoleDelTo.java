@@ -13,17 +13,9 @@ import lombok.Data;
 
 @Data
 @JsonInclude(Include.NON_NULL)
-public class RacOrgAccountAddTo implements Serializable {
+public class RacAccountRoleDelTo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 组织ID
-     *
-     */
-    @NotNull(message = "组织ID不能为空")
-    @PositiveOrZero(message = "组织ID不能为负数")
-    private Long              orgId;
 
     /**
      * 账户ID
@@ -31,5 +23,13 @@ public class RacOrgAccountAddTo implements Serializable {
      */
     @NotNull(message = "账户ID不能为空")
     @PositiveOrZero(message = "账户ID不能为负数")
-    private List<Long>        accountIds;
+    private Long              accountId;
+
+    /**
+     * 角色ID
+     *
+     */
+    @NotNull(message = "角色ID不能为空")
+    @PositiveOrZero(message = "角色ID不能为负数")
+    private List<Long>        roleIds;
 }
