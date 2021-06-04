@@ -1,9 +1,12 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -39,14 +42,6 @@ public class RacSysListTo implements Serializable {
     private String            domainId;
 
     /**
-     * 菜单URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 100, message = "菜单URN的长度不能大于100")
-    private String            menuUrn;
-
-    /**
      * 系统备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -61,4 +56,12 @@ public class RacSysListTo implements Serializable {
      */
     @Length(max = 100, message = "系统URL的长度不能大于100")
     private String            url;
+
+    /**
+     * 菜单
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 3000, message = "菜单的长度不能大于3000")
+    private String            menu;
 }

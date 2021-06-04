@@ -40,11 +40,11 @@ public final class RacSysDynamicSqlSupport {
     public static final SqlColumn<String> url = racSys.url;
 
     /**
-    * 菜单URN
+    * 菜单
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> menuUrn = racSys.menuUrn;
+    public static final SqlColumn<String> menu = racSys.menu;
 
     /**
     * 系统备注
@@ -62,7 +62,7 @@ public final class RacSysDynamicSqlSupport {
 
         public final SqlColumn<String> url = column("URL", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> menuUrn = column("MENU_URN", JDBCType.VARCHAR);
+        public final SqlColumn<String> menu = column("MENU", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

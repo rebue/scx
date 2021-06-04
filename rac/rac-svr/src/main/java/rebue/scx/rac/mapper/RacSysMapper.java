@@ -4,7 +4,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.menuUrn;
+import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.menu;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.name;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.racSys;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.remark;
@@ -47,7 +47,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, url, menuUrn, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, url, menu, remark);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -86,7 +86,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacSysMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
         @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "URL", property = "url", jdbcType = JdbcType.VARCHAR), @Result(column = "MENU_URN", property = "menuUrn", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "URL", property = "url", jdbcType = JdbcType.VARCHAR), @Result(column = "MENU", property = "menu", jdbcType = JdbcType.VARCHAR),
         @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
     })
     List<RacSysMo> selectMany(SelectStatementProvider selectStatement);
@@ -123,7 +123,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      */
     default int insert(RacSysMo record) {
         return MyBatis3Utils.insert(this::insert, record, racSys, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(domainId).toProperty("domainId").map(url)
-            .toProperty("url").map(menuUrn).toProperty("menuUrn").map(remark).toProperty("remark"));
+            .toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark"));
     }
 
     /**
@@ -131,7 +131,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      */
     default int insertMultiple(Collection<RacSysMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racSys, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(domainId).toProperty("domainId")
-            .map(url).toProperty("url").map(menuUrn).toProperty("menuUrn").map(remark).toProperty("remark"));
+            .map(url).toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark"));
     }
 
     /**
@@ -140,8 +140,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     default int insertSelective(RacSysMo record) {
         return MyBatis3Utils.insert(this::insert, record, racSys,
             c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(name).toPropertyWhenPresent("name", record::getName).map(domainId)
-                .toPropertyWhenPresent("domainId", record::getDomainId).map(url).toPropertyWhenPresent("url", record::getUrl).map(menuUrn)
-                .toPropertyWhenPresent("menuUrn", record::getMenuUrn).map(remark).toPropertyWhenPresent("remark", record::getRemark));
+                .toPropertyWhenPresent("domainId", record::getDomainId).map(url).toPropertyWhenPresent("url", record::getUrl).map(menu)
+                .toPropertyWhenPresent("menu", record::getMenu).map(remark).toPropertyWhenPresent("remark", record::getRemark));
     }
 
     /**
@@ -183,8 +183,8 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacSysMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(url).equalTo(record::getUrl).set(menuUrn)
-            .equalTo(record::getMenuUrn).set(remark).equalTo(record::getRemark);
+        return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(url).equalTo(record::getUrl).set(menu)
+            .equalTo(record::getMenu).set(remark).equalTo(record::getRemark);
     }
 
     /**
@@ -192,14 +192,14 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacSysMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId).set(url)
-            .equalToWhenPresent(record::getUrl).set(menuUrn).equalToWhenPresent(record::getMenuUrn).set(remark).equalToWhenPresent(record::getRemark);
+            .equalToWhenPresent(record::getUrl).set(menu).equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(RacSysMo record) {
-        return update(c -> c.set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(url).equalTo(record::getUrl).set(menuUrn).equalTo(record::getMenuUrn)
+        return update(c -> c.set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(url).equalTo(record::getUrl).set(menu).equalTo(record::getMenu)
             .set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
@@ -208,7 +208,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      */
     default int updateByPrimaryKeySelective(RacSysMo record) {
         return update(c -> c.set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId).set(url).equalToWhenPresent(record::getUrl)
-            .set(menuUrn).equalToWhenPresent(record::getMenuUrn).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
+            .set(menu).equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -217,7 +217,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     default int deleteSelective(RacSysMo record) {
         return delete(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-                .and(url, isEqualToWhenPresent(record::getUrl)).and(menuUrn, isEqualToWhenPresent(record::getMenuUrn)).and(remark, isEqualToWhenPresent(record::getRemark)));
+                .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -226,7 +226,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     default Optional<RacSysMo> selectOne(RacSysMo record) {
         return selectOne(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-                .and(url, isEqualToWhenPresent(record::getUrl)).and(menuUrn, isEqualToWhenPresent(record::getMenuUrn)).and(remark, isEqualToWhenPresent(record::getRemark)));
+                .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -234,7 +234,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      */
     default long countSelective(RacSysMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(url, isEqualToWhenPresent(record::getUrl)).and(menuUrn, isEqualToWhenPresent(record::getMenuUrn)).and(remark, isEqualToWhenPresent(record::getRemark)));
+            .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -257,6 +257,6 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     default List<RacSysMo> selectSelective(RacSysMo record) {
         return select(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-                .and(url, isEqualToWhenPresent(record::getUrl)).and(menuUrn, isEqualToWhenPresent(record::getMenuUrn)).and(remark, isEqualToWhenPresent(record::getRemark)));
+                .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 }

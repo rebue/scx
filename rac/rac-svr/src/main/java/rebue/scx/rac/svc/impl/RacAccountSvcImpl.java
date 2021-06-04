@@ -241,7 +241,7 @@ public class RacAccountSvcImpl extends
     @Override
     @SneakyThrows
     public Ro<?> uploadAvatar(final Long accountId, final String fileName, final ContentDisposition contentDisposition, final MediaType contentType,
-                              final InputStream inputStream) {
+        final InputStream inputStream) {
         final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
@@ -252,15 +252,14 @@ public class RacAccountSvcImpl extends
         }
         final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
         System.out.println(bucketPolicy);
-        final String              contentTypeString = contentType.toString();
-        final Map<String, String> headers           = new HashMap<>();
+        final String contentTypeString = contentType.toString();
+        final Map<String, String> headers = new HashMap<>();
         headers.put("Content-Disposition", contentDisposition.toString());
         headers.put("Content-Type", contentTypeString);
-        final String fileExt    = Files.getFileExtension(fileName);
+        final String fileExt = Files.getFileExtension(fileName);
         final String objectName = accountId.toString() + "." + fileExt;
         minioClient.putObject(
-            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentTypeString).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
-                .build());
+            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentTypeString).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(accountId);
         // XXX 添加a参数并设置时间戳，以防前端接收到地址未改变，图片不刷新
@@ -319,9 +318,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String sysId) {
-        final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
-
-        final RacAccountMo        accountMo = thisSvc.getById(curAccountId);
+        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
+        final RacAccountMo accountMo = thisSvc.getById(curAccountId);
         if (accountMo == null) {
             return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
         }
@@ -330,7 +328,6 @@ public class RacAccountSvcImpl extends
             ra.setOrgId(accountMo.getOrgId());
             ra.setOrgFullName(racOrgMo.getFullName());
         }
-
         RacAccountMo agentAccountMo = null;
         if (agentAccountId != null) {
             agentAccountMo = thisSvc.getById(agentAccountId);
@@ -338,7 +335,6 @@ public class RacAccountSvcImpl extends
                 return new Ro<>(ResultDic.WARN, "查找不到代理账户: " + agentAccountId);
             }
         }
-
         _dozerMapper.map(accountMo, ra);
         ra.setNickname(accountMo.getSignInNickname());
         ra.setAvatar(accountMo.getSignInAvatar());
@@ -382,14 +378,14 @@ public class RacAccountSvcImpl extends
         existQo.setKeywords(to.getExistKeywords());
         final List<RacAccountMo> existAccountList = _mapper.list(existQo);
         // 查询可添加的所有用户
-        final RacAccountExMo     addableQo        = new RacAccountExMo();
+        final RacAccountExMo addableQo = new RacAccountExMo();
         addableQo.setDomainId(to.getDomainId());
         addableQo.setOrgId(to.getOrgId());
         addableQo.setKeywords(to.getAddableKeywords());
-        final ISelect                select      = () -> _mapper.getAddablAccountList(addableQo);
+        final ISelect select = () -> _mapper.getAddablAccountList(addableQo);
         final PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
         // 将所有记录添加到返回ListTransferOfOrgRa的对象中
-        final ListTransferOfOrgRa    ro          = new ListTransferOfOrgRa();
+        final ListTransferOfOrgRa ro = new ListTransferOfOrgRa();
         ro.setAddableList(addableList);
         ro.setExistList(existAccountList);
         return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);

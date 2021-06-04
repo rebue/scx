@@ -1,10 +1,14 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;

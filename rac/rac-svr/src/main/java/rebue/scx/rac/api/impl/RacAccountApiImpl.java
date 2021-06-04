@@ -74,7 +74,7 @@ public class RacAccountApiImpl extends
      */
     @Override
     public Ro<?> uploadAvatar(final Long accountId, final String fileName, final ContentDisposition contentDisposition, final MediaType contentType,
-                              final InputStream inputStream) {
+        final InputStream inputStream) {
         return _svc.uploadAvatar(accountId, fileName, contentDisposition, contentType, inputStream);
     }
 

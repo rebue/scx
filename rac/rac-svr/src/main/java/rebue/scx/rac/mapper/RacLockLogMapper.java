@@ -58,40 +58,35 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     BasicColumn[] selectList = BasicColumn.columnList(id, domainId, lockAccountId, lockOpId, lockOpAgentId, lockReason, lockDatetime, unlockReason, unlockDatetime, unlockOpId,
-            unlockOpAgentId);
+        unlockOpAgentId);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacLockLogMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacLockLogMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacLockLogMoResult")
     Optional<RacLockLogMo> selectOne(SelectStatementProvider selectStatement);
@@ -99,245 +94,220 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacLockLogMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-            @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "LOCK_ACCOUNT_ID", property = "lockAccountId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "LOCK_OP_ID", property = "lockOpId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "LOCK_OP_AGENT_ID", property = "lockOpAgentId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "LOCK_REASON", property = "lockReason", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "LOCK_DATETIME", property = "lockDatetime", jdbcType = JdbcType.TIMESTAMP),
-            @Result(column = "UNLOCK_REASON", property = "unlockReason", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "UNLOCK_DATETIME", property = "unlockDatetime", jdbcType = JdbcType.TIMESTAMP),
-            @Result(column = "UNLOCK_OP_ID", property = "unlockOpId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "UNLOCK_OP_AGENT_ID", property = "unlockOpAgentId", jdbcType = JdbcType.BIGINT)
+        @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "LOCK_ACCOUNT_ID", property = "lockAccountId", jdbcType = JdbcType.BIGINT),
+        @Result(column = "LOCK_OP_ID", property = "lockOpId", jdbcType = JdbcType.BIGINT),
+        @Result(column = "LOCK_OP_AGENT_ID", property = "lockOpAgentId", jdbcType = JdbcType.BIGINT),
+        @Result(column = "LOCK_REASON", property = "lockReason", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "LOCK_DATETIME", property = "lockDatetime", jdbcType = JdbcType.TIMESTAMP),
+        @Result(column = "UNLOCK_REASON", property = "unlockReason", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "UNLOCK_DATETIME", property = "unlockDatetime", jdbcType = JdbcType.TIMESTAMP),
+        @Result(column = "UNLOCK_OP_ID", property = "unlockOpId", jdbcType = JdbcType.BIGINT),
+        @Result(column = "UNLOCK_OP_AGENT_ID", property = "unlockOpAgentId", jdbcType = JdbcType.BIGINT)
     })
     List<RacLockLogMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default long count(final CountDSLCompleter completer) {
+    default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racLockLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int delete(final DeleteDSLCompleter completer) {
+    default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racLockLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int deleteByPrimaryKey(final Long id_) {
+    default int deleteByPrimaryKey(Long id_) {
         return delete(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int insert(final RacLockLogMo record) {
+    default int insert(RacLockLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racLockLog,
-                c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(lockAccountId).toProperty("lockAccountId").map(lockOpId).toProperty("lockOpId")
-                        .map(lockOpAgentId).toProperty("lockOpAgentId").map(lockReason).toProperty("lockReason").map(lockDatetime).toProperty("lockDatetime").map(unlockReason)
-                        .toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId).toProperty("unlockOpId").map(unlockOpAgentId)
-                        .toProperty("unlockOpAgentId"));
+            c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(lockAccountId).toProperty("lockAccountId").map(lockOpId).toProperty("lockOpId")
+                .map(lockOpAgentId).toProperty("lockOpAgentId").map(lockReason).toProperty("lockReason").map(lockDatetime).toProperty("lockDatetime").map(unlockReason)
+                .toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId).toProperty("unlockOpId").map(unlockOpAgentId)
+                .toProperty("unlockOpAgentId"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int insertMultiple(final Collection<RacLockLogMo> records) {
+    default int insertMultiple(Collection<RacLockLogMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racLockLog,
-                c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(lockAccountId).toProperty("lockAccountId").map(lockOpId).toProperty("lockOpId")
-                        .map(lockOpAgentId).toProperty("lockOpAgentId").map(lockReason).toProperty("lockReason").map(lockDatetime).toProperty("lockDatetime").map(unlockReason)
-                        .toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId).toProperty("unlockOpId").map(unlockOpAgentId)
-                        .toProperty("unlockOpAgentId"));
+            c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(lockAccountId).toProperty("lockAccountId").map(lockOpId).toProperty("lockOpId")
+                .map(lockOpAgentId).toProperty("lockOpAgentId").map(lockReason).toProperty("lockReason").map(lockDatetime).toProperty("lockDatetime").map(unlockReason)
+                .toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId).toProperty("unlockOpId").map(unlockOpAgentId)
+                .toProperty("unlockOpAgentId"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int insertSelective(final RacLockLogMo record) {
+    default int insertSelective(RacLockLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racLockLog,
-                c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(domainId).toPropertyWhenPresent("domainId", record::getDomainId).map(lockAccountId)
-                        .toPropertyWhenPresent("lockAccountId", record::getLockAccountId).map(lockOpId).toPropertyWhenPresent("lockOpId", record::getLockOpId).map(lockOpAgentId)
-                        .toPropertyWhenPresent("lockOpAgentId", record::getLockOpAgentId).map(lockReason).toPropertyWhenPresent("lockReason", record::getLockReason)
-                        .map(lockDatetime)
-                        .toPropertyWhenPresent("lockDatetime", record::getLockDatetime).map(unlockReason).toPropertyWhenPresent("unlockReason", record::getUnlockReason)
-                        .map(unlockDatetime)
-                        .toPropertyWhenPresent("unlockDatetime", record::getUnlockDatetime).map(unlockOpId).toPropertyWhenPresent("unlockOpId", record::getUnlockOpId)
-                        .map(unlockOpAgentId)
-                        .toPropertyWhenPresent("unlockOpAgentId", record::getUnlockOpAgentId));
+            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(domainId).toPropertyWhenPresent("domainId", record::getDomainId).map(lockAccountId)
+                .toPropertyWhenPresent("lockAccountId", record::getLockAccountId).map(lockOpId).toPropertyWhenPresent("lockOpId", record::getLockOpId).map(lockOpAgentId)
+                .toPropertyWhenPresent("lockOpAgentId", record::getLockOpAgentId).map(lockReason).toPropertyWhenPresent("lockReason", record::getLockReason).map(lockDatetime)
+                .toPropertyWhenPresent("lockDatetime", record::getLockDatetime).map(unlockReason).toPropertyWhenPresent("unlockReason", record::getUnlockReason).map(unlockDatetime)
+                .toPropertyWhenPresent("unlockDatetime", record::getUnlockDatetime).map(unlockOpId).toPropertyWhenPresent("unlockOpId", record::getUnlockOpId).map(unlockOpAgentId)
+                .toPropertyWhenPresent("unlockOpAgentId", record::getUnlockOpAgentId));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default Optional<RacLockLogMo> selectOne(final SelectDSLCompleter completer) {
+    default Optional<RacLockLogMo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racLockLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default List<RacLockLogMo> select(final SelectDSLCompleter completer) {
+    default List<RacLockLogMo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racLockLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default List<RacLockLogMo> selectDistinct(final SelectDSLCompleter completer) {
+    default List<RacLockLogMo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racLockLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default Optional<RacLockLogMo> selectByPrimaryKey(final Long id_) {
+    default Optional<RacLockLogMo> selectByPrimaryKey(Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int update(final UpdateDSLCompleter completer) {
+    default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racLockLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateAllColumns(final RacLockLogMo record, final UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateAllColumns(RacLockLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(domainId).equalTo(record::getDomainId).set(lockAccountId).equalTo(record::getLockAccountId).set(lockOpId)
-                .equalTo(record::getLockOpId).set(lockOpAgentId).equalTo(record::getLockOpAgentId).set(lockReason).equalTo(record::getLockReason).set(lockDatetime)
-                .equalTo(record::getLockDatetime).set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime).equalTo(record::getUnlockDatetime).set(unlockOpId)
-                .equalTo(record::getUnlockOpId).set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId);
+            .equalTo(record::getLockOpId).set(lockOpAgentId).equalTo(record::getLockOpAgentId).set(lockReason).equalTo(record::getLockReason).set(lockDatetime)
+            .equalTo(record::getLockDatetime).set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime).equalTo(record::getUnlockDatetime).set(unlockOpId)
+            .equalTo(record::getUnlockOpId).set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(final RacLockLogMo record, final UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacLockLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(domainId).equalToWhenPresent(record::getDomainId).set(lockAccountId).equalToWhenPresent(record::getLockAccountId)
-                .set(lockOpId).equalToWhenPresent(record::getLockOpId).set(lockOpAgentId).equalToWhenPresent(record::getLockOpAgentId).set(lockReason)
-                .equalToWhenPresent(record::getLockReason).set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason)
-                .equalToWhenPresent(record::getUnlockReason)
-                .set(unlockDatetime).equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId).set(unlockOpAgentId)
-                .equalToWhenPresent(record::getUnlockOpAgentId);
+            .set(lockOpId).equalToWhenPresent(record::getLockOpId).set(lockOpAgentId).equalToWhenPresent(record::getLockOpAgentId).set(lockReason)
+            .equalToWhenPresent(record::getLockReason).set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason).equalToWhenPresent(record::getUnlockReason)
+            .set(unlockDatetime).equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId).set(unlockOpAgentId)
+            .equalToWhenPresent(record::getUnlockOpAgentId);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int updateByPrimaryKey(final RacLockLogMo record) {
+    default int updateByPrimaryKey(RacLockLogMo record) {
         return update(c -> c.set(domainId).equalTo(record::getDomainId).set(lockAccountId).equalTo(record::getLockAccountId).set(lockOpId).equalTo(record::getLockOpId)
-                .set(lockOpAgentId).equalTo(record::getLockOpAgentId).set(lockReason).equalTo(record::getLockReason).set(lockDatetime).equalTo(record::getLockDatetime)
-                .set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime).equalTo(record::getUnlockDatetime).set(unlockOpId).equalTo(record::getUnlockOpId)
-                .set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId).where(id, isEqualTo(record::getId)));
+            .set(lockOpAgentId).equalTo(record::getLockOpAgentId).set(lockReason).equalTo(record::getLockReason).set(lockDatetime).equalTo(record::getLockDatetime)
+            .set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime).equalTo(record::getUnlockDatetime).set(unlockOpId).equalTo(record::getUnlockOpId)
+            .set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int updateByPrimaryKeySelective(final RacLockLogMo record) {
+    default int updateByPrimaryKeySelective(RacLockLogMo record) {
         return update(c -> c.set(domainId).equalToWhenPresent(record::getDomainId).set(lockAccountId).equalToWhenPresent(record::getLockAccountId).set(lockOpId)
-                .equalToWhenPresent(record::getLockOpId).set(lockOpAgentId).equalToWhenPresent(record::getLockOpAgentId).set(lockReason).equalToWhenPresent(record::getLockReason)
-                .set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason).equalToWhenPresent(record::getUnlockReason).set(unlockDatetime)
-                .equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId).set(unlockOpAgentId)
-                .equalToWhenPresent(record::getUnlockOpAgentId).where(id, isEqualTo(record::getId)));
+            .equalToWhenPresent(record::getLockOpId).set(lockOpAgentId).equalToWhenPresent(record::getLockOpAgentId).set(lockReason).equalToWhenPresent(record::getLockReason)
+            .set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason).equalToWhenPresent(record::getUnlockReason).set(unlockDatetime)
+            .equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId).set(unlockOpAgentId)
+            .equalToWhenPresent(record::getUnlockOpAgentId).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int deleteSelective(final RacLockLogMo record) {
+    default int deleteSelective(RacLockLogMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-                .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-                .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
-                .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
-                .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-                .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
+            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
+            .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default Optional<RacLockLogMo> selectOne(final RacLockLogMo record) {
+    default Optional<RacLockLogMo> selectOne(RacLockLogMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-                .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-                .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
-                .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
-                .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-                .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
+            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
+            .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default long countSelective(final RacLockLogMo record) {
+    default long countSelective(RacLockLogMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-                .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-                .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
-                .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
-                .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-                .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
+            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
+            .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default boolean existByPrimaryKey(final Long id_) {
+    default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default boolean existSelective(final RacLockLogMo record) {
+    default boolean existSelective(RacLockLogMo record) {
         return countSelective(record) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default List<RacLockLogMo> selectSelective(final RacLockLogMo record) {
+    default List<RacLockLogMo> selectSelective(RacLockLogMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-                .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-                .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
-                .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
-                .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-                .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
+            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
+            .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
     }
 
     /**
@@ -348,7 +318,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @return
      */
     @Update("update RAC_LOCK_LOG lo set lo.unlock_reason=#{record.unlockReason}, lo.unlock_datetime=#{record.unlockDatetime}, lo.unlock_op_id=#{record.unlockOpId}  "
-            + " where lo.lock_account_id=#{record.lockAccountId} and lo.unlock_op_id is null  " + " order by  lo.lock_datetime desc limit 1")
+        + " where lo.lock_account_id=#{record.lockAccountId} and lo.unlock_op_id is null  " + " order by  lo.lock_datetime desc limit 1")
     int updateUnLockOpLogEx(@Param(value = "record") RacLockLogMo record);
 
     /**
@@ -359,34 +329,27 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @return
      */
     @Select({ "<script>"
-            + "SELECT lo.*, a.SIGN_IN_NAME signInName, a.SIGN_IN_MOBILE signInMobile, a.SIGN_IN_EMAIL signInEmail, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
-            + "  b.SIGN_IN_NAME lockSignInName, b.SIGN_IN_MOBILE lockSignInMobile, b.SIGN_IN_EMAIL lockSignInEmail, b.WX_NICKNAME lockwxNickname, b.QQ_NICKNAME lockqqNickname, b.SIGN_IN_NICKNAME lockSignInNickname,"
-            + "  c.SIGN_IN_NAME unlockSignInName, c.SIGN_IN_MOBILE unlockSignInMobile, c.SIGN_IN_EMAIL unlockSignInEmail, c.WX_NICKNAME unlockwxNickname, c.QQ_NICKNAME unlockqqNickname, c.SIGN_IN_NICKNAME unlockSignInNickname, "
-            + "  d.SIGN_IN_NAME lockAgentSignInName, d.SIGN_IN_MOBILE lockAgentSignInMobile, d.SIGN_IN_EMAIL lockAgentSignInEmail, d.WX_NICKNAME lockAgentwxNickname, d.QQ_NICKNAME lockAgentqqNickname, d.SIGN_IN_NICKNAME lockAgentSignInNickname, "
-            + "  e.SIGN_IN_NAME unlockAgentSignInName, e.SIGN_IN_MOBILE unlockAgentSignInMobile, e.SIGN_IN_EMAIL unlockAgentSignInEmail, e.WX_NICKNAME unlockAgentwxNickname, e.QQ_NICKNAME unlockAgentqqNickname, e.SIGN_IN_NICKNAME unlockAgentSignInNickname "
-            + "  FROM RAC_LOCK_LOG lo "
-            + "  left join RAC_ACCOUNT a ON lo.LOCK_ACCOUNT_ID=a.ID "
-            + "  left join RAC_ACCOUNT b ON lo.LOCK_OP_ID=b.ID "
-            + "  left join RAC_ACCOUNT c ON lo.UNLOCK_OP_ID=c.ID "
-            + "  left join RAC_ACCOUNT d ON lo.LOCK_OP_AGENT_ID=d.ID "
-            + "  left join RAC_ACCOUNT e ON lo.UNLOCK_OP_AGENT_ID=e.ID "
-            + "  where 1=1 and a.domain_Id=#{record.domainId} "
-            + "<if test='record.keywords!=null'> "
-            + "  and ("
-            + "    a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
-            + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-            + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
-            + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-            + " or c.ID like '%${record.keywords}%' or c.SIGN_IN_NAME like '%${record.keywords}%' or c.SIGN_IN_MOBILE like '%${record.keywords}%' or c.SIGN_IN_EMAIL like '%${record.keywords}%' "
-            + " or c.WX_NICKNAME like '%${record.keywords}%' or c.QQ_NICKNAME like '%${record.keywords}%' or c.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-            + " or d.ID like '%${record.keywords}%' or d.SIGN_IN_NAME like '%${record.keywords}%' or d.SIGN_IN_MOBILE like '%${record.keywords}%' or d.SIGN_IN_EMAIL like '%${record.keywords}%' "
-            + " or d.WX_NICKNAME like '%${record.keywords}%' or d.QQ_NICKNAME like '%${record.keywords}%' or d.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-            + " or e.ID like '%${record.keywords}%' or e.SIGN_IN_NAME like '%${record.keywords}%' or e.SIGN_IN_MOBILE like '%${record.keywords}%' or e.SIGN_IN_EMAIL like '%${record.keywords}%' "
-            + " or e.WX_NICKNAME like '%${record.keywords}%' or e.QQ_NICKNAME like '%${record.keywords}%' or e.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-            + "   ) </if>"
-            + "<if test='record.startDate!=null and record.endDate!=null'>"
-            + "  and (lo.LOCK_DATETIME between  '${record.startDate}' and  '${record.endDate}'  or lo.UNLOCK_DATETIME between '${record.startDate}' and  '${record.endDate}') </if>"
-            + "</script>"
+        + "SELECT lo.*, a.SIGN_IN_NAME signInName, a.SIGN_IN_MOBILE signInMobile, a.SIGN_IN_EMAIL signInEmail, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
+        + "  b.SIGN_IN_NAME lockSignInName, b.SIGN_IN_MOBILE lockSignInMobile, b.SIGN_IN_EMAIL lockSignInEmail, b.WX_NICKNAME lockwxNickname, b.QQ_NICKNAME lockqqNickname, b.SIGN_IN_NICKNAME lockSignInNickname,"
+        + "  c.SIGN_IN_NAME unlockSignInName, c.SIGN_IN_MOBILE unlockSignInMobile, c.SIGN_IN_EMAIL unlockSignInEmail, c.WX_NICKNAME unlockwxNickname, c.QQ_NICKNAME unlockqqNickname, c.SIGN_IN_NICKNAME unlockSignInNickname, "
+        + "  d.SIGN_IN_NAME lockAgentSignInName, d.SIGN_IN_MOBILE lockAgentSignInMobile, d.SIGN_IN_EMAIL lockAgentSignInEmail, d.WX_NICKNAME lockAgentwxNickname, d.QQ_NICKNAME lockAgentqqNickname, d.SIGN_IN_NICKNAME lockAgentSignInNickname, "
+        + "  e.SIGN_IN_NAME unlockAgentSignInName, e.SIGN_IN_MOBILE unlockAgentSignInMobile, e.SIGN_IN_EMAIL unlockAgentSignInEmail, e.WX_NICKNAME unlockAgentwxNickname, e.QQ_NICKNAME unlockAgentqqNickname, e.SIGN_IN_NICKNAME unlockAgentSignInNickname "
+        + "  FROM RAC_LOCK_LOG lo " + "  left join RAC_ACCOUNT a ON lo.LOCK_ACCOUNT_ID=a.ID " + "  left join RAC_ACCOUNT b ON lo.LOCK_OP_ID=b.ID "
+        + "  left join RAC_ACCOUNT c ON lo.UNLOCK_OP_ID=c.ID " + "  left join RAC_ACCOUNT d ON lo.LOCK_OP_AGENT_ID=d.ID "
+        + "  left join RAC_ACCOUNT e ON lo.UNLOCK_OP_AGENT_ID=e.ID " + "  where 1=1 and a.domain_Id=#{record.domainId} " + "<if test='record.keywords!=null'> " + "  and ("
+        + "    a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or c.ID like '%${record.keywords}%' or c.SIGN_IN_NAME like '%${record.keywords}%' or c.SIGN_IN_MOBILE like '%${record.keywords}%' or c.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or c.WX_NICKNAME like '%${record.keywords}%' or c.QQ_NICKNAME like '%${record.keywords}%' or c.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or d.ID like '%${record.keywords}%' or d.SIGN_IN_NAME like '%${record.keywords}%' or d.SIGN_IN_MOBILE like '%${record.keywords}%' or d.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or d.WX_NICKNAME like '%${record.keywords}%' or d.QQ_NICKNAME like '%${record.keywords}%' or d.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or e.ID like '%${record.keywords}%' or e.SIGN_IN_NAME like '%${record.keywords}%' or e.SIGN_IN_MOBILE like '%${record.keywords}%' or e.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or e.WX_NICKNAME like '%${record.keywords}%' or e.QQ_NICKNAME like '%${record.keywords}%' or e.SIGN_IN_NICKNAME like '%${record.keywords}%' " + "   ) </if>"
+        + "<if test='record.startDate!=null and record.endDate!=null'>"
+        + "  and (lo.LOCK_DATETIME between  '${record.startDate}' and  '${record.endDate}'  or lo.UNLOCK_DATETIME between '${record.startDate}' and  '${record.endDate}') </if>"
+        + "</script>"
     })
     List<RacLockLogExMo> selectEx(@Param(value = "record") RacLockLogPageTo record);
 }

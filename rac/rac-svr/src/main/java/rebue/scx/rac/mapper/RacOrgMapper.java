@@ -330,14 +330,4 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         final String tree_Code = record.getTreeCode() + "%";
         return select(c -> c.where(treeCode, isLike(tree_Code)));
     }
-    // /**
-    // * 查询可以添加的组织信息
-    // */
-    // @Select({ " <script>" + "SELECT  ao.* FROM  RAC_ORG ao left JOIN  RAC_ORG_ACCOUNT aoa ON ao.id = aoa.ORG_ID "
-    // + " WHERE  <if test='record.keywords!=null'>"
-    // + "(ao.NAME like '%${record.keywords}%' or ao.REMARK like '%${record.keywords}%') and </if>"
-    // + " ( not  EXISTS( SELECT a.ORG_ID FROM RAC_ORG_ACCOUNT a  "
-    // + "    WHERE   a.ACCOUNT_ID = #{record.accountId} and ao.id=a.ORG_ID)) " + "    GROUP BY ao.ID"
-    // + " </script>" })
-    // List<RacOrgMo> listAddableOrg(@Param(value = "record") RacOrgListByAccountIdTo record);
 }
