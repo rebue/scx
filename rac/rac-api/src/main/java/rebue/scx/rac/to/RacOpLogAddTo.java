@@ -71,8 +71,7 @@ public class RacOpLogAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "操作详情不能为空")
-    @Length(max = 300, message = "操作详情的长度不能大于300")
+    @Length(max = 1000, message = "操作详情的长度不能大于1000")
     private String            opDetail;
 
     /**

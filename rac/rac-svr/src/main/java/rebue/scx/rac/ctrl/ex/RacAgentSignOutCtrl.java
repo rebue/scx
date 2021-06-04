@@ -35,7 +35,7 @@ public class RacAgentSignOutCtrl {
      * 退出代理登录
      */
     @PostMapping("/rac/agent-sign-out/sign-out")
-    @RacOpLog(opType = "登录", opTitle = "登录: 从代理登录退出")
+    @RacOpLog(opType = "登录", opTitle = "登录: 从代理登录退出", opDetail = "")
     @SneakyThrows
     public Mono<Ro<AgentSignOutRa>> signOut(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken,
                                             final ServerHttpResponse resp) {

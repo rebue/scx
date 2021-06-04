@@ -72,7 +72,8 @@ INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(11,'platform-admi
 INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(12,'platform-admin-web',1012,'/account/rac-account');
 INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(13,'platform-admin-web',1013,'/log/lock-log');
 INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(14,'platform-admin-web',1014,'/log/op-log');
---URL
+
+-- URL
 INSERT INTO `RAC_PERM_URN` VALUES 
 (875980015911698436,1001,'*:/rac/domain/**'),
 (875986330897743872,1002,'GET:/rac/domain/**'),

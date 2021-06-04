@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/4 12:46:37                            */
+/* Created on:     2021/6/4 17:12:42                            */
 /*==============================================================*/
 
 
@@ -263,7 +263,7 @@ create table RAC_OP_LOG
    AGENT_ID             bigint unsigned  comment '代理人ID',
    OP_TYPE              varchar(20) not null  comment '操作类型',
    OP_TITLE             varchar(32) not null  comment '操作标题',
-   OP_DETAIL            varchar(300) not null  comment '操作详情',
+   OP_DETAIL            varchar(1000)  comment '操作详情',
    OP_DATETIME          datetime not null  comment '操作时间',
    primary key (ID),
    unique key AK_ACCOUNT_AND_OP_TYPE_AND_DATETIME (ACCOUNT_ID, OP_TYPE, OP_DATETIME)
