@@ -72,3 +72,27 @@ INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(11,'platform-admi
 INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(12,'platform-admin-web',1012,'/account/rac-account');
 INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(13,'platform-admin-web',1013,'/log/lock-log');
 INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(14,'platform-admin-web',1014,'/log/op-log');
+--URL
+INSERT INTO `RAC_PERM_URN` VALUES 
+(875980015911698436,1001,'*:/rac/domain/**'),
+(875986330897743872,1002,'GET:/rac/domain/**'),
+(875980164188733445,1003,'*:/rac/sys/**'),
+(875986401345273857,1004,'GET:/rac/sys/**'),
+(875978616129847296,1005,'*:/rac/perm-group/**'),
+(875978616280842241,1005,'*:/rac/perm-menu/**'),
+(875978616339562498,1005,'*:/rac/perm-urn/**'),
+(875978616398282755,1005,'*:/rac/perm/**'),
+(875986559676055554,1006,'GET:/rac/perm-group/**'),
+(875986559768330243,1006,'GET:/rac/perm-menu/**'),
+(875986559818661892,1006,'GET:/rac/perm-urn/**'),
+(875986559860604933,1006,'GET:/rac/perm/**'),
+(875980626589777926,1007,'*:/rac/role/**'),
+(875986649526435846,1008,'GET:/rac/role/**'),
+(875982137797509127,1009,'*:/rac/org/**'),
+(875986920314896391,1010,'GET:/rac/org/**'),
+(875982622923292680,1011,'*:/rac/account/**'),
+(875986997913714696,1012,'GET:/rac/account/**'),
+(875987052754239497,1013,'GET:/rac/lock-log/**'),
+(875987086598078474,1014,'GET:/rac/op-log/**');
+
+
