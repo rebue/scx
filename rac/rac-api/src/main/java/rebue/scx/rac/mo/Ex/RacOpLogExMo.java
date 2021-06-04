@@ -27,9 +27,9 @@ public class RacOpLogExMo extends RacOpLogMo {
      */
     private String            remark;
     /**
-     * 菜单URN
+     * 菜单
      */
-    private String            menuUrn;
+    private String            menu;
     /**
      * 领域ID
      */
@@ -104,7 +104,7 @@ public class RacOpLogExMo extends RacOpLogMo {
         // TODO Auto-generated constructor stub
     }
 
-    public RacOpLogExMo(final String sysName, final String remark, final String menuUrn, final String domainId, final String signInName, final String signInNickname,
+    public RacOpLogExMo(final String sysName, final String remark, final String menu, final String domainId, final String signInName, final String signInNickname,
             final String signInMobile, final String signInEmail,
             final String wxNickname, final String qqNickname, final String agentSignInName, final String agentSignInNickname, final String agentSignInMobile,
             final String agentSignInEmail, final String agentwxNickname,
@@ -112,7 +112,7 @@ public class RacOpLogExMo extends RacOpLogMo {
         super();
         this.sysName             = sysName;
         this.remark              = remark;
-        this.menuUrn             = menuUrn;
+        this.menu                = menu;
         this.domainId            = domainId;
         this.signInName          = signInName;
         this.signInNickname      = signInNickname;
@@ -144,12 +144,12 @@ public class RacOpLogExMo extends RacOpLogMo {
         this.remark = remark;
     }
 
-    public String getMenuUrn() {
-        return menuUrn;
+    public String getMenu() {
+        return menu;
     }
 
-    public void setMenuUrn(final String menuUrn) {
-        this.menuUrn = menuUrn;
+    public void setMenu(final String menu) {
+        this.menu = menu;
     }
 
     public String getDomainId() {
