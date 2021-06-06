@@ -1,8 +1,11 @@
 package rebue.scx.rac.ctrl;
 
+import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.time.LocalDateTime;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.SneakyThrows;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
@@ -28,7 +33,8 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacAccountApi;
-import rebue.scx.rac.co.RacCo;
+import rebue.scx.rac.co.RacCookieCo;
+import rebue.scx.rac.co.RacJwtSignCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
@@ -159,7 +165,7 @@ public class RacAccountCtrl {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
-        qo.setUnlockOpId(JwtUtils.getJwtAccountIdInSign(jwtToken));
+        qo.setUnlockOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
         qo.setUnlockDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.enable(qo)));
     }
@@ -174,7 +180,7 @@ public class RacAccountCtrl {
     public Mono<Ro<?>> disable(@RequestBody final RacAccountDisableTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         if (StringUtils.isBlank(jwtToken)) {
         }
-        qo.setLockOpId(JwtUtils.getJwtAccountIdInSign(jwtToken));
+        qo.setLockOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
         qo.setLockDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.disable(qo)));
     }
@@ -190,7 +196,7 @@ public class RacAccountCtrl {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
-        final Long curAccountId = JwtUtils.getJwtAccountIdInSign(jwtToken);
+        final Long curAccountId = JwtUtils.getJwtAccountIdFromSign(jwtToken);
         if (curAccountId == null) {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
@@ -212,17 +218,30 @@ public class RacAccountCtrl {
      * 获取当前账户信息
      */
     @GetMapping("/rac/account/get-cur-account-info")
-    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCo.SYS_ID_KEY) final String sysId) {
+    @SneakyThrows
+    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCookieCo.SYS_ID_KEY) final String sysId) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
-        final Long curAccountId = JwtUtils.getJwtAccountIdInSign(jwtToken);
+        // 从JWT签名中获取当前账户ID
+        final Long curAccountId = JwtUtils.getJwtAccountIdFromSign(jwtToken);
         if (curAccountId == null) {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
+        // 从JWT签名中获取代理账户ID
+        Long agentAccountId = null;
+        final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(jwtToken, RacJwtSignCo.AGENT_ACCOUNT_ID);
+        if (agentAccountIdItem != null) {
+            final String agentAccountIdString = agentAccountIdItem.toString();
+            if (StringUtils.isNotBlank(agentAccountIdString)) {
+                agentAccountId = Long.valueOf(agentAccountIdString);
+            }
+        }
+        final Long agentAccountIdFinal = agentAccountId;
+        // 从JWT签名中获取系统ID
         if (StringUtils.isBlank(sysId)) {
             throw new IllegalArgumentException("在Cookie中找不到系统ID");
         }
-        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, sysId)));
+        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, sysId)));
     }
 }

@@ -2,11 +2,14 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 /**

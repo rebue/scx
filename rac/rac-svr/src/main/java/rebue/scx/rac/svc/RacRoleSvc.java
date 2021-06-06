@@ -1,15 +1,25 @@
 package rebue.scx.rac.svc;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
+
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacRoleJo;
 import rebue.scx.rac.mo.RacRoleMo;
+import rebue.scx.rac.mo.RacRolePermMo;
+import rebue.scx.rac.ra.ListTransferOfRoleRa;
+import rebue.scx.rac.to.RacAccountRoleAddTo;
+import rebue.scx.rac.to.RacAccountRoleDelTo;
 import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleDelTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
+import rebue.scx.rac.to.RacRolePermAddTo;
+import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
 
 /**
  * 角色服务接口
@@ -35,4 +45,29 @@ public interface RacRoleSvc extends BaseSvc<java.lang.Long, RacRoleAddTo, RacRol
     void enable(RacRoleModifyTo qo);
 
     void disable(RacRoleModifyTo qo);
+
+    void addRolePerm(RacRolePermAddTo to);
+
+    List<RacRolePermMo> listRolePerm(Long roleId);
+
+    /**
+     * 查询角色的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    Ro<ListTransferOfRoleRa> listTransferOfRole(RacListTransferOfRoleTo qo);
+
+    /**
+     * 添加角色和账户的关系
+     *
+     * @param to 添加的具体信息
+     */
+    void addAccountRole(RacAccountRoleAddTo to);
+
+    /**
+     * 删除角色和账户的关系
+     *
+     * @param to 删除的具体信息
+     */
+    void delAccountRole(RacAccountRoleDelTo to);
 }

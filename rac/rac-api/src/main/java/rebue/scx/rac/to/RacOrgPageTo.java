@@ -1,10 +1,14 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import rebue.robotech.to.PageTo;
@@ -35,7 +39,8 @@ public class RacOrgPageTo extends PageTo implements Serializable {
     /**
      * 判断是否为表格请求
      */
-    private Boolean            deep;
+    private Boolean           deep;
+
     /**
      * 关键字
      */

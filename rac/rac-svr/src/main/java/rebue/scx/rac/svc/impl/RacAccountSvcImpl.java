@@ -3,13 +3,16 @@ package rebue.scx.rac.svc.impl;
 import static org.mybatis.dynamic.sql.SqlBuilder.and;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
+
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -18,9 +21,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageInfo;
 import com.google.common.io.Files;
+
 import io.minio.BucketExistsArgs;
 import io.minio.GetBucketPolicyArgs;
 import io.minio.MakeBucketArgs;
@@ -305,22 +310,40 @@ public class RacAccountSvcImpl extends
     /**
      * 获取当前账户信息
      *
-     * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
+     * @param curAccountId   当前账户ID
+     * @param agentAccountId 代理账户ID
+     * @param sysId          系统ID
      *
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final String sysId) {
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String sysId) {
+        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
         final RacAccountMo accountMo = thisSvc.getById(curAccountId);
         if (accountMo == null) {
-            return new Ro<>(ResultDic.WARN, "查找不到当前账户");
+            return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
         }
-        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
+        if (accountMo.getOrgId() != null) {
+            final RacOrgMo racOrgMo = racOrgSvc.getById(accountMo.getOrgId());
+            ra.setOrgId(accountMo.getOrgId());
+            ra.setOrgFullName(racOrgMo.getFullName());
+        }
+        RacAccountMo agentAccountMo = null;
+        if (agentAccountId != null) {
+            agentAccountMo = thisSvc.getById(agentAccountId);
+            if (agentAccountMo == null) {
+                return new Ro<>(ResultDic.WARN, "查找不到代理账户: " + agentAccountId);
+            }
+        }
         _dozerMapper.map(accountMo, ra);
         ra.setNickname(accountMo.getSignInNickname());
         ra.setAvatar(accountMo.getSignInAvatar());
         ra.setMenus(permMenuSvc.getMenusOfAccount(curAccountId, sysId));
+        if (agentAccountId != null) {
+            ra.setAgentAccountId(agentAccountId);
+            ra.setAgentNickname(agentAccountMo.getSignInNickname());
+            ra.setAgentAvatar(agentAccountMo.getSignInAvatar());
+        }
         return new Ro<>(ResultDic.SUCCESS, "获取当前账户信息成功", ra);
     }
 

@@ -1,6 +1,7 @@
 package rebue.scx.rac.ctrl;
 
 import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
@@ -18,10 +20,16 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacRoleApi;
 import rebue.scx.rac.mo.RacRoleMo;
+import rebue.scx.rac.mo.RacRolePermMo;
+import rebue.scx.rac.ra.ListTransferOfRoleRa;
+import rebue.scx.rac.to.RacAccountRoleAddTo;
+import rebue.scx.rac.to.RacAccountRoleDelTo;
 import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRolePageTo;
+import rebue.scx.rac.to.RacRolePermAddTo;
+import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
 
 /**
  * 角色控制器
@@ -48,6 +56,39 @@ public class RacRoleCtrl {
     @PostMapping("/rac/role")
     public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacRoleAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
+    }
+
+    /**
+     * 添加/修改角色和权限的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @RacOpLog(opType = "添加/修改角色权限关系", opTitle = "添加/修改角色权限关系: #{#p0.roleId}")
+    @PostMapping("/rac/role/add-role-perm")
+    public Mono<Ro<?>> addRolePerm(@RequestBody final RacRolePermAddTo to) {
+        return Mono.create(callback -> callback.success(api.addRolePerm(to)));
+    }
+
+    /**
+     * 添加角色和账户的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @RacOpLog(opType = "添加角色账户关系", opTitle = "添加角色账户关系: #{#p0.accountId}")
+    @PostMapping("/rac/role/addAccountRole")
+    public Mono<Ro<?>> addOrgAccount(@RequestBody final RacAccountRoleAddTo to) {
+        return Mono.create(callback -> callback.success(api.addAccountRole(to)));
+    }
+
+    /**
+     * 删除角色和账户的关系
+     *
+     * @param to 删除的具体信息
+     */
+    @RacOpLog(opType = "删除角色账户关系", opTitle = "删除角色账户关系: #{#p0.accountId}")
+    @DeleteMapping("/rac/role/delAccountRole")
+    public Mono<Ro<?>> delAccountRole(@RequestBody final RacAccountRoleDelTo to) {
+        return Mono.create(callback -> callback.success(api.delAccountRole(to)));
     }
 
     /**
@@ -149,6 +190,26 @@ public class RacRoleCtrl {
     @PostMapping("/rac/role/disable")
     public Mono<Ro<?>> disable(@RequestBody final RacRoleModifyTo qo) {
         return Mono.create(callback -> callback.success(api.disable(qo)));
+    }
+
+    /**
+     * 查询角色已有的权限的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @GetMapping("/rac/role/list-role-perm")
+    public Mono<Ro<ListRa<RacRolePermMo>>> listRolePerm(@RequestParam("roleId") final java.lang.Long roleId) {
+        return Mono.create(callback -> callback.success(api.listRolePerm(roleId)));
+    }
+
+    /**
+     * 查询角色的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @GetMapping("/rac/role/listTransferOfRole")
+    public Mono<Ro<ListTransferOfRoleRa>> listTransferOfOrg(final RacListTransferOfRoleTo qo) {
+        return Mono.create(callback -> callback.success(api.listTransferOfRole(qo)));
     }
 
     /**

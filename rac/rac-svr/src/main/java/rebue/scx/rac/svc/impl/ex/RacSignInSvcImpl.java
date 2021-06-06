@@ -1,6 +1,5 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -27,14 +26,13 @@ import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
-import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.DateUtils;
 import rebue.wheel.core.RegexUtils;
 
 /**
- * 账户注册服务的实现类
+ * 账户登录服务的实现类
  *
  * <pre>
  * 注意：
@@ -161,7 +159,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             delWrongPswdTimesOfSignIn(accountMo.getId());
         }
 
-        return returnSuccessSignIn(sysMo, accountMo, signInWay);
+        return returnSuccessSignIn(accountMo, to.getSysId(), signInWay);
     }
 
     /**
@@ -197,29 +195,11 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 返回成功登录
      *
-     * @param loginTo
-     *                  登录参数
-     * @param loginType
-     *                  登录类型
-     * @param accountMo
-     *                  获取到的账户信息
-     *
-     * @param sysId
-     * @param accountMo
-     *
-     * @return
+     * @param accountMo 获取到的账户信息
+     * @param sysId     系统ID
+     * @param signInWay 登录方式
      */
-    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacSysMo sysMo, final RacAccountMo accountMo, final SignUpOrInWayDic signInWay) {
-        final RacOpLogAddTo opLogAddTo = new RacOpLogAddTo();
-        final LocalDateTime now        = LocalDateTime.now();
-        opLogAddTo.setOpType("登录");
-        opLogAddTo.setSysId(sysMo.getId());
-        opLogAddTo.setAccountId(accountMo.getId());
-        opLogAddTo.setOpTitle("账户登录-" + signInWay.getDesc());
-        opLogAddTo.setOpDetail("账户通过" + signInWay.getDesc() + "登录系统");
-        opLogAddTo.setOpDatetime(now);
-        opLogSvc.add(opLogAddTo);
-
+    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String sysId, final SignUpOrInWayDic signInWay) {
         final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString());
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {

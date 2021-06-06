@@ -286,7 +286,7 @@ create table RAC_OP_LOG
    AGENT_ID             bigint unsigned  comment '代理人ID',
    OP_TYPE              varchar(20) not null  comment '操作类型',
    OP_TITLE             varchar(32) not null  comment '操作标题',
-   OP_DETAIL            varchar(300) not null  comment '操作详情',
+   OP_DETAIL            varchar(1000)  comment '操作详情',
    OP_DATETIME          datetime not null  comment '操作时间',
    primary key (ID),
    unique key AK_ACCOUNT_AND_OP_TYPE_AND_DATETIME (ACCOUNT_ID, OP_TYPE, OP_DATETIME)
@@ -432,7 +432,8 @@ create table RAC_SYS
    ID                   varchar(32) not null  comment '系统ID',
    NAME                 varchar(20) not null  comment '系统名称',
    DOMAIN_ID            varchar(32) not null  comment '领域ID',
-   MENU_URN             varchar(100)  comment '菜单URN',
+   URL                  varchar(100)  comment '系统URL',
+   MENU                 varchar(3000)  comment '菜单',
    REMARK               varchar(50)  comment '系统备注',
    primary key (ID),
    unique key AK_SYS_NAME (NAME)

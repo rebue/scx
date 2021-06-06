@@ -1,6 +1,7 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -49,15 +51,6 @@ public class RacSysJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 20)
     private String            name;
-
-    /**
-     * 菜单URN
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "MENU_URN", nullable = true, length = 100)
-    private String            menuUrn;
 
     /**
      * 系统备注
@@ -108,4 +101,22 @@ public class RacSysJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 系统URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "URL", nullable = true, length = 100)
+    private String url;
+
+    /**
+     * 菜单
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "MENU", nullable = true, length = 3000)
+    private String menu;
 }

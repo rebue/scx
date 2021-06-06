@@ -319,7 +319,7 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     @Update("update RAC_LOCK_LOG lo set lo.unlock_reason=#{record.unlockReason}, lo.unlock_datetime=#{record.unlockDatetime}, lo.unlock_op_id=#{record.unlockOpId}  "
         + " where lo.lock_account_id=#{record.lockAccountId} and lo.unlock_op_id is null  " + " order by  lo.lock_datetime desc limit 1")
-    int updateByPrimaryKeySelectEx(@Param(value = "record") RacLockLogMo record);
+    int updateUnLockOpLogEx(@Param(value = "record") RacLockLogMo record);
 
     /**
      * 查询日志/条件/分页
@@ -329,12 +329,24 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @return
      */
     @Select({ "<script>"
-        + "SELECT lo.*, a.SIGN_IN_NAME signInName,a.SIGN_IN_MOBILE signInMobile, a.SIGN_IN_EMAIL signInEmail, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
-        + "  b.SIGN_IN_NAME locksignInName,b.SIGN_IN_MOBILE locksignInMobile, b.SIGN_IN_EMAIL locksignInEmail, b.WX_NICKNAME lockwxNickname, b.QQ_NICKNAME lockqqNickname, b.SIGN_IN_NICKNAME locksignInNickname,"
-        + "  c.SIGN_IN_NAME unlocksignInName,c.SIGN_IN_MOBILE unlocksignInMobile, c.SIGN_IN_EMAIL unlocksignInEmail, c.WX_NICKNAME unlockwxNickname, c.QQ_NICKNAME unlockqqNickname, c.SIGN_IN_NICKNAME unlocksignInNickname "
+        + "SELECT lo.*, a.SIGN_IN_NAME signInName, a.SIGN_IN_MOBILE signInMobile, a.SIGN_IN_EMAIL signInEmail, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
+        + "  b.SIGN_IN_NAME lockSignInName, b.SIGN_IN_MOBILE lockSignInMobile, b.SIGN_IN_EMAIL lockSignInEmail, b.WX_NICKNAME lockwxNickname, b.QQ_NICKNAME lockqqNickname, b.SIGN_IN_NICKNAME lockSignInNickname,"
+        + "  c.SIGN_IN_NAME unlockSignInName, c.SIGN_IN_MOBILE unlockSignInMobile, c.SIGN_IN_EMAIL unlockSignInEmail, c.WX_NICKNAME unlockwxNickname, c.QQ_NICKNAME unlockqqNickname, c.SIGN_IN_NICKNAME unlockSignInNickname, "
+        + "  d.SIGN_IN_NAME lockAgentSignInName, d.SIGN_IN_MOBILE lockAgentSignInMobile, d.SIGN_IN_EMAIL lockAgentSignInEmail, d.WX_NICKNAME lockAgentwxNickname, d.QQ_NICKNAME lockAgentqqNickname, d.SIGN_IN_NICKNAME lockAgentSignInNickname, "
+        + "  e.SIGN_IN_NAME unlockAgentSignInName, e.SIGN_IN_MOBILE unlockAgentSignInMobile, e.SIGN_IN_EMAIL unlockAgentSignInEmail, e.WX_NICKNAME unlockAgentwxNickname, e.QQ_NICKNAME unlockAgentqqNickname, e.SIGN_IN_NICKNAME unlockAgentSignInNickname "
         + "  FROM RAC_LOCK_LOG lo " + "  left join RAC_ACCOUNT a ON lo.LOCK_ACCOUNT_ID=a.ID " + "  left join RAC_ACCOUNT b ON lo.LOCK_OP_ID=b.ID "
-        + "  left join RAC_ACCOUNT c ON lo.UNLOCK_OP_ID=c.ID " + "  where 1=1 and a.domain_Id=#{record.domainId} " + "<if test='record.keywords!=null'> "
-        + "  and (a.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or c.SIGN_IN_NAME like '%${record.keywords}%') </if>"
+        + "  left join RAC_ACCOUNT c ON lo.UNLOCK_OP_ID=c.ID " + "  left join RAC_ACCOUNT d ON lo.LOCK_OP_AGENT_ID=d.ID "
+        + "  left join RAC_ACCOUNT e ON lo.UNLOCK_OP_AGENT_ID=e.ID " + "  where 1=1 and a.domain_Id=#{record.domainId} " + "<if test='record.keywords!=null'> " + "  and ("
+        + "    a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or c.ID like '%${record.keywords}%' or c.SIGN_IN_NAME like '%${record.keywords}%' or c.SIGN_IN_MOBILE like '%${record.keywords}%' or c.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or c.WX_NICKNAME like '%${record.keywords}%' or c.QQ_NICKNAME like '%${record.keywords}%' or c.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or d.ID like '%${record.keywords}%' or d.SIGN_IN_NAME like '%${record.keywords}%' or d.SIGN_IN_MOBILE like '%${record.keywords}%' or d.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or d.WX_NICKNAME like '%${record.keywords}%' or d.QQ_NICKNAME like '%${record.keywords}%' or d.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+        + " or e.ID like '%${record.keywords}%' or e.SIGN_IN_NAME like '%${record.keywords}%' or e.SIGN_IN_MOBILE like '%${record.keywords}%' or e.SIGN_IN_EMAIL like '%${record.keywords}%' "
+        + " or e.WX_NICKNAME like '%${record.keywords}%' or e.QQ_NICKNAME like '%${record.keywords}%' or e.SIGN_IN_NICKNAME like '%${record.keywords}%' " + "   ) </if>"
         + "<if test='record.startDate!=null and record.endDate!=null'>"
         + "  and (lo.LOCK_DATETIME between  '${record.startDate}' and  '${record.endDate}'  or lo.UNLOCK_DATETIME between '${record.startDate}' and  '${record.endDate}') </if>"
         + "</script>"

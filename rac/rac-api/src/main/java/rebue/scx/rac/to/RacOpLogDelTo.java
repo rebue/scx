@@ -2,12 +2,16 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 /**
@@ -61,7 +65,7 @@ public class RacOpLogDelTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 300, message = "操作详情的长度不能大于300")
+    @Length(max = 1000, message = "操作详情的长度不能大于1000")
     private String            opDetail;
 
     /**
