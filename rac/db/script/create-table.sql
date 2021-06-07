@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/7 17:12:25                            */
+/* Created on:     2021/6/7 18:35:16                            */
 /*==============================================================*/
 
 
@@ -244,7 +244,7 @@ alter table RAC_DELEGATION comment '委托';
 /*==============================================================*/
 create table RAC_DIC
 (
-   ID                   bigint unsigned not null  comment '字典ID',
+   ID                   varchar(32) not null  comment '字典ID',
    NAME                 varchar(32) not null  comment '字典名称',
    DOMAIN_ID            varchar(32)  comment '领域ID',
    SYS_ID               varchar(32)  comment '系统ID',
@@ -260,8 +260,8 @@ alter table RAC_DIC comment '字典';
 /*==============================================================*/
 create table RAC_DIC_ITEM
 (
-   ID                   bigint unsigned not null  comment '字典项ID',
-   DIC_ID               bigint unsigned not null  comment '字典ID',
+   ID                   varchar(32) not null  comment '字典项ID',
+   DIC_ID               varchar(32) not null  comment '字典ID',
    NAME                 varchar(32) not null  comment '字典项名称',
    REMARK               varchar(50)  comment '字典备注',
    primary key (ID),
