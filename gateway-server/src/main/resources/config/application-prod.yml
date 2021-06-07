@@ -19,7 +19,7 @@ spring:
             - name: SignPre
               args:
                 filter-urls:
-#                  - "'/ctid/**'"
+                  - "'/ctid/**'"
             - name: JwtPre
               args:
                 filter-urls:
@@ -32,4 +32,4 @@ spring:
     port: 5672
     username: guest
     password: guest
-    virtual-host: /    
+    virtual-host: /

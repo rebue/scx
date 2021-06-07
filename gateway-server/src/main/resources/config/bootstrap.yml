@@ -12,11 +12,11 @@ spring:
     allow-bean-definition-overriding: true
 #    # 不启动Web服务器(不提供HTTP服务)
 #    web-application-type: none
-#  autoconfigure:
-#    exclude:
-#      # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
-#      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-#      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+  autoconfigure:
+    exclude:
+      # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   rabbitmq:
     # 确保消息成功发送到交换器(发布者才用配置)
     publisher-confirm-type: SIMPLE
