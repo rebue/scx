@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/6 17:48:09                            */
+/* Created on:     2021/6/7 16:55:49                            */
 /*==============================================================*/
 
 
@@ -33,6 +33,21 @@ alter table RAC_DELEGATION
    drop foreign key FK_AGENT_AND_ACCOUNT;
 
 drop table if exists RAC_DELEGATION;
+
+
+alter table RAC_DIC 
+   drop foreign key FK_DIC_AND_DIC_GROUP;
+
+drop table if exists RAC_DIC;
+
+
+alter table RAC_DIC_GROUP 
+   drop foreign key FK_DIC_GROUP_AND_DOMAIN;
+
+alter table RAC_DIC_GROUP 
+   drop foreign key FK_DIC_GROUP_AND_SYS;
+
+drop table if exists RAC_DIC_GROUP;
 
 drop table if exists RAC_DOMAIN;
 
@@ -223,6 +238,35 @@ create table RAC_DELEGATION
 );
 
 alter table RAC_DELEGATION comment '委托';
+
+/*==============================================================*/
+/* Table: RAC_DIC                                               */
+/*==============================================================*/
+create table RAC_DIC
+(
+   ID                   bigint unsigned not null  comment '字典ID',
+   GROUP_ID             bigint unsigned not null  comment '字典分组ID',
+   NAME                 varchar(32) not null  comment '字典名称',
+   primary key (ID),
+   unique key AK_GROUP_AND_NAME (GROUP_ID, NAME)
+);
+
+alter table RAC_DIC comment '字典';
+
+/*==============================================================*/
+/* Table: RAC_DIC_GROUP                                         */
+/*==============================================================*/
+create table RAC_DIC_GROUP
+(
+   ID                   bigint unsigned not null  comment '字典分组ID',
+   NAME                 varchar(32) not null  comment '字典分组名称',
+   DOMAIN_ID            varchar(32)  comment '领域ID',
+   SYS_ID               varchar(32)  comment '系统ID',
+   primary key (ID),
+   unique key AK_DIC_GROUP (NAME)
+);
+
+alter table RAC_DIC_GROUP comment '字典分组';
 
 /*==============================================================*/
 /* Table: RAC_DOMAIN                                            */
@@ -486,6 +530,15 @@ alter table RAC_DELEGATION add constraint FK_PRINCIPAL_AND_ACCOUNT foreign key (
 
 alter table RAC_DELEGATION add constraint FK_AGENT_AND_ACCOUNT foreign key (AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_DIC add constraint FK_DIC_AND_DIC_GROUP foreign key (GROUP_ID)
+      references RAC_DIC_GROUP (ID) on delete restrict on update restrict;
+
+alter table RAC_DIC_GROUP add constraint FK_DIC_GROUP_AND_DOMAIN foreign key (DOMAIN_ID)
+      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+
+alter table RAC_DIC_GROUP add constraint FK_DIC_GROUP_AND_SYS foreign key (SYS_ID)
+      references RAC_SYS (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_AGENT foreign key (LOCK_ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
