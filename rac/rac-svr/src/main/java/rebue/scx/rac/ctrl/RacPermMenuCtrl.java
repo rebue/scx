@@ -17,12 +17,14 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacPermMenuApi;
 import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.to.RacPermMenuAddTo;
 import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
+import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
 /**
  * 权限菜单控制器
@@ -56,9 +58,10 @@ public class RacPermMenuCtrl {
      * @param to 添加的具体信息
      * 
      */
+    @RacOpLog(opType = "添加/修改权限菜单", opTitle = "添加/修改权限菜单: #{#p0.permId}")
     @PostMapping("/rac/perm-menu/addPermMenuUrn")
-    public Mono<Ro<IdRa<java.lang.Long>>> addPermMenuUrn(@RequestBody final RacPermMenuAddTo to) {
-        return Mono.create(callback -> callback.success(null));
+    public Mono<Ro<IdRa<java.lang.Long>>> addPermMenuUrn(@RequestBody final RacPermMenusAddTo to) {
+        return Mono.create(callback -> callback.success(api.addPermMenuUrn(to)));
     }
 
     /**
@@ -116,7 +119,7 @@ public class RacPermMenuCtrl {
      */
     @GetMapping("/rac/perm-menu/listPermMenu")
     public Mono<Ro<ListRa<RacPermMenuMo>>> listPermMenu(final RacPermMenuListTo qo) {
-        return Mono.create(callback -> callback.success(null));
+        return Mono.create(callback -> callback.success(api.listPermMenu(qo)));
     }
 
     /**

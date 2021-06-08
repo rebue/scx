@@ -33,6 +33,7 @@ import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
 import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
+import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
 /**
  * 权限菜单服务实现
@@ -53,8 +54,8 @@ import rebue.scx.rac.to.RacPermMenuPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermMenuSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
-    implements RacPermMenuSvc {
+        BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
+        implements RacPermMenuSvc {
 
     /**
      * 本服务的单例
@@ -87,6 +88,42 @@ public class RacPermMenuSvcImpl extends
     }
 
     /**
+     * 添加/修改权限菜单
+     *
+     * @param to 添加的具体信息
+     * 
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void addPermMenuUrn(final RacPermMenusAddTo to) {
+        // 先删除
+        final RacPermMenuMo del = _dozerMapper.map(to, getMoClass());
+        _mapper.deleteSelective(del);
+        // 后添加
+        final List<String> menuUrns = to.getMenuUrns();
+        for (final String menuUrn : menuUrns) {
+            final RacPermMenuMo mo = new RacPermMenuMo();
+            mo.setSysId(to.getSysId());
+            mo.setPermId(to.getPermId());
+            mo.setMenuUrn(menuUrn);
+            this.addMo(mo);
+        }
+
+    }
+
+    /**
+     * 查询权限菜单的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @Override
+    public List<RacPermMenuMo> listPermMenu(final RacPermMenuListTo to) {
+        final RacPermMenuMo       qo   = _dozerMapper.map(to, getMoClass());
+        final List<RacPermMenuMo> list = _mapper.selectSelective(qo);
+        return list;
+    }
+
+    /**
      * 获取账户的菜单列表
      *
      * @param accountId 账户ID
@@ -97,9 +134,9 @@ public class RacPermMenuSvcImpl extends
     @Override
     public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
         final List<RacPermMenuMo> list = _mapper
-            .select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
-                .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
-                    and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
+                .select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
+                        .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
+                                and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
         return list.stream().map(RacPermMenuMo::getMenuUrn).distinct().collect(Collectors.toList());
     }
 }
