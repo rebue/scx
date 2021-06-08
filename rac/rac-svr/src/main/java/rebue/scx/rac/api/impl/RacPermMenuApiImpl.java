@@ -26,14 +26,13 @@ import rebue.scx.rac.to.ex.RacPermMenusAddTo;
  */
 @DubboService
 public class RacPermMenuApiImpl extends
-        BaseApiImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuSvc>
-        implements RacPermMenuApi {
+    BaseApiImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuSvc>
+    implements RacPermMenuApi {
 
     /**
      * 添加/修改权限菜单
      *
      * @param to 添加的具体信息
-     * 
      */
     @Override
     public Ro<IdRa<Long>> addPermMenuUrn(final RacPermMenusAddTo to) {

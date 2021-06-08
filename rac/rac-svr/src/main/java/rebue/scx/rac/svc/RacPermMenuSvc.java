@@ -31,8 +31,7 @@ import rebue.scx.rac.to.ex.RacPermMenusAddTo;
  */
 @Validated
 public interface RacPermMenuSvc
-        extends
-        BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
+    extends BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
 
     List<String> getMenusOfAccount(Long accountId, String sysId);
 
@@ -47,7 +46,6 @@ public interface RacPermMenuSvc
      * 添加/修改权限菜单
      *
      * @param to 添加的具体信息
-     * 
      */
     void addPermMenuUrn(RacPermMenusAddTo to);
 }

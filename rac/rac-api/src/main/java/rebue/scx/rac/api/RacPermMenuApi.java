@@ -17,6 +17,7 @@ import rebue.scx.rac.to.ex.RacPermMenusAddTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 public interface RacPermMenuApi extends BaseApi<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuPageTo, RacPermMenuMo> {
+
     /**
      * 查询权限菜单的信息
      *
@@ -28,7 +29,6 @@ public interface RacPermMenuApi extends BaseApi<java.lang.Long, RacPermMenuAddTo
      * 添加/修改权限菜单
      *
      * @param to 添加的具体信息
-     * 
      */
     Ro<IdRa<Long>> addPermMenuUrn(RacPermMenusAddTo to);
 }

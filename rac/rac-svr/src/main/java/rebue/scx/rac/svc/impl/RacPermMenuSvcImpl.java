@@ -54,8 +54,8 @@ import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermMenuSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
-        implements RacPermMenuSvc {
+    BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
+    implements RacPermMenuSvc {
 
     /**
      * 本服务的单例
@@ -91,7 +91,6 @@ public class RacPermMenuSvcImpl extends
      * 添加/修改权限菜单
      *
      * @param to 添加的具体信息
-     * 
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -108,7 +107,6 @@ public class RacPermMenuSvcImpl extends
             mo.setMenuUrn(menuUrn);
             this.addMo(mo);
         }
-
     }
 
     /**
@@ -118,7 +116,7 @@ public class RacPermMenuSvcImpl extends
      */
     @Override
     public List<RacPermMenuMo> listPermMenu(final RacPermMenuListTo to) {
-        final RacPermMenuMo       qo   = _dozerMapper.map(to, getMoClass());
+        final RacPermMenuMo qo = _dozerMapper.map(to, getMoClass());
         final List<RacPermMenuMo> list = _mapper.selectSelective(qo);
         return list;
     }
@@ -134,9 +132,9 @@ public class RacPermMenuSvcImpl extends
     @Override
     public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
         final List<RacPermMenuMo> list = _mapper
-                .select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
-                        .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
-                                and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
+            .select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
+                .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
+                    and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
         return list.stream().map(RacPermMenuMo::getMenuUrn).distinct().collect(Collectors.toList());
     }
 }

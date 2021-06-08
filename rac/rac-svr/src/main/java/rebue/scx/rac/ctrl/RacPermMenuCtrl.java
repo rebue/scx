@@ -44,7 +44,6 @@ public class RacPermMenuCtrl {
      * 添加权限菜单
      *
      * @param to 添加的具体信息
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/perm-menu")
@@ -56,7 +55,6 @@ public class RacPermMenuCtrl {
      * 添加/修改权限菜单
      *
      * @param to 添加的具体信息
-     * 
      */
     @RacOpLog(opType = "添加/修改权限菜单", opTitle = "添加/修改权限菜单: #{#p0.permId}")
     @PostMapping("/rac/perm-menu/addPermMenuUrn")
@@ -68,7 +66,6 @@ public class RacPermMenuCtrl {
      * 修改权限菜单的信息
      *
      * @param to 修改的具体数据
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/perm-menu")
@@ -80,7 +77,6 @@ public class RacPermMenuCtrl {
      * 删除权限菜单
      *
      * @param id 权限菜单ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/perm-menu")
@@ -92,7 +88,6 @@ public class RacPermMenuCtrl {
      * 获取单个权限菜单的信息
      *
      * @param id 权限菜单ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm-menu/get-by-id")
@@ -104,7 +99,6 @@ public class RacPermMenuCtrl {
      * 判断权限菜单是否存在
      *
      * @param id 权限菜单ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm-menu/exist-by-id")
@@ -126,7 +120,6 @@ public class RacPermMenuCtrl {
      * 查询权限菜单的信息
      *
      * @param qo 查询的具体条件
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm-menu/page")
