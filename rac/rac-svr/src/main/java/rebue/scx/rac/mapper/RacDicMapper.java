@@ -1,6 +1,8 @@
 package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.or;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.id;
@@ -13,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -290,6 +293,10 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
     }
 
     default List<RacDicMo> selectPageOrKeywords(DicListWithItemTo record) {
-        return select(c -> c);
+        final String keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
+        return select(c -> c.where(id, isLikeWhenPresent(keywords),
+                or(name, isLikeWhenPresent(keywords)),
+                or(name, isLikeWhenPresent(keywords)),
+                or(remark, isLikeWhenPresent(keywords))));
     }
 }
