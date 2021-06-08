@@ -5,12 +5,14 @@ import org.springframework.validation.annotation.Validated;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacDicJo;
 import rebue.scx.rac.mo.RacDicMo;
+import rebue.scx.rac.ra.DicListWithItemRa;
 import rebue.scx.rac.to.RacDicAddTo;
 import rebue.scx.rac.to.RacDicDelTo;
 import rebue.scx.rac.to.RacDicListTo;
 import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
+import rebue.scx.rac.to.ex.DicListWithItemTo;
 
 /**
  * 字典服务接口
@@ -28,5 +30,13 @@ import rebue.scx.rac.to.RacDicPageTo;
  */
 @Validated
 public interface RacDicSvc extends BaseSvc<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> {
+    /**
+     * 查询字典的信息
+     * 
+     * @param to
+     *
+     * @param qo 查询的具体条件
+     */
+    DicListWithItemRa listWithDic(DicListWithItemTo to);
 
 }

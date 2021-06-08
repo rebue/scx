@@ -18,9 +18,11 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacDicApi;
 import rebue.scx.rac.mo.RacDicMo;
+import rebue.scx.rac.ra.DicListWithItemRa;
 import rebue.scx.rac.to.RacDicAddTo;
 import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicPageTo;
+import rebue.scx.rac.to.ex.DicListWithItemTo;
 
 /**
  * 字典控制器
@@ -107,4 +109,13 @@ public class RacDicCtrl {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
 
+    /**
+     * 查询字典的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @GetMapping("/rac/dic/list-with-dic")
+    public Mono<Ro<DicListWithItemRa>> listWithDic(final DicListWithItemTo to) {
+        return Mono.create(callback -> callback.success(api.listWithDic(to)));
+    }
 }

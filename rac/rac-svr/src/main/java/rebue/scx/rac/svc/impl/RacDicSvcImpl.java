@@ -1,5 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -7,12 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacDicDao;
 import rebue.scx.rac.jo.RacDicJo;
+import rebue.scx.rac.mapper.RacDicItemMapper;
 import rebue.scx.rac.mapper.RacDicMapper;
+import rebue.scx.rac.mo.RacDicItemMo;
 import rebue.scx.rac.mo.RacDicMo;
+import rebue.scx.rac.ra.DicListWithItemRa;
 import rebue.scx.rac.svc.RacDicSvc;
 import rebue.scx.rac.to.RacDicAddTo;
 import rebue.scx.rac.to.RacDicDelTo;
@@ -20,6 +29,7 @@ import rebue.scx.rac.to.RacDicListTo;
 import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
+import rebue.scx.rac.to.ex.DicListWithItemTo;
 
 /**
  * 字典服务实现
@@ -40,8 +50,8 @@ import rebue.scx.rac.to.RacDicPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicSvcImpl
-    extends BaseSvcImpl<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
-    implements RacDicSvc {
+        extends BaseSvcImpl<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
+        implements RacDicSvc {
 
     /**
      * 本服务的单例
@@ -51,7 +61,10 @@ public class RacDicSvcImpl
      */
     @Lazy
     @Resource
-    private RacDicSvc thisSvc;
+    private RacDicSvc        thisSvc;
+
+    @Resource
+    private RacDicItemMapper racDicItemMapper;
 
     /**
      * 从接口获取本服务的单例(提供给基类调用)
@@ -61,6 +74,32 @@ public class RacDicSvcImpl
     @Override
     protected BaseSvc<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> getThisSvc() {
         return thisSvc;
+    }
+
+    /**
+     * 查询字典的信息
+     *
+     * @param qo 查询的具体条件
+     */
+
+    @Override
+    public DicListWithItemRa listWithDic(DicListWithItemTo qo) {
+        final DicListWithItemRa ra             = new DicListWithItemRa();
+        final ISelect           select         = () -> _mapper.selectPageOrKeywords(qo);
+        PageInfo<RacDicMo>      dicPage        = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
+        List<RacDicMo>          dicList        = dicPage.getList();
+        List<RacDicItemMo>      dicItemListAll = new ArrayList<RacDicItemMo>();
+        for (RacDicMo racDicMo : dicList) {
+            final RacDicItemMo moQo = new RacDicItemMo();
+            moQo.setDicId(racDicMo.getId());
+            List<RacDicItemMo> dicItemList = racDicItemMapper.selectSelective(moQo);
+            dicItemListAll.addAll(dicItemList);
+        }
+        dicPage.setList(null);// 只需要分页的参数
+        ra.setPage(dicPage);
+        ra.setDicList(dicList);
+        ra.setItemList(dicItemListAll);
+        return ra;
     }
 
     /**
