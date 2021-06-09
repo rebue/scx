@@ -1,9 +1,10 @@
 package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.or;
-import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isInWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.name;
@@ -293,10 +294,39 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
     }
 
     default List<RacDicMo> selectPageOrKeywords(DicListWithItemTo record) {
-        final String keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
-        return select(c -> c.where(id, isLikeWhenPresent(keywords),
-                or(name, isLikeWhenPresent(keywords)),
-                or(name, isLikeWhenPresent(keywords)),
-                or(remark, isLikeWhenPresent(keywords))));
+        final String       keywords  = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
+        final List<String> domainIds = (record.getDomainIds() != null) ? record.getDomainIds() : null;
+        final List<String> sysIds    = (record.getSysIds() != null) ? record.getSysIds() : null;
+
+        return select(c -> {
+            if (domainIds == null && sysIds == null) {
+                return c.where(id, isLikeWhenPresent(keywords),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords)));
+            }
+            else if (domainIds != null && sysIds == null) {
+                return c.where(id, isLikeWhenPresent(keywords),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords)))
+                        .and(domainId, isInWhenPresent(domainIds));
+            }
+            else if (domainIds == null && sysIds != null) {
+                return c.where(id, isLikeWhenPresent(keywords),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords)))
+                        .and(sysId, isInWhenPresent(sysIds));
+            }
+            else {
+                return c.where(id, isLikeWhenPresent(keywords),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords)))
+                        .and(domainId, isInWhenPresent(domainIds))
+                        .and(sysId, isInWhenPresent(sysIds));
+            }
+        });
     }
 }

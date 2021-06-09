@@ -1,6 +1,7 @@
 package rebue.scx.rac.to.ex;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -22,10 +23,22 @@ public class DicListWithItemTo extends PageTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 字典列表
+     * 关键字
      */
     @Getter
     @Setter
     private String            keywords;
+    /**
+     * 领域ID
+     */
+    @Getter
+    @Setter
+    private List<String>      domainIds;
+    /**
+     * 系统ID
+     */
+    @Getter
+    @Setter
+    private List<String>      sysIds;
 
 }
