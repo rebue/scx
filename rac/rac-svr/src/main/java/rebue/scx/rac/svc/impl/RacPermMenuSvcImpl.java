@@ -33,6 +33,7 @@ import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
 import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
+import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
 /**
  * 权限菜单服务实现
@@ -84,6 +85,40 @@ public class RacPermMenuSvcImpl extends
     @Override
     protected BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> getThisSvc() {
         return thisSvc;
+    }
+
+    /**
+     * 添加/修改权限菜单
+     *
+     * @param to 添加的具体信息
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void addPermMenuUrn(final RacPermMenusAddTo to) {
+        // 先删除
+        final RacPermMenuMo del = _dozerMapper.map(to, getMoClass());
+        _mapper.deleteSelective(del);
+        // 后添加
+        final List<String> menuUrns = to.getMenuUrns();
+        for (final String menuUrn : menuUrns) {
+            final RacPermMenuMo mo = new RacPermMenuMo();
+            mo.setSysId(to.getSysId());
+            mo.setPermId(to.getPermId());
+            mo.setMenuUrn(menuUrn);
+            this.addMo(mo);
+        }
+    }
+
+    /**
+     * 查询权限菜单的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @Override
+    public List<RacPermMenuMo> listPermMenu(final RacPermMenuListTo to) {
+        final RacPermMenuMo qo = _dozerMapper.map(to, getMoClass());
+        final List<RacPermMenuMo> list = _mapper.selectSelective(qo);
+        return list;
     }
 
     /**

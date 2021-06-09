@@ -12,7 +12,7 @@ import rebue.scx.rac.mo.RacPermGroupMo;
 import rebue.scx.rac.mo.RacPermMo;
 
 /**
- * 当前账户信息
+ * 当前权限信息
  *
  */
 @Data

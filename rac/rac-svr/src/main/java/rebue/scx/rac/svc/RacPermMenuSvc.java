@@ -13,6 +13,7 @@ import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
 import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
+import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
 /**
  * 权限菜单服务接口
@@ -33,4 +34,18 @@ public interface RacPermMenuSvc
     extends BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> {
 
     List<String> getMenusOfAccount(Long accountId, String sysId);
+
+    /**
+     * 查询权限菜单的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    List<RacPermMenuMo> listPermMenu(RacPermMenuListTo qo);
+
+    /**
+     * 添加/修改权限菜单
+     *
+     * @param to 添加的具体信息
+     */
+    void addPermMenuUrn(RacPermMenusAddTo to);
 }

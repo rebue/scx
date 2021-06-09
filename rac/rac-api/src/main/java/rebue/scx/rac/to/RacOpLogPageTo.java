@@ -76,7 +76,7 @@ public class RacOpLogPageTo extends PageTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 1000, message = "操作详情的长度不能大于1000")
+    @Length(max = 1500, message = "操作详情的长度不能大于1500")
     private String        opDetail;
 
     /**

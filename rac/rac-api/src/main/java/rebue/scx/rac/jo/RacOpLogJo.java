@@ -68,7 +68,7 @@ public class RacOpLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "OP_DETAIL", nullable = true, length = 1000)
+    @Column(name = "OP_DETAIL", nullable = true, length = 1500)
     private String            opDetail;
 
     /**
