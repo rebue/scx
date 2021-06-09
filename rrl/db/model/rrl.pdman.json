@@ -97,7 +97,7 @@
             },
             {
               "name": "BODY",
-              "type": "String-2048",
+              "type": "LongText",
               "remark": "",
               "chnname": "请求主体"
             },

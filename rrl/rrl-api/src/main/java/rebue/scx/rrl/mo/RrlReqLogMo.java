@@ -70,7 +70,7 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 2048, message = "请求主体的长度不能大于2048")
+    @Length(max = 65535, message = "请求主体的长度不能大于65535")
     private String            body;
 
     /**
@@ -208,8 +208,8 @@ public class RrlReqLogMo implements Serializable, Mo<Long> {
         sb.append(", contentType=").append(contentType);
         sb.append(", cookies=").append(cookies);
         sb.append(", queryParams=").append(queryParams);
-        sb.append(", body=").append(body);
         sb.append(", createTimestamp=").append(createTimestamp);
+        sb.append(", body=").append(body);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

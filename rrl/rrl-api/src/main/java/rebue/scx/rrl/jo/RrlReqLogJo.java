@@ -83,7 +83,7 @@ public class RrlReqLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
-    @Column(name = "BODY", nullable = true, length = 2048)
+    @Column(name = "BODY", nullable = true, length = 65535)
     private String            body;
 
     /**

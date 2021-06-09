@@ -64,7 +64,7 @@ public class RrlReqLogListTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 2048, message = "请求主体的长度不能大于2048")
+    @Length(max = 65535, message = "请求主体的长度不能大于65535")
     private String            body;
 
     /**

@@ -103,18 +103,18 @@ public final class RrlReqLogDynamicSqlSupport {
     public static final SqlColumn<String> queryParams = rrlReqLog.queryParams;
 
     /**
-    * 请求主体
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> body = rrlReqLog.body;
-
-    /**
     * 请求时间戳
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Long> createTimestamp = rrlReqLog.createTimestamp;
+
+    /**
+    * 请求主体
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> body = rrlReqLog.body;
 
     public static final class RrlReqLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
@@ -143,9 +143,9 @@ public final class RrlReqLogDynamicSqlSupport {
 
         public final SqlColumn<String> queryParams = column("QUERY_PARAMS", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> body = column("BODY", JDBCType.VARCHAR);
-
         public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
+
+        public final SqlColumn<String> body = column("BODY", JDBCType.LONGVARCHAR);
 
         public RrlReqLog() {
             super("RRL_REQ_LOG");
