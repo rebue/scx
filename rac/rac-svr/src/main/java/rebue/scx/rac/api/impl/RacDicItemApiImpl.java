@@ -23,5 +23,4 @@ import rebue.scx.rac.to.RacDicItemPageTo;
 public class RacDicItemApiImpl extends
     BaseApiImpl<java.lang.String, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemSvc>
     implements RacDicItemApi {
-
 }

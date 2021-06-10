@@ -30,13 +30,13 @@ import rebue.scx.rac.to.ex.DicListWithItemTo;
  */
 @Validated
 public interface RacDicSvc extends BaseSvc<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> {
+
     /**
      * 查询字典的信息
-     * 
+     *
      * @param to
      *
      * @param qo 查询的具体条件
      */
     DicListWithItemRa listWithDic(DicListWithItemTo to);
-
 }

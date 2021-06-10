@@ -1,11 +1,16 @@
 package rebue.scx.sgn.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.algorithm;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.id;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.secret;
+import static rebue.scx.sgn.mapper.SgnSecretDynamicSqlSupport.sgnSecret;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +34,7 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.sgn.mo.SgnSecretMo;
 

@@ -29,5 +29,4 @@ import rebue.scx.rac.to.RacDicItemPageTo;
 @Validated
 public interface RacDicItemSvc
     extends BaseSvc<java.lang.String, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo> {
-
 }

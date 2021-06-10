@@ -18,6 +18,7 @@ import lombok.ToString;
  * 字典
  *
  * The persistent class for the RAC_DIC database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -33,44 +34,47 @@ public class RacDicJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 字典ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 字典ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 32)
     private String            id;
+
     /**
-    * 字典名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 字典名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 32)
     private String            name;
+
     /**
-    * 字典备注
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 字典备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "REMARK", nullable = true, length = 50)
     private String            remark;
 
     /**
-    * 领域
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID")
     @ManyToOne()
     private RacDomainJo       domain;
+
     /**
-    * 系统
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 系统
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "SYS_ID", referencedColumnName = "ID")
     @ManyToOne()
     private RacSysJo          sys;
@@ -106,5 +110,4 @@ public class RacDicJo implements Serializable {
             return false;
         return true;
     }
-
 }

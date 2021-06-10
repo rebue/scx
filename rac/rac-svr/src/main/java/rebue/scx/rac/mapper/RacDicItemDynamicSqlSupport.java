@@ -33,6 +33,13 @@ public final class RacDicItemDynamicSqlSupport {
     public static final SqlColumn<String> name = racDicItem.name;
 
     /**
+    * 树编码(每三位为一级)
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> treeCode = racDicItem.treeCode;
+
+    /**
     * 字典备注
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -45,6 +52,8 @@ public final class RacDicItemDynamicSqlSupport {
         public final SqlColumn<String> dicId = column("DIC_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> treeCode = column("TREE_CODE", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

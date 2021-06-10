@@ -50,7 +50,7 @@ public class RacDicItemHttpTests {
 
     /**
      * 测试基本的增删改查
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
@@ -68,7 +68,6 @@ public class RacDicItemHttpTests {
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();
         }
-
         final String pageResult = _httpClient.get(_hostUrl + "/rac/dic-item/page");
         log.info("查询字典项的返回值为：" + pageResult);
         final Ro<PageRa<RacDicItemMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<RacDicItemMo>>>() {
@@ -77,7 +76,6 @@ public class RacDicItemHttpTests {
         log.info("获取单个字典项的参数为：" + id);
         final String getByIdResult = _httpClient.get(_hostUrl + "/rac/dic-item/get-by-id?id=" + id);
         log.info("获取单个字典项的返回值为：" + getByIdResult);
-
         final RacDicItemModifyTo modifyTo = _dozerMapper.map(addTo, RacDicItemModifyTo.class);
         modifyTo.setId(id);
         log.info("修改字典项的参数为：" + modifyTo);
@@ -90,7 +88,6 @@ public class RacDicItemHttpTests {
         log.info("修改字典项的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-
         log.info("删除字典项的参数为：" + mo.getId());
         final String deleteResult = _httpClient.delete(_hostUrl + "/rac/dic-item?id=" + mo.getId());
         log.info("删除字典项的返回值为：" + deleteResult);

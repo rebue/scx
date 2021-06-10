@@ -51,8 +51,8 @@ import rebue.wheel.core.exception.RuntimeExceptionX;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicSvcImpl
-        extends BaseSvcImpl<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
-        implements RacDicSvc {
+    extends BaseSvcImpl<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
+    implements RacDicSvc {
 
     /**
      * 本服务的单例
@@ -88,7 +88,7 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo add(RacDicAddTo to) {
         String domainId = to.getDomainId();
-        String sysId    = to.getSysId();
+        String sysId = to.getSysId();
         if ("".equals(domainId)) {
             to.setDomainId(null);
             to.setSysId(null);
@@ -110,8 +110,8 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo modifyById(RacDicModifyTo to) {
         String domainId = to.getDomainId();
-        String sysId    = to.getSysId();
-        String remark   = to.getRemark();
+        String sysId = to.getSysId();
+        String remark = to.getRemark();
         if ("".equals(domainId)) {
             to.setDomainId(null);
             to.setSysId(null);
@@ -144,21 +144,21 @@ public class RacDicSvcImpl
      *
      * @param qo 查询的具体条件
      */
-
     @Override
     public DicListWithItemRa listWithDic(DicListWithItemTo qo) {
-        final DicListWithItemRa ra             = new DicListWithItemRa();
-        final ISelect           select         = () -> _mapper.selectPageOrKeywords(qo);
-        PageInfo<RacDicMo>      dicPage        = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
-        List<RacDicMo>          dicList        = dicPage.getList();
-        List<RacDicItemMo>      dicItemListAll = new ArrayList<RacDicItemMo>();
+        final DicListWithItemRa ra = new DicListWithItemRa();
+        final ISelect select = () -> _mapper.selectPageOrKeywords(qo);
+        PageInfo<RacDicMo> dicPage = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
+        List<RacDicMo> dicList = dicPage.getList();
+        List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
         for (RacDicMo racDicMo : dicList) {
             final RacDicItemMo moQo = new RacDicItemMo();
             moQo.setDicId(racDicMo.getId());
             List<RacDicItemMo> dicItemList = racDicItemMapper.selectSelective(moQo);
             dicItemListAll.addAll(dicItemList);
         }
-        dicPage.setList(null);// 只需要分页的参数
+        // 只需要分页的参数
+        dicPage.setList(null);
         ra.setPage(dicPage);
         ra.setDicList(dicList);
         ra.setItemList(dicItemListAll);
@@ -174,5 +174,4 @@ public class RacDicSvcImpl
     protected Class<RacDicMo> getMoClass() {
         return RacDicMo.class;
     }
-
 }

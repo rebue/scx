@@ -72,5 +72,4 @@ public class RacDicItemSvcImpl extends
     protected Class<RacDicItemMo> getMoClass() {
         return RacDicItemMo.class;
     }
-
 }

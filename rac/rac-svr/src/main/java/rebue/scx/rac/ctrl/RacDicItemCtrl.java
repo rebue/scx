@@ -30,6 +30,7 @@ import rebue.scx.rac.to.RacDicItemPageTo;
  */
 @RestController
 public class RacDicItemCtrl {
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -40,9 +41,7 @@ public class RacDicItemCtrl {
      * 添加字典项
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param to 添加的具体信息
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加字典项", opTitle = "添加字典项: #{#p0.id}")
@@ -55,9 +54,7 @@ public class RacDicItemCtrl {
      * 修改字典项的信息
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param to 修改的具体数据
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改字典项", opTitle = "修改字典项: #{#p0.id}")
@@ -70,9 +67,7 @@ public class RacDicItemCtrl {
      * 删除字典项
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param id 字典项ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除字典项", opTitle = "删除字典项: #{#p0}")
@@ -85,7 +80,6 @@ public class RacDicItemCtrl {
      * 获取单个字典项的信息
      *
      * @param id 字典项ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic-item/get-by-id")
@@ -97,7 +91,6 @@ public class RacDicItemCtrl {
      * 判断字典项是否存在
      *
      * @param id 字典项ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic-item/exist-by-id")
@@ -109,12 +102,10 @@ public class RacDicItemCtrl {
      * 查询字典项的信息
      *
      * @param qo 查询的具体条件
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic-item/page")
     public Mono<Ro<PageRa<RacDicItemMo>>> page(final RacDicItemPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
-
 }

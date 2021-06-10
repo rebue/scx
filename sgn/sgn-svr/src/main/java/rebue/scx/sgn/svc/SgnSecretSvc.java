@@ -1,6 +1,7 @@
 package rebue.scx.sgn.svc;
 
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.sgn.jo.SgnSecretJo;
 import rebue.scx.sgn.mo.SgnSecretMo;
