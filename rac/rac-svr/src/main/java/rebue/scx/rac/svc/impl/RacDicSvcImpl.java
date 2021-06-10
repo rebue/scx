@@ -30,6 +30,7 @@ import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
+import rebue.wheel.core.exception.RuntimeExceptionX;
 
 /**
  * 字典服务实现
@@ -74,6 +75,68 @@ public class RacDicSvcImpl
     @Override
     protected BaseSvc<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> getThisSvc() {
         return thisSvc;
+    }
+
+    /**
+     * 添加记录
+     *
+     * @param to 添加的参数
+     *
+     * @return 如果成功，且仅添加一条记录，返回添加时自动生成的ID，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacDicMo add(RacDicAddTo to) {
+        String domainId = to.getDomainId();
+        String sysId    = to.getSysId();
+        if ("".equals(domainId)) {
+            to.setDomainId(null);
+            to.setSysId(null);
+        }
+        if ("".equals(sysId)) {
+            to.setSysId(null);
+        }
+        return super.add(to);
+    }
+
+    /**
+     * 通过ID修改记录内容
+     *
+     * @param to 修改的参数，必须包含ID
+     *
+     * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacDicMo modifyById(RacDicModifyTo to) {
+        String domainId = to.getDomainId();
+        String sysId    = to.getSysId();
+        String remark   = to.getRemark();
+        if ("".equals(domainId)) {
+            to.setDomainId(null);
+            to.setSysId(null);
+        }
+        if ("".equals(sysId)) {
+            to.setSysId(null);
+        }
+        if ("".equals(remark)) {
+            to.setRemark(null);
+        }
+        return super.modifyById(to);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacDicMo modifyMoById(final RacDicMo mo) {
+        final int rowCount = _mapper.updateByPrimaryKey(mo);
+        if (rowCount == 0) {
+            throw new RuntimeExceptionX("修改记录异常，记录已不存在或有变动");
+        }
+        if (rowCount != 1) {
+            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
+        }
+        // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
+        return this.getById(mo.getId());
     }
 
     /**
