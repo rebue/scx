@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/7 18:35:16                            */
+/* Created on:     2021/6/10 12:54:54                           */
 /*==============================================================*/
 
 
@@ -263,9 +263,11 @@ create table RAC_DIC_ITEM
    ID                   varchar(32) not null  comment '字典项ID',
    DIC_ID               varchar(32) not null  comment '字典ID',
    NAME                 varchar(32) not null  comment '字典项名称',
+   TREE_CODE            varchar(50) not null  comment '树编码(每三位为一级)',
    REMARK               varchar(50)  comment '字典备注',
    primary key (ID),
-   unique key AK_DIC_AND_ITEM_NAME (DIC_ID, NAME)
+   unique key AK_DIC_AND_ITEM_NAME (DIC_ID, NAME),
+   unique key AK_DIC_AND_TREE_CODE (DIC_ID, TREE_CODE)
 );
 
 alter table RAC_DIC_ITEM comment '字典项';
