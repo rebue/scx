@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/10 12:54:54                           */
+/* Created on:     2021/6/11 10:59:17                           */
 /*==============================================================*/
 
 
@@ -244,8 +244,9 @@ alter table RAC_DELEGATION comment '委托';
 /*==============================================================*/
 create table RAC_DIC
 (
-   ID                   varchar(32) not null  comment '字典ID',
-   NAME                 varchar(32) not null  comment '字典名称',
+   ID                   bigint unsigned not null  comment '字典ID',
+   DIC_KEY              varchar(32) not null  comment '字典Key',
+   NAME                 varchar(200) not null  comment '字典名称',
    DOMAIN_ID            varchar(32)  comment '领域ID',
    SYS_ID               varchar(32)  comment '系统ID',
    REMARK               varchar(50)  comment '字典备注',
@@ -260,12 +261,14 @@ alter table RAC_DIC comment '字典';
 /*==============================================================*/
 create table RAC_DIC_ITEM
 (
-   ID                   varchar(32) not null  comment '字典项ID',
-   DIC_ID               varchar(32) not null  comment '字典ID',
-   NAME                 varchar(32) not null  comment '字典项名称',
+   ID                   bigint unsigned not null  comment '字典项ID',
+   DIC_ID               bigint unsigned not null  comment '字典ID',
+   DIC_ITEM_KEY         varchar(32)  comment '字典项Key',
+   NAME                 varchar(200) not null  comment '字典项名称',
    TREE_CODE            varchar(50) not null  comment '树编码(每三位为一级)',
    REMARK               varchar(50)  comment '字典备注',
    primary key (ID),
+   unique key AK_DIC_AND_ITEM_KEY (DIC_ID, DIC_ITEM_KEY),
    unique key AK_DIC_AND_ITEM_NAME (DIC_ID, NAME),
    unique key AK_DIC_AND_TREE_CODE (DIC_ID, TREE_CODE)
 );
@@ -356,6 +359,7 @@ create table RAC_ORG
    FULL_NAME            varchar(80)  comment '组织全名',
    INTRODUCTION         varchar(200)  comment '组织简介',
    REMARK               varchar(100)  comment '组织备注',
+   ATTR_TYPE            varchar(32)  comment '组织属性类型(字典项ID)',
    primary key (ID),
    unique key AK_NAME (NAME),
    unique key AK_FULL_NAME (FULL_NAME)

@@ -3,7 +3,7 @@ INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('default', '默认领域', '系
 INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('platform', '平台领域', '平台管理领域');
 INSERT INTO RAC_DOMAIN(ID, NAME, REMARK) VALUES ('ops', '运营领域', '运营管理领域');
 -- 系统
-INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,MENU,REMARK) VALUES ('platform-admin-web', '平台后台管理', '[{"key":"/base","title":"基础","children":[{"key":"/base/rac-domain","title":"领域"},{"key":"/base/rac-sys","title":"系统"},{"key":"/base/rac-perm","title":"权限"},{"key":"/base/rac-role","title":"角色"}]},{"key":"/account","title":"账户","children":[{"key":"/account/rac-org","title":"组织"},{"key":"/account/rac-account","title":"账户"}]},{"key":"/log","title":"日志","children":[{"key":"/log/lock-log","title":"锁定日志"},{"key":"/log/op-log","title":"操作日志"}]}]','platform','对平台的后台管理提供最基本的功能');
+INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,MENU,REMARK) VALUES ('platform-admin-web', '平台后台管理', 'platform','[{"key":"/base","title":"基础","children":[{"key":"/base/rac-domain","title":"领域"},{"key":"/base/rac-sys","title":"系统"},{"key":"/base/rac-perm","title":"权限"},{"key":"/base/rac-role","title":"角色"}]},{"key":"/account","title":"账户","children":[{"key":"/account/rac-org","title":"组织"},{"key":"/account/rac-account","title":"账户"}]},{"key":"/log","title":"日志","children":[{"key":"/log/lock-log","title":"锁定日志"},{"key":"/log/op-log","title":"操作日志"}]}]','对平台的后台管理提供最基本的功能');
 INSERT INTO RAC_SYS (ID, NAME, DOMAIN_ID,REMARK) VALUES ('ops-admin-web', '运营后台管理', 'ops','对运营的后台管理提供最基本的功能');
 
 -- 空账号
