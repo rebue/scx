@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/11 15:08:17                           */
+/* Created on:     2021/6/11 17:12:24                           */
 /*==============================================================*/
 
 
@@ -46,6 +46,9 @@ drop table if exists RAC_DIC;
 
 alter table RAC_DIC_ITEM 
    drop foreign key FK_DIC_ITEM_AND_DIC;
+
+alter table RAC_DIC_ITEM 
+   drop foreign key FK_DIC_ITEM_AND_ORG;
 
 drop table if exists RAC_DIC_ITEM;
 
@@ -263,6 +266,7 @@ create table RAC_DIC_ITEM
 (
    ID                   bigint unsigned not null  comment '字典项ID',
    DIC_ID               bigint unsigned not null  comment '字典ID',
+   ORG_ID               bigint unsigned  comment '组织ID',
    DIC_ITEM_KEY         varchar(32)  comment '字典项Key',
    NAME                 varchar(200) not null  comment '字典项名称',
    TREE_CODE            varchar(50) not null  comment '树编码(每三位为一级)',
@@ -547,6 +551,9 @@ alter table RAC_DIC add constraint FK_DIC_AND_SYS foreign key (SYS_ID)
 
 alter table RAC_DIC_ITEM add constraint FK_DIC_ITEM_AND_DIC foreign key (DIC_ID)
       references RAC_DIC (ID) on delete restrict on update restrict;
+
+alter table RAC_DIC_ITEM add constraint FK_DIC_ITEM_AND_ORG foreign key (ORG_ID)
+      references RAC_ORG (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_AGENT foreign key (LOCK_ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
