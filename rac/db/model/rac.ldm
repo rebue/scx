@@ -5444,9 +5444,9 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>ATTR_TYPE</a:Code>
 <a:CreationDate>1623315610</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1623315678</a:ModificationDate>
+<a:ModificationDate>1623395219</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
-<a:Comment>组织属性类型(字典项ID)</a:Comment>
+<a:Comment>组织属性类型(字典项KEY)</a:Comment>
 <a:DataType>VA32</a:DataType>
 <a:Length>32</a:Length>
 </o:EntityAttribute>
@@ -7746,12 +7746,12 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>rac-mysql</a:Code>
 <a:CreationDate>1591349233</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1623380196</a:ModificationDate>
+<a:ModificationDate>1623395289</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/rac-mysql.pdm</a:TargetModelURL>
 <a:TargetModelID>1657FC08-856D-4EF4-969A-6EA675BC94D7</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
-<a:TargetModelLastModificationDate>1623380196</a:TargetModelLastModificationDate>
+<a:TargetModelLastModificationDate>1623395289</a:TargetModelLastModificationDate>
 <c:SessionShortcuts>
 <o:Shortcut Ref="o3"/>
 </c:SessionShortcuts>
