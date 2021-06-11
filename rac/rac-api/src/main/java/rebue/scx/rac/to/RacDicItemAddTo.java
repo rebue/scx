@@ -30,8 +30,6 @@ public class RacDicItemAddTo implements Serializable {
     /**
      * 字典项ID
      */
-    @NotBlank(message = "字典项ID不能为空")
-    @Length(max = 32, message = "字典项ID的长度不能大于32")
     private String            Id;
 
     /**
