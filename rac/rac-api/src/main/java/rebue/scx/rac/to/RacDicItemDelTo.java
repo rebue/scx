@@ -2,6 +2,8 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -28,15 +30,15 @@ public class RacDicItemDelTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 32, message = "字典ID的长度不能大于32")
-    private String            dicId;
+    @PositiveOrZero(message = "字典ID不能为负数")
+    private Long              dicId;
 
     /**
      * 字典项名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 32, message = "字典项名称的长度不能大于32")
+    @Length(max = 200, message = "字典项名称的长度不能大于200")
     private String            name;
 
     /**
@@ -54,4 +56,12 @@ public class RacDicItemDelTo implements Serializable {
      */
     @Length(max = 50, message = "树编码的长度不能大于50")
     private String            treeCode;
+
+    /**
+     * 字典项Key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "字典项Key的长度不能大于32")
+    private String            dicItemKey;
 }

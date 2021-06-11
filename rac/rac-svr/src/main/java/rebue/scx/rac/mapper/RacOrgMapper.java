@@ -7,6 +7,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.racOrgAccount;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.attrType;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.fullName;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.id;
@@ -60,7 +61,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, parentId, domainId, orgType, treeCode, fullName, introduction, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, parentId, domainId, orgType, treeCode, fullName, introduction, remark, attrType);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -101,7 +102,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "PARENT_ID", property = "parentId", jdbcType = JdbcType.BIGINT),
         @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR), @Result(column = "ORG_TYPE", property = "orgType", jdbcType = JdbcType.TINYINT),
         @Result(column = "TREE_CODE", property = "treeCode", jdbcType = JdbcType.VARCHAR), @Result(column = "FULL_NAME", property = "fullName", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "INTRODUCTION", property = "introduction", jdbcType = JdbcType.VARCHAR), @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
+        @Result(column = "INTRODUCTION", property = "introduction", jdbcType = JdbcType.VARCHAR), @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "ATTR_TYPE", property = "attrType", jdbcType = JdbcType.VARCHAR)
     })
     List<RacOrgMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -139,7 +141,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return MyBatis3Utils.insert(this::insert, record, racOrg,
             c -> c.map(id).toProperty("id").map(name).toProperty("name").map(parentId).toProperty("parentId").map(domainId).toProperty("domainId").map(orgType)
                 .toProperty("orgType").map(treeCode).toProperty("treeCode").map(fullName).toProperty("fullName").map(introduction).toProperty("introduction").map(remark)
-                .toProperty("remark"));
+                .toProperty("remark").map(attrType).toProperty("attrType"));
     }
 
     /**
@@ -149,7 +151,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOrg,
             c -> c.map(id).toProperty("id").map(name).toProperty("name").map(parentId).toProperty("parentId").map(domainId).toProperty("domainId").map(orgType)
                 .toProperty("orgType").map(treeCode).toProperty("treeCode").map(fullName).toProperty("fullName").map(introduction).toProperty("introduction").map(remark)
-                .toProperty("remark"));
+                .toProperty("remark").map(attrType).toProperty("attrType"));
     }
 
     /**
@@ -161,7 +163,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
                 .toPropertyWhenPresent("parentId", record::getParentId).map(domainId).toPropertyWhenPresent("domainId", record::getDomainId).map(orgType)
                 .toPropertyWhenPresent("orgType", record::getOrgType).map(treeCode).toPropertyWhenPresent("treeCode", record::getTreeCode).map(fullName)
                 .toPropertyWhenPresent("fullName", record::getFullName).map(introduction).toPropertyWhenPresent("introduction", record::getIntroduction).map(remark)
-                .toPropertyWhenPresent("remark", record::getRemark));
+                .toPropertyWhenPresent("remark", record::getRemark).map(attrType).toPropertyWhenPresent("attrType", record::getAttrType));
     }
 
     /**
@@ -205,7 +207,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     static UpdateDSL<UpdateModel> updateAllColumns(RacOrgMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(parentId).equalTo(record::getParentId).set(domainId).equalTo(record::getDomainId)
             .set(orgType).equalTo(record::getOrgType).set(treeCode).equalTo(record::getTreeCode).set(fullName).equalTo(record::getFullName).set(introduction)
-            .equalTo(record::getIntroduction).set(remark).equalTo(record::getRemark);
+            .equalTo(record::getIntroduction).set(remark).equalTo(record::getRemark).set(attrType).equalTo(record::getAttrType);
     }
 
     /**
@@ -214,7 +216,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOrgMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(parentId).equalToWhenPresent(record::getParentId).set(domainId)
             .equalToWhenPresent(record::getDomainId).set(orgType).equalToWhenPresent(record::getOrgType).set(treeCode).equalToWhenPresent(record::getTreeCode).set(fullName)
-            .equalToWhenPresent(record::getFullName).set(introduction).equalToWhenPresent(record::getIntroduction).set(remark).equalToWhenPresent(record::getRemark);
+            .equalToWhenPresent(record::getFullName).set(introduction).equalToWhenPresent(record::getIntroduction).set(remark).equalToWhenPresent(record::getRemark).set(attrType)
+            .equalToWhenPresent(record::getAttrType);
     }
 
     /**
@@ -223,39 +226,39 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     default int updateByPrimaryKey(RacOrgMo record) {
         return update(c -> c.set(name).equalTo(record::getName).set(parentId).equalTo(record::getParentId).set(domainId).equalTo(record::getDomainId).set(orgType)
             .equalTo(record::getOrgType).set(treeCode).equalTo(record::getTreeCode).set(fullName).equalTo(record::getFullName).set(introduction).equalTo(record::getIntroduction)
-            .set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
+            .set(remark).equalTo(record::getRemark).set(attrType).equalTo(record::getAttrType).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKeySelective(RacOrgMo record) {
-        return update(
-            c -> c.set(name).equalToWhenPresent(record::getName).set(parentId).equalToWhenPresent(record::getParentId).set(domainId).equalToWhenPresent(record::getDomainId)
-                .set(orgType).equalToWhenPresent(record::getOrgType).set(treeCode).equalToWhenPresent(record::getTreeCode).set(fullName).equalToWhenPresent(record::getFullName)
-                .set(introduction).equalToWhenPresent(record::getIntroduction).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(name).equalToWhenPresent(record::getName).set(parentId).equalToWhenPresent(record::getParentId).set(domainId)
+            .equalToWhenPresent(record::getDomainId).set(orgType).equalToWhenPresent(record::getOrgType).set(treeCode).equalToWhenPresent(record::getTreeCode).set(fullName)
+            .equalToWhenPresent(record::getFullName).set(introduction).equalToWhenPresent(record::getIntroduction).set(remark).equalToWhenPresent(record::getRemark).set(attrType)
+            .equalToWhenPresent(record::getAttrType).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteSelective(RacOrgMo record) {
-        return delete(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(parentId, isEqualToWhenPresent(record::getParentId))
-                .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(orgType, isEqualToWhenPresent(record::getOrgType))
-                .and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(fullName, isEqualToWhenPresent(record::getFullName))
-                .and(introduction, isEqualToWhenPresent(record::getIntroduction)).and(remark, isEqualToWhenPresent(record::getRemark)));
+        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
+            .and(parentId, isEqualToWhenPresent(record::getParentId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+            .and(orgType, isEqualToWhenPresent(record::getOrgType)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+            .and(fullName, isEqualToWhenPresent(record::getFullName)).and(introduction, isEqualToWhenPresent(record::getIntroduction))
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<RacOrgMo> selectOne(RacOrgMo record) {
-        return selectOne(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(parentId, isEqualToWhenPresent(record::getParentId))
-                .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(orgType, isEqualToWhenPresent(record::getOrgType))
-                .and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(fullName, isEqualToWhenPresent(record::getFullName))
-                .and(introduction, isEqualToWhenPresent(record::getIntroduction)).and(remark, isEqualToWhenPresent(record::getRemark)));
+        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
+            .and(parentId, isEqualToWhenPresent(record::getParentId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+            .and(orgType, isEqualToWhenPresent(record::getOrgType)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+            .and(fullName, isEqualToWhenPresent(record::getFullName)).and(introduction, isEqualToWhenPresent(record::getIntroduction))
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)));
     }
 
     /**
@@ -265,7 +268,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(parentId, isEqualToWhenPresent(record::getParentId))
             .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(orgType, isEqualToWhenPresent(record::getOrgType))
             .and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(fullName, isEqualToWhenPresent(record::getFullName))
-            .and(introduction, isEqualToWhenPresent(record::getIntroduction)).and(remark, isEqualToWhenPresent(record::getRemark)));
+            .and(introduction, isEqualToWhenPresent(record::getIntroduction)).and(remark, isEqualToWhenPresent(record::getRemark))
+            .and(attrType, isEqualToWhenPresent(record::getAttrType)));
     }
 
     /**
@@ -286,11 +290,11 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<RacOrgMo> selectSelective(RacOrgMo record) {
-        return select(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(parentId, isEqualToWhenPresent(record::getParentId))
-                .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(orgType, isEqualToWhenPresent(record::getOrgType))
-                .and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(fullName, isEqualToWhenPresent(record::getFullName))
-                .and(introduction, isEqualToWhenPresent(record::getIntroduction)).and(remark, isEqualToWhenPresent(record::getRemark)));
+        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
+            .and(parentId, isEqualToWhenPresent(record::getParentId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+            .and(orgType, isEqualToWhenPresent(record::getOrgType)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+            .and(fullName, isEqualToWhenPresent(record::getFullName)).and(introduction, isEqualToWhenPresent(record::getIntroduction))
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)));
     }
 
     /**

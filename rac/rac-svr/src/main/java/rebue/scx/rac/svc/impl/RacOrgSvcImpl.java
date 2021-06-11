@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -114,19 +115,7 @@ public class RacOrgSvcImpl
             final RacOrgMo qo = new RacOrgMo();
             qo.setParentId(null);
             final Long count = _mapper.getCount(qo);
-            String treeCode = "";
-            if (count < 10) {
-                treeCode = "00" + count;
-            }
-            else if (count >= 10 && count < 100) {
-                treeCode = "0" + count;
-            }
-            else if (count >= 100 && count < 1000) {
-                treeCode = count.toString();
-            }
-            else {
-                throw new RuntimeException("组织超过999系统繁忙，请尽快联系管理员处理");
-            }
+            String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             mo.setTreeCode(treeCode);
         }
         if (to.getParentId() != null) {
@@ -135,19 +124,7 @@ public class RacOrgSvcImpl
             final RacOrgOneTo qo = new RacOrgOneTo();
             qo.setParentId(to.getParentId());
             final Long count = thisSvc.countSelective(qo);
-            String treeCode2 = "";
-            if (count < 10) {
-                treeCode2 = "00" + count;
-            }
-            else if (count >= 10 && count < 100) {
-                treeCode2 = "0" + count;
-            }
-            else if (count >= 100 && count < 1000) {
-                treeCode2 = count + "";
-            }
-            else {
-                throw new RuntimeException("组织超过999系统繁忙，请尽快联系管理员处理");
-            }
+            String treeCode2 = StringUtils.leftPad(count.toString(), 3, '0');
             mo.setTreeCode(treeCode1 + treeCode2);
         }
         return getThisSvc().addMo(mo);

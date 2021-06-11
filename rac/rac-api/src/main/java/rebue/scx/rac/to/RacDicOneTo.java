@@ -28,7 +28,7 @@ public class RacDicOneTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 32, message = "字典名称的长度不能大于32")
+    @Length(max = 200, message = "字典名称的长度不能大于200")
     private String            name;
 
     /**
@@ -54,4 +54,12 @@ public class RacDicOneTo implements Serializable {
      */
     @Length(max = 50, message = "字典备注的长度不能大于50")
     private String            remark;
+
+    /**
+     * 字典Key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "字典Key的长度不能大于32")
+    private String            dicKey;
 }

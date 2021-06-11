@@ -286,6 +286,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
         sb.append(", fullName=").append(fullName);
         sb.append(", introduction=").append(introduction);
         sb.append(", remark=").append(remark);
+        sb.append(", attrType=").append(attrType);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -355,5 +356,31 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      */
     public void setTreeCode(String treeCode) {
         this.treeCode = treeCode;
+    }
+
+    /**
+     * 组织属性类型(字典项ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "组织属性类型的长度不能大于32")
+    private String attrType;
+
+    /**
+     * 组织属性类型(字典项ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getAttrType() {
+        return attrType;
+    }
+
+    /**
+     * 组织属性类型(字典项ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAttrType(String attrType) {
+        this.attrType = attrType;
     }
 }

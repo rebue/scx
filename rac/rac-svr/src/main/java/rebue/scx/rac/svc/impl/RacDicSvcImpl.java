@@ -51,7 +51,7 @@ import rebue.wheel.core.exception.RuntimeExceptionX;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicSvcImpl
-    extends BaseSvcImpl<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
+    extends BaseSvcImpl<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
     implements RacDicSvc {
 
     /**
@@ -73,7 +73,7 @@ public class RacDicSvcImpl
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> getThisSvc() {
+    protected BaseSvc<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> getThisSvc() {
         return thisSvc;
     }
 

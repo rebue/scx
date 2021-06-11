@@ -56,13 +56,13 @@ public class RacDicItemHttpTests {
     @Test
     public void testCrud() throws IOException {
         RacDicItemAddTo addTo = null;
-        String id = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacDicItemAddTo) RandomEx.randomPojo(RacDicItemAddTo.class);
             log.info("添加字典项的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/rac/dic-item", addTo);
             log.info("添加字典项的返回值为：" + addResult);
-            final Ro<IdRa<String>> idRo = JacksonUtils.deserialize(addResult, new TypeReference<Ro<IdRa<String>>>() {
+            final Ro<IdRa<Long>> idRo = JacksonUtils.deserialize(addResult, new TypeReference<Ro<IdRa<Long>>>() {
             });
             log.info(idRo.toString());
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());

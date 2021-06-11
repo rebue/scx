@@ -88,4 +88,12 @@ public class RacOrgDelTo implements Serializable {
      */
     @Length(max = 50, message = "树编码的长度不能大于50")
     private String            treeCode;
+
+    /**
+     * 组织属性类型(字典项ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "组织属性类型的长度不能大于32")
+    private String            attrType;
 }

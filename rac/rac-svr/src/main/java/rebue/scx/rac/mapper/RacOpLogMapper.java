@@ -287,11 +287,11 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      * @return
      */
     @Select({ "<script>" + "SELECT op.*,a.SIGN_IN_NAME,a.SIGN_IN_MOBILE,a.SIGN_IN_EMAIL,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
-        + " b.SIGN_IN_NAME agentSignInName, b.SIGN_IN_MOBILE agentSignInMobile, b.SIGN_IN_EMAIL agentSignInEmail, "
-        + " b.WX_NICKNAME agentwxNickname, b.QQ_NICKNAME agentqqNickname, b.SIGN_IN_NICKNAME agentSignInNickname, "
-        + " s.NAME sysName,s.MENU menu,s.DOMAIN_ID domainId, s.REMARK remark " + " FROM RAC_OP_LOG op " + // + " where 1=1 and a.domain_Id=#{record.domainId} "
-        " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID " + " left join  RAC_ACCOUNT b on op.AGENT_ID=b.ID " + " left join RAC_SYS s on op.sys_id=s.id "
-        + " where a.domain_Id=#{record.domainId} " + "<if test='record.keywords!=null'> "
+        + " b.SIGN_IN_NAME agentSignInName, b.SIGN_IN_MOBILE agentSignInMobile, b.SIGN_IN_EMAIL agentSignInEmail, " + // + " where 1=1 and a.domain_Id=#{record.domainId} "
+        " b.WX_NICKNAME agentwxNickname, b.QQ_NICKNAME agentqqNickname, b.SIGN_IN_NICKNAME agentSignInNickname, "
+        + " s.NAME sysName,s.MENU menu,s.DOMAIN_ID domainId, s.REMARK remark " + " FROM RAC_OP_LOG op " + " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
+        + " left join  RAC_ACCOUNT b on op.AGENT_ID=b.ID " + " left join RAC_SYS s on op.sys_id=s.id " + " where a.domain_Id=#{record.domainId} "
+        + "<if test='record.keywords!=null'> "
         + " and (a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
         + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%'  "
         + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "

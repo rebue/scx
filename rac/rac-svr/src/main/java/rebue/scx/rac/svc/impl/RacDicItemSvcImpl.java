@@ -2,6 +2,7 @@ package rebue.scx.rac.svc.impl;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,7 +41,7 @@ import rebue.scx.rac.to.RacDicItemPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicItemSvcImpl extends
-    BaseSvcImpl<java.lang.String, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemMapper, RacDicItemDao>
+    BaseSvcImpl<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemMapper, RacDicItemDao>
     implements RacDicItemSvc {
 
     /**
@@ -59,7 +60,7 @@ public class RacDicItemSvcImpl extends
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.String, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo> getThisSvc() {
+    protected BaseSvc<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo> getThisSvc() {
         return thisSvc;
     }
 
@@ -71,5 +72,37 @@ public class RacDicItemSvcImpl extends
     @Override
     protected Class<RacDicItemMo> getMoClass() {
         return RacDicItemMo.class;
+    }
+
+    /**
+     * 添加记录
+     *
+     * @param to 添加的参数
+     *
+     * @return 如果成功，且仅添加一条记录，返回添加时自动生成的ID，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacDicItemMo add(RacDicItemAddTo to) {
+        final RacDicItemMo mo = _dozerMapper.map(to, getMoClass());
+        // mo中需要添加一个树编码
+        if (to.getParentId() == null) {
+            final RacDicItemOneTo qo = new RacDicItemOneTo();
+            qo.setDicId(to.getDicId());
+            final Long count = thisSvc.countSelective(qo);
+            String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
+            mo.setTreeCode(treeCode);
+        }
+        else {
+            final RacDicItemMo itemMo = thisSvc.getById(to.getParentId());
+            final RacDicItemMo qo = new RacDicItemMo();
+            qo.setDicId(to.getDicId());
+            qo.setTreeCode(itemMo.getTreeCode());
+            // 去除本身记录 -1
+            final Long count = _mapper.countItemSelective(qo) - 1;
+            String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
+            mo.setTreeCode(itemMo.getTreeCode() + treeCode);
+        }
+        return getThisSvc().addMo(mo);
     }
 }

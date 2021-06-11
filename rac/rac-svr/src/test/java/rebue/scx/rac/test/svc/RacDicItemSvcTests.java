@@ -47,7 +47,7 @@ public class RacDicItemSvcTests {
     @Test
     public void testCrud() {
         RacDicItemAddTo addTo = null;
-        String id = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacDicItemAddTo) RandomEx.randomPojo(RacDicItemAddTo.class);
             log.info("添加字典项的参数为：" + addTo);

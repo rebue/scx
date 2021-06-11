@@ -86,4 +86,12 @@ public class RacOrgAddTo implements Serializable {
      */
     @Length(max = 100, message = "组织备注的长度不能大于100")
     private String            remark;
+
+    /**
+     * 组织属性类型(字典项ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "组织属性类型的长度不能大于32")
+    private String            attrType;
 }

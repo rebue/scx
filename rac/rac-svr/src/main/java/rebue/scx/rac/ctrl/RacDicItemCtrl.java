@@ -46,7 +46,7 @@ public class RacDicItemCtrl {
      */
     @RacOpLog(opType = "添加字典项", opTitle = "添加字典项: #{#p0.id}")
     @PostMapping("/rac/dic-item")
-    public Mono<Ro<IdRa<java.lang.String>>> add(@RequestBody final RacDicItemAddTo to) {
+    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacDicItemAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
     }
 
@@ -64,15 +64,24 @@ public class RacDicItemCtrl {
     }
 
     /**
+     * 查询字典项的信息
+     *
+     * @param qo 查询的具体条件
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/dic-item/page")
+    public Mono<Ro<PageRa<RacDicItemMo>>> page(final RacDicItemPageTo qo) {
+        return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
      * 删除字典项
      *
-     * @mbg.dontOverWriteAnnotation
      * @param id 字典项ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "删除字典项", opTitle = "删除字典项: #{#p0}")
     @DeleteMapping("/rac/dic-item")
-    public Mono<Ro<?>> del(@RequestParam("id") final java.lang.String id) {
+    public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.del(id)));
     }
 
@@ -83,7 +92,7 @@ public class RacDicItemCtrl {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic-item/get-by-id")
-    public Mono<Ro<PojoRa<RacDicItemMo>>> getById(@RequestParam("id") final java.lang.String id) {
+    public Mono<Ro<PojoRa<RacDicItemMo>>> getById(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.getById(id)));
     }
 
@@ -94,18 +103,7 @@ public class RacDicItemCtrl {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic-item/exist-by-id")
-    public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.String id) {
+    public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.existById(id)));
-    }
-
-    /**
-     * 查询字典项的信息
-     *
-     * @param qo 查询的具体条件
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @GetMapping("/rac/dic-item/page")
-    public Mono<Ro<PageRa<RacDicItemMo>>> page(final RacDicItemPageTo qo) {
-        return Mono.create(callback -> callback.success(api.page(qo)));
     }
 }

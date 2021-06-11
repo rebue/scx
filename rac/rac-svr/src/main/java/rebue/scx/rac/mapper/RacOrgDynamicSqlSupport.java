@@ -74,6 +74,13 @@ public final class RacOrgDynamicSqlSupport {
     */
     public static final SqlColumn<String> remark = racOrg.remark;
 
+    /**
+    * 组织属性类型(字典项ID)
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> attrType = racOrg.attrType;
+
     public static final class RacOrg extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
@@ -92,6 +99,8 @@ public final class RacOrgDynamicSqlSupport {
         public final SqlColumn<String> introduction = column("INTRODUCTION", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> attrType = column("ATTR_TYPE", JDBCType.VARCHAR);
 
         public RacOrg() {
             super("RAC_ORG");

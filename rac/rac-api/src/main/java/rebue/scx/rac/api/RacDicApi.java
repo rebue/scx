@@ -14,7 +14,7 @@ import rebue.scx.rac.to.ex.DicListWithItemTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacDicApi extends BaseApi<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicPageTo, RacDicMo> {
+public interface RacDicApi extends BaseApi<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicPageTo, RacDicMo> {
 
     /**
      * 查询字典的信息

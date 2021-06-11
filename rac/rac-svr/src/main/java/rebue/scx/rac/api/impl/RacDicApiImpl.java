@@ -24,7 +24,7 @@ import rebue.scx.rac.to.ex.DicListWithItemTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @DubboService
-public class RacDicApiImpl extends BaseApiImpl<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicSvc>
+public class RacDicApiImpl extends BaseApiImpl<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicSvc>
     implements RacDicApi {
 
     @Override

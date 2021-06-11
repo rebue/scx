@@ -3,6 +3,8 @@ package rebue.scx.rac.mo;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -21,16 +23,16 @@ import rebue.robotech.valid.ModifyGroup;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacDicMo implements Serializable, Mo<String> {
+public class RacDicMo implements Serializable, Mo<Long> {
 
     /**
      * 字典ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = ModifyGroup.class, message = "字典ID不能为空")
-    @Length(max = 32, message = "字典ID的长度不能大于32")
-    private String            id;
+    @NotNull(groups = ModifyGroup.class, message = "字典ID不能为空")
+    @PositiveOrZero(message = "字典ID不能为负数")
+    private Long              id;
 
     /**
      * 字典名称
@@ -38,7 +40,7 @@ public class RacDicMo implements Serializable, Mo<String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotBlank(groups = AddGroup.class, message = "字典名称不能为空")
-    @Length(max = 32, message = "字典名称的长度不能大于32")
+    @Length(max = 200, message = "字典名称的长度不能大于200")
     private String            name;
 
     /**
@@ -93,17 +95,8 @@ public class RacDicMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getId() {
+    public Long getId() {
         return id;
-    }
-
-    /**
-     * 字典ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -188,6 +181,7 @@ public class RacDicMo implements Serializable, Mo<String> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", dicKey=").append(dicKey);
         sb.append(", name=").append(name);
         sb.append(", domainId=").append(domainId);
         sb.append(", sysId=").append(sysId);
@@ -233,6 +227,42 @@ public class RacDicMo implements Serializable, Mo<String> {
      */
     @Override
     public String getIdType() {
-        return "String";
+        return "Long";
+    }
+
+    /**
+     * 字典Key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "字典Key不能为空")
+    @Length(max = 32, message = "字典Key的长度不能大于32")
+    private String dicKey;
+
+    /**
+     * 字典ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * 字典Key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDicKey() {
+        return dicKey;
+    }
+
+    /**
+     * 字典Key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDicKey(String dicKey) {
+        this.dicKey = dicKey;
     }
 }

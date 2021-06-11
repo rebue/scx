@@ -52,11 +52,11 @@ public class RacDicItemApiTests {
     @Test
     public void testCrud() {
         RacDicItemAddTo addTo = null;
-        String id = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacDicItemAddTo) RandomEx.randomPojo(RacDicItemAddTo.class);
             log.info("添加字典项的参数为：" + addTo);
-            final Ro<IdRa<String>> idRo = _api.add(addTo);
+            final Ro<IdRa<Long>> idRo = _api.add(addTo);
             log.info("添加字典项的返回值为：" + idRo);
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();

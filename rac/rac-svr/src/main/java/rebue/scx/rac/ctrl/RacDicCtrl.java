@@ -48,7 +48,7 @@ public class RacDicCtrl {
      */
     @RacOpLog(opType = "添加字典", opTitle = "添加字典: #{#p0.id}")
     @PostMapping("/rac/dic")
-    public Mono<Ro<IdRa<java.lang.String>>> add(@RequestBody final RacDicAddTo to) {
+    public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacDicAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
     }
 
@@ -63,41 +63,6 @@ public class RacDicCtrl {
     @PutMapping("/rac/dic")
     public Mono<Ro<?>> modify(@RequestBody final RacDicModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
-    }
-
-    /**
-     * 删除字典
-     *
-     * @mbg.dontOverWriteAnnotation
-     * @param id 字典ID
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @RacOpLog(opType = "删除字典", opTitle = "删除字典: #{#p0}")
-    @DeleteMapping("/rac/dic")
-    public Mono<Ro<?>> del(@RequestParam("id") final java.lang.String id) {
-        return Mono.create(callback -> callback.success(api.del(id)));
-    }
-
-    /**
-     * 获取单个字典的信息
-     *
-     * @param id 字典ID
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @GetMapping("/rac/dic/get-by-id")
-    public Mono<Ro<PojoRa<RacDicMo>>> getById(@RequestParam("id") final java.lang.String id) {
-        return Mono.create(callback -> callback.success(api.getById(id)));
-    }
-
-    /**
-     * 判断字典是否存在
-     *
-     * @param id 字典ID
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @GetMapping("/rac/dic/exist-by-id")
-    public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.String id) {
-        return Mono.create(callback -> callback.success(api.existById(id)));
     }
 
     /**
@@ -119,5 +84,38 @@ public class RacDicCtrl {
     @GetMapping("/rac/dic/list-with-dic")
     public Mono<Ro<DicListWithItemRa>> listWithDic(final DicListWithItemTo to) {
         return Mono.create(callback -> callback.success(api.listWithDic(to)));
+    }
+
+    /**
+     * 删除字典
+     *
+     * @param id 字典ID
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @DeleteMapping("/rac/dic")
+    public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
+        return Mono.create(callback -> callback.success(api.del(id)));
+    }
+
+    /**
+     * 获取单个字典的信息
+     *
+     * @param id 字典ID
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/dic/get-by-id")
+    public Mono<Ro<PojoRa<RacDicMo>>> getById(@RequestParam("id") final java.lang.Long id) {
+        return Mono.create(callback -> callback.success(api.getById(id)));
+    }
+
+    /**
+     * 判断字典是否存在
+     *
+     * @param id 字典ID
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/dic/exist-by-id")
+    public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.Long id) {
+        return Mono.create(callback -> callback.success(api.existById(id)));
     }
 }

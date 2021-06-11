@@ -146,4 +146,13 @@ public class RacOrgJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "TREE_CODE", nullable = false, length = 50)
     private String treeCode;
+
+    /**
+     * 组织属性类型(字典项ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "ATTR_TYPE", nullable = true, length = 32)
+    private String attrType;
 }

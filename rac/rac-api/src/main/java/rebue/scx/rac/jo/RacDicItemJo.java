@@ -40,8 +40,8 @@ public class RacDicItemJo implements Serializable {
      */
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, length = 32)
-    private String            id;
+    @Column(name = "ID", nullable = false, length = 20)
+    private Long              id;
 
     /**
      * 字典项名称
@@ -49,7 +49,7 @@ public class RacDicItemJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "NAME", nullable = false, length = 32)
+    @Column(name = "NAME", nullable = false, length = 200)
     private String            name;
 
     /**
@@ -110,4 +110,13 @@ public class RacDicItemJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "TREE_CODE", nullable = false, length = 50)
     private String treeCode;
+
+    /**
+     * 字典项Key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "DIC_ITEM_KEY", nullable = true, length = 32)
+    private String dicItemKey;
 }

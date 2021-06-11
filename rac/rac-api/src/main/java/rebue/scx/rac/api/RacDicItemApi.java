@@ -11,5 +11,5 @@ import rebue.scx.rac.to.RacDicItemPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacDicItemApi extends BaseApi<java.lang.String, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemPageTo, RacDicItemMo> {
+public interface RacDicItemApi extends BaseApi<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemPageTo, RacDicItemMo> {
 }

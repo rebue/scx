@@ -29,7 +29,7 @@ import rebue.scx.rac.to.ex.DicListWithItemTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacDicSvc extends BaseSvc<java.lang.String, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> {
+public interface RacDicSvc extends BaseSvc<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> {
 
     /**
      * 查询字典的信息

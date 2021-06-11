@@ -16,7 +16,14 @@ public final class RacDicDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> id = racDic.id;
+    public static final SqlColumn<Long> id = racDic.id;
+
+    /**
+    * 字典Key
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> dicKey = racDic.dicKey;
 
     /**
     * 字典名称
@@ -47,7 +54,9 @@ public final class RacDicDynamicSqlSupport {
     public static final SqlColumn<String> remark = racDic.remark;
 
     public static final class RacDic extends SqlTable {
-        public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
+        public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
+
+        public final SqlColumn<String> dicKey = column("DIC_KEY", JDBCType.VARCHAR);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 

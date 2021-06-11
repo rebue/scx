@@ -3,6 +3,8 @@ package rebue.scx.rac.to;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -26,13 +28,20 @@ public class RacDicItemAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 字典项ID
+     */
+    @NotBlank(message = "字典项ID不能为空")
+    @Length(max = 32, message = "字典项ID的长度不能大于32")
+    private String            Id;
+
+    /**
      * 字典ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "字典ID不能为空")
-    @Length(max = 32, message = "字典ID的长度不能大于32")
-    private String            dicId;
+    @NotNull(message = "字典ID不能为空")
+    @PositiveOrZero(message = "字典ID不能为负数")
+    private Long              dicId;
 
     /**
      * 字典项名称
@@ -40,7 +49,7 @@ public class RacDicItemAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotBlank(message = "字典项名称不能为空")
-    @Length(max = 32, message = "字典项名称的长度不能大于32")
+    @Length(max = 200, message = "字典项名称的长度不能大于200")
     private String            name;
 
     /**
@@ -53,10 +62,20 @@ public class RacDicItemAddTo implements Serializable {
 
     /**
      * 树编码(每三位为一级)
+     */
+    @Length(max = 50, message = "树编码的长度不能大于50")
+    private String            treeCode;
+
+    /**
+     * 是否为字典项添加字典项，是则为父字典项的ID，否则为null
+     */
+    private Long              parentId;
+
+    /**
+     * 字典项Key
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "树编码不能为空")
-    @Length(max = 50, message = "树编码的长度不能大于50")
-    private String            treeCode;
+    @Length(max = 32, message = "字典项Key的长度不能大于32")
+    private String            dicItemKey;
 }

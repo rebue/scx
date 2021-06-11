@@ -27,11 +27,6 @@ import rebue.scx.rac.to.RacOpLogPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-/**
- * 查询操作日志的信息
- *
- * @param qo 查询的具体条件
- */
 @RestController
 public class RacOpLogCtrl {
 

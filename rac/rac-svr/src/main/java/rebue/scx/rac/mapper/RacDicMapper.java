@@ -5,6 +5,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isInWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
+import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.dicKey;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.name;
@@ -44,14 +45,15 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacDicMo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
+import rebue.wheel.core.NumberUtils;
 
 @Mapper
-public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
+public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, sysId, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, dicKey, name, domainId, sysId, remark);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,9 +90,10 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @Results(id = "RacDicMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
-        @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "SYS_ID", property = "sysId", jdbcType = JdbcType.VARCHAR), @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
+    @Results(id = "RacDicMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "DIC_KEY", property = "dicKey", jdbcType = JdbcType.VARCHAR), @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR), @Result(column = "SYS_ID", property = "sysId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
     })
     List<RacDicMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -117,24 +120,17 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(String id_) {
-        return delete(c -> c.where(id, isEqualTo(id_)));
-    }
-
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     default int insert(RacDicMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racDic,
-            c -> c.map(id).toProperty("id").map(name).toProperty("name").map(domainId).toProperty("domainId").map(sysId).toProperty("sysId").map(remark).toProperty("remark"));
+        return MyBatis3Utils.insert(this::insert, record, racDic, c -> c.map(id).toProperty("id").map(dicKey).toProperty("dicKey").map(name).toProperty("name").map(domainId)
+                .toProperty("domainId").map(sysId).toProperty("sysId").map(remark).toProperty("remark"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertMultiple(Collection<RacDicMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racDic,
-            c -> c.map(id).toProperty("id").map(name).toProperty("name").map(domainId).toProperty("domainId").map(sysId).toProperty("sysId").map(remark).toProperty("remark"));
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racDic, c -> c.map(id).toProperty("id").map(dicKey).toProperty("dicKey").map(name).toProperty("name")
+                .map(domainId).toProperty("domainId").map(sysId).toProperty("sysId").map(remark).toProperty("remark"));
     }
 
     /**
@@ -142,9 +138,9 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
      */
     default int insertSelective(RacDicMo record) {
         return MyBatis3Utils.insert(this::insert, record, racDic,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(name).toPropertyWhenPresent("name", record::getName).map(domainId)
-                .toPropertyWhenPresent("domainId", record::getDomainId).map(sysId).toPropertyWhenPresent("sysId", record::getSysId).map(remark)
-                .toPropertyWhenPresent("remark", record::getRemark));
+                c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(dicKey).toPropertyWhenPresent("dicKey", record::getDicKey).map(name)
+                        .toPropertyWhenPresent("name", record::getName).map(domainId).toPropertyWhenPresent("domainId", record::getDomainId).map(sysId)
+                        .toPropertyWhenPresent("sysId", record::getSysId).map(remark).toPropertyWhenPresent("remark", record::getRemark));
     }
 
     /**
@@ -171,13 +167,6 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacDicMo> selectByPrimaryKey(String id_) {
-        return selectOne(c -> c.where(id, isEqualTo(id_)));
-    }
-
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racDic, completer);
     }
@@ -186,63 +175,56 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacDicMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(sysId).equalTo(record::getSysId).set(remark)
-            .equalTo(record::getRemark);
+        return dsl.set(id).equalTo(record::getId).set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(sysId)
+                .equalTo(record::getSysId).set(remark).equalTo(record::getRemark);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacDicMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId).set(sysId)
-            .equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark);
+        return dsl.set(id).equalToWhenPresent(record::getId).set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(domainId)
+                .equalToWhenPresent(record::getDomainId).set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(RacDicMo record) {
-        return update(c -> c.set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(sysId).equalTo(record::getSysId).set(remark)
-            .equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(sysId)
+                .equalTo(record::getSysId).set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKeySelective(RacDicMo record) {
-        return update(c -> c.set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId).set(sysId).equalToWhenPresent(record::getSysId)
-            .set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId)
+                .set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteSelective(RacDicMo record) {
-        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
+        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
+                .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<RacDicMo> selectOne(RacDicMo record) {
-        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
+        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
+                .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long countSelective(RacDicMo record) {
-        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
-    }
-
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    default boolean existByPrimaryKey(String id_) {
-        return count(c -> c.where(id, isEqualTo(id_))) > 0;
+        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
+                .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -256,34 +238,54 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<RacDicMo> selectSelective(RacDicMo record) {
-        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
+        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
+                .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     default List<RacDicMo> selectPageOrKeywords(DicListWithItemTo record) {
-        final String keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
+        final String       keywords  = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
         final List<String> domainIds = (record.getDomainIds() != null) ? record.getDomainIds() : null;
-        final List<String> sysIds = (record.getSysIds() != null) ? record.getSysIds() : null;
+        final List<String> sysIds    = (record.getSysIds() != null) ? record.getSysIds() : null;
         return select(c -> {
             if (domainIds == null && sysIds == null) {
-                return c.where(id, isLikeWhenPresent(keywords), or(name, isLikeWhenPresent(keywords)), or(name, isLikeWhenPresent(keywords)),
-                    or(remark, isLikeWhenPresent(keywords)));
+                return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords)));
             }
             else if (domainIds != null && sysIds == null) {
-                return c
-                    .where(id, isLikeWhenPresent(keywords), or(name, isLikeWhenPresent(keywords)), or(name, isLikeWhenPresent(keywords)), or(remark, isLikeWhenPresent(keywords)))
-                    .and(domainId, isInWhenPresent(domainIds));
+                return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords))).and(domainId,
+                                isInWhenPresent(domainIds));
             }
             else if (domainIds == null && sysIds != null) {
-                return c
-                    .where(id, isLikeWhenPresent(keywords), or(name, isLikeWhenPresent(keywords)), or(name, isLikeWhenPresent(keywords)), or(remark, isLikeWhenPresent(keywords)))
-                    .and(sysId, isInWhenPresent(sysIds));
+                return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords))).and(sysId, isInWhenPresent(sysIds));
             }
             else {
-                return c
-                    .where(id, isLikeWhenPresent(keywords), or(name, isLikeWhenPresent(keywords)), or(name, isLikeWhenPresent(keywords)), or(remark, isLikeWhenPresent(keywords)))
-                    .and(domainId, isInWhenPresent(domainIds)).and(sysId, isInWhenPresent(sysIds));
+                return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
+                        or(remark, isLikeWhenPresent(keywords)))
+                        .and(domainId, isInWhenPresent(domainIds)).and(sysId, isInWhenPresent(sysIds));
             }
         });
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default int deleteByPrimaryKey(Long id_) {
+        return delete(c -> c.where(id, isEqualTo(id_)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default Optional<RacDicMo> selectByPrimaryKey(Long id_) {
+        return selectOne(c -> c.where(id, isEqualTo(id_)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default boolean existByPrimaryKey(Long id_) {
+        return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 }
