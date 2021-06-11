@@ -86,9 +86,9 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacDicItemMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "DIC_ID", property = "dicId", jdbcType = JdbcType.BIGINT), @Result(column = "DIC_ITEM_KEY", property = "dicItemKey", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "TREE_CODE", property = "treeCode", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
+            @Result(column = "DIC_ID", property = "dicId", jdbcType = JdbcType.BIGINT), @Result(column = "DIC_ITEM_KEY", property = "dicItemKey", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "TREE_CODE", property = "treeCode", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
     })
     List<RacDicItemMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -117,7 +117,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default int insert(RacDicItemMo record) {
         return MyBatis3Utils.insert(this::insert, record, racDicItem, c -> c.map(id).toProperty("id").map(dicId).toProperty("dicId").map(dicItemKey).toProperty("dicItemKey")
-            .map(name).toProperty("name").map(treeCode).toProperty("treeCode").map(remark).toProperty("remark"));
+                .map(name).toProperty("name").map(treeCode).toProperty("treeCode").map(remark).toProperty("remark"));
     }
 
     /**
@@ -125,7 +125,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default int insertMultiple(Collection<RacDicItemMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racDicItem, c -> c.map(id).toProperty("id").map(dicId).toProperty("dicId").map(dicItemKey)
-            .toProperty("dicItemKey").map(name).toProperty("name").map(treeCode).toProperty("treeCode").map(remark).toProperty("remark"));
+                .toProperty("dicItemKey").map(name).toProperty("name").map(treeCode).toProperty("treeCode").map(remark).toProperty("remark"));
     }
 
     /**
@@ -133,9 +133,9 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default int insertSelective(RacDicItemMo record) {
         return MyBatis3Utils.insert(this::insert, record, racDicItem,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(dicId).toPropertyWhenPresent("dicId", record::getDicId).map(dicItemKey)
-                .toPropertyWhenPresent("dicItemKey", record::getDicItemKey).map(name).toPropertyWhenPresent("name", record::getName).map(treeCode)
-                .toPropertyWhenPresent("treeCode", record::getTreeCode).map(remark).toPropertyWhenPresent("remark", record::getRemark));
+                c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(dicId).toPropertyWhenPresent("dicId", record::getDicId).map(dicItemKey)
+                        .toPropertyWhenPresent("dicItemKey", record::getDicItemKey).map(name).toPropertyWhenPresent("name", record::getName).map(treeCode)
+                        .toPropertyWhenPresent("treeCode", record::getTreeCode).map(remark).toPropertyWhenPresent("remark", record::getRemark));
     }
 
     /**
@@ -171,7 +171,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacDicItemMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(dicId).equalTo(record::getDicId).set(dicItemKey).equalTo(record::getDicItemKey).set(name).equalTo(record::getName)
-            .set(treeCode).equalTo(record::getTreeCode).set(remark).equalTo(record::getRemark);
+                .set(treeCode).equalTo(record::getTreeCode).set(remark).equalTo(record::getRemark);
     }
 
     /**
@@ -179,7 +179,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacDicItemMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(dicId).equalToWhenPresent(record::getDicId).set(dicItemKey).equalToWhenPresent(record::getDicItemKey).set(name)
-            .equalToWhenPresent(record::getName).set(treeCode).equalToWhenPresent(record::getTreeCode).set(remark).equalToWhenPresent(record::getRemark);
+                .equalToWhenPresent(record::getName).set(treeCode).equalToWhenPresent(record::getTreeCode).set(remark).equalToWhenPresent(record::getRemark);
     }
 
     /**
@@ -187,7 +187,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default int updateByPrimaryKey(RacDicItemMo record) {
         return update(c -> c.set(dicId).equalTo(record::getDicId).set(dicItemKey).equalTo(record::getDicItemKey).set(name).equalTo(record::getName).set(treeCode)
-            .equalTo(record::getTreeCode).set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
+                .equalTo(record::getTreeCode).set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -195,7 +195,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default int updateByPrimaryKeySelective(RacDicItemMo record) {
         return update(c -> c.set(dicId).equalToWhenPresent(record::getDicId).set(dicItemKey).equalToWhenPresent(record::getDicItemKey).set(name).equalToWhenPresent(record::getName)
-            .set(treeCode).equalToWhenPresent(record::getTreeCode).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
+                .set(treeCode).equalToWhenPresent(record::getTreeCode).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -203,8 +203,10 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default int deleteSelective(RacDicItemMo record) {
         return delete(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
-                .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(remark, isEqualToWhenPresent(record::getRemark)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId))
+                        .and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
+                        .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+                        .and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -212,8 +214,10 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default Optional<RacDicItemMo> selectOne(RacDicItemMo record) {
         return selectOne(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
-                .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(remark, isEqualToWhenPresent(record::getRemark)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId))
+                        .and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
+                        .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+                        .and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -221,8 +225,10 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default long countSelective(RacDicItemMo record) {
         return count(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
-                .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(remark, isEqualToWhenPresent(record::getRemark)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId))
+                        .and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
+                        .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+                        .and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -237,17 +243,10 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default List<RacDicItemMo> selectSelective(RacDicItemMo record) {
         return select(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
-                .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(remark, isEqualToWhenPresent(record::getRemark)));
-    }
-
-    /**
-     * 查寻当前字典项下面的字典项记录数
-     */
-    default long countItemSelective(RacDicItemMo record) {
-        final String str = record.getTreeCode() + "%";
-        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(name, isEqualToWhenPresent(record::getName))
-            .and(treeCode, isLikeWhenPresent(str)).and(remark, isEqualToWhenPresent(record::getRemark)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId))
+                        .and(dicItemKey, isEqualToWhenPresent(record::getDicItemKey))
+                        .and(name, isEqualToWhenPresent(record::getName)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
+                        .and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -269,5 +268,20 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
      */
     default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
+    }
+
+    /**
+     * 查寻当前字典项下面的字典项记录数
+     */
+    default long countDicItemSelective(RacDicItemMo record) {
+        final String str = record.getTreeCode() + "%";
+        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(name, isEqualToWhenPresent(record::getName))
+                .and(treeCode, isLikeWhenPresent(str)).and(remark, isEqualToWhenPresent(record::getRemark)));
+    }
+
+    default Long countDicSelective(RacDicItemMo record) {
+        final String str = "___";// _ 表示通配符 匹配一个字符
+        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(name, isEqualToWhenPresent(record::getName))
+                .and(treeCode, isLikeWhenPresent(str)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 }

@@ -87,9 +87,9 @@ public class RacDicItemSvcImpl extends
         final RacDicItemMo mo = _dozerMapper.map(to, getMoClass());
         // mo中需要添加一个树编码
         if (to.getParentId() == null) {
-            final RacDicItemOneTo qo = new RacDicItemOneTo();
+            final RacDicItemMo qo = new RacDicItemMo();
             qo.setDicId(to.getDicId());
-            final Long count = thisSvc.countSelective(qo);
+            final Long count = _mapper.countDicSelective(qo);
             String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             mo.setTreeCode(treeCode);
         }
@@ -99,7 +99,7 @@ public class RacDicItemSvcImpl extends
             qo.setDicId(to.getDicId());
             qo.setTreeCode(itemMo.getTreeCode());
             // 去除本身记录 -1
-            final Long count = _mapper.countItemSelective(qo) - 1;
+            final Long count = _mapper.countDicItemSelective(qo) - 1;
             String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             mo.setTreeCode(itemMo.getTreeCode() + treeCode);
         }
