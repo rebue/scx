@@ -6,8 +6,10 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
 
 import rebue.robotech.api.BaseApi;
+import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.Ex.UserAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
@@ -25,46 +27,53 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountPageTo, RacAccountMo> {
 
-    /**
-     * 修改账户登录密码
-     *
-     * @param to 修改账户登录密码的具体数据
-     */
-    Ro<?> modifySignInPswd(RacAccountModifySignInPswdTo to);
+	/**
+	 * 修改账户登录密码
+	 *
+	 * @param to 修改账户登录密码的具体数据
+	 */
+	Ro<?> modifySignInPswd(RacAccountModifySignInPswdTo to);
 
-    /**
-     * 启用账户
-     *
-     * @param to 启用的具体数据
-     */
-    Ro<?> enable(RacAccountEnableTo to);
+	/**
+	 * 启用账户
+	 *
+	 * @param to 启用的具体数据
+	 */
+	Ro<?> enable(RacAccountEnableTo to);
 
-    /**
-     * 禁用账户
-     *
-     * @param to 禁用的具体数据
-     */
-    Ro<?> disable(RacAccountDisableTo to);
+	/**
+	 * 禁用账户
+	 *
+	 * @param to 禁用的具体数据
+	 */
+	Ro<?> disable(RacAccountDisableTo to);
 
-    /**
-     * 上传头像
-     */
-    Ro<?> uploadAvatar(Long accountId, String fileName, ContentDisposition contentDisposition, MediaType contentType, InputStream inputStream);
+	/**
+	 * 上传头像
+	 */
+	Ro<?> uploadAvatar(Long accountId, String fileName, ContentDisposition contentDisposition, MediaType contentType, InputStream inputStream);
 
-    /**
-     * 获取当前账户信息
-     *
-     * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
-     *
-     * @return 当前账户信息
-     */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String sysId);
+	/**
+	 * 获取当前账户信息
+	 *
+	 * @param curAccountId 当前账户ID
+	 * @param sysId        系统ID
+	 *
+	 * @return 当前账户信息
+	 */
+	Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String sysId);
 
-    /**
-     * 查询账户的信息
-     *
-     * @param qo 查询的具体条件
-     */
-    Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
+	/**
+	 * 查询账户的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
+
+	/**
+	 * 查询带有用户的账户的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	Ro<PageRa<UserAccountMo>> pageUserAccount(RacAccountPageTo qo);
 }
