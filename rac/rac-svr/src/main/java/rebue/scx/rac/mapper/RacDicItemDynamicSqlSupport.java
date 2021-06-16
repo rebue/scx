@@ -26,6 +26,13 @@ public final class RacDicItemDynamicSqlSupport {
     public static final SqlColumn<Long> dicId = racDicItem.dicId;
 
     /**
+    * 组织ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> orgId = racDicItem.orgId;
+
+    /**
     * 字典项Key
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -57,6 +64,8 @@ public final class RacDicItemDynamicSqlSupport {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> dicId = column("DIC_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> orgId = column("ORG_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> dicItemKey = column("DIC_ITEM_KEY", JDBCType.VARCHAR);
 

@@ -48,7 +48,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.wheel.turing.JwtUtils;
 
 /**
- * 账户控制器
+ * 账户
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

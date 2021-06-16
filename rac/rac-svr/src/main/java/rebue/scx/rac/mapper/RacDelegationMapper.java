@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacDelegationDynamicSqlSupport.agentId;
 import static rebue.scx.rac.mapper.RacDelegationDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacDelegationDynamicSqlSupport.principalId;
@@ -244,5 +245,12 @@ public interface RacDelegationMapper extends MapperRootInterface<RacDelegationMo
     default List<RacDelegationMo> selectSelective(RacDelegationMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(principalId, isEqualToWhenPresent(record::getPrincipalId)).and(agentId,
             isEqualToWhenPresent(record::getAgentId)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacDelegationMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
     }
 }

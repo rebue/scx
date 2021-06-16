@@ -26,7 +26,7 @@ import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysPageTo;
 
 /**
- * 系统控制器
+ * 系统
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

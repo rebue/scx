@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.accountId;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.orgId;
@@ -243,5 +244,12 @@ public interface RacOrgAccountMapper extends MapperRootInterface<RacOrgAccountMo
     default List<RacOrgAccountMo> selectSelective(RacOrgAccountMo record) {
         return select(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacOrgAccountMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
     }
 }

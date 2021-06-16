@@ -23,7 +23,7 @@ import rebue.scx.rac.to.RacOpLogModifyTo;
 import rebue.scx.rac.to.RacOpLogPageTo;
 
 /**
- * 操作日志控制器
+ * 操作日志
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

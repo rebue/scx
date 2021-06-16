@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.accountId;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.agentId;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.id;
@@ -286,20 +287,28 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      *
      * @return
      */
-    @Select({ "<script>" + "SELECT op.*,a.SIGN_IN_NAME,a.SIGN_IN_MOBILE,a.SIGN_IN_EMAIL,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
-        + " b.SIGN_IN_NAME agentSignInName, b.SIGN_IN_MOBILE agentSignInMobile, b.SIGN_IN_EMAIL agentSignInEmail, " + // + " where 1=1 and a.domain_Id=#{record.domainId} "
-        " b.WX_NICKNAME agentwxNickname, b.QQ_NICKNAME agentqqNickname, b.SIGN_IN_NICKNAME agentSignInNickname, "
-        + " s.NAME sysName,s.MENU menu,s.DOMAIN_ID domainId, s.REMARK remark " + " FROM RAC_OP_LOG op " + " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
-        + " left join  RAC_ACCOUNT b on op.AGENT_ID=b.ID " + " left join RAC_SYS s on op.sys_id=s.id " + " where a.domain_Id=#{record.domainId} "
-        + "<if test='record.keywords!=null'> "
-        + " and (a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
-        + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%'  "
-        + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
-        + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-        + " or op.OP_TITLE like '%${record.keywords}%' ) " + "</if> " + "<if test='record.startDate!=null and record.endDate!=null'>"
-        + "  and op.OP_DATETIME between  '${record.startDate}' and  '${record.endDate}'  </if>" + "<if test='((record.opType!=null) and (record.opType.length>0))'> and "
-        + "<foreach collection='record.opType' open='(' close= ')'  separator='or' item='otype'> " + " op.OP_TYPE like concat('%',#{otype},'%') " + "</foreach>" + "</if>"
-        + "</script>"
+    @Select({ // + " where 1=1 and a.domain_Id=#{record.domainId} "
+        "<script>" + "SELECT op.*,a.SIGN_IN_NAME,a.SIGN_IN_MOBILE,a.SIGN_IN_EMAIL,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
+            + " b.SIGN_IN_NAME agentSignInName, b.SIGN_IN_MOBILE agentSignInMobile, b.SIGN_IN_EMAIL agentSignInEmail, "
+            + " b.WX_NICKNAME agentwxNickname, b.QQ_NICKNAME agentqqNickname, b.SIGN_IN_NICKNAME agentSignInNickname, "
+            + " s.NAME sysName,s.MENU menu,s.DOMAIN_ID domainId, s.REMARK remark " + " FROM RAC_OP_LOG op " + " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
+            + " left join  RAC_ACCOUNT b on op.AGENT_ID=b.ID " + " left join RAC_SYS s on op.sys_id=s.id " + " where a.domain_Id=#{record.domainId} "
+            + "<if test='record.keywords!=null'> "
+            + " and (a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
+            + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%'  "
+            + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
+            + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+            + " or op.OP_TITLE like '%${record.keywords}%' ) " + "</if> " + "<if test='record.startDate!=null and record.endDate!=null'>"
+            + "  and op.OP_DATETIME between  '${record.startDate}' and  '${record.endDate}'  </if>" + "<if test='((record.opType!=null) and (record.opType.length>0))'> and "
+            + "<foreach collection='record.opType' open='(' close= ')'  separator='or' item='otype'> " + " op.OP_TYPE like concat('%',#{otype},'%') " + "</foreach>" + "</if>"
+            + "</script>"
     })
     List<RacOpLogExMo> selectEx(@Param(value = "record") RacOpLogPageTo record);
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacOpLogMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
 }

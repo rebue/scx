@@ -64,4 +64,12 @@ public class RacDicItemOneTo implements Serializable {
      */
     @Length(max = 32, message = "字典项Key的长度不能大于32")
     private String            dicItemKey;
+
+    /**
+     * 组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "组织ID不能为负数")
+    private Long              orgId;
 }

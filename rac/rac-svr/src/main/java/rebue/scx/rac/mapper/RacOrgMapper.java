@@ -3,12 +3,17 @@ package rebue.scx.rac.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.racOrgAccount;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.addr;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.attrType;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.contactPerson;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.contactWay;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.domainId;
+import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.email;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.fullName;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.introduction;
@@ -61,7 +66,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, parentId, domainId, orgType, treeCode, fullName, introduction, remark, attrType);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, parentId, domainId, orgType, treeCode, fullName, introduction, remark, attrType, addr, contactPerson, contactWay,
+        email);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -103,7 +109,9 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR), @Result(column = "ORG_TYPE", property = "orgType", jdbcType = JdbcType.TINYINT),
         @Result(column = "TREE_CODE", property = "treeCode", jdbcType = JdbcType.VARCHAR), @Result(column = "FULL_NAME", property = "fullName", jdbcType = JdbcType.VARCHAR),
         @Result(column = "INTRODUCTION", property = "introduction", jdbcType = JdbcType.VARCHAR), @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "ATTR_TYPE", property = "attrType", jdbcType = JdbcType.VARCHAR)
+        @Result(column = "ATTR_TYPE", property = "attrType", jdbcType = JdbcType.VARCHAR), @Result(column = "ADDR", property = "addr", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "CONTACT_PERSON", property = "contactPerson", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "CONTACT_WAY", property = "contactWay", jdbcType = JdbcType.VARCHAR), @Result(column = "EMAIL", property = "email", jdbcType = JdbcType.VARCHAR)
     })
     List<RacOrgMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -141,7 +149,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return MyBatis3Utils.insert(this::insert, record, racOrg,
             c -> c.map(id).toProperty("id").map(name).toProperty("name").map(parentId).toProperty("parentId").map(domainId).toProperty("domainId").map(orgType)
                 .toProperty("orgType").map(treeCode).toProperty("treeCode").map(fullName).toProperty("fullName").map(introduction).toProperty("introduction").map(remark)
-                .toProperty("remark").map(attrType).toProperty("attrType"));
+                .toProperty("remark").map(attrType).toProperty("attrType").map(addr).toProperty("addr").map(contactPerson).toProperty("contactPerson").map(contactWay)
+                .toProperty("contactWay").map(email).toProperty("email"));
     }
 
     /**
@@ -151,7 +160,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOrg,
             c -> c.map(id).toProperty("id").map(name).toProperty("name").map(parentId).toProperty("parentId").map(domainId).toProperty("domainId").map(orgType)
                 .toProperty("orgType").map(treeCode).toProperty("treeCode").map(fullName).toProperty("fullName").map(introduction).toProperty("introduction").map(remark)
-                .toProperty("remark").map(attrType).toProperty("attrType"));
+                .toProperty("remark").map(attrType).toProperty("attrType").map(addr).toProperty("addr").map(contactPerson).toProperty("contactPerson").map(contactWay)
+                .toProperty("contactWay").map(email).toProperty("email"));
     }
 
     /**
@@ -163,7 +173,9 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
                 .toPropertyWhenPresent("parentId", record::getParentId).map(domainId).toPropertyWhenPresent("domainId", record::getDomainId).map(orgType)
                 .toPropertyWhenPresent("orgType", record::getOrgType).map(treeCode).toPropertyWhenPresent("treeCode", record::getTreeCode).map(fullName)
                 .toPropertyWhenPresent("fullName", record::getFullName).map(introduction).toPropertyWhenPresent("introduction", record::getIntroduction).map(remark)
-                .toPropertyWhenPresent("remark", record::getRemark).map(attrType).toPropertyWhenPresent("attrType", record::getAttrType));
+                .toPropertyWhenPresent("remark", record::getRemark).map(attrType).toPropertyWhenPresent("attrType", record::getAttrType).map(addr)
+                .toPropertyWhenPresent("addr", record::getAddr).map(contactPerson).toPropertyWhenPresent("contactPerson", record::getContactPerson).map(contactWay)
+                .toPropertyWhenPresent("contactWay", record::getContactWay).map(email).toPropertyWhenPresent("email", record::getEmail));
     }
 
     /**
@@ -207,7 +219,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     static UpdateDSL<UpdateModel> updateAllColumns(RacOrgMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(parentId).equalTo(record::getParentId).set(domainId).equalTo(record::getDomainId)
             .set(orgType).equalTo(record::getOrgType).set(treeCode).equalTo(record::getTreeCode).set(fullName).equalTo(record::getFullName).set(introduction)
-            .equalTo(record::getIntroduction).set(remark).equalTo(record::getRemark).set(attrType).equalTo(record::getAttrType);
+            .equalTo(record::getIntroduction).set(remark).equalTo(record::getRemark).set(attrType).equalTo(record::getAttrType).set(addr).equalTo(record::getAddr)
+            .set(contactPerson).equalTo(record::getContactPerson).set(contactWay).equalTo(record::getContactWay).set(email).equalTo(record::getEmail);
     }
 
     /**
@@ -217,7 +230,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(parentId).equalToWhenPresent(record::getParentId).set(domainId)
             .equalToWhenPresent(record::getDomainId).set(orgType).equalToWhenPresent(record::getOrgType).set(treeCode).equalToWhenPresent(record::getTreeCode).set(fullName)
             .equalToWhenPresent(record::getFullName).set(introduction).equalToWhenPresent(record::getIntroduction).set(remark).equalToWhenPresent(record::getRemark).set(attrType)
-            .equalToWhenPresent(record::getAttrType);
+            .equalToWhenPresent(record::getAttrType).set(addr).equalToWhenPresent(record::getAddr).set(contactPerson).equalToWhenPresent(record::getContactPerson).set(contactWay)
+            .equalToWhenPresent(record::getContactWay).set(email).equalToWhenPresent(record::getEmail);
     }
 
     /**
@@ -226,7 +240,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
     default int updateByPrimaryKey(RacOrgMo record) {
         return update(c -> c.set(name).equalTo(record::getName).set(parentId).equalTo(record::getParentId).set(domainId).equalTo(record::getDomainId).set(orgType)
             .equalTo(record::getOrgType).set(treeCode).equalTo(record::getTreeCode).set(fullName).equalTo(record::getFullName).set(introduction).equalTo(record::getIntroduction)
-            .set(remark).equalTo(record::getRemark).set(attrType).equalTo(record::getAttrType).where(id, isEqualTo(record::getId)));
+            .set(remark).equalTo(record::getRemark).set(attrType).equalTo(record::getAttrType).set(addr).equalTo(record::getAddr).set(contactPerson)
+            .equalTo(record::getContactPerson).set(contactWay).equalTo(record::getContactWay).set(email).equalTo(record::getEmail).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -236,7 +251,8 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         return update(c -> c.set(name).equalToWhenPresent(record::getName).set(parentId).equalToWhenPresent(record::getParentId).set(domainId)
             .equalToWhenPresent(record::getDomainId).set(orgType).equalToWhenPresent(record::getOrgType).set(treeCode).equalToWhenPresent(record::getTreeCode).set(fullName)
             .equalToWhenPresent(record::getFullName).set(introduction).equalToWhenPresent(record::getIntroduction).set(remark).equalToWhenPresent(record::getRemark).set(attrType)
-            .equalToWhenPresent(record::getAttrType).where(id, isEqualTo(record::getId)));
+            .equalToWhenPresent(record::getAttrType).set(addr).equalToWhenPresent(record::getAddr).set(contactPerson).equalToWhenPresent(record::getContactPerson).set(contactWay)
+            .equalToWhenPresent(record::getContactWay).set(email).equalToWhenPresent(record::getEmail).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -247,7 +263,9 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             .and(parentId, isEqualToWhenPresent(record::getParentId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(orgType, isEqualToWhenPresent(record::getOrgType)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
             .and(fullName, isEqualToWhenPresent(record::getFullName)).and(introduction, isEqualToWhenPresent(record::getIntroduction))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)));
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)).and(addr, isEqualToWhenPresent(record::getAddr))
+            .and(contactPerson, isEqualToWhenPresent(record::getContactPerson)).and(contactWay, isEqualToWhenPresent(record::getContactWay))
+            .and(email, isEqualToWhenPresent(record::getEmail)));
     }
 
     /**
@@ -258,7 +276,9 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             .and(parentId, isEqualToWhenPresent(record::getParentId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(orgType, isEqualToWhenPresent(record::getOrgType)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
             .and(fullName, isEqualToWhenPresent(record::getFullName)).and(introduction, isEqualToWhenPresent(record::getIntroduction))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)));
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)).and(addr, isEqualToWhenPresent(record::getAddr))
+            .and(contactPerson, isEqualToWhenPresent(record::getContactPerson)).and(contactWay, isEqualToWhenPresent(record::getContactWay))
+            .and(email, isEqualToWhenPresent(record::getEmail)));
     }
 
     /**
@@ -269,7 +289,9 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(orgType, isEqualToWhenPresent(record::getOrgType))
             .and(treeCode, isEqualToWhenPresent(record::getTreeCode)).and(fullName, isEqualToWhenPresent(record::getFullName))
             .and(introduction, isEqualToWhenPresent(record::getIntroduction)).and(remark, isEqualToWhenPresent(record::getRemark))
-            .and(attrType, isEqualToWhenPresent(record::getAttrType)));
+            .and(attrType, isEqualToWhenPresent(record::getAttrType)).and(addr, isEqualToWhenPresent(record::getAddr))
+            .and(contactPerson, isEqualToWhenPresent(record::getContactPerson)).and(contactWay, isEqualToWhenPresent(record::getContactWay))
+            .and(email, isEqualToWhenPresent(record::getEmail)));
     }
 
     /**
@@ -294,20 +316,22 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
             .and(parentId, isEqualToWhenPresent(record::getParentId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
             .and(orgType, isEqualToWhenPresent(record::getOrgType)).and(treeCode, isEqualToWhenPresent(record::getTreeCode))
             .and(fullName, isEqualToWhenPresent(record::getFullName)).and(introduction, isEqualToWhenPresent(record::getIntroduction))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)));
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(attrType, isEqualToWhenPresent(record::getAttrType)).and(addr, isEqualToWhenPresent(record::getAddr))
+            .and(contactPerson, isEqualToWhenPresent(record::getContactPerson)).and(contactWay, isEqualToWhenPresent(record::getContactWay))
+            .and(email, isEqualToWhenPresent(record::getEmail)));
     }
 
     /**
      * 查询parentId为空的记录数
      */
-    default long getCount(RacOrgMo record) {
+    default long getCount(final RacOrgMo record) {
         return count(c -> c.where(parentId, SqlBuilder.isNull()));
     }
 
     /**
      * 查询根组织
      */
-    default List<RacOrgMo> selectByDomainId(RacOrgExMo record) {
+    default List<RacOrgMo> selectByDomainId(final RacOrgExMo record) {
         final String keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(parentId, SqlBuilder.isNull())
             .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(orgType, isEqualToWhenPresent(record::getOrgType))
@@ -321,7 +345,7 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
      *
      * @param qo 查询的具体条件
      */
-    default List<RacOrgMo> listByAccountId(RacOrgListByAccountIdTo qo) {
+    default List<RacOrgMo> listByAccountId(final RacOrgListByAccountIdTo qo) {
         return select(c -> c.join(racOrgAccount).on(racOrg.id, equalTo(racOrgAccount.orgId)).where(racOrgAccount.accountId, isEqualToWhenPresent(qo.getAccountId())));
     }
 
@@ -330,8 +354,15 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
      *
      * @param qo 查询的具体条件
      */
-    default List<RacOrgMo> listPageOrgLikeTreeCode(RacOrgMo record) {
+    default List<RacOrgMo> listPageOrgLikeTreeCode(final RacOrgMo record) {
         final String tree_Code = record.getTreeCode() + "%";
         return select(c -> c.where(treeCode, isLike(tree_Code)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacOrgMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
     }
 }

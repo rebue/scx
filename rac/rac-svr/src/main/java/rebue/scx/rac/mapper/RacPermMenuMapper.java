@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.menuUrn;
 import static rebue.scx.rac.mapper.RacPermMenuDynamicSqlSupport.permId;
@@ -250,5 +251,12 @@ public interface RacPermMenuMapper extends MapperRootInterface<RacPermMenuMo, Lo
     default List<RacPermMenuMo> selectSelective(RacPermMenuMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(permId, isEqualToWhenPresent(record::getPermId))
             .and(menuUrn, isEqualToWhenPresent(record::getMenuUrn)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacPermMenuMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
     }
 }

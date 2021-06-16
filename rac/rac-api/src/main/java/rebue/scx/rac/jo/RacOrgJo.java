@@ -148,11 +148,47 @@ public class RacOrgJo implements Serializable {
     private String treeCode;
 
     /**
-     * 组织属性类型(字典项ID)
+     * 组织属性类型(字典项KEY)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = true)
     @Column(name = "ATTR_TYPE", nullable = true, length = 32)
     private String attrType;
+
+    /**
+     * 地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "ADDR", nullable = true, length = 500)
+    private String addr;
+
+    /**
+     * 联系人
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "CONTACT_PERSON", nullable = true, length = 30)
+    private String contactPerson;
+
+    /**
+     * 联系方式
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "CONTACT_WAY", nullable = true, length = 30)
+    private String contactWay;
+
+    /**
+     * 邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "EMAIL", nullable = true, length = 50)
+    private String email;
 }

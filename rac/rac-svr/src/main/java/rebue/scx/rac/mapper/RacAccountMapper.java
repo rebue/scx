@@ -4,6 +4,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.and;
 import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
@@ -451,4 +452,11 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         + "</script>"
     })
     List<RacAccountMo> getAddablAccountList(@Param(value = "record") RacAccountExMo record);
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacAccountMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
 }

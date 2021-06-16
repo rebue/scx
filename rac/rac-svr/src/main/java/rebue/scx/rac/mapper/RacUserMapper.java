@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.createTimestamp;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.email;
 import static rebue.scx.rac.mapper.RacUserDynamicSqlSupport.id;
@@ -302,5 +303,12 @@ public interface RacUserMapper extends MapperRootInterface<RacUserMo, Long> {
             .and(isVerifiedRealname, isEqualToWhenPresent(record::getIsVerifiedRealname)).and(idCard, isEqualToWhenPresent(record::getIdCard))
             .and(isVerifiedIdcard, isEqualToWhenPresent(record::getIsVerifiedIdcard)).and(sex, isEqualToWhenPresent(record::getSex))
             .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacUserMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
     }
 }

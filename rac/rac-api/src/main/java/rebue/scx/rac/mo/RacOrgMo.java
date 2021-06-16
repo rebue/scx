@@ -287,6 +287,10 @@ public class RacOrgMo implements Serializable, Mo<Long> {
         sb.append(", introduction=").append(introduction);
         sb.append(", remark=").append(remark);
         sb.append(", attrType=").append(attrType);
+        sb.append(", addr=").append(addr);
+        sb.append(", contactPerson=").append(contactPerson);
+        sb.append(", contactWay=").append(contactWay);
+        sb.append(", email=").append(email);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -359,7 +363,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 组织属性类型(字典项ID)
+     * 组织属性类型(字典项KEY)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -367,7 +371,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     private String attrType;
 
     /**
-     * 组织属性类型(字典项ID)
+     * 组织属性类型(字典项KEY)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -376,11 +380,115 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 组织属性类型(字典项ID)
+     * 组织属性类型(字典项KEY)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setAttrType(String attrType) {
         this.attrType = attrType;
+    }
+
+    /**
+     * 地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 500, message = "地址的长度不能大于500")
+    private String addr;
+
+    /**
+     * 联系人
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 30, message = "联系人的长度不能大于30")
+    private String contactPerson;
+
+    /**
+     * 联系方式
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 30, message = "联系方式的长度不能大于30")
+    private String contactWay;
+
+    /**
+     * 邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 50, message = "邮箱的长度不能大于50")
+    private String email;
+
+    /**
+     * 地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getAddr() {
+        return addr;
+    }
+
+    /**
+     * 地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    /**
+     * 联系人
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    /**
+     * 联系人
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    /**
+     * 联系方式
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getContactWay() {
+        return contactWay;
+    }
+
+    /**
+     * 联系方式
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setContactWay(String contactWay) {
+        this.contactWay = contactWay;
+    }
+
+    /**
+     * 邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
