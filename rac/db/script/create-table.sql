@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/11 17:12:24                           */
+/* Created on:     2021/6/16 15:30:04                           */
 /*==============================================================*/
 
 
@@ -364,6 +364,10 @@ create table RAC_ORG
    INTRODUCTION         varchar(200)  comment '组织简介',
    REMARK               varchar(100)  comment '组织备注',
    ATTR_TYPE            varchar(32)  comment '组织属性类型(字典项KEY)',
+   ADDR                 varchar(500)  comment '地址',
+   CONTACT_PERSON       varchar(30)  comment '联系人',
+   CONTACT_WAY          varchar(30)  comment '联系方式',
+   EMAIL                varchar(50)  comment '邮箱',
    primary key (ID),
    unique key AK_NAME (NAME),
    unique key AK_FULL_NAME (FULL_NAME)
