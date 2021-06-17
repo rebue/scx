@@ -138,4 +138,13 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
 		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.listIn(ids)));
 	}
 
+	/**
+	 * 查询组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@Override
+	public Ro<ListRa<RacOrgMo>> selectInAndByKeywordsList(final List<Long> ids, final RacOrgMo qo) {
+		return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.selectInAndByKeywordsList(ids, qo)));
+	}
 }

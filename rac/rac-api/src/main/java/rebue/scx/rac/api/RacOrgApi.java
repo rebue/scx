@@ -80,4 +80,11 @@ public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgMo
 	 * 
 	 */
 	Ro<ListRa<RacOrgMo>> listIn(List<Long> ids);
+
+	/**
+	 * 查询组织的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	Ro<ListRa<RacOrgMo>> selectInAndByKeywordsList(List<Long> ids, RacOrgMo qo);
 }
