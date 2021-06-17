@@ -9,7 +9,7 @@ Rebue是一套基于 **SpringCloud** 微服务架构的快速开发框架，特�
 - **向导式新建项目**，生成代码简单快捷，把精力集中在数据库设计
 - **需求变更**是开发过程中的家常便饭，如数据库修改可快速、反复生成代码，智能合并已修改代码，**今晚不加班**
 - 结构清晰，各层职责分明，设计完全符合面向对象的五大基本原则 (**SOLID**)
-- 采用 **按约定编程** 软件开发模式，各种代码及配置已在长期实践中沉淀下来，程序员可将精力集中处理业务逻辑上，只用了解一些微服务的简单概念就能完成开发工作
+- 采用 **按约定编程** 软件开发模式，各种代码及配置已在长期实践中沉淀下来，程序员可将精力集中在处理业务逻辑上，只用了解一些微服务的简单概念就能完成开发工作
 
 总结起来就是两点：**快速**，**简单**
 
@@ -38,14 +38,16 @@ Rebue是一套基于 **SpringCloud** 微服务架构的快速开发框架，特�
 1. `File` > `New` > `Maven Project`
 2. `Next >` > 选择 `rebue-archetype` > `Next >`
   ![选择archetype](选择archetype.png)
-3. 填写下面几项，然后 `Finish`
+3. 如果没有找到 `rebue-archetype`
+   `Preferences` > `Maven` > `Archetypes` > `Add Local Catalog...` > 在 `Catalog File` 项中填写`~/.m2/repository/archetype-catalog.xml` > `OK`
+4. 填写下面几项，然后 `Finish`
    - Group Id
    - Artifact Id
    - Version
    - Package **注意包名后面两级可能会重复，去掉最后一级即可**
 
    ![配置参数](配置参数.png)
-4. 项目建成
+5. 项目建成
 
 ### 2.3. 数据库设计与初始化
 
@@ -75,6 +77,10 @@ Rebue是一套基于 **SpringCloud** 微服务架构的快速开发框架，特�
 ### 2.7. 生成API文档
 
 Maven Build时，设置Goals为 `clean smart-doc:html` 或 `clean smart-doc:markdown`
+
+### 2.8. 管理API文档
+
+- torna 使用指南请参考: <https://github.com/rebue/archetype/blob/1.2.3/src/main/resources/archetype-resources/doc/torna%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/index.md>
 
 ## 3. 常见问题
 
