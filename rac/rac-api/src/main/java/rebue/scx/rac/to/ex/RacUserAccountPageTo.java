@@ -1,7 +1,7 @@
 /**
  * @mbg.dontOverWriteFile
  */
-package rebue.scx.rac.to;
+package rebue.scx.rac.to.ex;
 
 import java.io.Serializable;
 
@@ -22,7 +22,7 @@ import rebue.robotech.to.PageTo;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
-public class RacAccountPageTo extends PageTo implements Serializable {
+public class RacUserAccountPageTo extends PageTo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

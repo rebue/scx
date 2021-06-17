@@ -26,7 +26,7 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacOrgAccountMo;
 import rebue.scx.rac.mo.RacOrgLeafMo;
 import rebue.scx.rac.mo.RacOrgMo;
-import rebue.scx.rac.mo.Ex.RacOrgExMo;
+import rebue.scx.rac.mo.ex.RacOrgExMo;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.RacOrgAccountDelTo;

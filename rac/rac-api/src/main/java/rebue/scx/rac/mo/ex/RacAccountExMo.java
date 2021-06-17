@@ -1,4 +1,4 @@
-package rebue.scx.rac.mo.Ex;
+package rebue.scx.rac.mo.ex;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -9,23 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rebue.scx.rac.mo.RacOrgMo;
+import rebue.scx.rac.mo.RacAccountMo;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class RacOrgExMo extends RacOrgMo {
+public class RacAccountExMo extends RacAccountMo {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 关键字
 	 */
-	@Getter
-	@Setter
-	@Length(max = 20, message = "搜索关键字不能超过20位数")
+	@Length(max = 256, message = "搜索关键字不能超过20位数")
 	private String keywords;
-
 }

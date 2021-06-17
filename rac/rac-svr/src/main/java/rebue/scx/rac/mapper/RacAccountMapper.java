@@ -72,8 +72,8 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.Ex.RacAccountExMo;
-import rebue.scx.rac.mo.Ex.UserAccountMo;
+import rebue.scx.rac.mo.ex.RacAccountExMo;
+import rebue.scx.rac.mo.ex.RacUserAccountMo;
 import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.wheel.core.NumberUtils;
@@ -532,5 +532,5 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
 			+ "</if>"
 			+ "</script>"
 	})
-	List<UserAccountMo> pageAccountMos(@Param(value = "record") RacAccountPageTo record);
+	List<RacUserAccountMo> pageAccountMos(@Param(value = "record") RacAccountPageTo record);
 }

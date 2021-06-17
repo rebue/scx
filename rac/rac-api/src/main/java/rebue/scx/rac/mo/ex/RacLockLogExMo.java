@@ -1,4 +1,4 @@
-package rebue.scx.rac.mo.Ex;
+package rebue.scx.rac.mo.ex;
 
 import lombok.ToString;
 import rebue.scx.rac.mo.RacLockLogMo;

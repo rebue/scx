@@ -45,7 +45,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacOpLogMo;
-import rebue.scx.rac.mo.Ex.RacOpLogExMo;
+import rebue.scx.rac.mo.ex.RacOpLogExMo;
 import rebue.scx.rac.to.RacOpLogPageTo;
 
 @Mapper

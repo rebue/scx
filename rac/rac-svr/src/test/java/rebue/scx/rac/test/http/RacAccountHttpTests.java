@@ -50,15 +50,18 @@ public class RacAccountHttpTests {
 
     /**
      * 测试基本的增删改查
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
     public void testCrud() throws IOException {
         RacAccountAddTo addTo = null;
-        Long id = null;
+        Long            id    = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacAccountAddTo) RandomEx.randomPojo(RacAccountAddTo.class);
+            addTo.setSignInPswdSalt("aaa");
+            addTo.setPayPswdSalt("bbb");
+            addTo.setUserId(880618179104210956L);
+            addTo.setOrgId(null);
+            addTo.setDomainId("ops");
             log.info("添加账户的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/rac/account", addTo);
             log.info("添加账户的返回值为：" + addResult);
@@ -79,9 +82,9 @@ public class RacAccountHttpTests {
         final RacAccountModifyTo modifyTo = _dozerMapper.map(addTo, RacAccountModifyTo.class);
         modifyTo.setId(id);
         log.info("修改账户的参数为：" + modifyTo);
-        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rac/account", modifyTo);
-        final Ro<PojoRa<RacAccountMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RacAccountMo>>>() {
-        });
+        final String                   modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rac/account", modifyTo);
+        final Ro<PojoRa<RacAccountMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RacAccountMo>>>() {
+                                                    });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         RacAccountMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();

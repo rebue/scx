@@ -56,7 +56,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacOrgMo;
-import rebue.scx.rac.mo.Ex.RacOrgExMo;
+import rebue.scx.rac.mo.ex.RacOrgExMo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.wheel.core.NumberUtils;
 
