@@ -6,8 +6,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
@@ -66,10 +64,17 @@ public interface RacAccountSvc
 	 */
 	void disable(RacAccountDisableTo to);
 
+<<<<<<< HEAD
 	/**
 	 * 上传头像
 	 */
 	Ro<?> uploadAvatar(Long accountId, String fileName, ContentDisposition contentDisposition, MediaType contentType, InputStream inputStream);
+=======
+    /**
+     * 上传头像
+     */
+    Ro<?> uploadAvatar(Long accountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
+>>>>>>> branch '1.2.3' of git@github.com:rebue/scx.git
 
 	/**
 	 * 通过email获取账户信息
