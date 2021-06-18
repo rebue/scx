@@ -2,9 +2,6 @@ package rebue.scx.rac.api;
 
 import java.io.InputStream;
 
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.MediaType;
-
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
@@ -49,7 +46,7 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
     /**
      * 上传头像
      */
-    Ro<?> uploadAvatar(Long accountId, String fileName, ContentDisposition contentDisposition, MediaType contentType, InputStream inputStream);
+    Ro<?> uploadAvatar(Long accountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
 
     /**
      * 获取当前账户信息

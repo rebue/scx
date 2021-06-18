@@ -1,16 +1,28 @@
 package rebue.scx.oss.ctrl;
 
+import java.io.SequenceInputStream;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
@@ -21,6 +33,7 @@ import rebue.scx.oss.mo.OssObjMo;
 import rebue.scx.oss.to.OssObjAddTo;
 import rebue.scx.oss.to.OssObjModifyTo;
 import rebue.scx.oss.to.OssObjPageTo;
+import rebue.wheel.turing.JwtUtils;
 
 /**
  * 对象控制器
@@ -63,7 +76,7 @@ public class OssObjCtrl {
      * 删除对象
      *
      * @param id 对象ID
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/oss/obj")
@@ -75,7 +88,7 @@ public class OssObjCtrl {
      * 获取单个对象的信息
      *
      * @param id 对象ID
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oss/obj/get-by-id")
@@ -87,7 +100,7 @@ public class OssObjCtrl {
      * 判断对象是否存在
      *
      * @param id 对象ID
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oss/obj/exist-by-id")
@@ -105,6 +118,33 @@ public class OssObjCtrl {
     @GetMapping("/oss/obj/page")
     public Mono<Ro<PageRa<OssObjMo>>> page(final OssObjPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 上传文件
+     */
+    @PostMapping(value = "/oss/obj/upload")
+    public Mono<?> upload(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("file") final Flux<FilePart> filePartFlux,
+                          final ServerHttpResponse response) {
+        if (StringUtils.isBlank(jwtToken)) {
+            throw new IllegalArgumentException("在Cookie中找不到JWT签名");
+        }
+        final Long curAccountId = JwtUtils.getJwtAccountIdFromSign(jwtToken);
+        if (curAccountId == null) {
+            throw new IllegalArgumentException("在JWT签名中找不到账户ID");
+        }
+        return filePartFlux.flatMap(filePart -> {
+            final String             fileName           = filePart.filename();
+            final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
+            final MediaType          contentType        = filePart.headers().getContentType();
+            return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
+                final Ro<?> ro = api.upload(curAccountId, fileName, contentDisposition.toString(), contentType.toString(), inputStream);
+                if (!ResultDic.SUCCESS.equals(ro.getResult())) {
+                    response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                return ro;
+            });
+        }).next();
     }
 
 }

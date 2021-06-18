@@ -1,8 +1,11 @@
 package rebue.scx.oss.api.impl;
 
+import java.io.InputStream;
+
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
+import rebue.robotech.ro.Ro;
 import rebue.scx.oss.api.OssObjApi;
 import rebue.scx.oss.jo.OssObjJo;
 import rebue.scx.oss.mo.OssObjMo;
@@ -22,5 +25,19 @@ import rebue.scx.oss.to.OssObjPageTo;
 @DubboService
 public class OssObjApiImpl extends BaseApiImpl<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo, OssObjSvc>
     implements OssObjApi {
+
+    /**
+     * 上传文件
+     *
+     * @param curAccountId       当前账户ID
+     * @param fileName           文件名称
+     * @param contentDisposition 请求头中的 Content-Disposition
+     * @param contentType        请求头中的 Content-Type
+     * @param inputStream        文件输入流
+     */
+    @Override
+    public Ro<?> upload(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
+        return _svc.upload(curAccountId, fileName, contentDisposition, contentType, inputStream);
+    }
 
 }

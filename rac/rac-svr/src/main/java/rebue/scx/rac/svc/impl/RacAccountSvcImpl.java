@@ -16,8 +16,6 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -240,9 +238,12 @@ public class RacAccountSvcImpl extends
      */
     @Override
     @SneakyThrows
-    public Ro<?> uploadAvatar(final Long accountId, final String fileName, final ContentDisposition contentDisposition, final MediaType contentType,
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Ro<?> uploadAvatar(final Long accountId, final String fileName, final String contentDisposition, final String contentType,
                               final InputStream inputStream) {
-        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
+        final String  fileExt = Files.getFileExtension(fileName);
+
+        final boolean found   = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
             final String policyJson = String.format(
@@ -252,14 +253,12 @@ public class RacAccountSvcImpl extends
         }
         final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
         System.out.println(bucketPolicy);
-        final String              contentTypeString = contentType.toString();
-        final Map<String, String> headers           = new HashMap<>();
-        headers.put("Content-Disposition", contentDisposition.toString());
-        headers.put("Content-Type", contentTypeString);
-        final String fileExt    = Files.getFileExtension(fileName);
+        final Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Disposition", contentDisposition);
+        headers.put("Content-Type", contentType);
         final String objectName = accountId.toString() + "." + fileExt;
         minioClient.putObject(
-            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentTypeString).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
+            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
                 .build());
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(accountId);

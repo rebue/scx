@@ -204,7 +204,7 @@ public class RacAccountCtrl {
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
             final MediaType          contentType        = filePart.headers().getContentType();
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
-                final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition, contentType, inputStream);
+                final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition.toString(), contentType.toString(), inputStream);
                 if (!ResultDic.SUCCESS.equals(ro.getResult())) {
                     response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
