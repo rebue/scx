@@ -40,36 +40,47 @@ import rebue.scx.rac.to.ex.RacUserAccountPageTo;
 @Service
 public class RacUserAccountSvcImpl implements RacUserAccountSvc {
 
-    /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     */
-    @Lazy
-    @Resource
-    private RacAccountSvc        thisSvc;
+	/**
+	 * 本服务的单例
+	 * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+	 */
+	@Lazy
+	@Resource
+	private RacAccountSvc        thisSvc;
 
-    @Resource
-    private RacUserAccountMapper mapper;
+	@Resource
+	private RacUserAccountMapper mapper;
 
-    /**
-     * 分页查询带有用户的账户的信息
-     *
-     * @param qo 查询的具体条件
-     */
-    @Override
-    public PageInfo<RacUserAccountMo> page(final RacUserAccountPageTo to) {
-        final ISelect select = () -> mapper.page(to);
-        if (StringUtils.isBlank(to.getOrderBy())) {
-            return PageMethod.startPage(to.getPageNum(), to.getPageSize()).doSelectPageInfo(select);
-        }
-        else {
-            // 将orderBy由小驼峰格式转化为数据库规范的大写下划线格式
-            final String newOrderBy = Stream.of(to.getOrderBy().split(",")).map(item -> {
-                final String[] split = item.trim().split(" ");
-                final String   field = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, split[0]);
-                return field + (split.length > 1 ? " " + split[1] : "");
-            }).collect(Collectors.joining(","));
-            return PageMethod.startPage(to.getPageNum(), to.getPageSize(), newOrderBy).doSelectPageInfo(select);
-        }
-    }
+	/**
+	 * 分页查询带有用户的账户的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	@Override
+	public PageInfo<RacUserAccountMo> page(final RacUserAccountPageTo to) {
+		final ISelect select = () -> mapper.page(to);
+		if (StringUtils.isBlank(to.getOrderBy())) {
+			return PageMethod.startPage(to.getPageNum(), to.getPageSize()).doSelectPageInfo(select);
+		}
+		else {
+			// 将orderBy由小驼峰格式转化为数据库规范的大写下划线格式
+			final String newOrderBy = Stream.of(to.getOrderBy().split(",")).map(item -> {
+				final String[] split = item.trim().split(" ");
+				final String   field = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, split[0]);
+				return field + (split.length > 1 ? " " + split[1] : "");
+			}).collect(Collectors.joining(","));
+			return PageMethod.startPage(to.getPageNum(), to.getPageSize(), newOrderBy).doSelectPageInfo(select);
+		}
+	}
+
+	/**
+	 * 根据ID查询有用户信息的账户
+	 *
+	 * @param id
+	 */
+	@Override
+	public RacUserAccountMo getByAccountId(final Long id) {
+		return mapper.getByAccountId(id);
+	}
+
 }

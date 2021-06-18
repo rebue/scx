@@ -533,4 +533,5 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
 			+ "</script>"
 	})
 	List<RacUserAccountMo> pageAccountMos(@Param(value = "record") RacAccountPageTo record);
+
 }

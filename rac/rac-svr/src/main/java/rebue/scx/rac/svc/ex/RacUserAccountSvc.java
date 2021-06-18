@@ -22,10 +22,17 @@ import rebue.scx.rac.to.ex.RacUserAccountPageTo;
 @Validated
 public interface RacUserAccountSvc {
 
-    /**
-     * 查询带有用户的账户的信息
-     *
-     * @param qo 查询的具体条件
-     */
-    PageInfo<RacUserAccountMo> page(RacUserAccountPageTo qo);
+	/**
+	 * 查询带有用户的账户的信息
+	 *
+	 * @param qo 查询的具体条件
+	 */
+	PageInfo<RacUserAccountMo> page(RacUserAccountPageTo qo);
+
+	/**
+	 * 根据ID查询有用户信息的账户
+	 *
+	 * @param id
+	 */
+	RacUserAccountMo getByAccountId(Long id);
 }
