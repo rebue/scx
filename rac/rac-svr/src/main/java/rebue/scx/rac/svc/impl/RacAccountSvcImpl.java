@@ -233,15 +233,17 @@ public class RacAccountSvcImpl extends
 		}
 	}
 
-<<<<<<< HEAD
 	/**
 	 * 上传头像
 	 */
 	@Override
 	@SneakyThrows
-	public Ro<?> uploadAvatar(final Long accountId, final String fileName, final ContentDisposition contentDisposition, final MediaType contentType,
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public Ro<?> uploadAvatar(final Long accountId, final String fileName, final String contentDisposition, final String contentType,
 			final InputStream inputStream) {
-		final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
+		final String  fileExt = Files.getFileExtension(fileName);
+
+		final boolean found   = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
 		if (!found) {
 			minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
 			final String policyJson = String.format(
@@ -251,14 +253,12 @@ public class RacAccountSvcImpl extends
 		}
 		final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
 		System.out.println(bucketPolicy);
-		final String              contentTypeString = contentType.toString();
-		final Map<String, String> headers           = new HashMap<>();
-		headers.put("Content-Disposition", contentDisposition.toString());
-		headers.put("Content-Type", contentTypeString);
-		final String fileExt    = Files.getFileExtension(fileName);
+		final Map<String, String> headers = new HashMap<>();
+		headers.put("Content-Disposition", contentDisposition);
+		headers.put("Content-Type", contentType);
 		final String objectName = accountId.toString() + "." + fileExt;
 		minioClient.putObject(
-				PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentTypeString).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
+				PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
 						.build());
 		final RacAccountMo mo = new RacAccountMo();
 		mo.setId(accountId);
@@ -267,42 +267,6 @@ public class RacAccountSvcImpl extends
 		thisSvc.modifyMoById(mo);
 		return new Ro<>(ResultDic.SUCCESS, "上传头像成功");
 	}
-=======
-    /**
-     * 上传头像
-     */
-    @Override
-    @SneakyThrows
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<?> uploadAvatar(final Long accountId, final String fileName, final String contentDisposition, final String contentType,
-                              final InputStream inputStream) {
-        final String  fileExt = Files.getFileExtension(fileName);
-
-        final boolean found   = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
-        if (!found) {
-            minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
-            final String policyJson = String.format(
-                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                RacMinioCo.AVATAR_BUCKET);
-            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).config(policyJson).build());
-        }
-        final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
-        System.out.println(bucketPolicy);
-        final Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Disposition", contentDisposition);
-        headers.put("Content-Type", contentType);
-        final String objectName = accountId.toString() + "." + fileExt;
-        minioClient.putObject(
-            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
-                .build());
-        final RacAccountMo mo = new RacAccountMo();
-        mo.setId(accountId);
-        // XXX 添加a参数并设置时间戳，以防前端接收到地址未改变，图片不刷新
-        mo.setSignInAvatar(String.format("%s/%s/%s?a=%s", minioEndpoint, RacMinioCo.AVATAR_BUCKET, objectName, System.currentTimeMillis()));
-        thisSvc.modifyMoById(mo);
-        return new Ro<>(ResultDic.SUCCESS, "上传头像成功");
-    }
->>>>>>> branch '1.2.3' of git@github.com:rebue/scx.git
 
 	/**
 	 * 通过email获取账户信息

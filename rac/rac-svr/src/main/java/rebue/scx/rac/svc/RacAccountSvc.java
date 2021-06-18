@@ -64,17 +64,10 @@ public interface RacAccountSvc
 	 */
 	void disable(RacAccountDisableTo to);
 
-<<<<<<< HEAD
 	/**
 	 * 上传头像
 	 */
-	Ro<?> uploadAvatar(Long accountId, String fileName, ContentDisposition contentDisposition, MediaType contentType, InputStream inputStream);
-=======
-    /**
-     * 上传头像
-     */
-    Ro<?> uploadAvatar(Long accountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
->>>>>>> branch '1.2.3' of git@github.com:rebue/scx.git
+	Ro<?> uploadAvatar(Long accountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
 
 	/**
 	 * 通过email获取账户信息
