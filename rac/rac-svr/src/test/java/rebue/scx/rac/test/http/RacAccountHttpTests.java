@@ -54,7 +54,7 @@ public class RacAccountHttpTests {
     @Test
     public void testCrud() throws IOException {
         RacAccountAddTo addTo = null;
-        Long            id    = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacAccountAddTo) RandomEx.randomPojo(RacAccountAddTo.class);
             addTo.setSignInPswdSalt("aaa");
@@ -82,9 +82,9 @@ public class RacAccountHttpTests {
         final RacAccountModifyTo modifyTo = _dozerMapper.map(addTo, RacAccountModifyTo.class);
         modifyTo.setId(id);
         log.info("修改账户的参数为：" + modifyTo);
-        final String                   modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rac/account", modifyTo);
-        final Ro<PojoRa<RacAccountMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RacAccountMo>>>() {
-                                                    });
+        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rac/account", modifyTo);
+        final Ro<PojoRa<RacAccountMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RacAccountMo>>>() {
+        });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         RacAccountMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();

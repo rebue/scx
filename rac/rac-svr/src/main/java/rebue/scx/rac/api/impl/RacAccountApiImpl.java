@@ -71,8 +71,7 @@ public class RacAccountApiImpl extends
      * 上传头像
      */
     @Override
-    public Ro<?> uploadAvatar(final Long accountId, final String fileName, final String contentDisposition, final String contentType,
-                              final InputStream inputStream) {
+    public Ro<?> uploadAvatar(final Long accountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
         return _svc.uploadAvatar(accountId, fileName, contentDisposition, contentType, inputStream);
     }
 
@@ -99,5 +98,4 @@ public class RacAccountApiImpl extends
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String sysId) {
         return _svc.getCurAccountInfo(curAccountId, agentAccountId, sysId);
     }
-
 }

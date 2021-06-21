@@ -22,7 +22,6 @@ import rebue.robotech.valid.ModifyGroup;
  * 账户
  *
  * @mbg.dontOverWriteAnnotation
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -74,9 +73,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -207,7 +206,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -217,8 +215,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -236,7 +233,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setIsEnabled(final Boolean isEnabled) {
+    public void setIsEnabled(Boolean isEnabled) {
         this.isEnabled = isEnabled;
     }
 
@@ -254,7 +251,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInName(final String signInName) {
+    public void setSignInName(String signInName) {
         this.signInName = signInName;
     }
 
@@ -272,7 +269,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInMobile(final String signInMobile) {
+    public void setSignInMobile(String signInMobile) {
         this.signInMobile = signInMobile;
     }
 
@@ -290,15 +287,15 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInEmail(final String signInEmail) {
+    public void setSignInEmail(String signInEmail) {
         this.signInEmail = signInEmail;
     }
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -308,13 +305,13 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInPswd(final String signInPswd) {
+    public void setSignInPswd(String signInPswd) {
         this.signInPswd = signInPswd;
     }
 
@@ -332,7 +329,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInPswdSalt(final String signInPswdSalt) {
+    public void setSignInPswdSalt(String signInPswdSalt) {
         this.signInPswdSalt = signInPswdSalt;
     }
 
@@ -350,7 +347,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInNickname(final String signInNickname) {
+    public void setSignInNickname(String signInNickname) {
         this.signInNickname = signInNickname;
     }
 
@@ -368,7 +365,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSignInAvatar(final String signInAvatar) {
+    public void setSignInAvatar(String signInAvatar) {
         this.signInAvatar = signInAvatar;
     }
 
@@ -386,7 +383,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setWxOpenId(final String wxOpenId) {
+    public void setWxOpenId(String wxOpenId) {
         this.wxOpenId = wxOpenId;
     }
 
@@ -404,7 +401,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setWxUnionId(final String wxUnionId) {
+    public void setWxUnionId(String wxUnionId) {
         this.wxUnionId = wxUnionId;
     }
 
@@ -422,7 +419,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setWxNickname(final String wxNickname) {
+    public void setWxNickname(String wxNickname) {
         this.wxNickname = wxNickname;
     }
 
@@ -440,7 +437,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setWxAvatar(final String wxAvatar) {
+    public void setWxAvatar(String wxAvatar) {
         this.wxAvatar = wxAvatar;
     }
 
@@ -458,7 +455,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setQqOpenId(final String qqOpenId) {
+    public void setQqOpenId(String qqOpenId) {
         this.qqOpenId = qqOpenId;
     }
 
@@ -476,7 +473,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setQqUnionId(final String qqUnionId) {
+    public void setQqUnionId(String qqUnionId) {
         this.qqUnionId = qqUnionId;
     }
 
@@ -494,7 +491,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setQqNickname(final String qqNickname) {
+    public void setQqNickname(String qqNickname) {
         this.qqNickname = qqNickname;
     }
 
@@ -512,7 +509,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setQqAvatar(final String qqAvatar) {
+    public void setQqAvatar(String qqAvatar) {
         this.qqAvatar = qqAvatar;
     }
 
@@ -530,7 +527,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setIsTester(final Boolean isTester) {
+    public void setIsTester(Boolean isTester) {
         this.isTester = isTester;
     }
 
@@ -548,7 +545,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setCreateTimestamp(final Long createTimestamp) {
+    public void setCreateTimestamp(Long createTimestamp) {
         this.createTimestamp = createTimestamp;
     }
 
@@ -566,7 +563,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUpdateTimestamp(final Long updateTimestamp) {
+    public void setUpdateTimestamp(Long updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
 
@@ -575,7 +572,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -614,7 +611,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object that) {
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -624,8 +621,8 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        final RacAccountMo other = (RacAccountMo) that;
-        return getId() == null ? other.getId() == null : getId().equals(other.getId());
+        RacAccountMo other = (RacAccountMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
@@ -633,9 +630,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
-        result = prime * result + (getId() == null ? 0 : getId().hashCode());
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
 
@@ -680,7 +677,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOrgId(final Long orgId) {
+    public void setOrgId(Long orgId) {
         this.orgId = orgId;
     }
 
@@ -714,7 +711,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setPayPswd(final String payPswd) {
+    public void setPayPswd(String payPswd) {
         this.payPswd = payPswd;
     }
 
@@ -732,7 +729,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setPayPswdSalt(final String payPswdSalt) {
+    public void setPayPswdSalt(String payPswdSalt) {
         this.payPswdSalt = payPswdSalt;
     }
 
@@ -767,7 +764,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUserId(final Long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -811,7 +808,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRemark(final String remark) {
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 
@@ -829,8 +826,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setDomainId(final String domainId) {
+    public void setDomainId(String domainId) {
         this.domainId = domainId;
     }
-
 }

@@ -25,48 +25,47 @@ import rebue.wheel.core.RandomEx;
 @SpringBootTest
 public class RacUserSvcTests {
 
-	/**
-	 * 要测试的微服务
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Autowired
-	private RacUserSvc _svc;
+    /**
+     * 要测试的微服务
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Autowired
+    private RacUserSvc _svc;
 
-	/**
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Autowired
-	private Mapper     dozerMapper;
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Autowired
+    private Mapper     dozerMapper;
 
-	/**
-	 * 测试基本的增删改查
-	 *
-	 */
-	@Test
-	public void testCrud() {
-		RacUserAddTo addTo = null;
-		Long         id    = null;
-		for (int i = 0; i < 20; i++) {
-			addTo = (RacUserAddTo) RandomEx.randomPojo(RacUserAddTo.class);
-			log.info("添加用户的参数为：" + addTo);
-			final RacUserMo addRo = _svc.add(addTo);
-			log.info("添加用户的返回值为：" + addRo);
-			Assertions.assertNotNull(addRo);
-			id = addRo.getId();
-		}
-		final PageInfo<RacUserMo> pageResult = _svc.page(new RacUserPageTo());
-		log.info("查询用户的返回值为：" + pageResult);
-		Assertions.assertNotNull(pageResult);
-		log.info("获取单个用户的参数为：" + id);
-		final RacUserMo getByIdResult = _svc.getById(id);
-		log.info("获取单个用户的返回值为：" + getByIdResult);
-		Assertions.assertNotNull(getByIdResult);
-		final RacUserModifyTo modifyTo = dozerMapper.map(addTo, RacUserModifyTo.class);
-		modifyTo.setId(id);
-		log.info("修改用户的参数为：" + modifyTo);
-		_svc.modifyById(modifyTo);
-		log.info("删除用户的参数为：" + id);
-		_svc.delById(id);
-	}
+    /**
+     * 测试基本的增删改查
+     */
+    @Test
+    public void testCrud() {
+        RacUserAddTo addTo = null;
+        Long id = null;
+        for (int i = 0; i < 20; i++) {
+            addTo = (RacUserAddTo) RandomEx.randomPojo(RacUserAddTo.class);
+            log.info("添加用户的参数为：" + addTo);
+            final RacUserMo addRo = _svc.add(addTo);
+            log.info("添加用户的返回值为：" + addRo);
+            Assertions.assertNotNull(addRo);
+            id = addRo.getId();
+        }
+        final PageInfo<RacUserMo> pageResult = _svc.page(new RacUserPageTo());
+        log.info("查询用户的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
+        log.info("获取单个用户的参数为：" + id);
+        final RacUserMo getByIdResult = _svc.getById(id);
+        log.info("获取单个用户的返回值为：" + getByIdResult);
+        Assertions.assertNotNull(getByIdResult);
+        final RacUserModifyTo modifyTo = dozerMapper.map(addTo, RacUserModifyTo.class);
+        modifyTo.setId(id);
+        log.info("修改用户的参数为：" + modifyTo);
+        _svc.modifyById(modifyTo);
+        log.info("删除用户的参数为：" + id);
+        _svc.delById(id);
+    }
 }

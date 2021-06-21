@@ -42,13 +42,12 @@ public class RacAccountSvcTests {
 
     /**
      * 测试基本的增删改查
-     *
      */
     @Test
     @Disabled
     public void testCrud() {
         RacAccountAddTo addTo = null;
-        Long            id    = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacAccountAddTo) RandomEx.randomPojo(RacAccountAddTo.class);
             addTo.setSignInPswdSalt("aaa");
@@ -56,7 +55,6 @@ public class RacAccountSvcTests {
             addTo.setUserId(null);
             addTo.setOrgId(null);
             addTo.setDomainId("ops");
-
             log.info("添加账户的参数为：" + addTo);
             final RacAccountMo addRo = _svc.add(addTo);
             log.info("添加账户的返回值为：" + addRo);
@@ -77,5 +75,4 @@ public class RacAccountSvcTests {
         log.info("删除账户的参数为：" + id);
         _svc.delById(id);
     }
-
 }
