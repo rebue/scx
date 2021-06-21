@@ -21,6 +21,7 @@
 		<module>gateway-server</module>
 		<module>oa</module>
     <module>oss</module>
+    <module>wxx</module>
   </modules>
 
 	<dependencyManagement>

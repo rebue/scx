@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.rebue.scx</groupId>
+		<artifactId>scx</artifactId>
+		<version>1.2.3</version>
+	</parent>
+
+	<artifactId>wxx</artifactId>
+	<packaging>pom</packaging>
+	<description>基于Spring Cloud构建微信相关扩展的微服务项目</description>
+
+	<modules>
+		<module>wxx-gen</module>
+		<module>wxx-api</module>
+		<module>wxx-svr</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.rebue.scx</groupId>
+				<artifactId>wxx-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.shalousun</groupId>
+				<artifactId>smart-doc-maven-plugin</artifactId>
+				<configuration>
+					<projectName>wxx</projectName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
