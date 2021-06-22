@@ -19,209 +19,210 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
-* 对象
-*
-* @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-*/
+ * 对象
+ *
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
 @JsonInclude(Include.NON_NULL)
 public class OssObjMo implements Serializable, Mo<Long> {
+
     /**
-    * 对象ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = ModifyGroup.class, message = "对象ID不能为空")
     @PositiveOrZero(message = "对象ID不能为负数")
-    private Long id;
+    private Long              id;
 
     /**
-    * 对象名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "对象名称不能为空")
     @Length(max = 30, message = "对象名称的长度不能大于30")
-    private String name;
+    private String            name;
 
     /**
-    * 对象类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "对象类型不能为空")
     @Length(max = 30, message = "对象类型的长度不能大于30")
-    private String objType;
+    private String            objType;
 
     /**
-    * 对象大小
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象大小
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = AddGroup.class, message = "对象大小不能为空")
     @PositiveOrZero(message = "对象大小不能为负数")
-    private Long objSize;
+    private Long              objSize;
 
     /**
-    * 对象URL
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "对象URL不能为空")
     @Length(max = 512, message = "对象URL的长度不能大于512")
-    private String url;
+    private String            url;
 
     /**
-    * 创建人的账户ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = AddGroup.class, message = "创建人的账户ID不能为空")
     @PositiveOrZero(message = "创建人的账户ID不能为负数")
-    private Long creatorId;
+    private Long              creatorId;
 
     /**
-    * 创建时间
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @NotNull(groups = AddGroup.class, message = "创建时间不能为空")
-    private LocalDateTime createDatetime;
+    private LocalDateTime     createDatetime;
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-    * 对象ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getId() {
         return id;
     }
 
     /**
-    * 对象ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-    * 对象名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getName() {
         return name;
     }
 
     /**
-    * 对象名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-    * 对象类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getObjType() {
         return objType;
     }
 
     /**
-    * 对象类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setObjType(String objType) {
         this.objType = objType;
     }
 
     /**
-    * 对象大小
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象大小
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getObjSize() {
         return objSize;
     }
 
     /**
-    * 对象大小
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象大小
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setObjSize(Long objSize) {
         this.objSize = objSize;
     }
 
     /**
-    * 对象URL
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getUrl() {
         return url;
     }
 
     /**
-    * 对象URL
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setUrl(String url) {
         this.url = url;
     }
 
     /**
-    * 创建人的账户ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getCreatorId() {
         return creatorId;
     }
 
     /**
-    * 创建人的账户ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
     /**
-    * 创建时间
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public LocalDateTime getCreateDatetime() {
         return createDatetime;
     }
 
     /**
-    * 创建时间
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setCreateDatetime(LocalDateTime createDatetime) {
         this.createDatetime = createDatetime;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -242,7 +243,7 @@ public class OssObjMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -256,12 +257,11 @@ public class OssObjMo implements Serializable, Mo<Long> {
             return false;
         }
         OssObjMo other = (OssObjMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-        ;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
@@ -272,10 +272,10 @@ public class OssObjMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * 获取ID的类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     public String getIdType() {
         return "Long";

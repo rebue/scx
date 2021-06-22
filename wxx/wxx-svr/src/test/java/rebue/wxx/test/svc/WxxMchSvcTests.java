@@ -27,7 +27,7 @@ public class WxxMchSvcTests {
 
     /**
      * 要测试的微服务
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
@@ -63,12 +63,10 @@ public class WxxMchSvcTests {
         WxxMchMo getByIdResult = _svc.getById(id);
         log.info("获取单个商户信息(微信支付账户信息)的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
-
         final WxxMchModifyTo modifyTo = dozerMapper.map(addTo, WxxMchModifyTo.class);
         modifyTo.setId(id);
         log.info("修改商户信息(微信支付账户信息)的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-
         log.info("删除商户信息(微信支付账户信息)的参数为：" + id);
         _svc.delById(id);
     }

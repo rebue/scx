@@ -17,6 +17,7 @@ import lombok.ToString;
  * 对象
  *
  * The persistent class for the OSS_OBJ database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -32,59 +33,65 @@ public class OssObjJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 对象ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
+
     /**
-    * 对象名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 30)
     private String            name;
+
     /**
-    * 对象类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "OBJ_TYPE", nullable = false, length = 30)
     private String            objType;
+
     /**
-    * 对象大小
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象大小
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "OBJ_SIZE", nullable = false, length = 20)
     private Long              objSize;
+
     /**
-    * 对象URL
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 对象URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "URL", nullable = false, length = 512)
     private String            url;
+
     /**
-    * 创建人的账户ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建人的账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "CREATOR_ID", nullable = false, length = 20)
     private Long              creatorId;
+
     /**
-    * 创建时间
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 创建时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "CREATE_DATETIME", nullable = false, length = 19)
     private LocalDateTime     createDatetime;
@@ -120,5 +127,4 @@ public class OssObjJo implements Serializable {
             return false;
         return true;
     }
-
 }

@@ -40,7 +40,6 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

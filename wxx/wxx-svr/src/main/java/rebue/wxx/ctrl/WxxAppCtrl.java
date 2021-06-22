@@ -23,12 +23,11 @@ import rebue.wxx.to.WxxAppModifyTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
- * 
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @RestController
 public class WxxAppCtrl {
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +38,6 @@ public class WxxAppCtrl {
      * 添加
      *
      * @param to 添加的具体信息
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/wxx/app")
@@ -51,7 +49,6 @@ public class WxxAppCtrl {
      * 修改的信息
      *
      * @param to 修改的具体数据
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/wxx/app")
@@ -63,7 +60,6 @@ public class WxxAppCtrl {
      * 删除
      *
      * @param id ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/wxx/app")
@@ -75,7 +71,6 @@ public class WxxAppCtrl {
      * 获取单个的信息
      *
      * @param id ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/app/get-by-id")
@@ -87,7 +82,6 @@ public class WxxAppCtrl {
      * 判断是否存在
      *
      * @param id ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/app/exist-by-id")
@@ -99,12 +93,10 @@ public class WxxAppCtrl {
      * 查询的信息
      *
      * @param qo 查询的具体条件
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/app/page")
     public Mono<Ro<PageRa<WxxAppMo>>> page(final WxxAppPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
-
 }

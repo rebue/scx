@@ -22,5 +22,4 @@ import rebue.wxx.to.WxxAppPageTo;
 @DubboService
 public class WxxAppApiImpl extends BaseApiImpl<java.lang.String, WxxAppAddTo, WxxAppModifyTo, WxxAppDelTo, WxxAppOneTo, WxxAppListTo, WxxAppPageTo, WxxAppMo, WxxAppJo, WxxAppSvc>
     implements WxxAppApi {
-
 }

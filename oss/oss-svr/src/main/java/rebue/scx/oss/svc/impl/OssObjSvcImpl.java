@@ -110,11 +110,10 @@ public class OssObjSvcImpl
     @SneakyThrows
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> upload(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
-        final Long    id         = _idWorker.getId();
-        final String  fileExt    = Files.getFileExtension(fileName);
-        final String  objectName = id.toString() + "." + fileExt;
-
-        final boolean found      = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+        final Long id = _idWorker.getId();
+        final String fileExt = Files.getFileExtension(fileName);
+        final String objectName = id.toString() + "." + fileExt;
+        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
             final String policyJson = String.format(
@@ -128,9 +127,7 @@ public class OssObjSvcImpl
         headers.put("Content-Disposition", contentDisposition);
         headers.put("Content-Type", contentType);
         minioClient.putObject(
-            PutObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760)
-                .build());
-
+            PutObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
         OssObjMo mo = new OssObjMo();
         mo.setId(id);
         mo.setName(fileName);
@@ -140,8 +137,6 @@ public class OssObjSvcImpl
         mo.setCreateDatetime(LocalDateTime.now());
         mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, OssMinioCo.OBJ_BUCKET, objectName, System.currentTimeMillis()));
         mo = thisSvc.addMo(mo);
-
         return new Ro<>(ResultDic.SUCCESS, "上传对象成功");
     }
-
 }

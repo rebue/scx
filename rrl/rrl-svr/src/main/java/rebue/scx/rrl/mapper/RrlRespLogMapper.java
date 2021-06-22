@@ -2,6 +2,7 @@ package rebue.scx.rrl.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.body;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.cookies;
 import static rebue.scx.rrl.mapper.RrlRespLogDynamicSqlSupport.createTimestamp;
@@ -273,5 +274,19 @@ public interface RrlRespLogMapper extends MapperRootInterface<RrlRespLogMo, Long
             .and(sessionId, isEqualToWhenPresent(record::getSessionId)).and(statusCode, isEqualToWhenPresent(record::getStatusCode))
             .and(headers, isEqualToWhenPresent(record::getHeaders)).and(cookies, isEqualToWhenPresent(record::getCookies)).and(body, isEqualToWhenPresent(record::getBody))
             .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RrlRespLogMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
     }
 }

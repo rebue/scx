@@ -32,7 +32,7 @@ public class WxxMchApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -67,14 +67,12 @@ public class WxxMchApiTests {
         log.info("获取单个商户信息(微信支付账户信息)的参数为：" + id);
         final Ro<PojoRa<WxxMchMo>> getByIdResult = _api.getById(id);
         log.info("获取单个商户信息(微信支付账户信息)的返回值为：" + getByIdResult);
-
         final WxxMchModifyTo modifyTo = dozerMapper.map(addTo, WxxMchModifyTo.class);
         modifyTo.setId(id);
         log.info("修改商户信息(微信支付账户信息)的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改商户信息(微信支付账户信息)的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除商户信息(微信支付账户信息)的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除商户信息(微信支付账户信息)的返回值为：" + deleteResult);

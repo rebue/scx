@@ -72,5 +72,4 @@ public class WxxMchSvcImpl
     protected Class<WxxMchMo> getMoClass() {
         return WxxMchMo.class;
     }
-
 }

@@ -16,346 +16,345 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
-*
-* @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-*/
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
 @JsonInclude(Include.NON_NULL)
 public class WxxAppMo implements Serializable, Mo<String> {
+
     /**
-    * 公众号的appid
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的appid
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = ModifyGroup.class, message = "公众号的appid不能为空")
     @Length(max = 32, message = "公众号的appid的长度不能大于32")
-    private String id;
+    private String            id;
 
     /**
-    * APP名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * APP名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "APP名称不能为空")
     @Length(max = 30, message = "APP名称的长度不能大于30")
-    private String name;
+    private String            name;
 
     /**
-    * 商户号
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 商户号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 32, message = "商户号的长度不能大于32")
-    private String mchId;
+    private String            mchId;
 
     /**
-    * 公众号的app secret
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的app secret
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "公众号的app不能为空")
     @Length(max = 50, message = "公众号的app的长度不能大于50")
-    private String appSecret;
+    private String            appSecret;
 
     /**
-    * 公众号的token(微信公众号绑定网站的域名时，会通过此token进行校验)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的token(微信公众号绑定网站的域名时，会通过此token进行校验)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "公众号的token不能为空")
     @Length(max = 50, message = "公众号的token的长度不能大于50")
-    private String token;
+    private String            token;
 
     /**
-    * 微信加解密消息用的key
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 微信加解密消息用的key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 50, message = "微信加解密消息用的key的长度不能大于50")
-    private String encodeingAesKey;
+    private String            encodeingAesKey;
 
     /**
-    * 用户关注后自动回复的文本
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 用户关注后自动回复的文本
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 100, message = "用户关注后自动回复的文本的长度不能大于100")
-    private String subscribeAutoReply;
+    private String            subscribeAutoReply;
 
     /**
-    * 自定义菜单
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 自定义菜单
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 1500, message = "自定义菜单的长度不能大于1500")
-    private String menu;
+    private String            menu;
 
     /**
-    * 登录回调链接
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调链接
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "登录回调链接不能为空")
     @Length(max = 300, message = "登录回调链接的长度不能大于300")
-    private String loginCallbackUrl;
+    private String            loginCallbackUrl;
 
     /**
-    * 登录回调方法类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调方法类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "登录回调方法类型不能为空")
     @Length(max = 6, message = "登录回调方法类型的长度不能大于6")
-    private String loginCallbackMethodType;
+    private String            loginCallbackMethodType;
 
     /**
-    * 登录回调签名密钥
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调签名密钥
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 64, message = "登录回调签名密钥的长度不能大于64")
-    private String loginCallbackSignkey;
+    private String            loginCallbackSignkey;
 
     /**
-    * 微信支付完成通知的URL
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 微信支付完成通知的URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 250, message = "微信支付完成通知的URL的长度不能大于250")
-    private String wxpayNotifyUrl;
+    private String            wxpayNotifyUrl;
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-    *
-    * 商户号
-    *
-    * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-    */
+     * 商户号
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
     @Getter
     @Setter
-    private WxxMchMo mch;
+    private WxxMchMo          mch;
 
     /**
-    * 公众号的appid
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的appid
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getId() {
         return id;
     }
 
     /**
-    * 公众号的appid
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的appid
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-    * APP名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * APP名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getName() {
         return name;
     }
 
     /**
-    * APP名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * APP名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-    * 商户号
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 商户号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getMchId() {
         return mchId;
     }
 
     /**
-    * 商户号
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 商户号
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setMchId(String mchId) {
         this.mchId = mchId;
     }
 
     /**
-    * 公众号的app secret
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的app secret
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getAppSecret() {
         return appSecret;
     }
 
     /**
-    * 公众号的app secret
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的app secret
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setAppSecret(String appSecret) {
         this.appSecret = appSecret;
     }
 
     /**
-    * 公众号的token(微信公众号绑定网站的域名时，会通过此token进行校验)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的token(微信公众号绑定网站的域名时，会通过此token进行校验)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getToken() {
         return token;
     }
 
     /**
-    * 公众号的token(微信公众号绑定网站的域名时，会通过此token进行校验)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 公众号的token(微信公众号绑定网站的域名时，会通过此token进行校验)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setToken(String token) {
         this.token = token;
     }
 
     /**
-    * 微信加解密消息用的key
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 微信加解密消息用的key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getEncodeingAesKey() {
         return encodeingAesKey;
     }
 
     /**
-    * 微信加解密消息用的key
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 微信加解密消息用的key
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setEncodeingAesKey(String encodeingAesKey) {
         this.encodeingAesKey = encodeingAesKey;
     }
 
     /**
-    * 用户关注后自动回复的文本
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 用户关注后自动回复的文本
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getSubscribeAutoReply() {
         return subscribeAutoReply;
     }
 
     /**
-    * 用户关注后自动回复的文本
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 用户关注后自动回复的文本
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setSubscribeAutoReply(String subscribeAutoReply) {
         this.subscribeAutoReply = subscribeAutoReply;
     }
 
     /**
-    * 自定义菜单
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 自定义菜单
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getMenu() {
         return menu;
     }
 
     /**
-    * 自定义菜单
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 自定义菜单
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setMenu(String menu) {
         this.menu = menu;
     }
 
     /**
-    * 登录回调链接
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调链接
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getLoginCallbackUrl() {
         return loginCallbackUrl;
     }
 
     /**
-    * 登录回调链接
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调链接
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setLoginCallbackUrl(String loginCallbackUrl) {
         this.loginCallbackUrl = loginCallbackUrl;
     }
 
     /**
-    * 登录回调方法类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调方法类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getLoginCallbackMethodType() {
         return loginCallbackMethodType;
     }
 
     /**
-    * 登录回调方法类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调方法类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setLoginCallbackMethodType(String loginCallbackMethodType) {
         this.loginCallbackMethodType = loginCallbackMethodType;
     }
 
     /**
-    * 登录回调签名密钥
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调签名密钥
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getLoginCallbackSignkey() {
         return loginCallbackSignkey;
     }
 
     /**
-    * 登录回调签名密钥
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 登录回调签名密钥
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setLoginCallbackSignkey(String loginCallbackSignkey) {
         this.loginCallbackSignkey = loginCallbackSignkey;
     }
 
     /**
-    * 微信支付完成通知的URL
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 微信支付完成通知的URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getWxpayNotifyUrl() {
         return wxpayNotifyUrl;
     }
 
     /**
-    * 微信支付完成通知的URL
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 微信支付完成通知的URL
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setWxpayNotifyUrl(String wxpayNotifyUrl) {
         this.wxpayNotifyUrl = wxpayNotifyUrl;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -381,7 +380,7 @@ public class WxxAppMo implements Serializable, Mo<String> {
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -395,12 +394,11 @@ public class WxxAppMo implements Serializable, Mo<String> {
             return false;
         }
         WxxAppMo other = (WxxAppMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-        ;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
@@ -411,10 +409,10 @@ public class WxxAppMo implements Serializable, Mo<String> {
     }
 
     /**
-    * 获取ID的类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     public String getIdType() {
         return "String";

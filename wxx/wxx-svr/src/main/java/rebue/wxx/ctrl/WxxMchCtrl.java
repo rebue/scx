@@ -29,6 +29,7 @@ import rebue.wxx.to.WxxMchPageTo;
  */
 @RestController
 public class WxxMchCtrl {
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +40,6 @@ public class WxxMchCtrl {
      * 添加商户信息
      *
      * @param to 添加的具体信息
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/wxx/mch")
@@ -51,7 +51,6 @@ public class WxxMchCtrl {
      * 修改商户信息的信息
      *
      * @param to 修改的具体数据
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/wxx/mch")
@@ -63,7 +62,6 @@ public class WxxMchCtrl {
      * 删除商户信息
      *
      * @param id 商户信息ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/wxx/mch")
@@ -75,7 +73,6 @@ public class WxxMchCtrl {
      * 获取单个商户信息的信息
      *
      * @param id 商户信息ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/mch/get-by-id")
@@ -87,7 +84,6 @@ public class WxxMchCtrl {
      * 判断商户信息是否存在
      *
      * @param id 商户信息ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/mch/exist-by-id")
@@ -99,12 +95,10 @@ public class WxxMchCtrl {
      * 查询商户信息的信息
      *
      * @param qo 查询的具体条件
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/mch/page")
     public Mono<Ro<PageRa<WxxMchMo>>> page(final WxxMchPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
-
 }

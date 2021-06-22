@@ -289,4 +289,11 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
     default List<RacDicItemMo> selectIn(List<Long> ids) {
         return select(c -> c.where(id, isIn(ids)));
     }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
+    }
 }

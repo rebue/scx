@@ -50,7 +50,7 @@ public class WxxMchHttpTests {
 
     /**
      * 测试基本的增删改查
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
@@ -68,7 +68,6 @@ public class WxxMchHttpTests {
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();
         }
-
         final String pageResult = _httpClient.get(_hostUrl + "/wxx/mch/page");
         log.info("查询商户信息(微信支付账户信息)的返回值为：" + pageResult);
         final Ro<PageRa<WxxMchMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<WxxMchMo>>>() {
@@ -77,7 +76,6 @@ public class WxxMchHttpTests {
         log.info("获取单个商户信息(微信支付账户信息)的参数为：" + id);
         final String getByIdResult = _httpClient.get(_hostUrl + "/wxx/mch/get-by-id?id=" + id);
         log.info("获取单个商户信息(微信支付账户信息)的返回值为：" + getByIdResult);
-
         final WxxMchModifyTo modifyTo = _dozerMapper.map(addTo, WxxMchModifyTo.class);
         modifyTo.setId(id);
         log.info("修改商户信息(微信支付账户信息)的参数为：" + modifyTo);
@@ -90,7 +88,6 @@ public class WxxMchHttpTests {
         log.info("修改商户信息(微信支付账户信息)的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-
         log.info("删除商户信息(微信支付账户信息)的参数为：" + mo.getId());
         final String deleteResult = _httpClient.delete(_hostUrl + "/wxx/mch?id=" + mo.getId());
         log.info("删除商户信息(微信支付账户信息)的返回值为：" + deleteResult);

@@ -16,6 +16,7 @@ import lombok.ToString;
  * 商户信息(微信支付账户信息)
  *
  * The persistent class for the WXX_MCH database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -31,27 +32,29 @@ public class WxxMchJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 商户号(MCH_ID)
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 商户号(MCH_ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 32)
     private String            id;
+
     /**
-    * 商户名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 商户名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 30)
     private String            name;
+
     /**
-    * API密钥，签名用的key，在商户平台设置（微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * API密钥，签名用的key，在商户平台设置（微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "API_KEY", nullable = false, length = 50)
     private String            apiKey;
@@ -87,5 +90,4 @@ public class WxxMchJo implements Serializable {
             return false;
         return true;
     }
-
 }

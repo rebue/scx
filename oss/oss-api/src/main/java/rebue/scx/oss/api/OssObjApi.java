@@ -15,6 +15,7 @@ import rebue.scx.oss.to.OssObjPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 public interface OssObjApi extends BaseApi<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjPageTo, OssObjMo> {
+
     /**
      * 上传文件
      *

@@ -16,6 +16,7 @@
 	<modules>
 		<module>wxx-gen</module>
 		<module>wxx-api</module>
+		<module>wxx-forest</module>
 		<module>wxx-svr</module>
 	</modules>
 

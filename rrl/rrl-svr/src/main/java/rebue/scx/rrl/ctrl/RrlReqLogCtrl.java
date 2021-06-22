@@ -16,7 +16,7 @@ import rebue.scx.rrl.mo.RrlReqLogMo;
 import rebue.scx.rrl.to.RrlReqLogPageTo;
 
 /**
- * 请求日志控制器
+ * 请求日志
  *
  * @mbg.removedMember add,modify,del
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行

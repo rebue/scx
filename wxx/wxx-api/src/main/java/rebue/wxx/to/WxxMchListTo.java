@@ -26,18 +26,18 @@ public class WxxMchListTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 商户名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 商户名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 30, message = "商户名称的长度不能大于30")
     private String            name;
+
     /**
-    * API密钥，签名用的key，在商户平台设置（微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * API密钥，签名用的key，在商户平台设置（微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 50, message = "API密钥，签名用的key，在商户平台设置的长度不能大于50")
     private String            apiKey;
-
 }

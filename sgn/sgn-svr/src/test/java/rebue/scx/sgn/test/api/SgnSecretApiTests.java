@@ -53,7 +53,7 @@ public class SgnSecretApiTests {
     @Test
     public void testCrud() {
         SgnSecretAddTo addTo = null;
-        Long           id    = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             // XXX 生成公钥并保存
@@ -68,11 +68,9 @@ public class SgnSecretApiTests {
         final Ro<PageRa<SgnSecretMo>> pageResult = _api.page(new SgnSecretPageTo());
         log.info("查询签名密钥的返回值为：" + pageResult);
         Assertions.assertEquals(ResultDic.SUCCESS, pageResult.getResult());
-
         log.info("获取单个签名密钥的参数为：" + id);
         Ro<PojoRa<SgnSecretMo>> getByIdResult = _api.getById(id);
         log.info("获取单个签名密钥的返回值为：" + getByIdResult);
-
         final SgnSecretModifyTo modifyTo = dozerMapper.map(addTo, SgnSecretModifyTo.class);
         modifyTo.setId(id);
         modifyTo.setAlgorithm((byte) 2);
@@ -82,11 +80,9 @@ public class SgnSecretApiTests {
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改签名密钥的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("获取单个签名密钥的参数为：" + id);
         getByIdResult = _api.getById(id);
         log.info("获取单个签名密钥的返回值为：" + getByIdResult);
-
         log.info("删除签名密钥的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除签名密钥的返回值为：" + deleteResult);

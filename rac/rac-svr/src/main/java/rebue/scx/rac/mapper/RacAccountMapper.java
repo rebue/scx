@@ -475,4 +475,11 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             + "  and( us.ID_CARD like '%${record.keywords}%' or us.MOBILE like '%${record.keywords}%' or us.REAL_NAME like '%${record.keywords}%')" + "</if>" + "</script>"
     })
     List<RacUserAccountMo> pageAccountMos(@Param(value = "record") RacAccountPageTo record);
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
+    }
 }

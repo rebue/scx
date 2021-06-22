@@ -28,5 +28,4 @@ import rebue.wxx.to.WxxMchPageTo;
  */
 @Validated
 public interface WxxMchSvc extends BaseSvc<java.lang.String, WxxMchAddTo, WxxMchModifyTo, WxxMchDelTo, WxxMchOneTo, WxxMchListTo, WxxMchPageTo, WxxMchMo, WxxMchJo> {
-
 }

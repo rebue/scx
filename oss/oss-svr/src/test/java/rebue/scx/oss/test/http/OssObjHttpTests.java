@@ -50,7 +50,7 @@ public class OssObjHttpTests {
 
     /**
      * 测试基本的增删改查
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
@@ -68,7 +68,6 @@ public class OssObjHttpTests {
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();
         }
-
         final String pageResult = _httpClient.get(_hostUrl + "/oss/obj/page");
         log.info("查询对象的返回值为：" + pageResult);
         final Ro<PageRa<OssObjMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<OssObjMo>>>() {
@@ -77,7 +76,6 @@ public class OssObjHttpTests {
         log.info("获取单个对象的参数为：" + id);
         final String getByIdResult = _httpClient.get(_hostUrl + "/oss/obj/get-by-id?id=" + id);
         log.info("获取单个对象的返回值为：" + getByIdResult);
-
         final OssObjModifyTo modifyTo = _dozerMapper.map(addTo, OssObjModifyTo.class);
         modifyTo.setId(id);
         log.info("修改对象的参数为：" + modifyTo);
@@ -90,7 +88,6 @@ public class OssObjHttpTests {
         log.info("修改对象的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-
         log.info("删除对象的参数为：" + mo.getId());
         final String deleteResult = _httpClient.delete(_hostUrl + "/oss/obj?id=" + mo.getId());
         log.info("删除对象的返回值为：" + deleteResult);

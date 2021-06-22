@@ -50,7 +50,7 @@ public class WxxAppHttpTests {
 
     /**
      * 测试基本的增删改查
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
@@ -68,7 +68,6 @@ public class WxxAppHttpTests {
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();
         }
-
         final String pageResult = _httpClient.get(_hostUrl + "/wxx/app/page");
         log.info("查询的返回值为：" + pageResult);
         final Ro<PageRa<WxxAppMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<WxxAppMo>>>() {
@@ -77,7 +76,6 @@ public class WxxAppHttpTests {
         log.info("获取单个的参数为：" + id);
         final String getByIdResult = _httpClient.get(_hostUrl + "/wxx/app/get-by-id?id=" + id);
         log.info("获取单个的返回值为：" + getByIdResult);
-
         final WxxAppModifyTo modifyTo = _dozerMapper.map(addTo, WxxAppModifyTo.class);
         modifyTo.setId(id);
         log.info("修改的参数为：" + modifyTo);
@@ -90,7 +88,6 @@ public class WxxAppHttpTests {
         log.info("修改的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-
         log.info("删除的参数为：" + mo.getId());
         final String deleteResult = _httpClient.delete(_hostUrl + "/wxx/app?id=" + mo.getId());
         log.info("删除的返回值为：" + deleteResult);

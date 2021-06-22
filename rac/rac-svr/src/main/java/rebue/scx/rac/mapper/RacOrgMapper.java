@@ -373,4 +373,11 @@ public interface RacOrgMapper extends MapperRootInterface<RacOrgMo, Long> {
         final String keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
         return select(c -> c.where(id, isIn(ids)).and(attrType, isEqualToWhenPresent(record.getAttrType())).and(name, isLikeWhenPresent(keywords)));
     }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
+    }
 }

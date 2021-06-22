@@ -72,5 +72,4 @@ public class WxxAppSvcImpl
     protected Class<WxxAppMo> getMoClass() {
         return WxxAppMo.class;
     }
-
 }

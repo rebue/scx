@@ -33,7 +33,6 @@ import rebue.wheel.turing.Sm2Utils;
 @Slf4j
 public class SgnSecretHttpTests {
 
-    // private final String _hostUrl = "http://127.0.0.1:9436";
     // private final String _hostUrl = "http://127.0.0.1:10080/sgn-svr";
     private final String     _hostUrl     = "http://ctid:8800/sgn-svr";
 
@@ -47,7 +46,7 @@ public class SgnSecretHttpTests {
     @Test
     public void testCrud() throws IOException {
         SgnSecretAddTo addTo = null;
-        Long           id    = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             // XXX 生成公钥并保存
@@ -75,14 +74,13 @@ public class SgnSecretHttpTests {
         modifyTo.setId(id);
         modifyTo.setAlgorithm((byte) 3);
         log.info("修改签名密钥的参数为：" + modifyTo);
-        final String                  modifyResult = _httpClient.putByJsonParams(_hostUrl + "/sgn/secret", modifyTo);
-        final Ro<PojoRa<SgnSecretMo>> getByIdRo    = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<SgnSecretMo>>>() {
-                                                   });
+        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/sgn/secret", modifyTo);
+        final Ro<PojoRa<SgnSecretMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<SgnSecretMo>>>() {
+        });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         log.info("修改签名密钥的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-
         // XXX 这里注释起来不删除，是因为要保留这个添加的记录的实体做签名测试
         // final SgnSecretMo mo = getByIdRo.getExtra().getOne();
         // log.info("删除签名密钥的参数为：" + mo.getId());

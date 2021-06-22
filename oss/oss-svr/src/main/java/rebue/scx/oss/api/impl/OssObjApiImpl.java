@@ -39,5 +39,4 @@ public class OssObjApiImpl extends BaseApiImpl<java.lang.Long, OssObjAddTo, OssO
     public Ro<?> upload(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
         return _svc.upload(curAccountId, fileName, contentDisposition, contentType, inputStream);
     }
-
 }

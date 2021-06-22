@@ -22,5 +22,4 @@ import rebue.wxx.to.WxxMchPageTo;
 @DubboService
 public class WxxMchApiImpl extends BaseApiImpl<java.lang.String, WxxMchAddTo, WxxMchModifyTo, WxxMchDelTo, WxxMchOneTo, WxxMchListTo, WxxMchPageTo, WxxMchMo, WxxMchJo, WxxMchSvc>
     implements WxxMchApi {
-
 }
