@@ -40,6 +40,7 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -81,12 +82,14 @@ public class SgnSecretSvcImpl extends
 
     @Override
     @CachePut(key = "#mo.id")
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public SgnSecretMo modifyMoById(final SgnSecretMo mo) {
         return super.modifyMoById(mo);
     }
 
     @Override
     @CacheEvict
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final Long id) {
         super.delById(id);
     }
