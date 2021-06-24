@@ -30,7 +30,7 @@ import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
-import rebue.wheel.core.exception.RuntimeExceptionX;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 
 /**
  * 字典服务实现
@@ -88,7 +88,7 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo add(RacDicAddTo to) {
         String domainId = to.getDomainId();
-        String sysId = to.getSysId();
+        String sysId    = to.getSysId();
         if ("".equals(domainId)) {
             to.setDomainId(null);
             to.setSysId(null);
@@ -110,8 +110,8 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo modifyById(RacDicModifyTo to) {
         String domainId = to.getDomainId();
-        String sysId = to.getSysId();
-        String remark = to.getRemark();
+        String sysId    = to.getSysId();
+        String remark   = to.getRemark();
         if ("".equals(domainId)) {
             to.setDomainId(null);
             to.setSysId(null);
@@ -125,20 +125,6 @@ public class RacDicSvcImpl
         return super.modifyById(to);
     }
 
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacDicMo modifyMoById(final RacDicMo mo) {
-        final int rowCount = _mapper.updateByPrimaryKey(mo);
-        if (rowCount == 0) {
-            throw new RuntimeExceptionX("修改记录异常，记录已不存在或有变动");
-        }
-        if (rowCount != 1) {
-            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
-        }
-        // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
-        return this.getById(mo.getId());
-    }
-
     /**
      * 查询字典的信息
      *
@@ -146,11 +132,11 @@ public class RacDicSvcImpl
      */
     @Override
     public DicListWithItemRa listWithDic(DicListWithItemTo qo) {
-        final DicListWithItemRa ra = new DicListWithItemRa();
-        final ISelect select = () -> _mapper.selectPageOrKeywords(qo);
-        PageInfo<RacDicMo> dicPage = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
-        List<RacDicMo> dicList = dicPage.getList();
-        List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
+        final DicListWithItemRa ra             = new DicListWithItemRa();
+        final ISelect           select         = () -> _mapper.selectPageOrKeywords(qo);
+        PageInfo<RacDicMo>      dicPage        = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
+        List<RacDicMo>          dicList        = dicPage.getList();
+        List<RacDicItemMo>      dicItemListAll = new ArrayList<RacDicItemMo>();
         for (RacDicMo racDicMo : dicList) {
             final RacDicItemMo moQo = new RacDicItemMo();
             moQo.setDicId(racDicMo.getId());

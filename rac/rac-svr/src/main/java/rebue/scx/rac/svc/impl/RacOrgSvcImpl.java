@@ -39,7 +39,7 @@ import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacModifyOrgAccountTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
-import rebue.wheel.core.exception.RuntimeExceptionX;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 
 /**
  * 组织服务实现
