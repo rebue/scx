@@ -1,7 +1,14 @@
 package rebue.scx.sgn.svc.impl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -11,8 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.qaware.tools.collectioncacheableforspring.CollectionCacheable;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
+import rebue.sbs.cache.CacheManagerName;
+import rebue.sbs.cache.RebueRedisCacheWriter;
 import rebue.scx.sgn.dao.SgnSecretDao;
 import rebue.scx.sgn.jo.SgnSecretJo;
 import rebue.scx.sgn.mapper.SgnSecretMapper;
@@ -24,6 +34,7 @@ import rebue.scx.sgn.to.SgnSecretListTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
 import rebue.scx.sgn.to.SgnSecretOneTo;
 import rebue.scx.sgn.to.SgnSecretPageTo;
+import rebue.wheel.serialization.fst.FstUtils;
 
 /**
  * 签名密钥服务实现
@@ -59,6 +70,10 @@ public class SgnSecretSvcImpl extends
     @Lazy
     @Resource
     private SgnSecretSvc thisSvc;
+
+    @Autowired
+    @Qualifier(CacheManagerName.REDIS_CACHE_MANAGER)
+    private CacheManager cacheManager;
 
     /**
      * 从接口获取本服务的单例(提供给基类调用)
@@ -99,4 +114,28 @@ public class SgnSecretSvcImpl extends
     public SgnSecretMo getById(final Long id) {
         return super.getById(id);
     }
+
+    @Override
+    @CollectionCacheable
+    public Map<Long, SgnSecretMo> mapAll() {
+        return super.listAll().stream().collect(Collectors.toMap(SgnSecretMo::getId, item -> item));
+    }
+
+    @Override
+    public List<SgnSecretMo> listCacheAll() {
+        // parse org.springframework.cache.Cache to javax.cache.Cache by using getNativeCache() method and use java iterator as javax.cache.Cache already extends Iterable>.
+        // @SuppressWarnings("rawtypes")
+        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache("rebue.scx.sgn.secret.sign-id").getNativeCache();
+        // cache.get("").;
+        // @SuppressWarnings("unchecked")
+        // final Iterator<Cache.Entry<String, Object>> iterator = nativeCache.iterator();
+        //
+        // while (iterator.hasNext()) {
+        // final Object value = iterator.next().getValue();
+        // System.out.println(value);
+        // }
+        return cache.keys("rebue.scx.sgn.secret.sign-id").stream().map(item -> (SgnSecretMo) FstUtils.readObject(item)).collect(Collectors.toList());
+        // return null;
+    }
+
 }

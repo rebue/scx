@@ -1,7 +1,13 @@
 package rebue.wxx.svc.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -9,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
+import rebue.wheel.api.OrikaUtils;
+import rebue.wxx.co.RedisCo;
 import rebue.wxx.dao.WxxAppDao;
 import rebue.wxx.jo.WxxAppJo;
 import rebue.wxx.mapper.WxxAppMapper;
 import rebue.wxx.mo.WxxAppMo;
+import rebue.wxx.rdo.WxxAppRdo;
 import rebue.wxx.svc.WxxAppSvc;
 import rebue.wxx.to.WxxAppAddTo;
 import rebue.wxx.to.WxxAppDelTo;
@@ -34,6 +43,8 @@ import rebue.wxx.to.WxxAppPageTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
+ *
+ * @mbg.dontOverWriteAnnotation
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -72,4 +83,40 @@ public class WxxAppSvcImpl
     protected Class<WxxAppMo> getMoClass() {
         return WxxAppMo.class;
     }
+
+    @Override
+    @CacheEvict(cacheNames = RedisCo.WXX_APPS_KEY, allEntries = true)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public WxxAppMo addMo(final WxxAppMo mo) {
+        return super.addMo(mo);
+    }
+
+    @Override
+    @CachePut(cacheNames = RedisCo.WXX_APP_KEY, key = "#mo.id")
+    @CacheEvict(cacheNames = RedisCo.WXX_APPS_KEY, allEntries = true)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public WxxAppMo modifyMoById(final WxxAppMo mo) {
+        return super.modifyMoById(mo);
+    }
+
+    @Override
+    @Caching(evict = {
+        @CacheEvict(RedisCo.WXX_APP_KEY),
+        @CacheEvict(cacheNames = RedisCo.WXX_APPS_KEY, allEntries = true)
+    })
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void delById(final String id) {
+        super.delById(id);
+    }
+
+    @Cacheable(RedisCo.WXX_APP_KEY)
+    public WxxAppRdo getRdoById(final String id) {
+        return OrikaUtils.map(super.getById(id), WxxAppRdo.class);
+    }
+
+    @Cacheable(RedisCo.WXX_APPS_KEY)
+    public List<WxxAppRdo> listRdoAll() {
+        return OrikaUtils.mapAsList(super.listAll(), WxxAppRdo.class);
+    }
+
 }

@@ -1,5 +1,8 @@
 package rebue.scx.sgn.svc;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
@@ -29,4 +32,8 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
 @Validated
 public interface SgnSecretSvc
     extends BaseSvc<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
+
+    Map<Long, SgnSecretMo> mapAll();
+
+    List<SgnSecretMo> listCacheAll();
 }
