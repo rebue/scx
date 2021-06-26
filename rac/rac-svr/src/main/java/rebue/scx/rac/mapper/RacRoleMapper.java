@@ -3,6 +3,7 @@ package rebue.scx.rac.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThan;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.isEnabled;
@@ -284,5 +285,19 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
     // 
     default int updateSeqNoByDeleteAfter(@Param(value = "record") RacRoleMo record) {
         return update(c -> c.set(seqNo).equalToConstant("SEQ_NO-1").where(domainId, isEqualTo(record::getDomainId)).and(seqNo, isGreaterThan(record::getSeqNo)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacRoleMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
     }
 }

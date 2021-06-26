@@ -26,7 +26,7 @@ import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
 
 /**
- * 字典控制器
+ * 字典
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

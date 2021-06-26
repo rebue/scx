@@ -4,6 +4,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.and;
 import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
@@ -71,8 +72,10 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.Ex.RacAccountExMo;
+import rebue.scx.rac.mo.ex.RacAccountExMo;
+import rebue.scx.rac.mo.ex.RacUserAccountMo;
 import rebue.scx.rac.to.RacAccountListTo;
+import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.wheel.core.NumberUtils;
 
 @Mapper
@@ -451,4 +454,32 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         + "</script>"
     })
     List<RacAccountMo> getAddablAccountList(@Param(value = "record") RacAccountExMo record);
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacAccountMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * 查询带有用户的账户列表
+     *
+     * @param qo 查询条件
+     *
+     * @return 查询到的分页信息
+     */
+    @Select({
+        "<script>" + "SELECT \n" + "    ac.ID accountId,ac.*,us.*\n" + "FROM\n" + "    rac.RAC_ACCOUNT ac\n" + "        LEFT JOIN\n" + "    RAC_USER us ON ac.USER_ID = us.ID "
+            + "WHERE 1=1 " + "<if test='record.orgId!=null'>" + " and ac.ORG_ID = #{record.orgId}" + "</if>" + "<if test='record.keywords!=null'>"
+            + "  and( us.ID_CARD like '%${record.keywords}%' or us.MOBILE like '%${record.keywords}%' or us.REAL_NAME like '%${record.keywords}%')" + "</if>" + "</script>"
+    })
+    List<RacUserAccountMo> pageAccountMos(@Param(value = "record") RacAccountPageTo record);
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
+    }
 }

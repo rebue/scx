@@ -25,7 +25,7 @@ import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermPageTo;
 
 /**
- * 权限控制器
+ * 权限
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

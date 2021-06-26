@@ -42,7 +42,6 @@ public class SgnSecretAddTo implements Serializable {
      * 算法
      *
      * @mbg.dontOverWriteAnnotation
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotNull(message = "算法不能为空")

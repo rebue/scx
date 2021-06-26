@@ -48,7 +48,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.wheel.turing.JwtUtils;
 
 /**
- * 账户控制器
+ * 账户
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -134,16 +134,6 @@ public class RacAccountCtrl {
     }
 
     /**
-     * 查询账户的信息
-     *
-     * @param qo 查询的具体条件
-     */
-    @GetMapping("/rac/account/listTransferOfOrg")
-    public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
-        return Mono.create(callback -> callback.success(api.listTransferOfOrg(qo)));
-    }
-
-    /**
      * 修改账户登录密码
      *
      * @param to 修改账户登录密码的具体数据
@@ -205,7 +195,7 @@ public class RacAccountCtrl {
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
             final MediaType contentType = filePart.headers().getContentType();
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
-                final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition, contentType, inputStream);
+                final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition.toString(), contentType.toString(), inputStream);
                 if (!ResultDic.SUCCESS.equals(ro.getResult())) {
                     response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
@@ -243,5 +233,15 @@ public class RacAccountCtrl {
             throw new IllegalArgumentException("在Cookie中找不到系统ID");
         }
         return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, sysId)));
+    }
+
+    /**
+     * 查询账户的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @GetMapping("/rac/account/listTransferOfOrg")
+    public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
+        return Mono.create(callback -> callback.success(api.listTransferOfOrg(qo)));
     }
 }

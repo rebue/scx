@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacPermUrnDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacPermUrnDynamicSqlSupport.permId;
 import static rebue.scx.rac.mapper.RacPermUrnDynamicSqlSupport.racPermUrn;
@@ -238,5 +239,19 @@ public interface RacPermUrnMapper extends MapperRootInterface<RacPermUrnMo, Long
      */
     default List<RacPermUrnMo> selectSelective(RacPermUrnMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(permId, isEqualToWhenPresent(record::getPermId)).and(urn, isEqualToWhenPresent(record::getUrn)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacPermUrnMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
     }
 }

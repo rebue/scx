@@ -1,6 +1,7 @@
 package rebue.scx.rac.test.svc;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,15 +42,19 @@ public class RacAccountSvcTests {
 
     /**
      * 测试基本的增删改查
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
+    @Disabled
     public void testCrud() {
         RacAccountAddTo addTo = null;
         Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacAccountAddTo) RandomEx.randomPojo(RacAccountAddTo.class);
+            addTo.setSignInPswdSalt("aaa");
+            addTo.setPayPswdSalt("bbb");
+            addTo.setUserId(null);
+            addTo.setOrgId(null);
+            addTo.setDomainId("ops");
             log.info("添加账户的参数为：" + addTo);
             final RacAccountMo addRo = _svc.add(addTo);
             log.info("添加账户的返回值为：" + addRo);
@@ -60,7 +65,7 @@ public class RacAccountSvcTests {
         log.info("查询账户的返回值为：" + pageResult);
         Assertions.assertNotNull(pageResult);
         log.info("获取单个账户的参数为：" + id);
-        RacAccountMo getByIdResult = _svc.getById(id);
+        final RacAccountMo getByIdResult = _svc.getById(id);
         log.info("获取单个账户的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
         final RacAccountModifyTo modifyTo = dozerMapper.map(addTo, RacAccountModifyTo.class);

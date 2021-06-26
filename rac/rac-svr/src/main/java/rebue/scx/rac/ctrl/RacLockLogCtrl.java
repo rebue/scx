@@ -23,7 +23,7 @@ import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.RacLockLogPageTo;
 
 /**
- * 锁定日志控制器
+ * 锁定日志
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -33,7 +33,7 @@ import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
 import rebue.scx.rac.to.RacRolePermAddTo;
 import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
-import rebue.wheel.core.exception.RuntimeExceptionX;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 
 /**
  * 角色服务实现

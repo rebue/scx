@@ -18,9 +18,6 @@ import rebue.robotech.to.PageTo;
 
 /**
  * 账户
- *
- * @mbg.removedMember userId,isEnabled,signInName,signInMobile
- * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -36,6 +33,12 @@ public class RacAccountPageTo extends PageTo implements Serializable {
     private String            domainId;
 
     /**
+     * 组织ID
+     */
+    @PositiveOrZero(message = "组织ID不能为负数")
+    private Long              orgId;
+
+    /**
      * 关键字
      */
     @Length(max = 256, message = "搜索关键字不能超过20位数")
@@ -47,6 +50,14 @@ public class RacAccountPageTo extends PageTo implements Serializable {
     private Boolean           hierarchical;
 
     /**
+     * 用户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "用户ID不能为负数")
+    private Long              userId;
+
+    /**
      * 备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -55,12 +66,19 @@ public class RacAccountPageTo extends PageTo implements Serializable {
     private String            remark;
 
     /**
-     * 组织ID
+     * 是否启用
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "组织ID不能为负数")
-    private Long              orgId;
+    private Boolean           isEnabled;
+
+    /**
+     * 登录名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 20, message = "登录名称的长度不能大于20")
+    private String            signInName;
 
     /**
      * 登录手机

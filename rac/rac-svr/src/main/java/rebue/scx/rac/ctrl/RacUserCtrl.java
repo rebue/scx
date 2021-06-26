@@ -23,7 +23,7 @@ import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserPageTo;
 
 /**
- * 用户控制器
+ * 用户
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -32,7 +32,7 @@ import rebue.scx.rac.to.RacRolePermAddTo;
 import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
 
 /**
- * 角色控制器
+ * 角色
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

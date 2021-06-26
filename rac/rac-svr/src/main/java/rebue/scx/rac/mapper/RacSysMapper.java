@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.menu;
@@ -258,5 +259,19 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
         return select(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(domainId, isEqualToWhenPresent(record::getDomainId))
                 .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacSysMo> selectIn(List<String> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
     }
 }

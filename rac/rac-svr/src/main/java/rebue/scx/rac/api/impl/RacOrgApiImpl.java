@@ -1,5 +1,7 @@
 package rebue.scx.rac.api.impl;
 
+import java.util.List;
+
 import org.apache.dubbo.config.annotation.DubboService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +43,7 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
      * @param to 添加的具体信息
      */
     @Override
-    public Ro<?> addOrgAccount(RacOrgAccountAddTo to) {
+    public Ro<?> addOrgAccount(final RacOrgAccountAddTo to) {
         _svc.addOrgAccount(to);
         return new Ro<>(ResultDic.SUCCESS, "添加成功");
     }
@@ -52,7 +54,7 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
      * @param to 修改的具体数据
      */
     @Override
-    public Ro<?> modifyDefaultOrg(RacOrgModifyDefaultOrgTo to) {
+    public Ro<?> modifyDefaultOrg(final RacOrgModifyDefaultOrgTo to) {
         _svc.modifyDefaultOrg(to);
         return new Ro<>(ResultDic.SUCCESS, "修改成功");
     }
@@ -63,7 +65,7 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
      * @param to 修改的具体数据
      */
     @Override
-    public Ro<?> modifyOrgAccount(RacModifyOrgAccountTo to) {
+    public Ro<?> modifyOrgAccount(final RacModifyOrgAccountTo to) {
         _svc.modifyOrgAccount(to);
         return new Ro<>(ResultDic.SUCCESS, "更改成功");
     }
@@ -74,7 +76,7 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
      * @param to 添加的具体信息
      */
     @Override
-    public Ro<?> delOrgAccount(RacOrgAccountDelTo to) {
+    public Ro<?> delOrgAccount(final RacOrgAccountDelTo to) {
         _svc.delOrgAccount(to);
         return new Ro<>(ResultDic.SUCCESS, "移除成功");
     }
@@ -85,7 +87,7 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
      * @param qo 查询的具体条件
      */
     @Override
-    public Ro<ListRa<RacOrgMo>> list(RacOrgListTo qo) {
+    public Ro<ListRa<RacOrgMo>> list(final RacOrgListTo qo) {
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
     }
 
@@ -95,7 +97,7 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
      * @param qo 查询的具体条件
      */
     @Override
-    public Ro<ListRa<RacOrgMo>> listByAccountId(RacOrgListByAccountIdTo qo) {
+    public Ro<ListRa<RacOrgMo>> listByAccountId(final RacOrgListByAccountIdTo qo) {
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.listByAccountId(qo)));
     }
 
@@ -105,12 +107,12 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
      * @param qo 查询的具体条件
      */
     @Override
-    public Ro<PageRa<RacOrgMo>> listAddableOrg(RacOrgListByAccountIdTo qo) {
+    public Ro<PageRa<RacOrgMo>> listAddableOrg(final RacOrgListByAccountIdTo qo) {
         return new Ro<>(ResultDic.SUCCESS, "分页查询成功", new PageRa<>(_svc.listAddableOrg(qo)));
     }
 
     @Override
-    public Ro<PageRa<RacOrgMo>> page(RacOrgPageTo qo) {
+    public Ro<PageRa<RacOrgMo>> page(final RacOrgPageTo qo) {
         if (qo.getDeep()) {
             if (qo.getPageSize() != null && qo.getPageSize() > _limitPageSize) {
                 final String msg = "pageSize不能大于" + _limitPageSize;
@@ -122,5 +124,25 @@ public class RacOrgApiImpl extends BaseApiImpl<java.lang.Long, RacOrgAddTo, RacO
         else {
             return super.page(qo);
         }
+    }
+
+    /**
+     * 根据ID列表查询组织
+     *
+     * @param ids ID列表
+     */
+    @Override
+    public Ro<ListRa<RacOrgMo>> listIn(final List<Long> ids) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.listIn(ids)));
+    }
+
+    /**
+     * 查询组织的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @Override
+    public Ro<ListRa<RacOrgMo>> selectInAndByKeywordsList(final List<Long> ids, final RacOrgMo qo) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.selectInAndByKeywordsList(ids, qo)));
     }
 }

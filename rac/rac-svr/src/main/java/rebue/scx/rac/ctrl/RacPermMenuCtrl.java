@@ -27,7 +27,7 @@ import rebue.scx.rac.to.RacPermMenuPageTo;
 import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
 /**
- * 权限菜单控制器
+ * 权限菜单
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

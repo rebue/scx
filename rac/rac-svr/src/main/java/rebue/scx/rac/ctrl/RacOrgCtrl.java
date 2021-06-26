@@ -31,7 +31,7 @@ import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
 
 /**
- * 组织控制器
+ * 组织
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

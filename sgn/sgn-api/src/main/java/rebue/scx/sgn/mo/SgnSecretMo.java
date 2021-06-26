@@ -51,7 +51,6 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -70,7 +69,7 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSecret(final String secret) {
+    public void setSecret(String secret) {
         this.secret = secret;
     }
 
@@ -79,7 +78,7 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -95,7 +94,7 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object that) {
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -105,8 +104,8 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        final SgnSecretMo other = (SgnSecretMo) that;
-        return getId() == null ? other.getId() == null : getId().equals(other.getId());
+        SgnSecretMo other = (SgnSecretMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
@@ -114,9 +113,9 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
-        result = prime * result + (getId() == null ? 0 : getId().hashCode());
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
 
@@ -144,8 +143,7 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -163,7 +161,7 @@ public class SgnSecretMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAlgorithm(final Byte algorithm) {
+    public void setAlgorithm(Byte algorithm) {
         this.algorithm = algorithm;
     }
 }

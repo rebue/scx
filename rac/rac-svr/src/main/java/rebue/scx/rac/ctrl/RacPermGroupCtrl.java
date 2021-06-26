@@ -24,7 +24,7 @@ import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermGroupPageTo;
 
 /**
- * 权限分组控制器
+ * 权限分组
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -109,7 +109,7 @@ public class RacDicItemJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "TREE_CODE", nullable = false, length = 50)
-    private String treeCode;
+    private String   treeCode;
 
     /**
      * 字典项Key
@@ -118,5 +118,14 @@ public class RacDicItemJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "DIC_ITEM_KEY", nullable = true, length = 32)
-    private String dicItemKey;
+    private String   dicItemKey;
+
+    /**
+     * 组织
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "ORG_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private RacOrgJo org;
 }

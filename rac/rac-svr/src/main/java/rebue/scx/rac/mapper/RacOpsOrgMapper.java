@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacOpsOrgDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacOpsOrgDynamicSqlSupport.masterOrgId;
 import static rebue.scx.rac.mapper.RacOpsOrgDynamicSqlSupport.racOpsOrg;
@@ -246,5 +247,19 @@ public interface RacOpsOrgMapper extends MapperRootInterface<RacOpsOrgMo, Long> 
     default List<RacOpsOrgMo> selectSelective(RacOpsOrgMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(masterOrgId, isEqualToWhenPresent(record::getMasterOrgId)).and(slaveOrgId,
             isEqualToWhenPresent(record::getSlaveOrgId)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacOpsOrgMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
     }
 }

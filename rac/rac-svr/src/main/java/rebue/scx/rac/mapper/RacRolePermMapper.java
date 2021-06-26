@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.permId;
 import static rebue.scx.rac.mapper.RacRolePermDynamicSqlSupport.racRolePerm;
@@ -243,5 +244,19 @@ public interface RacRolePermMapper extends MapperRootInterface<RacRolePermMo, Lo
     default List<RacRolePermMo> selectSelective(RacRolePermMo record) {
         return select(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(permId, isEqualToWhenPresent(record::getPermId)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacRolePermMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
     }
 }

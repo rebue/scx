@@ -1,5 +1,7 @@
 package rebue.scx.rac.api;
 
+import java.util.List;
+
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
@@ -58,6 +60,13 @@ public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgMo
     Ro<?> modifyDefaultOrg(RacOrgModifyDefaultOrgTo to);
 
     /**
+     * 更改组织与账户的关系
+     *
+     * @param to 修改的具体数据
+     */
+    Ro<?> modifyOrgAccount(RacModifyOrgAccountTo to);
+
+    /**
      * 查询可以添加的组织信息
      *
      * @param qo 查询的具体条件
@@ -65,9 +74,16 @@ public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgMo
     Ro<PageRa<RacOrgMo>> listAddableOrg(RacOrgListByAccountIdTo qo);
 
     /**
-     * 更改组织与账户的关系
+     * 根据ID列表查询组织
      *
-     * @param to 修改的具体数据
+     * @param ids ID列表
      */
-    Ro<?> modifyOrgAccount(RacModifyOrgAccountTo to);
+    Ro<ListRa<RacOrgMo>> listIn(List<Long> ids);
+
+    /**
+     * 查询组织的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    Ro<ListRa<RacOrgMo>> selectInAndByKeywordsList(List<Long> ids, RacOrgMo qo);
 }

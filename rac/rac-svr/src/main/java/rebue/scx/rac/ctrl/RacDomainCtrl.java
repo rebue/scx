@@ -25,7 +25,7 @@ import rebue.scx.rac.to.RacDomainModifyTo;
 import rebue.scx.rac.to.RacDomainPageTo;
 
 /**
- * 领域控制器
+ * 领域
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

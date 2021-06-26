@@ -84,7 +84,15 @@ public interface RacOrgSvc extends BaseSvc<java.lang.Long, RacOrgAddTo, RacOrgMo
      * 表格展示的分页查询
      *
      * @param qo
+     *
      * @return
      */
     PageInfo<RacOrgMo> pageIsTable(RacOrgPageTo qo);
+
+    /**
+     * 查询组织的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    List<RacOrgMo> selectInAndByKeywordsList(List<Long> ids, RacOrgMo qo);
 }

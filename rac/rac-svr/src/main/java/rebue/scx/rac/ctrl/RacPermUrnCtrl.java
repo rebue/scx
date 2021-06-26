@@ -26,7 +26,7 @@ import rebue.scx.rac.to.RacPermUrnModifyTo;
 import rebue.scx.rac.to.RacPermUrnPageTo;
 
 /**
- * 权限URN控制器
+ * 权限URN
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

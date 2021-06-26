@@ -26,7 +26,7 @@ import rebue.robotech.valid.ModifyGroup;
  */
 @JsonInclude(Include.NON_NULL)
 // 不进行序列化
-@JsonIgnoreProperties({ "signInPswd", "signInPswdSalt"
+@JsonIgnoreProperties({ "signInPswd", "signInPswdSalt", "payPswd", "payPswdSalt"
 })
 public class RacAccountMo implements Serializable, Mo<Long> {
 

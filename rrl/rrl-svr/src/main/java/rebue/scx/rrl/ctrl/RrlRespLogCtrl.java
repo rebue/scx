@@ -16,7 +16,7 @@ import rebue.scx.rrl.mo.RrlRespLogMo;
 import rebue.scx.rrl.to.RrlRespLogPageTo;
 
 /**
- * 响应日志控制器
+ * 响应日志
  *
  * @mbg.removedMember add,modify,del
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行

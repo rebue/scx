@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockAccountId;
@@ -48,7 +49,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacLockLogMo;
-import rebue.scx.rac.mo.Ex.RacLockLogExMo;
+import rebue.scx.rac.mo.ex.RacLockLogExMo;
 import rebue.scx.rac.to.RacLockLogPageTo;
 
 @Mapper
@@ -352,4 +353,18 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
         + "</script>"
     })
     List<RacLockLogExMo> selectEx(@Param(value = "record") RacLockLogPageTo record);
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default List<RacLockLogMo> selectIn(List<Long> ids) {
+        return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    default BasicColumn[] getColumns() {
+        return selectList;
+    }
 }

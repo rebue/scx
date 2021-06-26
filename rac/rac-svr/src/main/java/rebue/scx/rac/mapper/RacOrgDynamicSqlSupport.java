@@ -75,11 +75,39 @@ public final class RacOrgDynamicSqlSupport {
     public static final SqlColumn<String> remark = racOrg.remark;
 
     /**
-    * 组织属性类型(字典项ID)
+    * 组织属性类型(字典项KEY)
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<String> attrType = racOrg.attrType;
+
+    /**
+    * 地址
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> addr = racOrg.addr;
+
+    /**
+    * 联系人
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> contactPerson = racOrg.contactPerson;
+
+    /**
+    * 联系方式
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> contactWay = racOrg.contactWay;
+
+    /**
+    * 邮箱
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> email = racOrg.email;
 
     public static final class RacOrg extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
@@ -101,6 +129,14 @@ public final class RacOrgDynamicSqlSupport {
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 
         public final SqlColumn<String> attrType = column("ATTR_TYPE", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> addr = column("ADDR", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> contactPerson = column("CONTACT_PERSON", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> contactWay = column("CONTACT_WAY", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> email = column("EMAIL", JDBCType.VARCHAR);
 
         public RacOrg() {
             super("RAC_ORG");

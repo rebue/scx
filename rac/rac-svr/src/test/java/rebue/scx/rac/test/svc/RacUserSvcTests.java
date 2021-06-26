@@ -41,8 +41,6 @@ public class RacUserSvcTests {
 
     /**
      * 测试基本的增删改查
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Test
     public void testCrud() {
@@ -60,7 +58,7 @@ public class RacUserSvcTests {
         log.info("查询用户的返回值为：" + pageResult);
         Assertions.assertNotNull(pageResult);
         log.info("获取单个用户的参数为：" + id);
-        RacUserMo getByIdResult = _svc.getById(id);
+        final RacUserMo getByIdResult = _svc.getById(id);
         log.info("获取单个用户的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
         final RacUserModifyTo modifyTo = dozerMapper.map(addTo, RacUserModifyTo.class);

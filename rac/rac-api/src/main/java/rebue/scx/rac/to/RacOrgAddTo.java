@@ -88,10 +88,42 @@ public class RacOrgAddTo implements Serializable {
     private String            remark;
 
     /**
-     * 组织属性类型(字典项ID)
+     * 组织属性类型(字典项KEY)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 32, message = "组织属性类型的长度不能大于32")
     private String            attrType;
+
+    /**
+     * 地址
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 500, message = "地址的长度不能大于500")
+    private String            addr;
+
+    /**
+     * 联系人
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 30, message = "联系人的长度不能大于30")
+    private String            contactPerson;
+
+    /**
+     * 联系方式
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 30, message = "联系方式的长度不能大于30")
+    private String            contactWay;
+
+    /**
+     * 邮箱
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 50, message = "邮箱的长度不能大于50")
+    private String            email;
 }
