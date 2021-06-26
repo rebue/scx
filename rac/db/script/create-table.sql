@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/11 17:12:24                           */
+/* Created on:     2021/6/26 10:41:57                           */
 /*==============================================================*/
 
 
@@ -253,6 +253,7 @@ create table RAC_DIC
    DOMAIN_ID            varchar(32)  comment '领域ID',
    SYS_ID               varchar(32)  comment '系统ID',
    REMARK               varchar(50)  comment '字典备注',
+   UPDATE_DATETIME      datetime not null  comment '修改时间',
    primary key (ID),
    unique key AK_NAME (NAME)
 );
@@ -270,6 +271,7 @@ create table RAC_DIC_ITEM
    DIC_ITEM_KEY         varchar(32)  comment '字典项Key',
    NAME                 varchar(200) not null  comment '字典项名称',
    TREE_CODE            varchar(50) not null  comment '树编码(每三位为一级)',
+   UPDATE_DATETIME      datetime not null  comment '修改时间',
    REMARK               varchar(50)  comment '字典备注',
    primary key (ID),
    unique key AK_DIC_AND_ITEM_KEY (DIC_ID, DIC_ITEM_KEY),
