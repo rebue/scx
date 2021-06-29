@@ -22,66 +22,66 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 public class RacDicItemAddTo implements Serializable {
 
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 字典项ID
-     */
-    private String            Id;
+	/**
+	 * 字典项ID
+	 */
+	private String            Id;
 
-    /**
-     * 字典ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "字典ID不能为空")
-    @PositiveOrZero(message = "字典ID不能为负数")
-    private Long              dicId;
+	/**
+	 * 字典ID
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@NotNull(message = "字典ID不能为空")
+	@PositiveOrZero(message = "字典ID不能为负数")
+	private Long              dicId;
 
-    /**
-     * 字典项名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(message = "字典项名称不能为空")
-    @Length(max = 200, message = "字典项名称的长度不能大于200")
-    private String            name;
+	/**
+	 * 字典项名称
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@NotBlank(message = "字典项名称不能为空")
+	@Length(max = 200, message = "字典项名称的长度不能大于200")
+	private String            name;
 
-    /**
-     * 字典备注
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 50, message = "字典备注的长度不能大于50")
-    private String            remark;
+	/**
+	 * 字典备注
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Length(max = 50, message = "字典备注的长度不能大于50")
+	private String            remark;
 
-    /**
-     * 树编码(每三位为一级)
-     */
-    @Length(max = 50, message = "树编码的长度不能大于50")
-    private String            treeCode;
+	/**
+	 * 树编码(每三位为一级)
+	 */
+	@Length(max = 50, message = "树编码的长度不能大于50")
+	private String            treeCode;
 
-    /**
-     * 是否为字典项添加字典项，是则为父字典项的ID，否则为null
-     */
-    private Long              parentId;
+	/**
+	 * 是否为字典项添加字典项，是则为父字典项的ID，否则为null留空
+	 */
+	private Long              parentId;
 
-    /**
-     * 字典项Key
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "字典项Key的长度不能大于32")
-    private String            dicItemKey;
+	/**
+	 * 字典项Key
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Length(max = 32, message = "字典项Key的长度不能大于32")
+	private String            dicItemKey;
 
-    /**
-     * 组织ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "组织ID不能为负数")
-    private Long              orgId;
+	/**
+	 * 组织ID
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@PositiveOrZero(message = "组织ID不能为负数")
+	private Long              orgId;
 }

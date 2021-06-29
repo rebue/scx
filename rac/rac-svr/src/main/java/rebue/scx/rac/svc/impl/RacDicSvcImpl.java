@@ -95,7 +95,8 @@ public class RacDicSvcImpl
 		if ("".equals(sysId)) {
 			to.setSysId(null);
 		}
-		return super.add(to);
+		final RacDicMo mo = _dozerMapper.map(to, getMoClass());
+		return thisSvc.addMo(mo);
 	}
 
 	/**
@@ -121,7 +122,8 @@ public class RacDicSvcImpl
 		if ("".equals(remark)) {
 			to.setRemark(null);
 		}
-		return super.modifyById(to);
+		final RacDicMo mo = _dozerMapper.map(to, getMoClass());
+		return thisSvc.modifyMoById(mo);
 	}
 
 	/**
@@ -136,17 +138,20 @@ public class RacDicSvcImpl
 		final PageInfo<RacDicMo> dicPage        = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
 		final List<RacDicMo>     dicList        = dicPage.getList();
 		final List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
+		final List<Long>         dicIds         = new ArrayList<Long>();
 		for (final RacDicMo racDicMo : dicList) {
-			final RacDicItemMo moQo = new RacDicItemMo();
-			moQo.setDicId(racDicMo.getId());
-			final List<RacDicItemMo> dicItemList = racDicItemMapper.selectSelective(moQo);
-			dicItemListAll.addAll(dicItemList);
+			dicIds.add(racDicMo.getId());
+			// final RacDicItemMo moQo = new RacDicItemMo();
+			// moQo.setDicId(racDicMo.getId());
+			// final List<RacDicItemMo> dicItemList = racDicItemMapper.selectSelective(moQo);
+			// dicItemListAll.addAll(dicItemList);
 		}
+		final List<RacDicItemMo> dicItemList = racDicItemMapper.selectByInDicId(dicIds);
 		// 只需要分页的参数
 		dicPage.setList(null);
 		ra.setPage(dicPage);
 		ra.setDicList(dicList);
-		ra.setItemList(dicItemListAll);
+		ra.setItemList(dicItemList);
 		return ra;
 	}
 
