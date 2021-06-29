@@ -1,28 +1,28 @@
 package rebue.scx.sgn.svc.impl;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.qaware.tools.collectioncacheableforspring.CollectionCacheable;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.sbs.cache.CacheManagerName;
 import rebue.sbs.cache.RebueRedisCacheWriter;
+import rebue.scx.sgn.cc.SgnCc;
 import rebue.scx.sgn.dao.SgnSecretDao;
 import rebue.scx.sgn.jo.SgnSecretJo;
 import rebue.scx.sgn.mapper.SgnSecretMapper;
@@ -34,7 +34,6 @@ import rebue.scx.sgn.to.SgnSecretListTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
 import rebue.scx.sgn.to.SgnSecretOneTo;
 import rebue.scx.sgn.to.SgnSecretPageTo;
-import rebue.wheel.serialization.fst.FstUtils;
 
 /**
  * 签名密钥服务实现
@@ -56,10 +55,10 @@ import rebue.wheel.serialization.fst.FstUtils;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-@CacheConfig(cacheNames = "rebue.scx.sgn.secret.sign-id")
+@CacheConfig(cacheNames = SgnCc.SECRET_CACHE_NAME)
 public class SgnSecretSvcImpl extends
     BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
-    implements SgnSecretSvc {
+    implements SgnSecretSvc, ApplicationListener<ApplicationReadyEvent> {
 
     /**
      * 本服务的单例
@@ -95,6 +94,48 @@ public class SgnSecretSvcImpl extends
         return SgnSecretMo.class;
     }
 
+    /**
+     * 微服务启动完成后，初始化将所有数据放入缓存中
+     *
+     * XXX 只适合数据少而肯定会频繁使用的场景，数据量大或未必使用，就不要初始化了
+     */
+    @Override
+    public void onApplicationEvent(final ApplicationReadyEvent event) {
+        // 先删除所有缓存
+        thisSvc.delCacheAll();
+        // 再查询列表逐个放入缓存
+        thisSvc.listAll().forEach(mo -> {
+            thisSvc.putToCache(mo);
+        });
+    }
+
+    /**
+     * 删除所有缓存
+     */
+    @Override
+    @CacheEvict(allEntries = true)
+    public void delCacheAll() {
+
+    }
+
+    /**
+     * 列出缓存中所有数据
+     */
+    @Override
+    public List<SgnSecretMo> listCacheAll() {
+        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache("rebue.scx.sgn.secret.sign-id").getNativeCache();
+        return cache.listAll(SgnCc.SECRET_CACHE_NAME);
+    }
+
+    /**
+     * 将对象直接放入缓存
+     */
+    @Override
+    @CachePut(key = "#mo.id")
+    public SgnSecretMo putToCache(final SgnSecretMo mo) {
+        return mo;
+    }
+
     @Override
     @CachePut(key = "#mo.id")
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -113,29 +154,6 @@ public class SgnSecretSvcImpl extends
     @Cacheable
     public SgnSecretMo getById(final Long id) {
         return super.getById(id);
-    }
-
-    @Override
-    @CollectionCacheable
-    public Map<Long, SgnSecretMo> mapAll() {
-        return super.listAll().stream().collect(Collectors.toMap(SgnSecretMo::getId, item -> item));
-    }
-
-    @Override
-    public List<SgnSecretMo> listCacheAll() {
-        // parse org.springframework.cache.Cache to javax.cache.Cache by using getNativeCache() method and use java iterator as javax.cache.Cache already extends Iterable>.
-        // @SuppressWarnings("rawtypes")
-        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache("rebue.scx.sgn.secret.sign-id").getNativeCache();
-        // cache.get("").;
-        // @SuppressWarnings("unchecked")
-        // final Iterator<Cache.Entry<String, Object>> iterator = nativeCache.iterator();
-        //
-        // while (iterator.hasNext()) {
-        // final Object value = iterator.next().getValue();
-        // System.out.println(value);
-        // }
-        return cache.keys("rebue.scx.sgn.secret.sign-id").stream().map(item -> (SgnSecretMo) FstUtils.readObject(item)).collect(Collectors.toList());
-        // return null;
     }
 
 }

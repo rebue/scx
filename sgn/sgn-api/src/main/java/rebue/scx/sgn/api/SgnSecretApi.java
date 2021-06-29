@@ -12,4 +12,5 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 public interface SgnSecretApi extends BaseApi<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretPageTo, SgnSecretMo> {
+
 }

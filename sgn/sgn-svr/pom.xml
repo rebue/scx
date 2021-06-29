@@ -14,11 +14,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>de.qaware.tools.collection-cacheable-for-spring</groupId>
-			<artifactId>collection-cacheable-for-spring-starter</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>sgn-api</artifactId>
 		</dependency>

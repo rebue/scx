@@ -1,7 +1,6 @@
 package rebue.scx.sgn.svc;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -33,7 +32,10 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
 public interface SgnSecretSvc
     extends BaseSvc<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo> {
 
-    Map<Long, SgnSecretMo> mapAll();
+    SgnSecretMo putToCache(SgnSecretMo mo);
 
     List<SgnSecretMo> listCacheAll();
+
+    void delCacheAll();
+
 }

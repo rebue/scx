@@ -1,7 +1,7 @@
 package rebue.scx.sgn.test.svc;
 
+import java.security.KeyPair;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,8 @@ import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.svc.SgnSecretSvc;
 import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
+import rebue.wheel.core.RandomEx;
+import rebue.wheel.turing.Sm2Utils;
 
 /**
  * 签名密钥 Service层测试
@@ -44,22 +46,21 @@ public class SgnSecretSvcTests {
      */
     @Test
     public void testCrud() {
-        final SgnSecretAddTo         addTo     = null;
-        final Long                   id        = null;
-        // for (int i = 0; i < 20; i++) {
-        // addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
-        // // XXX 生成公钥并保存
-        // final KeyPair keyPair = Sm2Utils.generateKeyPair();
-        // addTo.setSecret(Sm2Utils.getPublicKeyString(keyPair));
-        // log.info("添加签名密钥的参数为：" + addTo);
-        // final SgnSecretMo addRo = _svc.add(addTo);
-        // log.info("添加签名密钥的返回值为：" + addRo);
-        // Assertions.assertNotNull(addRo);
-        // id = addRo.getId();
-        // }
-        final Map<Long, SgnSecretMo> mapResult = _svc.mapAll();
-        log.info("查询签名密钥的返回值为: {}", mapResult);
-        Assertions.assertNotNull(mapResult);
+        SgnSecretAddTo addTo = null;
+        Long           id    = null;
+
+        for (int i = 0; i < 20; i++) {
+            addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
+            // XXX 生成公钥并保存
+            final KeyPair keyPair = Sm2Utils.generateKeyPair();
+            addTo.setSecret(Sm2Utils.getPublicKeyString(keyPair));
+            log.info("添加签名密钥的参数为：" + addTo);
+            final SgnSecretMo addRo = _svc.add(addTo);
+            log.info("添加签名密钥的返回值为：" + addRo);
+            Assertions.assertNotNull(addRo);
+            id = addRo.getId();
+        }
+
         final List<SgnSecretMo> listResult = _svc.listCacheAll();
         log.info("查询签名密钥的返回值为: {}", listResult);
         Assertions.assertNotNull(listResult);
