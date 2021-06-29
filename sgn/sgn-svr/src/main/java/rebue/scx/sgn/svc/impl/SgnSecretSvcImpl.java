@@ -119,21 +119,21 @@ public class SgnSecretSvcImpl extends
     }
 
     /**
-     * 列出缓存中所有数据
-     */
-    @Override
-    public List<SgnSecretMo> listCacheAll() {
-        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache("rebue.scx.sgn.secret.sign-id").getNativeCache();
-        return cache.listAll(CacheCo.SECRET_CACHE_NAME);
-    }
-
-    /**
      * 将对象直接放入缓存
      */
     @Override
     @CachePut(key = "#mo.id")
     public SgnSecretMo putToCache(final SgnSecretMo mo) {
         return mo;
+    }
+
+    /**
+     * 列出缓存中所有数据
+     */
+    @Override
+    public List<SgnSecretMo> listCacheAll() {
+        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache("rebue.scx.sgn.secret.sign-id").getNativeCache();
+        return cache.listAll(CacheCo.SECRET_CACHE_NAME);
     }
 
     @Override
