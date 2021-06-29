@@ -22,7 +22,7 @@ import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.sbs.cache.CacheManagerName;
 import rebue.sbs.cache.RebueRedisCacheWriter;
-import rebue.scx.sgn.cc.SgnCc;
+import rebue.scx.sgn.co.CacheCo;
 import rebue.scx.sgn.dao.SgnSecretDao;
 import rebue.scx.sgn.jo.SgnSecretJo;
 import rebue.scx.sgn.mapper.SgnSecretMapper;
@@ -55,7 +55,7 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-@CacheConfig(cacheNames = SgnCc.SECRET_CACHE_NAME)
+@CacheConfig(cacheNames = CacheCo.SECRET_CACHE_NAME)
 public class SgnSecretSvcImpl extends
     BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
     implements SgnSecretSvc, ApplicationListener<ApplicationReadyEvent> {
@@ -124,7 +124,7 @@ public class SgnSecretSvcImpl extends
     @Override
     public List<SgnSecretMo> listCacheAll() {
         final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache("rebue.scx.sgn.secret.sign-id").getNativeCache();
-        return cache.listAll(SgnCc.SECRET_CACHE_NAME);
+        return cache.listAll(CacheCo.SECRET_CACHE_NAME);
     }
 
     /**

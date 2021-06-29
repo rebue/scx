@@ -1,4 +1,4 @@
-package rebue.scx.sgn.cc;
+package rebue.scx.sgn.co;
 
 /**
  * 缓存常量
@@ -6,7 +6,7 @@ package rebue.scx.sgn.cc;
  * @author zbz
  *
  */
-public interface SgnCc {
+public interface CacheCo {
     /**
      * 签名密钥的缓存名称
      */
