@@ -132,7 +132,7 @@ public class SgnSecretSvcImpl extends
      */
     @Override
     public List<SgnSecretMo> listCacheAll() {
-        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache("rebue.scx.sgn.secret.sign-id").getNativeCache();
+        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache(CacheCo.SECRET_CACHE_NAME).getNativeCache();
         return cache.listAll(CacheCo.SECRET_CACHE_NAME);
     }
 
