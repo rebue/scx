@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="288mm" xmlns="http://www.w3.org/2000/svg" height="166mm" version="1.1" viewBox="0 0 1090 628" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="288mm" xmlns="http://www.w3.org/2000/svg" height="169mm" version="1.1" viewBox="0 0 1090 641" xmlns:xlink="http://www.w3.org/1999/xlink">
    <polyline fill="none" points="407,364 319,364" stroke="#584ab5" stroke-width="1"/>
    <polyline fill="none" points="305,355 332,364 305,374 305,355" stroke="#584ab5" stroke-width="1"/>
-   <polyline fill="none" points="560,472 560,548" stroke="#584ab5" stroke-width="1"/>
-   <polyline fill="none" points="551,561 560,535 569,561 551,561" stroke="#584ab5" stroke-width="1"/>
+   <polyline fill="none" points="568,472 568,600 407,600" stroke="#584ab5" stroke-width="1"/>
+   <polyline fill="none" points="394,591 421,600 394,609 394,591" stroke="#584ab5" stroke-width="1"/>
    <polyline fill="none" points="705,41 772,41 772,403 728,403" stroke="#584ab5" stroke-width="1"/>
    <polyline fill="none" points="715,393 742,403 715,412 715,393" stroke="#584ab5" stroke-width="1"/>
    <polyline fill="none" points="705,26 942,26 942,135" stroke="#584ab5" stroke-width="1"/>
@@ -27,6 +27,10 @@
    <ellipse cx="160" cy="212" rx="3" ry="3" fill="#ffffff" stroke="#584ab5" stroke-width="1"/>
    <polyline fill="none" points="151,366 160,339 170,366 151,366" stroke="#584ab5" stroke-width="1"/>
    <ellipse cx="160" cy="335" rx="3" ry="3" fill="#ffffff" stroke="#584ab5" stroke-width="1"/>
+   <polyline fill="none" points="717,472 717,553" stroke="#584ab5" stroke-width="1"/>
+   <polyline fill="none" points="712,485 723,485" stroke="#584ab5" stroke-width="1"/>
+   <polyline fill="none" points="708,566 717,539 727,566 708,566" stroke="#584ab5" stroke-width="1"/>
+   <ellipse cx="717" cy="535" rx="3" ry="3" fill="#ffffff" stroke="#584ab5" stroke-width="1"/>
    <defs>
       <linearGradient id="Gradient1" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
          <stop offset="5%" stop-color="#ffffff"/>
@@ -39,13 +43,15 @@
    <text x="24" y="116" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">系统ID</text>
    <text x="24" y="127" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">系统名称</text>
    <text x="24" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">领域ID</text>
-   <text x="24" y="149" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">菜单URN</text>
-   <text x="24" y="160" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">系统备注</text>
+   <text x="24" y="149" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">系统URL</text>
+   <text x="24" y="160" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">菜单</text>
+   <text x="24" y="171" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">系统备注</text>
    <text x="72" y="116" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">ID</text>
    <text x="72" y="127" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">NAME</text>
    <text x="72" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">DOMAIN_ID</text>
-   <text x="72" y="149" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">MENU_URN</text>
-   <text x="72" y="160" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">REMARK</text>
+   <text x="72" y="149" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">URL</text>
+   <text x="72" y="160" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">MENU</text>
+   <text x="72" y="171" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">REMARK</text>
    <text x="125" y="116" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;pi&gt;</text>
    <text x="125" y="127" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
    <text x="125" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;fi&gt;</text>
@@ -53,15 +59,16 @@
    <text x="153" y="127" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (20)</text>
    <text x="153" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (32)</text>
    <text x="153" y="149" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (100)</text>
-   <text x="153" y="160" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (50)</text>
-   <text x="286" y="116" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;M&gt;</text>
-   <text x="286" y="127" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
-   <text x="286" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
-   <line x1="19" x2="313" y1="165" y2="165" stroke="#584ab5" stroke-width="1"/>
-   <text x="24" y="175" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Identifier_1</text>
-   <text x="24" y="186" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">系统名称</text>
-   <text x="92" y="175" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;pi&gt;</text>
-   <text x="92" y="186" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
+   <text x="153" y="160" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (3000)</text>
+   <text x="153" y="171" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (50)</text>
+   <text x="291" y="116" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;M&gt;</text>
+   <text x="291" y="127" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
+   <text x="291" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
+   <line x1="19" x2="313" y1="176" y2="176" stroke="#584ab5" stroke-width="1"/>
+   <text x="24" y="186" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Identifier_1</text>
+   <text x="24" y="197" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">系统名称</text>
+   <text x="92" y="186" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;pi&gt;</text>
+   <text x="92" y="197" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
    <defs>
       <linearGradient id="Gradient2" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
          <stop offset="5%" stop-color="#ffffff"/>
@@ -226,29 +233,29 @@
          <stop offset="95%" stop-color="#b0baff"/>
       </linearGradient>
    </defs>
-   <rect x="404" y="548" fill="url(#Gradient6)" width="311" height="78" stroke="#584ab5" stroke-width="1"/>
-   <text x="559" y="558" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="middle">权限URN</text>
-   <line x1="404" x2="715" y1="563" y2="563" stroke="#584ab5" stroke-width="1"/>
-   <text x="409" y="573" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">权限URN的ID</text>
-   <text x="409" y="584" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">权限ID</text>
-   <text x="409" y="595" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">URN</text>
-   <text x="472" y="573" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">ID</text>
-   <text x="472" y="584" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">PERM_ID</text>
-   <text x="472" y="595" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">URN</text>
-   <text x="515" y="573" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;pi&gt;</text>
-   <text x="515" y="584" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai,fi&gt;</text>
-   <text x="515" y="595" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
-   <text x="558" y="573" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">Long integer</text>
-   <text x="558" y="584" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Long integer</text>
-   <text x="558" y="595" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (100)</text>
-   <text x="691" y="573" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;M&gt;</text>
-   <text x="691" y="584" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
-   <text x="691" y="595" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
-   <line x1="404" x2="715" y1="600" y2="600" stroke="#584ab5" stroke-width="1"/>
-   <text x="409" y="610" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Identifier_1</text>
-   <text x="409" y="621" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">权限与URN</text>
-   <text x="477" y="610" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;pi&gt;</text>
-   <text x="477" y="621" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
+   <rect x="96" y="561" fill="url(#Gradient6)" width="311" height="78" stroke="#584ab5" stroke-width="1"/>
+   <text x="251" y="571" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="middle">权限URN</text>
+   <line x1="96" x2="407" y1="576" y2="576" stroke="#584ab5" stroke-width="1"/>
+   <text x="101" y="586" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">权限URN的ID</text>
+   <text x="101" y="597" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">权限ID</text>
+   <text x="101" y="608" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">URN</text>
+   <text x="164" y="586" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">ID</text>
+   <text x="164" y="597" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">PERM_ID</text>
+   <text x="164" y="608" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">URN</text>
+   <text x="207" y="586" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;pi&gt;</text>
+   <text x="207" y="597" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai,fi&gt;</text>
+   <text x="207" y="608" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
+   <text x="250" y="586" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">Long integer</text>
+   <text x="250" y="597" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Long integer</text>
+   <text x="250" y="608" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (100)</text>
+   <text x="383" y="586" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;M&gt;</text>
+   <text x="383" y="597" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
+   <text x="383" y="608" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
+   <line x1="96" x2="407" y1="613" y2="613" stroke="#584ab5" stroke-width="1"/>
+   <text x="101" y="623" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Identifier_1</text>
+   <text x="101" y="634" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">权限与URN</text>
+   <text x="169" y="623" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;pi&gt;</text>
+   <text x="169" y="634" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
    <defs>
       <linearGradient id="Gradient7" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
          <stop offset="5%" stop-color="#ffffff"/>
@@ -305,4 +312,33 @@
    <text x="439" y="75" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">领域名称</text>
    <text x="507" y="64" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;pi&gt;</text>
    <text x="507" y="75" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;ai&gt;</text>
+   <defs>
+      <linearGradient id="Gradient9" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#b0baff"/>
+      </linearGradient>
+   </defs>
+   <rect x="575" y="553" fill="url(#Gradient9)" width="322" height="78" stroke="#584ab5" stroke-width="1"/>
+   <text x="736" y="563" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="middle">权限命令</text>
+   <line x1="575" x2="897" y1="568" y2="568" stroke="#584ab5" stroke-width="1"/>
+   <text x="580" y="578" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">权限命令的ID</text>
+   <text x="580" y="589" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">权限ID</text>
+   <text x="580" y="600" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">命令KEY</text>
+   <text x="580" y="611" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">命令备注</text>
+   <text x="648" y="578" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">ID</text>
+   <text x="648" y="589" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">PERM_ID</text>
+   <text x="648" y="600" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">COMMAND_KEY</text>
+   <text x="648" y="611" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">REMARK</text>
+   <text x="711" y="578" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;pi&gt;</text>
+   <text x="711" y="589" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;fi&gt;</text>
+   <text x="739" y="578" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">Long integer</text>
+   <text x="739" y="589" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Long integer</text>
+   <text x="739" y="600" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (50)</text>
+   <text x="739" y="611" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Variable characters (200)</text>
+   <text x="872" y="578" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start" text-decoration="underline">&lt;M&gt;</text>
+   <text x="872" y="589" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
+   <text x="872" y="600" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;M&gt;</text>
+   <line x1="575" x2="897" y1="616" y2="616" stroke="#584ab5" stroke-width="1"/>
+   <text x="580" y="626" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">Identifier_1</text>
+   <text x="648" y="626" fill="#000000" font-size="10" font-family="'Arial Unicode MS','新宋体'" text-anchor="start">&lt;pi&gt;</text>
 </svg>
