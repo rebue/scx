@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/26 10:50:19                           */
+/* Created on:     2021/6/30 16:27:17                           */
 /*==============================================================*/
 
 
@@ -122,6 +122,12 @@ alter table RAC_PERM
    drop foreign key FK_PERM_AND_PERM_GROUP;
 
 drop table if exists RAC_PERM;
+
+
+alter table RAC_PERM_COMMAND 
+   drop foreign key FK_PERM_COMMAND_AND_PERM;
+
+drop table if exists RAC_PERM_COMMAND;
 
 
 alter table RAC_PERM_GROUP 
@@ -410,6 +416,20 @@ create table RAC_PERM
 alter table RAC_PERM comment '权限';
 
 /*==============================================================*/
+/* Table: RAC_PERM_COMMAND                                      */
+/*==============================================================*/
+create table RAC_PERM_COMMAND
+(
+   ID                   bigint unsigned not null  comment '权限命令的ID',
+   PERM_ID              bigint unsigned not null  comment '权限ID',
+   COMMAND_KEY          varchar(50) not null  comment '命令KEY',
+   REMARK               varchar(200)  comment '命令备注',
+   primary key (ID)
+);
+
+alter table RAC_PERM_COMMAND comment '权限命令';
+
+/*==============================================================*/
 /* Table: RAC_PERM_GROUP                                        */
 /*==============================================================*/
 create table RAC_PERM_GROUP
@@ -611,6 +631,9 @@ alter table RAC_PERM add constraint FK_PERM_AND_PERM_GROUP foreign key (GROUP_ID
 
 alter table RAC_PERM add constraint FK_PERM_AND_DOMAIN foreign key (DOMAIN_ID)
       references RAC_DOMAIN (ID) on delete restrict on update restrict;
+
+alter table RAC_PERM_COMMAND add constraint FK_PERM_COMMAND_AND_PERM foreign key (PERM_ID)
+      references RAC_PERM (ID) on delete restrict on update restrict;
 
 alter table RAC_PERM_GROUP add constraint FK_PERM_GROUP_AND_DOMAIN foreign key (DOMAIN_ID)
       references RAC_DOMAIN (ID) on delete restrict on update restrict;
