@@ -1,0 +1,5 @@
+xxl:
+  job:
+    executor:
+      ### 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+      appname: ${spring.application.name}

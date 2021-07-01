@@ -1711,12 +1711,11 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Code>LOGIN_CALLBACK_URL</a:Code>
 <a:CreationDate>1567564396</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1567565033</a:ModificationDate>
+<a:ModificationDate>1625135308</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:Comment>登录回调链接</a:Comment>
 <a:DataType>VA300</a:DataType>
 <a:Length>300</a:Length>
-<a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
 </o:EntityAttribute>
 <o:EntityAttribute Id="o21">
 <a:ObjectID>3C7B4B04-D8F0-441B-B7CB-968FE1A36576</a:ObjectID>
@@ -1724,12 +1723,11 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Code>LOGIN_CALLBACK_METHOD_TYPE</a:Code>
 <a:CreationDate>1567565033</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1567565091</a:ModificationDate>
+<a:ModificationDate>1625135308</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:Comment>登录回调方法类型</a:Comment>
 <a:DataType>VA6</a:DataType>
 <a:Length>6</a:Length>
-<a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
 </o:EntityAttribute>
 <o:EntityAttribute Id="o22">
 <a:ObjectID>9A31AD00-99DF-49F5-BD3F-488B585648CF</a:ObjectID>
@@ -1870,12 +1868,12 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Code>WXX_MYSQL</a:Code>
 <a:CreationDate>1566976382</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1624245248</a:ModificationDate>
+<a:ModificationDate>1625135317</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/wxx-mysql.pdm</a:TargetModelURL>
 <a:TargetModelID>AE72358B-C4CC-46F1-A470-56241197B1ED</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
-<a:TargetModelLastModificationDate>1624245248</a:TargetModelLastModificationDate>
+<a:TargetModelLastModificationDate>1625135318</a:TargetModelLastModificationDate>
 <c:SessionShortcuts>
 <o:Shortcut Ref="o3"/>
 </c:SessionShortcuts>

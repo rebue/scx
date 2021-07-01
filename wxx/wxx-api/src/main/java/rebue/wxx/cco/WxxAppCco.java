@@ -1,17 +1,17 @@
-package rebue.wxx.rdo;
+package rebue.wxx.cco;
 
 import java.time.LocalDateTime;
 
 import lombok.Data;
 
 /**
- * 微信APP的Redis对象
+ * 微信APP的缓存对象
  *
  * @author zbz
  *
  */
 @Data
-public class WxxAppRdo {
+public class WxxAppCco {
     /**
      * 公众号的appid
      */

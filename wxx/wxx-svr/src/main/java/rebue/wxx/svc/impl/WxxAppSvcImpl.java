@@ -4,10 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,13 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
+import rebue.sbs.cache.CacheManagerName;
+import rebue.sbs.cache.RebueRedisCacheWriter;
 import rebue.wheel.api.OrikaUtils;
-import rebue.wxx.co.RedisCo;
+import rebue.wxx.cco.WxxAppCco;
+import rebue.wxx.co.CacheCo;
 import rebue.wxx.dao.WxxAppDao;
 import rebue.wxx.jo.WxxAppJo;
 import rebue.wxx.mapper.WxxAppMapper;
 import rebue.wxx.mo.WxxAppMo;
-import rebue.wxx.rdo.WxxAppRdo;
 import rebue.wxx.svc.WxxAppSvc;
 import rebue.wxx.to.WxxAppAddTo;
 import rebue.wxx.to.WxxAppDelTo;
@@ -54,6 +55,10 @@ public class WxxAppSvcImpl
     extends BaseSvcImpl<java.lang.String, WxxAppAddTo, WxxAppModifyTo, WxxAppDelTo, WxxAppOneTo, WxxAppListTo, WxxAppPageTo, WxxAppMo, WxxAppJo, WxxAppMapper, WxxAppDao>
     implements WxxAppSvc {
 
+    @Autowired
+    @Qualifier(CacheManagerName.REDIS_CACHE_MANAGER)
+    private CacheManager cacheManager;
+
     /**
      * 本服务的单例
      * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
@@ -62,7 +67,7 @@ public class WxxAppSvcImpl
      */
     @Lazy
     @Resource
-    private WxxAppSvc thisSvc;
+    private WxxAppSvc    thisSvc;
 
     /**
      * 从接口获取本服务的单例(提供给基类调用)
@@ -85,38 +90,51 @@ public class WxxAppSvcImpl
     }
 
     @Override
-    @CacheEvict(cacheNames = RedisCo.WXX_APPS_KEY, allEntries = true)
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public WxxAppMo addMo(final WxxAppMo mo) {
-        return super.addMo(mo);
-    }
-
-    @Override
-    @CachePut(cacheNames = RedisCo.WXX_APP_KEY, key = "#mo.id")
-    @CacheEvict(cacheNames = RedisCo.WXX_APPS_KEY, allEntries = true)
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public WxxAppMo modifyMoById(final WxxAppMo mo) {
-        return super.modifyMoById(mo);
+        final WxxAppMo result = super.modifyMoById(mo);
+
+        // 放入缓存
+        final WxxAppCco cco = OrikaUtils.map(mo, WxxAppCco.class);
+        cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).put(cco.getAppId(), cco);
+
+        return result;
     }
 
     @Override
-    @Caching(evict = {
-        @CacheEvict(RedisCo.WXX_APP_KEY),
-        @CacheEvict(cacheNames = RedisCo.WXX_APPS_KEY, allEntries = true)
-    })
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final String id) {
+        // 删除缓存
+        cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).evict(id);
         super.delById(id);
     }
 
-    @Cacheable(RedisCo.WXX_APP_KEY)
-    public WxxAppRdo getRdoById(final String id) {
-        return OrikaUtils.map(super.getById(id), WxxAppRdo.class);
+    @Override
+    public WxxAppMo getById(final String id) {
+        final WxxAppMo result = super.getById(id);
+
+        // 如果缓存中没有则放入缓存
+        final WxxAppCco cco = OrikaUtils.map(result, WxxAppCco.class);
+        cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).putIfAbsent(cco.getAppId(), cco);
+
+        return result;
     }
 
-    @Cacheable(RedisCo.WXX_APPS_KEY)
-    public List<WxxAppRdo> listRdoAll() {
-        return OrikaUtils.mapAsList(super.listAll(), WxxAppRdo.class);
+    @Override
+    public void putCco(final WxxAppCco cco) {
+        cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).put(cco.getAppId(), cco);
+    }
+
+    @Override
+    public List<WxxAppCco> listCcoAll() {
+        final RebueRedisCacheWriter cache        = (RebueRedisCacheWriter) cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).getNativeCache();
+        final List<WxxAppCco>       listCacheAll = cache.listAll(CacheCo.WXX_APP_CACHE_NAME);
+        if (listCacheAll != null && !listCacheAll.isEmpty()) {
+            return listCacheAll;
+        }
+        final List<WxxAppCco> result = OrikaUtils.mapAsList(super.listAll(), WxxAppCco.class);
+
+        return result;
     }
 
 }

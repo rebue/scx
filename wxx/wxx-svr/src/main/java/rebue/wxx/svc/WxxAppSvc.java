@@ -1,8 +1,11 @@
 package rebue.wxx.svc;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
+import rebue.wxx.cco.WxxAppCco;
 import rebue.wxx.jo.WxxAppJo;
 import rebue.wxx.mo.WxxAppMo;
 import rebue.wxx.to.WxxAppAddTo;
@@ -28,4 +31,8 @@ import rebue.wxx.to.WxxAppPageTo;
  */
 @Validated
 public interface WxxAppSvc extends BaseSvc<java.lang.String, WxxAppAddTo, WxxAppModifyTo, WxxAppDelTo, WxxAppOneTo, WxxAppListTo, WxxAppPageTo, WxxAppMo, WxxAppJo> {
+
+    List<WxxAppCco> listCcoAll();
+
+    void putCco(WxxAppCco cco);
 }
