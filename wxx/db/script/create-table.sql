@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/21 11:16:40                           */
+/* Created on:     2021/7/1 18:29:00                            */
 /*==============================================================*/
 
 
@@ -28,8 +28,8 @@ create table WXX_APP
    ENCODEING_AES_KEY    varchar(50)  comment '微信加解密消息用的key',
    SUBSCRIBE_AUTO_REPLY varchar(100)  comment '用户关注后自动回复的文本',
    MENU                 varchar(1500)  comment '自定义菜单',
-   LOGIN_CALLBACK_URL   varchar(300) not null  comment '登录回调链接',
-   LOGIN_CALLBACK_METHOD_TYPE varchar(6) not null  comment '登录回调方法类型',
+   LOGIN_CALLBACK_URL   varchar(300)  comment '登录回调链接',
+   LOGIN_CALLBACK_METHOD_TYPE varchar(6)  comment '登录回调方法类型',
    LOGIN_CALLBACK_SIGNKEY varchar(64)  comment '登录回调签名密钥',
    WXPAY_NOTIFY_URL     varchar(250)  comment '微信支付完成通知的URL',
    primary key (ID)
