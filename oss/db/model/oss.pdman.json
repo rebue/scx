@@ -16,10 +16,17 @@
               "pk": true
             },
             {
-              "name": "NAME",
-              "type": "String-30",
+              "name": "OBJ_NAME",
+              "type": "String-512",
               "remark": "",
               "chnname": "对象名称",
+              "notNull": true
+            },
+            {
+              "name": "OBJ_GROUP",
+              "type": "String-30",
+              "remark": "",
+              "chnname": "对象分组",
               "notNull": true
             },
             {
@@ -49,6 +56,12 @@
               "remark": "",
               "chnname": "创建人的账户ID",
               "notNull": true
+            },
+            {
+              "name": "CREATOR_ORG_ID",
+              "type": "Long",
+              "remark": "",
+              "chnname": "创建人的组织ID"
             },
             {
               "name": "CREATE_DATETIME",
@@ -114,8 +127,8 @@
             "shape": "table",
             "title": "OSS_OBJ",
             "moduleName": false,
-            "x": 200,
-            "y": 90,
+            "x": 220,
+            "y": 120,
             "id": "bf1dbc23"
           }
         ],
