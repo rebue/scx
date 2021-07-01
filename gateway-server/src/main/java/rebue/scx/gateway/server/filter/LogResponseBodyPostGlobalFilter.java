@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.reactivestreams.Publisher;
-import org.springframework.boot.json.JsonParser;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyResponseBodyGatewayFilterFactory;
@@ -53,9 +52,6 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
 
     @Resource
     private RrlPub                                 rrlPub;
-
-    @Resource
-    private JsonParser                             jsonParser;
 
     @Resource
     private ObjectMapper                           objectMapper;
