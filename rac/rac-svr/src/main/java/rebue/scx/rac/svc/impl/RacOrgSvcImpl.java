@@ -39,6 +39,7 @@ import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacModifyOrgAccountTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
 import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
+import rebue.wheel.api.OrikaUtils;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 
 /**
@@ -109,7 +110,7 @@ public class RacOrgSvcImpl
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public RacOrgMo add(final RacOrgAddTo to) {
-		final RacOrgMo mo = _dozerMapper.map(to, getMoClass());
+		final RacOrgMo mo = OrikaUtils.map(to, getMoClass());
 		// mo中需要添加一个树编码
 		if (to.getParentId() == null) {
 			final RacOrgMo qo = new RacOrgMo();
@@ -171,7 +172,7 @@ public class RacOrgSvcImpl
 	public void modifyDefaultOrg(final RacOrgModifyDefaultOrgTo to) {
 		// 获得当前账户的默认orgId
 		final RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
-		final RacAccountMo accountMo    = _dozerMapper.map(racAccountMo, RacAccountMo.class);
+		final RacAccountMo accountMo    = OrikaUtils.map(racAccountMo, RacAccountMo.class);
 		// 修改账户的默认orgId
 		accountMo.setOrgId(to.getOrgId());
 		racAccountMapper.updateByPrimaryKeySelective(accountMo);
@@ -189,7 +190,7 @@ public class RacOrgSvcImpl
 		final RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
 		if (racAccountMo.getOrgId().equals(to.getModifyOrgId())) {
 			// 更改默认组织
-			final RacAccountMo accountMo = _dozerMapper.map(racAccountMo, RacAccountMo.class);
+			final RacAccountMo accountMo = OrikaUtils.map(racAccountMo, RacAccountMo.class);
 			// 修改账户的默认orgId
 			accountMo.setOrgId(to.getOrgId());
 			racAccountMapper.updateByPrimaryKeySelective(accountMo);
@@ -265,7 +266,7 @@ public class RacOrgSvcImpl
 	 */
 	@Override
 	public PageInfo<RacOrgMo> page(final RacOrgPageTo qo) {
-		final RacOrgExMo         mo     = _dozerMapper.map(qo, RacOrgExMo.class);
+		final RacOrgExMo         mo     = OrikaUtils.map(qo, RacOrgExMo.class);
 		final ISelect            select = () -> _mapper.selectByDomainId(mo);
 		final PageInfo<RacOrgMo> orgMo  = getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
 		final List<RacOrgMo>     list   = getSetLeafList(orgMo.getList());
@@ -293,7 +294,7 @@ public class RacOrgSvcImpl
 	 */
 	List<RacOrgMo> getSetLeafList(final List<RacOrgMo> list) {
 		return list.stream().map(item -> {
-			final RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
+			final RacOrgLeafMo racOrgLeafMo = OrikaUtils.map(item, RacOrgLeafMo.class);
 			final RacOrgMo     existQo      = new RacOrgMo();
 			existQo.setParentId(racOrgLeafMo.getId());
 			racOrgLeafMo.setIsLeaf(!_mapper.existSelective(existQo));
@@ -306,12 +307,12 @@ public class RacOrgSvcImpl
 	 */
 	@Override
 	public PageInfo<RacOrgMo> pageIsTable(final RacOrgPageTo qo) {
-		final RacOrgExMo         mo      = _dozerMapper.map(qo, RacOrgExMo.class);
+		final RacOrgExMo         mo      = OrikaUtils.map(qo, RacOrgExMo.class);
 		final ISelect            select  = () -> _mapper.selectByDomainId(mo);
 		final PageInfo<RacOrgMo> orgMo   = getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
 		final List<RacOrgMo>     listAll = new ArrayList<RacOrgMo>();
 		orgMo.getList().stream().map(item -> {
-			final RacOrgLeafMo racOrgLeafMo = _dozerMapper.map(item, RacOrgLeafMo.class);
+			final RacOrgLeafMo racOrgLeafMo = OrikaUtils.map(item, RacOrgLeafMo.class);
 			final RacOrgMo     listQo       = new RacOrgMo();
 			listQo.setTreeCode(racOrgLeafMo.getTreeCode());
 			final List<RacOrgMo> listPageOrgLikeTreeCode = _mapper.listPageOrgLikeTreeCode(listQo);

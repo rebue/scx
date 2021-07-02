@@ -1,6 +1,7 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
+import java.time.LocalDateTime;
 
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
@@ -54,6 +55,13 @@ public final class RacDicItemDynamicSqlSupport {
     public static final SqlColumn<String> treeCode = racDicItem.treeCode;
 
     /**
+    * 修改时间
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<LocalDateTime> updateDatetime = racDicItem.updateDatetime;
+
+    /**
     * 字典备注
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -72,6 +80,8 @@ public final class RacDicItemDynamicSqlSupport {
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
         public final SqlColumn<String> treeCode = column("TREE_CODE", JDBCType.VARCHAR);
+
+        public final SqlColumn<LocalDateTime> updateDatetime = column("UPDATE_DATETIME", JDBCType.TIMESTAMP);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

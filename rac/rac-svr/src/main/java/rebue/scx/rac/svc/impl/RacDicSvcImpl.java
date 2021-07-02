@@ -30,6 +30,7 @@ import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
+import rebue.wheel.api.OrikaUtils;
 
 /**
  * 字典服务实现
@@ -95,7 +96,7 @@ public class RacDicSvcImpl
 		if ("".equals(sysId)) {
 			to.setSysId(null);
 		}
-		final RacDicMo mo = _dozerMapper.map(to, getMoClass());
+		final RacDicMo mo = OrikaUtils.map(to, getMoClass());
 		return thisSvc.addMo(mo);
 	}
 
@@ -122,7 +123,7 @@ public class RacDicSvcImpl
 		if ("".equals(remark)) {
 			to.setRemark(null);
 		}
-		final RacDicMo mo = _dozerMapper.map(to, getMoClass());
+		final RacDicMo mo = OrikaUtils.map(to, getMoClass());
 		return thisSvc.modifyMoById(mo);
 	}
 
@@ -133,12 +134,12 @@ public class RacDicSvcImpl
 	 */
 	@Override
 	public DicListWithItemRa listWithDic(final DicListWithItemTo qo) {
-		final DicListWithItemRa  ra             = new DicListWithItemRa();
-		final ISelect            select         = () -> _mapper.selectPageOrKeywords(qo);
-		final PageInfo<RacDicMo> dicPage        = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
-		final List<RacDicMo>     dicList        = dicPage.getList();
-		final List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
-		final List<Long>         dicIds         = new ArrayList<Long>();
+		final DicListWithItemRa  ra      = new DicListWithItemRa();
+		final ISelect            select  = () -> _mapper.selectPageOrKeywords(qo);
+		final PageInfo<RacDicMo> dicPage = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
+		final List<RacDicMo>     dicList = dicPage.getList();
+		// final List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
+		final List<Long>         dicIds  = new ArrayList<Long>();
 		for (final RacDicMo racDicMo : dicList) {
 			dicIds.add(racDicMo.getId());
 			// final RacDicItemMo moQo = new RacDicItemMo();
