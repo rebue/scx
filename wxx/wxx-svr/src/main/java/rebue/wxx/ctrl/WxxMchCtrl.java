@@ -23,7 +23,7 @@ import rebue.wxx.to.WxxMchModifyTo;
 import rebue.wxx.to.WxxMchPageTo;
 
 /**
- * 商户信息(微信支付账户信息)
+ * 商户(微信支付账户)
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -37,7 +37,7 @@ public class WxxMchCtrl {
     private WxxMchApi api;
 
     /**
-     * 添加商户信息
+     * 添加商户
      *
      * @param to 添加的具体信息
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -48,7 +48,7 @@ public class WxxMchCtrl {
     }
 
     /**
-     * 修改商户信息的信息
+     * 修改商户的信息
      *
      * @param to 修改的具体数据
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -59,9 +59,9 @@ public class WxxMchCtrl {
     }
 
     /**
-     * 删除商户信息
+     * 删除商户
      *
-     * @param id 商户信息ID
+     * @param id 商户ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/wxx/mch")
@@ -70,9 +70,9 @@ public class WxxMchCtrl {
     }
 
     /**
-     * 获取单个商户信息的信息
+     * 获取单个商户的信息
      *
-     * @param id 商户信息ID
+     * @param id 商户ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/mch/get-by-id")
@@ -81,9 +81,9 @@ public class WxxMchCtrl {
     }
 
     /**
-     * 判断商户信息是否存在
+     * 判断商户是否存在
      *
-     * @param id 商户信息ID
+     * @param id 商户ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/wxx/mch/exist-by-id")
@@ -92,7 +92,7 @@ public class WxxMchCtrl {
     }
 
     /**
-     * 查询商户信息的信息
+     * 查询商户的信息
      *
      * @param qo 查询的具体条件
      * @mbg.generated 自动生成，如需修改，请删除本行

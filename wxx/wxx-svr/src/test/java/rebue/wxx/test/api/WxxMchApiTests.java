@@ -22,7 +22,7 @@ import rebue.wxx.to.WxxMchModifyTo;
 import rebue.wxx.to.WxxMchPageTo;
 
 /**
- * 商户信息(微信支付账户信息) API层测试
+ * 商户(微信支付账户) API层测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -55,27 +55,27 @@ public class WxxMchApiTests {
         String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (WxxMchAddTo) RandomEx.randomPojo(WxxMchAddTo.class);
-            log.info("添加商户信息(微信支付账户信息)的参数为：" + addTo);
+            log.info("添加商户(微信支付账户)的参数为：" + addTo);
             final Ro<IdRa<String>> idRo = _api.add(addTo);
-            log.info("添加商户信息(微信支付账户信息)的返回值为：" + idRo);
+            log.info("添加商户(微信支付账户)的返回值为：" + idRo);
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();
         }
         final Ro<PageRa<WxxMchMo>> pageResult = _api.page(new WxxMchPageTo());
-        log.info("查询商户信息(微信支付账户信息)的返回值为：" + pageResult);
+        log.info("查询商户(微信支付账户)的返回值为：" + pageResult);
         Assertions.assertEquals(ResultDic.SUCCESS, pageResult.getResult());
-        log.info("获取单个商户信息(微信支付账户信息)的参数为：" + id);
+        log.info("获取单个商户(微信支付账户)的参数为：" + id);
         final Ro<PojoRa<WxxMchMo>> getByIdResult = _api.getById(id);
-        log.info("获取单个商户信息(微信支付账户信息)的返回值为：" + getByIdResult);
+        log.info("获取单个商户(微信支付账户)的返回值为：" + getByIdResult);
         final WxxMchModifyTo modifyTo = dozerMapper.map(addTo, WxxMchModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改商户信息(微信支付账户信息)的参数为：" + modifyTo);
+        log.info("修改商户(微信支付账户)的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
-        log.info("修改商户信息(微信支付账户信息)的返回值为：" + modifyResult);
+        log.info("修改商户(微信支付账户)的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-        log.info("删除商户信息(微信支付账户信息)的参数为：" + id);
+        log.info("删除商户(微信支付账户)的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
-        log.info("删除商户信息(微信支付账户信息)的返回值为：" + deleteResult);
+        log.info("删除商户(微信支付账户)的返回值为：" + deleteResult);
         Assertions.assertEquals(ResultDic.SUCCESS, deleteResult.getResult());
     }
 }

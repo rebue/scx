@@ -32,7 +32,7 @@ import rebue.wxx.to.WxxAppOneTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
- * 服务实现
+ * APP服务实现
  *
  * <pre>
  * 注意：
@@ -46,7 +46,6 @@ import rebue.wxx.to.WxxAppPageTo;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -93,11 +92,9 @@ public class WxxAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public WxxAppMo modifyMoById(final WxxAppMo mo) {
         final WxxAppMo result = super.modifyMoById(mo);
-
         // 放入缓存
         final WxxAppCco cco = OrikaUtils.map(mo, WxxAppCco.class);
         cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).put(cco.getAppId(), cco);
-
         return result;
     }
 
@@ -112,11 +109,9 @@ public class WxxAppSvcImpl
     @Override
     public WxxAppMo getById(final String id) {
         final WxxAppMo result = super.getById(id);
-
         // 如果缓存中没有则放入缓存
         final WxxAppCco cco = OrikaUtils.map(result, WxxAppCco.class);
         cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).putIfAbsent(cco.getAppId(), cco);
-
         return result;
     }
 
@@ -127,14 +122,12 @@ public class WxxAppSvcImpl
 
     @Override
     public List<WxxAppCco> listCcoAll() {
-        final RebueRedisCacheWriter cache        = (RebueRedisCacheWriter) cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).getNativeCache();
-        final List<WxxAppCco>       listCacheAll = cache.listAll(CacheCo.WXX_APP_CACHE_NAME);
+        final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).getNativeCache();
+        final List<WxxAppCco> listCacheAll = cache.listAll(CacheCo.WXX_APP_CACHE_NAME);
         if (listCacheAll != null && !listCacheAll.isEmpty()) {
             return listCacheAll;
         }
         final List<WxxAppCco> result = OrikaUtils.mapAsList(super.listAll(), WxxAppCco.class);
-
         return result;
     }
-
 }

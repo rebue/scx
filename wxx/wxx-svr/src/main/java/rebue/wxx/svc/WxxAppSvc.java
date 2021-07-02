@@ -16,7 +16,7 @@ import rebue.wxx.to.WxxAppOneTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
- * 服务接口
+ * APP服务接口
  *
  * <pre>
  * 1. 在接口上方必须写上 @Validated 注解

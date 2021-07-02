@@ -16,6 +16,8 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
+ * APP
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -94,7 +96,6 @@ public class WxxAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "登录回调链接不能为空")
     @Length(max = 300, message = "登录回调链接的长度不能大于300")
     private String            loginCallbackUrl;
 
@@ -103,7 +104,6 @@ public class WxxAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "登录回调方法类型不能为空")
     @Length(max = 6, message = "登录回调方法类型的长度不能大于6")
     private String            loginCallbackMethodType;
 

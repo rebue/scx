@@ -15,7 +15,7 @@ import rebue.wxx.to.WxxAppOneTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
- * API实现
+ * APPAPI实现
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -17,7 +17,7 @@ import rebue.wxx.to.WxxAppModifyTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
- *  Service层测试
+ * APP Service层测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -50,24 +50,24 @@ public class WxxAppSvcTests {
         String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (WxxAppAddTo) RandomEx.randomPojo(WxxAppAddTo.class);
-            log.info("添加的参数为：" + addTo);
+            log.info("添加APP的参数为：" + addTo);
             final WxxAppMo addRo = _svc.add(addTo);
-            log.info("添加的返回值为：" + addRo);
+            log.info("添加APP的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
             id = addRo.getId();
         }
         final PageInfo<WxxAppMo> pageResult = _svc.page(new WxxAppPageTo());
-        log.info("查询的返回值为：" + pageResult);
+        log.info("查询APP的返回值为：" + pageResult);
         Assertions.assertNotNull(pageResult);
-        log.info("获取单个的参数为：" + id);
+        log.info("获取单个APP的参数为：" + id);
         WxxAppMo getByIdResult = _svc.getById(id);
-        log.info("获取单个的返回值为：" + getByIdResult);
+        log.info("获取单个APP的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
         final WxxAppModifyTo modifyTo = dozerMapper.map(addTo, WxxAppModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改的参数为：" + modifyTo);
+        log.info("修改APP的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-        log.info("删除的参数为：" + id);
+        log.info("删除APP的参数为：" + id);
         _svc.delById(id);
     }
 }

@@ -14,7 +14,7 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
- * 商户信息(微信支付账户信息)
+ * 商户(微信支付账户)
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

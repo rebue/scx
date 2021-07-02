@@ -13,7 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 商户信息(微信支付账户信息)
+ * 商户(微信支付账户)
  *
  * The persistent class for the WXX_MCH database table.
  *

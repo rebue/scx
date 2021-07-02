@@ -15,7 +15,7 @@ import rebue.wxx.to.WxxMchOneTo;
 import rebue.wxx.to.WxxMchPageTo;
 
 /**
- * 商户信息(微信支付账户信息)API实现
+ * 商户(微信支付账户)API实现
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

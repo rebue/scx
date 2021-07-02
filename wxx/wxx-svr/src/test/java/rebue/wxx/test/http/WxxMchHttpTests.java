@@ -25,7 +25,7 @@ import rebue.wxx.to.WxxMchAddTo;
 import rebue.wxx.to.WxxMchModifyTo;
 
 /**
- * 商户信息(微信支付账户信息) HTTP测试
+ * 商户(微信支付账户) HTTP测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -59,9 +59,9 @@ public class WxxMchHttpTests {
         String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (WxxMchAddTo) RandomEx.randomPojo(WxxMchAddTo.class);
-            log.info("添加商户信息(微信支付账户信息)的参数为：" + addTo);
+            log.info("添加商户(微信支付账户)的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/wxx/mch", addTo);
-            log.info("添加商户信息(微信支付账户信息)的返回值为：" + addResult);
+            log.info("添加商户(微信支付账户)的返回值为：" + addResult);
             final Ro<IdRa<String>> idRo = JacksonUtils.deserialize(addResult, new TypeReference<Ro<IdRa<String>>>() {
             });
             log.info(idRo.toString());
@@ -69,28 +69,28 @@ public class WxxMchHttpTests {
             id = idRo.getExtra().getId();
         }
         final String pageResult = _httpClient.get(_hostUrl + "/wxx/mch/page");
-        log.info("查询商户信息(微信支付账户信息)的返回值为：" + pageResult);
+        log.info("查询商户(微信支付账户)的返回值为：" + pageResult);
         final Ro<PageRa<WxxMchMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<WxxMchMo>>>() {
         });
         Assertions.assertEquals(ResultDic.SUCCESS, pageRo.getResult());
-        log.info("获取单个商户信息(微信支付账户信息)的参数为：" + id);
+        log.info("获取单个商户(微信支付账户)的参数为：" + id);
         final String getByIdResult = _httpClient.get(_hostUrl + "/wxx/mch/get-by-id?id=" + id);
-        log.info("获取单个商户信息(微信支付账户信息)的返回值为：" + getByIdResult);
+        log.info("获取单个商户(微信支付账户)的返回值为：" + getByIdResult);
         final WxxMchModifyTo modifyTo = _dozerMapper.map(addTo, WxxMchModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改商户信息(微信支付账户信息)的参数为：" + modifyTo);
+        log.info("修改商户(微信支付账户)的参数为：" + modifyTo);
         final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/wxx/mch", modifyTo);
         final Ro<PojoRa<WxxMchMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<WxxMchMo>>>() {
         });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         WxxMchMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();
-        log.info("修改商户信息(微信支付账户信息)的返回值为：" + modifyResult);
+        log.info("修改商户(微信支付账户)的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-        log.info("删除商户信息(微信支付账户信息)的参数为：" + mo.getId());
+        log.info("删除商户(微信支付账户)的参数为：" + mo.getId());
         final String deleteResult = _httpClient.delete(_hostUrl + "/wxx/mch?id=" + mo.getId());
-        log.info("删除商户信息(微信支付账户信息)的返回值为：" + deleteResult);
+        log.info("删除商户(微信支付账户)的返回值为：" + deleteResult);
         final Ro<?> deleteRo = JacksonUtils.deserialize(deleteResult, Ro.class);
         log.info(deleteRo.toString());
         Assertions.assertEquals(ResultDic.SUCCESS, deleteRo.getResult());

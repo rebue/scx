@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import rebue.robotech.to.PageTo;
 
 /**
- * 商户信息(微信支付账户信息)
+ * 商户(微信支付账户)
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */

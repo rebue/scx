@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 import rebue.robotech.to.PageTo;
 
 /**
+ * APP
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data

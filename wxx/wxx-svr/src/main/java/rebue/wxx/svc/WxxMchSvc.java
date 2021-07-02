@@ -13,7 +13,7 @@ import rebue.wxx.to.WxxMchOneTo;
 import rebue.wxx.to.WxxMchPageTo;
 
 /**
- * 商户信息(微信支付账户信息)服务接口
+ * 商户(微信支付账户)服务接口
  *
  * <pre>
  * 1. 在接口上方必须写上 @Validated 注解

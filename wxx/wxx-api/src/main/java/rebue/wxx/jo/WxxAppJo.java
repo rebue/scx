@@ -15,6 +15,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * APP
+ *
  * The persistent class for the WXX_APP database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,8 +102,8 @@ public class WxxAppJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "LOGIN_CALLBACK_URL", nullable = false, length = 300)
+    @Basic(optional = true)
+    @Column(name = "LOGIN_CALLBACK_URL", nullable = true, length = 300)
     private String            loginCallbackUrl;
 
     /**
@@ -109,8 +111,8 @@ public class WxxAppJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "LOGIN_CALLBACK_METHOD_TYPE", nullable = false, length = 6)
+    @Basic(optional = true)
+    @Column(name = "LOGIN_CALLBACK_METHOD_TYPE", nullable = true, length = 6)
     private String            loginCallbackMethodType;
 
     /**

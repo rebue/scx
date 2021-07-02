@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Data;
 
 /**
+ * APP
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -87,7 +89,6 @@ public class WxxAppAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "登录回调链接不能为空")
     @Length(max = 300, message = "登录回调链接的长度不能大于300")
     private String            loginCallbackUrl;
 
@@ -96,7 +97,6 @@ public class WxxAppAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "登录回调方法类型不能为空")
     @Length(max = 6, message = "登录回调方法类型的长度不能大于6")
     private String            loginCallbackMethodType;
 

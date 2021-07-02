@@ -25,7 +25,7 @@ import rebue.wxx.to.WxxAppAddTo;
 import rebue.wxx.to.WxxAppModifyTo;
 
 /**
- *  HTTP测试
+ * APP HTTP测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -59,9 +59,9 @@ public class WxxAppHttpTests {
         String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (WxxAppAddTo) RandomEx.randomPojo(WxxAppAddTo.class);
-            log.info("添加的参数为：" + addTo);
+            log.info("添加APP的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/wxx/app", addTo);
-            log.info("添加的返回值为：" + addResult);
+            log.info("添加APP的返回值为：" + addResult);
             final Ro<IdRa<String>> idRo = JacksonUtils.deserialize(addResult, new TypeReference<Ro<IdRa<String>>>() {
             });
             log.info(idRo.toString());
@@ -69,28 +69,28 @@ public class WxxAppHttpTests {
             id = idRo.getExtra().getId();
         }
         final String pageResult = _httpClient.get(_hostUrl + "/wxx/app/page");
-        log.info("查询的返回值为：" + pageResult);
+        log.info("查询APP的返回值为：" + pageResult);
         final Ro<PageRa<WxxAppMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<WxxAppMo>>>() {
         });
         Assertions.assertEquals(ResultDic.SUCCESS, pageRo.getResult());
-        log.info("获取单个的参数为：" + id);
+        log.info("获取单个APP的参数为：" + id);
         final String getByIdResult = _httpClient.get(_hostUrl + "/wxx/app/get-by-id?id=" + id);
-        log.info("获取单个的返回值为：" + getByIdResult);
+        log.info("获取单个APP的返回值为：" + getByIdResult);
         final WxxAppModifyTo modifyTo = _dozerMapper.map(addTo, WxxAppModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改的参数为：" + modifyTo);
+        log.info("修改APP的参数为：" + modifyTo);
         final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/wxx/app", modifyTo);
         final Ro<PojoRa<WxxAppMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<WxxAppMo>>>() {
         });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
         WxxAppMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();
-        log.info("修改的返回值为：" + modifyResult);
+        log.info("修改APP的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-        log.info("删除的参数为：" + mo.getId());
+        log.info("删除APP的参数为：" + mo.getId());
         final String deleteResult = _httpClient.delete(_hostUrl + "/wxx/app?id=" + mo.getId());
-        log.info("删除的返回值为：" + deleteResult);
+        log.info("删除APP的返回值为：" + deleteResult);
         final Ro<?> deleteRo = JacksonUtils.deserialize(deleteResult, Ro.class);
         log.info(deleteRo.toString());
         Assertions.assertEquals(ResultDic.SUCCESS, deleteRo.getResult());

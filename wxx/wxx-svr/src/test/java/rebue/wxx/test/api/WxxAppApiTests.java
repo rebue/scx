@@ -22,7 +22,7 @@ import rebue.wxx.to.WxxAppModifyTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
- *  API层测试
+ * APP API层测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -55,27 +55,27 @@ public class WxxAppApiTests {
         String id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (WxxAppAddTo) RandomEx.randomPojo(WxxAppAddTo.class);
-            log.info("添加的参数为：" + addTo);
+            log.info("添加APP的参数为：" + addTo);
             final Ro<IdRa<String>> idRo = _api.add(addTo);
-            log.info("添加的返回值为：" + idRo);
+            log.info("添加APP的返回值为：" + idRo);
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();
         }
         final Ro<PageRa<WxxAppMo>> pageResult = _api.page(new WxxAppPageTo());
-        log.info("查询的返回值为：" + pageResult);
+        log.info("查询APP的返回值为：" + pageResult);
         Assertions.assertEquals(ResultDic.SUCCESS, pageResult.getResult());
-        log.info("获取单个的参数为：" + id);
+        log.info("获取单个APP的参数为：" + id);
         final Ro<PojoRa<WxxAppMo>> getByIdResult = _api.getById(id);
-        log.info("获取单个的返回值为：" + getByIdResult);
+        log.info("获取单个APP的返回值为：" + getByIdResult);
         final WxxAppModifyTo modifyTo = dozerMapper.map(addTo, WxxAppModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改的参数为：" + modifyTo);
+        log.info("修改APP的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
-        log.info("修改的返回值为：" + modifyResult);
+        log.info("修改APP的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-        log.info("删除的参数为：" + id);
+        log.info("删除APP的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
-        log.info("删除的返回值为：" + deleteResult);
+        log.info("删除APP的返回值为：" + deleteResult);
         Assertions.assertEquals(ResultDic.SUCCESS, deleteResult.getResult());
     }
 }

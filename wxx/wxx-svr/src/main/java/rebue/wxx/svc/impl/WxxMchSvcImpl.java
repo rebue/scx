@@ -22,7 +22,7 @@ import rebue.wxx.to.WxxMchOneTo;
 import rebue.wxx.to.WxxMchPageTo;
 
 /**
- * 商户信息(微信支付账户信息)服务实现
+ * 商户(微信支付账户)服务实现
  *
  * <pre>
  * 注意：

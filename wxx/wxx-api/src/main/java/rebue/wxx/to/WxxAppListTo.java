@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * APP
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data

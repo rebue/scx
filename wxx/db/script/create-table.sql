@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/7/1 18:29:00                            */
+/* Created on:     2021/7/2 10:40:44                            */
 /*==============================================================*/
 
 
@@ -35,6 +35,8 @@ create table WXX_APP
    primary key (ID)
 );
 
+alter table WXX_APP comment 'APP';
+
 /*==============================================================*/
 /* Table: WXX_MCH                                               */
 /*==============================================================*/
@@ -46,7 +48,7 @@ create table WXX_MCH
    primary key (ID)
 );
 
-alter table WXX_MCH comment '商户信息(微信支付账户信息)';
+alter table WXX_MCH comment '商户(微信支付账户)';
 
 alter table WXX_APP add constraint FK_APP_AND_MCH foreign key (MCH_ID)
       references WXX_MCH (ID) on delete restrict on update restrict;
