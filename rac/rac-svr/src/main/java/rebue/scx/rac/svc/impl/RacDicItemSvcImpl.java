@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacDicItemDao;
@@ -22,6 +21,7 @@ import rebue.scx.rac.to.RacDicItemListTo;
 import rebue.scx.rac.to.RacDicItemModifyTo;
 import rebue.scx.rac.to.RacDicItemOneTo;
 import rebue.scx.rac.to.RacDicItemPageTo;
+import rebue.wheel.api.OrikaUtils;
 
 /**
  * 字典项服务实现
@@ -36,12 +36,10 @@ import rebue.scx.rac.to.RacDicItemPageTo;
  * 3. 如果类上方不带任何参数的 @Transactional 注解时，如同下面的设置
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
- * 
- * @mbg.dontOverWriteAnnotation
+ *
  * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-@Slf4j
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicItemSvcImpl extends
@@ -88,7 +86,7 @@ public class RacDicItemSvcImpl extends
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public RacDicItemMo add(final RacDicItemAddTo to) {
-		final RacDicItemMo mo = _dozerMapper.map(to, getMoClass());
+		final RacDicItemMo mo = OrikaUtils.map(to, getMoClass());
 		// mo中需要添加一个树编码
 		if (to.getParentId() == null) {
 			final RacDicItemMo qo = new RacDicItemMo();
@@ -110,12 +108,13 @@ public class RacDicItemSvcImpl extends
 			}
 			mo.setTreeCode(treeCode);
 		}
-		// 字典项下添加字典项
-		else {
+		else // 字典项下添加字典项
+		{
 			final RacDicItemMo itemMo = thisSvc.getById(to.getParentId());
 			final RacDicItemMo qo     = new RacDicItemMo();
 			qo.setDicId(to.getDicId());
-			qo.setTreeCode(itemMo.getTreeCode());// .substring(0, itemMo.getTreeCode().length() == 3 ? itemMo.getTreeCode().length() : itemMo.getTreeCode().length() - 3));
+			// .substring(0, itemMo.getTreeCode().length() == 3 ? itemMo.getTreeCode().length() : itemMo.getTreeCode().length() - 3));
+			qo.setTreeCode(itemMo.getTreeCode());
 			// 去除本身记录 -1
 			Long   count    = _mapper.countDicItemSelective(qo);
 			String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
@@ -137,5 +136,4 @@ public class RacDicItemSvcImpl extends
 		final RacDicItemMo addMo = thisSvc.addMo(mo);
 		return addMo;
 	}
-
 }

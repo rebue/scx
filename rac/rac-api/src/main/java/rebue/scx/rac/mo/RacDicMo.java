@@ -1,13 +1,16 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -186,6 +189,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
         sb.append(", domainId=").append(domainId);
         sb.append(", sysId=").append(sysId);
         sb.append(", remark=").append(remark);
+        sb.append(", updateDatetime=").append(updateDatetime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -264,5 +268,33 @@ public class RacDicMo implements Serializable, Mo<Long> {
      */
     public void setDicKey(String dicKey) {
         this.dicKey = dicKey;
+    }
+
+    /**
+     * 修改时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @NotNull(groups = AddGroup.class, message = "修改时间不能为空")
+    private LocalDateTime updateDatetime;
+
+    /**
+     * 修改时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public LocalDateTime getUpdateDatetime() {
+        return updateDatetime;
+    }
+
+    /**
+     * 修改时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setUpdateDatetime(LocalDateTime updateDatetime) {
+        this.updateDatetime = updateDatetime;
     }
 }

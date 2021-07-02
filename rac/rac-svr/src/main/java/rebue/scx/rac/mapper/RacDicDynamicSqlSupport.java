@@ -1,6 +1,8 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
+import java.time.LocalDateTime;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -52,6 +54,13 @@ public final class RacDicDynamicSqlSupport {
     */
     public static final SqlColumn<String> remark = racDic.remark;
 
+    /**
+    * 修改时间
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<LocalDateTime> updateDatetime = racDic.updateDatetime;
+
     public static final class RacDic extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
@@ -64,6 +73,8 @@ public final class RacDicDynamicSqlSupport {
         public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
+
+        public final SqlColumn<LocalDateTime> updateDatetime = column("UPDATE_DATETIME", JDBCType.TIMESTAMP);
 
         public RacDic() {
             super("RAC_DIC");

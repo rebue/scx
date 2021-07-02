@@ -1,6 +1,7 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -109,7 +110,7 @@ public class RacDicItemJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "TREE_CODE", nullable = false, length = 50)
-    private String   treeCode;
+    private String        treeCode;
 
     /**
      * 字典项Key
@@ -118,7 +119,7 @@ public class RacDicItemJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "DIC_ITEM_KEY", nullable = true, length = 32)
-    private String   dicItemKey;
+    private String        dicItemKey;
 
     /**
      * 组织
@@ -127,5 +128,14 @@ public class RacDicItemJo implements Serializable {
      */
     @JoinColumn(name = "ORG_ID", referencedColumnName = "ID")
     @ManyToOne()
-    private RacOrgJo org;
+    private RacOrgJo      org;
+
+    /**
+     * 修改时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "UPDATE_DATETIME", nullable = false, length = 19)
+    private LocalDateTime updateDatetime;
 }
