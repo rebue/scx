@@ -13,14 +13,17 @@ import lombok.Data;
 @Data
 public class WxxAppCco {
     /**
-     * 公众号的appid
+     * app id
      */
     private String        appId;
-
     /**
-     * 公众号的app secret
+     * app secret
      */
     private String        appSecret;
+    /**
+     * app token
+     */
+    private String        appToken;
 
     /**
      * 微信的Access Token

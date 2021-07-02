@@ -72,3 +72,5 @@ pagehelper:
 forest:
   # 默认为okhttp3时，发出请求并没有对参数Url Encode
   backend: httpclient
+  ## 打开/关闭Forest响应内容日志（默认为 false）
+  log-response-content: true

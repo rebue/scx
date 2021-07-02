@@ -13,6 +13,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-turing</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>wxx-api</artifactId>
 		</dependency>
