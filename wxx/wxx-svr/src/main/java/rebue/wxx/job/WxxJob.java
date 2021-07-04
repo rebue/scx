@@ -29,12 +29,14 @@ public class WxxJob {
             final LocalDateTime now = LocalDateTime.now();
             // 如果下次请求时间为空或小于当前时间，发出请求
             if (cco.getNextRequestTime() == null //
-                || cco.getNextRequestTime().compareTo(now) < 0) {
+                    || cco.getNextRequestTime().compareTo(now) < 0) {
                 final WxxGetAccessTokenFro accessTokenFro = wxxFapi.getAccessToken(cco.getAppId(), cco.getAppSecret());
                 log.info("accessTokenFro: {}", accessTokenFro);
-                cco.setAccessToken(accessTokenFro.getAccess_token());
-                cco.setNextRequestTime(now.plusSeconds(accessTokenFro.getExpires_in()).minusMinutes(15));    // 在返回的超时时间前15分钟再次刷新
-                appCacheSvc.putToCache(cco);
+                if (accessTokenFro.getErrcode() == null || accessTokenFro.getErrcode() == 0) {
+                    cco.setAccessToken(accessTokenFro.getAccess_token());
+                    cco.setNextRequestTime(now.plusSeconds(accessTokenFro.getExpires_in()).minusMinutes(15));    // 在返回的超时时间前15分钟再次刷新
+                    appCacheSvc.putToCache(cco);
+                }
             }
             else {
                 log.trace("还未到计划下次发出请求的时间: appCco-{}", cco);

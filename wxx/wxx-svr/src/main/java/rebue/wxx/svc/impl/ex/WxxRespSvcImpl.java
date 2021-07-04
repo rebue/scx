@@ -7,12 +7,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
-import rebue.wheel.api.OrikaUtils;
-import rebue.wheel.turing.SignUtils;
 import rebue.wxx.cco.WxxAppCco;
 import rebue.wxx.svc.ex.WxxAppCacheSvc;
 import rebue.wxx.svc.ex.WxxRespSvc;
 import rebue.wxx.to.ex.WxxRespAuthorizeTo;
+import rebue.wxx.util.WxxSignUtils;
 
 /**
  * 响应微信发过来请求的服务的实现类
@@ -44,7 +43,7 @@ public class WxxRespSvcImpl implements WxxRespSvc {
     @Override
     public String authorize(final String appId, final WxxRespAuthorizeTo to) {
         final WxxAppCco cco = appCacheSvc.getById(appId);
-        if (SignUtils.verify2(OrikaUtils.mapAsMap(cco), cco.getAppToken())) {
+        if (WxxSignUtils.verify(to, cco.getAppToken())) {
             log.info("微信初始化验证成功：appId-{} to-{}", appId, to);
             return to.getEchostr();
         }
