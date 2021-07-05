@@ -2,10 +2,16 @@ package rebue.wxx.fro;
 
 import lombok.Data;
 
+/**
+ * 获取Access Token的返回结果
+ *
+ * @author zbz
+ *
+ */
 @Data
 public class WxxGetAccessTokenFro {
     /**
-     *
+     * Access Token
      */
     private String  access_token;
     /**
