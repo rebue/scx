@@ -17,27 +17,27 @@ import rebue.wxx.fto.WxxMessageTemplateSendFto;
  */
 @RestController
 public class WxxReqCtrl {
-    @Resource
-    private WxxReqApi api;
+	@Resource
+	private WxxReqApi api;
 
-    /**
-     * 刷新Access token
-     *
-     * @param appId
-     */
-    @PostMapping(value = "/wxx/req/refresh-access-token/{appId}")
-    Mono<Ro<?>> refreshAccessToken(@PathVariable(name = "appId") final String appId) {
-        return Mono.create(callback -> callback.success(api.refreshAccessToken(appId)));
-    }
+	/**
+	 * 刷新Access token
+	 *
+	 * @param appId
+	 */
+	@PostMapping(value = "/wxx/req/refresh-access-token/{appId}")
+	Mono<Ro<?>> refreshAccessToken(@PathVariable(name = "appId") final String appId) {
+		return Mono.create(callback -> callback.success(api.refreshAccessToken(appId)));
+	}
 
-    /**
-     * 发送模板类的消息
-     *
-     * @param appId 微信的AppId
-     */
-    @PostMapping(value = "/wxx/req/message/send-template-message/{appId}")
-    Mono<Ro<?>> sendTemplateMessage(@PathVariable(name = "appId") final String appId, @RequestBody final WxxMessageTemplateSendFto to) {
-        return Mono.create(callback -> callback.success(api.sendTemplateMessage(appId, to)));
-    }
+	/**
+	 * 发送模板类的消息
+	 * 
+	 * @param appId 微信的AppId
+	 */
+	@PostMapping(value = "/wxx/req/message/send-template-message/{appId}")
+	Mono<Ro<?>> sendTemplateMessage(@PathVariable(name = "appId") final String appId, @RequestBody final WxxMessageTemplateSendFto to) {
+		return Mono.create(callback -> callback.success(api.sendTemplateMessage(appId, to)));
+	}
 
 }

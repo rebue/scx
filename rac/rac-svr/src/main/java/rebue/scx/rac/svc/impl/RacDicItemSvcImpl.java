@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -133,6 +135,7 @@ public class RacDicItemSvcImpl extends
 			}
 			mo.setTreeCode(itemMo.getTreeCode() + treeCode);
 		}
+		mo.setUpdateDatetime(LocalDateTime.now());
 		final RacDicItemMo addMo = thisSvc.addMo(mo);
 		return addMo;
 	}
