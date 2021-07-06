@@ -35,9 +35,9 @@ public class WxxMessageTemplateSendFto {
     /**
      * 模板数据
      *
-     * 示例:
+     * @mock
      *
-     * <pre>
+     *       <pre>
      *  {
      *      "first": {
      *          "value":"恭喜你购买成功！",
@@ -60,7 +60,7 @@ public class WxxMessageTemplateSendFto {
      *          "color":"#173177"
      *      }
      *  }
-     * </pre>
+     *       </pre>
      *
      */
     private Map<String, ParamItem> data;
