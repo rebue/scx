@@ -36,11 +36,6 @@ public class WxxMessageTemplateSendFto {
      * 模板数据
      */
     private Map<String, ParamItem> data;
-
-    /**
-     * 模板内容字体颜色，不填默认为黑色
-     */
-    private String                 color;
 }
 
 /**

@@ -32,6 +32,8 @@ public class WxxReqCtrl {
 
     /**
      * 发送模板类的消息
+     *
+     * @param appId 微信的AppId
      */
     @PostMapping(value = "/wxx/req/message/send-template-message/{appId}")
     Mono<Ro<?>> sendTemplateMessage(@PathVariable(name = "appId") final String appId, @RequestBody final WxxMessageTemplateSendFto to) {
