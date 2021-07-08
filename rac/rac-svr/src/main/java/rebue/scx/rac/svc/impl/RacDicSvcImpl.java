@@ -30,7 +30,7 @@ import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
-import rebue.wheel.api.OrikaUtils;
+import rebue.wheel.core.util.OrikaUtils;
 
 /**
  * 字典服务实现
@@ -51,118 +51,118 @@ import rebue.wheel.api.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicSvcImpl
-		extends BaseSvcImpl<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
-		implements RacDicSvc {
+    extends BaseSvcImpl<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
+    implements RacDicSvc {
 
-	/**
-	 * 本服务的单例
-	 * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Lazy
-	@Resource
-	private RacDicSvc        thisSvc;
+    /**
+     * 本服务的单例
+     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Lazy
+    @Resource
+    private RacDicSvc        thisSvc;
 
-	@Resource
-	private RacDicItemMapper racDicItemMapper;
+    @Resource
+    private RacDicItemMapper racDicItemMapper;
 
-	/**
-	 * 从接口获取本服务的单例(提供给基类调用)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected BaseSvc<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> getThisSvc() {
-		return thisSvc;
-	}
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo> getThisSvc() {
+        return thisSvc;
+    }
 
-	/**
-	 * 添加记录
-	 *
-	 * @param to 添加的参数
-	 *
-	 * @return 如果成功，且仅添加一条记录，返回添加时自动生成的ID，否则会抛出运行时异常
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public RacDicMo add(final RacDicAddTo to) {
-		final String domainId = to.getDomainId();
-		final String sysId    = to.getSysId();
-		if ("".equals(domainId)) {
-			to.setDomainId(null);
-			to.setSysId(null);
-		}
-		if ("".equals(sysId)) {
-			to.setSysId(null);
-		}
-		final RacDicMo mo = OrikaUtils.map(to, getMoClass());
-		return thisSvc.addMo(mo);
-	}
+    /**
+     * 添加记录
+     *
+     * @param to 添加的参数
+     *
+     * @return 如果成功，且仅添加一条记录，返回添加时自动生成的ID，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacDicMo add(final RacDicAddTo to) {
+        final String domainId = to.getDomainId();
+        final String sysId    = to.getSysId();
+        if ("".equals(domainId)) {
+            to.setDomainId(null);
+            to.setSysId(null);
+        }
+        if ("".equals(sysId)) {
+            to.setSysId(null);
+        }
+        final RacDicMo mo = OrikaUtils.map(to, getMoClass());
+        return thisSvc.addMo(mo);
+    }
 
-	/**
-	 * 通过ID修改记录内容
-	 *
-	 * @param to 修改的参数，必须包含ID
-	 *
-	 * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public RacDicMo modifyById(final RacDicModifyTo to) {
-		final String domainId = to.getDomainId();
-		final String sysId    = to.getSysId();
-		final String remark   = to.getRemark();
-		if ("".equals(domainId)) {
-			to.setDomainId(null);
-			to.setSysId(null);
-		}
-		if ("".equals(sysId)) {
-			to.setSysId(null);
-		}
-		if ("".equals(remark)) {
-			to.setRemark(null);
-		}
-		final RacDicMo mo = OrikaUtils.map(to, getMoClass());
-		return thisSvc.modifyMoById(mo);
-	}
+    /**
+     * 通过ID修改记录内容
+     *
+     * @param to 修改的参数，必须包含ID
+     *
+     * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacDicMo modifyById(final RacDicModifyTo to) {
+        final String domainId = to.getDomainId();
+        final String sysId    = to.getSysId();
+        final String remark   = to.getRemark();
+        if ("".equals(domainId)) {
+            to.setDomainId(null);
+            to.setSysId(null);
+        }
+        if ("".equals(sysId)) {
+            to.setSysId(null);
+        }
+        if ("".equals(remark)) {
+            to.setRemark(null);
+        }
+        final RacDicMo mo = OrikaUtils.map(to, getMoClass());
+        return thisSvc.modifyMoById(mo);
+    }
 
-	/**
-	 * 查询字典的信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	@Override
-	public DicListWithItemRa listWithDic(final DicListWithItemTo qo) {
-		final DicListWithItemRa  ra      = new DicListWithItemRa();
-		final ISelect            select  = () -> _mapper.selectPageOrKeywords(qo);
-		final PageInfo<RacDicMo> dicPage = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
-		final List<RacDicMo>     dicList = dicPage.getList();
-		// final List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
-		final List<Long>         dicIds  = new ArrayList<Long>();
-		for (final RacDicMo racDicMo : dicList) {
-			dicIds.add(racDicMo.getId());
-			// final RacDicItemMo moQo = new RacDicItemMo();
-			// moQo.setDicId(racDicMo.getId());
-			// final List<RacDicItemMo> dicItemList = racDicItemMapper.selectSelective(moQo);
-			// dicItemListAll.addAll(dicItemList);
-		}
-		final List<RacDicItemMo> dicItemList = racDicItemMapper.selectByInDicId(dicIds);
-		// 只需要分页的参数
-		dicPage.setList(null);
-		ra.setPage(dicPage);
-		ra.setDicList(dicList);
-		ra.setItemList(dicItemList);
-		return ra;
-	}
+    /**
+     * 查询字典的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @Override
+    public DicListWithItemRa listWithDic(final DicListWithItemTo qo) {
+        final DicListWithItemRa  ra      = new DicListWithItemRa();
+        final ISelect            select  = () -> _mapper.selectPageOrKeywords(qo);
+        final PageInfo<RacDicMo> dicPage = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
+        final List<RacDicMo>     dicList = dicPage.getList();
+        // final List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
+        final List<Long>         dicIds  = new ArrayList<>();
+        for (final RacDicMo racDicMo : dicList) {
+            dicIds.add(racDicMo.getId());
+            // final RacDicItemMo moQo = new RacDicItemMo();
+            // moQo.setDicId(racDicMo.getId());
+            // final List<RacDicItemMo> dicItemList = racDicItemMapper.selectSelective(moQo);
+            // dicItemListAll.addAll(dicItemList);
+        }
+        final List<RacDicItemMo> dicItemList = racDicItemMapper.selectByInDicId(dicIds);
+        // 只需要分页的参数
+        dicPage.setList(null);
+        ra.setPage(dicPage);
+        ra.setDicList(dicList);
+        ra.setItemList(dicItemList);
+        return ra;
+    }
 
-	/**
-	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected Class<RacDicMo> getMoClass() {
-		return RacDicMo.class;
-	}
+    /**
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected Class<RacDicMo> getMoClass() {
+        return RacDicMo.class;
+    }
 }

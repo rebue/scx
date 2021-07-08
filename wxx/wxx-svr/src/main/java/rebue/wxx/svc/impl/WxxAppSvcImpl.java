@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.wheel.api.OrikaUtils;
+import rebue.wheel.core.util.OrikaUtils;
 import rebue.wxx.cco.WxxAppCco;
 import rebue.wxx.dao.WxxAppDao;
 import rebue.wxx.jo.WxxAppJo;

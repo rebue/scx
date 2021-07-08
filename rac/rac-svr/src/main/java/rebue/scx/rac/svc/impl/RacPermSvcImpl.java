@@ -28,8 +28,8 @@ import rebue.scx.rac.to.RacPermListTo;
 import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermOneTo;
 import rebue.scx.rac.to.RacPermPageTo;
-import rebue.wheel.api.OrikaUtils;
 import rebue.wheel.api.exception.RuntimeExceptionX;
+import rebue.wheel.core.util.OrikaUtils;
 
 /**
  * 权限服务实现
@@ -50,203 +50,203 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermSvcImpl
-		extends
-		BaseSvcImpl<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao>
-		implements RacPermSvc {
+    extends
+    BaseSvcImpl<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao>
+    implements RacPermSvc {
 
-	/**
-	 * 本服务的单例
-	 * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Lazy
-	@Resource
-	private RacPermSvc      thisSvc;
+    /**
+     * 本服务的单例
+     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Lazy
+    @Resource
+    private RacPermSvc      thisSvc;
 
-	@Lazy
-	@Resource
-	private RacPermGroupSvc permGroupSvc;
+    @Lazy
+    @Resource
+    private RacPermGroupSvc permGroupSvc;
 
-	/**
-	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected Class<RacPermMo> getMoClass() {
-		return RacPermMo.class;
-	}
+    /**
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected Class<RacPermMo> getMoClass() {
+        return RacPermMo.class;
+    }
 
-	/**
-	 * 查询带分组的权限列表
-	 *
-	 * @param domainId 领域ID
-	 */
-	@Override
-	public Ro<PermListWithGroupRa> listWithGroup(final String domainId) {
-		final PermListWithGroupRa ra     = new PermListWithGroupRa();
-		final RacPermListTo       permQo = new RacPermListTo();
-		permQo.setDomainId(domainId);
-		ra.setPermList(thisSvc.list(permQo));
-		final RacPermGroupListTo permGroupQo = new RacPermGroupListTo();
-		permGroupQo.setDomainId(domainId);
-		ra.setGroupList(permGroupSvc.list(permGroupQo));
-		return new Ro<>(ResultDic.SUCCESS, "查询带分组的权限列表成功", ra);
-	}
+    /**
+     * 查询带分组的权限列表
+     *
+     * @param domainId 领域ID
+     */
+    @Override
+    public Ro<PermListWithGroupRa> listWithGroup(final String domainId) {
+        final PermListWithGroupRa ra     = new PermListWithGroupRa();
+        final RacPermListTo       permQo = new RacPermListTo();
+        permQo.setDomainId(domainId);
+        ra.setPermList(thisSvc.list(permQo));
+        final RacPermGroupListTo permGroupQo = new RacPermGroupListTo();
+        permGroupQo.setDomainId(domainId);
+        ra.setGroupList(permGroupSvc.list(permGroupQo));
+        return new Ro<>(ResultDic.SUCCESS, "查询带分组的权限列表成功", ra);
+    }
 
-	/**
-	 * 从接口获取本服务的单例(提供给基类调用)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> getThisSvc() {
-		return thisSvc;
-	}
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo> getThisSvc() {
+        return thisSvc;
+    }
 
-	/**
-	 * 添加权限
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public RacPermMo add(final RacPermAddTo to) {
-		final RacPermMo    mo = OrikaUtils.map(to, getMoClass());
-		final RacPermOneTo qo = new RacPermOneTo();
-		qo.setDomainId(to.getDomainId());
-		qo.setGroupId(to.getGroupId());
-		final Long count = getThisSvc().countSelective(qo);
-		// 最初添加的权限顺序从0开始,新添加的权限顺序为最大
-		mo.setSeqNo((byte) (count + 0));
-		return getThisSvc().addMo(mo);
-	}
+    /**
+     * 添加权限
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacPermMo add(final RacPermAddTo to) {
+        final RacPermMo    mo = OrikaUtils.map(to, getMoClass());
+        final RacPermOneTo qo = new RacPermOneTo();
+        qo.setDomainId(to.getDomainId());
+        qo.setGroupId(to.getGroupId());
+        final Long count = getThisSvc().countSelective(qo);
+        // 最初添加的权限顺序从0开始,新添加的权限顺序为最大
+        mo.setSeqNo((byte) (count + 0));
+        return getThisSvc().addMo(mo);
+    }
 
-	/**
-	 * 删除
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void delById(final Long id) {
-		final RacPermMo qo       = getById(id);
-		final int       rowCount = _mapper.deleteByPrimaryKey(id);
-		if (rowCount == 0) {
-			throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
-		}
-		if (rowCount != 1) {
-			throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
-		}
-		// 删除后对其余权限进行顺序号更新
-		_mapper.updateSeqNoByDeleteAfter(qo);
-	}
+    /**
+     * 删除
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void delById(final Long id) {
+        final RacPermMo qo       = getById(id);
+        final int       rowCount = _mapper.deleteByPrimaryKey(id);
+        if (rowCount == 0) {
+            throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
+        }
+        if (rowCount != 1) {
+            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
+        }
+        // 删除后对其余权限进行顺序号更新
+        _mapper.updateSeqNoByDeleteAfter(qo);
+    }
 
-	/**
-	 * 上移动
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void moveUp(final RacPermModifyTo to) {
-		// 获取当前这条数据的具体数据
-		final RacPermMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-		// 获取当前这条数据上面一条的数据的顺序号
-		final RacPermMo rermQo = new RacPermMo();
-		rermQo.setSeqNo((byte) (qo.getSeqNo() - 1));
-		rermQo.setDomainId(qo.getDomainId());
-		rermQo.setGroupId(qo.getGroupId());
-		final RacPermMo permUp = _mapper.selectOne(rermQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-		// 修改当前这条数据上面一条的数据的顺序号
-		permUp.setSeqNo((byte) (permUp.getSeqNo() + 1));
-		final RacPermMo mo = OrikaUtils.map(permUp, getMoClass());
-		getThisSvc().modifyMoById(mo);
-		// 修改当前这条数据的顺序号
-		to.setSeqNo((byte) (qo.getSeqNo() - 1));
-		getThisSvc().modifyById(to);
-	}
+    /**
+     * 上移动
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void moveUp(final RacPermModifyTo to) {
+        // 获取当前这条数据的具体数据
+        final RacPermMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 获取当前这条数据上面一条的数据的顺序号
+        final RacPermMo rermQo = new RacPermMo();
+        rermQo.setSeqNo((byte) (qo.getSeqNo() - 1));
+        rermQo.setDomainId(qo.getDomainId());
+        rermQo.setGroupId(qo.getGroupId());
+        final RacPermMo permUp = _mapper.selectOne(rermQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 修改当前这条数据上面一条的数据的顺序号
+        permUp.setSeqNo((byte) (permUp.getSeqNo() + 1));
+        final RacPermMo mo = OrikaUtils.map(permUp, getMoClass());
+        getThisSvc().modifyMoById(mo);
+        // 修改当前这条数据的顺序号
+        to.setSeqNo((byte) (qo.getSeqNo() - 1));
+        getThisSvc().modifyById(to);
+    }
 
-	/**
-	 * 下移动
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void moveDown(final RacPermModifyTo to) {
-		// 获取当前这条数据的具体数据
-		final RacPermMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-		// 获取当前这条数据下面一条的具体数据
-		final RacPermMo permQo = new RacPermMo();
-		permQo.setSeqNo((byte) (qo.getSeqNo() + 1));
-		permQo.setDomainId(qo.getDomainId());
-		permQo.setGroupId(qo.getGroupId());
-		final RacPermMo permDown = _mapper.selectOne(permQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-		// 修改当前这条数据下面一条的数据的顺序号
-		permDown.setSeqNo((byte) (permDown.getSeqNo() - 1));
-		final RacPermMo mo = OrikaUtils.map(permDown, getMoClass());
-		getThisSvc().modifyMoById(mo);
-		// 修改当前这条数据的顺序号
-		to.setSeqNo((byte) (qo.getSeqNo() + 1));
-		getThisSvc().modifyById(to);
-	}
+    /**
+     * 下移动
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void moveDown(final RacPermModifyTo to) {
+        // 获取当前这条数据的具体数据
+        final RacPermMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 获取当前这条数据下面一条的具体数据
+        final RacPermMo permQo = new RacPermMo();
+        permQo.setSeqNo((byte) (qo.getSeqNo() + 1));
+        permQo.setDomainId(qo.getDomainId());
+        permQo.setGroupId(qo.getGroupId());
+        final RacPermMo permDown = _mapper.selectOne(permQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 修改当前这条数据下面一条的数据的顺序号
+        permDown.setSeqNo((byte) (permDown.getSeqNo() - 1));
+        final RacPermMo mo = OrikaUtils.map(permDown, getMoClass());
+        getThisSvc().modifyMoById(mo);
+        // 修改当前这条数据的顺序号
+        to.setSeqNo((byte) (qo.getSeqNo() + 1));
+        getThisSvc().modifyById(to);
+    }
 
-	/**
-	 * 启用权限
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void enable(final RacPermModifyTo to) {
-		final RacPermMo mo = OrikaUtils.map(to, getMoClass());
-		_mapper.updateByPrimaryKeySelective(mo);
-		// 进行判断联动启用
-		final RacPermMo    qo     = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-		final RacPermOneTo permTo = new RacPermOneTo();
-		permTo.setGroupId(qo.getGroupId());
-		permTo.setIsEnabled(to.getIsEnabled());
-		final Long count = countSelective(permTo);
-		if (count > 0) {
-			final RacPermGroupModifyTo permGroupModifyTo = new RacPermGroupModifyTo();
-			permGroupModifyTo.setId(qo.getGroupId());
-			permGroupModifyTo.setIsEnabled(qo.getIsEnabled());
-			permGroupSvc.enable(permGroupModifyTo);
-		}
-	}
+    /**
+     * 启用权限
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void enable(final RacPermModifyTo to) {
+        final RacPermMo mo = OrikaUtils.map(to, getMoClass());
+        _mapper.updateByPrimaryKeySelective(mo);
+        // 进行判断联动启用
+        final RacPermMo    qo     = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermOneTo permTo = new RacPermOneTo();
+        permTo.setGroupId(qo.getGroupId());
+        permTo.setIsEnabled(to.getIsEnabled());
+        final Long count = countSelective(permTo);
+        if (count > 0) {
+            final RacPermGroupModifyTo permGroupModifyTo = new RacPermGroupModifyTo();
+            permGroupModifyTo.setId(qo.getGroupId());
+            permGroupModifyTo.setIsEnabled(qo.getIsEnabled());
+            permGroupSvc.enable(permGroupModifyTo);
+        }
+    }
 
-	/**
-	 * 禁用权限
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void disable(final RacPermModifyTo to) {
-		final RacPermMo mo = OrikaUtils.map(to, getMoClass());
-		_mapper.updateByPrimaryKeySelective(mo);
-		// 进行判断联动禁用
-		final RacPermMo    qo     = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-		final RacPermOneTo permTo = new RacPermOneTo();
-		permTo.setGroupId(qo.getGroupId());
-		permTo.setIsEnabled(!to.getIsEnabled());
-		final Long count = countSelective(permTo);
-		if (count == 0) {
-			final RacPermGroupModifyTo permGroupModifyTo = new RacPermGroupModifyTo();
-			permGroupModifyTo.setId(qo.getGroupId());
-			permGroupModifyTo.setIsEnabled(qo.getIsEnabled());
-			permGroupSvc.disable(permGroupModifyTo);
-		}
-	}
+    /**
+     * 禁用权限
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void disable(final RacPermModifyTo to) {
+        final RacPermMo mo = OrikaUtils.map(to, getMoClass());
+        _mapper.updateByPrimaryKeySelective(mo);
+        // 进行判断联动禁用
+        final RacPermMo    qo     = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermOneTo permTo = new RacPermOneTo();
+        permTo.setGroupId(qo.getGroupId());
+        permTo.setIsEnabled(!to.getIsEnabled());
+        final Long count = countSelective(permTo);
+        if (count == 0) {
+            final RacPermGroupModifyTo permGroupModifyTo = new RacPermGroupModifyTo();
+            permGroupModifyTo.setId(qo.getGroupId());
+            permGroupModifyTo.setIsEnabled(qo.getIsEnabled());
+            permGroupSvc.disable(permGroupModifyTo);
+        }
+    }
 
-	/**
-	 * 查询权限
-	 */
-	@Override
-	public List<RacPermMo> list(final RacPermListTo qo) {
-		final RacPermMo mo = OrikaUtils.map(qo, getMoClass());
-		return _mapper.selectOrderByPerm(mo);
-	}
+    /**
+     * 查询权限
+     */
+    @Override
+    public List<RacPermMo> list(final RacPermListTo qo) {
+        final RacPermMo mo = OrikaUtils.map(qo, getMoClass());
+        return _mapper.selectOrderByPerm(mo);
+    }
 
-	/**
-	 * 根据groupId 修改是否启用/禁用权限
-	 *
-	 * @param qo
-	 * 
-	 * @return
-	 */
-	@Override
-	public int updateByGroupId(final RacPermMo qo) {
-		return _mapper.updateByGroupId(qo);
-	}
+    /**
+     * 根据groupId 修改是否启用/禁用权限
+     *
+     * @param qo
+     * 
+     * @return
+     */
+    @Override
+    public int updateByGroupId(final RacPermMo qo) {
+        return _mapper.updateByGroupId(qo);
+    }
 }
