@@ -1,6 +1,6 @@
 package rebue.wxx.orika;
 
-import rebue.wheel.api.OrikaUtils;
+import rebue.wheel.core.util.OrikaUtils;
 import rebue.wxx.cco.WxxAppCco;
 import rebue.wxx.mo.WxxAppMo;
 

@@ -31,7 +31,7 @@ import rebue.scx.rac.to.RacDicModifyTo;
 import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
-import rebue.wheel.api.OrikaUtils;
+import rebue.wheel.core.util.OrikaUtils;
 
 /**
  * 字典服务实现
@@ -141,7 +141,7 @@ public class RacDicSvcImpl
 		final PageInfo<RacDicMo> dicPage = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
 		final List<RacDicMo>     dicList = dicPage.getList();
 		// final List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
-		final List<Long>         dicIds  = new ArrayList<Long>();
+		final List<Long>         dicIds  = new ArrayList<>();
 		for (final RacDicMo racDicMo : dicList) {
 			dicIds.add(racDicMo.getId());
 			// final RacDicItemMo moQo = new RacDicItemMo();

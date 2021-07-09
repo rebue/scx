@@ -34,7 +34,7 @@ import rebue.scx.rac.to.RacPermMenuModifyTo;
 import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
 import rebue.scx.rac.to.ex.RacPermMenusAddTo;
-import rebue.wheel.api.OrikaUtils;
+import rebue.wheel.core.util.OrikaUtils;
 
 /**
  * 权限菜单服务实现
@@ -55,87 +55,87 @@ import rebue.wheel.api.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermMenuSvcImpl extends
-		BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
-		implements RacPermMenuSvc {
+    BaseSvcImpl<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo, RacPermMenuMapper, RacPermMenuDao>
+    implements RacPermMenuSvc {
 
-	/**
-	 * 本服务的单例
-	 * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Lazy
-	@Resource
-	private RacPermMenuSvc thisSvc;
+    /**
+     * 本服务的单例
+     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Lazy
+    @Resource
+    private RacPermMenuSvc thisSvc;
 
-	/**
-	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected Class<RacPermMenuMo> getMoClass() {
-		return RacPermMenuMo.class;
-	}
+    /**
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected Class<RacPermMenuMo> getMoClass() {
+        return RacPermMenuMo.class;
+    }
 
-	/**
-	 * 从接口获取本服务的单例(提供给基类调用)
-	 *
-	 * @mbg.generated 自动生成，如需修改，请删除本行
-	 */
-	@Override
-	protected BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> getThisSvc() {
-		return thisSvc;
-	}
+    /**
+     * 从接口获取本服务的单例(提供给基类调用)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected BaseSvc<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuDelTo, RacPermMenuOneTo, RacPermMenuListTo, RacPermMenuPageTo, RacPermMenuMo, RacPermMenuJo> getThisSvc() {
+        return thisSvc;
+    }
 
-	/**
-	 * 添加/修改权限菜单
-	 *
-	 * @param to 添加的具体信息
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void addPermMenuUrn(final RacPermMenusAddTo to) {
-		// 先删除
-		final RacPermMenuMo del = OrikaUtils.map(to, getMoClass());
-		_mapper.deleteSelective(del);
-		// 后添加
-		final List<String> menuUrns = to.getMenuUrns();
-		for (final String menuUrn : menuUrns) {
-			final RacPermMenuMo mo = new RacPermMenuMo();
-			mo.setSysId(to.getSysId());
-			mo.setPermId(to.getPermId());
-			mo.setMenuUrn(menuUrn);
-			addMo(mo);
-		}
-	}
+    /**
+     * 添加/修改权限菜单
+     *
+     * @param to 添加的具体信息
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void addPermMenuUrn(final RacPermMenusAddTo to) {
+        // 先删除
+        final RacPermMenuMo del = OrikaUtils.map(to, getMoClass());
+        _mapper.deleteSelective(del);
+        // 后添加
+        final List<String> menuUrns = to.getMenuUrns();
+        for (final String menuUrn : menuUrns) {
+            final RacPermMenuMo mo = new RacPermMenuMo();
+            mo.setSysId(to.getSysId());
+            mo.setPermId(to.getPermId());
+            mo.setMenuUrn(menuUrn);
+            addMo(mo);
+        }
+    }
 
-	/**
-	 * 查询权限菜单的信息
-	 *
-	 * @param qo 查询的具体条件
-	 */
-	@Override
-	public List<RacPermMenuMo> listPermMenu(final RacPermMenuListTo to) {
-		final RacPermMenuMo       qo   = OrikaUtils.map(to, getMoClass());
-		final List<RacPermMenuMo> list = _mapper.selectSelective(qo);
-		return list;
-	}
+    /**
+     * 查询权限菜单的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @Override
+    public List<RacPermMenuMo> listPermMenu(final RacPermMenuListTo to) {
+        final RacPermMenuMo       qo   = OrikaUtils.map(to, getMoClass());
+        final List<RacPermMenuMo> list = _mapper.selectSelective(qo);
+        return list;
+    }
 
-	/**
-	 * 获取账户的菜单列表
-	 *
-	 * @param accountId 账户ID
-	 * @param sysId     系统ID
-	 *
-	 * @return 指定账户的菜单列表
-	 */
-	@Override
-	public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
-		final List<RacPermMenuMo> list = _mapper
-				.select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
-						.on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
-								and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
-		return list.stream().map(RacPermMenuMo::getMenuUrn).distinct().collect(Collectors.toList());
-	}
+    /**
+     * 获取账户的菜单列表
+     *
+     * @param accountId 账户ID
+     * @param sysId     系统ID
+     *
+     * @return 指定账户的菜单列表
+     */
+    @Override
+    public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
+        final List<RacPermMenuMo> list = _mapper
+            .select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
+                .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
+                    and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
+        return list.stream().map(RacPermMenuMo::getMenuUrn).distinct().collect(Collectors.toList());
+    }
 }

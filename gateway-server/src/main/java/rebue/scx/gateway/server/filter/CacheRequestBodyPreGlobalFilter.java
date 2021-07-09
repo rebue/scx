@@ -5,13 +5,15 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.zookeeper.CreateMode;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -33,6 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
 import rebue.scx.gateway.server.co.GatewayServerCo;
+import rebue.scx.gateway.server.config.IdWorkerProperties;
+import rebue.scx.gateway.server.config.IdWorkerProperties.Svc;
 import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlReqLogAddTo;
 import rebue.wheel.core.LocalDateTimeUtils;
@@ -55,12 +59,17 @@ import rebue.wheel.core.idworker.IdWorker3;
 @Component
 public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
-    protected IdWorker3              _idWorker;
-    @Value("${robotech.appid:0}")
-    private int                      _appid;
-
     @Resource
     private RrlPub                   rrlPub;
+
+    @Resource
+    private CuratorFramework         _zkClient;
+    @Resource
+    private IdWorkerProperties       _idWorkerProperties;
+    /**
+     * ID生成器
+     */
+    protected IdWorker3              _idWorker;
 
     @Resource
     private JsonParser               jsonParser;
@@ -71,8 +80,39 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     private static DateTimeFormatter _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     @PostConstruct
-    public void init() {
-        _idWorker = new IdWorker3(_appid);
+    public void init() throws Exception {
+        final String zkNodePath      = "/idworker/rebue.scx.gateway/CacheRequestBodyPreGlobalFilter";
+        final String reduceClassName = "CacheRequestBodyPreGlobalFilter";
+        // 从配置中读取节点ID的二进制的位数
+        int          nodeIdBits      = _idWorkerProperties.getNodeIdBits();
+        final Svc    svcProperties   = _idWorkerProperties.getSvces().get(reduceClassName);
+        if (svcProperties != null && svcProperties.getNodeIdBits() != null) {
+            nodeIdBits = svcProperties.getNodeIdBits();
+        }
+
+        Integer nodeId;
+        LOOP: while (true) {
+            final String zkNodeFullName   = _zkClient.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(zkNodePath + "/id_");
+            final String zkNodeSimpleName = zkNodeFullName.substring(zkNodeFullName.lastIndexOf("/") + 1);
+            nodeId = getNodeId(zkNodeFullName, nodeIdBits);
+            final List<String> zkNodes = _zkClient.getChildren().forPath(zkNodePath);
+            for (final String zkNodeSimpleNameTemp : zkNodes) {
+                if (zkNodeSimpleNameTemp.equals(zkNodeSimpleName)) {
+                    continue;
+                }
+                final Integer nodeIdTemp = getNodeId(zkNodeSimpleNameTemp, nodeIdBits);
+                if (nodeIdTemp.equals(nodeId)) {
+                    _zkClient.delete().forPath(zkNodeFullName);
+                    continue LOOP;
+                }
+            }
+            break;
+        }
+        _idWorker = new IdWorker3(nodeId, nodeIdBits);
+    }
+
+    private Integer getNodeId(final String path, final int nodeIdBits) {
+        return Integer.valueOf(StringUtils.right(path, 10)) % (2 << nodeIdBits - 1);
     }
 
     /**
