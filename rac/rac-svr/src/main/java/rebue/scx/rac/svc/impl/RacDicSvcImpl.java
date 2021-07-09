@@ -1,5 +1,6 @@
 package rebue.scx.rac.svc.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +98,7 @@ public class RacDicSvcImpl
 			to.setSysId(null);
 		}
 		final RacDicMo mo = OrikaUtils.map(to, getMoClass());
+		mo.setUpdateDatetime(LocalDateTime.now());
 		return thisSvc.addMo(mo);
 	}
 
