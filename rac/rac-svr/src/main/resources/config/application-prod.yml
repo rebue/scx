@@ -11,6 +11,11 @@ spring:
     password: guest
     virtual-host: /
   redis:
-    host: 127.0.0.1
-    port: 6379
-    password: xxxxx
+    password: xxxxxx
+    sentinel:
+      # Redis服务器名称
+      master: redis-server 
+      # 哨兵节点 
+      nodes:
+        - xxx.xxx.xxx.xxx:xxxx
+        - xxx.xxx.xxx.xxx:xxxx
