@@ -17,3 +17,4 @@ gradlew.bat
 settings.gradle
 *.iml
 Thumbs.db
+maven-local.properties
