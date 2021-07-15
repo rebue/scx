@@ -1,9 +1,6 @@
 # 生成环境的配置
-curator:
-  connect-string: zoo1:2181,zoo2:2182,zoo3:2183
-
 logging:
-  config: classpath:config/log4j2.xml
+  config: config/log4j2.xml
   level:
     root: info
     rebue: trace
@@ -18,9 +15,9 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: nacos1:8848,nacos2:8849,nacos3:8850
+        server-addr: nacos_nacos1:8848,nacos_nacos2:8848,nacos_nacos3:8848
       discovery:
-        server-addr: nacos1:8848,nacos2:8849,nacos3:8850
+        server-addr: nacos_nacos1:8848,nacos_nacos2:8848,nacos_nacos3:8848
     sentinel:
       enabled: false
   zipkin:
