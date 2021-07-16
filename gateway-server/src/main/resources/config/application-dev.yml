@@ -24,8 +24,15 @@ spring:
             - name: JwtPre
               args:
                 filter-urls:
-                  - "'/sgn/**'"
-                  - "'/rac/**'"
+                  - "'*:/sgn/**'"
+                  - "'*:/rac/**'"
+                  - "'*:/csa/**'"
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
                 ignore-urls:
+                  - "'*:/csa/**'"
+                  - "'*:/rac/**'"
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
                   - "'POST:/rac/sign-in/**'"
                   - "'GET:/rac/account/get-cur-account-info'"

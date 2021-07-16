@@ -1,5 +1,6 @@
 package rebue.scx.oss.svc.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -17,10 +18,14 @@ import com.google.common.io.Files;
 
 import io.minio.BucketExistsArgs;
 import io.minio.GetBucketPolicyArgs;
+import io.minio.GetObjectArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.SetBucketPolicyArgs;
+import io.minio.StatObjectArgs;
+import io.minio.errors.MinioException;
 import lombok.SneakyThrows;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -58,85 +63,202 @@ import rebue.scx.oss.to.OssObjPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class OssObjSvcImpl
-    extends BaseSvcImpl<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo, OssObjMapper, OssObjDao>
-    implements OssObjSvc {
+		extends BaseSvcImpl<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo, OssObjMapper, OssObjDao>
+		implements OssObjSvc {
 
-    /**
-     * 本服务的单例
-     * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Lazy
-    @Resource
-    private OssObjSvc   thisSvc;
+	/**
+	 * 本服务的单例
+	 * 注意：内部调用自己的方法，如果涉及到回滚事务的，请不要直接调用，而是通过本实例调用
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Lazy
+	@Resource
+	private OssObjSvc     thisSvc;
 
-    @Resource
-    private MinioClient minioClient;
+	@Resource
+	private MinioClient   minioClient;
 
-    @Value("${minio.endpoint:http://127.0.0.1:9000}")
-    private String      minioEndpoint;
+	@Value("${minio.endpoint:http://127.0.0.1:9000}")
+	private String        minioEndpoint;
 
-    /**
-     * 从接口获取本服务的单例(提供给基类调用)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected BaseSvc<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo> getThisSvc() {
-        return thisSvc;
-    }
+	static private String FILE_NAME           = "avatar.txt";
+	static private String CONTENT_DISPOSITOIN = "form-data; name=\"avatar\"; filename=\"avatar.txt\"";
+	static private String CONTENT_TYPE        = "text/html";
 
-    /**
-     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected Class<OssObjMo> getMoClass() {
-        return OssObjMo.class;
-    }
+	/**
+	 * 从接口获取本服务的单例(提供给基类调用)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected BaseSvc<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo> getThisSvc() {
+		return thisSvc;
+	}
 
-    /**
-     * 上传文件
-     *
-     * @param curAccountId       当前账户ID
-     * @param fileName           文件名称
-     * @param contentDisposition 请求头中的 Content-Disposition
-     * @param contentType        请求头中的 Content-Type
-     * @param inputStream        文件输入流
-     */
-    @Override
-    @SneakyThrows
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<?> upload(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
-        final Long id = _idWorker.getId();
-        final String fileExt = Files.getFileExtension(fileName);
-        final String objectName = id.toString() + "." + fileExt;
-        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
-        if (!found) {
-            minioClient.makeBucket(MakeBucketArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
-            final String policyJson = String.format(
-                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                OssMinioCo.OBJ_BUCKET);
-            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).config(policyJson).build());
-        }
-        final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
-        System.out.println(bucketPolicy);
-        final Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Disposition", contentDisposition);
-        headers.put("Content-Type", contentType);
-        minioClient.putObject(
-            PutObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
-        OssObjMo mo = new OssObjMo();
-        mo.setId(id);
-        mo.setName(fileName);
-        mo.setObjType(fileExt);
-        mo.setObjSize((long) inputStream.available());
-        mo.setCreatorId(curAccountId);
-        mo.setCreateDatetime(LocalDateTime.now());
-        mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, OssMinioCo.OBJ_BUCKET, objectName, System.currentTimeMillis()));
-        mo = thisSvc.addMo(mo);
-        return new Ro<>(ResultDic.SUCCESS, "上传对象成功");
-    }
+	/**
+	 * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+	 *
+	 * @mbg.generated 自动生成，如需修改，请删除本行
+	 */
+	@Override
+	protected Class<OssObjMo> getMoClass() {
+		return OssObjMo.class;
+	}
+
+	/**
+	 * 上传文件
+	 *
+	 * @param curAccountId       当前账户ID
+	 * @param fileName           文件名称
+	 * @param contentDisposition 请求头中的 Content-Disposition
+	 * @param contentType        请求头中的 Content-Type
+	 * @param inputStream        文件输入流
+	 */
+	@Override
+	@SneakyThrows
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public Ro<?> upload(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
+		final Long    id         = _idWorker.getId();
+		final String  fileExt    = Files.getFileExtension(fileName);
+		final String  objectName = id.toString() + "." + fileExt;
+		final boolean found      = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+		if (!found) {
+			minioClient.makeBucket(MakeBucketArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+			final String policyJson = String.format(
+					"{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+					OssMinioCo.OBJ_BUCKET);
+			minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).config(policyJson).build());
+		}
+		final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+		System.out.println(bucketPolicy);
+		final Map<String, String> headers = new HashMap<>();
+		headers.put("Content-Disposition", contentDisposition);
+		headers.put("Content-Type", contentType);
+		minioClient.putObject(
+				PutObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
+		OssObjMo mo = new OssObjMo();
+		mo.setId(id);
+		mo.setName(fileName);
+		mo.setObjType(fileExt);
+		mo.setObjSize((long) inputStream.available());
+		mo.setCreatorId(curAccountId);
+		mo.setCreateDatetime(LocalDateTime.now());
+		mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, OssMinioCo.OBJ_BUCKET, objectName, System.currentTimeMillis()));
+		mo = thisSvc.addMo(mo);
+		return new Ro<>(ResultDic.SUCCESS, "上传对象成功");
+	}
+
+	/**
+	 * 添加文本对象
+	 *
+	 * @param curAccountId       当前账户ID
+	 * @param fileName           文件名称
+	 * @param contentDisposition 请求头中的 Content-Disposition
+	 * @param contentType        请求头中的 Content-Type
+	 * @param text               文本
+	 */
+	@Override
+	@SneakyThrows
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public Ro<?> addText(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final String text) {
+		final InputStream inputStream = new ByteArrayInputStream(text.getBytes());
+		final Long        id          = _idWorker.getId();
+		final String      fileExt     = Files.getFileExtension(FILE_NAME);
+		final String      objectName  = id.toString() + "." + fileExt;
+		final boolean     found       = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+		if (!found) {
+			minioClient.makeBucket(MakeBucketArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+			final String policyJson = String.format(
+					"{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+					OssMinioCo.OBJ_BUCKET);
+			minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).config(policyJson).build());
+		}
+		final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+		System.out.println(bucketPolicy);
+		final Map<String, String> headers = new HashMap<>();
+		headers.put("Content-Disposition", CONTENT_DISPOSITOIN);
+		headers.put("Content-Type", CONTENT_TYPE);
+		minioClient.putObject(
+				PutObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(objectName).stream(inputStream, -1, 10485760).build());
+		OssObjMo mo = new OssObjMo();
+		mo.setId(id);
+		mo.setName(fileName);
+		mo.setObjType(fileExt);
+		mo.setObjSize((long) inputStream.available());
+		mo.setCreatorId(curAccountId);
+		mo.setCreateDatetime(LocalDateTime.now());
+		mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, OssMinioCo.OBJ_BUCKET, objectName, System.currentTimeMillis()));
+		mo = thisSvc.addMo(mo);
+		return new Ro<>(ResultDic.SUCCESS, "上传对象成功", mo);
+	}
+
+	/**
+	 * 获取文本对象
+	 *
+	 * @param fileName 文件名称
+	 * @param text     文本
+	 */
+	@Override
+	@SneakyThrows
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public String getText(final String fileName) {
+		String string = "";
+		try {
+			// 调用statObject()来判断对象是否存在。
+			// 如果不存在, statObject()抛出异常,
+			// 否则则代表对象存在。
+			minioClient.statObject(StatObjectArgs.builder()
+					.bucket(OssMinioCo.OBJ_BUCKET)
+					.object(fileName)
+					.build());
+
+			// 获取文件的输入流。
+			InputStream stream = minioClient.getObject(GetObjectArgs.builder()
+					.bucket(OssMinioCo.OBJ_BUCKET)
+					.object(fileName)
+					.build());
+			// 读取输入流直到EOF并打印到控制台。
+			byte[]      buf    = new byte[stream.available()];
+			int         bytesRead;
+			while ((bytesRead = stream.read(buf, 0, buf.length)) >= 0) {
+				string = new String(buf, 0, bytesRead);
+				System.out.println(string.toString());
+			}
+			// 关闭流，此处为示例，流关闭最好放在finally块。
+			stream.close();
+		} catch (MinioException e) {
+			System.out.println("Error occurred: " + e);
+		}
+		return string;
+	}
+
+	/**
+	 * 删除文本对象
+	 *
+	 * @param id   文件对象ID
+	 * @param text 文本
+	 */
+	@Override
+	@SneakyThrows
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public Ro<?> delText(final Long id) {
+		String fileName = id + ".txt";
+		try {
+			// 调用statObject()来判断对象是否存在。
+			// 如果不存在, statObject()抛出异常,
+			// 否则则代表对象存在。
+			minioClient.statObject(StatObjectArgs.builder()
+					.bucket(OssMinioCo.OBJ_BUCKET)
+					.object(fileName)
+					.build());
+
+			// 删除文件对象。
+			minioClient.removeObject(RemoveObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(fileName).build());
+		} catch (MinioException e) {
+			System.out.println("Error occurred: " + e);
+		}
+		thisSvc.delById(id);
+		return new Ro<>(ResultDic.SUCCESS, "删除对象成功");
+	}
 }

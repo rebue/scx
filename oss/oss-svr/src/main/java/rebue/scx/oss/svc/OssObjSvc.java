@@ -32,14 +32,41 @@ import rebue.scx.oss.to.OssObjPageTo;
 @Validated
 public interface OssObjSvc extends BaseSvc<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo> {
 
-    /**
-     * 上传文件
-     *
-     * @param curAccountId       当前账户ID
-     * @param fileName           文件名称
-     * @param contentDisposition 请求头中的 Content-Disposition
-     * @param contentType        请求头中的 Content-Type
-     * @param inputStream        文件输入流
-     */
-    Ro<?> upload(Long curAccountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
+	/**
+	 * 上传文件
+	 *
+	 * @param curAccountId       当前账户ID
+	 * @param fileName           文件名称
+	 * @param contentDisposition 请求头中的 Content-Disposition
+	 * @param contentType        请求头中的 Content-Type
+	 * @param inputStream        文件输入流
+	 */
+	Ro<?> upload(Long curAccountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
+
+	/**
+	 * 上传字符串大文本内容
+	 *
+	 * @param curAccountId       当前账户ID
+	 * @param fileName           文件名称 ("avatar.txt")
+	 * @param contentDisposition 请求头中的 Content-Disposition ("form-data; name=\"avatar\"; filename=\"avatar.png\"")
+	 * @param contentType        请求头中的 Content-Type ("text/html")
+	 * @param writeValueAsString 写入字符串
+	 */
+	Ro<?> addText(Long curAccountId, String fileName, String contentDisposition, String contentType, String writeValueAsString);
+
+	/**
+	 * 获取文本对象
+	 *
+	 * @param fileName 文件名称
+	 * @param text     文本
+	 */
+	String getText(String fileName);
+
+	/**
+	 * 删除文本对象
+	 *
+	 * @param id   文件对象ID
+	 * @param text 文本
+	 */
+	Ro<?> delText(Long id);
 }
