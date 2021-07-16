@@ -9,6 +9,10 @@ scx:
           - url: "POST:/rac/account/upload-avatar"
             limit: 200KB
 
+# 生成workid使用
+curator:
+  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
+
 spring:
   cloud:
     gateway:
@@ -28,7 +32,7 @@ spring:
                 ignore-urls:
                   - "'POST:/rac/sign-in/**'"
   rabbitmq:
-    host: 127.0.0.1
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
