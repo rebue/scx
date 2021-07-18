@@ -20,8 +20,9 @@ xxl:
       ### 执行器日志文件保存天数 [选填] ： 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能；
       logretentiondays: 30
 
+# 生成workid使用
 curator:
-  connect-string: zookeeper_zoo1:2181,zookeeper_zoo2:2181,zookeeper_zoo3:2181
+  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
 spring:
   datasource:
@@ -38,3 +39,12 @@ spring:
         - redis_sentinel1:26379
         - redis_sentinel2:26379
         - redis_sentinel3:26379
+  # 链路追踪采集器
+  sleuth:
+    sampler:
+      # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+      probability: 1
+  # 链路追踪可视化服务器
+  zipkin:
+    # 服务器启动地址
+    base-url: http://zipkin:9411
