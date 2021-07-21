@@ -213,25 +213,16 @@ public class OssObjSvcImpl
             // 调用statObject()来判断对象是否存在。
             // 如果不存在, statObject()抛出异常,
             // 否则则代表对象存在。
-            // minioClient.statObject(StatObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(fileName).build());
+            minioClient.statObject(StatObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(fileName).build());
             // 获取文件的输入流。
             InputStream           stream = minioClient.getObject(GetObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(fileName).build());
             // 读取输入流直到EOF并打印到控制台。
             BufferedInputStream   bis    = new BufferedInputStream(stream);
             ByteArrayOutputStream baos   = new ByteArrayOutputStream();
-
             for (int result = bis.read(); result != -1; result = bis.read()) {
                 baos.write((byte) result);
             }
-
             strs = baos.toString("UTF-8");
-            // byte[] buf = new byte[4096];
-            // int bytesRead;
-            // while ((bytesRead = stream.read(buf, 0, buf.length)) >= 0) {
-            // string = new String(buf, 0, bytesRead);
-            // System.out.println(string.toString());
-            // }
-            // 关闭流，此处为示例，流关闭最好放在finally块。
             bis.close();
             baos.close();
             stream.close();
