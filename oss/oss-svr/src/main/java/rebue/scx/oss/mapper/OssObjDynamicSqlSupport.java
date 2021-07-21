@@ -2,7 +2,6 @@ package rebue.scx.oss.mapper;
 
 import java.sql.JDBCType;
 import java.time.LocalDateTime;
-
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -24,7 +23,14 @@ public final class OssObjDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> name = ossObj.name;
+    public static final SqlColumn<String> objName = ossObj.objName;
+
+    /**
+    * 对象分组
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> objGroup = ossObj.objGroup;
 
     /**
     * 对象类型
@@ -55,6 +61,13 @@ public final class OssObjDynamicSqlSupport {
     public static final SqlColumn<Long> creatorId = ossObj.creatorId;
 
     /**
+    * 创建人的组织ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> creatorOrgId = ossObj.creatorOrgId;
+
+    /**
     * 创建时间
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -64,7 +77,9 @@ public final class OssObjDynamicSqlSupport {
     public static final class OssObj extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
+        public final SqlColumn<String> objName = column("OBJ_NAME", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> objGroup = column("OBJ_GROUP", JDBCType.VARCHAR);
 
         public final SqlColumn<String> objType = column("OBJ_TYPE", JDBCType.VARCHAR);
 
@@ -73,6 +88,8 @@ public final class OssObjDynamicSqlSupport {
         public final SqlColumn<String> url = column("URL", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> creatorId = column("CREATOR_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> creatorOrgId = column("CREATOR_ORG_ID", JDBCType.BIGINT);
 
         public final SqlColumn<LocalDateTime> createDatetime = column("CREATE_DATETIME", JDBCType.TIMESTAMP);
 

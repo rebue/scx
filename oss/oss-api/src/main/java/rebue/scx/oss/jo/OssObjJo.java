@@ -2,13 +2,11 @@ package rebue.scx.oss.jo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -41,15 +39,6 @@ public class OssObjJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
-
-    /**
-     * 对象名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "NAME", nullable = false, length = 30)
-    private String            name;
 
     /**
      * 对象类型
@@ -127,4 +116,31 @@ public class OssObjJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "OBJ_NAME", nullable = false, length = 512)
+    private String objName;
+
+    /**
+     * 对象分组
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "OBJ_GROUP", nullable = false, length = 30)
+    private String objGroup;
+
+    /**
+     * 创建人的组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "CREATOR_ORG_ID", nullable = true, length = 20)
+    private Long   creatorOrgId;
 }

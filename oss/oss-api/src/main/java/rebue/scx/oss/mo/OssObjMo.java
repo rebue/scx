@@ -2,18 +2,14 @@ package rebue.scx.oss.mo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
@@ -34,15 +30,6 @@ public class OssObjMo implements Serializable, Mo<Long> {
     @NotNull(groups = ModifyGroup.class, message = "对象ID不能为空")
     @PositiveOrZero(message = "对象ID不能为负数")
     private Long              id;
-
-    /**
-     * 对象名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "对象名称不能为空")
-    @Length(max = 30, message = "对象名称的长度不能大于30")
-    private String            name;
 
     /**
      * 对象类型
@@ -111,24 +98,6 @@ public class OssObjMo implements Serializable, Mo<Long> {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * 对象名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * 对象名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -231,11 +200,13 @@ public class OssObjMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", objName=").append(objName);
+        sb.append(", objGroup=").append(objGroup);
         sb.append(", objType=").append(objType);
         sb.append(", objSize=").append(objSize);
         sb.append(", url=").append(url);
         sb.append(", creatorId=").append(creatorId);
+        sb.append(", creatorOrgId=").append(creatorOrgId);
         sb.append(", createDatetime=").append(createDatetime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
@@ -279,5 +250,85 @@ public class OssObjMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "对象名称不能为空")
+    @Length(max = 512, message = "对象名称的长度不能大于512")
+    private String objName;
+
+    /**
+     * 对象分组
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "对象分组不能为空")
+    @Length(max = 30, message = "对象分组的长度不能大于30")
+    private String objGroup;
+
+    /**
+     * 创建人的组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "创建人的组织ID不能为负数")
+    private Long   creatorOrgId;
+
+    /**
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getObjName() {
+        return objName;
+    }
+
+    /**
+     * 对象名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setObjName(String objName) {
+        this.objName = objName;
+    }
+
+    /**
+     * 对象分组
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getObjGroup() {
+        return objGroup;
+    }
+
+    /**
+     * 对象分组
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setObjGroup(String objGroup) {
+        this.objGroup = objGroup;
+    }
+
+    /**
+     * 创建人的组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getCreatorOrgId() {
+        return creatorOrgId;
+    }
+
+    /**
+     * 创建人的组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCreatorOrgId(Long creatorOrgId) {
+        this.creatorOrgId = creatorOrgId;
     }
 }
