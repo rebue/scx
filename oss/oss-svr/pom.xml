@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.github.rebue.scx</groupId>
 		<artifactId>oss</artifactId>
-		<version>1.2.3</version>
+		<version>1.2.4</version>
 	</parent>
 
 	<artifactId>oss-svr</artifactId>

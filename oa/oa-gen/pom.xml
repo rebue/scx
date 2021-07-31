@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.rebue.scx</groupId>
 		<artifactId>oa</artifactId>
-		<version>1.2.3</version>
+		<version>1.2.4</version>
 	</parent>
 	<artifactId>oa-gen</artifactId>
 

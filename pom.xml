@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.rebue.common-pom</groupId>
 		<artifactId>sb-parent</artifactId>
-		<version>1.2.3</version>
+		<version>1.2.4</version>
 	</parent>
 
 	<groupId>com.github.rebue.scx</groupId>
@@ -29,27 +29,27 @@
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
 				<artifactId>rrl-api</artifactId>
-				<version>1.2.3</version>
+				<version>1.2.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
 				<artifactId>jwt-api</artifactId>
-				<version>1.2.3</version>
+				<version>1.2.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
 				<artifactId>sgn-api</artifactId>
-				<version>1.2.3</version>
+				<version>1.2.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
 				<artifactId>rac-api</artifactId>
-				<version>1.2.3</version>
+				<version>1.2.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
 				<artifactId>oa-api</artifactId>
-				<version>1.2.3</version>
+				<version>1.2.4</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
