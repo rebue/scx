@@ -80,6 +80,10 @@
 			<artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-datasource-nacos</artifactId>
 		</dependency>
@@ -159,11 +163,11 @@
 					<execution>
 						<id>default</id>
 						<!-- 绑定到install阶段执行 -->
-						<phase>install</phase>
+						<!-- <phase>install</phase> -->
 						<!-- 绑定到deploy阶段执行 -->
 						<!-- <phase>deploy</phase> -->
 						<!-- 不绑定到任何阶段，也就不会执行 -->
-						<!-- <phase></phase> -->
+						<phase></phase>
 						<goals>
 							<goal>build</goal>
 							<goal>push</goal>

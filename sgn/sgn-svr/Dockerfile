@@ -5,7 +5,7 @@ LABEL maintainer="nnzbz@163.com"
 # 镜像的版本
 LABEL version="1.2.4"
 # 镜像的描述
-LABEL description="gateway-server"
+LABEL description="sgn-svr"
 
 # 定义形参，实参可在下列情况下传入
 # 1. 在pom.xml文件中的buildArgs节点下定义实参)

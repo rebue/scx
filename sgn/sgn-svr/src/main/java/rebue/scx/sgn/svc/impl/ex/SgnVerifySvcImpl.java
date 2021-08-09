@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.DicUtils;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -36,6 +37,7 @@ import rebue.wheel.turing.SignUtils;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
+@Slf4j
 public class SgnVerifySvcImpl implements SgnVerifySvc {
 
     @Resource
@@ -55,7 +57,6 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         if (StringUtils.isBlank(signIdStr)) {
             return new Ro<>(ResultDic.PARAM_ERROR, "验证签名错误: 请求参数中没有signId");
         }
-
         final Long signId = Long.valueOf(signIdStr);
 
         // 通过签名ID获取签名密钥实体
@@ -63,6 +64,18 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         if (secretMo == null) {
             return new Ro<>(ResultDic.WARN, "验证签名错误: 查找不到此signId的签名密钥");
         }
+
+        // 获取是否Mock
+        final String  isMockStr = Optional.ofNullable(paramMap.get("isMock")).orElse("false").toString();
+        final boolean isMock    = Boolean.valueOf(isMockStr);
+        log.debug("判断此signId是否仅允许Mock: {}", isMock);
+        if (isMock == false) {
+            if (signId.equals(876995783931461651L)) {
+                return new Ro<>(ResultDic.WARN, "验证签名错误: 此signId仅允许Mock");
+            }
+        }
+
+        // 根据设置的算法验证签名
         final SignAlgorithmDic signAlgorithmDic = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, secretMo.getAlgorithm());
         switch (signAlgorithmDic) {
         case MD5:
