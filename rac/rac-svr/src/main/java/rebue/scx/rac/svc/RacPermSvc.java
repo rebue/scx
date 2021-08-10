@@ -34,9 +34,9 @@ public interface RacPermSvc extends BaseSvc<java.lang.Long, RacPermAddTo, RacPer
     /**
      * 查询带分组的权限列表
      *
-     * @param domainId 领域ID
+     * @param realmId 领域ID
      */
-    Ro<PermListWithGroupRa> listWithGroup(String domainId);
+    Ro<PermListWithGroupRa> listWithGroup(String realmId);
 
     /**
      * 上移动

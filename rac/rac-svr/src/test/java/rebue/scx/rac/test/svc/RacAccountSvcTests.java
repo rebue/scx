@@ -54,7 +54,7 @@ public class RacAccountSvcTests {
             addTo.setPayPswdSalt("bbb");
             addTo.setUserId(null);
             addTo.setOrgId(null);
-            addTo.setDomainId("ops");
+            addTo.setRealmId("ops");
             log.info("添加账户的参数为：" + addTo);
             final RacAccountMo addRo = _svc.add(addTo);
             log.info("添加账户的返回值为：" + addRo);

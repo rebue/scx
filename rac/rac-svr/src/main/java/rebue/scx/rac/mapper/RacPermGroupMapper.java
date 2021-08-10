@@ -4,11 +4,11 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThan;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
-import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.name;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.racPermGroup;
+import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.realmId;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.remark;
 import static rebue.scx.rac.mapper.RacPermGroupDynamicSqlSupport.seqNo;
 
@@ -50,7 +50,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, domainId, name, isEnabled, seqNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, realmId, name, isEnabled, seqNo, remark);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,7 +88,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacPermGroupMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR), @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR), @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
         @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT), @Result(column = "SEQ_NO", property = "seqNo", jdbcType = JdbcType.TINYINT),
         @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
     })
@@ -125,7 +125,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insert(RacPermGroupMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racPermGroup, c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(name).toProperty("name")
+        return MyBatis3Utils.insert(this::insert, record, racPermGroup, c -> c.map(id).toProperty("id").map(realmId).toProperty("realmId").map(name).toProperty("name")
             .map(isEnabled).toProperty("isEnabled").map(seqNo).toProperty("seqNo").map(remark).toProperty("remark"));
     }
 
@@ -133,7 +133,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertMultiple(Collection<RacPermGroupMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPermGroup, c -> c.map(id).toProperty("id").map(domainId).toProperty("domainId").map(name)
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racPermGroup, c -> c.map(id).toProperty("id").map(realmId).toProperty("realmId").map(name)
             .toProperty("name").map(isEnabled).toProperty("isEnabled").map(seqNo).toProperty("seqNo").map(remark).toProperty("remark"));
     }
 
@@ -142,7 +142,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     default int insertSelective(RacPermGroupMo record) {
         return MyBatis3Utils.insert(this::insert, record, racPermGroup,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(domainId).toPropertyWhenPresent("domainId", record::getDomainId).map(name)
+            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(realmId).toPropertyWhenPresent("realmId", record::getRealmId).map(name)
                 .toPropertyWhenPresent("name", record::getName).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(seqNo)
                 .toPropertyWhenPresent("seqNo", record::getSeqNo).map(remark).toPropertyWhenPresent("remark", record::getRemark));
     }
@@ -186,7 +186,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(domainId).equalTo(record::getDomainId).set(name).equalTo(record::getName).set(isEnabled).equalTo(record::getIsEnabled)
+        return dsl.set(id).equalTo(record::getId).set(realmId).equalTo(record::getRealmId).set(name).equalTo(record::getName).set(isEnabled).equalTo(record::getIsEnabled)
             .set(seqNo).equalTo(record::getSeqNo).set(remark).equalTo(record::getRemark);
     }
 
@@ -194,7 +194,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacPermGroupMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId).set(domainId).equalToWhenPresent(record::getDomainId).set(name).equalToWhenPresent(record::getName).set(isEnabled)
+        return dsl.set(id).equalToWhenPresent(record::getId).set(realmId).equalToWhenPresent(record::getRealmId).set(name).equalToWhenPresent(record::getName).set(isEnabled)
             .equalToWhenPresent(record::getIsEnabled).set(seqNo).equalToWhenPresent(record::getSeqNo).set(remark).equalToWhenPresent(record::getRemark);
     }
 
@@ -202,7 +202,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(RacPermGroupMo record) {
-        return update(c -> c.set(domainId).equalTo(record::getDomainId).set(name).equalTo(record::getName).set(isEnabled).equalTo(record::getIsEnabled).set(seqNo)
+        return update(c -> c.set(realmId).equalTo(record::getRealmId).set(name).equalTo(record::getName).set(isEnabled).equalTo(record::getIsEnabled).set(seqNo)
             .equalTo(record::getSeqNo).set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
@@ -211,7 +211,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      */
     default int updateByPrimaryKeySelective(RacPermGroupMo record) {
         return update(
-            c -> c.set(domainId).equalToWhenPresent(record::getDomainId).set(name).equalToWhenPresent(record::getName).set(isEnabled).equalToWhenPresent(record::getIsEnabled)
+            c -> c.set(realmId).equalToWhenPresent(record::getRealmId).set(name).equalToWhenPresent(record::getName).set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(seqNo).equalToWhenPresent(record::getSeqNo).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
@@ -219,16 +219,15 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteSelective(RacPermGroupMo record) {
-        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(name, isEqualToWhenPresent(record::getName)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark)));
+        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId)).and(name, isEqualToWhenPresent(record::getName))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<RacPermGroupMo> selectOne(RacPermGroupMo record) {
-        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(name, isEqualToWhenPresent(record::getName)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark)));
     }
@@ -237,7 +236,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long countSelective(RacPermGroupMo record) {
-        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId)).and(name, isEqualToWhenPresent(record::getName))
+        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId)).and(name, isEqualToWhenPresent(record::getName))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
@@ -259,9 +258,8 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<RacPermGroupMo> selectSelective(RacPermGroupMo record) {
-        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
-            .and(name, isEqualToWhenPresent(record::getName)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark)));
+        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId)).and(name, isEqualToWhenPresent(record::getName))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -271,7 +269,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @return
      */
     default int updateSeqNoByDeleteAfter(@Param(value = "record") RacPermGroupMo record) {
-        return update(c -> c.set(seqNo).equalToConstant("SEQ_NO-1").where(domainId, isEqualTo(record::getDomainId)).and(seqNo, isGreaterThan(record::getSeqNo)));
+        return update(c -> c.set(seqNo).equalToConstant("SEQ_NO-1").where(realmId, isEqualTo(record::getRealmId)).and(seqNo, isGreaterThan(record::getSeqNo)));
     }
 
     /**
@@ -281,7 +279,7 @@ public interface RacPermGroupMapper extends MapperRootInterface<RacPermGroupMo, 
      * @return
      */
     default List<RacPermGroupMo> selectListOrderByPermGroup(@Param(value = "record") RacPermGroupMo record) {
-        return select(c -> c.where(domainId, isEqualToWhenPresent(record::getDomainId)).orderBy(seqNo));
+        return select(c -> c.where(realmId, isEqualToWhenPresent(record::getRealmId)).orderBy(seqNo));
     }
 
     /**

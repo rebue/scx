@@ -580,7 +580,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         sb.append(", userId=").append(userId);
         sb.append(", remark=").append(remark);
         sb.append(", orgId=").append(orgId);
-        sb.append(", domainId=").append(domainId);
+        sb.append(", realmId=").append(realmId);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", signInName=").append(signInName);
         sb.append(", signInMobile=").append(signInMobile);
@@ -774,25 +774,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 150, message = "备注的长度不能大于150")
-    private String      remark;
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String      domainId;
-
-    /**
-     * 领域
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacDomainMo domain;
+    private String remark;
 
     /**
      * 备注
@@ -817,8 +799,26 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getDomainId() {
-        return domainId;
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String     realmId;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacRealmMo realm;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getRealmId() {
+        return realmId;
     }
 
     /**
@@ -826,7 +826,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
+    public void setRealmId(String realmId) {
+        this.realmId = realmId;
     }
 }

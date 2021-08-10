@@ -35,7 +35,7 @@ public class RacListTransferOfOrgTo extends PageTo implements Serializable {
 	 * 领域ID
 	 */
 	@Length(max = 32, message = "领域ID的长度不能大于32")
-	private String domainId;
+	private String realmId;
 
 	/**
 	 * 查询组织下可添加账户的关键字

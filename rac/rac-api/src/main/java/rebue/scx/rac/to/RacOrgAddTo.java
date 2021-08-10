@@ -46,15 +46,6 @@ public class RacOrgAddTo implements Serializable {
     private Long              parentId;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
      * 组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -126,4 +117,13 @@ public class RacOrgAddTo implements Serializable {
      */
     @Length(max = 50, message = "邮箱的长度不能大于50")
     private String            email;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            realmId;
 }

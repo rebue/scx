@@ -9,7 +9,6 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.createTimestamp;
-import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.isTester;
@@ -21,6 +20,7 @@ import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqNickname;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqOpenId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.qqUnionId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.realmId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.remark;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInAvatar;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.signInEmail;
@@ -84,7 +84,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, userId, remark, orgId, domainId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, payPswd,
+    BasicColumn[] selectList = BasicColumn.columnList(id, userId, remark, orgId, realmId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, payPswd,
         payPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp,
         updateTimestamp);
 
@@ -125,7 +125,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacAccountMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
         @Result(column = "USER_ID", property = "userId", jdbcType = JdbcType.BIGINT), @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "ORG_ID", property = "orgId", jdbcType = JdbcType.BIGINT), @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "ORG_ID", property = "orgId", jdbcType = JdbcType.BIGINT), @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR),
         @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT), @Result(column = "SIGN_IN_NAME", property = "signInName", jdbcType = JdbcType.VARCHAR),
         @Result(column = "SIGN_IN_MOBILE", property = "signInMobile", jdbcType = JdbcType.VARCHAR),
         @Result(column = "SIGN_IN_EMAIL", property = "signInEmail", jdbcType = JdbcType.VARCHAR),
@@ -176,7 +176,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default int insert(RacAccountMo record) {
         return MyBatis3Utils.insert(this::insert, record, racAccount,
-            c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(domainId).toProperty("domainId")
+            c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(realmId).toProperty("realmId")
                 .map(isEnabled).toProperty("isEnabled").map(signInName).toProperty("signInName").map(signInMobile).toProperty("signInMobile").map(signInEmail)
                 .toProperty("signInEmail").map(signInPswd).toProperty("signInPswd").map(signInPswdSalt).toProperty("signInPswdSalt").map(payPswd).toProperty("payPswd")
                 .map(payPswdSalt).toProperty("payPswdSalt").map(signInNickname).toProperty("signInNickname").map(signInAvatar).toProperty("signInAvatar").map(wxOpenId)
@@ -190,7 +190,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default int insertMultiple(Collection<RacAccountMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racAccount,
-            c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(domainId).toProperty("domainId")
+            c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(realmId).toProperty("realmId")
                 .map(isEnabled).toProperty("isEnabled").map(signInName).toProperty("signInName").map(signInMobile).toProperty("signInMobile").map(signInEmail)
                 .toProperty("signInEmail").map(signInPswd).toProperty("signInPswd").map(signInPswdSalt).toProperty("signInPswdSalt").map(payPswd).toProperty("payPswd")
                 .map(payPswdSalt).toProperty("payPswdSalt").map(signInNickname).toProperty("signInNickname").map(signInAvatar).toProperty("signInAvatar").map(wxOpenId)
@@ -205,8 +205,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     default int insertSelective(RacAccountMo record) {
         return MyBatis3Utils.insert(this::insert, record, racAccount,
             c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(userId).toPropertyWhenPresent("userId", record::getUserId).map(remark)
-                .toPropertyWhenPresent("remark", record::getRemark).map(orgId).toPropertyWhenPresent("orgId", record::getOrgId).map(domainId)
-                .toPropertyWhenPresent("domainId", record::getDomainId).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(signInName)
+                .toPropertyWhenPresent("remark", record::getRemark).map(orgId).toPropertyWhenPresent("orgId", record::getOrgId).map(realmId)
+                .toPropertyWhenPresent("realmId", record::getRealmId).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(signInName)
                 .toPropertyWhenPresent("signInName", record::getSignInName).map(signInMobile).toPropertyWhenPresent("signInMobile", record::getSignInMobile).map(signInEmail)
                 .toPropertyWhenPresent("signInEmail", record::getSignInEmail).map(signInPswd).toPropertyWhenPresent("signInPswd", record::getSignInPswd).map(signInPswdSalt)
                 .toPropertyWhenPresent("signInPswdSalt", record::getSignInPswdSalt).map(payPswd).toPropertyWhenPresent("payPswd", record::getPayPswd).map(payPswdSalt)
@@ -258,8 +258,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacAccountMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(userId).equalTo(record::getUserId).set(remark).equalTo(record::getRemark).set(orgId).equalTo(record::getOrgId).set(domainId)
-            .equalTo(record::getDomainId).set(isEnabled).equalTo(record::getIsEnabled).set(signInName).equalTo(record::getSignInName).set(signInMobile)
+        return dsl.set(id).equalTo(record::getId).set(userId).equalTo(record::getUserId).set(remark).equalTo(record::getRemark).set(orgId).equalTo(record::getOrgId).set(realmId)
+            .equalTo(record::getRealmId).set(isEnabled).equalTo(record::getIsEnabled).set(signInName).equalTo(record::getSignInName).set(signInMobile)
             .equalTo(record::getSignInMobile).set(signInEmail).equalTo(record::getSignInEmail).set(signInPswd).equalTo(record::getSignInPswd).set(signInPswdSalt)
             .equalTo(record::getSignInPswdSalt).set(payPswd).equalTo(record::getPayPswd).set(payPswdSalt).equalTo(record::getPayPswdSalt).set(signInNickname)
             .equalTo(record::getSignInNickname).set(signInAvatar).equalTo(record::getSignInAvatar).set(wxOpenId).equalTo(record::getWxOpenId).set(wxUnionId)
@@ -273,7 +273,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacAccountMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(userId).equalToWhenPresent(record::getUserId).set(remark).equalToWhenPresent(record::getRemark).set(orgId)
-            .equalToWhenPresent(record::getOrgId).set(domainId).equalToWhenPresent(record::getDomainId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName)
+            .equalToWhenPresent(record::getOrgId).set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName)
             .equalToWhenPresent(record::getSignInName).set(signInMobile).equalToWhenPresent(record::getSignInMobile).set(signInEmail).equalToWhenPresent(record::getSignInEmail)
             .set(signInPswd).equalToWhenPresent(record::getSignInPswd).set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt).set(payPswd)
             .equalToWhenPresent(record::getPayPswd).set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt).set(signInNickname).equalToWhenPresent(record::getSignInNickname)
@@ -289,7 +289,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default int updateByPrimaryKey(RacAccountMo record) {
         return update(
-            c -> c.set(userId).equalTo(record::getUserId).set(remark).equalTo(record::getRemark).set(orgId).equalTo(record::getOrgId).set(domainId).equalTo(record::getDomainId)
+            c -> c.set(userId).equalTo(record::getUserId).set(remark).equalTo(record::getRemark).set(orgId).equalTo(record::getOrgId).set(realmId).equalTo(record::getRealmId)
                 .set(isEnabled).equalTo(record::getIsEnabled).set(signInName).equalTo(record::getSignInName).set(signInMobile).equalTo(record::getSignInMobile).set(signInEmail)
                 .equalTo(record::getSignInEmail).set(signInPswd).equalTo(record::getSignInPswd).set(signInPswdSalt).equalTo(record::getSignInPswdSalt).set(payPswd)
                 .equalTo(record::getPayPswd).set(payPswdSalt).equalTo(record::getPayPswdSalt).set(signInNickname).equalTo(record::getSignInNickname).set(signInAvatar)
@@ -304,7 +304,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default int updateByPrimaryKeySelective(RacAccountMo record) {
         return update(c -> c.set(userId).equalToWhenPresent(record::getUserId).set(remark).equalToWhenPresent(record::getRemark).set(orgId).equalToWhenPresent(record::getOrgId)
-            .set(domainId).equalToWhenPresent(record::getDomainId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName).equalToWhenPresent(record::getSignInName)
+            .set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName).equalToWhenPresent(record::getSignInName)
             .set(signInMobile).equalToWhenPresent(record::getSignInMobile).set(signInEmail).equalToWhenPresent(record::getSignInEmail).set(signInPswd)
             .equalToWhenPresent(record::getSignInPswd).set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt).set(payPswd).equalToWhenPresent(record::getPayPswd)
             .set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt).set(signInNickname).equalToWhenPresent(record::getSignInNickname).set(signInAvatar)
@@ -320,7 +320,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default int deleteSelective(RacAccountMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
@@ -339,7 +339,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default Optional<RacAccountMo> selectOne(RacAccountMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
@@ -358,7 +358,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default long countSelective(RacAccountMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId)).and(remark, isEqualToWhenPresent(record::getRemark))
-            .and(orgId, isEqualToWhenPresent(record::getOrgId)).and(domainId, isEqualToWhenPresent(record::getDomainId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+            .and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
             .and(signInName, isEqualToWhenPresent(record::getSignInName)).and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
             .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail)).and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
             .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt)).and(payPswd, isEqualToWhenPresent(record::getPayPswd))
@@ -390,7 +390,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default List<RacAccountMo> selectSelective(RacAccountMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
             .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
             .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
@@ -425,15 +425,15 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             if (qo.getOrgId() != null) {
                 if (hierarchical != null) {
                     return c.join(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId)).leftJoin(racOrg).on(racOrg.id, equalTo(racOrgAccount.orgId))
-                        .where(racOrg.treeCode, isLike(hierarchical), and(racAccount.domainId, isEqualToWhenPresent(qo.getDomainId()), sqlCriterion));
+                        .where(racOrg.treeCode, isLike(hierarchical), and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
                 }
                 else {
                     return c.join(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId)).where(racOrgAccount.orgId, isEqualTo(qo::getOrgId),
-                        and(racAccount.domainId, isEqualToWhenPresent(qo.getDomainId()), sqlCriterion));
+                        and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
                 }
             }
             else {
-                return c.where(racAccount.domainId, isEqualToWhenPresent(qo.getDomainId()), sqlCriterion);
+                return c.where(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion);
             }
         });
     }
@@ -446,7 +446,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      * @return
      */
     @Select({ "<script>" + "SELECT     ac.* FROM    RAC_ACCOUNT ac   LEFT JOIN " + "    RAC_ORG_ACCOUNT oac ON ac.ID = oac.ACCOUNT_ID " + "WHERE " + "   "
-        + " ac.DOMAIN_ID = #{record.domainId}" + "<if test='record.keywords!=null'> " + " and (ac.SIGN_IN_NAME like '%${record.keywords}%' "
+        + " ac.REALM_ID = #{record.realmId}" + "<if test='record.keywords!=null'> " + " and (ac.SIGN_IN_NAME like '%${record.keywords}%' "
         + " or ac.SIGN_IN_MOBILE like '%${record.keywords}%' " + " or ac.SIGN_IN_EMAIL like '%${record.keywords}%' " + " or ac.REMARK like '%${record.keywords}%' "
         + " or ac.SIGN_IN_NICKNAME like '%${record.keywords}%' " + " or ac.WX_NICKNAME like '%${record.keywords}%' " + " or ac.QQ_NICKNAME like '%${record.keywords}%' "
         + " or ac.ID like '%${record.keywords}%' ) " + "</if> " + "        AND ((ac.ORG_ID IS NULL " + "        OR NOT EXISTS( SELECT  " + "            a.ID " + "        FROM "

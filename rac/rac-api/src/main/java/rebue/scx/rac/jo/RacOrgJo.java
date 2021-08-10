@@ -89,15 +89,6 @@ public class RacOrgJo implements Serializable {
     private String            remark;
 
     /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacDomainJo       domain;
-
-    /**
      * 上级组织
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -145,7 +136,7 @@ public class RacOrgJo implements Serializable {
      */
     @Basic(optional = false)
     @Column(name = "TREE_CODE", nullable = false, length = 50)
-    private String treeCode;
+    private String     treeCode;
 
     /**
      * 组织属性类型(字典项KEY)
@@ -154,7 +145,7 @@ public class RacOrgJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "ATTR_TYPE", nullable = true, length = 32)
-    private String attrType;
+    private String     attrType;
 
     /**
      * 地址
@@ -163,7 +154,7 @@ public class RacOrgJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "ADDR", nullable = true, length = 500)
-    private String addr;
+    private String     addr;
 
     /**
      * 联系人
@@ -172,7 +163,7 @@ public class RacOrgJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "CONTACT_PERSON", nullable = true, length = 30)
-    private String contactPerson;
+    private String     contactPerson;
 
     /**
      * 联系方式
@@ -181,7 +172,7 @@ public class RacOrgJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "CONTACT_WAY", nullable = true, length = 30)
-    private String contactWay;
+    private String     contactWay;
 
     /**
      * 邮箱
@@ -190,5 +181,14 @@ public class RacOrgJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "EMAIL", nullable = true, length = 50)
-    private String email;
+    private String     email;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacRealmJo realm;
 }

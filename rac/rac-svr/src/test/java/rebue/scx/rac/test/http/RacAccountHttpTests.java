@@ -61,7 +61,7 @@ public class RacAccountHttpTests {
             addTo.setPayPswdSalt("bbb");
             addTo.setUserId(880618179104210956L);
             addTo.setOrgId(null);
-            addTo.setDomainId("ops");
+            addTo.setRealmId("ops");
             log.info("添加账户的参数为：" + addTo);
             final String addResult = _httpClient.postByJsonParams(_hostUrl + "/rac/account", addTo);
             log.info("添加账户的返回值为：" + addResult);

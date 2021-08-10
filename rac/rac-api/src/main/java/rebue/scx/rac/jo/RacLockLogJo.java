@@ -140,15 +140,6 @@ public class RacLockLogJo implements Serializable {
     }
 
     /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacDomainJo  domain;
-
-    /**
      * 锁定操作的代理人的账户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -165,4 +156,13 @@ public class RacLockLogJo implements Serializable {
     @JoinColumn(name = "UNLOCK_OP_AGENT_ID", referencedColumnName = "ID")
     @ManyToOne()
     private RacAccountJo unlockOpAgent;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacRealmJo   realm;
 }

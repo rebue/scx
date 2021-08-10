@@ -33,7 +33,7 @@ public class RacOpLogExMo extends RacOpLogMo {
     /**
      * 领域ID
      */
-    private String            domainId;
+    private String            realmId;
 
     /**
      * 登录名称
@@ -104,7 +104,7 @@ public class RacOpLogExMo extends RacOpLogMo {
         // TODO Auto-generated constructor stub
     }
 
-    public RacOpLogExMo(final String sysName, final String remark, final String menu, final String domainId, final String signInName, final String signInNickname,
+    public RacOpLogExMo(final String sysName, final String remark, final String menu, final String realmId, final String signInName, final String signInNickname,
             final String signInMobile, final String signInEmail,
             final String wxNickname, final String qqNickname, final String agentSignInName, final String agentSignInNickname, final String agentSignInMobile,
             final String agentSignInEmail, final String agentwxNickname,
@@ -113,7 +113,7 @@ public class RacOpLogExMo extends RacOpLogMo {
         this.sysName             = sysName;
         this.remark              = remark;
         this.menu                = menu;
-        this.domainId            = domainId;
+        this.realmId            = realmId;
         this.signInName          = signInName;
         this.signInNickname      = signInNickname;
         this.signInMobile        = signInMobile;
@@ -152,12 +152,12 @@ public class RacOpLogExMo extends RacOpLogMo {
         this.menu = menu;
     }
 
-    public String getDomainId() {
-        return domainId;
+    public String getRealmId() {
+        return realmId;
     }
 
-    public void setDomainId(final String domainId) {
-        this.domainId = domainId;
+    public void setRealmId(final String realmId) {
+        this.realmId = realmId;
     }
 
     public String getSignInName() {

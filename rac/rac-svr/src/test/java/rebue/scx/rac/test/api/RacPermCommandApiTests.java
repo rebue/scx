@@ -32,7 +32,7 @@ public class RacPermCommandApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -67,14 +67,12 @@ public class RacPermCommandApiTests {
         log.info("获取单个权限命令的参数为：" + id);
         final Ro<PojoRa<RacPermCommandMo>> getByIdResult = _api.getById(id);
         log.info("获取单个权限命令的返回值为：" + getByIdResult);
-
         final RacPermCommandModifyTo modifyTo = dozerMapper.map(addTo, RacPermCommandModifyTo.class);
         modifyTo.setId(id);
         log.info("修改权限命令的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改权限命令的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除权限命令的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除权限命令的返回值为：" + deleteResult);

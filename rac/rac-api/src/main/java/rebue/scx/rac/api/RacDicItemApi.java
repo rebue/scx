@@ -7,7 +7,7 @@ import rebue.scx.rac.to.RacDicItemModifyTo;
 import rebue.scx.rac.to.RacDicItemPageTo;
 
 /**
- * 字典项API
+ * 字典项的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -55,8 +55,7 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacRoleSvcImpl
-    extends
-    BaseSvcImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleMapper, RacRoleDao>
+    extends BaseSvcImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleMapper, RacRoleDao>
     implements RacRoleSvc {
 
     /**
@@ -101,9 +100,9 @@ public class RacRoleSvcImpl
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacRoleMo add(final RacRoleAddTo to) {
-        final RacRoleMo    mo = OrikaUtils.map(to, getMoClass());
+        final RacRoleMo mo = OrikaUtils.map(to, getMoClass());
         final RacRoleOneTo qo = new RacRoleOneTo();
-        qo.setDomainId(to.getDomainId());
+        qo.setRealmId(to.getRealmId());
         final Long count = getThisSvc().countSelective(qo);
         // 最初添加的角色顺序从0开始,新添加的角色顺序为最大
         mo.setSeqNo((byte) (count + 0));
@@ -182,11 +181,11 @@ public class RacRoleSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacRoleModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacRoleMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacRoleMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取修改当前这条数据上面一条的数据的顺序号
         final RacRoleMo roleQo = new RacRoleMo();
         roleQo.setSeqNo((byte) (qo.getSeqNo() - 1));
-        roleQo.setDomainId(to.getDomainId());
+        roleQo.setRealmId(to.getRealmId());
         final RacRoleMo roleup = _mapper.selectOne(roleQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 修改当前这条数据上面一条的数据的顺序号
         roleup.setSeqNo((byte) (roleup.getSeqNo() + 1));
@@ -204,11 +203,11 @@ public class RacRoleSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacRoleModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacRoleMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacRoleMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacRoleMo roleQo = new RacRoleMo();
         roleQo.setSeqNo((byte) (qo.getSeqNo() + 1));
-        roleQo.setDomainId(to.getDomainId());
+        roleQo.setRealmId(to.getRealmId());
         final RacRoleMo roleDown = _mapper.selectOne(roleQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 修改当前这条数据下面一条的数据的顺序号
         roleDown.setSeqNo((byte) (roleDown.getSeqNo() - 1));
@@ -245,8 +244,8 @@ public class RacRoleSvcImpl
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final Long id) {
-        final RacRoleMo qo       = getById(id);
-        final int       rowCount = _mapper.deleteByPrimaryKey(id);
+        final RacRoleMo qo = getById(id);
+        final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
         }
@@ -269,13 +268,13 @@ public class RacRoleSvcImpl
     @Override
     public Ro<ListTransferOfRoleRa> listTransferOfRole(final RacListTransferOfRoleTo qo) {
         final RacRoleMo roleMo = new RacRoleMo();
-        roleMo.setDomainId(qo.getDomainId());
-        final List<RacRoleMo>  listRole      = _mapper.selectListOrderByRole(roleMo);
+        roleMo.setRealmId(qo.getRealmId());
+        final List<RacRoleMo> listRole = _mapper.selectListOrderByRole(roleMo);
         final RacAccountRoleMo accountRoleMo = new RacAccountRoleMo();
         accountRoleMo.setAccountId(qo.getAccountId());
         final List<RacAccountRoleMo> listAccountRole = racAccountRoleMapper.selectSelective(accountRoleMo);
         // 将所有记录添加到返回ListTransferOfRoleRa的对象中
-        final ListTransferOfRoleRa   ro              = new ListTransferOfRoleRa();
+        final ListTransferOfRoleRa ro = new ListTransferOfRoleRa();
         ro.setAddableList(listRole);
         ro.setExistList(listAccountRole);
         return new Ro<>(ResultDic.SUCCESS, "查询角色列表成功", ro);

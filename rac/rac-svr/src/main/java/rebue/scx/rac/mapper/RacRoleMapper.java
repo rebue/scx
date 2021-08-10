@@ -4,11 +4,11 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThan;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
-import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.name;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.racRole;
+import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.realmId;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.remark;
 import static rebue.scx.rac.mapper.RacRoleDynamicSqlSupport.seqNo;
 
@@ -50,7 +50,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, domainId, isEnabled, seqNo, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, realmId, isEnabled, seqNo, remark);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,7 +88,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacRoleMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR),
         @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT), @Result(column = "SEQ_NO", property = "seqNo", jdbcType = JdbcType.TINYINT),
         @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
     })
@@ -125,7 +125,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insert(RacRoleMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racRole, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(domainId).toProperty("domainId").map(isEnabled)
+        return MyBatis3Utils.insert(this::insert, record, racRole, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId").map(isEnabled)
             .toProperty("isEnabled").map(seqNo).toProperty("seqNo").map(remark).toProperty("remark"));
     }
 
@@ -133,8 +133,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertMultiple(Collection<RacRoleMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racRole, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(domainId)
-            .toProperty("domainId").map(isEnabled).toProperty("isEnabled").map(seqNo).toProperty("seqNo").map(remark).toProperty("remark"));
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racRole, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId")
+            .map(isEnabled).toProperty("isEnabled").map(seqNo).toProperty("seqNo").map(remark).toProperty("remark"));
     }
 
     /**
@@ -142,8 +142,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      */
     default int insertSelective(RacRoleMo record) {
         return MyBatis3Utils.insert(this::insert, record, racRole,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(name).toPropertyWhenPresent("name", record::getName).map(domainId)
-                .toPropertyWhenPresent("domainId", record::getDomainId).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(seqNo)
+            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(name).toPropertyWhenPresent("name", record::getName).map(realmId)
+                .toPropertyWhenPresent("realmId", record::getRealmId).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(seqNo)
                 .toPropertyWhenPresent("seqNo", record::getSeqNo).map(remark).toPropertyWhenPresent("remark", record::getRemark));
     }
 
@@ -186,7 +186,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacRoleMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(isEnabled).equalTo(record::getIsEnabled)
+        return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(isEnabled).equalTo(record::getIsEnabled)
             .set(seqNo).equalTo(record::getSeqNo).set(remark).equalTo(record::getRemark);
     }
 
@@ -194,7 +194,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacRoleMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId).set(isEnabled)
+        return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled)
             .equalToWhenPresent(record::getIsEnabled).set(seqNo).equalToWhenPresent(record::getSeqNo).set(remark).equalToWhenPresent(record::getRemark);
     }
 
@@ -202,7 +202,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(RacRoleMo record) {
-        return update(c -> c.set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(isEnabled).equalTo(record::getIsEnabled).set(seqNo)
+        return update(c -> c.set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(isEnabled).equalTo(record::getIsEnabled).set(seqNo)
             .equalTo(record::getSeqNo).set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
@@ -211,7 +211,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      */
     default int updateByPrimaryKeySelective(RacRoleMo record) {
         return update(
-            c -> c.set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId).set(isEnabled).equalToWhenPresent(record::getIsEnabled)
+            c -> c.set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled).equalToWhenPresent(record::getIsEnabled)
                 .set(seqNo).equalToWhenPresent(record::getSeqNo).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
     }
 
@@ -219,9 +219,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteSelective(RacRoleMo record) {
-        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark)));
+        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -229,7 +228,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      */
     default Optional<RacRoleMo> selectOne(RacRoleMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
+            .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
             .and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
@@ -237,7 +236,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long countSelective(RacRoleMo record) {
-        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(domainId, isEqualToWhenPresent(record::getDomainId))
+        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
@@ -259,9 +258,8 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<RacRoleMo> selectSelective(RacRoleMo record) {
-        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-            .and(remark, isEqualToWhenPresent(record::getRemark)));
+        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(seqNo, isEqualToWhenPresent(record::getSeqNo)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
     /**
@@ -271,7 +269,7 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @return
      */
     default List<RacRoleMo> selectListOrderByRole(RacRoleMo record) {
-        return select(c -> c.where(domainId, isEqualToWhenPresent(record::getDomainId)).orderBy(seqNo));
+        return select(c -> c.where(realmId, isEqualToWhenPresent(record::getRealmId)).orderBy(seqNo));
     }
 
     /**
@@ -281,10 +279,10 @@ public interface RacRoleMapper extends MapperRootInterface<RacRoleMo, Long> {
      * @return
      */
     // @Update({
-    // "<script>  UPDATE RAC_ROLE ro SET ro.SEQ_NO = (ro.SEQ_NO-1) WHERE ro.DOMAIN_ID=#{record.domainId} and ro.SEQ_NO > #{record.seqNo} </script>" })
+    // "<script>  UPDATE RAC_ROLE ro SET ro.SEQ_NO = (ro.SEQ_NO-1) WHERE ro.REALM_ID=#{record.realmId} and ro.SEQ_NO > #{record.seqNo} </script>" })
     // 
     default int updateSeqNoByDeleteAfter(@Param(value = "record") RacRoleMo record) {
-        return update(c -> c.set(seqNo).equalToConstant("SEQ_NO-1").where(domainId, isEqualTo(record::getDomainId)).and(seqNo, isGreaterThan(record::getSeqNo)));
+        return update(c -> c.set(seqNo).equalToConstant("SEQ_NO-1").where(realmId, isEqualTo(record::getRealmId)).and(seqNo, isGreaterThan(record::getSeqNo)));
     }
 
     /**

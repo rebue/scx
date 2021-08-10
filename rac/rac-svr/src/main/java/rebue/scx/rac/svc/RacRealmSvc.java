@@ -3,14 +3,14 @@ package rebue.scx.rac.svc;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
-import rebue.scx.rac.jo.RacDomainJo;
-import rebue.scx.rac.mo.RacDomainMo;
-import rebue.scx.rac.to.RacDomainAddTo;
-import rebue.scx.rac.to.RacDomainDelTo;
-import rebue.scx.rac.to.RacDomainListTo;
-import rebue.scx.rac.to.RacDomainModifyTo;
-import rebue.scx.rac.to.RacDomainOneTo;
-import rebue.scx.rac.to.RacDomainPageTo;
+import rebue.scx.rac.jo.RacRealmJo;
+import rebue.scx.rac.mo.RacRealmMo;
+import rebue.scx.rac.to.RacRealmAddTo;
+import rebue.scx.rac.to.RacRealmDelTo;
+import rebue.scx.rac.to.RacRealmListTo;
+import rebue.scx.rac.to.RacRealmModifyTo;
+import rebue.scx.rac.to.RacRealmOneTo;
+import rebue.scx.rac.to.RacRealmPageTo;
 
 /**
  * 领域服务接口
@@ -27,6 +27,7 @@ import rebue.scx.rac.to.RacDomainPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacDomainSvc
-    extends BaseSvc<java.lang.String, RacDomainAddTo, RacDomainModifyTo, RacDomainDelTo, RacDomainOneTo, RacDomainListTo, RacDomainPageTo, RacDomainMo, RacDomainJo> {
+public interface RacRealmSvc
+    extends BaseSvc<java.lang.String, RacRealmAddTo, RacRealmModifyTo, RacRealmDelTo, RacRealmOneTo, RacRealmListTo, RacRealmPageTo, RacRealmMo, RacRealmJo> {
+
 }

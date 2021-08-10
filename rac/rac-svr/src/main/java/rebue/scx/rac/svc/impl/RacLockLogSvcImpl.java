@@ -84,7 +84,7 @@ public class RacLockLogSvcImpl extends
         final int rowCount = _mapper.updateUnLockOpLogEx(qo);
         if (rowCount == 0) {
             RacLockLogAddTo ato = new RacLockLogAddTo();
-            ato.setDomainId(qo.getDomainId());
+            ato.setRealmId(qo.getRealmId());
             ato.setLockOpId(0L);
             ato.setLockDatetime(LocalDateTime.now());
             ato.setLockReason("系统未找到锁定记录");

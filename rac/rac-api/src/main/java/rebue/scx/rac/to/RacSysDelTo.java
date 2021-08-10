@@ -32,14 +32,6 @@ public class RacSysDelTo implements Serializable {
     private String            name;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
      * 系统备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -62,4 +54,12 @@ public class RacSysDelTo implements Serializable {
      */
     @Length(max = 3000, message = "菜单的长度不能大于3000")
     private String            menu;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            realmId;
 }

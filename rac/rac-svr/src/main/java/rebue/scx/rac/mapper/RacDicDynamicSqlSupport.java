@@ -38,7 +38,7 @@ public final class RacDicDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> domainId = racDic.domainId;
+    public static final SqlColumn<String> realmId = racDic.realmId;
 
     /**
     * 系统ID
@@ -68,7 +68,7 @@ public final class RacDicDynamicSqlSupport {
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
 

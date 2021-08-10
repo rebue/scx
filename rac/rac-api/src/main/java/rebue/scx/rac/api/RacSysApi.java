@@ -10,7 +10,7 @@ import rebue.scx.rac.to.RacSysModifyTo;
 import rebue.scx.rac.to.RacSysPageTo;
 
 /**
- * 系统API
+ * 系统的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

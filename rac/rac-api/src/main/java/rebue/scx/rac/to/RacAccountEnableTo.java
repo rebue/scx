@@ -34,7 +34,7 @@ public class RacAccountEnableTo implements Serializable {
 	 * 领域ID
 	 *
 	 */
-	private String domainId;
+	private String realmId;
 	
 	/**
 	 * 被锁定账户的账户ID

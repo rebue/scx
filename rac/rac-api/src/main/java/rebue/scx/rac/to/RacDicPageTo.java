@@ -38,14 +38,6 @@ public class RacDicPageTo extends PageTo implements Serializable {
     private String            name;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
      * 系统ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -77,4 +69,12 @@ public class RacDicPageTo extends PageTo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime     updateDatetime;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            realmId;
 }

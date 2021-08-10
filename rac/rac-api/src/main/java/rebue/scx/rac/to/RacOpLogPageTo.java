@@ -39,7 +39,7 @@ public class RacOpLogPageTo extends PageTo implements Serializable {
     /**
      * 领域id
      */
-    private String            domainId;
+    private String            realmId;
 
     /**
      * 系统ID

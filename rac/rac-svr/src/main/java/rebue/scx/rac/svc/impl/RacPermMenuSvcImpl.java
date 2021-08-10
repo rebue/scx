@@ -117,7 +117,7 @@ public class RacPermMenuSvcImpl extends
      */
     @Override
     public List<RacPermMenuMo> listPermMenu(final RacPermMenuListTo to) {
-        final RacPermMenuMo       qo   = OrikaUtils.map(to, getMoClass());
+        final RacPermMenuMo qo = OrikaUtils.map(to, getMoClass());
         final List<RacPermMenuMo> list = _mapper.selectSelective(qo);
         return list;
     }

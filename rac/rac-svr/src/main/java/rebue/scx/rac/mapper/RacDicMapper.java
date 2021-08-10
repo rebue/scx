@@ -7,10 +7,10 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isInWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.dicKey;
-import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.domainId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.name;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.racDic;
+import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.realmId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.remark;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.sysId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.updateDatetime;
@@ -55,35 +55,40 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, dicKey, name, domainId, sysId, remark, updateDatetime);
+    BasicColumn[] selectList = BasicColumn.columnList(id, dicKey, name, realmId, sysId, remark, updateDatetime);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacDicMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacDicMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacDicMoResult")
     Optional<RacDicMo> selectOne(SelectStatementProvider selectStatement);
@@ -91,187 +96,205 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacDicMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "DIC_KEY", property = "dicKey", jdbcType = JdbcType.VARCHAR), @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "DOMAIN_ID", property = "domainId", jdbcType = JdbcType.VARCHAR), @Result(column = "SYS_ID", property = "sysId", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "UPDATE_DATETIME", property = "updateDatetime", jdbcType = JdbcType.TIMESTAMP)
+            @Result(column = "DIC_KEY", property = "dicKey", jdbcType = JdbcType.VARCHAR), @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR), @Result(column = "SYS_ID", property = "sysId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "UPDATE_DATETIME", property = "updateDatetime", jdbcType = JdbcType.TIMESTAMP)
     })
     List<RacDicMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default long count(CountDSLCompleter completer) {
+    @Override
+    default long count(final CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racDic, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int delete(DeleteDSLCompleter completer) {
+    @Override
+    default int delete(final DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racDic, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insert(RacDicMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racDic, c -> c.map(id).toProperty("id").map(dicKey).toProperty("dicKey").map(name).toProperty("name").map(domainId)
-            .toProperty("domainId").map(sysId).toProperty("sysId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
+    @Override
+    default int insert(final RacDicMo record) {
+        return MyBatis3Utils.insert(this::insert, record, racDic, c -> c.map(id).toProperty("id").map(dicKey).toProperty("dicKey").map(name).toProperty("name").map(realmId)
+                .toProperty("realmId").map(sysId).toProperty("sysId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertMultiple(Collection<RacDicMo> records) {
+    @Override
+    default int insertMultiple(final Collection<RacDicMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racDic, c -> c.map(id).toProperty("id").map(dicKey).toProperty("dicKey").map(name).toProperty("name")
-            .map(domainId).toProperty("domainId").map(sysId).toProperty("sysId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
+                .map(realmId).toProperty("realmId").map(sysId).toProperty("sysId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertSelective(RacDicMo record) {
+    @Override
+    default int insertSelective(final RacDicMo record) {
         return MyBatis3Utils.insert(this::insert, record, racDic,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(dicKey).toPropertyWhenPresent("dicKey", record::getDicKey).map(name)
-                .toPropertyWhenPresent("name", record::getName).map(domainId).toPropertyWhenPresent("domainId", record::getDomainId).map(sysId)
-                .toPropertyWhenPresent("sysId", record::getSysId).map(remark).toPropertyWhenPresent("remark", record::getRemark).map(updateDatetime)
-                .toPropertyWhenPresent("updateDatetime", record::getUpdateDatetime));
+                c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(dicKey).toPropertyWhenPresent("dicKey", record::getDicKey).map(name)
+                        .toPropertyWhenPresent("name", record::getName).map(realmId).toPropertyWhenPresent("realmId", record::getRealmId).map(sysId)
+                        .toPropertyWhenPresent("sysId", record::getSysId).map(remark).toPropertyWhenPresent("remark", record::getRemark).map(updateDatetime)
+                        .toPropertyWhenPresent("updateDatetime", record::getUpdateDatetime));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacDicMo> selectOne(SelectDSLCompleter completer) {
+    @Override
+    default Optional<RacDicMo> selectOne(final SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racDic, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacDicMo> select(SelectDSLCompleter completer) {
+    @Override
+    default List<RacDicMo> select(final SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racDic, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacDicMo> selectDistinct(SelectDSLCompleter completer) {
+    @Override
+    default List<RacDicMo> selectDistinct(final SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racDic, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int update(UpdateDSLCompleter completer) {
+    @Override
+    default int update(final UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racDic, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateAllColumns(RacDicMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(sysId)
-            .equalTo(record::getSysId).set(remark).equalTo(record::getRemark).set(updateDatetime).equalTo(record::getUpdateDatetime);
+    static UpdateDSL<UpdateModel> updateAllColumns(final RacDicMo record, final UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(id).equalTo(record::getId).set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(sysId)
+                .equalTo(record::getSysId).set(remark).equalTo(record::getRemark).set(updateDatetime).equalTo(record::getUpdateDatetime);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacDicMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId).set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(domainId)
-            .equalToWhenPresent(record::getDomainId).set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime)
-            .equalToWhenPresent(record::getUpdateDatetime);
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(final RacDicMo record, final UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(id).equalToWhenPresent(record::getId).set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(realmId)
+                .equalToWhenPresent(record::getRealmId).set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime)
+                .equalToWhenPresent(record::getUpdateDatetime);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKey(RacDicMo record) {
-        return update(c -> c.set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(domainId).equalTo(record::getDomainId).set(sysId)
-            .equalTo(record::getSysId).set(remark).equalTo(record::getRemark).set(updateDatetime).equalTo(record::getUpdateDatetime).where(id, isEqualTo(record::getId)));
+    @Override
+    default int updateByPrimaryKey(final RacDicMo record) {
+        return update(c -> c.set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(sysId).equalTo(record::getSysId)
+                .set(remark).equalTo(record::getRemark).set(updateDatetime).equalTo(record::getUpdateDatetime).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKeySelective(RacDicMo record) {
-        return update(c -> c.set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(domainId).equalToWhenPresent(record::getDomainId)
-            .set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime).equalToWhenPresent(record::getUpdateDatetime)
-            .where(id, isEqualTo(record::getId)));
+    @Override
+    default int updateByPrimaryKeySelective(final RacDicMo record) {
+        return update(c -> c.set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId)
+                .set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime).equalToWhenPresent(record::getUpdateDatetime)
+                .where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteSelective(RacDicMo record) {
+    @Override
+    default int deleteSelective(final RacDicMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
-            .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacDicMo> selectOne(RacDicMo record) {
+    @Override
+    default Optional<RacDicMo> selectOne(final RacDicMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
-            .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default long countSelective(RacDicMo record) {
+    @Override
+    default long countSelective(final RacDicMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
-            .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existSelective(RacDicMo record) {
+    @Override
+    default boolean existSelective(final RacDicMo record) {
         return countSelective(record) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacDicMo> selectSelective(RacDicMo record) {
+    @Override
+    default List<RacDicMo> selectSelective(final RacDicMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-            .and(domainId, isEqualToWhenPresent(record::getDomainId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
-            .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
-    default List<RacDicMo> selectPageOrKeywords(DicListWithItemTo record) {
-        final String keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
-        final List<String> domainIds = (record.getDomainIds() != null) ? record.getDomainIds() : null;
-        final List<String> sysIds = (record.getSysIds() != null) ? record.getSysIds() : null;
+    default List<RacDicMo> selectPageOrKeywords(final DicListWithItemTo record) {
+        final String       keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
+        final List<String> realmIds = (record.getRealmIds() != null) ? record.getRealmIds() : null;
+        final List<String> sysIds   = (record.getSysIds() != null) ? record.getSysIds() : null;
         return select(c -> {
-            if (domainIds == null && sysIds == null) {
+            if (realmIds == null && sysIds == null) {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
-                    or(remark, isLikeWhenPresent(keywords)));
+                        or(remark, isLikeWhenPresent(keywords)));
             }
-            else if (domainIds != null && sysIds == null) {
+            else if (realmIds != null && sysIds == null) {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
-                    or(remark, isLikeWhenPresent(keywords))).and(domainId, isInWhenPresent(domainIds));
+                        or(remark, isLikeWhenPresent(keywords))).and(realmId, isInWhenPresent(realmIds));
             }
-            else if (domainIds == null && sysIds != null) {
+            else if (realmIds == null && sysIds != null) {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
-                    or(remark, isLikeWhenPresent(keywords))).and(sysId, isInWhenPresent(sysIds));
+                        or(remark, isLikeWhenPresent(keywords))).and(sysId, isInWhenPresent(sysIds));
             }
             else {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
-                    or(remark, isLikeWhenPresent(keywords))).and(domainId, isInWhenPresent(domainIds)).and(sysId, isInWhenPresent(sysIds));
+                        or(remark, isLikeWhenPresent(keywords))).and(realmId, isInWhenPresent(realmIds)).and(sysId, isInWhenPresent(sysIds));
             }
         });
     }
@@ -279,34 +302,39 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteByPrimaryKey(Long id_) {
+    @Override
+    default int deleteByPrimaryKey(final Long id_) {
         return delete(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacDicMo> selectByPrimaryKey(Long id_) {
+    @Override
+    default Optional<RacDicMo> selectByPrimaryKey(final Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existByPrimaryKey(Long id_) {
+    @Override
+    default boolean existByPrimaryKey(final Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacDicMo> selectIn(List<Long> ids) {
+    @Override
+    default List<RacDicMo> selectIn(final List<Long> ids) {
         return select(c -> c.where(id, isIn(ids)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default BasicColumn[] getColumns() {
         return selectList;
     }

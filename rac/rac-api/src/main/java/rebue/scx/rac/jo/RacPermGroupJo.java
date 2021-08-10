@@ -80,15 +80,6 @@ public class RacPermGroupJo implements Serializable {
     private String            remark;
 
     /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacDomainJo       domain;
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -119,4 +110,13 @@ public class RacPermGroupJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacRealmJo realm;
 }

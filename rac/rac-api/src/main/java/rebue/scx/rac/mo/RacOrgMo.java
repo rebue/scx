@@ -60,15 +60,6 @@ public class RacOrgMo implements Serializable, Mo<Long> {
     private Long              parentId;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
      * 组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -105,15 +96,6 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 领域
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacDomainMo       domain;
 
     /**
      * 上级组织
@@ -176,24 +158,6 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      */
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getDomainId() {
-        return domainId;
-    }
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
     }
 
     /**
@@ -280,7 +244,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", parentId=").append(parentId);
-        sb.append(", domainId=").append(domainId);
+        sb.append(", realmId=").append(realmId);
         sb.append(", orgType=").append(orgType);
         sb.append(", treeCode=").append(treeCode);
         sb.append(", fullName=").append(fullName);
@@ -490,5 +454,41 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String     realmId;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacRealmMo realm;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getRealmId() {
+        return realmId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setRealmId(String realmId) {
+        this.realmId = realmId;
     }
 }

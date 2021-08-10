@@ -9,7 +9,7 @@ import rebue.scx.rac.to.RacPermModifyTo;
 import rebue.scx.rac.to.RacPermPageTo;
 
 /**
- * 权限API
+ * 权限的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -18,9 +18,9 @@ public interface RacPermApi extends BaseApi<java.lang.Long, RacPermAddTo, RacPer
     /**
      * 查询带分组的权限列表
      *
-     * @param domainId 领域ID
+     * @param realmId 领域ID
      */
-    Ro<PermListWithGroupRa> listWithGroup(String domainId);
+    Ro<PermListWithGroupRa> listWithGroup(String realmId);
 
     /**
      * 上移动

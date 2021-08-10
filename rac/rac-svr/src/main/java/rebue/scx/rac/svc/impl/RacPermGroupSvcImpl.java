@@ -88,9 +88,9 @@ public class RacPermGroupSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacPermGroupMo add(final RacPermGroupAddTo to) {
-        final RacPermGroupMo    mo = OrikaUtils.map(to, getMoClass());
+        final RacPermGroupMo mo = OrikaUtils.map(to, getMoClass());
         final RacPermGroupOneTo qo = new RacPermGroupOneTo();
-        qo.setDomainId(to.getDomainId());
+        qo.setRealmId(to.getRealmId());
         final Long count = getThisSvc().countSelective(qo);
         // 最初添加的权限分组顺序从0开始,新添加的权限分组顺序为最大
         mo.setSeqNo((byte) (count + 0));
@@ -103,8 +103,8 @@ public class RacPermGroupSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final Long id) {
-        final RacPermGroupMo qo       = getById(id);
-        final int            rowCount = _mapper.deleteByPrimaryKey(id);
+        final RacPermGroupMo qo = getById(id);
+        final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
         }
@@ -122,10 +122,10 @@ public class RacPermGroupSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacPermGroupModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacPermGroupMo qo          = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermGroupMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         final RacPermGroupMo permGroupQo = new RacPermGroupMo();
         permGroupQo.setSeqNo((byte) (qo.getSeqNo() - 1));
-        permGroupQo.setDomainId(qo.getDomainId());
+        permGroupQo.setRealmId(qo.getRealmId());
         final RacPermGroupMo permGroupUp = _mapper.selectOne(permGroupQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 修改当前这条数据上面一条的数据的顺序号
         permGroupUp.setSeqNo((byte) (permGroupUp.getSeqNo() + 1));
@@ -143,11 +143,11 @@ public class RacPermGroupSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacPermGroupModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacPermGroupMo qo          = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermGroupMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacPermGroupMo permGroupQo = new RacPermGroupMo();
         permGroupQo.setSeqNo((byte) (qo.getSeqNo() + 1));
-        permGroupQo.setDomainId(qo.getDomainId());
+        permGroupQo.setRealmId(qo.getRealmId());
         final RacPermGroupMo permGroupDown = _mapper.selectOne(permGroupQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 修改当前这条数据下面一条的数据的顺序号
         permGroupDown.setSeqNo((byte) (permGroupDown.getSeqNo() - 1));

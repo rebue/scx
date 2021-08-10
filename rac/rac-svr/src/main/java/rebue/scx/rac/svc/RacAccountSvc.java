@@ -72,32 +72,32 @@ public interface RacAccountSvc
     /**
      * 通过email获取账户信息
      *
-     * @param domainId 领域ID
+     * @param realmId 领域ID
      * @param email    电子邮箱
      *
      * @return 账户信息
      */
-    RacAccountMo getOneByEmail(@NotBlank String domainId, @NotBlank String email);
+    RacAccountMo getOneByEmail(@NotBlank String realmId, @NotBlank String email);
 
     /**
      * 通过手机号获取账户信息
      *
-     * @param domainId 领域ID
+     * @param realmId 领域ID
      * @param mobile   手机号
      *
      * @return 账户信息
      */
-    RacAccountMo getOneByMobile(@NotBlank String domainId, @NotBlank String mobile);
+    RacAccountMo getOneByMobile(@NotBlank String realmId, @NotBlank String mobile);
 
     /**
      * 通过登录名称获取账户信息
      *
-     * @param domainId   领域ID
+     * @param realmId   领域ID
      * @param signInName 登录名称
      *
      * @return 账户信息
      */
-    RacAccountMo getOneBySignInName(@NotBlank String domainId, @NotBlank String signInName);
+    RacAccountMo getOneBySignInName(@NotBlank String realmId, @NotBlank String signInName);
 
     /**
      * 获取当前账户信息

@@ -30,7 +30,7 @@ public final class RacRoleDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> domainId = racRole.domainId;
+    public static final SqlColumn<String> realmId = racRole.realmId;
 
     /**
     * 是否启用
@@ -58,7 +58,7 @@ public final class RacRoleDynamicSqlSupport {
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 

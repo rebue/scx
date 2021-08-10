@@ -16,7 +16,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
- * 账户API
+ * 账户的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

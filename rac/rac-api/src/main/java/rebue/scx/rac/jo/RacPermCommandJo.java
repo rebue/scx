@@ -18,6 +18,7 @@ import lombok.ToString;
  * 权限命令
  *
  * The persistent class for the RAC_PERM_COMMAND database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -33,36 +34,38 @@ public class RacPermCommandJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 权限命令的ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 权限命令的ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
+
     /**
-    * 命令KEY
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 命令KEY
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "COMMAND_KEY", nullable = false, length = 50)
     private String            commandKey;
+
     /**
-    * 命令备注
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 命令备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "REMARK", nullable = true, length = 200)
     private String            remark;
 
     /**
-    * 权限
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 权限
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "PERM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacPermJo         perm;
@@ -98,5 +101,4 @@ public class RacPermCommandJo implements Serializable {
             return false;
         return true;
     }
-
 }

@@ -15,16 +15,15 @@ import lombok.ToString;
 /**
  * 领域
  *
- * The persistent class for the RAC_DOMAIN database table.
- *
+ * The persistent class for the RAC_REALM database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_DOMAIN")
+@Table(name = "RAC_REALM")
 @Getter
 @Setter
 @ToString
-public class RacDomainJo implements Serializable {
+public class RacRealmJo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -32,29 +31,27 @@ public class RacDomainJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 领域ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 32)
     private String            id;
-
     /**
-     * 领域名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 领域名称
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 20)
     private String            name;
-
     /**
-     * 领域备注
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 领域备注
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Basic(optional = true)
     @Column(name = "REMARK", nullable = true, length = 50)
     private String            remark;
@@ -81,7 +78,7 @@ public class RacDomainJo implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RacDomainJo other = (RacDomainJo) obj;
+        RacRealmJo other = (RacRealmJo) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -90,4 +87,5 @@ public class RacDomainJo implements Serializable {
             return false;
         return true;
     }
+
 }

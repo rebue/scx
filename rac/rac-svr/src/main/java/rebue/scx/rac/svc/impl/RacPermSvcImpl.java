@@ -50,8 +50,7 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermSvcImpl
-    extends
-    BaseSvcImpl<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao>
+    extends BaseSvcImpl<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermDelTo, RacPermOneTo, RacPermListTo, RacPermPageTo, RacPermMo, RacPermJo, RacPermMapper, RacPermDao>
     implements RacPermSvc {
 
     /**
@@ -81,16 +80,16 @@ public class RacPermSvcImpl
     /**
      * 查询带分组的权限列表
      *
-     * @param domainId 领域ID
+     * @param realmId 领域ID
      */
     @Override
-    public Ro<PermListWithGroupRa> listWithGroup(final String domainId) {
-        final PermListWithGroupRa ra     = new PermListWithGroupRa();
-        final RacPermListTo       permQo = new RacPermListTo();
-        permQo.setDomainId(domainId);
+    public Ro<PermListWithGroupRa> listWithGroup(final String realmId) {
+        final PermListWithGroupRa ra = new PermListWithGroupRa();
+        final RacPermListTo permQo = new RacPermListTo();
+        permQo.setRealmId(realmId);
         ra.setPermList(thisSvc.list(permQo));
         final RacPermGroupListTo permGroupQo = new RacPermGroupListTo();
-        permGroupQo.setDomainId(domainId);
+        permGroupQo.setRealmId(realmId);
         ra.setGroupList(permGroupSvc.list(permGroupQo));
         return new Ro<>(ResultDic.SUCCESS, "查询带分组的权限列表成功", ra);
     }
@@ -111,9 +110,9 @@ public class RacPermSvcImpl
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacPermMo add(final RacPermAddTo to) {
-        final RacPermMo    mo = OrikaUtils.map(to, getMoClass());
+        final RacPermMo mo = OrikaUtils.map(to, getMoClass());
         final RacPermOneTo qo = new RacPermOneTo();
-        qo.setDomainId(to.getDomainId());
+        qo.setRealmId(to.getRealmId());
         qo.setGroupId(to.getGroupId());
         final Long count = getThisSvc().countSelective(qo);
         // 最初添加的权限顺序从0开始,新添加的权限顺序为最大
@@ -127,8 +126,8 @@ public class RacPermSvcImpl
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final Long id) {
-        final RacPermMo qo       = getById(id);
-        final int       rowCount = _mapper.deleteByPrimaryKey(id);
+        final RacPermMo qo = getById(id);
+        final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
         }
@@ -146,11 +145,11 @@ public class RacPermSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacPermModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacPermMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据上面一条的数据的顺序号
         final RacPermMo rermQo = new RacPermMo();
         rermQo.setSeqNo((byte) (qo.getSeqNo() - 1));
-        rermQo.setDomainId(qo.getDomainId());
+        rermQo.setRealmId(qo.getRealmId());
         rermQo.setGroupId(qo.getGroupId());
         final RacPermMo permUp = _mapper.selectOne(rermQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 修改当前这条数据上面一条的数据的顺序号
@@ -169,11 +168,11 @@ public class RacPermSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacPermModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacPermMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacPermMo permQo = new RacPermMo();
         permQo.setSeqNo((byte) (qo.getSeqNo() + 1));
-        permQo.setDomainId(qo.getDomainId());
+        permQo.setRealmId(qo.getRealmId());
         permQo.setGroupId(qo.getGroupId());
         final RacPermMo permDown = _mapper.selectOne(permQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 修改当前这条数据下面一条的数据的顺序号
@@ -194,7 +193,7 @@ public class RacPermSvcImpl
         final RacPermMo mo = OrikaUtils.map(to, getMoClass());
         _mapper.updateByPrimaryKeySelective(mo);
         // 进行判断联动启用
-        final RacPermMo    qo     = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermMo qo = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         final RacPermOneTo permTo = new RacPermOneTo();
         permTo.setGroupId(qo.getGroupId());
         permTo.setIsEnabled(to.getIsEnabled());
@@ -216,7 +215,7 @@ public class RacPermSvcImpl
         final RacPermMo mo = OrikaUtils.map(to, getMoClass());
         _mapper.updateByPrimaryKeySelective(mo);
         // 进行判断联动禁用
-        final RacPermMo    qo     = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermMo qo = _mapper.selectOne(mo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         final RacPermOneTo permTo = new RacPermOneTo();
         permTo.setGroupId(qo.getGroupId());
         permTo.setIsEnabled(!to.getIsEnabled());
@@ -242,7 +241,7 @@ public class RacPermSvcImpl
      * 根据groupId 修改是否启用/禁用权限
      *
      * @param qo
-     * 
+     *
      * @return
      */
     @Override

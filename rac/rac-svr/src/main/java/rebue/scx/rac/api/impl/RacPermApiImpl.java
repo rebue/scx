@@ -29,11 +29,11 @@ public class RacPermApiImpl extends
     /**
      * 查询带分组的权限列表
      *
-     * @param domainId 领域ID
+     * @param realmId 领域ID
      */
     @Override
-    public Ro<PermListWithGroupRa> listWithGroup(final String domainId) {
-        return _svc.listWithGroup(domainId);
+    public Ro<PermListWithGroupRa> listWithGroup(final String realmId) {
+        return _svc.listWithGroup(realmId);
     }
 
     /**

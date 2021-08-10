@@ -35,15 +35,6 @@ public class RacPermMo implements Serializable, Mo<Long> {
     private Long              id;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
      * 权限分组ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -92,15 +83,6 @@ public class RacPermMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 领域
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacDomainMo       domain;
-
-    /**
      * 权限分组
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
@@ -125,24 +107,6 @@ public class RacPermMo implements Serializable, Mo<Long> {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getDomainId() {
-        return domainId;
-    }
-
-    /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
     }
 
     /**
@@ -245,7 +209,7 @@ public class RacPermMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", domainId=").append(domainId);
+        sb.append(", realmId=").append(realmId);
         sb.append(", groupId=").append(groupId);
         sb.append(", name=").append(name);
         sb.append(", isEnabled=").append(isEnabled);
@@ -293,5 +257,41 @@ public class RacPermMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String     realmId;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
+    @Getter
+    @Setter
+    private RacRealmMo realm;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getRealmId() {
+        return realmId;
+    }
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setRealmId(String realmId) {
+        this.realmId = realmId;
     }
 }

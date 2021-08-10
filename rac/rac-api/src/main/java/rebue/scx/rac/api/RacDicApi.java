@@ -10,7 +10,7 @@ import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
 
 /**
- * 字典API
+ * 字典的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

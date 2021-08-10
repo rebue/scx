@@ -24,17 +24,16 @@ import rebue.scx.rac.to.RacPermCommandPageTo;
  */
 @DubboService
 public class RacPermCommandApiImpl extends
-		BaseApiImpl<java.lang.Long, RacPermCommandAddTo, RacPermCommandModifyTo, RacPermCommandDelTo, RacPermCommandOneTo, RacPermCommandListTo, RacPermCommandPageTo, RacPermCommandMo, RacPermCommandJo, RacPermCommandSvc>
-		implements RacPermCommandApi {
-	/**
-	 * 查询权限命令的信息
-	 *
-	 * @param qo 查询的具体条件
-	 *
-	 */
-	@Override
-	public Ro<ListRa<RacPermCommandMo>> list(final RacPermCommandListTo qo) {
-		return new Ro<>(ResultDic.SUCCESS, "分页查询成功", new ListRa<>(_svc.list(qo)));
-	}
+    BaseApiImpl<java.lang.Long, RacPermCommandAddTo, RacPermCommandModifyTo, RacPermCommandDelTo, RacPermCommandOneTo, RacPermCommandListTo, RacPermCommandPageTo, RacPermCommandMo, RacPermCommandJo, RacPermCommandSvc>
+    implements RacPermCommandApi {
 
+    /**
+     * 查询权限命令的信息
+     *
+     * @param qo 查询的具体条件
+     */
+    @Override
+    public Ro<ListRa<RacPermCommandMo>> list(final RacPermCommandListTo qo) {
+        return new Ro<>(ResultDic.SUCCESS, "分页查询成功", new ListRa<>(_svc.list(qo)));
+    }
 }

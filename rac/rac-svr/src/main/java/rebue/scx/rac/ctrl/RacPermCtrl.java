@@ -113,11 +113,11 @@ public class RacPermCtrl {
     /**
      * 查询带分组的权限列表
      *
-     * @param domainId 领域ID
+     * @param realmId 领域ID
      */
     @GetMapping("/rac/perm/list-with-group")
-    public Mono<Ro<PermListWithGroupRa>> listWithGroup(@RequestParam("domainId") final String domainId) {
-        return Mono.create(callback -> callback.success(api.listWithGroup(domainId)));
+    public Mono<Ro<PermListWithGroupRa>> listWithGroup(@RequestParam("realmId") final String realmId) {
+        return Mono.create(callback -> callback.success(api.listWithGroup(realmId)));
     }
 
     /**

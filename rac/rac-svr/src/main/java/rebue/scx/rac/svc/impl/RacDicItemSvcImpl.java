@@ -39,7 +39,6 @@ import rebue.wheel.core.util.OrikaUtils;
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
  *
- *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -93,7 +92,7 @@ public class RacDicItemSvcImpl extends
         if (to.getParentId() == null) {
             final RacDicItemMo qo = new RacDicItemMo();
             qo.setDicId(to.getDicId());
-            Long   count    = _mapper.countDicSelective(qo);
+            Long count = _mapper.countDicSelective(qo);
             String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             while (true) {
                 final RacDicItemOneTo oneTo = new RacDicItemOneTo();
@@ -104,7 +103,7 @@ public class RacDicItemSvcImpl extends
                     break;
                 }
                 else {
-                    count    = count + 1;
+                    count = count + 1;
                     treeCode = StringUtils.leftPad(count.toString(), 3, '0');
                 }
             }
@@ -113,12 +112,12 @@ public class RacDicItemSvcImpl extends
         else // 字典项下添加字典项
         {
             final RacDicItemMo itemMo = thisSvc.getById(to.getParentId());
-            final RacDicItemMo qo     = new RacDicItemMo();
+            final RacDicItemMo qo = new RacDicItemMo();
             qo.setDicId(to.getDicId());
             // .substring(0, itemMo.getTreeCode().length() == 3 ? itemMo.getTreeCode().length() : itemMo.getTreeCode().length() - 3));
             qo.setTreeCode(itemMo.getTreeCode());
             // 去除本身记录 -1
-            Long   count    = _mapper.countDicItemSelective(qo);
+            Long count = _mapper.countDicItemSelective(qo);
             String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             while (true) {
                 final RacDicItemOneTo oneTo = new RacDicItemOneTo();
@@ -129,7 +128,7 @@ public class RacDicItemSvcImpl extends
                     break;
                 }
                 else {
-                    count    = count + 1;
+                    count = count + 1;
                     treeCode = StringUtils.leftPad(count.toString(), 3, '0');
                 }
             }

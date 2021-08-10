@@ -63,15 +63,6 @@ public class RacDicJo implements Serializable {
     private String            remark;
 
     /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID")
-    @ManyToOne()
-    private RacDomainJo       domain;
-
-    /**
      * 系统
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -129,4 +120,13 @@ public class RacDicJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "UPDATE_DATETIME", nullable = false, length = 19)
     private LocalDateTime updateDatetime;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private RacRealmJo    realm;
 }

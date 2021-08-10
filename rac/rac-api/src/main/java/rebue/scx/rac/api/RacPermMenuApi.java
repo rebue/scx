@@ -12,7 +12,7 @@ import rebue.scx.rac.to.RacPermMenuPageTo;
 import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
 /**
- * 权限菜单API
+ * 权限菜单的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

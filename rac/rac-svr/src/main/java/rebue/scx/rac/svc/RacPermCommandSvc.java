@@ -29,5 +29,4 @@ import rebue.scx.rac.to.RacPermCommandPageTo;
 @Validated
 public interface RacPermCommandSvc extends
     BaseSvc<java.lang.Long, RacPermCommandAddTo, RacPermCommandModifyTo, RacPermCommandDelTo, RacPermCommandOneTo, RacPermCommandListTo, RacPermCommandPageTo, RacPermCommandMo, RacPermCommandJo> {
-
 }

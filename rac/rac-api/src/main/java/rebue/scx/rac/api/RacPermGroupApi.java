@@ -8,7 +8,7 @@ import rebue.scx.rac.to.RacPermGroupModifyTo;
 import rebue.scx.rac.to.RacPermGroupPageTo;
 
 /**
- * 权限分组API
+ * 权限分组的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

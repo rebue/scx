@@ -9,17 +9,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.scx.rac.dao.RacDomainDao;
-import rebue.scx.rac.jo.RacDomainJo;
-import rebue.scx.rac.mapper.RacDomainMapper;
-import rebue.scx.rac.mo.RacDomainMo;
-import rebue.scx.rac.svc.RacDomainSvc;
-import rebue.scx.rac.to.RacDomainAddTo;
-import rebue.scx.rac.to.RacDomainDelTo;
-import rebue.scx.rac.to.RacDomainListTo;
-import rebue.scx.rac.to.RacDomainModifyTo;
-import rebue.scx.rac.to.RacDomainOneTo;
-import rebue.scx.rac.to.RacDomainPageTo;
+import rebue.scx.rac.dao.RacRealmDao;
+import rebue.scx.rac.jo.RacRealmJo;
+import rebue.scx.rac.mapper.RacRealmMapper;
+import rebue.scx.rac.mo.RacRealmMo;
+import rebue.scx.rac.svc.RacRealmSvc;
+import rebue.scx.rac.to.RacRealmAddTo;
+import rebue.scx.rac.to.RacRealmDelTo;
+import rebue.scx.rac.to.RacRealmListTo;
+import rebue.scx.rac.to.RacRealmModifyTo;
+import rebue.scx.rac.to.RacRealmOneTo;
+import rebue.scx.rac.to.RacRealmPageTo;
 
 /**
  * 领域服务实现
@@ -39,9 +39,9 @@ import rebue.scx.rac.to.RacDomainPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacDomainSvcImpl extends
-    BaseSvcImpl<java.lang.String, RacDomainAddTo, RacDomainModifyTo, RacDomainDelTo, RacDomainOneTo, RacDomainListTo, RacDomainPageTo, RacDomainMo, RacDomainJo, RacDomainMapper, RacDomainDao>
-    implements RacDomainSvc {
+public class RacRealmSvcImpl extends
+    BaseSvcImpl<java.lang.String, RacRealmAddTo, RacRealmModifyTo, RacRealmDelTo, RacRealmOneTo, RacRealmListTo, RacRealmPageTo, RacRealmMo, RacRealmJo, RacRealmMapper, RacRealmDao>
+    implements RacRealmSvc {
 
     /**
      * 本服务的单例
@@ -51,17 +51,7 @@ public class RacDomainSvcImpl extends
      */
     @Lazy
     @Resource
-    private RacDomainSvc thisSvc;
-
-    /**
-     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    protected Class<RacDomainMo> getMoClass() {
-        return RacDomainMo.class;
-    }
+    private RacRealmSvc thisSvc;
 
     /**
      * 从接口获取本服务的单例(提供给基类调用)
@@ -69,7 +59,18 @@ public class RacDomainSvcImpl extends
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.String, RacDomainAddTo, RacDomainModifyTo, RacDomainDelTo, RacDomainOneTo, RacDomainListTo, RacDomainPageTo, RacDomainMo, RacDomainJo> getThisSvc() {
+    protected BaseSvc<java.lang.String, RacRealmAddTo, RacRealmModifyTo, RacRealmDelTo, RacRealmOneTo, RacRealmListTo, RacRealmPageTo, RacRealmMo, RacRealmJo> getThisSvc() {
         return thisSvc;
     }
+
+    /**
+     * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    protected Class<RacRealmMo> getMoClass() {
+        return RacRealmMo.class;
+    }
+
 }

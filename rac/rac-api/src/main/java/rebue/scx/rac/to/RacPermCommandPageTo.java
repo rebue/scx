@@ -29,25 +29,26 @@ public class RacPermCommandPageTo extends PageTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 权限ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 权限ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @PositiveOrZero(message = "权限ID不能为负数")
     private Long              permId;
+
     /**
-    * 命令KEY
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 命令KEY
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 50, message = "命令KEY的长度不能大于50")
     private String            commandKey;
+
     /**
-    * 命令备注
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 命令备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 200, message = "命令备注的长度不能大于200")
     private String            remark;
-
 }

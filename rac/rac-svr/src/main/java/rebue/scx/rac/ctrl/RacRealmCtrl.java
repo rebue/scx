@@ -18,11 +18,11 @@ import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
-import rebue.scx.rac.api.RacDomainApi;
-import rebue.scx.rac.mo.RacDomainMo;
-import rebue.scx.rac.to.RacDomainAddTo;
-import rebue.scx.rac.to.RacDomainModifyTo;
-import rebue.scx.rac.to.RacDomainPageTo;
+import rebue.scx.rac.api.RacRealmApi;
+import rebue.scx.rac.mo.RacRealmMo;
+import rebue.scx.rac.to.RacRealmAddTo;
+import rebue.scx.rac.to.RacRealmModifyTo;
+import rebue.scx.rac.to.RacRealmPageTo;
 
 /**
  * 领域
@@ -30,49 +30,54 @@ import rebue.scx.rac.to.RacDomainPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @RestController
-public class RacDomainCtrl {
-
+public class RacRealmCtrl {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Resource
-    private RacDomainApi api;
+    private RacRealmApi api;
 
     /**
      * 添加领域
      *
-     * @mbg.dontOverWriteAnnotation
      * @param to 添加的具体信息
+     *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @PostMapping("/rac/realm")
     @RacOpLog(opType = "添加领域", opTitle = "添加领域: #{#p0.name}")
-    @PostMapping("/rac/domain")
-    public Mono<Ro<IdRa<java.lang.String>>> add(@RequestBody final RacDomainAddTo to) {
+    public Mono<Ro<IdRa<java.lang.String>>> add(@RequestBody final RacRealmAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
     }
 
     /**
      * 修改领域的信息
      *
-     * @mbg.dontOverWriteAnnotation
      * @param to 修改的具体数据
+     *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @PutMapping("/rac/realm")
     @RacOpLog(opType = "修改领域", opTitle = "修改领域: #{#p0.name}")
-    @PutMapping("/rac/domain")
-    public Mono<Ro<?>> modify(@RequestBody final RacDomainModifyTo to) {
+    public Mono<Ro<?>> modify(@RequestBody final RacRealmModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
     }
 
     /**
      * 删除领域
      *
-     * @mbg.dontOverWriteAnnotation
      * @param id 领域ID
+     * 
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @DeleteMapping("/rac/realm")
     @RacOpLog(opType = "删除领域", opTitle = "删除领域: #{#p0}")
-    @DeleteMapping("/rac/domain")
     public Mono<Ro<?>> del(@RequestParam("id") final java.lang.String id) {
         return Mono.create(callback -> callback.success(api.del(id)));
     }
@@ -81,10 +86,11 @@ public class RacDomainCtrl {
      * 获取单个领域的信息
      *
      * @param id 领域ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @GetMapping("/rac/domain/get-by-id")
-    public Mono<Ro<PojoRa<RacDomainMo>>> getById(@RequestParam("id") final java.lang.String id) {
+    @GetMapping("/rac/realm/get-by-id")
+    public Mono<Ro<PojoRa<RacRealmMo>>> getById(@RequestParam("id") final java.lang.String id) {
         return Mono.create(callback -> callback.success(api.getById(id)));
     }
 
@@ -92,9 +98,10 @@ public class RacDomainCtrl {
      * 判断领域是否存在
      *
      * @param id 领域ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @GetMapping("/rac/domain/exist-by-id")
+    @GetMapping("/rac/realm/exist-by-id")
     public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.String id) {
         return Mono.create(callback -> callback.success(api.existById(id)));
     }
@@ -103,10 +110,11 @@ public class RacDomainCtrl {
      * 查询领域的信息
      *
      * @param qo 查询的具体条件
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @GetMapping("/rac/domain/page")
-    public Mono<Ro<PageRa<RacDomainMo>>> page(final RacDomainPageTo qo) {
+    @GetMapping("/rac/realm/page")
+    public Mono<Ro<PageRa<RacRealmMo>>> page(final RacRealmPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
 
@@ -115,8 +123,8 @@ public class RacDomainCtrl {
      *
      * @param qo 查询的具体条件
      */
-    @GetMapping("/rac/domain/list-all")
-    public Mono<Ro<ListRa<RacDomainMo>>> listAll() {
+    @GetMapping("/rac/realm/list-all")
+    public Mono<Ro<ListRa<RacRealmMo>>> listAll() {
         return Mono.create(callback -> callback.success(api.listAll()));
     }
 }

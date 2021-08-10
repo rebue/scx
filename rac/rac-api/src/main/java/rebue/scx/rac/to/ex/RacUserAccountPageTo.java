@@ -30,7 +30,7 @@ public class RacUserAccountPageTo extends PageTo implements Serializable {
      * 领域ID
      */
     @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
+    private String            realmId;
 
     /**
      * 组织ID

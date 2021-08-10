@@ -72,5 +72,4 @@ public class RacPermCommandSvcImpl extends
     protected Class<RacPermCommandMo> getMoClass() {
         return RacPermCommandMo.class;
     }
-
 }

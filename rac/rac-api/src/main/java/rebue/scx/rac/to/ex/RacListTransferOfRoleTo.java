@@ -30,7 +30,7 @@ public class RacListTransferOfRoleTo implements Serializable {
      */
     @Length(max = 32, message = "领域ID的长度不能大于32")
     @NotNull(message = "账户ID不能为空")
-    private String            domainId;
+    private String            realmId;
 
     /**
      * 查询角色下可添加账户的关键字

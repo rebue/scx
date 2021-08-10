@@ -27,7 +27,7 @@ public class RacPermCommandSvcTests {
 
     /**
      * 要测试的微服务
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
@@ -63,12 +63,10 @@ public class RacPermCommandSvcTests {
         RacPermCommandMo getByIdResult = _svc.getById(id);
         log.info("获取单个权限命令的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
-
         final RacPermCommandModifyTo modifyTo = dozerMapper.map(addTo, RacPermCommandModifyTo.class);
         modifyTo.setId(id);
         log.info("修改权限命令的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-
         log.info("删除权限命令的参数为：" + id);
         _svc.delById(id);
     }

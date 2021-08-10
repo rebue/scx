@@ -30,7 +30,7 @@ public final class RacSysDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> domainId = racSys.domainId;
+    public static final SqlColumn<String> realmId = racSys.realmId;
 
     /**
     * 系统URL
@@ -58,7 +58,7 @@ public final class RacSysDynamicSqlSupport {
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> url = column("URL", JDBCType.VARCHAR);
 

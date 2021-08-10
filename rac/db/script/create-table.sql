@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/6/30 16:27:17                           */
+/* Created on:     2021/8/10 9:20:47                            */
 /*==============================================================*/
 
 
@@ -12,7 +12,7 @@ alter table RAC_ACCOUNT
    drop foreign key FK_ACCOUNT_AND_ORG;
 
 alter table RAC_ACCOUNT 
-   drop foreign key FK_ACCOUNT_AND_DOMAIN;
+   drop foreign key FK_ACCOUNT_AND_REALM;
 
 drop table if exists RAC_ACCOUNT;
 
@@ -36,7 +36,7 @@ drop table if exists RAC_DELEGATION;
 
 
 alter table RAC_DIC 
-   drop foreign key FK_DIC_AND_DOMAIN;
+   drop foreign key FK_DIC_AND_REALM;
 
 alter table RAC_DIC 
    drop foreign key FK_DIC_AND_SYS;
@@ -52,8 +52,6 @@ alter table RAC_DIC_ITEM
 
 drop table if exists RAC_DIC_ITEM;
 
-drop table if exists RAC_DOMAIN;
-
 
 alter table RAC_LOCK_LOG 
    drop foreign key FK_LOCK_LOG_AND_LOCK_AGENT;
@@ -65,7 +63,7 @@ alter table RAC_LOCK_LOG
    drop foreign key FK_LOCK_LOG_AND_UNLOCK_OP;
 
 alter table RAC_LOCK_LOG 
-   drop foreign key FK_LOCK_LOG_AND_DOMAIN;
+   drop foreign key FK_LOCK_LOG_AND_REALM;
 
 alter table RAC_LOCK_LOG 
    drop foreign key FK_LOCK_LOG_AND_ACCOUNT;
@@ -101,7 +99,7 @@ alter table RAC_ORG
    drop foreign key FK_ORG_AND_ORG;
 
 alter table RAC_ORG 
-   drop foreign key FK_ORG_AND_DOMAIN;
+   drop foreign key FK_ORG_AND_REALM;
 
 drop table if exists RAC_ORG;
 
@@ -116,7 +114,7 @@ drop table if exists RAC_ORG_ACCOUNT;
 
 
 alter table RAC_PERM 
-   drop foreign key FK_PERM_AND_DOMAIN;
+   drop foreign key FK_PERM_AND_REALM;
 
 alter table RAC_PERM 
    drop foreign key FK_PERM_AND_PERM_GROUP;
@@ -131,7 +129,7 @@ drop table if exists RAC_PERM_COMMAND;
 
 
 alter table RAC_PERM_GROUP 
-   drop foreign key FK_PERM_GROUP_AND_DOMAIN;
+   drop foreign key FK_PERM_GROUP_AND_REALM;
 
 drop table if exists RAC_PERM_GROUP;
 
@@ -150,9 +148,11 @@ alter table RAC_PERM_URN
 
 drop table if exists RAC_PERM_URN;
 
+drop table if exists RAC_REALM;
+
 
 alter table RAC_ROLE 
-   drop foreign key FK_ROLE_AND_DOMAIN;
+   drop foreign key FK_ROLE_AND_REALM;
 
 drop table if exists RAC_ROLE;
 
@@ -167,7 +167,7 @@ drop table if exists RAC_ROLE_PERM;
 
 
 alter table RAC_SYS 
-   drop foreign key FK_SYS_AND_DOMAIN;
+   drop foreign key FK_SYS_AND_REALM;
 
 drop table if exists RAC_SYS;
 
@@ -182,7 +182,7 @@ create table RAC_ACCOUNT
    USER_ID              bigint unsigned  comment '用户ID',
    REMARK               varchar(150)  comment '备注',
    ORG_ID               bigint unsigned  comment '组织ID',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SIGN_IN_NAME         varchar(20)  comment '登录名称',
    SIGN_IN_MOBILE       varchar(11)  comment '登录手机',
@@ -208,14 +208,14 @@ create table RAC_ACCOUNT
    CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
-   unique key AK_DOMAIN_AND_LOGIN_NICKNAME (SIGN_IN_NICKNAME, DOMAIN_ID),
-   unique key AK_DOMAIN_AND_LOGIN_NAME (SIGN_IN_NAME, DOMAIN_ID),
-   unique key AK_DOMAIN_AND_LOGIN_MOBILE (SIGN_IN_MOBILE, DOMAIN_ID),
-   unique key AK_DOMAIN_AND_LOGIN_EMAIL (SIGN_IN_EMAIL, DOMAIN_ID),
-   unique key AK_DOMAIN_AND_WX_OPEN_ID (WX_OPEN_ID, DOMAIN_ID),
-   unique key AK_DOMAIN_AND_WX_UNION_ID (WX_UNION_ID, DOMAIN_ID),
-   unique key AK_DOMAIN_AND_QQ_OPEN_ID (QQ_OPEN_ID, DOMAIN_ID),
-   unique key AK_DOMAIN_AND_QQ_UNION_ID (QQ_UNION_ID, DOMAIN_ID)
+   unique key AK_REALM_AND_LOGIN_NICKNAME (SIGN_IN_NICKNAME, REALM_ID),
+   unique key AK_REALM_AND_LOGIN_NAME (SIGN_IN_NAME, REALM_ID),
+   unique key AK_REALM_AND_LOGIN_MOBILE (SIGN_IN_MOBILE, REALM_ID),
+   unique key AK_REALM_AND_LOGIN_EMAIL (SIGN_IN_EMAIL, REALM_ID),
+   unique key AK_REALM_AND_WX_OPEN_ID (WX_OPEN_ID, REALM_ID),
+   unique key AK_REALM_AND_WX_UNION_ID (WX_UNION_ID, REALM_ID),
+   unique key AK_REALM_AND_QQ_OPEN_ID (QQ_OPEN_ID, REALM_ID),
+   unique key AK_REALM_AND_QQ_UNION_ID (QQ_UNION_ID, REALM_ID)
 );
 
 alter table RAC_ACCOUNT comment '账户';
@@ -256,7 +256,7 @@ create table RAC_DIC
    ID                   bigint unsigned not null  comment '字典ID',
    DIC_KEY              varchar(32) not null  comment '字典Key',
    NAME                 varchar(200) not null  comment '字典名称',
-   DOMAIN_ID            varchar(32)  comment '领域ID',
+   REALM_ID             varchar(32)  comment '领域ID',
    SYS_ID               varchar(32)  comment '系统ID',
    REMARK               varchar(50)  comment '字典备注',
    UPDATE_DATETIME      datetime not null  comment '修改时间',
@@ -288,26 +288,12 @@ create table RAC_DIC_ITEM
 alter table RAC_DIC_ITEM comment '字典项';
 
 /*==============================================================*/
-/* Table: RAC_DOMAIN                                            */
-/*==============================================================*/
-create table RAC_DOMAIN
-(
-   ID                   varchar(32) not null  comment '领域ID',
-   NAME                 varchar(20) not null  comment '领域名称',
-   REMARK               varchar(50)  comment '领域备注',
-   primary key (ID),
-   unique key AK_DOMAIN_NAME (NAME)
-);
-
-alter table RAC_DOMAIN comment '领域';
-
-/*==============================================================*/
 /* Table: RAC_LOCK_LOG                                          */
 /*==============================================================*/
 create table RAC_LOCK_LOG
 (
    ID                   bigint unsigned not null  comment '锁定日志ID',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
    LOCK_ACCOUNT_ID      bigint unsigned not null  comment '锁定账户的账户ID',
    LOCK_OP_ID           bigint unsigned not null  comment '锁定操作员的账户ID',
    LOCK_OP_AGENT_ID     bigint unsigned  comment '锁定操作的代理人的账户ID',
@@ -365,7 +351,7 @@ create table RAC_ORG
    ID                   bigint unsigned not null  comment '组织ID',
    NAME                 varchar(30) not null  comment '组织名称',
    PARENT_ID            bigint unsigned  comment '上级组织ID(根组织填0)',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
    ORG_TYPE             tinyint unsigned not null  comment '组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)',
    TREE_CODE            varchar(50) not null  comment '树编码',
    FULL_NAME            varchar(80)  comment '组织全名',
@@ -403,7 +389,7 @@ alter table RAC_ORG_ACCOUNT comment '组织账户';
 create table RAC_PERM
 (
    ID                   bigint unsigned not null  comment '权限ID',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
    GROUP_ID             bigint unsigned not null  comment '权限分组ID',
    NAME                 varchar(20) not null  comment '权限名称',
    IS_ENABLED           bool not null default true  comment '是否启用',
@@ -435,13 +421,13 @@ alter table RAC_PERM_COMMAND comment '权限命令';
 create table RAC_PERM_GROUP
 (
    ID                   bigint unsigned not null  comment '权限分组ID',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
    NAME                 varchar(20) not null  comment '权限分组名称',
    IS_ENABLED           bool not null default true  comment '是否启用(如果分组没有启用，其下所有权限都要被设置为不启用；只要有一个权限启用，其分组就必须启用)',
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '权限分组备注',
    primary key (ID),
-   unique key AK_DOMAIN_AND_GROUP_NAME (NAME, DOMAIN_ID)
+   unique key AK_REALM_AND_GROUP_NAME (NAME, REALM_ID)
 );
 
 alter table RAC_PERM_GROUP comment '权限分组';
@@ -476,13 +462,27 @@ create table RAC_PERM_URN
 alter table RAC_PERM_URN comment '权限URN';
 
 /*==============================================================*/
+/* Table: RAC_REALM                                             */
+/*==============================================================*/
+create table RAC_REALM
+(
+   ID                   varchar(32) not null  comment '领域ID',
+   NAME                 varchar(20) not null  comment '领域名称',
+   REMARK               varchar(50)  comment '领域备注',
+   primary key (ID),
+   unique key AK_REALM_NAME (NAME)
+);
+
+alter table RAC_REALM comment '领域';
+
+/*==============================================================*/
 /* Table: RAC_ROLE                                              */
 /*==============================================================*/
 create table RAC_ROLE
 (
    ID                   bigint unsigned not null  comment '角色ID',
    NAME                 varchar(20) not null  comment '角色名称',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '角色备注',
@@ -513,7 +513,7 @@ create table RAC_SYS
 (
    ID                   varchar(32) not null  comment '系统ID',
    NAME                 varchar(20) not null  comment '系统名称',
-   DOMAIN_ID            varchar(32) not null  comment '领域ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
    URL                  varchar(100)  comment '系统URL',
    MENU                 varchar(3000)  comment '菜单',
    REMARK               varchar(50)  comment '系统备注',
@@ -554,8 +554,8 @@ alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_USER foreign key (USER_ID)
 alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
@@ -569,8 +569,8 @@ alter table RAC_DELEGATION add constraint FK_PRINCIPAL_AND_ACCOUNT foreign key (
 alter table RAC_DELEGATION add constraint FK_AGENT_AND_ACCOUNT foreign key (AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_DIC add constraint FK_DIC_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_DIC add constraint FK_DIC_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_DIC add constraint FK_DIC_AND_SYS foreign key (SYS_ID)
       references RAC_SYS (ID) on delete restrict on update restrict;
@@ -590,8 +590,8 @@ alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_OP foreign key (LOC
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_UNLOCK_OP foreign key (UNLOCK_OP_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_ACCOUNT foreign key (LOCK_OP_AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
@@ -617,8 +617,8 @@ alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_AGENT foreign key (AGENT_ID)
 alter table RAC_ORG add constraint FK_ORG_AND_ORG foreign key (PARENT_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_ORG add constraint FK_ORG_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_ORG add constraint FK_ORG_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_ORG_ACCOUNT add constraint FK_ORG_ACCOUNT_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
@@ -629,14 +629,14 @@ alter table RAC_ORG_ACCOUNT add constraint FK_ORG_ACCOUNT_AND_ACCOUNT foreign ke
 alter table RAC_PERM add constraint FK_PERM_AND_PERM_GROUP foreign key (GROUP_ID)
       references RAC_PERM_GROUP (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM add constraint FK_PERM_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_PERM add constraint FK_PERM_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_PERM_COMMAND add constraint FK_PERM_COMMAND_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_GROUP add constraint FK_PERM_GROUP_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_PERM_GROUP add constraint FK_PERM_GROUP_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
@@ -647,8 +647,8 @@ alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_SYS foreign key (SYS_I
 alter table RAC_PERM_URN add constraint FK_PERM_URN_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_ROLE add constraint FK_ROLE_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_ROLE add constraint FK_ROLE_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
@@ -656,6 +656,6 @@ alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_PERM foreign key (PERM
 alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
 
-alter table RAC_SYS add constraint FK_SYS_AND_DOMAIN foreign key (DOMAIN_ID)
-      references RAC_DOMAIN (ID) on delete restrict on update restrict;
+alter table RAC_SYS add constraint FK_SYS_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 

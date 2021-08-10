@@ -36,14 +36,6 @@ public class RacRoleListTo implements Serializable {
     private String            name;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
      * 是否启用
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -65,4 +57,12 @@ public class RacRoleListTo implements Serializable {
      */
     @Length(max = 50, message = "角色备注的长度不能大于50")
     private String            remark;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            realmId;
 }

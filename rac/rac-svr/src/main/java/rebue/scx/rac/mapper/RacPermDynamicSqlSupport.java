@@ -23,7 +23,7 @@ public final class RacPermDynamicSqlSupport {
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> domainId = racPerm.domainId;
+    public static final SqlColumn<String> realmId = racPerm.realmId;
 
     /**
     * 权限分组ID
@@ -63,7 +63,7 @@ public final class RacPermDynamicSqlSupport {
     public static final class RacPerm extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> domainId = column("DOMAIN_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> groupId = column("GROUP_ID", JDBCType.BIGINT);
 

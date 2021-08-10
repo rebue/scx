@@ -9,11 +9,11 @@ import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
 
 import lombok.extern.slf4j.Slf4j;
-import rebue.scx.rac.mo.RacDomainMo;
-import rebue.scx.rac.svc.RacDomainSvc;
-import rebue.scx.rac.to.RacDomainAddTo;
-import rebue.scx.rac.to.RacDomainModifyTo;
-import rebue.scx.rac.to.RacDomainPageTo;
+import rebue.scx.rac.mo.RacRealmMo;
+import rebue.scx.rac.svc.RacRealmSvc;
+import rebue.scx.rac.to.RacRealmAddTo;
+import rebue.scx.rac.to.RacRealmModifyTo;
+import rebue.scx.rac.to.RacRealmPageTo;
 import rebue.wheel.core.RandomEx;
 
 /**
@@ -23,21 +23,21 @@ import rebue.wheel.core.RandomEx;
  */
 @Slf4j
 @SpringBootTest
-public class RacDomainSvcTests {
+public class RacRealmSvcTests {
 
     /**
      * 要测试的微服务
-     *
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
-    private RacDomainSvc _svc;
+    private RacRealmSvc _svc;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
-    private Mapper       dozerMapper;
+    private Mapper      dozerMapper;
 
     /**
      * 测试基本的增删改查
@@ -46,27 +46,29 @@ public class RacDomainSvcTests {
      */
     @Test
     public void testCrud() {
-        RacDomainAddTo addTo = null;
+        RacRealmAddTo addTo = null;
         String id = null;
         for (int i = 0; i < 20; i++) {
-            addTo = (RacDomainAddTo) RandomEx.randomPojo(RacDomainAddTo.class);
+            addTo = (RacRealmAddTo) RandomEx.randomPojo(RacRealmAddTo.class);
             log.info("添加领域的参数为：" + addTo);
-            final RacDomainMo addRo = _svc.add(addTo);
+            final RacRealmMo addRo = _svc.add(addTo);
             log.info("添加领域的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
             id = addRo.getId();
         }
-        final PageInfo<RacDomainMo> pageResult = _svc.page(new RacDomainPageTo());
+        final PageInfo<RacRealmMo> pageResult = _svc.page(new RacRealmPageTo());
         log.info("查询领域的返回值为：" + pageResult);
         Assertions.assertNotNull(pageResult);
         log.info("获取单个领域的参数为：" + id);
-        RacDomainMo getByIdResult = _svc.getById(id);
+        RacRealmMo getByIdResult = _svc.getById(id);
         log.info("获取单个领域的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
-        final RacDomainModifyTo modifyTo = dozerMapper.map(addTo, RacDomainModifyTo.class);
+
+        final RacRealmModifyTo modifyTo = dozerMapper.map(addTo, RacRealmModifyTo.class);
         modifyTo.setId(id);
         log.info("修改领域的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
+
         log.info("删除领域的参数为：" + id);
         _svc.delById(id);
     }

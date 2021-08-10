@@ -62,15 +62,6 @@ public class RacSysJo implements Serializable {
     private String            remark;
 
     /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "DOMAIN_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacDomainJo       domain;
-
-    /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -109,7 +100,7 @@ public class RacSysJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "URL", nullable = true, length = 100)
-    private String url;
+    private String     url;
 
     /**
      * 菜单
@@ -118,5 +109,14 @@ public class RacSysJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "MENU", nullable = true, length = 3000)
-    private String menu;
+    private String     menu;
+
+    /**
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacRealmJo realm;
 }

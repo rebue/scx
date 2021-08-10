@@ -104,14 +104,6 @@ public class RacLockLogPageTo extends PageTo implements Serializable {
     private Long              unlockOpId;
 
     /**
-     * 领域ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String            domainId;
-
-    /**
      * 锁定操作的代理人的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -126,4 +118,12 @@ public class RacLockLogPageTo extends PageTo implements Serializable {
      */
     @PositiveOrZero(message = "解锁操作的代理人的账户ID不能为负数")
     private Long              unlockOpAgentId;
+
+    /**
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            realmId;
 }
