@@ -26,11 +26,9 @@ spring:
                 filter-urls:
                   - "'*:/sgn/**'"
                   - "'*:/rac/**'"
-                  - "'*:/csa/**'"
                   - "'*:/oss/**'"
                   - "'*:/wxx/**'"
                 ignore-urls:
-                  - "'*:/csa/**'"
                   - "'*:/rac/**'"
                   - "'*:/oss/**'"
                   - "'*:/wxx/**'"

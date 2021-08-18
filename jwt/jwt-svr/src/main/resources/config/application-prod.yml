@@ -1,14 +1,24 @@
-# 配置中心中的配置
+jwt:
+  # 因为算法为HS512，所以至少需要有512个bit，也就是64个Byte
+  sign-key: ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123中文乱码ABCabc123
+  # 签发者
+  issuer: rebue
+  # 过期时间间隔(默认是30m)
+#  expiration-duration: 3s # 单元测试时使用
 
 # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
 spring:
-  datasource:
-    url: jdbc:mysql://mysql:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: oss
+  redis:
     password: xxxxxxxx
+    sentinel:
+      master: mymaster
+      nodes:
+        - redis_sentinel1:26379
+        - redis_sentinel2:26379
+        - redis_sentinel3:26379
   cloud:
     sentinel:
       enabled: false

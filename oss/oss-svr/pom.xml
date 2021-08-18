@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -89,6 +88,41 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- 制作docker镜像的插件 -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<!-- 绑定到install阶段执行 -->
+						<phase>install</phase>
+						<!-- 绑定到deploy阶段执行 -->
+						<!-- <phase>deploy</phase> -->
+						<!-- 不绑定到任何阶段，也就不会执行 -->
+						<!-- <phase></phase> -->
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- 此选项指定在settings.xml文件中设置的server -->
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+					<!-- 部署到私服 -->
+					<!-- <repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository> -->
+					<!-- 部署到hub.docker.com -->
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+					<verbose>true</verbose>
+					<googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
