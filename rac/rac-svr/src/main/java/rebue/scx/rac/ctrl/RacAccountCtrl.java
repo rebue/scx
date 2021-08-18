@@ -94,7 +94,7 @@ public class RacAccountCtrl {
      * @param id 账户ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "删除账户", opTitle = "删除账户: #{#p0.id}")
+    @RacOpLog(opType = "删除账户", opTitle = "删除账户: #{#p0}")
     @DeleteMapping("/rac/account")
     public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.del(id)));
