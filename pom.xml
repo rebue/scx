@@ -22,6 +22,8 @@
 		<module>gateway-server</module>
 		<module>oss</module>
 		<module>wxx</module>
+		<module>oap</module>
+		<module>orp</module>
 	</modules>
 
 	<dependencyManagement>

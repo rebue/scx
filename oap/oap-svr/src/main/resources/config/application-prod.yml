@@ -1,0 +1,26 @@
+# 配置中心中的配置
+
+# 生成workid使用
+curator:
+  connect-string: zookeeper_zoo1:2181,zookeeper_zoo2:2181,zookeeper_zoo3:2181
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/$op?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: root
+    password: ******
+  rabbitmq:
+    host: rabbitmq_rabbitmq
+    port: 5672
+    username: guest
+    password: ******
+    virtual-host: /
+  # 链路追踪采集器
+  sleuth:
+    sampler:
+      # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+      probability: 1
+  # 链路追踪可视化服务器
+  zipkin:
+    # 服务器地址
+    base-url: http://zipkin:9411

@@ -1,0 +1,5 @@
+{
+	"projectName": "OAP微服务",
+	"outPath": "./src/main/resources/static/doc",
+	"allInOne": true
+}
