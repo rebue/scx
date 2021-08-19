@@ -69,11 +69,11 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         final String  isMockStr = Optional.ofNullable(paramMap.get("isMock")).orElse("false").toString();
         final boolean isMock    = Boolean.valueOf(isMockStr);
         log.debug("判断此signId是否仅允许Mock: {}", isMock);
-        if (isMock == false) {
-            if (signId.equals(876995783931461651L)) {
-                return new Ro<>(ResultDic.WARN, "验证签名错误: 此signId仅允许Mock");
-            }
-        }
+        // if (isMock == false) {
+        // if (signId.equals(876995783931461651L)) {
+        // return new Ro<>(ResultDic.WARN, "验证签名错误: 此signId仅允许Mock");
+        // }
+        // }
 
         // 根据设置的算法验证签名
         final SignAlgorithmDic signAlgorithmDic = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, secretMo.getAlgorithm());
