@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/8/10 9:20:47                            */
+/* Created on:     2021/8/19 18:14:48                           */
 /*==============================================================*/
 
 
@@ -26,6 +26,12 @@ alter table RAC_ACCOUNT_ROLE
 drop table if exists RAC_ACCOUNT_ROLE;
 
 
+alter table RAC_APP 
+   drop foreign key FK_APP_AND_REALM;
+
+drop table if exists RAC_APP;
+
+
 alter table RAC_DELEGATION 
    drop foreign key FK_PRINCIPAL_AND_ACCOUNT;
 
@@ -39,7 +45,7 @@ alter table RAC_DIC
    drop foreign key FK_DIC_AND_REALM;
 
 alter table RAC_DIC 
-   drop foreign key FK_DIC_AND_SYS;
+   drop foreign key FK_DIC_AND_APP;
 
 drop table if exists RAC_DIC;
 
@@ -87,7 +93,7 @@ alter table RAC_OP_LOG
    drop foreign key FK_OP_LOG_AND_ACCOUNT;
 
 alter table RAC_OP_LOG 
-   drop foreign key FK_OP_LOG_AND_SYS;
+   drop foreign key FK_OP_LOG_AND_APP;
 
 alter table RAC_OP_LOG 
    drop foreign key FK_OP_LOG_AND_AGENT;
@@ -138,7 +144,7 @@ alter table RAC_PERM_MENU
    drop foreign key FK_PERM_MENU_AND_PERM;
 
 alter table RAC_PERM_MENU 
-   drop foreign key FK_PERM_MENU_AND_SYS;
+   drop foreign key FK_PERM_MENU_AND_APP;
 
 drop table if exists RAC_PERM_MENU;
 
@@ -164,12 +170,6 @@ alter table RAC_ROLE_PERM
    drop foreign key FK_ROLE_PERM_AND_PERM;
 
 drop table if exists RAC_ROLE_PERM;
-
-
-alter table RAC_SYS 
-   drop foreign key FK_SYS_AND_REALM;
-
-drop table if exists RAC_SYS;
 
 drop table if exists RAC_USER;
 
@@ -235,6 +235,23 @@ create table RAC_ACCOUNT_ROLE
 alter table RAC_ACCOUNT_ROLE comment '账户角色';
 
 /*==============================================================*/
+/* Table: RAC_APP                                               */
+/*==============================================================*/
+create table RAC_APP
+(
+   ID                   varchar(32) not null  comment '应用ID',
+   NAME                 varchar(20) not null  comment '应用名称',
+   REALM_ID             varchar(32) not null  comment '领域ID',
+   URL                  varchar(100)  comment '应用URL',
+   MENU                 varchar(3000)  comment '菜单',
+   REMARK               varchar(50)  comment '应用备注',
+   primary key (ID),
+   unique key AK_SYS_NAME (NAME)
+);
+
+alter table RAC_APP comment '应用';
+
+/*==============================================================*/
 /* Table: RAC_DELEGATION                                        */
 /*==============================================================*/
 create table RAC_DELEGATION
@@ -257,7 +274,7 @@ create table RAC_DIC
    DIC_KEY              varchar(32) not null  comment '字典Key',
    NAME                 varchar(200) not null  comment '字典名称',
    REALM_ID             varchar(32)  comment '领域ID',
-   SYS_ID               varchar(32)  comment '系统ID',
+   APP_ID               varchar(32)  comment '应用ID',
    REMARK               varchar(50)  comment '字典备注',
    UPDATE_DATETIME      datetime not null  comment '修改时间',
    primary key (ID),
@@ -330,7 +347,7 @@ alter table RAC_OPS_ORG comment '运营组织';
 create table RAC_OP_LOG
 (
    ID                   bigint unsigned not null  comment '操作日志ID',
-   SYS_ID               varchar(32) not null  comment '系统ID',
+   APP_ID               varchar(32) not null  comment '应用ID',
    ACCOUNT_ID           bigint unsigned not null  comment '账户ID',
    AGENT_ID             bigint unsigned  comment '代理人ID',
    OP_TYPE              varchar(20) not null  comment '操作类型',
@@ -438,7 +455,7 @@ alter table RAC_PERM_GROUP comment '权限分组';
 create table RAC_PERM_MENU
 (
    ID                   bigint unsigned not null  comment '权限菜单ID',
-   SYS_ID               varchar(32)  comment '系统ID',
+   APP_ID               varchar(32)  comment '应用ID',
    PERM_ID              bigint unsigned not null  comment '权限ID',
    MENU_URN             varchar(100) not null  comment '菜单URN',
    primary key (ID),
@@ -507,23 +524,6 @@ create table RAC_ROLE_PERM
 alter table RAC_ROLE_PERM comment '角色权限';
 
 /*==============================================================*/
-/* Table: RAC_SYS                                               */
-/*==============================================================*/
-create table RAC_SYS
-(
-   ID                   varchar(32) not null  comment '系统ID',
-   NAME                 varchar(20) not null  comment '系统名称',
-   REALM_ID             varchar(32) not null  comment '领域ID',
-   URL                  varchar(100)  comment '系统URL',
-   MENU                 varchar(3000)  comment '菜单',
-   REMARK               varchar(50)  comment '系统备注',
-   primary key (ID),
-   unique key AK_SYS_NAME (NAME)
-);
-
-alter table RAC_SYS comment '系统';
-
-/*==============================================================*/
 /* Table: RAC_USER                                              */
 /*==============================================================*/
 create table RAC_USER
@@ -563,6 +563,9 @@ alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ROLE foreign key
 alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
+alter table RAC_APP add constraint FK_APP_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
+
 alter table RAC_DELEGATION add constraint FK_PRINCIPAL_AND_ACCOUNT foreign key (PRINCIPAL_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
@@ -572,8 +575,8 @@ alter table RAC_DELEGATION add constraint FK_AGENT_AND_ACCOUNT foreign key (AGEN
 alter table RAC_DIC add constraint FK_DIC_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_DIC add constraint FK_DIC_AND_SYS foreign key (SYS_ID)
-      references RAC_SYS (ID) on delete restrict on update restrict;
+alter table RAC_DIC add constraint FK_DIC_AND_APP foreign key (APP_ID)
+      references RAC_APP (ID) on delete restrict on update restrict;
 
 alter table RAC_DIC_ITEM add constraint FK_DIC_ITEM_AND_DIC foreign key (DIC_ID)
       references RAC_DIC (ID) on delete restrict on update restrict;
@@ -608,8 +611,8 @@ alter table RAC_OPS_ORG add constraint FK_OPS_ORG_AND_SLAVE_ORG foreign key (SLA
 alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_SYS foreign key (SYS_ID)
-      references RAC_SYS (ID) on delete restrict on update restrict;
+alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_APP foreign key (APP_ID)
+      references RAC_APP (ID) on delete restrict on update restrict;
 
 alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_AGENT foreign key (AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
@@ -641,8 +644,8 @@ alter table RAC_PERM_GROUP add constraint FK_PERM_GROUP_AND_REALM foreign key (R
 alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_SYS foreign key (SYS_ID)
-      references RAC_SYS (ID) on delete restrict on update restrict;
+alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_APP foreign key (APP_ID)
+      references RAC_APP (ID) on delete restrict on update restrict;
 
 alter table RAC_PERM_URN add constraint FK_PERM_URN_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
@@ -655,7 +658,4 @@ alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_PERM foreign key (PERM
 
 alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
-
-alter table RAC_SYS add constraint FK_SYS_AND_REALM foreign key (REALM_ID)
-      references RAC_REALM (ID) on delete restrict on update restrict;
 
