@@ -6,28 +6,28 @@ import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.api.RacSysApi;
-import rebue.scx.rac.jo.RacSysJo;
-import rebue.scx.rac.mo.RacSysMo;
-import rebue.scx.rac.svc.RacSysSvc;
-import rebue.scx.rac.to.RacSysAddTo;
-import rebue.scx.rac.to.RacSysDelTo;
-import rebue.scx.rac.to.RacSysListTo;
-import rebue.scx.rac.to.RacSysModifyTo;
-import rebue.scx.rac.to.RacSysOneTo;
-import rebue.scx.rac.to.RacSysPageTo;
+import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.jo.RacAppJo;
+import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.svc.RacAppSvc;
+import rebue.scx.rac.to.RacAppAddTo;
+import rebue.scx.rac.to.RacAppDelTo;
+import rebue.scx.rac.to.RacAppListTo;
+import rebue.scx.rac.to.RacAppModifyTo;
+import rebue.scx.rac.to.RacAppOneTo;
+import rebue.scx.rac.to.RacAppPageTo;
 
 /**
- * 系统API实现
+ * 应用API实现
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @DubboService
-public class RacSysApiImpl extends BaseApiImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysPageTo, RacSysMo, RacSysJo, RacSysSvc>
-    implements RacSysApi {
+public class RacSysApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppSvc>
+    implements RacAppApi {
 
     @Override
-    public Ro<ListRa<RacSysMo>> list(final RacSysListTo qo) {
+    public Ro<ListRa<RacAppMo>> list(final RacAppListTo qo) {
         return new Ro<>(ResultDic.SUCCESS, "列表查询成功", new ListRa<>(_svc.list(qo)));
     }
 }

@@ -337,12 +337,12 @@ public class RacAccountSvcImpl extends
      *
      * @param curAccountId   当前账户ID
      * @param agentAccountId 代理账户ID
-     * @param sysId          系统ID
+     * @param appId          应用ID
      *
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String sysId) {
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
         final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
         final RacAccountMo        accountMo = thisSvc.getById(curAccountId);
         if (accountMo == null) {
@@ -363,7 +363,7 @@ public class RacAccountSvcImpl extends
         OrikaUtils.map(accountMo, ra);
         ra.setNickname(accountMo.getSignInNickname());
         ra.setAvatar(accountMo.getSignInAvatar());
-        ra.setMenus(permMenuSvc.getMenusOfAccount(curAccountId, sysId));
+        ra.setMenus(permMenuSvc.getMenusOfAccount(curAccountId, appId));
         if (agentAccountId != null) {
             ra.setAgentAccountId(agentAccountId);
             ra.setAgentNickname(agentAccountMo.getSignInNickname());

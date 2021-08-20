@@ -47,12 +47,12 @@ public class RacDicMo implements Serializable, Mo<Long> {
     private String            name;
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            sysId;
+    @Length(max = 32, message = "应用ID的长度不能大于32")
+    private String            appId;
 
     /**
      * 字典备注
@@ -68,19 +68,20 @@ public class RacDicMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统
+     * 应用
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter
-    private RacSysMo          sys;
+    private RacAppMo          app;
 
     /**
      * 字典ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -99,26 +100,26 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getSysId() {
-        return sysId;
+    public String getAppId() {
+        return appId;
     }
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
+    public void setAppId(final String appId) {
+        this.appId = appId;
     }
 
     /**
@@ -135,7 +136,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRemark(String remark) {
+    public void setRemark(final String remark) {
         this.remark = remark;
     }
 
@@ -144,7 +145,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -152,7 +153,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
         sb.append(", dicKey=").append(dicKey);
         sb.append(", name=").append(name);
         sb.append(", realmId=").append(realmId);
-        sb.append(", sysId=").append(sysId);
+        sb.append(", appId=").append(appId);
         sb.append(", remark=").append(remark);
         sb.append(", updateDatetime=").append(updateDatetime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
@@ -164,7 +165,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object that) {
+    public boolean equals(final Object that) {
         if (this == that) {
             return true;
         }
@@ -174,8 +175,8 @@ public class RacDicMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        RacDicMo other = (RacDicMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+        final RacDicMo other = (RacDicMo) that;
+        return (getId() == null ? other.getId() == null : getId().equals(other.getId()));
     }
 
     /**
@@ -213,7 +214,8 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setId(Long id) {
+    @Override
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -231,7 +233,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setDicKey(String dicKey) {
+    public void setDicKey(final String dicKey) {
         this.dicKey = dicKey;
     }
 
@@ -259,7 +261,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUpdateDatetime(LocalDateTime updateDatetime) {
+    public void setUpdateDatetime(final LocalDateTime updateDatetime) {
         this.updateDatetime = updateDatetime;
     }
 
@@ -294,7 +296,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRealmId(String realmId) {
+    public void setRealmId(final String realmId) {
         this.realmId = realmId;
     }
 }

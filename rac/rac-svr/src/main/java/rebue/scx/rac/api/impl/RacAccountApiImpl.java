@@ -90,12 +90,12 @@ public class RacAccountApiImpl extends
      *
      * @param curAccountId   当前账户ID
      * @param agentAccountId 代理账户ID
-     * @param sysId          系统ID
+     * @param appId          应用ID
      *
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String sysId) {
-        return _svc.getCurAccountInfo(curAccountId, agentAccountId, sysId);
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
+        return _svc.getCurAccountInfo(curAccountId, agentAccountId, appId);
     }
 }

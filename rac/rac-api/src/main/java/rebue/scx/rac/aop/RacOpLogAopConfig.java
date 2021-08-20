@@ -51,14 +51,14 @@ public class RacOpLogAopConfig {
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 return ReactiveRequestAndResponseContextHolder.getRequestAndResponseContext().map(context -> {
                     String sign  = CookieUtils.getValue(context.getResponse(), JwtUtils.JWT_TOKEN_NAME);
-                    String sysId = CookieUtils.getValue(context.getResponse(), RacCookieCo.SYS_ID_KEY);
+                    String appId = CookieUtils.getValue(context.getResponse(), RacCookieCo.APP_ID_KEY);
 
-                    if (!StringUtils.isNoneBlank(sign, sysId)) {
+                    if (!StringUtils.isNoneBlank(sign, appId)) {
                         sign  = CookieUtils.getValue(context.getRequest(), JwtUtils.JWT_TOKEN_NAME);
-                        sysId = CookieUtils.getValue(context.getRequest(), RacCookieCo.SYS_ID_KEY);
+                        appId = CookieUtils.getValue(context.getRequest(), RacCookieCo.APP_ID_KEY);
                     }
 
-                    if (StringUtils.isNoneBlank(sign, sysId)) {
+                    if (StringUtils.isNoneBlank(sign, appId)) {
                         final Long accountId = JwtUtils.getJwtAccountIdFromSign(sign);
                         if (accountId != null) {
                             final Object               target               = joinPoint.getTarget();
@@ -89,7 +89,7 @@ public class RacOpLogAopConfig {
                             to.setOpDetail(aspectExpressContext.getString(annotation.opDetail()));
                             to.setAccountId(accountId);
                             to.setAgentId(agentAccountId);
-                            to.setSysId(sysId);
+                            to.setAppId(appId);
                             to.setOpDatetime(LocalDateTime.now());
                             racPub.addOpLog(to);
                         }

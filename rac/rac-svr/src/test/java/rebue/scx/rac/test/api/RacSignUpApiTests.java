@@ -36,7 +36,7 @@ public class RacSignUpApiTests {
         Assertions.assertEquals(ResultDic.PARAM_ERROR, ro.getResult());
         final SignUpByAccountNameTo to = new SignUpByAccountNameTo();
         to.setAccountName("admin");
-        to.setSysId("rebue-platform");
+        to.setAppId("rebue-platform");
         log.info("测试通过账户名称注册，缺少登录密码: to-{}", to);
         ro = _api.signUpByAccountName(to);
         log.info("通过账户名称注册的返回值为: {}", ro);

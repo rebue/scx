@@ -20,11 +20,11 @@ import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.RacSysMo;
+import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacAccountSvc;
+import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
-import rebue.scx.rac.svc.RacSysSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.util.PswdUtils;
@@ -68,7 +68,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Resource
     private RacAccountSvc       accountSvc;
     @Resource
-    private RacSysSvc           sysSvc;
+    private RacAppSvc           appSvc;
     @Resource
     private RacOpLogSvc         opLogSvc;
 
@@ -84,29 +84,29 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
-        log.info("根据系统ID获取系统信息");
-        final RacSysMo sysMo = sysSvc.getById(to.getSysId());
-        if (sysMo == null) {
-            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
+        log.info("根据应用ID获取应用信息");
+        final RacAppMo appMo = appSvc.getById(to.getAppId());
+        if (appMo == null) {
+            return new Ro<>(ResultDic.FAIL, "未发现此应用信息: " + to.getAppId());
         }
 
         RacAccountMo     accountMo = null;
         SignUpOrInWayDic signInWay = null;
         if (RegexUtils.matchEmail(to.getAccountName())) {
-            accountMo = accountSvc.getOneByEmail(sysMo.getRealmId(), to.getAccountName());
+            accountMo = accountSvc.getOneByEmail(appMo.getRealmId(), to.getAccountName());
             if (accountMo != null) {
                 signInWay = SignUpOrInWayDic.EMAIL;
             }
         }
         else if (RegexUtils.matchMobile(to.getAccountName())) {
-            accountMo = accountSvc.getOneByMobile(sysMo.getRealmId(), to.getAccountName());
+            accountMo = accountSvc.getOneByMobile(appMo.getRealmId(), to.getAccountName());
             if (accountMo != null) {
                 signInWay = SignUpOrInWayDic.MOBILE;
             }
         }
 
         if (accountMo == null) {
-            accountMo = accountSvc.getOneBySignInName(sysMo.getRealmId(), to.getAccountName());
+            accountMo = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getAccountName());
             if (accountMo != null) {
                 signInWay = SignUpOrInWayDic.SIGN_IN_NAME;
             }
@@ -159,7 +159,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             delWrongPswdTimesOfSignIn(accountMo.getId());
         }
 
-        return returnSuccessSignIn(accountMo, to.getSysId(), signInWay);
+        return returnSuccessSignIn(accountMo, to.getAppId(), signInWay);
     }
 
     /**
@@ -196,10 +196,10 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * 返回成功登录
      *
      * @param accountMo 获取到的账户信息
-     * @param sysId     系统ID
+     * @param appId     应用ID
      * @param signInWay 登录方式
      */
-    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String sysId, final SignUpOrInWayDic signInWay) {
+    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final SignUpOrInWayDic signInWay) {
         final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString());
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {

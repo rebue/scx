@@ -1,19 +1,19 @@
 -- 领域
-INSERT INTO RAC_REALM(ID, NAME, REMARK) VALUES ('default', '默认领域', '系统和账户的默认领域');
+INSERT INTO RAC_REALM(ID, NAME, REMARK) VALUES ('default', '默认领域', '应用和账户的默认领域');
 INSERT INTO RAC_REALM(ID, NAME, REMARK) VALUES ('platform', '平台领域', '平台管理领域');
 INSERT INTO RAC_REALM(ID, NAME, REMARK) VALUES ('ops', '运营领域', '运营管理领域');
--- 系统
-INSERT INTO RAC_SYS (ID, NAME, REALM_ID,MENU,REMARK) VALUES 
+-- 应用
+INSERT INTO RAC_APP (ID, NAME, REALM_ID,MENU,REMARK) VALUES 
 ('platform-admin-web', '平台后台管理', 'platform',
-'[{"key":"/base","title":"基础","children":[{"key":"/base/rac-realm","title":"领域"},{"key":"/base/rac-sys","title":"系统"},{"key":"/base/rac-perm","title":"权限"},{"key":"/base/rac-role","title":"角色"},{"key":"/base/rac-dic","title":"字典"}]},{"key":"/account","title":"账户","children":[{"key":"/account/rac-org","title":"组织"},{"key":"/account/rac-account","title":"账户"}]},{"key":"/log","title":"日志","children":[{"key":"/log/lock-log","title":"锁定日志"},{"key":"/log/op-log","title":"操作日志"}]}]'
+'[{"key":"/base","title":"基础","children":[{"key":"/base/rac-realm","title":"领域"},{"key":"/base/rac-app","title":"应用"},{"key":"/base/rac-perm","title":"权限"},{"key":"/base/rac-role","title":"角色"},{"key":"/base/rac-dic","title":"字典"}]},{"key":"/account","title":"账户","children":[{"key":"/account/rac-org","title":"组织"},{"key":"/account/rac-account","title":"账户"}]},{"key":"/log","title":"日志","children":[{"key":"/log/lock-log","title":"锁定日志"},{"key":"/log/op-log","title":"操作日志"}]}]'
 ,'对平台的后台管理提供最基本的功能');
-INSERT INTO RAC_SYS (ID, NAME, REALM_ID,REMARK) VALUES 
+INSERT INTO RAC_APP (ID, NAME, REALM_ID,REMARK) VALUES 
 ('ops-admin-web', '运营后台管理', 'ops','对运营的后台管理提供最基本的功能');
 
 -- 空账号
 INSERT INTO RAC_ACCOUNT (ID,REALM_ID,SIGN_IN_NAME,SIGN_IN_PSWD,SIGN_IN_PSWD_SALT,SIGN_IN_NICKNAME,CREATE_TIMESTAMP,UPDATE_TIMESTAMP)VALUES(0,'platform','null','','','空',UNIX_TIMESTAMP(SYSDATE()) * 1000,UNIX_TIMESTAMP(SYSDATE()) * 1000);
--- 系统账号
-INSERT INTO RAC_ACCOUNT (ID,REALM_ID,SIGN_IN_NAME,SIGN_IN_PSWD,SIGN_IN_PSWD_SALT,SIGN_IN_NICKNAME,CREATE_TIMESTAMP,UPDATE_TIMESTAMP)VALUES(1,'platform','system','','','系统',UNIX_TIMESTAMP(SYSDATE()) * 1000,UNIX_TIMESTAMP(SYSDATE()) * 1000);
+-- 应用账号
+INSERT INTO RAC_ACCOUNT (ID,REALM_ID,SIGN_IN_NAME,SIGN_IN_PSWD,SIGN_IN_PSWD_SALT,SIGN_IN_NICKNAME,CREATE_TIMESTAMP,UPDATE_TIMESTAMP)VALUES(1,'platform','system','','','应用',UNIX_TIMESTAMP(SYSDATE()) * 1000,UNIX_TIMESTAMP(SYSDATE()) * 1000);
 -- 平台管理员
 INSERT INTO RAC_ACCOUNT (ID,REALM_ID,SIGN_IN_NAME,SIGN_IN_PSWD,SIGN_IN_PSWD_SALT,SIGN_IN_NICKNAME,SIGN_IN_AVATAR,CREATE_TIMESTAMP,UPDATE_TIMESTAMP)VALUES(10,'platform','super','05eeac84965236b8a479c3ebef3a2dc4','dX3jbg','平台管理员','/img/account/tiger.jpg',UNIX_TIMESTAMP(SYSDATE()) * 1000,UNIX_TIMESTAMP(SYSDATE()) * 1000);
 -- 运营管理员
@@ -26,7 +26,7 @@ INSERT INTO RAC_ROLE(ID, NAME, REALM_ID, IS_ENABLED, SEQ_NO, REMARK)VALUES(2,'�
 INSERT INTO RAC_ACCOUNT_ROLE(ID, ROLE_ID, ACCOUNT_ID)VALUES(2,2,20);
 -- 权限分组
 INSERT INTO RAC_PERM_GROUP(ID, REALM_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1,'platform','领域',true,0,'领域');
-INSERT INTO RAC_PERM_GROUP(ID, REALM_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(2,'platform','系统',true,1,'系统');
+INSERT INTO RAC_PERM_GROUP(ID, REALM_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(2,'platform','应用',true,1,'应用');
 INSERT INTO RAC_PERM_GROUP(ID, REALM_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(3,'platform','权限',true,2,'权限');
 INSERT INTO RAC_PERM_GROUP(ID, REALM_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(4,'platform','角色',true,3,'角色');
 INSERT INTO RAC_PERM_GROUP(ID, REALM_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(5,'platform','组织',true,4,'组织');
@@ -37,8 +37,8 @@ INSERT INTO RAC_PERM_GROUP(ID, REALM_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES
 -- 权限
 INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1001,'platform',1,'管理领域',true,0,'拥有管理领域的权限');
 INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1002,'platform',1,'查看领域',true,1,'拥有查看领域的权限');
-INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1003,'platform',2,'管理系统',true,0,'拥有管理系统的权限');
-INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1004,'platform',2,'查看系统',true,1,'拥有查看系统的权限');
+INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1003,'platform',2,'管理应用',true,0,'拥有管理应用的权限');
+INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1004,'platform',2,'查看应用',true,1,'拥有查看应用的权限');
 INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1005,'platform',3,'管理权限',true,0,'拥有管理权限的权限');
 INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1006,'platform',3,'查看权限',true,1,'拥有查看权限的权限');
 INSERT INTO RAC_PERM(ID, REALM_ID, GROUP_ID, NAME, IS_ENABLED, SEQ_NO, REMARK)VALUES(1007,'platform',4,'管理角色',true,0,'拥有管理角色的权限');
@@ -80,33 +80,33 @@ INSERT INTO RAC_ROLE_PERM(ID, ROLE_ID, PERM_ID)VALUES('886056097067171867', '2',
 INSERT INTO RAC_ROLE_PERM(ID, ROLE_ID, PERM_ID)VALUES('886056097079754780', '2', '886047198507302915');
 
 -- 菜单
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(1,'platform-admin-web',1001,'/base/rac-realm');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(2,'platform-admin-web',1002,'/base/rac-realm');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(3,'platform-admin-web',1003,'/base/rac-sys');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(4,'platform-admin-web',1004,'/base/rac-sys');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(5,'platform-admin-web',1005,'/base/rac-perm');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(6,'platform-admin-web',1006,'/base/rac-perm');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(7,'platform-admin-web',1007,'/base/rac-role');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(8,'platform-admin-web',1008,'/base/rac-role');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(9,'platform-admin-web',1009,'/account/rac-org');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(10,'platform-admin-web',1010,'/account/rac-org');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(11,'platform-admin-web',1011,'/account/rac-account');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(12,'platform-admin-web',1012,'/account/rac-account');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(13,'platform-admin-web',1013,'/log/lock-log');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(14,'platform-admin-web',1014,'/log/op-log');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(15,'platform-admin-web',1015,'/base/rac-dic');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(16,'platform-admin-web',1016,'/base/rac-dic');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(886047232216924166, 'ops-admin-web', 886047198507302915, '/user/ops-account');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(886047254769696775, 'ops-admin-web', 886046205266755586, '/user/ops-account');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(886047276856901640, 'ops-admin-web', 886046060617793537, '/user/ops-org');
-INSERT INTO RAC_PERM_MENU(ID, SYS_ID, PERM_ID, MENU_URN)VALUES(886050584556339210, 'ops-admin-web', 886042515130679296, '/user/ops-org');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(1,'platform-admin-web',1001,'/base/rac-realm');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(2,'platform-admin-web',1002,'/base/rac-realm');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(3,'platform-admin-web',1003,'/base/rac-app');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(4,'platform-admin-web',1004,'/base/rac-app');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(5,'platform-admin-web',1005,'/base/rac-perm');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(6,'platform-admin-web',1006,'/base/rac-perm');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(7,'platform-admin-web',1007,'/base/rac-role');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(8,'platform-admin-web',1008,'/base/rac-role');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(9,'platform-admin-web',1009,'/account/rac-org');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(10,'platform-admin-web',1010,'/account/rac-org');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(11,'platform-admin-web',1011,'/account/rac-account');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(12,'platform-admin-web',1012,'/account/rac-account');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(13,'platform-admin-web',1013,'/log/lock-log');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(14,'platform-admin-web',1014,'/log/op-log');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(15,'platform-admin-web',1015,'/base/rac-dic');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(16,'platform-admin-web',1016,'/base/rac-dic');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(886047232216924166, 'ops-admin-web', 886047198507302915, '/user/ops-account');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(886047254769696775, 'ops-admin-web', 886046205266755586, '/user/ops-account');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(886047276856901640, 'ops-admin-web', 886046060617793537, '/user/ops-org');
+INSERT INTO RAC_PERM_MENU(ID, APP_ID, PERM_ID, MENU_URN)VALUES(886050584556339210, 'ops-admin-web', 886042515130679296, '/user/ops-org');
 
 -- URL
 INSERT INTO `RAC_PERM_URN` VALUES 
 (875980015911698436,1001,'*:/rac/realm/**'),
 (875986330897743872,1002,'GET:/rac/realm/**'),
-(875980164188733445,1003,'*:/rac/sys/**'),
-(875986401345273857,1004,'GET:/rac/sys/**'),
+(875980164188733445,1003,'*:/rac/app/**'),
+(875986401345273857,1004,'GET:/rac/app/**'),
 (875978616129847296,1005,'*:/rac/perm-group/**'),
 (875978616280842241,1005,'*:/rac/perm-menu/**'),
 (875978616339562498,1005,'*:/rac/perm-urn/**'),
@@ -126,11 +126,11 @@ INSERT INTO `RAC_PERM_URN` VALUES
 (878551998646059009,1015,'*:/rac/dic-item/**'),
 (878551998574755840,1015,'*:/rac/dic/**'),
 (878551998692196354,1015,'GET:/rac/realm/list-all'),
-(878551998717362179,1015,'GET:/rac/sys/list'),
+(878551998717362179,1015,'GET:/rac/app/list'),
 (878552197858721796,1016,'GET:/rac/dic-item/**'),
 (878552197917442053,1016,'GET:/rac/dic/**'),
 (878552197976162310,1016,'GET:/rac/realm/list-all'),
-(878552198039076871,1016,'GET:/rac/sys/list');
+(878552198039076871,1016,'GET:/rac/app/list');
 INSERT INTO `RAC_PERM_URN` VALUES 
 ('886045981064429569', '886042515130679296', 'GET:/rac/realm/list-all'),
 ('886045981131538434', '886042515130679296', 'GET:/rac/org/*'),

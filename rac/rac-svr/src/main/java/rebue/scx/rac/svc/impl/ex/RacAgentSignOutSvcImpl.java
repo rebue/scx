@@ -14,10 +14,10 @@ import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.RacSysMo;
+import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.AgentSignOutRa;
 import rebue.scx.rac.svc.RacAccountSvc;
-import rebue.scx.rac.svc.RacSysSvc;
+import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.ex.RacAgentSignOutSvc;
 
 /**
@@ -45,24 +45,24 @@ public class RacAgentSignOutSvcImpl implements RacAgentSignOutSvc {
     @Resource
     private RacAccountSvc accountSvc;
     @Resource
-    private RacSysSvc     sysSvc;
+    private RacAppSvc     appSvc;
 
     /**
      * 退出代理登录
      *
      * @param agentAccountId 代理账户ID
-     * @param agentSysId     代理账户之前登录的系统ID
+     * @param agentAppId     代理账户之前登录的应用ID
      * @param urlBeforeAgent 代理之前的URL
      *
      * @return 登录成功或失败的结果
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<AgentSignOutRa> signOut(final Long agentAccountId, final String agentSysId, final String urlBeforeAgent) {
-        log.info("根据系统ID获取系统信息");
-        final RacSysMo sysMo = sysSvc.getById(agentSysId);
-        if (sysMo == null) {
-            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + agentSysId);
+    public Ro<AgentSignOutRa> signOut(final Long agentAccountId, final String agentAppId, final String urlBeforeAgent) {
+        log.info("根据应用ID获取应用信息");
+        final RacAppMo appMo = appSvc.getById(agentAppId);
+        if (appMo == null) {
+            return new Ro<>(ResultDic.FAIL, "未发现此应用信息: " + agentAppId);
         }
 
         final RacAccountMo accountMo = accountSvc.getById(agentAccountId);
@@ -84,17 +84,17 @@ public class RacAgentSignOutSvcImpl implements RacAgentSignOutSvc {
             return new Ro<>(ResultDic.WARN, msg);
         }
 
-        return returnSuccessSignIn(accountMo, agentSysId, urlBeforeAgent);
+        return returnSuccessSignIn(accountMo, agentAppId, urlBeforeAgent);
     }
 
     /**
      * 返回成功登录
      *
      * @param accountMo      获取到的账户信息
-     * @param sysId          系统ID
+     * @param appId          应用ID
      * @param urlBeforeAgent 代理之前的URL
      */
-    private Ro<AgentSignOutRa> returnSuccessSignIn(final RacAccountMo accountMo, final String sysId, final String urlBeforeAgent) {
+    private Ro<AgentSignOutRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final String urlBeforeAgent) {
         final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString());
         final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
         if (ResultDic.SUCCESS.equals(signRo.getResult())) {

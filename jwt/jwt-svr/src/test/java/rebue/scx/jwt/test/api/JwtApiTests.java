@@ -24,7 +24,7 @@ public class JwtApiTests {
 
     private final Long   _accountId = 517928358546243583L;
 
-    private final String _sysId     = "rebue-platform";
+    private final String _appId     = "rebue-platform";
     private final String _wxOpenId  = "oqTsm0gdD148UcBzibH4JTm2d9q4";
     private final String _wxUnionId = "oqTsm0gdD148UcBzibH4JTm2d9q5";
     private final Long   _orgId     = 517928358546243584L;
@@ -36,7 +36,7 @@ public class JwtApiTests {
     public void test01() throws IOException, InterruptedException {
         // JWT签名
         final Map<String, Object> addition = new LinkedHashMap<>();
-        addition.put("sysId", _sysId);
+        addition.put("appId", _appId);
         addition.put("wxOpenId", _wxOpenId);
         addition.put("wxUnionId", _wxUnionId);
         addition.put("orgId", _orgId.toString());

@@ -9,20 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.scx.rac.dao.RacSysDao;
-import rebue.scx.rac.jo.RacSysJo;
-import rebue.scx.rac.mapper.RacSysMapper;
-import rebue.scx.rac.mo.RacSysMo;
-import rebue.scx.rac.svc.RacSysSvc;
-import rebue.scx.rac.to.RacSysAddTo;
-import rebue.scx.rac.to.RacSysDelTo;
-import rebue.scx.rac.to.RacSysListTo;
-import rebue.scx.rac.to.RacSysModifyTo;
-import rebue.scx.rac.to.RacSysOneTo;
-import rebue.scx.rac.to.RacSysPageTo;
+import rebue.scx.rac.dao.RacAppDao;
+import rebue.scx.rac.jo.RacAppJo;
+import rebue.scx.rac.mapper.RacAppMapper;
+import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.svc.RacAppSvc;
+import rebue.scx.rac.to.RacAppAddTo;
+import rebue.scx.rac.to.RacAppDelTo;
+import rebue.scx.rac.to.RacAppListTo;
+import rebue.scx.rac.to.RacAppModifyTo;
+import rebue.scx.rac.to.RacAppOneTo;
+import rebue.scx.rac.to.RacAppPageTo;
 
 /**
- * 系统服务实现
+ * 应用服务实现
  *
  * <pre>
  * 注意：
@@ -39,9 +39,9 @@ import rebue.scx.rac.to.RacSysPageTo;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-public class RacSysSvcImpl
-    extends BaseSvcImpl<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysPageTo, RacSysMo, RacSysJo, RacSysMapper, RacSysDao>
-    implements RacSysSvc {
+public class RacAppSvcImpl
+    extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
+    implements RacAppSvc {
 
     /**
      * 本服务的单例
@@ -51,7 +51,7 @@ public class RacSysSvcImpl
      */
     @Lazy
     @Resource
-    private RacSysSvc thisSvc;
+    private RacAppSvc thisSvc;
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -59,8 +59,8 @@ public class RacSysSvcImpl
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected Class<RacSysMo> getMoClass() {
-        return RacSysMo.class;
+    protected Class<RacAppMo> getMoClass() {
+        return RacAppMo.class;
     }
 
     /**
@@ -69,7 +69,7 @@ public class RacSysSvcImpl
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysPageTo, RacSysMo, RacSysJo> getThisSvc() {
+    protected BaseSvc<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo> getThisSvc() {
         return thisSvc;
     }
 }

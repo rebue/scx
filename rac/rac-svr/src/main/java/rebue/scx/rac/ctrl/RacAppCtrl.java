@@ -18,106 +18,106 @@ import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
-import rebue.scx.rac.api.RacSysApi;
-import rebue.scx.rac.mo.RacSysMo;
-import rebue.scx.rac.to.RacSysAddTo;
-import rebue.scx.rac.to.RacSysListTo;
-import rebue.scx.rac.to.RacSysModifyTo;
-import rebue.scx.rac.to.RacSysPageTo;
+import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.to.RacAppAddTo;
+import rebue.scx.rac.to.RacAppListTo;
+import rebue.scx.rac.to.RacAppModifyTo;
+import rebue.scx.rac.to.RacAppPageTo;
 
 /**
- * 系统
+ * 应用
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @RestController
-public class RacSysCtrl {
+public class RacAppCtrl {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Resource
-    private RacSysApi api;
+    private RacAppApi api;
 
     /**
-     * 添加系统
+     * 添加应用
      *
      * @mbg.dontOverWriteAnnotation
      * @param to 添加的具体信息
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "添加系统", opTitle = "添加系统: #{#p0.name}")
-    @PostMapping("/rac/sys")
-    public Mono<Ro<IdRa<java.lang.String>>> add(@RequestBody final RacSysAddTo to) {
+    @RacOpLog(opType = "添加应用", opTitle = "添加应用: #{#p0.name}")
+    @PostMapping("/rac/app")
+    public Mono<Ro<IdRa<java.lang.String>>> add(@RequestBody final RacAppAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
     }
 
     /**
-     * 修改系统的信息
+     * 修改应用的信息
      *
      * @mbg.dontOverWriteAnnotation
      * @param to 修改的具体数据
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "修改系统", opTitle = "修改系统: #{#p0.name}")
-    @PutMapping("/rac/sys")
-    public Mono<Ro<?>> modify(@RequestBody final RacSysModifyTo to) {
+    @RacOpLog(opType = "修改应用", opTitle = "修改应用: #{#p0.name}")
+    @PutMapping("/rac/app")
+    public Mono<Ro<?>> modify(@RequestBody final RacAppModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
     }
 
     /**
-     * 删除系统
+     * 删除应用
      *
      * @mbg.dontOverWriteAnnotation
-     * @param id 系统ID
+     * @param id 应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "删除系统", opTitle = "删除系统: #{#p0}")
-    @DeleteMapping("/rac/sys")
+    @RacOpLog(opType = "删除应用", opTitle = "删除应用: #{#p0}")
+    @DeleteMapping("/rac/app")
     public Mono<Ro<?>> del(@RequestParam("id") final java.lang.String id) {
         return Mono.create(callback -> callback.success(api.del(id)));
     }
 
     /**
-     * 获取单个系统的信息
+     * 获取单个应用的信息
      *
-     * @param id 系统ID
+     * @param id 应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @GetMapping("/rac/sys/get-by-id")
-    public Mono<Ro<PojoRa<RacSysMo>>> getById(@RequestParam("id") final java.lang.String id) {
+    @GetMapping("/rac/app/get-by-id")
+    public Mono<Ro<PojoRa<RacAppMo>>> getById(@RequestParam("id") final java.lang.String id) {
         return Mono.create(callback -> callback.success(api.getById(id)));
     }
 
     /**
-     * 判断系统是否存在
+     * 判断应用是否存在
      *
-     * @param id 系统ID
+     * @param id 应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @GetMapping("/rac/sys/exist-by-id")
+    @GetMapping("/rac/app/exist-by-id")
     public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.String id) {
         return Mono.create(callback -> callback.success(api.existById(id)));
     }
 
     /**
-     * 查询系统的信息
+     * 查询应用的信息
      *
      * @param qo 查询的具体条件
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @GetMapping("/rac/sys/page")
-    public Mono<Ro<PageRa<RacSysMo>>> page(final RacSysPageTo qo) {
+    @GetMapping("/rac/app/page")
+    public Mono<Ro<PageRa<RacAppMo>>> page(final RacAppPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
 
     /**
-     * 查询系统的信息
+     * 查询应用的信息
      *
      * @param qo 查询的具体条件
      */
-    @GetMapping("/rac/sys/list")
-    public Mono<Ro<ListRa<RacSysMo>>> list(final RacSysListTo qo) {
+    @GetMapping("/rac/app/list")
+    public Mono<Ro<ListRa<RacAppMo>>> list(final RacAppListTo qo) {
         return Mono.create(callback -> callback.success(api.list(qo)));
     }
 }

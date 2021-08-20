@@ -103,7 +103,7 @@ public class RacPermMenuSvcImpl extends
         final List<String> menuUrns = to.getMenuUrns();
         for (final String menuUrn : menuUrns) {
             final RacPermMenuMo mo = new RacPermMenuMo();
-            mo.setSysId(to.getSysId());
+            mo.setAppId(to.getAppId());
             mo.setPermId(to.getPermId());
             mo.setMenuUrn(menuUrn);
             addMo(mo);
@@ -126,15 +126,15 @@ public class RacPermMenuSvcImpl extends
      * 获取账户的菜单列表
      *
      * @param accountId 账户ID
-     * @param sysId     系统ID
+     * @param appId     应用ID
      *
      * @return 指定账户的菜单列表
      */
     @Override
-    public List<String> getMenusOfAccount(final Long accountId, final String sysId) {
+    public List<String> getMenusOfAccount(final Long accountId, final String appId) {
         final List<RacPermMenuMo> list = _mapper
             .select(c -> c.join(racPerm).on(racPerm.id, equalTo(racPermMenu.permId)).join(racRolePerm).on(racRolePerm.permId, equalTo(racPerm.id)).join(racRole)
-                .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.sysId, isEqualTo(sysId),
+                .on(racRole.id, equalTo(racRolePerm.roleId)).join(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id)).where(racPermMenu.appId, isEqualTo(appId),
                     and(racAccountRole.accountId, isEqualTo(accountId)), and(racPerm.isEnabled, isTrue()), and(racRole.isEnabled, isTrue())));
         return list.stream().map(RacPermMenuMo::getMenuUrn).distinct().collect(Collectors.toList());
     }

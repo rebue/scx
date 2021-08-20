@@ -41,11 +41,11 @@ public final class RacDicDynamicSqlSupport {
     public static final SqlColumn<String> realmId = racDic.realmId;
 
     /**
-    * 系统ID
+    * 应用ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> sysId = racDic.sysId;
+    public static final SqlColumn<String> appId = racDic.appId;
 
     /**
     * 字典备注
@@ -70,7 +70,7 @@ public final class RacDicDynamicSqlSupport {
 
         public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> appId = column("APP_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 

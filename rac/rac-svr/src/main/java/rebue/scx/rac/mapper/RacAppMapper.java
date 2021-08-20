@@ -3,13 +3,13 @@ package rebue.scx.rac.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.id;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.menu;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.name;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.racSys;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.realmId;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.remark;
-import static rebue.scx.rac.mapper.RacSysDynamicSqlSupport.url;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.menu;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.name;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.racApp;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.realmId;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.remark;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.url;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,10 +40,10 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
-import rebue.scx.rac.mo.RacSysMo;
+import rebue.scx.rac.mo.RacAppMo;
 
 @Mapper
-public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
+public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -66,31 +66,31 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-    int insert(InsertStatementProvider<RacSysMo> insertStatement);
+    int insert(InsertStatementProvider<RacAppMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<RacSysMo> multipleInsertStatement);
+    int insertMultiple(MultiRowInsertStatementProvider<RacAppMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @ResultMap("RacSysMoResult")
-    Optional<RacSysMo> selectOne(SelectStatementProvider selectStatement);
+    @ResultMap("RacAppMoResult")
+    Optional<RacAppMo> selectOne(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @Results(id = "RacSysMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
+    @Results(id = "RacAppMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
         @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR),
         @Result(column = "URL", property = "url", jdbcType = JdbcType.VARCHAR), @Result(column = "MENU", property = "menu", jdbcType = JdbcType.VARCHAR),
         @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
     })
-    List<RacSysMo> selectMany(SelectStatementProvider selectStatement);
+    List<RacAppMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -102,14 +102,14 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, racSys, completer);
+        return MyBatis3Utils.countFrom(this::count, racApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, racSys, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, racApp, completer);
     }
 
     /**
@@ -122,24 +122,24 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insert(RacSysMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racSys, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId").map(url)
+    default int insert(RacAppMo record) {
+        return MyBatis3Utils.insert(this::insert, record, racApp, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId").map(url)
             .toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertMultiple(Collection<RacSysMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racSys, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId")
+    default int insertMultiple(Collection<RacAppMo> records) {
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racApp, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId")
             .map(url).toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int insertSelective(RacSysMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racSys,
+    default int insertSelective(RacAppMo record) {
+        return MyBatis3Utils.insert(this::insert, record, racApp,
             c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(name).toPropertyWhenPresent("name", record::getName).map(realmId)
                 .toPropertyWhenPresent("realmId", record::getRealmId).map(url).toPropertyWhenPresent("url", record::getUrl).map(menu).toPropertyWhenPresent("menu", record::getMenu)
                 .map(remark).toPropertyWhenPresent("remark", record::getRemark));
@@ -148,28 +148,28 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacSysMo> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, racSys, completer);
+    default Optional<RacAppMo> selectOne(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, racApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacSysMo> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, racSys, completer);
+    default List<RacAppMo> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, selectList, racApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacSysMo> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racSys, completer);
+    default List<RacAppMo> selectDistinct(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacSysMo> selectByPrimaryKey(String id_) {
+    default Optional<RacAppMo> selectByPrimaryKey(String id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
@@ -177,13 +177,13 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, racSys, completer);
+        return MyBatis3Utils.update(this::update, racApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateAllColumns(RacSysMo record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateAllColumns(RacAppMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(url).equalTo(record::getUrl).set(menu)
             .equalTo(record::getMenu).set(remark).equalTo(record::getRemark);
     }
@@ -191,7 +191,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacSysMo record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacAppMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId).set(url)
             .equalToWhenPresent(record::getUrl).set(menu).equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark);
     }
@@ -199,7 +199,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKey(RacSysMo record) {
+    default int updateByPrimaryKey(RacAppMo record) {
         return update(c -> c.set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(url).equalTo(record::getUrl).set(menu).equalTo(record::getMenu)
             .set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
     }
@@ -207,7 +207,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int updateByPrimaryKeySelective(RacSysMo record) {
+    default int updateByPrimaryKeySelective(RacAppMo record) {
         return update(c -> c.set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId).set(url).equalToWhenPresent(record::getUrl).set(menu)
             .equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
     }
@@ -215,7 +215,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default int deleteSelective(RacSysMo record) {
+    default int deleteSelective(RacAppMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
@@ -223,7 +223,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default Optional<RacSysMo> selectOne(RacSysMo record) {
+    default Optional<RacAppMo> selectOne(RacAppMo record) {
         return selectOne(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
                 .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
@@ -232,7 +232,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default long countSelective(RacSysMo record) {
+    default long countSelective(RacAppMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
@@ -247,14 +247,14 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default boolean existSelective(RacSysMo record) {
+    default boolean existSelective(RacAppMo record) {
         return countSelective(record) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacSysMo> selectSelective(RacSysMo record) {
+    default List<RacAppMo> selectSelective(RacAppMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
             .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
@@ -262,7 +262,7 @@ public interface RacSysMapper extends MapperRootInterface<RacSysMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    default List<RacSysMo> selectIn(List<String> ids) {
+    default List<RacAppMo> selectIn(List<String> ids) {
         return select(c -> c.where(id, isIn(ids)));
     }
 

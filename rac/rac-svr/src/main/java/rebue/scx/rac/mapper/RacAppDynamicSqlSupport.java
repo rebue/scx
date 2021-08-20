@@ -5,55 +5,55 @@ import java.sql.JDBCType;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
-public final class RacSysDynamicSqlSupport {
+public final class RacAppDynamicSqlSupport {
     /**
     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public static final RacSys racSys = new RacSys();
+    public static final RacApp racApp = new RacApp();
 
     /**
-    * 系统ID
+    * 应用ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> id = racSys.id;
+    public static final SqlColumn<String> id = racApp.id;
 
     /**
-    * 系统名称
+    * 应用名称
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> name = racSys.name;
+    public static final SqlColumn<String> name = racApp.name;
 
     /**
     * 领域ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> realmId = racSys.realmId;
+    public static final SqlColumn<String> realmId = racApp.realmId;
 
     /**
-    * 系统URL
+    * 应用URL
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> url = racSys.url;
+    public static final SqlColumn<String> url = racApp.url;
 
     /**
     * 菜单
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> menu = racSys.menu;
+    public static final SqlColumn<String> menu = racApp.menu;
 
     /**
-    * 系统备注
+    * 应用备注
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> remark = racSys.remark;
+    public static final SqlColumn<String> remark = racApp.remark;
 
-    public static final class RacSys extends SqlTable {
+    public static final class RacApp extends SqlTable {
         public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
@@ -66,8 +66,8 @@ public final class RacSysDynamicSqlSupport {
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 
-        public RacSys() {
-            super("RAC_SYS");
+        public RacApp() {
+            super("RAC_APP");
         }
     }
 }

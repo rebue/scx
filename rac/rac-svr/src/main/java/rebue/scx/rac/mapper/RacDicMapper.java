@@ -6,13 +6,13 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static org.mybatis.dynamic.sql.SqlBuilder.isInWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.or;
+import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.appId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.dicKey;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.name;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.racDic;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.realmId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.remark;
-import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.sysId;
 import static rebue.scx.rac.mapper.RacDicDynamicSqlSupport.updateDatetime;
 
 import java.util.Collection;
@@ -55,7 +55,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, dicKey, name, realmId, sysId, remark, updateDatetime);
+    BasicColumn[] selectList = BasicColumn.columnList(id, dicKey, name, realmId, appId, remark, updateDatetime);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,7 +100,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacDicMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
             @Result(column = "DIC_KEY", property = "dicKey", jdbcType = JdbcType.VARCHAR), @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR), @Result(column = "SYS_ID", property = "sysId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR), @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR),
             @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
             @Result(column = "UPDATE_DATETIME", property = "updateDatetime", jdbcType = JdbcType.TIMESTAMP)
     })
@@ -135,7 +135,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @Override
     default int insert(final RacDicMo record) {
         return MyBatis3Utils.insert(this::insert, record, racDic, c -> c.map(id).toProperty("id").map(dicKey).toProperty("dicKey").map(name).toProperty("name").map(realmId)
-                .toProperty("realmId").map(sysId).toProperty("sysId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
+                .toProperty("realmId").map(appId).toProperty("appId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
     }
 
     /**
@@ -144,7 +144,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @Override
     default int insertMultiple(final Collection<RacDicMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racDic, c -> c.map(id).toProperty("id").map(dicKey).toProperty("dicKey").map(name).toProperty("name")
-                .map(realmId).toProperty("realmId").map(sysId).toProperty("sysId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
+                .map(realmId).toProperty("realmId").map(appId).toProperty("appId").map(remark).toProperty("remark").map(updateDatetime).toProperty("updateDatetime"));
     }
 
     /**
@@ -154,8 +154,8 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     default int insertSelective(final RacDicMo record) {
         return MyBatis3Utils.insert(this::insert, record, racDic,
                 c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(dicKey).toPropertyWhenPresent("dicKey", record::getDicKey).map(name)
-                        .toPropertyWhenPresent("name", record::getName).map(realmId).toPropertyWhenPresent("realmId", record::getRealmId).map(sysId)
-                        .toPropertyWhenPresent("sysId", record::getSysId).map(remark).toPropertyWhenPresent("remark", record::getRemark).map(updateDatetime)
+                        .toPropertyWhenPresent("name", record::getName).map(realmId).toPropertyWhenPresent("realmId", record::getRealmId).map(appId)
+                        .toPropertyWhenPresent("appId", record::getAppId).map(remark).toPropertyWhenPresent("remark", record::getRemark).map(updateDatetime)
                         .toPropertyWhenPresent("updateDatetime", record::getUpdateDatetime));
     }
 
@@ -195,8 +195,8 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(final RacDicMo record, final UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(sysId)
-                .equalTo(record::getSysId).set(remark).equalTo(record::getRemark).set(updateDatetime).equalTo(record::getUpdateDatetime);
+        return dsl.set(id).equalTo(record::getId).set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(appId)
+                .equalTo(record::getAppId).set(remark).equalTo(record::getRemark).set(updateDatetime).equalTo(record::getUpdateDatetime);
     }
 
     /**
@@ -204,7 +204,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(final RacDicMo record, final UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(realmId)
-                .equalToWhenPresent(record::getRealmId).set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime)
+                .equalToWhenPresent(record::getRealmId).set(appId).equalToWhenPresent(record::getAppId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime)
                 .equalToWhenPresent(record::getUpdateDatetime);
     }
 
@@ -213,7 +213,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
      */
     @Override
     default int updateByPrimaryKey(final RacDicMo record) {
-        return update(c -> c.set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(sysId).equalTo(record::getSysId)
+        return update(c -> c.set(dicKey).equalTo(record::getDicKey).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(appId).equalTo(record::getAppId)
                 .set(remark).equalTo(record::getRemark).set(updateDatetime).equalTo(record::getUpdateDatetime).where(id, isEqualTo(record::getId)));
     }
 
@@ -223,7 +223,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @Override
     default int updateByPrimaryKeySelective(final RacDicMo record) {
         return update(c -> c.set(dicKey).equalToWhenPresent(record::getDicKey).set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId)
-                .set(sysId).equalToWhenPresent(record::getSysId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime).equalToWhenPresent(record::getUpdateDatetime)
+                .set(appId).equalToWhenPresent(record::getAppId).set(remark).equalToWhenPresent(record::getRemark).set(updateDatetime).equalToWhenPresent(record::getUpdateDatetime)
                 .where(id, isEqualTo(record::getId)));
     }
 
@@ -233,7 +233,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @Override
     default int deleteSelective(final RacDicMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(remark, isEqualToWhenPresent(record::getRemark))
                 .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
@@ -243,7 +243,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @Override
     default Optional<RacDicMo> selectOne(final RacDicMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(remark, isEqualToWhenPresent(record::getRemark))
                 .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
@@ -253,7 +253,7 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @Override
     default long countSelective(final RacDicMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(remark, isEqualToWhenPresent(record::getRemark))
                 .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
@@ -271,30 +271,30 @@ public interface RacDicMapper extends MapperRootInterface<RacDicMo, Long> {
     @Override
     default List<RacDicMo> selectSelective(final RacDicMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicKey, isEqualToWhenPresent(record::getDicKey)).and(name, isEqualToWhenPresent(record::getName))
-                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(sysId, isEqualToWhenPresent(record::getSysId)).and(remark, isEqualToWhenPresent(record::getRemark))
+                .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(remark, isEqualToWhenPresent(record::getRemark))
                 .and(updateDatetime, isEqualToWhenPresent(record::getUpdateDatetime)));
     }
 
     default List<RacDicMo> selectPageOrKeywords(final DicListWithItemTo record) {
         final String       keywords = StringUtils.isBlank(record.getKeywords()) ? null : "%" + record.getKeywords() + "%";
         final List<String> realmIds = (record.getRealmIds() != null) ? record.getRealmIds() : null;
-        final List<String> sysIds   = (record.getSysIds() != null) ? record.getSysIds() : null;
+        final List<String> appIds   = (record.getAppIds() != null) ? record.getAppIds() : null;
         return select(c -> {
-            if (realmIds == null && sysIds == null) {
+            if (realmIds == null && appIds == null) {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
                         or(remark, isLikeWhenPresent(keywords)));
             }
-            else if (realmIds != null && sysIds == null) {
+            else if (realmIds != null && appIds == null) {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
                         or(remark, isLikeWhenPresent(keywords))).and(realmId, isInWhenPresent(realmIds));
             }
-            else if (realmIds == null && sysIds != null) {
+            else if (realmIds == null && appIds != null) {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
-                        or(remark, isLikeWhenPresent(keywords))).and(sysId, isInWhenPresent(sysIds));
+                        or(remark, isLikeWhenPresent(keywords))).and(appId, isInWhenPresent(appIds));
             }
             else {
                 return c.where(id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null), or(name, isLikeWhenPresent(keywords)),
-                        or(remark, isLikeWhenPresent(keywords))).and(realmId, isInWhenPresent(realmIds)).and(sysId, isInWhenPresent(sysIds));
+                        or(remark, isLikeWhenPresent(keywords))).and(realmId, isInWhenPresent(realmIds)).and(appId, isInWhenPresent(appIds));
             }
         });
     }

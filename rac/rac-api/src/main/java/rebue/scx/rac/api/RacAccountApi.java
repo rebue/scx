@@ -52,11 +52,11 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * 获取当前账户信息
      *
      * @param curAccountId 当前账户ID
-     * @param sysId        系统ID
+     * @param appId        应用ID
      *
      * @return 当前账户信息
      */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String sysId);
+    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String appId);
 
     /**
      * 查询账户的信息

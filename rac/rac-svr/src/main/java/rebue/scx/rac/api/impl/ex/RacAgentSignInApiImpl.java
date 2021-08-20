@@ -23,15 +23,15 @@ public class RacAgentSignInApiImpl implements RacAgentSignInApi {
      *
      * @param accountId      登录账户ID
      * @param agentAccountId 代理账户ID
-     * @param sysId          要登录的系统ID
-     * @param agentSysId     代理账户之前登录的系统ID
+     * @param appId          要登录的应用ID
+     * @param agentAppId     代理账户之前登录的应用ID
      * @param urlBeforeAgent 代理之前的URL(退出代理登录时回退到此URL)
      *
      * @return 登录成功或失败的结果
      */
     @Override
-    public Ro<SignUpOrInRa> signIn(final Long accountId, final Long agentAccountId, final String sysId, final String agentSysId, final String urlBeforeAgent) {
-        return svc.signIn(accountId, agentAccountId, sysId, agentSysId, urlBeforeAgent);
+    public Ro<SignUpOrInRa> signIn(final Long accountId, final Long agentAccountId, final String appId, final String agentAppId, final String urlBeforeAgent) {
+        return svc.signIn(accountId, agentAccountId, appId, agentAppId, urlBeforeAgent);
     }
 
 }

@@ -89,13 +89,13 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo add(final RacDicAddTo to) {
         final String realmId = to.getRealmId();
-        final String sysId = to.getSysId();
+        final String appId = to.getAppId();
         if ("".equals(realmId)) {
             to.setRealmId(null);
-            to.setSysId(null);
+            to.setAppId(null);
         }
-        if ("".equals(sysId)) {
-            to.setSysId(null);
+        if ("".equals(appId)) {
+            to.setAppId(null);
         }
         final RacDicMo mo = OrikaUtils.map(to, getMoClass());
         mo.setUpdateDatetime(LocalDateTime.now());
@@ -113,14 +113,14 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo modifyById(final RacDicModifyTo to) {
         final String realmId = to.getRealmId();
-        final String sysId = to.getSysId();
+        final String appId = to.getAppId();
         final String remark = to.getRemark();
         if ("".equals(realmId)) {
             to.setRealmId(null);
-            to.setSysId(null);
+            to.setAppId(null);
         }
-        if ("".equals(sysId)) {
-            to.setSysId(null);
+        if ("".equals(appId)) {
+            to.setAppId(null);
         }
         if ("".equals(remark)) {
             to.setRemark(null);

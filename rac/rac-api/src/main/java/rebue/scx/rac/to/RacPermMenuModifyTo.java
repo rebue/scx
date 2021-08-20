@@ -36,12 +36,12 @@ public class RacPermMenuModifyTo implements Serializable {
     private Long              id;
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            sysId;
+    @Length(max = 32, message = "应用ID的长度不能大于32")
+    private String            appId;
 
     /**
      * 权限ID

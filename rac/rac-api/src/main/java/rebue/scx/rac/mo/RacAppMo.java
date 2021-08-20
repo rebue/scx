@@ -16,37 +16,37 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
- * 系统
+ * 应用
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
-public class RacSysMo implements Serializable, Mo<String> {
+public class RacAppMo implements Serializable, Mo<String> {
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = ModifyGroup.class, message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
+    @NotBlank(groups = ModifyGroup.class, message = "应用ID不能为空")
+    @Length(max = 32, message = "应用ID的长度不能大于32")
     private String            id;
 
     /**
-     * 系统名称
+     * 应用名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "系统名称不能为空")
-    @Length(max = 20, message = "系统名称的长度不能大于20")
+    @NotBlank(groups = AddGroup.class, message = "应用名称不能为空")
+    @Length(max = 20, message = "应用名称的长度不能大于20")
     private String            name;
 
     /**
-     * 系统备注
+     * 应用备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 50, message = "系统备注的长度不能大于50")
+    @Length(max = 50, message = "应用备注的长度不能大于50")
     private String            remark;
 
     /**
@@ -55,25 +55,27 @@ public class RacSysMo implements Serializable, Mo<String> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public String getId() {
         return id;
     }
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setId(String id) {
+    @Override
+    public void setId(final String id) {
         this.id = id;
     }
 
     /**
-     * 系统名称
+     * 应用名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -82,16 +84,16 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 系统名称
+     * 应用名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
     /**
-     * 系统备注
+     * 应用备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -100,11 +102,11 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 系统备注
+     * 应用备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRemark(String remark) {
+    public void setRemark(final String remark) {
         this.remark = remark;
     }
 
@@ -113,7 +115,7 @@ public class RacSysMo implements Serializable, Mo<String> {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -132,7 +134,7 @@ public class RacSysMo implements Serializable, Mo<String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object that) {
+    public boolean equals(final Object that) {
         if (this == that) {
             return true;
         }
@@ -142,8 +144,8 @@ public class RacSysMo implements Serializable, Mo<String> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        RacSysMo other = (RacSysMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+        final RacAppMo other = (RacAppMo) that;
+        return (getId() == null ? other.getId() == null : getId().equals(other.getId()));
     }
 
     /**
@@ -168,15 +170,15 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 系统URL
+     * 应用URL
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 100, message = "系统URL的长度不能大于100")
+    @Length(max = 100, message = "应用URL的长度不能大于100")
     private String url;
 
     /**
-     * 系统URL
+     * 应用URL
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -185,11 +187,11 @@ public class RacSysMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 系统URL
+     * 应用URL
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -215,7 +217,7 @@ public class RacSysMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setMenu(String menu) {
+    public void setMenu(final String menu) {
         this.menu = menu;
     }
 
@@ -251,7 +253,7 @@ public class RacSysMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRealmId(String realmId) {
+    public void setRealmId(final String realmId) {
         this.realmId = realmId;
     }
 }

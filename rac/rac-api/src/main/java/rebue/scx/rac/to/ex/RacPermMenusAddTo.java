@@ -25,11 +25,11 @@ public class RacPermMenusAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
+     * 应用ID
      *
      */
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            sysId;
+    @Length(max = 32, message = "应用ID的长度不能大于32")
+    private String            appId;
 
     /**
      * 权限ID

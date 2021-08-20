@@ -27,11 +27,11 @@ public class AgentSignInTo implements Serializable {
     private Long              accountId;
 
     /**
-     * 系统ID
+     * 应用ID
      */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 20, message = "系统ID长度不能超过20")
-    private String            sysId;
+    @NotBlank(message = "应用ID不能为空")
+    @Length(max = 20, message = "应用ID长度不能超过20")
+    private String            appId;
 
     /**
      * 当前的URL(退出代理时回退到此URL)

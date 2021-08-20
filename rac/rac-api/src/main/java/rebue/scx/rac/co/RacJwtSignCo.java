@@ -12,9 +12,9 @@ public class RacJwtSignCo {
      */
     public final static String AGENT_ACCOUNT_ID = "agentAccountId";
     /**
-     * 代理系统ID
+     * 代理应用ID
      */
-    public final static String AGENT_SYS_ID     = "agentSysId";
+    public final static String AGENT_APP_ID     = "agentAppId";
     /**
      * 代理之前的URL(退出代理登录时回退到此URL)
      */

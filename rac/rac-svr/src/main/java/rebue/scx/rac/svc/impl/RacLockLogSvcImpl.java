@@ -80,24 +80,24 @@ public class RacLockLogSvcImpl extends
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacLockLogMo updateLockLog(RacLockLogMo qo) {
+    public RacLockLogMo updateLockLog(final RacLockLogMo qo) {
         final int rowCount = _mapper.updateUnLockOpLogEx(qo);
         if (rowCount == 0) {
-            RacLockLogAddTo ato = new RacLockLogAddTo();
+            final RacLockLogAddTo ato = new RacLockLogAddTo();
             ato.setRealmId(qo.getRealmId());
             ato.setLockOpId(0L);
             ato.setLockDatetime(LocalDateTime.now());
-            ato.setLockReason("系统未找到锁定记录");
+            ato.setLockReason("应用未找到锁定记录");
             ato.setLockAccountId(qo.getLockAccountId());
             // ato.setLockAccountId(qo.getLockAccountId());
             ato.setUnlockOpId(qo.getUnlockOpId());
             ato.setUnlockDatetime(LocalDateTime.now());
             ato.setUnlockReason(qo.getUnlockReason());
-            // 系统未找到锁定记录时添加锁定日志
+            // 应用未找到锁定记录时添加锁定日志
             thisSvc.add(ato);
         }
         // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
-        return this.getById(qo.getId());
+        return getById(qo.getId());
     }
 
     /**

@@ -3,17 +3,17 @@ package rebue.scx.rac.svc;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
-import rebue.scx.rac.jo.RacSysJo;
-import rebue.scx.rac.mo.RacSysMo;
-import rebue.scx.rac.to.RacSysAddTo;
-import rebue.scx.rac.to.RacSysDelTo;
-import rebue.scx.rac.to.RacSysListTo;
-import rebue.scx.rac.to.RacSysModifyTo;
-import rebue.scx.rac.to.RacSysOneTo;
-import rebue.scx.rac.to.RacSysPageTo;
+import rebue.scx.rac.jo.RacAppJo;
+import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.to.RacAppAddTo;
+import rebue.scx.rac.to.RacAppDelTo;
+import rebue.scx.rac.to.RacAppListTo;
+import rebue.scx.rac.to.RacAppModifyTo;
+import rebue.scx.rac.to.RacAppOneTo;
+import rebue.scx.rac.to.RacAppPageTo;
 
 /**
- * 系统服务接口
+ * 应用服务接口
  *
  * <pre>
  * 1. 在接口上方必须写上 @Validated 注解
@@ -27,5 +27,5 @@ import rebue.scx.rac.to.RacSysPageTo;
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Validated
-public interface RacSysSvc extends BaseSvc<java.lang.String, RacSysAddTo, RacSysModifyTo, RacSysDelTo, RacSysOneTo, RacSysListTo, RacSysPageTo, RacSysMo, RacSysJo> {
+public interface RacAppSvc extends BaseSvc<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo> {
 }

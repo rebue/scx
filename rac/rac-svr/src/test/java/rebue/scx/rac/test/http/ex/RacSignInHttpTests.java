@@ -33,18 +33,18 @@ public class RacSignInHttpTests {
      */
     @Test
     public void testSignInByAccountName() throws IOException {
-        log.info("测试错误的系统ID");
+        log.info("测试错误的应用ID");
         SignInByAccountNameTo to = new SignInByAccountNameTo();
-        to.setSysId("aaa");
+        to.setAppId("aaa");
         to.setAccountName("admin");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         Ro<SignUpOrInRa> ro = signInByAccountName(to);
         Assertions.assertEquals(ResultDic.FAIL, ro.getResult());
-        Assertions.assertEquals("未发现此系统信息: aaa", ro.getMsg());
+        Assertions.assertEquals("未发现此应用信息: aaa", ro.getMsg());
 
         log.info("测试找不到此账户");
         to = new SignInByAccountNameTo();
-        to.setSysId("platform-admin-web");
+        to.setAppId("platform-admin-web");
         to.setAccountName("admin@qq.com");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         ro = signInByAccountName(to);
@@ -53,7 +53,7 @@ public class RacSignInHttpTests {
 
         log.info("测试admin账户登录:错误的密码");
         to = new SignInByAccountNameTo();
-        to.setSysId("platform-admin-web");
+        to.setAppId("platform-admin-web");
         to.setAccountName("admin");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("95271".getBytes()));
         ro = signInByAccountName(to);

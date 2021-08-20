@@ -15,10 +15,10 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
-import rebue.scx.rac.mo.RacSysMo;
+import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacAccountSvc;
-import rebue.scx.rac.svc.RacSysSvc;
+import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.ex.RacSignUpSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.ex.SignUpByAccountNameTo;
@@ -48,7 +48,7 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
     @Resource
     private RacAccountSvc accountSvc;
     @Resource
-    private RacSysSvc     sysSvc;
+    private RacAppSvc     appSvc;
 
     @Resource
     private Mapper        dozerMapper;
@@ -59,10 +59,10 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signUpByAccountName(final SignUpByAccountNameTo to) {
-        log.info("根据系统ID获取系统信息");
-        final RacSysMo sysMo = sysSvc.getById(to.getSysId());
-        if (sysMo == null) {
-            return new Ro<>(ResultDic.FAIL, "未发现此系统信息: " + to.getSysId());
+        log.info("根据应用ID获取应用信息");
+        final RacAppMo appMo = appSvc.getById(to.getAppId());
+        if (appMo == null) {
+            return new Ro<>(ResultDic.FAIL, "未发现此应用信息: " + to.getAppId());
         }
 
         // 添加账户

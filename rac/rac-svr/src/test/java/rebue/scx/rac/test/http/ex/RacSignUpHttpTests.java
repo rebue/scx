@@ -34,7 +34,7 @@ public class RacSignUpHttpTests {
     public void testSignUpByAccountName() throws IOException, ReflectiveOperationException {
         final SignUpByAccountNameTo to = new SignUpByAccountNameTo();
         to.setAccountName("admin");
-        to.setSysId("rebue-platform");
+        to.setAppId("rebue-platform");
         to.setSignInPswd(DigestUtils.md5AsHexStrX32("9527".getBytes()));
         log.info("测试通过账户名称注册: to-{}", to);
         final String result = _httpClient.postByJsonParams(_hostUrl + "/sign-up/sign-up-by-account-name", to);

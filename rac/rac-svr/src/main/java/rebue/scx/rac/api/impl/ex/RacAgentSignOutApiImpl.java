@@ -22,14 +22,14 @@ public class RacAgentSignOutApiImpl implements RacAgentSignOutApi {
      * 退出代理登录
      *
      * @param agentAccountId 代理账户ID
-     * @param agentSysId     代理账户之前登录的系统ID
+     * @param agentAppId     代理账户之前登录的应用ID
      * @param urlBeforeAgent 代理之前的URL
      *
      * @return 登录成功或失败的结果
      */
     @Override
-    public Ro<AgentSignOutRa> signOut(final Long agentAccountId, final String agentSysId, final String urlBeforeAgent) {
-        return svc.signOut(agentAccountId, agentSysId, urlBeforeAgent);
+    public Ro<AgentSignOutRa> signOut(final Long agentAccountId, final String agentAppId, final String urlBeforeAgent) {
+        return svc.signOut(agentAccountId, agentAppId, urlBeforeAgent);
     }
 
 }

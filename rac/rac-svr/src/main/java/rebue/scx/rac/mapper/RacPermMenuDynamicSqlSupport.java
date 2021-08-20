@@ -19,11 +19,11 @@ public final class RacPermMenuDynamicSqlSupport {
     public static final SqlColumn<Long> id = racPermMenu.id;
 
     /**
-    * 系统ID
+    * 应用ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> sysId = racPermMenu.sysId;
+    public static final SqlColumn<String> appId = racPermMenu.appId;
 
     /**
     * 权限ID
@@ -42,7 +42,7 @@ public final class RacPermMenuDynamicSqlSupport {
     public static final class RacPermMenu extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> appId = column("APP_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> permId = column("PERM_ID", JDBCType.BIGINT);
 

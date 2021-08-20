@@ -19,11 +19,11 @@ public class RacOpLogExMo extends RacOpLogMo {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统名称
+     * 应用名称
      */
-    private String            sysName;
+    private String            appName;
     /**
-     * 系统备注
+     * 应用备注
      */
     private String            remark;
     /**
@@ -104,13 +104,13 @@ public class RacOpLogExMo extends RacOpLogMo {
         // TODO Auto-generated constructor stub
     }
 
-    public RacOpLogExMo(final String sysName, final String remark, final String menu, final String realmId, final String signInName, final String signInNickname,
+    public RacOpLogExMo(final String appName, final String remark, final String menu, final String realmId, final String signInName, final String signInNickname,
             final String signInMobile, final String signInEmail,
             final String wxNickname, final String qqNickname, final String agentSignInName, final String agentSignInNickname, final String agentSignInMobile,
             final String agentSignInEmail, final String agentwxNickname,
             final String agentqqNickname) {
         super();
-        this.sysName             = sysName;
+        this.appName             = appName;
         this.remark              = remark;
         this.menu                = menu;
         this.realmId            = realmId;
@@ -128,12 +128,12 @@ public class RacOpLogExMo extends RacOpLogMo {
         this.agentqqNickname     = agentqqNickname;
     }
 
-    public String getSysName() {
-        return sysName;
+    public String getAppName() {
+        return appName;
     }
 
-    public void setSysName(final String sysName) {
-        this.sysName = sysName;
+    public void setAppName(final String appName) {
+        this.appName = appName;
     }
 
     public String getRemark() {

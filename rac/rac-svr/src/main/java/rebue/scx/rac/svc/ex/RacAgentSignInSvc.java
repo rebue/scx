@@ -27,12 +27,12 @@ public interface RacAgentSignInSvc {
      *
      * @param accountId      登录账户ID
      * @param agentAccountId 代理账户ID
-     * @param sysId          要登录的系统ID
-     * @param agentSysId     代理账户之前登录的系统ID
+     * @param appId          要登录的应用ID
+     * @param agentAppId     代理账户之前登录的应用ID
      * @param urlBeforeAgent 代理之前的URL(退出代理登录时回退到此URL)
      *
      * @return 登录成功或失败的结果
      */
-    Ro<SignUpOrInRa> signIn(@NotNull Long accountId, @NotNull Long agentAccountId, @NotNull String sysId, String agentSysId, String urlBeforeAgent);
+    Ro<SignUpOrInRa> signIn(@NotNull Long accountId, @NotNull Long agentAccountId, @NotNull String appId, String agentAppId, String urlBeforeAgent);
 
 }

@@ -20,11 +20,11 @@ public final class RacOpLogDynamicSqlSupport {
     public static final SqlColumn<Long> id = racOpLog.id;
 
     /**
-    * 系统ID
+    * 应用ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
-    public static final SqlColumn<String> sysId = racOpLog.sysId;
+    public static final SqlColumn<String> appId = racOpLog.appId;
 
     /**
     * 账户ID
@@ -71,7 +71,7 @@ public final class RacOpLogDynamicSqlSupport {
     public static final class RacOpLog extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> sysId = column("SYS_ID", JDBCType.VARCHAR);
+        public final SqlColumn<String> appId = column("APP_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> accountId = column("ACCOUNT_ID", JDBCType.BIGINT);
 

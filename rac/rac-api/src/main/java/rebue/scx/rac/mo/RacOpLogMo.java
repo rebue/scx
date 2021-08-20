@@ -38,13 +38,13 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     private Long              id;
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            sysId;
+    @NotBlank(groups = AddGroup.class, message = "应用ID不能为空")
+    @Length(max = 32, message = "应用ID的长度不能大于32")
+    private String            appId;
 
     /**
      * 账户ID
@@ -97,13 +97,13 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统
+     * 应用
      *
      * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
      */
     @Getter
     @Setter
-    private RacSysMo          sys;
+    private RacAppMo          app;
 
     /**
      * 账户
@@ -119,6 +119,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -128,26 +129,27 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setId(Long id) {
+    @Override
+    public void setId(final Long id) {
         this.id = id;
     }
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getSysId() {
-        return sysId;
+    public String getAppId() {
+        return appId;
     }
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
+    public void setAppId(final String appId) {
+        this.appId = appId;
     }
 
     /**
@@ -164,7 +166,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAccountId(Long accountId) {
+    public void setAccountId(final Long accountId) {
         this.accountId = accountId;
     }
 
@@ -182,7 +184,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpType(String opType) {
+    public void setOpType(final String opType) {
         this.opType = opType;
     }
 
@@ -200,7 +202,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpTitle(String opTitle) {
+    public void setOpTitle(final String opTitle) {
         this.opTitle = opTitle;
     }
 
@@ -218,7 +220,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpDetail(String opDetail) {
+    public void setOpDetail(final String opDetail) {
         this.opDetail = opDetail;
     }
 
@@ -236,7 +238,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpDatetime(LocalDateTime opDatetime) {
+    public void setOpDatetime(final LocalDateTime opDatetime) {
         this.opDatetime = opDatetime;
     }
 
@@ -245,12 +247,12 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", sysId=").append(sysId);
+        sb.append(", appId=").append(appId);
         sb.append(", accountId=").append(accountId);
         sb.append(", agentId=").append(agentId);
         sb.append(", opType=").append(opType);
@@ -266,7 +268,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object that) {
+    public boolean equals(final Object that) {
         if (this == that) {
             return true;
         }
@@ -276,8 +278,8 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        RacOpLogMo other = (RacOpLogMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+        final RacOpLogMo other = (RacOpLogMo) that;
+        return (getId() == null ? other.getId() == null : getId().equals(other.getId()));
     }
 
     /**
@@ -332,7 +334,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAgentId(Long agentId) {
+    public void setAgentId(final Long agentId) {
         this.agentId = agentId;
     }
 }

@@ -35,10 +35,10 @@ public class DicListWithItemTo extends PageTo implements Serializable {
     @Setter
     private List<String>      realmIds;
     /**
-     * 系统ID
+     * 应用ID
      */
     @Getter
     @Setter
-    private List<String>      sysIds;
+    private List<String>      appIds;
 
 }

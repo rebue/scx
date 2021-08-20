@@ -62,13 +62,13 @@ public class RacPermMenuJo implements Serializable {
     private RacPermJo         perm;
 
     /**
-     * 系统
+     * 应用
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "APP_ID", referencedColumnName = "ID")
     @ManyToOne()
-    private RacSysJo          sys;
+    private RacAppJo          app;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -85,20 +85,25 @@ public class RacPermMenuJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RacPermMenuJo other = (RacPermMenuJo) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
         }
-        else if (!id.equals(other.id))
+        if (obj == null) {
             return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RacPermMenuJo other = (RacPermMenuJo) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        }
+        else if (!id.equals(other.id)) {
+            return false;
+        }
         return true;
     }
 }

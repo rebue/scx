@@ -7,5 +7,5 @@ package rebue.scx.rac.co;
  *
  */
 public class RacCookieCo {
-    public final static String SYS_ID_KEY = "sys_id";
+    public final static String APP_ID_KEY = "app_id";
 }

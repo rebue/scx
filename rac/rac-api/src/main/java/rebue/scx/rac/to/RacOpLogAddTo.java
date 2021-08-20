@@ -31,13 +31,13 @@ public class RacOpLogAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            sysId;
+    @NotBlank(message = "应用ID不能为空")
+    @Length(max = 32, message = "应用ID的长度不能大于32")
+    private String            appId;
 
     /**
      * 账户ID

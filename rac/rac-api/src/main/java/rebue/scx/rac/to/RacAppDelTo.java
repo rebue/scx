@@ -2,8 +2,6 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotBlank;
-
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,13 +10,13 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Data;
 
 /**
- * 系统
+ * 应用
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class RacSysAddTo implements Serializable {
+public class RacAppDelTo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -26,35 +24,27 @@ public class RacSysAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
-     */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 32, message = "系统ID的长度不能大于32")
-    private String            id;
-
-    /**
-     * 系统名称
+     * 应用名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "系统名称不能为空")
-    @Length(max = 20, message = "系统名称的长度不能大于20")
+    @Length(max = 20, message = "应用名称的长度不能大于20")
     private String            name;
 
     /**
-     * 系统备注
+     * 应用备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 50, message = "系统备注的长度不能大于50")
+    @Length(max = 50, message = "应用备注的长度不能大于50")
     private String            remark;
 
     /**
-     * 系统URL
+     * 应用URL
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 100, message = "系统URL的长度不能大于100")
+    @Length(max = 100, message = "应用URL的长度不能大于100")
     private String            url;
 
     /**
@@ -70,7 +60,6 @@ public class RacSysAddTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            realmId;
 }

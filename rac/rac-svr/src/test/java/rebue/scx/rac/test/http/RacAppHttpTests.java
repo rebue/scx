@@ -16,21 +16,21 @@ import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.mo.RacSysMo;
-import rebue.scx.rac.to.RacSysAddTo;
-import rebue.scx.rac.to.RacSysModifyTo;
+import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.to.RacAppAddTo;
+import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.wheel.core.RandomEx;
 import rebue.wheel.net.httpclient.HttpClient;
 import rebue.wheel.net.httpclient.impl.OkHttpClientImpl;
 import rebue.wheel.serialization.jackson.JacksonUtils;
 
 /**
- * 系统 HTTP测试
+ * 应用 HTTP测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Slf4j
-public class RacSysHttpTests {
+public class RacAppHttpTests {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -55,42 +55,42 @@ public class RacSysHttpTests {
      */
     @Test
     public void testCrud() throws IOException {
-        RacSysAddTo addTo = null;
+        RacAppAddTo addTo = null;
         String id = null;
         for (int i = 0; i < 20; i++) {
-            addTo = (RacSysAddTo) RandomEx.randomPojo(RacSysAddTo.class);
-            log.info("添加系统的参数为：" + addTo);
-            final String addResult = _httpClient.postByJsonParams(_hostUrl + "/rac/sys", addTo);
-            log.info("添加系统的返回值为：" + addResult);
+            addTo = (RacAppAddTo) RandomEx.randomPojo(RacAppAddTo.class);
+            log.info("添加应用的参数为：" + addTo);
+            final String addResult = _httpClient.postByJsonParams(_hostUrl + "/rac/app", addTo);
+            log.info("添加应用的返回值为：" + addResult);
             final Ro<IdRa<String>> idRo = JacksonUtils.deserialize(addResult, new TypeReference<Ro<IdRa<String>>>() {
             });
             log.info(idRo.toString());
             Assertions.assertEquals(ResultDic.SUCCESS, idRo.getResult());
             id = idRo.getExtra().getId();
         }
-        final String pageResult = _httpClient.get(_hostUrl + "/rac/sys/page");
-        log.info("查询系统的返回值为：" + pageResult);
-        final Ro<PageRa<RacSysMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<RacSysMo>>>() {
+        final String pageResult = _httpClient.get(_hostUrl + "/rac/app/page");
+        log.info("查询应用的返回值为：" + pageResult);
+        final Ro<PageRa<RacAppMo>> pageRo = JacksonUtils.deserialize(pageResult, new TypeReference<Ro<PageRa<RacAppMo>>>() {
         });
         Assertions.assertEquals(ResultDic.SUCCESS, pageRo.getResult());
-        log.info("获取单个系统的参数为：" + id);
-        final String getByIdResult = _httpClient.get(_hostUrl + "/rac/sys/get-by-id?id=" + id);
-        log.info("获取单个系统的返回值为：" + getByIdResult);
-        final RacSysModifyTo modifyTo = _dozerMapper.map(addTo, RacSysModifyTo.class);
+        log.info("获取单个应用的参数为：" + id);
+        final String getByIdResult = _httpClient.get(_hostUrl + "/rac/app/get-by-id?id=" + id);
+        log.info("获取单个应用的返回值为：" + getByIdResult);
+        final RacAppModifyTo modifyTo = _dozerMapper.map(addTo, RacAppModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改系统的参数为：" + modifyTo);
-        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rac/sys", modifyTo);
-        final Ro<PojoRa<RacSysMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RacSysMo>>>() {
+        log.info("修改应用的参数为：" + modifyTo);
+        final String modifyResult = _httpClient.putByJsonParams(_hostUrl + "/rac/app", modifyTo);
+        final Ro<PojoRa<RacAppMo>> getByIdRo = JacksonUtils.deserialize(getByIdResult, new TypeReference<Ro<PojoRa<RacAppMo>>>() {
         });
         Assertions.assertEquals(ResultDic.SUCCESS, getByIdRo.getResult());
-        RacSysMo mo = getByIdRo.getExtra().getOne();
+        RacAppMo mo = getByIdRo.getExtra().getOne();
         mo = getByIdRo.getExtra().getOne();
-        log.info("修改系统的返回值为：" + modifyResult);
+        log.info("修改应用的返回值为：" + modifyResult);
         final Ro<?> modifyRo = JacksonUtils.deserialize(modifyResult, Ro.class);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyRo.getResult());
-        log.info("删除系统的参数为：" + mo.getId());
-        final String deleteResult = _httpClient.delete(_hostUrl + "/rac/sys?id=" + mo.getId());
-        log.info("删除系统的返回值为：" + deleteResult);
+        log.info("删除应用的参数为：" + mo.getId());
+        final String deleteResult = _httpClient.delete(_hostUrl + "/rac/app?id=" + mo.getId());
+        log.info("删除应用的返回值为：" + deleteResult);
         final Ro<?> deleteRo = JacksonUtils.deserialize(deleteResult, Ro.class);
         log.info(deleteRo.toString());
         Assertions.assertEquals(ResultDic.SUCCESS, deleteRo.getResult());

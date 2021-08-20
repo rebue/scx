@@ -209,7 +209,7 @@ public class RacAccountCtrl {
      */
     @GetMapping("/rac/account/get-cur-account-info")
     @SneakyThrows
-    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCookieCo.SYS_ID_KEY) final String sysId) {
+    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCookieCo.APP_ID_KEY) final String appId) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -228,11 +228,11 @@ public class RacAccountCtrl {
             }
         }
         final Long agentAccountIdFinal = agentAccountId;
-        // 从JWT签名中获取系统ID
-        if (StringUtils.isBlank(sysId)) {
-            throw new IllegalArgumentException("在Cookie中找不到系统ID");
+        // 从JWT签名中获取应用ID
+        if (StringUtils.isBlank(appId)) {
+            throw new IllegalArgumentException("在Cookie中找不到应用ID");
         }
-        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, sysId)));
+        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, appId)));
     }
 
     /**

@@ -50,12 +50,12 @@ public class RacAgentSignOutCtrl {
         }
         final Long agentAccountId = Long.valueOf(agentAccountIdObj.toString());
 
-        // 从JWT签名中获取代理系统ID
-        final Object agentSysIdObj = JwtUtils.getJwtAdditionItemFromSign(jwtToken, RacJwtSignCo.AGENT_SYS_ID);
-        if (agentSysIdObj == null) {
-            throw new IllegalArgumentException("在JWT签名中找不到代理系统ID");
+        // 从JWT签名中获取代理应用ID
+        final Object agentAppIdObj = JwtUtils.getJwtAdditionItemFromSign(jwtToken, RacJwtSignCo.AGENT_APP_ID);
+        if (agentAppIdObj == null) {
+            throw new IllegalArgumentException("在JWT签名中找不到代理应用ID");
         }
-        final String agentSysId = agentSysIdObj.toString();
+        final String agentAppId = agentAppIdObj.toString();
 
         // 从JWT签名中获取代理之前的URL
         final Object urlBeforeAgentObj = JwtUtils.getJwtAdditionItemFromSign(jwtToken, RacJwtSignCo.URL_BEFORE_AGENT);
@@ -65,9 +65,9 @@ public class RacAgentSignOutCtrl {
         final String urlBeforeAgent = urlBeforeAgentObj.toString();
 
         return Mono.create(callback -> {
-            final Ro<AgentSignOutRa> ro = api.signOut(agentAccountId, agentSysId, urlBeforeAgent);
+            final Ro<AgentSignOutRa> ro = api.signOut(agentAccountId, agentAppId, urlBeforeAgent);
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.SYS_ID_KEY, agentSysId).path("/").build();
+                final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.APP_ID_KEY, agentAppId).path("/").build();
                 resp.addCookie(responseCookie);
                 jwtSignWithCookie(ro.getExtra(), resp);
             }

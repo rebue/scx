@@ -20,11 +20,11 @@ public class SignUpByAccountNameTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
+     * 应用ID
      */
-    @NotBlank(message = "系统ID不能为空")
-    @Length(max = 20, message = "系统ID长度不能超过20")
-    private String            sysId;
+    @NotBlank(message = "应用ID不能为空")
+    @Length(max = 20, message = "应用ID长度不能超过20")
+    private String            appId;
 
     /**
      * 组织ID

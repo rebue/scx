@@ -15,18 +15,18 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 系统
+ * 应用
  *
- * The persistent class for the RAC_SYS database table.
+ * The persistent class for the RAC_APP database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_SYS")
+@Table(name = "RAC_APP")
 @Getter
 @Setter
 @ToString
-public class RacSysJo implements Serializable {
+public class RacAppJo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -34,7 +34,7 @@ public class RacSysJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 系统ID
+     * 应用ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -44,7 +44,7 @@ public class RacSysJo implements Serializable {
     private String            id;
 
     /**
-     * 系统名称
+     * 应用名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -53,7 +53,7 @@ public class RacSysJo implements Serializable {
     private String            name;
 
     /**
-     * 系统备注
+     * 应用备注
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -76,25 +76,30 @@ public class RacSysJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RacSysJo other = (RacSysJo) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
         }
-        else if (!id.equals(other.id))
+        if (obj == null) {
             return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RacAppJo other = (RacAppJo) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        }
+        else if (!id.equals(other.id)) {
+            return false;
+        }
         return true;
     }
 
     /**
-     * 系统URL
+     * 应用URL
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

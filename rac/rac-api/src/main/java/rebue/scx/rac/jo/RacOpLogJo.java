@@ -81,13 +81,13 @@ public class RacOpLogJo implements Serializable {
     private LocalDateTime     opDatetime;
 
     /**
-     * 系统
+     * 应用
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "SYS_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "APP_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacSysJo          sys;
+    private RacAppJo          app;
 
     /**
      * 账户
@@ -113,20 +113,25 @@ public class RacOpLogJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RacOpLogJo other = (RacOpLogJo) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
         }
-        else if (!id.equals(other.id))
+        if (obj == null) {
             return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RacOpLogJo other = (RacOpLogJo) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        }
+        else if (!id.equals(other.id)) {
+            return false;
+        }
         return true;
     }
 
