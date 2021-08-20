@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/8/19 18:14:48                           */
+/* Created on:     2021/8/19 18:54:20                           */
 /*==============================================================*/
 
 
@@ -246,7 +246,7 @@ create table RAC_APP
    MENU                 varchar(3000)  comment '菜单',
    REMARK               varchar(50)  comment '应用备注',
    primary key (ID),
-   unique key AK_SYS_NAME (NAME)
+   unique key AK_APP_NAME (NAME)
 );
 
 alter table RAC_APP comment '应用';
