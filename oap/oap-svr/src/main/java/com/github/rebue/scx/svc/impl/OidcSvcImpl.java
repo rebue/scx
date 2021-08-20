@@ -11,6 +11,7 @@ import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
 import lombok.SneakyThrows;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -18,16 +19,15 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
     private Map<String, CodeValue> codes = new HashMap<>();
+
+    private Map<String, Object> sessions = new HashMap<>(); // todo
 
     @Override
     @SneakyThrows
@@ -47,6 +47,7 @@ public class OidcSvcImpl implements OidcSvc {
     synchronized
     private void codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse)
     {
+        createSession(hRequest, hResponse);
         if (isAuthenticated(hRequest)) {
             String decodeUri = AuthorisationCodeFlow.getRedirectUri(aRequest);
             AuthorizationCode code = new AuthorizationCode(16);
@@ -68,6 +69,18 @@ public class OidcSvcImpl implements OidcSvc {
         hResponse.addCookie(createCookie("client_id", "todo"));
         hResponse.setStatusCode(HttpStatus.FOUND);
         hResponse.getHeaders().setLocation(URI.create("http://localhost:13080/admin-web#/unifiedLogin"));
+    }
+
+    private void createSession(ServerHttpRequest hRequest, ServerHttpResponse hResponse)
+    {
+        for (Map.Entry<String, List<HttpCookie>> kv : hRequest.getCookies().entrySet()) {
+            if (kv.getKey().equals("sessionId")) {
+                return;
+            }
+        }
+        String sessionId = UUID.randomUUID().toString();
+        sessions.put(sessionId, true);
+        hResponse.addCookie(createCookie("sessionId", sessionId));
     }
 
     private static ResponseCookie createCookie(String key, String value)
