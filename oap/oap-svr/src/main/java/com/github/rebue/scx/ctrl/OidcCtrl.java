@@ -7,6 +7,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -41,6 +42,16 @@ public class OidcCtrl {
     public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
     {
         oidcSvc.login(loginData, request, response);
+    }
+
+    @PostMapping(
+            value = "/token",
+            consumes = "application/x-www-form-urlencoded",
+            produces = "application/json"
+    )
+    public Mono<Object> token(@RequestBody String bodyString)
+    {
+        return Mono.create(cb -> cb.success("1"));
     }
 
 }
