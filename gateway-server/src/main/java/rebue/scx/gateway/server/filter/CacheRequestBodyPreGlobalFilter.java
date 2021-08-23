@@ -152,16 +152,16 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         // 缓存请求时间戳
         exchange.getAttributes().put(CachedKeyCo.REQUEST_TIME, requestTime);
 
-        // 如果是文件上传，不要读取Body
-        if (contentType != null && "multipart".equals(contentType.getType())) {
-            // 记录文件日志
-            logFile(sessionId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, null);
+        // 如果是文件上传/表单，不要读取Body
+        if (contentType != null) {
+            if ("multipart".equals(contentType.getType()) || MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
+                // 记录文件日志
+                logFile(sessionId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, null);
 
-            logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
-                queryParams, null);
-            return chain.filter(exchange);
-        } else if (MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
-            return chain.filter(exchange);
+                logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
+                        queryParams, null);
+                return chain.filter(exchange);
+            }
         }
 
         return DataBufferUtils.join(request.getBody()).doOnNext(dataBuffer -> {
@@ -176,7 +176,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
 
                 // FIXME 这里只判断了JSON格式的Body，不知道后面会不会碰到其它格式的Body
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
-                    || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
+                        || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     final Map<String, Object> bodyParmams = new LinkedHashMap<>(jsonParser.parseMap(bodyString));
                     // 缓存请求Body中的参数
                     exchange.getAttributes().put(CachedKeyCo.REQUEST_BODY_PARAMS, bodyParmams);
@@ -191,7 +191,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             logFile(sessionId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
 
             logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
-                queryParams, body);
+                    queryParams, body);
         }).then(chain.filter(exchange));
     }
 
@@ -200,7 +200,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
      */
     @SuppressWarnings("deprecation")
     private void logFile(final Long sessionId, final String requestTimeString, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
-                         final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+            final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         final StringBuilder sb = new StringBuilder();
         sb.append("接收到新的请求!!!\r\n----------------------- 请求的详情 -----------------------\r\n");
         sb.append("* 会话ID:\r\n*    ");
@@ -244,12 +244,12 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             if (StringUtils.isNotBlank(bodyString)) {
                 sb.append("\r\n* 请求的Body:\r\n");
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
-                    || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
+                        || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     // 格式化JSON
                     String jsonText = null;
                     try {
                         jsonText = objectMapper.writerWithDefaultPrettyPrinter()
-                            .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
+                                .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
                         jsonText = "*    " + jsonText.replaceAll("\n", "\n*    ");
                     } catch (final JsonProcessingException e) {
                         jsonText = "*    JSON格式不正确: " + bodyString;
@@ -269,8 +269,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
      * 记录数据库日志
      */
     private void logDb(final Long sessionId, final LocalDateTime requestTime, final HttpMethod requestMethod, final URI requestUri, final String requestScheme,
-                       final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
-                       final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+            final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
+            final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
         // 记录数据库日志
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();
