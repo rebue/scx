@@ -22,9 +22,13 @@ public class CodeRepository {
     synchronized
     public AuthorizationCode createCode(AuthenticationRequest aRequest)
     {
+        String state = "";
+        if (aRequest.getState() != null) {
+            state = aRequest.getState().getValue();
+        }
         return createCode(
                 AuthorisationCodeFlow.getRedirectUri(aRequest),
-                aRequest.getState().getValue(),
+                state,
                 aRequest.getClientID().getValue(),
                 aRequest.getScope()
         );

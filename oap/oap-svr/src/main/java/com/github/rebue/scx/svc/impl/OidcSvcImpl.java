@@ -10,6 +10,7 @@ import com.nimbusds.oauth2.sdk.AuthorizationCode;
 import com.nimbusds.oauth2.sdk.ResponseType;
 import com.nimbusds.oauth2.sdk.Scope;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
+import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,8 @@ public class OidcSvcImpl implements OidcSvc {
         Map<String, String> sessionInfos = getOrCreateSession(hRequest, hResponse);
         if (isAuthenticated(sessionInfos)) {
             AuthorizationCode code = codeRepository.createCode(aRequest);
-            String state = aRequest.getState().getValue();
-            // todo 校验
-            HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), state, code);
+            // todo redirect 校验
+            HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
             hResponse.setStatusCode(HttpStatus.FOUND);
             hResponse.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
             return;
@@ -86,7 +86,7 @@ public class OidcSvcImpl implements OidcSvc {
         String clientId = sessionInfo.get(OidcNS.OIDC_SKEY_CLIENT_ID);
         String scope = sessionInfo.get(OidcNS.OIDC_SKEY_SCOPE);
         AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope));
-        HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), state, code);
+        HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
         response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
     }

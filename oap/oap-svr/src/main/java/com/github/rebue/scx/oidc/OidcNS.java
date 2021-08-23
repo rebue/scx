@@ -1,5 +1,6 @@
 package com.github.rebue.scx.oidc;
 
+import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -7,13 +8,10 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.nimbusds.oauth2.sdk.ParseException;
-import com.nimbusds.oauth2.sdk.TokenRequest;
 import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.PrivateKey;
 import java.util.Date;
 
@@ -41,30 +39,15 @@ public class OidcNS {
 
     public static final String OIDC_SKEY_REDIRECT_URI = "redirect_uri";
 
-    /**
-     * 构造TokenRequest对象，用于TokenEndpoint。
-     */
-    public static TokenRequest tokenRequest(
-            String requestBody, HttpServletRequest request) throws ParseException
-    {
-//        URI uri = URI.create(request.getRequestURL().toString());
-//        HTTPRequest httpRequest = new HTTPRequest(HTTPRequest.Method.POST, uri);
-//        httpRequest.setEntityContentType(ContentType.APPLICATION_URLENCODED);
-//        httpRequest.setQuery(requestBody);
-//        httpRequest.setAuthorization(request.getHeader("Authorization"));
-//        return TokenRequest.parse(httpRequest);
-        throw new RuntimeException("todo"); // todo
-    }
-
     public static String getStateValue(AuthenticationRequest request)
     {
         State state = request.getState();
         if (state == null) {
-            // todo throw new OidcAuthenticationException("Missing state parameter");
+            throw new OidcAuthenticationException("Missing state parameter");
         }
         String stateValue = state.getValue();
         if (StringUtils.isBlank(stateValue)) {
-            // todo throw new OidcAuthenticationException("Missing state parameter");
+            throw new OidcAuthenticationException("Missing state parameter");
         }
         return stateValue;
     }

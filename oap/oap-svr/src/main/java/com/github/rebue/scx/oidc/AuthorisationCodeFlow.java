@@ -34,11 +34,11 @@ public class AuthorisationCodeFlow {
         }
     }
 
-    public static HTTPResponse authenticationSuccessUri(URI redirectionUri, String state, AuthorizationCode code)
+    public static HTTPResponse authenticationSuccessUri(URI redirectionUri, State state, AuthorizationCode code)
     {
         AuthenticationSuccessResponse response = new AuthenticationSuccessResponse(
                 redirectionUri, code, null, null,
-                new State(state), null, ResponseMode.QUERY);
+                state, null, ResponseMode.QUERY);
         return response.toHTTPResponse();
     }
 
