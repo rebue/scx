@@ -160,6 +160,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
                 queryParams, null);
             return chain.filter(exchange);
+        } else if (MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
+            return chain.filter(exchange);
         }
 
         return DataBufferUtils.join(request.getBody()).doOnNext(dataBuffer -> {
