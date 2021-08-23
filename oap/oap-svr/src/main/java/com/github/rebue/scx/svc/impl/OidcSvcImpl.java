@@ -1,16 +1,18 @@
 package com.github.rebue.scx.svc.impl;
 
-import com.github.rebue.scx.dto.CodeValue;
+import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
+import com.github.rebue.scx.oidc.CodeRepository;
+import com.github.rebue.scx.oidc.OidcNS;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
-import com.nimbusds.oauth2.sdk.ResponseMode;
 import com.nimbusds.oauth2.sdk.ResponseType;
+import com.nimbusds.oauth2.sdk.Scope;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
-import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -25,9 +27,10 @@ import java.util.stream.Collectors;
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
-    private Map<String, CodeValue> codes = new HashMap<>();
+    private final Map<String, Map<String, String>> sessions = new HashMap<>();
 
-    private Map<String, Object> sessions = new HashMap<>(); // todo
+    @Autowired
+    private CodeRepository codeRepository;
 
     @Override
     @SneakyThrows
@@ -47,40 +50,68 @@ public class OidcSvcImpl implements OidcSvc {
     synchronized
     private void codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse)
     {
-        createSession(hRequest, hResponse);
-        if (isAuthenticated(hRequest)) {
-            String decodeUri = AuthorisationCodeFlow.getRedirectUri(aRequest);
-            AuthorizationCode code = new AuthorizationCode(16);
-
-            HTTPResponse success = new AuthenticationSuccessResponse(
-                    URI.create(decodeUri), code, null, null,
-                    aRequest.getState(), null, ResponseMode.QUERY).toHTTPResponse();
-            String location = success.getLocation().toString();
-            String clientId = aRequest.getClientID().getValue();
-
-            CodeValue cv = new CodeValue(clientId, location, aRequest.getScope());
-            codes.put(code.getValue(), cv);
-
+        Map<String, String> sessionInfos = getOrCreateSession(hRequest, hResponse);
+        if (isAuthenticated(sessionInfos)) {
+            AuthorizationCode code = codeRepository.createCode(aRequest);
+            String state = aRequest.getState().getValue();
+            // todo 校验
+            HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), state, code);
             hResponse.setStatusCode(HttpStatus.FOUND);
-            hResponse.getHeaders().setLocation(URI.create("http://localhost:13080/admin-web#/unifiedLogin"));
+            hResponse.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
             return;
         }
-        hResponse.addCookie(createCookie("state", "todo"));
-        hResponse.addCookie(createCookie("client_id", "todo"));
+        sessionInfos.put(OidcNS.OIDC_SKEY_STATE, OidcNS.getStateValue(aRequest));
+        sessionInfos.put(OidcNS.OIDC_SKEY_CLIENT_ID, aRequest.getClientID().getValue());
+        sessionInfos.put(OidcNS.OIDC_SKEY_REDIRECT_URI, AuthorisationCodeFlow.getRedirectUri(aRequest));
+        sessionInfos.put(OidcNS.OIDC_SKEY_SCOPE, aRequest.getScope().toString());
         hResponse.setStatusCode(HttpStatus.FOUND);
         hResponse.getHeaders().setLocation(URI.create("http://localhost:13080/admin-web#/unifiedLogin"));
     }
 
-    private void createSession(ServerHttpRequest hRequest, ServerHttpResponse hResponse)
+    @Override
+    public void login(LoginDto loginData, ServerHttpRequest request)
+    {
+        // todo 用户名密码校验
+        loginData.getLoginName();
+        loginData.getPassword();
+        Map<String, String> sessionInfo = getSession(request).orElse(null);
+        if (sessionInfo == null) {
+            // todo 错误信息
+            return;
+        }
+        String uri = sessionInfo.get(OidcNS.OIDC_SKEY_REDIRECT_URI);
+        String state = sessionInfo.get(OidcNS.OIDC_SKEY_STATE);
+        String clientId = sessionInfo.get(OidcNS.OIDC_SKEY_CLIENT_ID);
+        String scope = sessionInfo.get(OidcNS.OIDC_SKEY_SCOPE);
+        codeRepository.createCode(uri, state, clientId, new Scope(scope));
+    }
+
+    private Optional<Map<String, String>> getSession(ServerHttpRequest hRequest)
     {
         for (Map.Entry<String, List<HttpCookie>> kv : hRequest.getCookies().entrySet()) {
             if (kv.getKey().equals("sessionId")) {
-                return;
+                for (HttpCookie cookie : kv.getValue()) {
+                    Map<String, String> m = sessions.get(cookie.getValue());
+                    if (m != null) {
+                        return Optional.of(m);
+                    }
+                }
             }
         }
+        return Optional.empty();
+    }
+
+    private Map<String, String> getOrCreateSession(ServerHttpRequest hRequest, ServerHttpResponse hResponse)
+    {
+        Map<String, String> sessionInfo = getSession(hRequest).orElse(null);
+        if (sessionInfo != null) {
+            return sessionInfo;
+        }
         String sessionId = UUID.randomUUID().toString();
-        sessions.put(sessionId, true);
+        Map<String, String> m = new HashMap<>();
         hResponse.addCookie(createCookie("sessionId", sessionId));
+        sessions.put(sessionId, m);
+        return m;
     }
 
     private static ResponseCookie createCookie(String key, String value)
@@ -92,19 +123,9 @@ public class OidcSvcImpl implements OidcSvc {
                 .build();
     }
 
-    private boolean isAuthenticated(ServerHttpRequest hRequest)
+    private boolean isAuthenticated(Map<String, String> sessionInfos)
     {
-//        for (Map.Entry<String, List<HttpCookie>> kv : hRequest.getCookies().entrySet()) {
-//            if (kv.getKey().equals("logined")) {
-//                for (HttpCookie httpCookie : kv.getValue()) {
-//                    if (LoginedCookies.contains(httpCookie.getValue())) {
-//                        return true;
-//                    }
-//                }
-//                return false;
-//            }
-//        }
-        return false;
+        return "isLogin".equals(sessionInfos.get("isLogin"));
     }
 
 }

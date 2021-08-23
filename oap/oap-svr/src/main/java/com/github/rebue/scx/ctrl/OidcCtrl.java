@@ -38,9 +38,9 @@ public class OidcCtrl {
     }
 
     @PostMapping("/login")
-    public void login(LoginDto loginData)
+    public void login(LoginDto loginData, ServerHttpRequest request)
     {
-        System.out.println();
+        oidcSvc.login(loginData, request);
     }
 
 }

@@ -31,17 +31,15 @@ public class OidcNS {
     public static final String ID_TOKEN_ISSUER = "http://www.maiyuesoft.com";
 
     // 单位是毫秒
-    public static final long ID_TOKEN_EXP_TIME = 24 * 60 * 60 * 1000l;
+    public static final long ID_TOKEN_EXP_TIME = 24 * 60 * 60 * 1000L;
 
-    public static final String OIDC_SKEY_STATE = "__oidc_state";
+    public static final String OIDC_SKEY_STATE = "state";
 
-    public static final String OIDC_SKEY_CLIENT_ID = "__oidc_client_id";
+    public static final String OIDC_SKEY_CLIENT_ID = "client_id";
 
-    public static final String OIDC_SKEY_SCOPE = "__oidc_scope";
+    public static final String OIDC_SKEY_SCOPE = "scope";
 
-    public static final String OIDC_SKEY_REDIRECT_URI = "__oidc_redirect_uri";
-
-    public static final String OIDC_SKEY_DING_AGENT_ID = "__oidc_ding_agent_id";
+    public static final String OIDC_SKEY_REDIRECT_URI = "redirect_uri";
 
     /**
      * 构造TokenRequest对象，用于TokenEndpoint。
