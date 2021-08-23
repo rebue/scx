@@ -69,7 +69,8 @@ public class OidcSvcImpl implements OidcSvc {
     }
 
     @Override
-    public void login(LoginDto loginData, ServerHttpRequest request)
+    @SneakyThrows
+    public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
     {
         // todo 用户名密码校验
         loginData.getLoginName();
@@ -79,11 +80,15 @@ public class OidcSvcImpl implements OidcSvc {
             // todo 错误信息
             return;
         }
+        sessionInfo.put("isLogin", "isLogin");
         String uri = sessionInfo.get(OidcNS.OIDC_SKEY_REDIRECT_URI);
         String state = sessionInfo.get(OidcNS.OIDC_SKEY_STATE);
         String clientId = sessionInfo.get(OidcNS.OIDC_SKEY_CLIENT_ID);
         String scope = sessionInfo.get(OidcNS.OIDC_SKEY_SCOPE);
-        codeRepository.createCode(uri, state, clientId, new Scope(scope));
+        AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope));
+        HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), state, code);
+        response.setStatusCode(HttpStatus.FOUND);
+        response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
     }
 
     private Optional<Map<String, String>> getSession(ServerHttpRequest hRequest)

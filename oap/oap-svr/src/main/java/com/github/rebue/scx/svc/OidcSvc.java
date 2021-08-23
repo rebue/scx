@@ -10,6 +10,6 @@ public interface OidcSvc {
 
     void authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response);
 
-    void login(LoginDto loginData, ServerHttpRequest request);
+    void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response);
 
 }
