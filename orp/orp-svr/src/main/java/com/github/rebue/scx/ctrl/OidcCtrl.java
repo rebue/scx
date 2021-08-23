@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+import rebue.robotech.ro.Ro;
 
 @RestController
 @RequestMapping("/oidc")
@@ -14,9 +16,13 @@ public class OidcCtrl {
     private OidcSvc oidcSvc;
 
     @GetMapping("/callback")
-    public void callback(String code)
+    public Mono<Ro<String>> callback(String code)
     {
-        oidcSvc.callback(code);
+        return Mono.create(cb -> {
+            Ro<String> ro = oidcSvc.callback(code).map(Ro::success)
+                    .orElse(Ro.error("获取token失败"));
+            cb.success(ro);
+        });
     }
 
 }

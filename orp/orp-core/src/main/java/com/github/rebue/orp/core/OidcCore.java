@@ -14,11 +14,13 @@ import java.net.URISyntaxException;
 
 public class OidcCore {
 
-    public static TokenResponse tokenRequest(String tokenEndpointURI,
-                                             String code,
-                                             String clientId,
-                                             String clientSecret,
-                                             String redirectUri)
+    public static TokenResponse tokenRequest(
+            String tokenEndpointURI,
+            String clientId,
+            String clientSecret,
+            String code,
+            String redirectUri
+    )
             throws URISyntaxException, IOException, ParseException
     {
         AuthorizationCode aCode = new AuthorizationCode(code);
@@ -33,12 +35,10 @@ public class OidcCore {
             String clientSecret, AuthorizationGrant grant)
             throws URISyntaxException, IOException
     {
-        // 需要校验 client 的 secret
         ClientID clientID = new ClientID(clientId);
         Secret secret = new Secret(clientSecret);
         ClientAuthentication clientAuth = new ClientSecretBasic(clientID, secret);
 
-        // 发送请求
         URI tokenEndpoint = new URI(tokenEndpointURI);
         TokenRequest request = new TokenRequest(tokenEndpoint, clientAuth, grant);
         return request.toHTTPRequest().send();

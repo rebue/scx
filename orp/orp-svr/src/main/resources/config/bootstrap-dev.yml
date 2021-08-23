@@ -18,7 +18,7 @@ spring:
     enabled: false
 
 curator:
-  connect-string: ubuntu:2181,ubuntu:2181,ubuntu:2181
+  connect-string: ubuntu:2181
 
 logging:
   config: classpath:config/log4j2.xml
@@ -33,3 +33,9 @@ logging:
     org.apache.dubbo.registry.integration.RegistryProtocol: error
     org.springframework.web.context.support.GenericWebApplicationContext: error
     org.springframework.beans.factory.BeanCreationNotAllowedException: error
+
+oidc:
+  client-id: xxx
+  client-secret: 123456
+  token-endpoint: http://localhost:10080/oap-svr/oidc/token
+  redirect-uri: http://localhost:10080/orp-svr/oidc/callback

@@ -1,7 +1,9 @@
 package com.github.rebue.scx.svc;
 
+import java.util.Optional;
+
 public interface OidcSvc {
 
-    void callback(String code);
+    Optional<String> callback(String code);
 
 }
