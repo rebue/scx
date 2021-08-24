@@ -78,6 +78,11 @@
 			<groupId>com.nimbusds</groupId>
 			<artifactId>oauth2-oidc-sdk</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>orp-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

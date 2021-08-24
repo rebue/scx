@@ -1,18 +1,23 @@
 package com.github.rebue.scx.svc.impl;
 
+import com.github.rebue.orp.core.dto.TokenError;
 import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
 import com.github.rebue.scx.oidc.CodeRepository;
 import com.github.rebue.scx.oidc.OidcNS;
 import com.github.rebue.scx.svc.OidcSvc;
-import com.nimbusds.oauth2.sdk.AuthorizationCode;
-import com.nimbusds.oauth2.sdk.ResponseType;
-import com.nimbusds.oauth2.sdk.Scope;
+import com.nimbusds.common.contenttype.ContentType;
+import com.nimbusds.oauth2.sdk.*;
+import com.nimbusds.oauth2.sdk.auth.ClientAuthentication;
+import com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod;
+import com.nimbusds.oauth2.sdk.auth.ClientSecretBasic;
+import com.nimbusds.oauth2.sdk.http.HTTPRequest;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
@@ -22,6 +27,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -89,6 +95,80 @@ public class OidcSvcImpl implements OidcSvc {
         HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
         response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
+    }
+
+    /**
+     * @return {@link com.nimbusds.oauth2.sdk.AccessTokenResponse}
+     * <p> 或 {@link com.github.rebue.orp.core.dto.TokenError}
+     */
+    @Override
+    public Object token(String authorization, URL url, String requestBody, ServerHttpResponse response)
+    {
+        TokenRequest tokenRequest;
+        Pair<TokenRequest, String> pair = tokenRequest(url, authorization, requestBody);
+        if ((tokenRequest = pair.getLeft()) == null) {
+            return tokenError(response, "invalid_request", pair.getRight());
+        }
+        // todo 从 "数据库" 找client
+        String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
+        if (false) { // todo 没有client
+            return tokenError(response, "invalid_client", "invalid client : " + clientId);
+        }
+        if (!compareSecret(tokenRequest, "todo")) { // todo 从"数据库"获取的密钥
+            return tokenError(response, "unauthorized_client", "unauthorized client : " + clientId);
+        }
+        AuthorizationGrant grant = tokenRequest.getAuthorizationGrant();
+        GrantType grantType = grant.getType();
+        if (grantType.equals(GrantType.AUTHORIZATION_CODE)) {
+            return issueIdToken();
+        }
+        // todo refresh token
+        return tokenError(response, "unsupported_grant_type", "invalid grant_type : " + grantType.getValue());
+    }
+
+    private Object issueIdToken()
+    {
+        return null;
+    }
+
+    /**
+     * 对比密钥
+     */
+    private boolean compareSecret(TokenRequest tokenRequest, String secret)
+    {
+        ClientAuthentication clientAuth = tokenRequest.getClientAuthentication();
+        if (clientAuth == null) {
+            return false;
+        }
+        if (clientAuth.getMethod().equals(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)) {
+            ClientSecretBasic basic = (ClientSecretBasic) clientAuth;
+            String value = basic.getClientSecret().getValue();
+            return value.equals(secret);
+        }
+        return false;
+    }
+
+    public static TokenError tokenError(ServerHttpResponse response, String error, String errorDesc)
+    {
+        response.setStatusCode(HttpStatus.BAD_REQUEST);
+        TokenError e = new TokenError();
+        e.setError(error);
+        e.setError_description(errorDesc);
+        return e;
+    }
+
+    private Pair<TokenRequest, String> tokenRequest(URL url, String authorization, String requestBody)
+    {
+        try {
+            HTTPRequest httpRequest = new HTTPRequest(HTTPRequest.Method.POST, url);
+            httpRequest.setEntityContentType(ContentType.APPLICATION_URLENCODED);
+            httpRequest.setQuery(requestBody);
+            httpRequest.setAuthorization(authorization);
+            TokenRequest tr = TokenRequest.parse(httpRequest);
+            return Pair.of(tr, null);
+        } catch (ParseException e) {
+            return Pair.of(null, e.toString());
+        }
     }
 
     private Optional<Map<String, String>> getSession(ServerHttpRequest hRequest)
