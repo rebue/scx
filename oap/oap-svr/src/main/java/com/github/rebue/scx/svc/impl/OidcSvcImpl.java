@@ -1,6 +1,7 @@
 package com.github.rebue.scx.svc.impl;
 
 import com.github.rebue.orp.core.dto.TokenError;
+import com.github.rebue.scx.dto.CodeValue;
 import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
@@ -26,8 +27,11 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -120,15 +124,62 @@ public class OidcSvcImpl implements OidcSvc {
         AuthorizationGrant grant = tokenRequest.getAuthorizationGrant();
         GrantType grantType = grant.getType();
         if (grantType.equals(GrantType.AUTHORIZATION_CODE)) {
-            return issueIdToken();
+            return issueIdToken(tokenRequest, response);
         }
         // todo refresh token
         return tokenError(response, "unsupported_grant_type", "invalid grant_type : " + grantType.getValue());
     }
 
-    private Object issueIdToken()
+    /**
+     * @return {@link com.nimbusds.oauth2.sdk.AccessTokenResponse}
+     * <p> 或 {@link com.github.rebue.orp.core.dto.TokenError}
+     */
+    private Object issueIdToken(TokenRequest tokenRequest, ServerHttpResponse response)
     {
+        String code = getAuthorizationCode(tokenRequest).orElse(null);
+        if (code == null) {
+            return tokenError(response, "invalid_grant", "code is empty");
+        }
+        CodeValue codeValue = codeRepository.getCode(code).orElse(null);
+        if (codeValue == null) {
+            return tokenError(response, "invalid_grant", "invalid code : " + code);
+        }
+        String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
+        if (!codeValue.getClientId().equals(clientId)) {
+            return tokenError(response, "invalid_grant", "invalid clientId : " + clientId);
+        }
+        if (!verifyRedirectionUri(tokenRequest, codeValue.getRedirectionUri())) {
+            return tokenError(response, "invalid_grant", "invalid redirection uri : " + codeValue.getRedirectionUri());
+        }
         return null;
+    }
+
+    private static boolean verifyRedirectionUri(TokenRequest tokenRequest, String uri)
+    {
+        try {
+            URI uri2 = new URI(uri);
+            AuthorizationGrant auth = tokenRequest.getAuthorizationGrant();
+            if (auth.getType().equals(GrantType.AUTHORIZATION_CODE)) {
+                AuthorizationCodeGrant codeAuth = (AuthorizationCodeGrant) auth;
+                String decoded = URLDecoder.decode(
+                        codeAuth.getRedirectionURI().toString(), "UTF-8");
+                return decoded.equalsIgnoreCase(uri2.toString());
+            }
+            return false;
+        } catch (URISyntaxException | UnsupportedEncodingException e) {
+            return false;
+        }
+    }
+
+    private static Optional<String> getAuthorizationCode(TokenRequest tokenRequest)
+    {
+        AuthorizationGrant auth = tokenRequest.getAuthorizationGrant();
+        if (auth.getType().equals(GrantType.AUTHORIZATION_CODE)) {
+            AuthorizationCodeGrant codeAuth = (AuthorizationCodeGrant) auth;
+            String code = codeAuth.getAuthorizationCode().getValue();
+            return Optional.ofNullable(code);
+        }
+        return Optional.empty();
     }
 
     /**
