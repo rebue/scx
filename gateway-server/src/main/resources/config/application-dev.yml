@@ -29,7 +29,6 @@ spring:
                   - "'*:/oss/**'"
                   - "'*:/wxx/**'"
                 ignore-urls:
-                  - "'*:/rac/**'"
                   - "'*:/oss/**'"
                   - "'*:/wxx/**'"
                   - "'POST:/rac/sign-in/**'"

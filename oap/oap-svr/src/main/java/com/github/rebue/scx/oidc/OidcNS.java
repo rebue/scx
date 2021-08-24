@@ -39,6 +39,8 @@ public class OidcNS {
 
     public static final String OIDC_SKEY_REDIRECT_URI = "redirect_uri";
 
+    public static final String USER_CODE = "user_code";
+
     public static String getStateValue(AuthenticationRequest request)
     {
         State state = request.getState();

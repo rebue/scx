@@ -14,4 +14,6 @@ public class CodeValue {
 
     private final Scope scope;
 
+    private final String userCode;
+
 }

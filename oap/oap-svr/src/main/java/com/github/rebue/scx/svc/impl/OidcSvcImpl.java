@@ -63,7 +63,8 @@ public class OidcSvcImpl implements OidcSvc {
     {
         Map<String, String> sessionInfos = getOrCreateSession(hRequest, hResponse);
         if (isAuthenticated(sessionInfos)) {
-            AuthorizationCode code = codeRepository.createCode(aRequest);
+            String userCode = sessionInfos.get(OidcNS.USER_CODE);
+            AuthorizationCode code = codeRepository.createCode(aRequest, userCode);
             // todo redirect 校验
             HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
             hResponse.setStatusCode(HttpStatus.FOUND);
@@ -95,7 +96,9 @@ public class OidcSvcImpl implements OidcSvc {
         String state = sessionInfo.get(OidcNS.OIDC_SKEY_STATE);
         String clientId = sessionInfo.get(OidcNS.OIDC_SKEY_CLIENT_ID);
         String scope = sessionInfo.get(OidcNS.OIDC_SKEY_SCOPE);
-        AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope));
+        // todo userCode
+        sessionInfo.put(OidcNS.USER_CODE, loginData.getLoginName());
+        AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope), loginData.getLoginName());
         HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
         response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
@@ -151,6 +154,8 @@ public class OidcSvcImpl implements OidcSvc {
         if (!verifyRedirectionUri(tokenRequest, codeValue.getRedirectionUri())) {
             return tokenError(response, "invalid_grant", "invalid redirection uri : " + codeValue.getRedirectionUri());
         }
+        String userCode = codeValue.getUserCode();
+        // todo OidcNS.makeIdtoken()
         return null;
     }
 
@@ -253,7 +258,7 @@ public class OidcSvcImpl implements OidcSvc {
     private static ResponseCookie createCookie(String key, String value)
     {
         return ResponseCookie.from(key, value)
-                .domain("localhost")
+                .domain("localhost") // todo
                 .path("/")
                 .maxAge(100000L)
                 .build();
