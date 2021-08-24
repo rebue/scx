@@ -22,7 +22,7 @@ spring:
     enabled: false
 
 curator:
-  connect-string: ubuntu:2181,ubuntu:2181,ubuntu:2181
+  connect-string: ubuntu:2181
 
 logging:
   config: classpath:config/log4j2.xml

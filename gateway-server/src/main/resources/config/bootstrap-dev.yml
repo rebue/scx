@@ -19,13 +19,19 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 127.0.0.1:8848
+        server-addr: ubuntu:8848
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: ubuntu:8848
     sentinel:
       enabled: false
   sleuth:
     enabled: false
+  rabbitmq:
+    host: ubuntu
+    port: 5672
+
+curator:
+  connect-string: ubuntu:2181
 
 #management:
 #  endpoints:

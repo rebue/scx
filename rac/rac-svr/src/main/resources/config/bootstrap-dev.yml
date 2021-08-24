@@ -8,10 +8,10 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/rac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: rac
-    password: rac
+    username: root
+    password: root
   rabbitmq:
-    host: 127.0.0.1
+    host: ubuntu
     port: 5672
     username: guest
     password: guest
@@ -19,13 +19,16 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 127.0.0.1:8848
+        server-addr: ubuntu:8848
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: ubuntu:8848
     sentinel:
       enabled: false
   sleuth:
     enabled: false
+
+curator:
+  connect-string: ubuntu:2181
 
 logging:
   config: classpath:config/log4j2.xml
