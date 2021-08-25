@@ -1,6 +1,6 @@
 package rebue.scx.jwt.config;
 
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import rebue.scx.jwt.utils.CreatePublicPrivateKey;
 import rebue.scx.jwt.utils.ResourcesWrapper;
@@ -12,13 +12,17 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-@Data
 @Component
 public class JwtKey {
 
+    @Getter
     private RSAPrivateKey privateKey;
 
+    @Getter
     private RSAPublicKey publicKey;
+
+    @Getter
+    private long exp;
 
     @Resource
     private JwtProperties jwtProperties;
@@ -31,6 +35,7 @@ public class JwtKey {
             privateKey = (RSAPrivateKey) keyPair.getPrivate();
             publicKey = (RSAPublicKey) keyPair.getPublic();
         }
+        exp = jwtProperties.getExpirationDuration().toMillis();
     }
 
 }

@@ -26,7 +26,6 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
-import rebue.scx.jwt.to.JwtVerifyTo;
 import rebue.scx.rac.api.RacPermUrnApi;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
 import rebue.wheel.turing.JwtUtils;
@@ -78,8 +77,8 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     return response.setComplete();
                 }
 
-                final Ro<JwtSignRa> verifyRo = jwtApi.verify(sign);
-                if (!ResultDic.SUCCESS.equals(verifyRo.getResult())) {
+                final JwtSignRa verifyRo = jwtApi.verify(sign);
+                if (!verifyRo.isSuccess()) {
                     log.warn("JWT签名校验失败: url-{}", url);
                     final ServerHttpResponse response = exchange.getResponse();
                     // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
@@ -111,8 +110,8 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 log.info("延长JWT签名时效");
                 final ServerHttpResponse                    response        = exchange.getResponse();
                 final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
-                final ResponseCookie                        jwtTokenCookie  = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getExtra().getSign()).maxAge(
-                    Duration.between(LocalDateTime.now(), verifyRo.getExtra().getExpirationTime())).path("/").build();
+                final ResponseCookie                        jwtTokenCookie  = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getSign()).maxAge(
+                    Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime())).path("/").build();
                 responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
                 log.info("完成延长JWT签名时效");
 

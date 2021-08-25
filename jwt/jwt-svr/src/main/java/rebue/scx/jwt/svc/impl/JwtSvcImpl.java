@@ -52,7 +52,7 @@ public class JwtSvcImpl implements JwtSvc {
     public JwtSignRa sign(JwtSignTo to)
     {
         Date now = new Date();
-        Date exp = new Date(now.getTime() + jwtProperties.exp());
+        Date exp = new Date(now.getTime() + jwtKey.getExp());
         Builder builder = new Builder()
                 .issuer(jwtProperties.getIssuer())
                 .subject(to.getAccountId())
