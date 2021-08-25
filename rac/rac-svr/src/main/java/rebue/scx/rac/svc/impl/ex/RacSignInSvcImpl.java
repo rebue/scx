@@ -168,7 +168,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private Long getWrongPswdTimesOfSignIn(final Long accountId) {
         log.info("获取账户输入错误登录密码的次数: {}", accountId);
         final String result = stringRedisTemplate.opsForValue().get(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId);
-        if (result == null || result == "" || result == "nil") {
+        if (result == null || result.equals("") || result.equals("nil")) {
             return null;
         }
         return Long.parseLong(result);
@@ -200,7 +200,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * @param signInWay 登录方式
      */
     private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final SignUpOrInWayDic signInWay) {
-        final JwtSignTo     signTo = null; // todo now new JwtSignTo(accountMo.getId().toString());
+        final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString(), appId);
         final JwtSignRa signRo = jwtApi.sign(signTo);
         if (signRo.isSuccess()) {
             final SignUpOrInRa ra = new SignUpOrInRa(
