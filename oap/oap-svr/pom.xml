@@ -83,6 +83,11 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>orp-core</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-api</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

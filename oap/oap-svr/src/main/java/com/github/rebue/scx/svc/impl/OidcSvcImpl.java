@@ -19,6 +19,7 @@ import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
@@ -26,13 +27,20 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
+import rebue.robotech.ra.PojoRa;
+import rebue.robotech.ro.Ro;
+import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.mo.RacAppMo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,10 +48,11 @@ public class OidcSvcImpl implements OidcSvc {
 
     private static final String AUTH_INFO = "auth_info";
 
-    private final Map<String, Map<String, String>> sessions = new HashMap<>();
-
     @Autowired
     private CodeRepository codeRepository;
+
+    @DubboReference
+    private RacAppApi racAppApi;
 
     @Override
     @SneakyThrows
@@ -130,7 +139,12 @@ public class OidcSvcImpl implements OidcSvc {
         }
         // todo 从 "数据库" 找client
         String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
-        if (false) { // todo 没有client
+        Ro<PojoRa<RacAppMo>> app;
+        if (clientId == null
+                || (app = racAppApi.getById(clientId)) == null
+                || !app.isSuccess()
+                || app.getExtra() == null
+        ) {
             return tokenError(response, "invalid_client", "invalid client : " + clientId);
         }
         if (!compareSecret(tokenRequest, "todo")) { // todo 从"数据库"获取的密钥
@@ -155,7 +169,7 @@ public class OidcSvcImpl implements OidcSvc {
         if (code == null) {
             return tokenError(response, "invalid_grant", "code is empty");
         }
-        CodeValue codeValue = codeRepository.getCode(code).orElse(null);
+        CodeValue codeValue = codeRepository.getAndRemoveCode(code).orElse(null);
         if (codeValue == null) {
             return tokenError(response, "invalid_grant", "invalid code : " + code);
         }

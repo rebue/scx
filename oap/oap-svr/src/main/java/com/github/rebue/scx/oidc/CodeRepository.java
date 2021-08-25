@@ -25,7 +25,7 @@ public class CodeRepository {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public Optional<CodeValue> getCode(String code)
+    public Optional<CodeValue> getAndRemoveCode(String code)
     {
         String key = CODE_PREFIX + code;
         String jsStr = stringRedisTemplate.opsForValue().get(key);
