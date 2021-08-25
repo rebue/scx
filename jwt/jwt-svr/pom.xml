@@ -15,6 +15,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-core</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>jwt-api</artifactId>
 		</dependency>

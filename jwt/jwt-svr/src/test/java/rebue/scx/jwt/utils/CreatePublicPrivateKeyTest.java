@@ -2,6 +2,7 @@ package rebue.scx.jwt.utils;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Test;
+import rebue.wheel.core.ResourcesWrapper;
 
 import java.io.InputStream;
 import java.security.KeyPair;
@@ -19,10 +20,10 @@ public class CreatePublicPrivateKeyTest {
     }
 
     @Test
-    private void test() throws Exception
+    public void test() throws Exception
     {
         Security.addProvider(new BouncyCastleProvider());
-        try (InputStream in = ResourcesWrapper.getInputStream(RSA_KEY_FILE_PATH)) {
+        try (InputStream in = ResourcesWrapper.getInputStream(RSA_KEY_FILE_PATH, CreatePublicPrivateKeyTest.class)) {
             KeyPair keyPair = CreatePublicPrivateKey.parseRsaKeyPair(in);
             RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
             System.out.println(publicKeyBase64(publicKey));
