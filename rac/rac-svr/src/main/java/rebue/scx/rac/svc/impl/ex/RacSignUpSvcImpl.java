@@ -70,24 +70,20 @@ public class RacSignUpSvcImpl implements RacSignUpSvc {
         final Long            accountId = accountSvc.add(addTo).getId();
 
         // 如果添加成功，JWT签名
-        if (accountId != null) {
-            final JwtSignTo     signTo = null; // todo now new JwtSignTo(accountId.toString());
-            final JwtSignRa     signRo = jwtApi.sign(signTo);
-            if (signRo.isSuccess()) {
-                final SignUpOrInRa ra = new SignUpOrInRa(
-                        accountId,
-                        signRo.getSign(),
-                        signRo.getExpirationTime());
-                return new Ro<>(ResultDic.SUCCESS, "注册账户成功", ra);
-            }
-            else {
-                return new Ro<>(ResultDic.FAIL, "JWT签名失败");
-            }
-        }
-        else {
+        if (accountId == null) {
             return new Ro<>(ResultDic.FAIL, "添加账户失败");
         }
-
+        final JwtSignTo     signTo = new JwtSignTo(accountId.toString(), to.getAppId());
+        final JwtSignRa     signRo = jwtApi.sign(signTo);
+        if (signRo.isSuccess()) {
+            final SignUpOrInRa ra = new SignUpOrInRa(
+                    accountId,
+                    signRo.getSign(),
+                    signRo.getExpirationTime());
+            return new Ro<>(ResultDic.SUCCESS, "注册账户成功", ra);
+        } else {
+            return new Ro<>(ResultDic.FAIL, "JWT签名失败");
+        }
     }
 
 }

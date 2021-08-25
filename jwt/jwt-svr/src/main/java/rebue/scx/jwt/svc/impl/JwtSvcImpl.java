@@ -12,14 +12,12 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.config.JwtKey;
 import rebue.scx.jwt.config.JwtProperties;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -39,15 +37,6 @@ public class JwtSvcImpl implements JwtSvc {
 
     private static final ZoneId ZONE_ID = ZoneId.systemDefault();
 
-    @PostConstruct
-    void test()
-    {
-        JwtSignTo jwtSignTo = new JwtSignTo("123", "123", null);
-        JwtSignRa sign = sign(jwtSignTo);
-        JwtSignRa verify = verify(sign.getSign());
-        System.out.println();
-    }
-
     @SneakyThrows
     public JwtSignRa sign(JwtSignTo to)
     {
@@ -56,7 +45,7 @@ public class JwtSvcImpl implements JwtSvc {
         Builder builder = new Builder()
                 .issuer(jwtProperties.getIssuer())
                 .subject(to.getAccountId())
-                .audience(to.getAccountId()) // todo clientId
+                .audience(to.getAppId())
                 .expirationTime(exp)
                 .issueTime(now);
         if (to.getAddition() != null) {
@@ -88,7 +77,12 @@ public class JwtSvcImpl implements JwtSvc {
             String subject = signedJWT.getJWTClaimsSet().getSubject();
             String audience = signedJWT.getJWTClaimsSet().getAudience().get(0);
             Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
-            return sign(new JwtSignTo(subject, audience, addition));
+            JwtSignTo signTo = JwtSignTo.builder()
+                    .accountId(subject)
+                    .appId(audience)
+                    .addition(addition)
+                    .build();
+            return sign(signTo);
         } catch (Exception e) {
             return JwtSignRa.error();
         }
