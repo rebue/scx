@@ -8,8 +8,8 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/cap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: cap
-    password: cap
+    username: root
+    password: root
   cloud:
     nacos:
       config:
@@ -18,8 +18,14 @@ spring:
         server-addr: 127.0.0.1:8848
     sentinel:
       enabled: false
+    rabbitmq:
+      host: 127.0.0.1
+      port: 5672
   sleuth:
     enabled: false
+
+curator:
+  connect-string: 127.0.0.1:2181
 
 logging:
   config: classpath:config/log4j2.xml

@@ -41,21 +41,14 @@ public class OidcCtrl {
         oidcSvc.authorize(paramMap, request, response);
     }
 
-    @PostMapping(
-            value = "/login",
-            consumes = "application/x-www-form-urlencoded"
-    )
+    @PostMapping(value = "/login", consumes = "application/x-www-form-urlencoded")
     public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
     {
         oidcSvc.login(loginData, request, response);
     }
 
     @ResponseBody
-    @PostMapping(
-            value = "/token",
-            consumes = "application/x-www-form-urlencoded",
-            produces = "application/json"
-    )
+    @PostMapping(value = "/token", consumes = "application/x-www-form-urlencoded", produces = "application/json")
     public Mono<Object> token(ServerHttpRequest request, ServerHttpResponse response)
     {
         List<String> authorizations = request.getHeaders().get("Authorization");
