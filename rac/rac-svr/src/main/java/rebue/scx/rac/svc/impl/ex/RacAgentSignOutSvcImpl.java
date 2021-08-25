@@ -95,7 +95,7 @@ public class RacAgentSignOutSvcImpl implements RacAgentSignOutSvc {
      * @param urlBeforeAgent 代理之前的URL
      */
     private Ro<AgentSignOutRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final String urlBeforeAgent) {
-        final JwtSignTo     signTo = null; // todo now new JwtSignTo(accountMo.getId().toString());
+        final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appId);
         final JwtSignRa signRo = jwtApi.sign(signTo);
         if (signRo.isSuccess()) {
             final AgentSignOutRa ra = new AgentSignOutRa(

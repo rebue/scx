@@ -200,7 +200,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * @param signInWay 登录方式
      */
     private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final SignUpOrInWayDic signInWay) {
-        final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString(), appId);
+        final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appId);
         final JwtSignRa signRo = jwtApi.sign(signTo);
         if (signRo.isSuccess()) {
             final SignUpOrInRa ra = new SignUpOrInRa(

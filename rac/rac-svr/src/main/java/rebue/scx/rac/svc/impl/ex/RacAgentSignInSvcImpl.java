@@ -107,7 +107,7 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
             return new Ro<>(ResultDic.WARN, msg);
         }
 
-        return returnSuccessSignIn(accountMo, agentAccountMo, agentAppId, urlBeforeAgent);
+        return returnSuccessSignIn(accountMo, agentAccountMo, agentAppId, urlBeforeAgent, appId);
     }
 
     /**
@@ -117,9 +117,15 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
      * @param agentAccountMo 获取到的代理账户信息
      * @param agentAppId     代理应用ID
      */
-    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final RacAccountMo agentAccountMo, final String agentAppId, final String urlBeforeAgent)
+    private Ro<SignUpOrInRa> returnSuccessSignIn(
+            RacAccountMo accountMo,
+            RacAccountMo agentAccountMo,
+            String agentAppId,
+            String urlBeforeAgent,
+            String appId
+    )
     {
-        final JwtSignTo signTo = null; // todo now new JwtSignTo(accountMo.getId().toString());
+        final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appId);
         final Map<String, Object> addition = new LinkedHashMap<>();
         addition.put(RacJwtSignCo.AGENT_ACCOUNT_ID, agentAccountMo.getId());
         addition.put(RacJwtSignCo.AGENT_APP_ID, agentAppId);
