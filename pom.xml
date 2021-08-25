@@ -24,6 +24,7 @@
 		<module>wxx</module>
 		<module>oap</module>
 		<module>orp</module>
+		<module>cap</module>
 	</modules>
 
 	<dependencyManagement>

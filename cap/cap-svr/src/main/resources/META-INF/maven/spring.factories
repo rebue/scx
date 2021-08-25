@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=rebue.scx.rac.config.AjCaptchaAutoConfiguration

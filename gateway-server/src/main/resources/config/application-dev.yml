@@ -26,12 +26,14 @@ spring:
                 filter-urls:
                   - "'*:/sgn/**'"
                   - "'*:/rac/**'"
+                  - "'*:/cap/**'"
                   - "'*:/oss/**'"
                   - "'*:/wxx/**'"
                 ignore-urls:
                   - "'*:/oss/**'"
                   - "'*:/wxx/**'"
                   - "'POST:/rac/sign-in/**'"
+                  - "'POST:/cap/captcha/**'"
                   - "'GET:/rac/account/get-cur-account-info'"
   # 链路追踪采集器
   sleuth:

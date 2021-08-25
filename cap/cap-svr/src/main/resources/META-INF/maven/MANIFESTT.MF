@@ -1,0 +1,9 @@
+#Manifest-Version: 1.0
+#Implementation-Title: captcha-spring-boot-starter
+#Implementation-Version: 1.3.0
+#Built-By: raodeming
+#Implementation-Vendor-Id: com.anji-plus
+#Created-By: Apache Maven 3.6.1
+#Build-Jdk: 1.8.0_291
+#Implementation-URL: https://github.com/anji-plus/captcha
+

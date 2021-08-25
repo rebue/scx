@@ -1,0 +1,160 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "name": "aj.captcha",
+      "type": "rebue.scx.rac.properties.AjCaptchaProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": true,
+      "name": "aj.captcha.aes-status",
+      "description": "aes加密坐标开启或者禁用(true|false).",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "1000",
+      "name": "aj.captcha.cache-number",
+      "description": "local缓存的阈值",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "name": "aj.captcha.cache-type",
+      "description": "缓存类型redis\/local\/....",
+      "type": "rebue.scx.rac.properties.AjCaptchaProperties$StorageType"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": 4,
+      "name": "aj.captcha.click-word-count",
+      "description": "点选文字个数，存在问题，暂不要使用",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": 25,
+      "name": "aj.captcha.font-size",
+      "description": "点选字体大小",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "name": "aj.captcha.font-style",
+      "description": "点选字体样式",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "WenQuanZhengHei.ttf",
+      "name": "aj.captcha.font-type",
+      "description": "点选文字验证码的文字字体(文泉驿正黑).",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": false,
+      "name": "aj.captcha.history-data-clear-enable",
+      "description": "历史数据清除开关",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "0",
+      "name": "aj.captcha.interference-options",
+      "description": "滑块干扰项(0\/1\/2)",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "",
+      "name": "aj.captcha.jigsaw",
+      "description": "滑动拼图底图路径.",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "",
+      "name": "aj.captcha.pic-click",
+      "description": "点选文字底图路径.",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": 100,
+      "name": "aj.captcha.req-check-minute-limit",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": false,
+      "name": "aj.captcha.req-frequency-limit-enable",
+      "description": "一分钟内接口请求次数限制 开关",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": 5,
+      "name": "aj.captcha.req-get-lock-limit",
+      "description": "一分钟内check接口失败次数",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": 300,
+      "name": "aj.captcha.req-get-lock-seconds",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": 100,
+      "name": "aj.captcha.req-get-minute-limit",
+      "description": "get接口一分钟内限制访问数",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": 100,
+      "name": "aj.captcha.req-verify-minute-limit",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "5",
+      "name": "aj.captcha.slip-offset",
+      "description": "校验滑动拼图允许误差偏移量(默认5像素).",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "180",
+      "name": "aj.captcha.timing-clear",
+      "description": "定时清理过期local缓存(单位秒)",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "name": "aj.captcha.type",
+      "description": "验证码类型.",
+      "type": "rebue.scx.rac.model.common.CaptchaTypeEnum"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "WenQuanZhengHei.ttf",
+      "name": "aj.captcha.water-font",
+      "description": "右下角水印字体(文泉驿正黑).",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "rebue.scx.rac.properties.AjCaptchaProperties",
+      "defaultValue": "我的水印",
+      "name": "aj.captcha.water-mark",
+      "description": "右下角水印文字(我的水印).",
+      "type": "java.lang.String"
+    }
+  ]
+}
