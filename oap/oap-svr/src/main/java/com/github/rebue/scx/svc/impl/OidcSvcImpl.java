@@ -5,6 +5,7 @@ import com.github.rebue.scx.dto.CodeValue;
 import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
+import com.github.rebue.scx.oidc.AuthorizeInfo;
 import com.github.rebue.scx.oidc.CodeRepository;
 import com.github.rebue.scx.oidc.OidcNS;
 import com.github.rebue.scx.svc.OidcSvc;
@@ -38,6 +39,8 @@ import java.util.stream.Collectors;
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
+    private static final String AUTH_INFO = "auth_info";
+
     private final Map<String, Map<String, String>> sessions = new HashMap<>();
 
     @Autowired
@@ -58,31 +61,43 @@ public class OidcSvcImpl implements OidcSvc {
     }
 
     @SneakyThrows
-    synchronized
     private void codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse)
     {
-        Map<String, String> sessionInfos = getOrCreateSession(hRequest, hResponse);
-        if (isAuthenticated(sessionInfos)) {
-            String userCode = sessionInfos.get(OidcNS.USER_CODE);
-            AuthorizationCode code = codeRepository.createCode(aRequest, userCode);
+        if (isAuthenticated(hRequest)) {
+            String userId = getUserId(hRequest);
+            AuthorizationCode code = codeRepository.createCode(aRequest, userId);
             // todo redirect 校验
             HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
             hResponse.setStatusCode(HttpStatus.FOUND);
             hResponse.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
             return;
         }
-        sessionInfos.put(OidcNS.OIDC_SKEY_STATE, OidcNS.getStateValue(aRequest));
-        sessionInfos.put(OidcNS.OIDC_SKEY_CLIENT_ID, aRequest.getClientID().getValue());
-        sessionInfos.put(OidcNS.OIDC_SKEY_REDIRECT_URI, AuthorisationCodeFlow.getRedirectUri(aRequest));
-        sessionInfos.put(OidcNS.OIDC_SKEY_SCOPE, aRequest.getScope().toString());
+        String cookie = new AuthorizeInfo(aRequest).toStr();
+        hResponse.addCookie(createCookie(AUTH_INFO, cookie));
         hResponse.setStatusCode(HttpStatus.FOUND);
         hResponse.getHeaders().setLocation(URI.create("http://localhost:13080/admin-web#/unifiedLogin"));
+    }
+
+    private String getUserId(ServerHttpRequest hRequest)
+    {
+        return null; // todo
+    }
+
+    private Optional<AuthorizeInfo> getSessionInfo(ServerHttpRequest request)
+    {
+        HttpCookie cookie = request.getCookies().getFirst(AUTH_INFO);
+        if (cookie == null) {
+            return Optional.empty();
+        }
+        return Optional.of(AuthorizeInfo.fromCookie(cookie.getValue()));
     }
 
     @Override
     @SneakyThrows
     public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
     {
+        Optional<AuthorizeInfo> sessionInfo1 = getSessionInfo(request);
+
         // todo 用户名密码校验
         loginData.getLoginName();
         loginData.getPassword();
@@ -242,19 +257,6 @@ public class OidcSvcImpl implements OidcSvc {
         return Optional.empty();
     }
 
-    private Map<String, String> getOrCreateSession(ServerHttpRequest hRequest, ServerHttpResponse hResponse)
-    {
-        Map<String, String> sessionInfo = getSession(hRequest).orElse(null);
-        if (sessionInfo != null) {
-            return sessionInfo;
-        }
-        String sessionId = UUID.randomUUID().toString();
-        Map<String, String> m = new HashMap<>();
-        hResponse.addCookie(createCookie("sessionId", sessionId));
-        sessions.put(sessionId, m);
-        return m;
-    }
-
     private static ResponseCookie createCookie(String key, String value)
     {
         return ResponseCookie.from(key, value)
@@ -264,9 +266,9 @@ public class OidcSvcImpl implements OidcSvc {
                 .build();
     }
 
-    private boolean isAuthenticated(Map<String, String> sessionInfos)
+    private boolean isAuthenticated(ServerHttpRequest hRequest)
     {
-        return "isLogin".equals(sessionInfos.get("isLogin"));
+        return false; // todo
     }
 
 }

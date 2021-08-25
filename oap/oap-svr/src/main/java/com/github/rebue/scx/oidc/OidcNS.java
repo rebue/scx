@@ -1,6 +1,5 @@
 package com.github.rebue.scx.oidc;
 
-import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -8,9 +7,6 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.nimbusds.oauth2.sdk.id.State;
-import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
-import org.apache.commons.lang3.StringUtils;
 
 import java.security.PrivateKey;
 import java.util.Date;
@@ -41,18 +37,6 @@ public class OidcNS {
 
     public static final String USER_CODE = "user_code";
 
-    public static String getStateValue(AuthenticationRequest request)
-    {
-        State state = request.getState();
-        if (state == null) {
-            throw new OidcAuthenticationException("Missing state parameter");
-        }
-        String stateValue = state.getValue();
-        if (StringUtils.isBlank(stateValue)) {
-            throw new OidcAuthenticationException("Missing state parameter");
-        }
-        return stateValue;
-    }
 
     public static SignedJWT makeIdtoken(
             PrivateKey privateKey, String userCode, String clientCode)
