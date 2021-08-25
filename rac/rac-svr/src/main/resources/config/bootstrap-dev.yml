@@ -11,7 +11,7 @@ spring:
     username: root
     password: root
   rabbitmq:
-    host: ubuntu
+    host: 127.0.0.1
     port: 5672
     username: guest
     password: guest
@@ -19,16 +19,16 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: ubuntu:8848
+        server-addr: 127.0.0.1:8848
       discovery:
-        server-addr: ubuntu:8848
+        server-addr: 127.0.0.1:8848
     sentinel:
       enabled: false
   sleuth:
     enabled: false
 
 curator:
-  connect-string: ubuntu:2181
+  connect-string: 127.0.0.1:2181
 
 logging:
   config: classpath:config/log4j2.xml
