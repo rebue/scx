@@ -3,7 +3,7 @@ package rebue.scx.jwt.config;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 import rebue.scx.jwt.utils.CreatePublicPrivateKey;
-import rebue.scx.jwt.utils.ResourcesWrapper;
+import rebue.wheel.core.ResourcesWrapper;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;

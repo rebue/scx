@@ -144,9 +144,11 @@ public class OidcSvcImpl implements OidcSvc {
                 || (app = racAppApi.getById(clientId)) == null
                 || !app.isSuccess()
                 || app.getExtra() == null
+                || app.getExtra().getOne() == null
         ) {
             return tokenError(response, "invalid_client", "invalid client : " + clientId);
         }
+        app.getExtra().getOne().getId();
         if (!compareSecret(tokenRequest, "todo")) { // todo 从"数据库"获取的密钥
             return tokenError(response, "unauthorized_client", "unauthorized client : " + clientId);
         }
