@@ -200,19 +200,18 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * @param signInWay 登录方式
      */
     private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final SignUpOrInWayDic signInWay) {
-        final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString());
-        final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
-        if (ResultDic.SUCCESS.equals(signRo.getResult())) {
+        final JwtSignTo     signTo = null; // todo now new JwtSignTo(accountMo.getId().toString());
+        final JwtSignRa signRo = jwtApi.sign(signTo);
+        if (signRo.isSuccess()) {
             final SignUpOrInRa ra = new SignUpOrInRa(
                 accountMo.getId(),
-                signRo.getExtra().getSign(),
-                signRo.getExtra().getExpirationTime());
+                signRo.getSign(),
+                signRo.getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户登录成功", ra);
         }
         else {
             return new Ro<>(ResultDic.FAIL, "JWT签名失败");
         }
-
     }
 
 }

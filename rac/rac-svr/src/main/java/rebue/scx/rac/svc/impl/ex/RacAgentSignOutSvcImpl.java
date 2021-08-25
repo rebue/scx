@@ -95,14 +95,14 @@ public class RacAgentSignOutSvcImpl implements RacAgentSignOutSvc {
      * @param urlBeforeAgent 代理之前的URL
      */
     private Ro<AgentSignOutRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final String urlBeforeAgent) {
-        final JwtSignTo     signTo = new JwtSignTo(accountMo.getId().toString());
-        final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
-        if (ResultDic.SUCCESS.equals(signRo.getResult())) {
+        final JwtSignTo     signTo = null; // todo now new JwtSignTo(accountMo.getId().toString());
+        final JwtSignRa signRo = jwtApi.sign(signTo);
+        if (signRo.isSuccess()) {
             final AgentSignOutRa ra = new AgentSignOutRa(
                 accountMo.getId(),
                 urlBeforeAgent,
-                signRo.getExtra().getSign(),
-                signRo.getExtra().getExpirationTime());
+                signRo.getSign(),
+                signRo.getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户代理登录成功", ra);
         }
         else {
