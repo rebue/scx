@@ -1,16 +1,10 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
@@ -23,6 +17,10 @@ import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.ex.RacAgentSignInSvc;
+
+import javax.annotation.Resource;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 代理登录服务的实现类
@@ -44,12 +42,12 @@ import rebue.scx.rac.svc.ex.RacAgentSignInSvc;
 public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
 
     @DubboReference(application = "jwt-svr")
-    private JwtApi        jwtApi;
+    private JwtApi jwtApi;
 
     @Resource
     private RacAccountSvc accountSvc;
     @Resource
-    private RacAppSvc     appSvc;
+    private RacAppSvc appSvc;
 
     /**
      * 代理登录
@@ -59,12 +57,12 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
      * @param appId          要登录的应用ID
      * @param agentAppId     代理账户之前登录的应用ID
      * @param urlBeforeAgent 代理之前的URL(退出代理登录时回退到此URL)
-     *
      * @return 登录成功或失败的结果
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<SignUpOrInRa> signIn(final Long accountId, final Long agentAccountId, final String appId, final String agentAppId, final String urlBeforeAgent) {
+    public Ro<SignUpOrInRa> signIn(final Long accountId, final Long agentAccountId, final String appId, final String agentAppId, final String urlBeforeAgent)
+    {
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(appId);
         if (appMo == null) {
@@ -119,22 +117,22 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
      * @param agentAccountMo 获取到的代理账户信息
      * @param agentAppId     代理应用ID
      */
-    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final RacAccountMo agentAccountMo, final String agentAppId, final String urlBeforeAgent) {
-        final JwtSignTo           signTo   = new JwtSignTo(accountMo.getId().toString());
+    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final RacAccountMo agentAccountMo, final String agentAppId, final String urlBeforeAgent)
+    {
+        final JwtSignTo signTo = null; // todo now new JwtSignTo(accountMo.getId().toString());
         final Map<String, Object> addition = new LinkedHashMap<>();
         addition.put(RacJwtSignCo.AGENT_ACCOUNT_ID, agentAccountMo.getId());
         addition.put(RacJwtSignCo.AGENT_APP_ID, agentAppId);
         addition.put(RacJwtSignCo.URL_BEFORE_AGENT, urlBeforeAgent);
         signTo.setAddition(addition);
-        final Ro<JwtSignRa> signRo = jwtApi.sign(signTo);
-        if (ResultDic.SUCCESS.equals(signRo.getResult())) {
+        JwtSignRa signRa = jwtApi.sign(signTo);
+        if (signRa.isSuccess()) {
             final SignUpOrInRa ra = new SignUpOrInRa(
-                accountMo.getId(),
-                signRo.getExtra().getSign(),
-                signRo.getExtra().getExpirationTime());
+                    accountMo.getId(),
+                    signRa.getSign(),
+                    signRa.getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户代理登录成功", ra);
-        }
-        else {
+        } else {
             return new Ro<>(ResultDic.FAIL, "JWT签名失败");
         }
 

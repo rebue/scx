@@ -20,7 +20,7 @@ public class OidcCtrl {
     {
         return Mono.create(cb -> {
             Ro<String> ro = oidcSvc.callback(code).map(Ro::success)
-                    .orElse(Ro.error("获取token失败"));
+                    .orElse(Ro.fail("获取token失败"));
             cb.success(ro);
         });
     }

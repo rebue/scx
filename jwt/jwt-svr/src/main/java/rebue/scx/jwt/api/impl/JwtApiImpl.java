@@ -18,13 +18,13 @@ public class JwtApiImpl implements JwtApi {
     private JwtSvc svc;
 
     @Override
-    public Ro<JwtSignRa> sign(final JwtSignTo to) {
+    public JwtSignRa sign(final JwtSignTo to) {
         return svc.sign(to);
     }
 
     @Override
-    public Ro<JwtSignRa> verify(final JwtVerifyTo to) {
-        return svc.verify(to);
+    public JwtSignRa verify(String sign) {
+        return svc.verify(sign);
     }
 
 }

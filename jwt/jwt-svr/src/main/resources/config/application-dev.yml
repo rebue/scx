@@ -1,7 +1,4 @@
 jwt:
-  # 因为算法为HS512，所以至少需要有512个bit，也就是64个Byte
-  sign-key: ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123ABCabc123中文乱码ABCabc123
-  # 签发者
+  key-pair: jwt-dev-key-pair.pem
   issuer: rebue
-  # 过期时间间隔(默认是30m)
-#  expiration-duration: 3s # 单元测试时使用
+  expiration-duration: 30m

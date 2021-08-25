@@ -78,7 +78,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     return response.setComplete();
                 }
 
-                final Ro<JwtSignRa> verifyRo = jwtApi.verify(new JwtVerifyTo(sign));
+                final Ro<JwtSignRa> verifyRo = jwtApi.verify(sign);
                 if (!ResultDic.SUCCESS.equals(verifyRo.getResult())) {
                     log.warn("JWT签名校验失败: url-{}", url);
                     final ServerHttpResponse response = exchange.getResponse();

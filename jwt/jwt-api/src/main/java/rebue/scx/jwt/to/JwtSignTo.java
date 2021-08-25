@@ -1,45 +1,41 @@
 package rebue.scx.jwt.to;
 
-import java.io.Serializable;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 签名中储存的签名信息
  */
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@Builder
 @JsonInclude(Include.NON_NULL)
 public class JwtSignTo implements Serializable {
-    private static final long   serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 账户ID
      */
     @NotBlank(message = "账户ID不能为空")
     @NotNull
-    private String              accountId;
+    private final String accountId;
+
+    /**
+     * appId
+     */
+    private final String appId;
 
     /**
      * 账户的附加信息
      */
     private Map<String, Object> addition;
-
-    /**
-     * FIXME 不知道为何@RequiredArgsConstructor未生效
-     */
-    public JwtSignTo(String accountId) {
-        this.accountId = accountId;
-    }
 
 }

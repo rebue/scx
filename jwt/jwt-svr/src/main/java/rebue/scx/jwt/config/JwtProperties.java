@@ -1,37 +1,48 @@
 package rebue.scx.jwt.config;
 
-import java.time.Duration;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
+import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.Duration;
 
-@Getter
-@Setter
 @Validated
 @ConfigurationProperties("jwt")
 public class JwtProperties {
 
     /**
-     * JWT签名的密钥。由于采用的是HS512算法，所以密钥的字节长度要大于64Byte
+     * key-pair文件相对路径
      */
     @NotNull
-    private byte[] signKey;
+    @Getter
+    private String keyPair;
 
     /**
      * 签发者
      */
     @NotBlank
+    @Getter
     private String issuer;
 
     /**
-     * 过期时间间隔(默认是30m)
+     * 过期时间间隔
      */
-    private Duration expirationDuration = Duration.ofMinutes(30L);
+    private Duration expirationDuration;
+
+    private long _exp;
+
+    @PostConstruct
+    private void init()
+    {
+        _exp = expirationDuration.toMillis();
+    }
+
+    public long exp()
+    {
+        return _exp;
+    }
 
 }
