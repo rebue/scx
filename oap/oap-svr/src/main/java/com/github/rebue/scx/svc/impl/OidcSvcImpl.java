@@ -7,7 +7,6 @@ import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
 import com.github.rebue.scx.oidc.AuthorizeInfo;
 import com.github.rebue.scx.oidc.CodeRepository;
-import com.github.rebue.scx.oidc.OidcNS;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.common.contenttype.ContentType;
 import com.nimbusds.oauth2.sdk.*;
@@ -89,30 +88,28 @@ public class OidcSvcImpl implements OidcSvc {
         if (cookie == null) {
             return Optional.empty();
         }
-        return Optional.of(AuthorizeInfo.fromCookie(cookie.getValue()));
+        return AuthorizeInfo.fromCookie(cookie.getValue());
     }
 
     @Override
     @SneakyThrows
     public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
     {
-        Optional<AuthorizeInfo> sessionInfo1 = getSessionInfo(request);
-
-        // todo 用户名密码校验
-        loginData.getLoginName();
-        loginData.getPassword();
-        Map<String, String> sessionInfo = getSession(request).orElse(null);
+        AuthorizeInfo sessionInfo = getSessionInfo(request).orElse(null);
         if (sessionInfo == null) {
             // todo 错误信息
             return;
         }
-        sessionInfo.put("isLogin", "isLogin");
-        String uri = sessionInfo.get(OidcNS.OIDC_SKEY_REDIRECT_URI);
-        String state = sessionInfo.get(OidcNS.OIDC_SKEY_STATE);
-        String clientId = sessionInfo.get(OidcNS.OIDC_SKEY_CLIENT_ID);
-        String scope = sessionInfo.get(OidcNS.OIDC_SKEY_SCOPE);
-        // todo userCode
-        sessionInfo.put(OidcNS.USER_CODE, loginData.getLoginName());
+
+        // todo 用户名密码校验
+        loginData.getLoginName();
+        loginData.getPassword();
+
+        String uri = sessionInfo.getRedirectUri();
+        String state = sessionInfo.getState();
+        String clientId = sessionInfo.getClientId();
+        String scope = sessionInfo.getScope();
+
         AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope), loginData.getLoginName());
         HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
@@ -240,21 +237,6 @@ public class OidcSvcImpl implements OidcSvc {
         } catch (ParseException e) {
             return Pair.of(null, e.toString());
         }
-    }
-
-    private Optional<Map<String, String>> getSession(ServerHttpRequest hRequest)
-    {
-        for (Map.Entry<String, List<HttpCookie>> kv : hRequest.getCookies().entrySet()) {
-            if (kv.getKey().equals("sessionId")) {
-                for (HttpCookie cookie : kv.getValue()) {
-                    Map<String, String> m = sessions.get(cookie.getValue());
-                    if (m != null) {
-                        return Optional.of(m);
-                    }
-                }
-            }
-        }
-        return Optional.empty();
     }
 
     private static ResponseCookie createCookie(String key, String value)

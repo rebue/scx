@@ -5,10 +5,17 @@ import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.utils.Base64Util;
 import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Optional;
+
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthorizeInfo {
 
     private String state;
@@ -27,10 +34,15 @@ public class AuthorizeInfo {
         redirectUri = AuthorisationCodeFlow.getRedirectUri(aRequest);
     }
 
-    public static AuthorizeInfo fromCookie(String cookie)
+    public static Optional<AuthorizeInfo> fromCookie(String cookie)
     {
-        String jsStr = Base64Util.decode(cookie);
-        return JSONObject.parseObject(jsStr, AuthorizeInfo.class);
+        try {
+            String jsStr = Base64Util.decode(cookie);
+            AuthorizeInfo o = JSONObject.parseObject(jsStr, AuthorizeInfo.class);
+            return Optional.ofNullable(o);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public String toStr()
