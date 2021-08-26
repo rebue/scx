@@ -69,7 +69,7 @@ public class JwtSvcImpl implements JwtSvc {
     {
         try {
             final SignedJWT signedJWT = SignedJWT.parse(sign);
-            if (signedJWT.getJWTClaimsSet().getExpirationTime().getTime() > System.currentTimeMillis()) {
+            if (System.currentTimeMillis() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
                 return JwtSignRa.error();
             }
             final boolean verify = signedJWT.verify(new RSASSAVerifier(jwtKey.getPublicKey()));
