@@ -6,7 +6,8 @@ import java.awt.Font;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.anji.captcha.model.common.CaptchaTypeEnum;
+import rebue.scx.cap.commom.CaptchaTypeEnum;
+
 
 @ConfigurationProperties(PREFIX)
 public class AjCaptchaProperties {
@@ -31,7 +32,7 @@ public class AjCaptchaProperties {
     /**
      * 右下角水印文字(我的水印).
      */
-    private String waterMark = "我的水印";
+    private String waterMark = "";
 
     /**
      * 右下角水印字体(文泉驿正黑).

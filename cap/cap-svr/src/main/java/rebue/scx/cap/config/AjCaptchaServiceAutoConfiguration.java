@@ -15,13 +15,12 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
 
-import com.anji.captcha.model.common.Const;
-import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.service.impl.CaptchaServiceFactory;
-import com.anji.captcha.util.ImageUtils;
-import com.anji.captcha.util.StringUtils;
-
+import rebue.scx.cap.commom.Const;
 import rebue.scx.cap.properties.AjCaptchaProperties;
+import rebue.scx.cap.svc.CaptchaService;
+import rebue.scx.cap.svc.impl.CaptchaServiceFactory;
+import rebue.scx.cap.util.ImageUtils;
+import rebue.scx.cap.util.StringUtils;
 
 @Configuration
 public class AjCaptchaServiceAutoConfiguration {

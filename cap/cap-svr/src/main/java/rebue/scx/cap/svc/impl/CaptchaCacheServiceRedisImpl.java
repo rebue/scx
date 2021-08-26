@@ -5,7 +5,8 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import com.anji.captcha.service.CaptchaCacheService;
+import rebue.scx.cap.svc.CaptchaCacheService;
+
 
 /**
  * 对于分布式部署的应用，我们建议应用自己实现CaptchaCacheService，比如用Redis，参考service/spring-boot代码示例。
@@ -14,8 +15,6 @@ import com.anji.captcha.service.CaptchaCacheService;
  *
  * ☆☆☆ SPI： 在resources目录新建META-INF.services文件夹(两层)，参考当前服务resources。
  * @Title: 使用redis缓存
- * @author lide1202@hotmail.com
- * @date 2020-05-12
  */
 public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
 

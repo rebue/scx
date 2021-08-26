@@ -3,10 +3,9 @@ package rebue.scx.cap.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.anji.captcha.service.CaptchaCacheService;
-import com.anji.captcha.service.impl.CaptchaServiceFactory;
-
 import rebue.scx.cap.properties.AjCaptchaProperties;
+import rebue.scx.cap.svc.CaptchaCacheService;
+import rebue.scx.cap.svc.impl.CaptchaServiceFactory;
 
 /**
  * 存储策略自动配置.

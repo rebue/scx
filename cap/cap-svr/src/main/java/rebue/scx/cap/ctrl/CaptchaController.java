@@ -3,15 +3,21 @@ package rebue.scx.cap.ctrl;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Reference;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anji.captcha.model.common.ResponseModel;
-import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.util.StringUtils;
+import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
+import rebue.scx.cap.api.CapApi;
+import rebue.scx.cap.commom.ResponseModel;
+import rebue.scx.cap.mo.CaptchaVO;
+import rebue.scx.cap.ra.CaptchaVORa;
+import rebue.scx.cap.svc.CaptchaService;
+import rebue.scx.cap.util.StringUtils;
 
 @RestController
 @CrossOrigin
@@ -20,22 +26,38 @@ public class CaptchaController {
 
     @Autowired
     private CaptchaService captchaService;
+    @Reference
+    private CapApi api;
 
     @PostMapping("/cap/captcha/get")
-    public ResponseModel get(@RequestBody final CaptchaVO data) {
+    public Mono<Ro<CaptchaVORa>> get(@RequestBody final CaptchaVO to) {
        // assert request.getRemoteHost()!=null;
         //data.setBrowserInfo(getRemoteId(request));
-        return captchaService.get(data);
+        //return Mono.create(callback -> callback.success(api.getVo(to)));
+        final CaptchaVORa ra=new  CaptchaVORa();
+        final ResponseModel model = captchaService.get(to);
+        ra.setDataVo((CaptchaVO) model.getRepData());
+        //return new Ro<>(ResultDic.SUCCESS, "获取验证码成功", ra);
+        return    Mono.create(callback -> callback.success(new Ro<>(ResultDic.SUCCESS, "获取验证码成功", ra)));
     }
     @PostMapping("/cap/captcha/check")
-    public ResponseModel check(@RequestBody final CaptchaVO data) {
+    public Mono<Ro<CaptchaVORa>> check(@RequestBody final CaptchaVO data) {
         //data.setBrowserInfo(getRemoteId(request));
-        return captchaService.check(data);
+        final CaptchaVORa ra=new  CaptchaVORa();
+        final ResponseModel check = captchaService.check(data);
+        if (check.getRepCode().equals("0000")) {
+            ra.setDataVo((CaptchaVO) check.getRepData());
+            return    Mono.create(callback -> callback.success(new Ro<>(ResultDic.SUCCESS, "验证码校验成功", ra)));
+        }
+        else {
+            return    Mono.create(callback -> callback.success(new Ro<>(ResultDic.FAIL, check.getRepMsg())));
+        }
     }
 
     @PostMapping("/cap/captcha/verify")
     public ResponseModel verify(@RequestBody final CaptchaVO data) {
-        return captchaService.verification(data);
+        final ResponseModel verification = captchaService.verification(data);
+        return verification;
     }
 
     public static final String getRemoteId(final HttpServletRequest request) {

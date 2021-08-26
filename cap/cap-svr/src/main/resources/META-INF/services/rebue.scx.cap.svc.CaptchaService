@@ -1,0 +1,3 @@
+rebue.scx.cap.svc.impl.BlockPuzzleCaptchaServiceImpl
+rebue.scx.cap.svc.impl.ClickWordCaptchaServiceImpl
+rebue.scx.cap.svc.impl.DefaultCaptchaServiceImpl

@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anji.captcha.model.common.ResponseModel;
-import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CaptchaService;
+import rebue.scx.cap.commom.ResponseModel;
+import rebue.scx.cap.mo.CaptchaVO;
+import rebue.scx.cap.svc.CaptchaService;
+
+
 
 /**
  * 后端二次校验接口示例

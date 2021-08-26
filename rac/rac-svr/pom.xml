@@ -14,6 +14,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>cap-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rac-api</artifactId>
 		</dependency>
 

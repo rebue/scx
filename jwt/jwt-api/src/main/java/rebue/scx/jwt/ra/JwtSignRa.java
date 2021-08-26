@@ -1,13 +1,15 @@
 package rebue.scx.jwt.ra;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.springframework.lang.NonNull;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 带有签名的附加内容
@@ -20,9 +22,9 @@ public class JwtSignRa implements Serializable {
 
     private boolean success = true;
 
-    public static JwtSignRa success(String sign, LocalDateTime expirationTime)
+    public static JwtSignRa success(final String sign, final LocalDateTime expirationTime)
     {
-        JwtSignRa ra = new JwtSignRa();
+        final JwtSignRa ra = new JwtSignRa();
         ra.sign = sign;
         ra.expirationTime = expirationTime;
         return ra;
@@ -30,7 +32,7 @@ public class JwtSignRa implements Serializable {
 
     public static JwtSignRa error()
     {
-        JwtSignRa ra = new JwtSignRa();
+        final JwtSignRa ra = new JwtSignRa();
         ra.success = false;
         return ra;
     }

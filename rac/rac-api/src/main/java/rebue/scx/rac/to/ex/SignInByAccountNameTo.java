@@ -39,5 +39,8 @@ public class SignInByAccountNameTo implements Serializable {
     @NotBlank(message = "登录密码不能为空")
     @Length(max = 32, message = "登录密码长度不能超过32位")
     private String            signInPswd;
-
+    /**
+     * 验证码校验
+     */
+    private String verification;
 }
