@@ -3,7 +3,7 @@ package rebue.scx.jwt.config;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 import rebue.scx.jwt.utils.CreatePublicPrivateKey;
-import rebue.scx.jwt.utils.ResourcesWrapper;
+import rebue.wheel.core.ResourcesWrapper;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -30,7 +30,7 @@ public class JwtKey {
     @PostConstruct
     private void init() throws Exception
     {
-        try (InputStream in = ResourcesWrapper.getInputStream(jwtProperties.getKeyPair())) {
+        try (InputStream in = ResourcesWrapper.getInputStream(jwtProperties.getKeyPair(), JwtKey.class)) {
             KeyPair keyPair = CreatePublicPrivateKey.parseRsaKeyPair(in);
             privateKey = (RSAPrivateKey) keyPair.getPrivate();
             publicKey = (RSAPublicKey) keyPair.getPublic();

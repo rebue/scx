@@ -1,5 +1,6 @@
 package com.github.rebue.scx.oidc;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.rebue.scx.dto.CodeValue;
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
 import com.nimbusds.oauth2.sdk.ResponseMode;
@@ -8,29 +9,34 @@ import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Duration;
 import java.util.Optional;
 
-/**
- * todo 换成redis 去掉sync
- */
 @Repository
 public class CodeRepository {
 
-    private final Map<String, CodeValue> codes = new HashMap<>();
+    private static final String CODE_PREFIX = "cp:";
 
-    synchronized
-    public Optional<CodeValue> getCode(String code)
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    public Optional<CodeValue> getAndRemoveCode(String code)
     {
-        CodeValue value = codes.remove(code);
-        return value == null ? Optional.empty() : Optional.of(value);
+        String key = CODE_PREFIX + code;
+        String jsStr = stringRedisTemplate.opsForValue().get(key);
+        if (jsStr == null) {
+            return Optional.empty();
+        }
+        stringRedisTemplate.delete(key);
+        CodeValue value = JSONObject.parseObject(jsStr, CodeValue.class);
+        return Optional.ofNullable(value);
     }
 
-    synchronized
     public AuthorizationCode createCode(AuthenticationRequest aRequest, String userCode)
     {
         String state = "";
@@ -46,7 +52,6 @@ public class CodeRepository {
         );
     }
 
-    synchronized
     public AuthorizationCode createCode(String redirectUri, String state, String clientId, Scope scope, String userCode)
     {
         AuthorizationCode code = new AuthorizationCode(16);
@@ -55,7 +60,8 @@ public class CodeRepository {
                 new State(state), null, ResponseMode.QUERY).toHTTPResponse();
         String location = success.getLocation().toString();
         CodeValue cv = new CodeValue(clientId, location, scope, userCode);
-        codes.put(code.getValue(), cv);
+        String jsStr = JSONObject.toJSONString(cv);
+        stringRedisTemplate.opsForValue().set(CODE_PREFIX + code.getValue(), jsStr, Duration.ofMinutes(1));
         return code;
     }
 

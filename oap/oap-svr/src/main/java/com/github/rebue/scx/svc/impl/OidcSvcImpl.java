@@ -5,8 +5,8 @@ import com.github.rebue.scx.dto.CodeValue;
 import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
+import com.github.rebue.scx.oidc.AuthorizeInfo;
 import com.github.rebue.scx.oidc.CodeRepository;
-import com.github.rebue.scx.oidc.OidcNS;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.common.contenttype.ContentType;
 import com.nimbusds.oauth2.sdk.*;
@@ -19,6 +19,7 @@ import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
@@ -26,22 +27,32 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
+import rebue.robotech.ra.PojoRa;
+import rebue.robotech.ro.Ro;
+import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.mo.RacAppMo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
-    private final Map<String, Map<String, String>> sessions = new HashMap<>();
+    private static final String AUTH_INFO = "auth_info";
 
     @Autowired
     private CodeRepository codeRepository;
+
+    @DubboReference
+    private RacAppApi racAppApi;
 
     @Override
     @SneakyThrows
@@ -58,46 +69,56 @@ public class OidcSvcImpl implements OidcSvc {
     }
 
     @SneakyThrows
-    synchronized
     private void codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse)
     {
-        Map<String, String> sessionInfos = getOrCreateSession(hRequest, hResponse);
-        if (isAuthenticated(sessionInfos)) {
-            String userCode = sessionInfos.get(OidcNS.USER_CODE);
-            AuthorizationCode code = codeRepository.createCode(aRequest, userCode);
+        if (isAuthenticated(hRequest)) {
+            String userId = getUserId(hRequest);
+            AuthorizationCode code = codeRepository.createCode(aRequest, userId);
             // todo redirect 校验
             HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
             hResponse.setStatusCode(HttpStatus.FOUND);
             hResponse.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
             return;
         }
-        sessionInfos.put(OidcNS.OIDC_SKEY_STATE, OidcNS.getStateValue(aRequest));
-        sessionInfos.put(OidcNS.OIDC_SKEY_CLIENT_ID, aRequest.getClientID().getValue());
-        sessionInfos.put(OidcNS.OIDC_SKEY_REDIRECT_URI, AuthorisationCodeFlow.getRedirectUri(aRequest));
-        sessionInfos.put(OidcNS.OIDC_SKEY_SCOPE, aRequest.getScope().toString());
+        String cookie = new AuthorizeInfo(aRequest).toStr();
+        hResponse.addCookie(createCookie(AUTH_INFO, cookie));
         hResponse.setStatusCode(HttpStatus.FOUND);
         hResponse.getHeaders().setLocation(URI.create("http://localhost:13080/admin-web#/unifiedLogin"));
+    }
+
+    private String getUserId(ServerHttpRequest hRequest)
+    {
+        return null; // todo
+    }
+
+    private Optional<AuthorizeInfo> getSessionInfo(ServerHttpRequest request)
+    {
+        HttpCookie cookie = request.getCookies().getFirst(AUTH_INFO);
+        if (cookie == null) {
+            return Optional.empty();
+        }
+        return AuthorizeInfo.fromCookie(cookie.getValue());
     }
 
     @Override
     @SneakyThrows
     public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
     {
-        // todo 用户名密码校验
-        loginData.getLoginName();
-        loginData.getPassword();
-        Map<String, String> sessionInfo = getSession(request).orElse(null);
+        AuthorizeInfo sessionInfo = getSessionInfo(request).orElse(null);
         if (sessionInfo == null) {
             // todo 错误信息
             return;
         }
-        sessionInfo.put("isLogin", "isLogin");
-        String uri = sessionInfo.get(OidcNS.OIDC_SKEY_REDIRECT_URI);
-        String state = sessionInfo.get(OidcNS.OIDC_SKEY_STATE);
-        String clientId = sessionInfo.get(OidcNS.OIDC_SKEY_CLIENT_ID);
-        String scope = sessionInfo.get(OidcNS.OIDC_SKEY_SCOPE);
-        // todo userCode
-        sessionInfo.put(OidcNS.USER_CODE, loginData.getLoginName());
+
+        // todo 用户名密码校验
+        loginData.getLoginName();
+        loginData.getPassword();
+
+        String uri = sessionInfo.getRedirectUri();
+        String state = sessionInfo.getState();
+        String clientId = sessionInfo.getClientId();
+        String scope = sessionInfo.getScope();
+
         AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope), loginData.getLoginName());
         HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
@@ -118,9 +139,16 @@ public class OidcSvcImpl implements OidcSvc {
         }
         // todo 从 "数据库" 找client
         String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
-        if (false) { // todo 没有client
+        Ro<PojoRa<RacAppMo>> app;
+        if (clientId == null
+                || (app = racAppApi.getById(clientId)) == null
+                || !app.isSuccess()
+                || app.getExtra() == null
+                || app.getExtra().getOne() == null
+        ) {
             return tokenError(response, "invalid_client", "invalid client : " + clientId);
         }
+        app.getExtra().getOne().getId();
         if (!compareSecret(tokenRequest, "todo")) { // todo 从"数据库"获取的密钥
             return tokenError(response, "unauthorized_client", "unauthorized client : " + clientId);
         }
@@ -143,7 +171,7 @@ public class OidcSvcImpl implements OidcSvc {
         if (code == null) {
             return tokenError(response, "invalid_grant", "code is empty");
         }
-        CodeValue codeValue = codeRepository.getCode(code).orElse(null);
+        CodeValue codeValue = codeRepository.getAndRemoveCode(code).orElse(null);
         if (codeValue == null) {
             return tokenError(response, "invalid_grant", "invalid code : " + code);
         }
@@ -227,34 +255,6 @@ public class OidcSvcImpl implements OidcSvc {
         }
     }
 
-    private Optional<Map<String, String>> getSession(ServerHttpRequest hRequest)
-    {
-        for (Map.Entry<String, List<HttpCookie>> kv : hRequest.getCookies().entrySet()) {
-            if (kv.getKey().equals("sessionId")) {
-                for (HttpCookie cookie : kv.getValue()) {
-                    Map<String, String> m = sessions.get(cookie.getValue());
-                    if (m != null) {
-                        return Optional.of(m);
-                    }
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    private Map<String, String> getOrCreateSession(ServerHttpRequest hRequest, ServerHttpResponse hResponse)
-    {
-        Map<String, String> sessionInfo = getSession(hRequest).orElse(null);
-        if (sessionInfo != null) {
-            return sessionInfo;
-        }
-        String sessionId = UUID.randomUUID().toString();
-        Map<String, String> m = new HashMap<>();
-        hResponse.addCookie(createCookie("sessionId", sessionId));
-        sessions.put(sessionId, m);
-        return m;
-    }
-
     private static ResponseCookie createCookie(String key, String value)
     {
         return ResponseCookie.from(key, value)
@@ -264,9 +264,9 @@ public class OidcSvcImpl implements OidcSvc {
                 .build();
     }
 
-    private boolean isAuthenticated(Map<String, String> sessionInfos)
+    private boolean isAuthenticated(ServerHttpRequest hRequest)
     {
-        return "isLogin".equals(sessionInfos.get("isLogin"));
+        return false; // todo
     }
 
 }

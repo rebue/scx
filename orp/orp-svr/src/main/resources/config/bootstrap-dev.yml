@@ -35,7 +35,7 @@ logging:
     org.springframework.beans.factory.BeanCreationNotAllowedException: error
 
 oidc:
-  client-id: xxx
+  client-id: platform-admin-web
   client-secret: 123456
   token-endpoint: http://localhost:10080/oap-svr/oidc/token
   redirect-uri: http://localhost:10080/orp-svr/oidc/callback
