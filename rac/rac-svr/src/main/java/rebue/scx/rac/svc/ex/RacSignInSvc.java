@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 
 /**
@@ -22,6 +23,8 @@ import rebue.scx.rac.to.ex.SignInByAccountNameTo;
  */
 @Validated
 public interface RacSignInSvc {
+
+    boolean unifiedLogin(UnifiedLoginTo to);
 
     /**
      * 通过账户名称注册

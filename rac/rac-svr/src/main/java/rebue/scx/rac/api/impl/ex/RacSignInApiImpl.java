@@ -10,6 +10,7 @@ import rebue.scx.cap.api.CapApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
+import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 
@@ -23,6 +24,12 @@ public class RacSignInApiImpl implements RacSignInApi {
     private RacSignInSvc svc;
     @DubboReference
     private CapApi   capApi;
+
+    @Override
+    public boolean unifiedLogin(UnifiedLoginTo to)
+    {
+        return svc.unifiedLogin(to);
+    }
 
     /**
      * 通过账户名称注册

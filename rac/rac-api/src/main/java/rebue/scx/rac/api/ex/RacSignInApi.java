@@ -2,12 +2,15 @@ package rebue.scx.rac.api.ex;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 
 /**
  * 账户登录API
  */
 public interface RacSignInApi {
+
+    boolean unifiedLogin(UnifiedLoginTo to);
 
     /**
      * 通过账户名称登录

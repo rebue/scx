@@ -26,6 +26,7 @@ import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
+import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.DateUtils;
@@ -77,6 +78,22 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
     @Resource
     private Mapper              dozerMapper;
+
+    public boolean unifiedLogin(UnifiedLoginTo to)
+    {
+        final RacAppMo appMo = appSvc.getById(to.getAppId());
+        if (appMo == null) {
+            return false;
+        }
+        RacAccountMo account = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getUsername());
+        if (account == null || !account.getIsEnabled()) {
+            return false;
+        }
+        return account.getSignInPswd() != null
+                && account.getSignInPswdSalt() != null
+                && to.getPassword() != null
+                && account.getSignInPswd().equals(PswdUtils.saltPswd(to.getPassword(), account.getSignInPswdSalt()));
+    }
 
     /**
      * 通过账户名称登录(按照 邮箱->手机->登录名 的顺序查找账户)

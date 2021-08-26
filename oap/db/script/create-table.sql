@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 26/08/2021 11:48:58
+ Date: 26/08/2021 15:58:13
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,8 @@ CREATE TABLE `OAP_APP`  (
   `SECRET` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oidc secret',
   `CREATE_TIMESTAMP` bigint UNSIGNED NOT NULL COMMENT '建立时间戳',
   `UPDATE_TIMESTAMP` bigint UNSIGNED NOT NULL COMMENT '修改时间戳',
-  PRIMARY KEY (`ID`) USING BTREE
+  PRIMARY KEY (`ID`) USING BTREE,
+  UNIQUE INDEX `CLIENT_ID`(`CLIENT_ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------

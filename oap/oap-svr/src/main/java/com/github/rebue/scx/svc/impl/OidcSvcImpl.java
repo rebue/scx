@@ -33,6 +33,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
+import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.to.UnifiedLoginTo;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
@@ -64,6 +66,9 @@ public class OidcSvcImpl implements OidcSvc {
 
     @DubboReference
     private JwtApi jwtApi;
+
+    @DubboReference
+    private RacSignInApi racSignInApi;
 
     @Override
     @SneakyThrows
@@ -120,14 +125,19 @@ public class OidcSvcImpl implements OidcSvc {
             return;
         }
 
-        // todo 用户名密码校验
-        loginData.getLoginName();
-        loginData.getPassword();
-
         String uri = sessionInfo.getRedirectUri();
         String state = sessionInfo.getState();
         String clientId = sessionInfo.getClientId();
         String scope = sessionInfo.getScope();
+
+        UnifiedLoginTo to = new UnifiedLoginTo();
+        to.setAppId(clientId);
+        to.setUsername(loginData.getLoginName());
+        to.setPassword(loginData.getPassword());
+        if (!racSignInApi.unifiedLogin(to)) {
+            // todo 错误信息
+            return;
+        }
 
         AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope), loginData.getLoginName());
         HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
