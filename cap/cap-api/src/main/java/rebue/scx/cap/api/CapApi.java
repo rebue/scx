@@ -12,12 +12,11 @@ public interface CapApi {
      * 获取图片信息
      *
      */
-    Ro<CaptchaVORa> getVo(CaptchaVO to);
+    Ro<?> getVo(CaptchaVO to);
 
     /**
      * 一次验证图片信息
      *
-     * @param to 签名中储存的账户信息
      */
     Ro<CaptchaVORa> checkVo(CaptchaVO to);
 

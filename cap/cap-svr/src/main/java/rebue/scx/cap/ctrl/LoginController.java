@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import rebue.scx.cap.commom.ResponseModel;
+import rebue.robotech.ro.Ro;
 import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.svc.CaptchaService;
 
@@ -21,10 +21,10 @@ public class LoginController {
     private CaptchaService captchaService;
 
     //@PostMapping("/auth/login")
-    public ResponseModel get(@RequestParam("captchaVerification") final String captchaVerification) {
+    public Ro<?> get(@RequestParam("captchaVerification") final String captchaVerification) {
         final CaptchaVO captchaVO = new CaptchaVO();
         captchaVO.setCaptchaVerification(captchaVerification);
-        final ResponseModel response = captchaService.verification(captchaVO);
+        final Ro<?> response = captchaService.verification(captchaVO);
         if(response.isSuccess() == false){
             //验证码校验失败，返回信息告诉前端
             //repCode  0000  无异常，代表成功

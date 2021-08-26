@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
@@ -12,7 +13,6 @@ import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
-import rebue.wheel.api.exception.RuntimeExceptionX;
 
 /**
  * 账户登录API的实现类
@@ -26,7 +26,7 @@ public class RacSignInApiImpl implements RacSignInApi {
     private CapApi   capApi;
 
     @Override
-    public boolean unifiedLogin(UnifiedLoginTo to)
+    public boolean unifiedLogin(final UnifiedLoginTo to)
     {
         return svc.unifiedLogin(to);
     }
@@ -41,7 +41,7 @@ public class RacSignInApiImpl implements RacSignInApi {
            return svc.signInByAccountName(to);
         }
         else {
-            throw new RuntimeExceptionX("验证码二次校验失败！");
+            return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
         }
     }
 

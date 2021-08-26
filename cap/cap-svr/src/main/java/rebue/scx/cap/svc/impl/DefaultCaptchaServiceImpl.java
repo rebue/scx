@@ -8,8 +8,8 @@ package rebue.scx.cap.svc.impl;
 
 import java.util.Properties;
 
-import rebue.scx.cap.commom.RepCodeEnum;
-import rebue.scx.cap.commom.ResponseModel;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.svc.CaptchaService;
 import rebue.scx.cap.util.StringUtils;
@@ -46,50 +46,57 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
     }
 
     @Override
-    public ResponseModel get(final CaptchaVO captchaVO) {
+    public Ro<?> get(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+            return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
-            return RepCodeEnum.NULL_ERROR.parseError("类型");
+            return new Ro<>(ResultDic.FAIL, "验证码类型不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("类型");
         }
         return getService(captchaVO.getCaptchaType()).get(captchaVO);
     }
 
     @Override
-    public ResponseModel check(final CaptchaVO captchaVO) {
+    public Ro<?> check(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+            return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
-            return RepCodeEnum.NULL_ERROR.parseError("类型");
+            return new Ro<>(ResultDic.FAIL, "验证码类型不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("类型");
         }
         if (StringUtils.isEmpty(captchaVO.getToken())) {
-            return RepCodeEnum.NULL_ERROR.parseError("token");
+            return new Ro<>(ResultDic.FAIL, "验证码token不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("token");
         }
         return getService(captchaVO.getCaptchaType()).check(captchaVO);
     }
 
     @Override
-    public ResponseModel verification(final CaptchaVO captchaVO) {
+    public Ro<?> verification(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+            return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
-            return RepCodeEnum.NULL_ERROR.parseError("二次校验参数");
+            return new Ro<>(ResultDic.FAIL, "二次校验参数不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("二次校验参数");
         }
         try {
             final String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
-                return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
+                return new Ro<>(ResultDic.FAIL, "验证码已失效，请重新获取");
             }
             //二次校验取值后，即刻失效
             CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
         } catch (final Exception e) {
             logger.error("验证码坐标解析失败", e);
-            return ResponseModel.errorMsg(e.getMessage());
+            return new Ro<>(ResultDic.FAIL, "验证码解析失败，请联系管理员");
         }
-        return ResponseModel.success();
+        return new Ro<>(ResultDic.SUCCESS, "验证码二次校验成功");
     }
 
 }

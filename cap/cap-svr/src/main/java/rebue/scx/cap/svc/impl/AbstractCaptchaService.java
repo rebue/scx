@@ -16,9 +16,9 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.scx.cap.commom.Const;
-import rebue.scx.cap.commom.RepCodeEnum;
-import rebue.scx.cap.commom.ResponseModel;
 import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.svc.CaptchaCacheService;
 import rebue.scx.cap.svc.CaptchaService;
@@ -123,16 +123,18 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     private static FrequencyLimitHandler limitHandler;
 
     @Override
-    public ResponseModel get(final CaptchaVO captchaVO) {
+    public Ro<?> get(final CaptchaVO captchaVO) {
         if (limitHandler != null) {
             captchaVO.setClientUid(getValidateClientId(captchaVO));
+            //final ResponseModel validateGet = limitHandler.validateGet(captchaVO);
+            //return new Ro<>(ResultDic.SUCCESS, "成功获取model",validateGet);
             return limitHandler.validateGet(captchaVO);
         }
         return null;
     }
 
     @Override
-    public ResponseModel check(final CaptchaVO captchaVO) {
+    public Ro<?> check(final CaptchaVO captchaVO) {
         if (limitHandler != null) {
             // 验证客户端
            /* ResponseModel ret = limitHandler.validateCheck(captchaVO);
@@ -147,12 +149,14 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     }
 
     @Override
-    public ResponseModel verification(final CaptchaVO captchaVO) {
+    public Ro<?> verification(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+            return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
+            return new Ro<>(ResultDic.FAIL, "校验参数不能为空");
+            //return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
         }
         if (limitHandler != null) {
             return limitHandler.validateVerify(captchaVO);
@@ -160,8 +164,11 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         return null;
     }
 
-    protected boolean validatedReq(final ResponseModel resp) {
-        return resp == null || resp.isSuccess();
+//    protected boolean validatedReq(final ResponseModel resp) {
+//        return resp == null || resp.isSuccess();
+//    }
+    protected boolean validatedReq(final Ro<?> r) {
+        return r == null || r.isSuccess();
     }
 
     protected String getValidateClientId(final CaptchaVO req){

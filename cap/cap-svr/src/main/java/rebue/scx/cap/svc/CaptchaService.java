@@ -7,7 +7,7 @@ package rebue.scx.cap.svc;
 
 import java.util.Properties;
 
-import rebue.scx.cap.commom.ResponseModel;
+import rebue.robotech.ro.Ro;
 import rebue.scx.cap.mo.CaptchaVO;
 
 /**
@@ -24,21 +24,21 @@ public interface CaptchaService {
      * @param captchaVO
      * @return
      */
-    ResponseModel get(CaptchaVO captchaVO);
+    Ro<?> get(CaptchaVO captchaVO);
 
     /**
      * 核对验证码(前端)
      * @param captchaVO
      * @return
      */
-    ResponseModel check(CaptchaVO captchaVO);
+    Ro<?> check(CaptchaVO captchaVO);
 
     /**
      * 二次校验验证码(后端)
      * @param captchaVO
      * @return
      */
-    ResponseModel verification(CaptchaVO captchaVO);
+    Ro<?> verification(CaptchaVO captchaVO);
 
     /***
      * 验证码类型
