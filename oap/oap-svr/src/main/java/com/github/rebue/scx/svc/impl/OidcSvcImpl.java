@@ -130,16 +130,20 @@ public class OidcSvcImpl implements OidcSvc {
         String clientId = sessionInfo.getClientId();
         String scope = sessionInfo.getScope();
 
+        OapAppMo app = oapAppRepository.selectByClientId(clientId);
+        if (app == null) {
+            // todo 错误信息
+            return;
+        }
         UnifiedLoginTo to = new UnifiedLoginTo();
-        to.setAppId(clientId);
+        to.setAppId(app.getAppId());
         to.setUsername(loginData.getLoginName());
         to.setPassword(loginData.getPassword());
         if (!racSignInApi.unifiedLogin(to)) {
             // todo 错误信息
             return;
         }
-
-        AuthorizationCode code = codeRepository.createCode(uri, state, clientId, new Scope(scope), loginData.getLoginName());
+        AuthorizationCode code = codeRepository.createCode(uri, clientId, new Scope(scope), loginData.getLoginName());
         HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
         response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
