@@ -1,7 +1,6 @@
 package rebue.scx.cap.ctrl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +20,7 @@ public class LoginController {
     @Autowired
     private CaptchaService captchaService;
 
-    @PostMapping("/auth/login")
+    //@PostMapping("/auth/login")
     public ResponseModel get(@RequestParam("captchaVerification") final String captchaVerification) {
         final CaptchaVO captchaVO = new CaptchaVO();
         captchaVO.setCaptchaVerification(captchaVerification);

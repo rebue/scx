@@ -4,11 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
-/**
- * Created by raodeming on 2020/5/16.
- */
+
 public class PointVO {
     private String secretKey;
 
@@ -20,7 +17,7 @@ public class PointVO {
         return secretKey;
     }
 
-    public void setSecretKey(String secretKey) {
+    public void setSecretKey(final String secretKey) {
         this.secretKey = secretKey;
     }
 
@@ -28,7 +25,7 @@ public class PointVO {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(final int x) {
         this.x = x;
     }
 
@@ -36,11 +33,11 @@ public class PointVO {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(final int y) {
         this.y = y;
     }
 
-    public PointVO(int x, int y, String secretKey) {
+    public PointVO(final int x, final int y, final String secretKey) {
         this.secretKey = secretKey;
         this.x = x;
         this.y = y;
@@ -49,7 +46,7 @@ public class PointVO {
     public PointVO() {
     }
 
-    public PointVO(int x, int y) {
+    public PointVO(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -58,8 +55,8 @@ public class PointVO {
         return String.format("{\"secretKey\":\"%s\",\"x\":%d,\"y\":%d}", secretKey, x, y);
     }
 
-    public PointVO parse(String jsonStr) {
-        Map<String, Object> m = new HashMap();
+    public PointVO parse(final String jsonStr) {
+        final Map<String, Object> m = new HashMap<String, Object>();
         Arrays.stream(jsonStr
                 .replaceFirst(",\\{", "\\{")
                 .replaceFirst("\\{", "")
@@ -76,14 +73,14 @@ public class PointVO {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PointVO pointVO = (PointVO) o;
+        final PointVO pointVO = (PointVO) o;
         return x == pointVO.x && y == pointVO.y && Objects.equals(secretKey, pointVO.secretKey);
     }
 

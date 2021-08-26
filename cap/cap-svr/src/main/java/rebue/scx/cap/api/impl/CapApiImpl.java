@@ -24,7 +24,6 @@ public class CapApiImpl implements CapApi {
         final ResponseModel model   = captchaService.get(mo);
         final CaptchaVO     repData = (CaptchaVO) model.getRepData();
         final CaptchaVORa   ra      = new CaptchaVORa();
-        final rebue.scx.cap.mo.CaptchaVO  cmVo    = OrikaUtils.map(repData, rebue.scx.cap.mo.CaptchaVO.class);
         ra.setDataVo(repData);
         return new Ro<>(ResultDic.SUCCESS, "获取验证码成功", ra);
 

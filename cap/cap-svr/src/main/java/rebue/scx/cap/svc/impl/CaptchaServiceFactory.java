@@ -40,8 +40,8 @@ public class CaptchaServiceFactory {
         return cacheService.get(cacheType);
     }
 
-    public volatile static Map<String, CaptchaService> instances = new HashMap();
-    public volatile static Map<String, CaptchaCacheService> cacheService = new HashMap();
+    public volatile static Map<String, CaptchaService> instances = new HashMap<String, CaptchaService>();
+    public volatile static Map<String, CaptchaCacheService> cacheService = new HashMap<String, CaptchaCacheService>();
 
     static {
         final ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);

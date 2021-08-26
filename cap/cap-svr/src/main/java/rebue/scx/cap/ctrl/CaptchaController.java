@@ -36,9 +36,13 @@ public class CaptchaController {
         //return Mono.create(callback -> callback.success(api.getVo(to)));
         final CaptchaVORa ra=new  CaptchaVORa();
         final ResponseModel model = captchaService.get(to);
-        ra.setDataVo((CaptchaVO) model.getRepData());
-        //return new Ro<>(ResultDic.SUCCESS, "获取验证码成功", ra);
-        return    Mono.create(callback -> callback.success(new Ro<>(ResultDic.SUCCESS, "获取验证码成功", ra)));
+        if (model.getRepCode().equals("0000")) {
+            ra.setDataVo((CaptchaVO) model.getRepData());
+            return    Mono.create(callback -> callback.success(new Ro<>(ResultDic.SUCCESS, "获取验证码成功", ra)));
+        }
+        else {
+            return    Mono.create(callback -> callback.success(new Ro<>(ResultDic.FAIL, model.getRepMsg())));
+        }
     }
     @PostMapping("/cap/captcha/check")
     public Mono<Ro<CaptchaVORa>> check(@RequestBody final CaptchaVO data) {
@@ -53,8 +57,8 @@ public class CaptchaController {
             return    Mono.create(callback -> callback.success(new Ro<>(ResultDic.FAIL, check.getRepMsg())));
         }
     }
-
-    @PostMapping("/cap/captcha/verify")
+    //测试使用
+    //@PostMapping("/cap/captcha/verify")
     public ResponseModel verify(@RequestBody final CaptchaVO data) {
         final ResponseModel verification = captchaService.verification(data);
         return verification;
