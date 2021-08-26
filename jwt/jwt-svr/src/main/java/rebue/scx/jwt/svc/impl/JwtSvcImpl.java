@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 import rebue.scx.jwt.config.JwtKey;
 import rebue.scx.jwt.config.JwtProperties;
+import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
@@ -89,6 +90,26 @@ public class JwtSvcImpl implements JwtSvc {
             return sign(signTo);
         } catch (final Exception e) {
             return JwtSignRa.error();
+        }
+    }
+
+    public JwtSignInfo verifyNotUpdate(String sign)
+    {
+        try {
+            final SignedJWT signedJWT = SignedJWT.parse(sign);
+            if (System.currentTimeMillis() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
+                return null;
+            }
+            final boolean verify = signedJWT.verify(new RSASSAVerifier(jwtKey.getPublicKey()));
+            if (!verify) {
+                return null;
+            }
+            final String subject = signedJWT.getJWTClaimsSet().getSubject();
+            JwtSignInfo info = new JwtSignInfo();
+            info.setUserId(subject);
+            return info;
+        } catch (final Exception e) {
+            return null;
         }
     }
 

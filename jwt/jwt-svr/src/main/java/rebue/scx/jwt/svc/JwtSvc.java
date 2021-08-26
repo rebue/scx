@@ -1,5 +1,6 @@
 package rebue.scx.jwt.svc;
 
+import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 
@@ -16,5 +17,7 @@ public interface JwtSvc {
      * 如果验证成功，重新生成新的签名，提供给应用刷新有效期
      */
     JwtSignRa verify(String sign);
+
+    JwtSignInfo verifyNotUpdate(String sign);
 
 }

@@ -3,10 +3,14 @@ package com.github.rebue.scx.svc.impl;
 import com.github.rebue.orp.core.dto.TokenError;
 import com.github.rebue.scx.dto.CodeValue;
 import com.github.rebue.scx.dto.LoginDto;
+import com.github.rebue.scx.dto.RedirectUris;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
+import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
 import com.github.rebue.scx.oidc.AuthorizeInfo;
 import com.github.rebue.scx.oidc.CodeRepository;
+import com.github.rebue.scx.repository.OapAppRepository;
+import com.github.rebue.scx.repository.OapRedirectUriRepository;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.common.contenttype.ContentType;
 import com.nimbusds.oauth2.sdk.*;
@@ -27,11 +31,10 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
-import rebue.robotech.ra.PojoRa;
-import rebue.robotech.ro.Ro;
-import rebue.scx.rac.api.RacAppApi;
-import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.jwt.api.JwtApi;
+import rebue.scx.jwt.ra.JwtSignInfo;
 
+import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -48,11 +51,19 @@ public class OidcSvcImpl implements OidcSvc {
 
     private static final String AUTH_INFO = "auth_info";
 
+    private static final String UNIFIED_LOGIN_COOKIE = "unified_login_cookie";
+
     @Autowired
     private CodeRepository codeRepository;
 
+    @Resource
+    private OapAppRepository oapAppRepository;
+
+    @Resource
+    private OapRedirectUriRepository oapRedirectUriRepository;
+
     @DubboReference
-    private RacAppApi racAppApi;
+    private JwtApi jwtApi;
 
     @Override
     @SneakyThrows
@@ -71,24 +82,23 @@ public class OidcSvcImpl implements OidcSvc {
     @SneakyThrows
     private void codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse)
     {
-        if (isAuthenticated(hRequest)) {
-            String userId = getUserId(hRequest);
-            AuthorizationCode code = codeRepository.createCode(aRequest, userId);
-            // todo redirect 校验
+        JwtSignInfo jwtSignInfo;
+        if ((jwtSignInfo = getAuthenticatedInfo(hRequest)) != null) {
+            AuthorizationCode code = codeRepository.createCode(aRequest, jwtSignInfo.getUserId());
             HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
+            String r = redirect.getLocation().toString();
+            RedirectUris redirectUris = oapRedirectUriRepository.getRedirectUris(aRequest.getClientID().getValue());
+            if (!redirectUris.match(r)) {
+                throw new RuntimeException("!redirectUris.match(r)");
+            }
             hResponse.setStatusCode(HttpStatus.FOUND);
-            hResponse.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
+            hResponse.getHeaders().setLocation(URI.create(r));
             return;
         }
         String cookie = new AuthorizeInfo(aRequest).toStr();
         hResponse.addCookie(createCookie(AUTH_INFO, cookie));
         hResponse.setStatusCode(HttpStatus.FOUND);
         hResponse.getHeaders().setLocation(URI.create("http://localhost:13080/admin-web#/unifiedLogin"));
-    }
-
-    private String getUserId(ServerHttpRequest hRequest)
-    {
-        return null; // todo
     }
 
     private Optional<AuthorizeInfo> getSessionInfo(ServerHttpRequest request)
@@ -137,19 +147,14 @@ public class OidcSvcImpl implements OidcSvc {
         if ((tokenRequest = pair.getLeft()) == null) {
             return tokenError(response, "invalid_request", pair.getRight());
         }
-        // todo 从 "数据库" 找client
         String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
-        Ro<PojoRa<RacAppMo>> app;
-        if (clientId == null
-                || (app = racAppApi.getById(clientId)) == null
-                || !app.isSuccess()
-                || app.getExtra() == null
-                || app.getExtra().getOne() == null
-        ) {
+        OapAppMo mo = new OapAppMo();
+        mo.setClientId(clientId);
+        OapAppMo app = oapAppRepository.selectByClientId(clientId);
+        if (app == null) {
             return tokenError(response, "invalid_client", "invalid client : " + clientId);
         }
-        app.getExtra().getOne().getId();
-        if (!compareSecret(tokenRequest, "todo")) { // todo 从"数据库"获取的密钥
+        if (!compareSecret(tokenRequest, app.getSecret())) {
             return tokenError(response, "unauthorized_client", "unauthorized client : " + clientId);
         }
         AuthorizationGrant grant = tokenRequest.getAuthorizationGrant();
@@ -264,9 +269,13 @@ public class OidcSvcImpl implements OidcSvc {
                 .build();
     }
 
-    private boolean isAuthenticated(ServerHttpRequest hRequest)
+    private JwtSignInfo getAuthenticatedInfo(ServerHttpRequest hRequest)
     {
-        return false; // todo
+        HttpCookie cookie = hRequest.getCookies().getFirst(UNIFIED_LOGIN_COOKIE);
+        if (cookie == null) {
+            return null;
+        }
+        return jwtApi.verifyNotUpdate(cookie.getValue());
     }
 
 }
