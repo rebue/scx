@@ -1,16 +1,10 @@
 package com.github.rebue.scx.svc.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.annotation.Resource;
-
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.jo.OapAppJo;
 import com.github.rebue.scx.to.OapAppAddTo;
@@ -22,10 +16,7 @@ import com.github.rebue.scx.to.OapAppPageTo;
 import com.github.rebue.scx.dao.OapAppDao;
 import com.github.rebue.scx.mapper.OapAppMapper;
 import com.github.rebue.scx.svc.OapAppSvc;
-
-import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ro.Ro;
+import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 
 /**
@@ -66,7 +57,7 @@ public class OapAppSvcImpl
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo> getThisSvc() {
+    protected BaseSvc<Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo> getThisSvc() {
         return thisSvc;
     }
 
@@ -79,5 +70,4 @@ public class OapAppSvcImpl
     protected Class<OapAppMo> getMoClass() {
         return OapAppMo.class;
     }
-
 }

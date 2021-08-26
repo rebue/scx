@@ -1,7 +1,6 @@
 package com.github.rebue.scx.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-
 import com.github.rebue.scx.mo.OapIpWhiteListMo;
 import com.github.rebue.scx.to.OapIpWhiteListAddTo;
 import com.github.rebue.scx.to.OapIpWhiteListModifyTo;
@@ -12,7 +11,6 @@ import com.github.rebue.scx.to.OapIpWhiteListPageTo;
 import com.github.rebue.scx.api.OapIpWhiteListApi;
 import com.github.rebue.scx.jo.OapIpWhiteListJo;
 import com.github.rebue.scx.svc.OapIpWhiteListSvc;
-
 import rebue.robotech.api.impl.BaseApiImpl;
 
 /**
@@ -24,5 +22,4 @@ import rebue.robotech.api.impl.BaseApiImpl;
 public class OapIpWhiteListApiImpl extends
     BaseApiImpl<java.lang.Long, OapIpWhiteListAddTo, OapIpWhiteListModifyTo, OapIpWhiteListDelTo, OapIpWhiteListOneTo, OapIpWhiteListListTo, OapIpWhiteListPageTo, OapIpWhiteListMo, OapIpWhiteListJo, OapIpWhiteListSvc>
     implements OapIpWhiteListApi {
-
 }

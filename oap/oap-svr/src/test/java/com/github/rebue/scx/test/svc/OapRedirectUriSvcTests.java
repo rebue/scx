@@ -5,14 +5,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.github.pagehelper.PageInfo;
 import com.github.rebue.scx.mo.OapRedirectUriMo;
 import com.github.rebue.scx.to.OapRedirectUriAddTo;
 import com.github.rebue.scx.to.OapRedirectUriModifyTo;
 import com.github.rebue.scx.to.OapRedirectUriPageTo;
 import com.github.rebue.scx.svc.OapRedirectUriSvc;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.core.RandomEx;
 
@@ -27,7 +25,7 @@ public class OapRedirectUriSvcTests {
 
     /**
      * 要测试的微服务
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
@@ -63,12 +61,10 @@ public class OapRedirectUriSvcTests {
         OapRedirectUriMo getByIdResult = _svc.getById(id);
         log.info("获取单个的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
-
         final OapRedirectUriModifyTo modifyTo = dozerMapper.map(addTo, OapRedirectUriModifyTo.class);
         modifyTo.setId(id);
         log.info("修改的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-
         log.info("删除的参数为：" + id);
         _svc.delById(id);
     }

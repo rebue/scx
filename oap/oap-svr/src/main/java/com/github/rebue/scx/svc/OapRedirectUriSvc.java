@@ -8,10 +8,7 @@ import com.github.rebue.scx.to.OapRedirectUriOneTo;
 import com.github.rebue.scx.to.OapRedirectUriListTo;
 import com.github.rebue.scx.to.OapRedirectUriPageTo;
 import com.github.rebue.scx.jo.OapRedirectUriJo;
-
 import org.springframework.validation.annotation.Validated;
-
-import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 
 /**
@@ -31,5 +28,4 @@ import rebue.robotech.svc.BaseSvc;
 @Validated
 public interface OapRedirectUriSvc extends
     BaseSvc<java.lang.Long, OapRedirectUriAddTo, OapRedirectUriModifyTo, OapRedirectUriDelTo, OapRedirectUriOneTo, OapRedirectUriListTo, OapRedirectUriPageTo, OapRedirectUriMo, OapRedirectUriJo> {
-
 }

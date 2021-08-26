@@ -1,7 +1,6 @@
 package com.github.rebue.scx.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.to.OapAppAddTo;
 import com.github.rebue.scx.to.OapAppModifyTo;
@@ -12,7 +11,6 @@ import com.github.rebue.scx.to.OapAppPageTo;
 import com.github.rebue.scx.api.OapAppApi;
 import com.github.rebue.scx.jo.OapAppJo;
 import com.github.rebue.scx.svc.OapAppSvc;
-
 import rebue.robotech.api.impl.BaseApiImpl;
 
 /**
@@ -23,5 +21,4 @@ import rebue.robotech.api.impl.BaseApiImpl;
 @DubboService
 public class OapAppApiImpl extends BaseApiImpl<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo, OapAppSvc>
     implements OapAppApi {
-
 }

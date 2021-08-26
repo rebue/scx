@@ -1,20 +1,16 @@
 package com.github.rebue.scx.test.api;
 
-import java.io.IOException;
-
 import com.github.dozermapper.core.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.github.rebue.scx.mo.OapRedirectUriMo;
 import com.github.rebue.scx.to.OapRedirectUriAddTo;
 import com.github.rebue.scx.to.OapRedirectUriModifyTo;
 import com.github.rebue.scx.to.OapRedirectUriPageTo;
 import com.github.rebue.scx.api.OapRedirectUriApi;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
@@ -34,7 +30,7 @@ public class OapRedirectUriApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -69,14 +65,12 @@ public class OapRedirectUriApiTests {
         log.info("获取单个的参数为：" + id);
         final Ro<PojoRa<OapRedirectUriMo>> getByIdResult = _api.getById(id);
         log.info("获取单个的返回值为：" + getByIdResult);
-
         final OapRedirectUriModifyTo modifyTo = dozerMapper.map(addTo, OapRedirectUriModifyTo.class);
         modifyTo.setId(id);
         log.info("修改的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除的返回值为：" + deleteResult);

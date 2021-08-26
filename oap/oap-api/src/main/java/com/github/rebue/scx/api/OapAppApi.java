@@ -4,7 +4,6 @@ import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.to.OapAppAddTo;
 import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppPageTo;
-
 import rebue.robotech.api.BaseApi;
 
 /**

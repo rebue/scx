@@ -1,16 +1,10 @@
 package com.github.rebue.scx.svc.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.annotation.Resource;
-
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.github.rebue.scx.mo.OapIpWhiteListMo;
 import com.github.rebue.scx.jo.OapIpWhiteListJo;
 import com.github.rebue.scx.to.OapIpWhiteListAddTo;
@@ -22,10 +16,7 @@ import com.github.rebue.scx.to.OapIpWhiteListPageTo;
 import com.github.rebue.scx.dao.OapIpWhiteListDao;
 import com.github.rebue.scx.mapper.OapIpWhiteListMapper;
 import com.github.rebue.scx.svc.OapIpWhiteListSvc;
-
-import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ro.Ro;
+import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 
 /**
@@ -66,7 +57,7 @@ public class OapIpWhiteListSvcImpl extends
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.Long, OapIpWhiteListAddTo, OapIpWhiteListModifyTo, OapIpWhiteListDelTo, OapIpWhiteListOneTo, OapIpWhiteListListTo, OapIpWhiteListPageTo, OapIpWhiteListMo, OapIpWhiteListJo> getThisSvc() {
+    protected BaseSvc<Long, OapIpWhiteListAddTo, OapIpWhiteListModifyTo, OapIpWhiteListDelTo, OapIpWhiteListOneTo, OapIpWhiteListListTo, OapIpWhiteListPageTo, OapIpWhiteListMo, OapIpWhiteListJo> getThisSvc() {
         return thisSvc;
     }
 
@@ -79,5 +70,4 @@ public class OapIpWhiteListSvcImpl extends
     protected Class<OapIpWhiteListMo> getMoClass() {
         return OapIpWhiteListMo.class;
     }
-
 }

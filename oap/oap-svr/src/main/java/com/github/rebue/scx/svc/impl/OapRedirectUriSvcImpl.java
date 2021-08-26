@@ -1,16 +1,10 @@
 package com.github.rebue.scx.svc.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.annotation.Resource;
-
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.github.rebue.scx.mo.OapRedirectUriMo;
 import com.github.rebue.scx.jo.OapRedirectUriJo;
 import com.github.rebue.scx.to.OapRedirectUriAddTo;
@@ -22,10 +16,7 @@ import com.github.rebue.scx.to.OapRedirectUriPageTo;
 import com.github.rebue.scx.dao.OapRedirectUriDao;
 import com.github.rebue.scx.mapper.OapRedirectUriMapper;
 import com.github.rebue.scx.svc.OapRedirectUriSvc;
-
-import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ro.Ro;
+import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 
 /**
@@ -66,7 +57,7 @@ public class OapRedirectUriSvcImpl extends
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.Long, OapRedirectUriAddTo, OapRedirectUriModifyTo, OapRedirectUriDelTo, OapRedirectUriOneTo, OapRedirectUriListTo, OapRedirectUriPageTo, OapRedirectUriMo, OapRedirectUriJo> getThisSvc() {
+    protected BaseSvc<Long, OapRedirectUriAddTo, OapRedirectUriModifyTo, OapRedirectUriDelTo, OapRedirectUriOneTo, OapRedirectUriListTo, OapRedirectUriPageTo, OapRedirectUriMo, OapRedirectUriJo> getThisSvc() {
         return thisSvc;
     }
 
@@ -79,5 +70,4 @@ public class OapRedirectUriSvcImpl extends
     protected Class<OapRedirectUriMo> getMoClass() {
         return OapRedirectUriMo.class;
     }
-
 }

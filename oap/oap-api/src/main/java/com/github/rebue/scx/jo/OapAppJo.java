@@ -1,33 +1,18 @@
 package com.github.rebue.scx.jo;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Date;
-
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 
- *
  * The persistent class for the OAP_APP database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -43,51 +28,56 @@ public class OapAppJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
+
     /**
-    * rac_app主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * rac_app主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "APP_ID", nullable = false, length = 32)
     private String            appId;
+
     /**
-    * oidc client id
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc client id
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "CLIENT_ID", nullable = false, length = 255)
     private String            clientId;
+
     /**
-    * oidc secret
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc secret
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "SECRET", nullable = false, length = 255)
     private String            secret;
+
     /**
-    * 建立时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "CREATE_TIMESTAMP", nullable = false, length = 20)
     private Long              createTimestamp;
+
     /**
-    * 修改时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 修改时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "UPDATE_TIMESTAMP", nullable = false, length = 20)
     private Long              updateTimestamp;
@@ -123,5 +113,4 @@ public class OapAppJo implements Serializable {
             return false;
         return true;
     }
-
 }

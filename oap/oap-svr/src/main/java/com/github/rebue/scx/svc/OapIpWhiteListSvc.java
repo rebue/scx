@@ -8,10 +8,7 @@ import com.github.rebue.scx.to.OapIpWhiteListOneTo;
 import com.github.rebue.scx.to.OapIpWhiteListListTo;
 import com.github.rebue.scx.to.OapIpWhiteListPageTo;
 import com.github.rebue.scx.jo.OapIpWhiteListJo;
-
 import org.springframework.validation.annotation.Validated;
-
-import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 
 /**
@@ -31,5 +28,4 @@ import rebue.robotech.svc.BaseSvc;
 @Validated
 public interface OapIpWhiteListSvc extends
     BaseSvc<java.lang.Long, OapIpWhiteListAddTo, OapIpWhiteListModifyTo, OapIpWhiteListDelTo, OapIpWhiteListOneTo, OapIpWhiteListListTo, OapIpWhiteListPageTo, OapIpWhiteListMo, OapIpWhiteListJo> {
-
 }

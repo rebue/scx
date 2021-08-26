@@ -12,180 +12,180 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
-*
-* @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-*/
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
 @JsonInclude(Include.NON_NULL)
 public class OapAppMo implements Serializable, Mo<Long> {
+
     /**
-    * 主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = ModifyGroup.class, message = "主键不能为空")
     @PositiveOrZero(message = "主键不能为负数")
-    private Long id;
+    private Long              id;
 
     /**
-    * rac_app主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * rac_app主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "rac_app主键不能为空")
     @Length(max = 32, message = "rac_app主键的长度不能大于32")
-    private String appId;
+    private String            appId;
 
     /**
-    * oidc client id
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc client id
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "oidc不能为空")
     @Length(max = 255, message = "oidc的长度不能大于255")
-    private String clientId;
+    private String            clientId;
 
     /**
-    * oidc secret
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc secret
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "oidc不能为空")
     @Length(max = 255, message = "oidc的长度不能大于255")
-    private String secret;
+    private String            secret;
 
     /**
-    * 建立时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = AddGroup.class, message = "建立时间戳不能为空")
     @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long createTimestamp;
+    private Long              createTimestamp;
 
     /**
-    * 修改时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 修改时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = AddGroup.class, message = "修改时间戳不能为空")
     @PositiveOrZero(message = "修改时间戳不能为负数")
-    private Long updateTimestamp;
+    private Long              updateTimestamp;
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-    * 主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getId() {
         return id;
     }
 
     /**
-    * 主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-    * rac_app主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * rac_app主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getAppId() {
         return appId;
     }
 
     /**
-    * rac_app主键
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * rac_app主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setAppId(String appId) {
         this.appId = appId;
     }
 
     /**
-    * oidc client id
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc client id
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getClientId() {
         return clientId;
     }
 
     /**
-    * oidc client id
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc client id
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
 
     /**
-    * oidc secret
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc secret
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getSecret() {
         return secret;
     }
 
     /**
-    * oidc secret
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * oidc secret
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setSecret(String secret) {
         this.secret = secret;
     }
 
     /**
-    * 建立时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getCreateTimestamp() {
         return createTimestamp;
     }
 
     /**
-    * 建立时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 建立时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setCreateTimestamp(Long createTimestamp) {
         this.createTimestamp = createTimestamp;
     }
 
     /**
-    * 修改时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 修改时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getUpdateTimestamp() {
         return updateTimestamp;
     }
 
     /**
-    * 修改时间戳
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 修改时间戳
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setUpdateTimestamp(Long updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -205,7 +205,7 @@ public class OapAppMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -219,12 +219,11 @@ public class OapAppMo implements Serializable, Mo<Long> {
             return false;
         }
         OapAppMo other = (OapAppMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-        ;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
@@ -235,10 +234,10 @@ public class OapAppMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * 获取ID的类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     public String getIdType() {
         return "Long";
