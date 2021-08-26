@@ -1,15 +1,5 @@
 package rebue.scx.jwt.svc.impl;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.stereotype.Service;
-
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
@@ -18,14 +8,21 @@ import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTClaimsSet.Builder;
 import com.nimbusds.jwt.SignedJWT;
-
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Service;
 import rebue.scx.jwt.config.JwtKey;
 import rebue.scx.jwt.config.JwtProperties;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
+
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -72,6 +69,9 @@ public class JwtSvcImpl implements JwtSvc {
     {
         try {
             final SignedJWT signedJWT = SignedJWT.parse(sign);
+            if (signedJWT.getJWTClaimsSet().getExpirationTime().getTime() > System.currentTimeMillis()) {
+                return JwtSignRa.error();
+            }
             final boolean verify = signedJWT.verify(new RSASSAVerifier(jwtKey.getPublicKey()));
             if (!verify) {
                 return JwtSignRa.error();
