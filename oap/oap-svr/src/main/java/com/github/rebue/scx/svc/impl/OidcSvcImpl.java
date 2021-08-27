@@ -183,8 +183,10 @@ public class OidcSvcImpl implements OidcSvc {
         GrantType grantType = grant.getType();
         if (grantType.equals(GrantType.AUTHORIZATION_CODE)) {
             return issueIdToken(tokenRequest, response);
+        } else if (grantType.equals(GrantType.REFRESH_TOKEN)) {
+            RefreshToken refreshToken = ((RefreshTokenGrant) grant).getRefreshToken();
+            return refreshAccessToken(refreshToken, response);
         }
-        // todo refresh token
         return tokenError(response, OidcTokenError.UNSUPPORTED_GRANT_TYPE, "invalid grant_type : " + grantType.getValue());
     }
 
@@ -221,11 +223,43 @@ public class OidcSvcImpl implements OidcSvc {
 
         BearerAccessToken accessToken = new BearerAccessToken(ACCESS_TOKEN_LIFETIME, codeValue.getScope());
         RefreshToken refreshToken = new RefreshToken();
+        // todo accessToken refreshToken 存到db
 
         response.getHeaders().set("Cache-Control", "no-store");
         response.getHeaders().set("Pragma", "no-cache");
         OIDCTokens tokens = new OIDCTokens(idToken, accessToken, refreshToken);
         return new OIDCTokenResponse(tokens).toHTTPResponse().getContentAsJSONObject();
+    }
+
+    private Object refreshAccessToken(RefreshToken refreshToken, ServerHttpResponse response)
+    {
+        if (refreshToken == null) {
+            return tokenError(response, OidcTokenError.INVALID_GRANT, "Refresh token is null");
+        }
+//        Optional<GrantInfo> infoOp = grantRepository.getByRefreshToken(refreshToken.getValue());
+//        if (!infoOp.isPresent()) {
+//            return tokenError(response, TokenError.invalid_grant, "Refresh token does not exist");
+//        }
+//        GrantInfo info = infoOp.get();
+//        long toEnd = info.getRefreshGrantedTime().getEpochSecond()
+//                + OidcNS.REFRESH_TOKEN_LIFETIME
+//                - Instant.now().getEpochSecond();
+//        RefreshToken newRefreshToken;
+//        if (toEnd < 24 * 60 * 60) {
+//            // 距离 refresh token 结束时间少于一天，则颁发新的
+//            newRefreshToken = new RefreshToken();
+//            info.setRefreshToken(newRefreshToken);
+//        } else {
+//            newRefreshToken = null;
+//        }
+//        BearerAccessToken accessToken = new BearerAccessToken(OidcNS.ACCESS_TOKEN_LIFETIME, info.getScope());
+//        info.setAccessToken(accessToken);
+//        grantRepository.remove(info.getId());
+//        grantRepository.put(info);
+//        Tokens tokens = new Tokens(info.getAccessToken(), newRefreshToken);
+//        AccessTokenResponse tokenResponse = new AccessTokenResponse(tokens);
+//        return makeTokenResponse(tokenResponse, response);
+        return null;
     }
 
     private static boolean verifyRedirectionUri(TokenRequest tokenRequest, String uri)

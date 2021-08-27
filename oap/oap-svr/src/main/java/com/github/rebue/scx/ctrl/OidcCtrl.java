@@ -47,6 +47,10 @@ public class OidcCtrl {
         oidcSvc.login(loginData, request, response);
     }
 
+    /**
+     * https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
+     * https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
+     */
     @ResponseBody
     @PostMapping(value = "/token", consumes = "application/x-www-form-urlencoded", produces = "application/json")
     public Mono<Object> token(ServerHttpRequest request, ServerHttpResponse response)
