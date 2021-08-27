@@ -1,7 +1,7 @@
 package com.github.rebue.scx.svc.impl;
 
 import com.github.rebue.orp.core.dto.TokenError;
-import com.github.rebue.scx.config.OidcCookie;
+import com.github.rebue.scx.config.OidcConfig;
 import com.github.rebue.scx.dto.CodeValue;
 import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.dto.RedirectUris;
@@ -60,8 +60,6 @@ import java.util.stream.Collectors;
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
-    private static final String AUTH_INFO = "auth_info";
-
     // 单位是秒
     private static final long ACCESS_TOKEN_LIFETIME = 60 * 60;
 
@@ -110,15 +108,15 @@ public class OidcSvcImpl implements OidcSvc {
             hResponse.getHeaders().setLocation(URI.create(r));
             return;
         }
-        String cookie = new AuthorizeInfo(aRequest).toStr();
-        hResponse.addCookie(createCookie(AUTH_INFO, cookie));
+        String cookieValue = new AuthorizeInfo(aRequest).toStr();
+        hResponse.addCookie(createCookie(cookieValue));
         hResponse.setStatusCode(HttpStatus.FOUND);
-        hResponse.getHeaders().setLocation(URI.create("http://localhost:13080/admin-web#/unifiedLogin"));
+        hResponse.getHeaders().setLocation(URI.create(OidcConfig.LOGIN_URL));
     }
 
     private Optional<AuthorizeInfo> getSessionInfo(ServerHttpRequest request)
     {
-        HttpCookie cookie = request.getCookies().getFirst(AUTH_INFO);
+        HttpCookie cookie = request.getCookies().getFirst(OidcConfig.AUTH_INFO);
         if (cookie == null) {
             return Optional.empty();
         }
@@ -295,18 +293,18 @@ public class OidcSvcImpl implements OidcSvc {
         }
     }
 
-    private static ResponseCookie createCookie(String key, String value)
+    private static ResponseCookie createCookie(String value)
     {
-        return ResponseCookie.from(key, value)
-                .domain(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
+        return ResponseCookie.from(OidcConfig.AUTH_INFO, value)
+                .domain(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
                 .path("/")
-                .maxAge(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                 .build();
     }
 
     private JwtSignInfo getAuthenticatedInfo(ServerHttpRequest hRequest)
     {
-        HttpCookie cookie = hRequest.getCookies().getFirst(OidcCookie.UNIFIED_LOGIN_COOKIE);
+        HttpCookie cookie = hRequest.getCookies().getFirst(OidcConfig.UNIFIED_LOGIN_COOKIE);
         if (cookie == null) {
             return null;
         }

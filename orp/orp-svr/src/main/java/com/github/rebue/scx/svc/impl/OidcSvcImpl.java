@@ -1,7 +1,7 @@
 package com.github.rebue.scx.svc.impl;
 
 import com.github.rebue.orp.core.OidcCore;
-import com.github.rebue.scx.config.OidcCookie;
+import com.github.rebue.scx.config.OidcConfig;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.JWT;
@@ -75,16 +75,16 @@ public class OidcSvcImpl implements OidcSvc {
             return Optional.empty();
         }
 
-        response.addCookie(createCookie(OidcCookie.UNIFIED_LOGIN_COOKIE, idToken.serialize()));
+        response.getCookies().add(OidcConfig.UNIFIED_LOGIN_COOKIE, createCookie(idToken.serialize()));
         return Optional.of(tokens.getAccessToken().getValue());
     }
 
-    private static ResponseCookie createCookie(String key, String value)
+    private static ResponseCookie createCookie(String value)
     {
-        return ResponseCookie.from(key, value)
-                .domain(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
+        return ResponseCookie.from(OidcConfig.UNIFIED_LOGIN_COOKIE, value)
+                .domain(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
                 .path("/")
-                .maxAge(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                 .build();
     }
 
