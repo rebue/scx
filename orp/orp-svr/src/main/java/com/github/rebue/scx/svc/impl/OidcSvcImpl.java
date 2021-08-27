@@ -8,6 +8,7 @@ import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,7 +30,7 @@ public class OidcSvcImpl implements OidcSvc {
 
     @Override
     @SneakyThrows
-    public Optional<String> callback(String code)
+    public Optional<String> callback(ServerHttpRequest request, String code)
     {
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,

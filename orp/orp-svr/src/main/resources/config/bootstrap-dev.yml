@@ -38,4 +38,4 @@ oidc:
   client-id: unified-auth
   client-secret: 123456
   token-endpoint: http://localhost:10080/oap-svr/oidc/token
-  redirect-uri: http://localhost:10080/orp-svr/oidc/callback
+  redirect-uri: http://localhost:13080/admin-web/#/demo
