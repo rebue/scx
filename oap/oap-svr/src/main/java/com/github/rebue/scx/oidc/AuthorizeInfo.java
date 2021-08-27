@@ -31,7 +31,7 @@ public class AuthorizeInfo {
         state = getStateValue(aRequest);
         clientId = aRequest.getClientID().getValue();
         scope = aRequest.getScope().toString();
-        redirectUri = AuthorisationCodeFlow.getRedirectUri(aRequest);
+        redirectUri = OidcHelper.getRedirectUri(aRequest);
     }
 
     public static Optional<AuthorizeInfo> fromCookie(String cookie)

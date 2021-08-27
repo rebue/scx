@@ -35,7 +35,7 @@ public class CodeRepository {
     public AuthorizationCode createCode(AuthenticationRequest aRequest, String userCode)
     {
         return createCode(
-                AuthorisationCodeFlow.getRedirectUri(aRequest),
+                OidcHelper.getRedirectUri(aRequest),
                 aRequest.getClientID().getValue(),
                 aRequest.getScope(),
                 userCode
