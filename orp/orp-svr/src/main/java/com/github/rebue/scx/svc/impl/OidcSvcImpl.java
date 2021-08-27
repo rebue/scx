@@ -1,16 +1,26 @@
 package com.github.rebue.scx.svc.impl;
 
 import com.github.rebue.orp.core.OidcCore;
+import com.github.rebue.scx.config.OidcCookie;
 import com.github.rebue.scx.svc.OidcSvc;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.oauth2.sdk.TokenResponse;
 import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.security.KeyFactory;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -28,9 +38,23 @@ public class OidcSvcImpl implements OidcSvc {
     @Value("${oidc.redirect-uri}")
     private String redirectUri;
 
+    @Value("${oidc.public-key}")
+    private String publicKeyStr;
+
+    private RSAPublicKey publicKey;
+
+    @PostConstruct
+    private void init() throws Exception
+    {
+        byte[] decoded = Base64.getDecoder().decode(publicKeyStr);
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(decoded);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        publicKey = (RSAPublicKey) kf.generatePublic(spec);
+    }
+
     @Override
     @SneakyThrows
-    public Optional<String> callback(ServerHttpRequest request, String code)
+    public Optional<String> callback(ServerHttpRequest request, ServerHttpResponse response, String code)
     {
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,
@@ -46,9 +70,29 @@ public class OidcSvcImpl implements OidcSvc {
         OIDCTokenResponse sr = (OIDCTokenResponse) tokenResponse.toSuccessResponse();
         OIDCTokens tokens = sr.getOIDCTokens();
         JWT idToken = tokens.getIDToken();
-        // todo 验签
-        String userId = idToken.getJWTClaimsSet().getSubject();
+        if (!validateIdToken(idToken)) {
+            // todo 提示错误信息
+            return Optional.empty();
+        }
+
+        response.addCookie(createCookie(OidcCookie.UNIFIED_LOGIN_COOKIE, idToken.serialize()));
         return Optional.of(tokens.getAccessToken().getValue());
+    }
+
+    private static ResponseCookie createCookie(String key, String value)
+    {
+        return ResponseCookie.from(key, value)
+                .domain(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
+                .path("/")
+                .maxAge(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                .build();
+    }
+
+
+    private boolean validateIdToken(JWT idToken) throws Exception
+    {
+        SignedJWT token = (SignedJWT) idToken;
+        return token.verify(new RSASSAVerifier(publicKey));
     }
 
 }

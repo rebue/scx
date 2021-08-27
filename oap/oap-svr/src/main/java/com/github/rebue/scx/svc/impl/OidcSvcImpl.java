@@ -1,14 +1,15 @@
 package com.github.rebue.scx.svc.impl;
 
 import com.github.rebue.orp.core.dto.TokenError;
+import com.github.rebue.scx.config.OidcCookie;
 import com.github.rebue.scx.dto.CodeValue;
 import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.dto.RedirectUris;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.mo.OapAppMo;
-import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
 import com.github.rebue.scx.oidc.AuthorizeInfo;
 import com.github.rebue.scx.oidc.CodeRepository;
+import com.github.rebue.scx.oidc.OidcHelper;
 import com.github.rebue.scx.oidc.OidcTokenError;
 import com.github.rebue.scx.repository.OapAppRepository;
 import com.github.rebue.scx.repository.OapRedirectUriRepository;
@@ -61,12 +62,6 @@ public class OidcSvcImpl implements OidcSvc {
 
     private static final String AUTH_INFO = "auth_info";
 
-    private static final String UNIFIED_LOGIN_COOKIE = "unified_login_cookie";
-
-    private static final String COOKIE_DOMAIN = "localhost"; // todo
-
-    private static final long COOKIE_AGE = 100000L; // todo
-
     // 单位是秒
     private static final long ACCESS_TOKEN_LIFETIME = 60 * 60;
 
@@ -105,7 +100,7 @@ public class OidcSvcImpl implements OidcSvc {
         JwtSignInfo jwtSignInfo;
         if ((jwtSignInfo = getAuthenticatedInfo(hRequest)) != null) {
             AuthorizationCode code = codeRepository.createCode(aRequest, jwtSignInfo.getUserId());
-            HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
+            HTTPResponse redirect = OidcHelper.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
             String r = redirect.getLocation().toString();
             RedirectUris redirectUris = oapRedirectUriRepository.getRedirectUris(aRequest.getClientID().getValue());
             if (!redirectUris.match(r)) {
@@ -159,7 +154,7 @@ public class OidcSvcImpl implements OidcSvc {
             return;
         }
         AuthorizationCode code = codeRepository.createCode(uri, clientId, new Scope(scope), loginData.getLoginName());
-        HTTPResponse redirect = AuthorisationCodeFlow.authenticationSuccessUri(new URI(uri), new State(state), code);
+        HTTPResponse redirect = OidcHelper.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
         response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
     }
@@ -196,9 +191,10 @@ public class OidcSvcImpl implements OidcSvc {
     }
 
     /**
-     * @return {@link com.nimbusds.openid.connect.sdk.OIDCTokenResponse}
+     * @return {@link com.nimbusds.openid.connect.sdk.OIDCTokenResponse} .toHTTPResponse().getContentAsJSONObject()
      * <p> 或 {@link com.github.rebue.orp.core.dto.TokenError}
      */
+    @SneakyThrows
     private Object issueIdToken(TokenRequest tokenRequest, ServerHttpResponse response)
     {
         String code = getAuthorizationCode(tokenRequest).orElse(null);
@@ -231,7 +227,7 @@ public class OidcSvcImpl implements OidcSvc {
         response.getHeaders().set("Cache-Control", "no-store");
         response.getHeaders().set("Pragma", "no-cache");
         OIDCTokens tokens = new OIDCTokens(idToken, accessToken, refreshToken);
-        return new OIDCTokenResponse(tokens);
+        return new OIDCTokenResponse(tokens).toHTTPResponse().getContentAsJSONObject();
     }
 
     private static boolean verifyRedirectionUri(TokenRequest tokenRequest, String uri)
@@ -302,15 +298,15 @@ public class OidcSvcImpl implements OidcSvc {
     private static ResponseCookie createCookie(String key, String value)
     {
         return ResponseCookie.from(key, value)
-                .domain(COOKIE_DOMAIN)
+                .domain(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
                 .path("/")
-                .maxAge(COOKIE_AGE)
+                .maxAge(OidcCookie.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                 .build();
     }
 
     private JwtSignInfo getAuthenticatedInfo(ServerHttpRequest hRequest)
     {
-        HttpCookie cookie = hRequest.getCookies().getFirst(UNIFIED_LOGIN_COOKIE);
+        HttpCookie cookie = hRequest.getCookies().getFirst(OidcCookie.UNIFIED_LOGIN_COOKIE);
         if (cookie == null) {
             return null;
         }

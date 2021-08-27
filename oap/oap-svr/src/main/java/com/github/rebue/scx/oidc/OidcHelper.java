@@ -15,7 +15,7 @@ import java.net.URI;
 import java.net.URLDecoder;
 
 @Slf4j
-public class AuthorisationCodeFlow {
+public class OidcHelper {
 
 
     /**
