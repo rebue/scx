@@ -116,7 +116,7 @@ public class JwtSvcImpl implements JwtSvc {
             }
             final String subject = signedJWT.getJWTClaimsSet().getSubject();
             JwtSignInfo info = new JwtSignInfo();
-            info.setUserId(subject);
+            info.setAccountId(Long.parseLong(subject));
             return info;
         } catch (final Exception e) {
             return null;

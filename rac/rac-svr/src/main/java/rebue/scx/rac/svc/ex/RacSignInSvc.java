@@ -1,13 +1,14 @@
 package rebue.scx.rac.svc.ex;
 
-import javax.validation.Valid;
-
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * 账户登录服务接口
@@ -24,7 +25,7 @@ import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 @Validated
 public interface RacSignInSvc {
 
-    boolean unifiedLogin(UnifiedLoginTo to);
+    Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to);
 
     /**
      * 通过账户名称注册

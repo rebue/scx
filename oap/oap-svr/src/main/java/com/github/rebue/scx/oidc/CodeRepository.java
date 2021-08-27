@@ -32,20 +32,20 @@ public class CodeRepository {
         return Optional.ofNullable(value);
     }
 
-    public AuthorizationCode createCode(AuthenticationRequest aRequest, String userCode)
+    public AuthorizationCode createCode(AuthenticationRequest aRequest, long accountId)
     {
         return createCode(
                 OidcHelper.getRedirectUri(aRequest),
                 aRequest.getClientID().getValue(),
                 aRequest.getScope(),
-                userCode
+                accountId
         );
     }
 
-    public AuthorizationCode createCode(String redirectUri, String clientId, Scope scope, String userCode)
+    public AuthorizationCode createCode(String redirectUri, String clientId, Scope scope, long accountId)
     {
         AuthorizationCode code = new AuthorizationCode(16);
-        CodeValue cv = new CodeValue(clientId, redirectUri, scope, userCode);
+        CodeValue cv = new CodeValue(clientId, redirectUri, scope,  accountId);
         String jsStr = JSONObject.toJSONString(cv);
         stringRedisTemplate.opsForValue().set(CODE_PREFIX + code.getValue(), jsStr, Duration.ofMinutes(1));
         return code;

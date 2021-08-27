@@ -43,6 +43,7 @@ import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 
 import javax.annotation.Resource;
@@ -97,7 +98,7 @@ public class OidcSvcImpl implements OidcSvc {
     {
         JwtSignInfo jwtSignInfo;
         if ((jwtSignInfo = getAuthenticatedInfo(hRequest)) != null) {
-            AuthorizationCode code = codeRepository.createCode(aRequest, jwtSignInfo.getUserId());
+            AuthorizationCode code = codeRepository.createCode(aRequest, jwtSignInfo.getAccountId());
             HTTPResponse redirect = OidcHelper.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
             String r = redirect.getLocation().toString();
             RedirectUris redirectUris = oapRedirectUriRepository.getRedirectUris(aRequest.getClientID().getValue());
@@ -147,11 +148,12 @@ public class OidcSvcImpl implements OidcSvc {
         to.setAppId(app.getAppId());
         to.setUsername(loginData.getLoginName());
         to.setPassword(loginData.getPassword());
-        if (!racSignInApi.unifiedLogin(to)) {
+        RacAccountMo ra = racSignInApi.unifiedLogin(to).orElse(null);
+        if (ra == null) {
             // todo 错误信息
             return;
         }
-        AuthorizationCode code = codeRepository.createCode(uri, clientId, new Scope(scope), loginData.getLoginName());
+        AuthorizationCode code = codeRepository.createCode(uri, clientId, new Scope(scope), ra.getId());
         HTTPResponse redirect = OidcHelper.authenticationSuccessUri(new URI(uri), new State(state), code);
         response.setStatusCode(HttpStatus.FOUND);
         response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
@@ -212,11 +214,11 @@ public class OidcSvcImpl implements OidcSvc {
         if (!verifyRedirectionUri(tokenRequest, codeValue.getRedirectionUri())) {
             return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid redirection uri : " + codeValue.getRedirectionUri());
         }
-        JwtSignRa jwtSignRa = jwtApi.sign(new JwtSignTo(codeValue.getUserCode(), codeValue.getClientId()));
+        JwtSignRa jwtSignRa = jwtApi.sign(new JwtSignTo(String.valueOf(codeValue.getAccountId()), codeValue.getClientId()));
         if (!jwtSignRa.isSuccess()) {
             return tokenError(response, OidcTokenError.SERVER_ERROR, "");
         }
-        SignedJWT idToken = jwtApi.rawSign(new JwtSignTo(codeValue.getUserCode(), codeValue.getClientId()));
+        SignedJWT idToken = jwtApi.rawSign(new JwtSignTo(String.valueOf(codeValue.getAccountId()), codeValue.getClientId()));
         if (idToken == null) {
             return tokenError(response, OidcTokenError.SERVER_ERROR, "");
         }

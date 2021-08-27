@@ -9,10 +9,13 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+
+import java.util.Optional;
 
 /**
  * 账户登录API的实现类
@@ -26,7 +29,7 @@ public class RacSignInApiImpl implements RacSignInApi {
     private CapApi   capApi;
 
     @Override
-    public boolean unifiedLogin(final UnifiedLoginTo to)
+    public Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to)
     {
         return svc.unifiedLogin(to);
     }

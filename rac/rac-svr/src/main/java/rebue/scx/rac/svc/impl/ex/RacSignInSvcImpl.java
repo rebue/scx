@@ -1,5 +1,6 @@
 package rebue.scx.rac.svc.impl.ex;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -79,20 +80,22 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Resource
     private Mapper              dozerMapper;
 
-    public boolean unifiedLogin(UnifiedLoginTo to)
+    @Override
+    public Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to)
     {
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
-            return false;
+            return Optional.empty();
         }
         RacAccountMo account = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getUsername());
         if (account == null || !account.getIsEnabled()) {
-            return false;
+            return Optional.empty();
         }
-        return account.getSignInPswd() != null
+        boolean passwordChecked = account.getSignInPswd() != null
                 && account.getSignInPswdSalt() != null
                 && to.getPassword() != null
                 && account.getSignInPswd().equals(PswdUtils.saltPswd(to.getPassword(), account.getSignInPswdSalt()));
+        return passwordChecked ? Optional.of(account) : Optional.empty();
     }
 
     /**
