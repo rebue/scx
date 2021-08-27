@@ -52,7 +52,7 @@ public class OapGrantJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "ACCESS_TOKEN", nullable = false, length = 255)
+    @Column(name = "ACCESS_TOKEN", nullable = false, length = 50)
     private String            accessToken;
 
     /**
@@ -61,7 +61,7 @@ public class OapGrantJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
-    @Column(name = "REFRESH_TOKEN", nullable = false, length = 255)
+    @Column(name = "REFRESH_TOKEN", nullable = false, length = 50)
     private String            refreshToken;
 
     /**
@@ -113,4 +113,18 @@ public class OapGrantJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "ACCESS_TOKEN_JSON", nullable = true, length = 255)
+    private String accessTokenJson;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "REFRESH_TOKEN_JSON", nullable = true, length = 255)
+    private String refreshTokenJson;
 }

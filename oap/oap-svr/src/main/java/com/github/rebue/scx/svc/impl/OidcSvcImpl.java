@@ -31,6 +31,7 @@ import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
+import net.minidev.json.JSONObject;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -236,12 +237,7 @@ public class OidcSvcImpl implements OidcSvc {
         return new OIDCTokenResponse(tokens).toHTTPResponse().getContentAsJSONObject();
     }
 
-    public static void main(String[] args)
-    {
-        BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, new Scope("openid"));
-        RefreshToken refreshToken = new RefreshToken();
-        System.out.println();
-    }
+
 
     private Object refreshAccessToken(RefreshToken refreshToken, ServerHttpResponse response)
     {
@@ -276,7 +272,6 @@ public class OidcSvcImpl implements OidcSvc {
 //        return makeTokenResponse(tokenResponse, response);
         return null;
     }
-
 
 
     private static boolean verifyRedirectionUri(TokenRequest tokenRequest, String uri)

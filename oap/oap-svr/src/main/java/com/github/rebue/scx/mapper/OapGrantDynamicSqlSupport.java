@@ -39,6 +39,18 @@ public final class OapGrantDynamicSqlSupport {
     public static final SqlColumn<String> refreshToken = oapGrant.refreshToken;
 
     /**
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> accessTokenJson = oapGrant.accessTokenJson;
+
+    /**
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> refreshTokenJson = oapGrant.refreshTokenJson;
+
+    /**
     * 过期时间
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -60,6 +72,10 @@ public final class OapGrantDynamicSqlSupport {
         public final SqlColumn<String> accessToken = column("ACCESS_TOKEN", JDBCType.VARCHAR);
 
         public final SqlColumn<String> refreshToken = column("REFRESH_TOKEN", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> accessTokenJson = column("ACCESS_TOKEN_JSON", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> refreshTokenJson = column("REFRESH_TOKEN_JSON", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> expireTimestamp = column("EXPIRE_TIMESTAMP", JDBCType.BIGINT);
 

@@ -32,7 +32,7 @@ public class OapGrantOneTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 255, message = "oidc的长度不能大于255")
+    @Length(max = 50, message = "oidc的长度不能大于50")
     private String            accessToken;
 
     /**
@@ -40,7 +40,7 @@ public class OapGrantOneTo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 255, message = "oidc的长度不能大于255")
+    @Length(max = 50, message = "oidc的长度不能大于50")
     private String            refreshToken;
 
     /**
@@ -58,4 +58,16 @@ public class OapGrantOneTo implements Serializable {
      */
     @PositiveOrZero(message = "创建时间不能为负数")
     private Long              createTimestamp;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 255, message = "的长度不能大于255")
+    private String            accessTokenJson;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 255, message = "的长度不能大于255")
+    private String            refreshTokenJson;
 }
