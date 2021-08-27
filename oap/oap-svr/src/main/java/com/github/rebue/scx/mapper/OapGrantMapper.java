@@ -37,7 +37,7 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, accountId, accessToken, refreshToken, expireTimestamp, createTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, accountId, accessToken, refreshToken, accessTokenJson, refreshTokenJson, expireTimestamp, createTimestamp);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -77,6 +77,8 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     @Results(id = "OapGrantMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
         @Result(column = "ACCOUNT_ID", property = "accountId", jdbcType = JdbcType.BIGINT), @Result(column = "ACCESS_TOKEN", property = "accessToken", jdbcType = JdbcType.VARCHAR),
         @Result(column = "REFRESH_TOKEN", property = "refreshToken", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "ACCESS_TOKEN_JSON", property = "accessTokenJson", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "REFRESH_TOKEN_JSON", property = "refreshTokenJson", jdbcType = JdbcType.VARCHAR),
         @Result(column = "EXPIRE_TIMESTAMP", property = "expireTimestamp", jdbcType = JdbcType.BIGINT),
         @Result(column = "CREATE_TIMESTAMP", property = "createTimestamp", jdbcType = JdbcType.BIGINT)
     })
@@ -115,7 +117,8 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     default int insert(OapGrantMo record) {
         return MyBatis3Utils.insert(this::insert, record, oapGrant,
             c -> c.map(id).toProperty("id").map(accountId).toProperty("accountId").map(accessToken).toProperty("accessToken").map(refreshToken).toProperty("refreshToken")
-                .map(expireTimestamp).toProperty("expireTimestamp").map(createTimestamp).toProperty("createTimestamp"));
+                .map(accessTokenJson).toProperty("accessTokenJson").map(refreshTokenJson).toProperty("refreshTokenJson").map(expireTimestamp).toProperty("expireTimestamp")
+                .map(createTimestamp).toProperty("createTimestamp"));
     }
 
     /**
@@ -124,7 +127,8 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     default int insertMultiple(Collection<OapGrantMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, oapGrant,
             c -> c.map(id).toProperty("id").map(accountId).toProperty("accountId").map(accessToken).toProperty("accessToken").map(refreshToken).toProperty("refreshToken")
-                .map(expireTimestamp).toProperty("expireTimestamp").map(createTimestamp).toProperty("createTimestamp"));
+                .map(accessTokenJson).toProperty("accessTokenJson").map(refreshTokenJson).toProperty("refreshTokenJson").map(expireTimestamp).toProperty("expireTimestamp")
+                .map(createTimestamp).toProperty("createTimestamp"));
     }
 
     /**
@@ -133,8 +137,10 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     default int insertSelective(OapGrantMo record) {
         return MyBatis3Utils.insert(this::insert, record, oapGrant,
             c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(accountId).toPropertyWhenPresent("accountId", record::getAccountId).map(accessToken)
-                .toPropertyWhenPresent("accessToken", record::getAccessToken).map(refreshToken).toPropertyWhenPresent("refreshToken", record::getRefreshToken).map(expireTimestamp)
-                .toPropertyWhenPresent("expireTimestamp", record::getExpireTimestamp).map(createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp));
+                .toPropertyWhenPresent("accessToken", record::getAccessToken).map(refreshToken).toPropertyWhenPresent("refreshToken", record::getRefreshToken).map(accessTokenJson)
+                .toPropertyWhenPresent("accessTokenJson", record::getAccessTokenJson).map(refreshTokenJson).toPropertyWhenPresent("refreshTokenJson", record::getRefreshTokenJson)
+                .map(expireTimestamp).toPropertyWhenPresent("expireTimestamp", record::getExpireTimestamp).map(createTimestamp)
+                .toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp));
     }
 
     /**
@@ -177,7 +183,8 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateAllColumns(OapGrantMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(accountId).equalTo(record::getAccountId).set(accessToken).equalTo(record::getAccessToken).set(refreshToken)
-            .equalTo(record::getRefreshToken).set(expireTimestamp).equalTo(record::getExpireTimestamp).set(createTimestamp).equalTo(record::getCreateTimestamp);
+            .equalTo(record::getRefreshToken).set(accessTokenJson).equalTo(record::getAccessTokenJson).set(refreshTokenJson).equalTo(record::getRefreshTokenJson)
+            .set(expireTimestamp).equalTo(record::getExpireTimestamp).set(createTimestamp).equalTo(record::getCreateTimestamp);
     }
 
     /**
@@ -185,7 +192,8 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(OapGrantMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(accountId).equalToWhenPresent(record::getAccountId).set(accessToken).equalToWhenPresent(record::getAccessToken)
-            .set(refreshToken).equalToWhenPresent(record::getRefreshToken).set(expireTimestamp).equalToWhenPresent(record::getExpireTimestamp).set(createTimestamp)
+            .set(refreshToken).equalToWhenPresent(record::getRefreshToken).set(accessTokenJson).equalToWhenPresent(record::getAccessTokenJson).set(refreshTokenJson)
+            .equalToWhenPresent(record::getRefreshTokenJson).set(expireTimestamp).equalToWhenPresent(record::getExpireTimestamp).set(createTimestamp)
             .equalToWhenPresent(record::getCreateTimestamp);
     }
 
@@ -194,7 +202,8 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
      */
     default int updateByPrimaryKey(OapGrantMo record) {
         return update(c -> c.set(accountId).equalTo(record::getAccountId).set(accessToken).equalTo(record::getAccessToken).set(refreshToken).equalTo(record::getRefreshToken)
-            .set(expireTimestamp).equalTo(record::getExpireTimestamp).set(createTimestamp).equalTo(record::getCreateTimestamp).where(id, isEqualTo(record::getId)));
+            .set(accessTokenJson).equalTo(record::getAccessTokenJson).set(refreshTokenJson).equalTo(record::getRefreshTokenJson).set(expireTimestamp)
+            .equalTo(record::getExpireTimestamp).set(createTimestamp).equalTo(record::getCreateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -202,7 +211,8 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
      */
     default int updateByPrimaryKeySelective(OapGrantMo record) {
         return update(c -> c.set(accountId).equalToWhenPresent(record::getAccountId).set(accessToken).equalToWhenPresent(record::getAccessToken).set(refreshToken)
-            .equalToWhenPresent(record::getRefreshToken).set(expireTimestamp).equalToWhenPresent(record::getExpireTimestamp).set(createTimestamp)
+            .equalToWhenPresent(record::getRefreshToken).set(accessTokenJson).equalToWhenPresent(record::getAccessTokenJson).set(refreshTokenJson)
+            .equalToWhenPresent(record::getRefreshTokenJson).set(expireTimestamp).equalToWhenPresent(record::getExpireTimestamp).set(createTimestamp)
             .equalToWhenPresent(record::getCreateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
@@ -219,6 +229,7 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     default int deleteSelective(OapGrantMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(accessToken, isEqualToWhenPresent(record::getAccessToken)).and(refreshToken, isEqualToWhenPresent(record::getRefreshToken))
+            .and(accessTokenJson, isEqualToWhenPresent(record::getAccessTokenJson)).and(refreshTokenJson, isEqualToWhenPresent(record::getRefreshTokenJson))
             .and(expireTimestamp, isEqualToWhenPresent(record::getExpireTimestamp)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)));
     }
 
@@ -228,6 +239,7 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     default Optional<OapGrantMo> selectOne(OapGrantMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(accessToken, isEqualToWhenPresent(record::getAccessToken)).and(refreshToken, isEqualToWhenPresent(record::getRefreshToken))
+            .and(accessTokenJson, isEqualToWhenPresent(record::getAccessTokenJson)).and(refreshTokenJson, isEqualToWhenPresent(record::getRefreshTokenJson))
             .and(expireTimestamp, isEqualToWhenPresent(record::getExpireTimestamp)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)));
     }
 
@@ -237,6 +249,7 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     default long countSelective(OapGrantMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(accessToken, isEqualToWhenPresent(record::getAccessToken)).and(refreshToken, isEqualToWhenPresent(record::getRefreshToken))
+            .and(accessTokenJson, isEqualToWhenPresent(record::getAccessTokenJson)).and(refreshTokenJson, isEqualToWhenPresent(record::getRefreshTokenJson))
             .and(expireTimestamp, isEqualToWhenPresent(record::getExpireTimestamp)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)));
     }
 
@@ -260,6 +273,7 @@ public interface OapGrantMapper extends MapperRootInterface<OapGrantMo, Long> {
     default List<OapGrantMo> selectSelective(OapGrantMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
             .and(accessToken, isEqualToWhenPresent(record::getAccessToken)).and(refreshToken, isEqualToWhenPresent(record::getRefreshToken))
+            .and(accessTokenJson, isEqualToWhenPresent(record::getAccessTokenJson)).and(refreshTokenJson, isEqualToWhenPresent(record::getRefreshTokenJson))
             .and(expireTimestamp, isEqualToWhenPresent(record::getExpireTimestamp)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)));
     }
 

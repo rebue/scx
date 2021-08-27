@@ -41,7 +41,7 @@ public class OapGrantMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotBlank(groups = AddGroup.class, message = "oidc不能为空")
-    @Length(max = 255, message = "oidc的长度不能大于255")
+    @Length(max = 50, message = "oidc的长度不能大于50")
     private String            accessToken;
 
     /**
@@ -50,7 +50,7 @@ public class OapGrantMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotBlank(groups = AddGroup.class, message = "oidc不能为空")
-    @Length(max = 255, message = "oidc的长度不能大于255")
+    @Length(max = 50, message = "oidc的长度不能大于50")
     private String            refreshToken;
 
     /**
@@ -197,6 +197,8 @@ public class OapGrantMo implements Serializable, Mo<Long> {
         sb.append(", accountId=").append(accountId);
         sb.append(", accessToken=").append(accessToken);
         sb.append(", refreshToken=").append(refreshToken);
+        sb.append(", accessTokenJson=").append(accessTokenJson);
+        sb.append(", refreshTokenJson=").append(refreshTokenJson);
         sb.append(", expireTimestamp=").append(expireTimestamp);
         sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
@@ -241,5 +243,45 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 255, message = "的长度不能大于255")
+    private String accessTokenJson;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 255, message = "的长度不能大于255")
+    private String refreshTokenJson;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getAccessTokenJson() {
+        return accessTokenJson;
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAccessTokenJson(String accessTokenJson) {
+        this.accessTokenJson = accessTokenJson;
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getRefreshTokenJson() {
+        return refreshTokenJson;
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setRefreshTokenJson(String refreshTokenJson) {
+        this.refreshTokenJson = refreshTokenJson;
     }
 }
