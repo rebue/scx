@@ -49,11 +49,9 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
     public Ro<?> get(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
             return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
             return new Ro<>(ResultDic.FAIL, "验证码类型不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("类型");
         }
         return getService(captchaVO.getCaptchaType()).get(captchaVO);
     }
@@ -62,15 +60,12 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
     public Ro<?> check(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
             return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
             return new Ro<>(ResultDic.FAIL, "验证码类型不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("类型");
         }
         if (StringUtils.isEmpty(captchaVO.getToken())) {
             return new Ro<>(ResultDic.FAIL, "验证码token不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("token");
         }
         return getService(captchaVO.getCaptchaType()).check(captchaVO);
     }
@@ -79,11 +74,9 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
     public Ro<?> verification(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
             return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
             return new Ro<>(ResultDic.FAIL, "二次校验参数不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("二次校验参数");
         }
         try {
             final String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());

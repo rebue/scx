@@ -167,12 +167,6 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
 
     @Override
     public Ro<?> verification(final CaptchaVO captchaVO) {
-        /*if (captchaVO == null) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
-        }
-        if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
-        }*/
         final Ro<?> r = super.verification(captchaVO);
         if (!validatedReq(r)) {
             return r;
@@ -219,7 +213,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
     private CaptchaVO getImageData(final BufferedImage backgroundImage) {
         final CaptchaVO dataVO = new CaptchaVO();
         final List<String> wordList = new ArrayList<String>();
-        final List<PointVO> pointList = new ArrayList();
+        final List<PointVO> pointList = new ArrayList<PointVO>();
 
         final Graphics backgroundGraphics = backgroundImage.getGraphics();
         final int width = backgroundImage.getWidth();
@@ -283,7 +277,6 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         //将坐标信息存入redis中
         final String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
         CaptchaServiceFactory.getCache(cacheType).set(codeKey, JsonUtil.toJSONString(pointList), EXPIRESIN_SECONDS);
-//        base64StrToImage(getImageToBase64Str(backgroundImage), "D:\\点击.png");
         return dataVO;
     }
 

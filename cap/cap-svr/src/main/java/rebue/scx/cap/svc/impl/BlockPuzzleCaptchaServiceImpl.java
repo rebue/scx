@@ -79,7 +79,6 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         final BufferedImage jigsawImage = ImageUtils.getBase64StrToImage(jigsawImageBase64);
         if (null == jigsawImage) {
             logger.error("滑动底图未初始化成功，请检查路径");
-            final CaptchaVORa ra=new  CaptchaVORa();
             return new Ro<>(ResultDic.FAIL, "滑动底图未初始化成功，请检查路径");
         }
         final CaptchaVO captcha = pictureTemplatesCut(originalImage, jigsawImage, jigsawImageBase64);
@@ -161,7 +160,6 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         } catch (final Exception e) {
             logger.error("验证码坐标解析失败", e);
             return new Ro<>(ResultDic.FAIL, "验证码坐标解析失败，请联系管理员");
-            //return ResponseModel.errorMsg(e.getMessage());
         }
         return new Ro<>(ResultDic.SUCCESS, "验证码校验成功");
     }
@@ -183,7 +181,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
             //随机生成拼图坐标
             final PointVO point = generateJigsawPoint(originalWidth, originalHeight, jigsawWidth, jigsawHeight);
             final int x = point.getX();
-            final int y = point.getY();
+            //final int y = point.getY();
 
             //生成新的拼图图像
             BufferedImage newJigsawImage = new BufferedImage(jigsawWidth, jigsawHeight, jigsawImage.getType());

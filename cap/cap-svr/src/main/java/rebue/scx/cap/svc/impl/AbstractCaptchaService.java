@@ -126,8 +126,6 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     public Ro<?> get(final CaptchaVO captchaVO) {
         if (limitHandler != null) {
             captchaVO.setClientUid(getValidateClientId(captchaVO));
-            //final ResponseModel validateGet = limitHandler.validateGet(captchaVO);
-            //return new Ro<>(ResultDic.SUCCESS, "成功获取model",validateGet);
             return limitHandler.validateGet(captchaVO);
         }
         return null;
@@ -152,11 +150,9 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     public Ro<?> verification(final CaptchaVO captchaVO) {
         if (captchaVO == null) {
             return new Ro<>(ResultDic.FAIL, "参数对象不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
             return new Ro<>(ResultDic.FAIL, "校验参数不能为空");
-            //return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
         }
         if (limitHandler != null) {
             return limitHandler.validateVerify(captchaVO);
@@ -164,9 +160,6 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         return null;
     }
 
-//    protected boolean validatedReq(final ResponseModel resp) {
-//        return resp == null || resp.isSuccess();
-//    }
     protected boolean validatedReq(final Ro<?> r) {
         return r == null || r.isSuccess();
     }
@@ -196,7 +189,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     }
 
     /**
-     * 加载resources下的font字体，add by lide1202@hotmail.com
+     * 加载resources下的font字体，add by 
      * 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
      * 通过加载resources下的font字体解决，无需在linux中安装字体
      */

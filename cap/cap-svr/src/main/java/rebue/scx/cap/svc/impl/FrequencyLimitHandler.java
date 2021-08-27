@@ -111,10 +111,6 @@ public interface FrequencyLimitHandler {
             if(StringUtils.isEmpty(d.getClientUid())){
                 return null;
             }
-            /*String getKey = getClientCId(d, "GET");
-            if(Objects.isNull(cacheService.get(getKey))){
-                return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
-            }*/
             final String key = getClientCId(d, "CHECK");
             String v = cacheService.get(key);
             if (Objects.isNull(v)) {
@@ -130,10 +126,6 @@ public interface FrequencyLimitHandler {
 
         @Override
         public Ro<?> validateVerify(final CaptchaVO d) {
-            /*String getKey = getClientCId(d, "GET");
-            if(Objects.isNull(cacheService.get(getKey))){
-                return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
-            }*/
             final String key = getClientCId(d, "VERIFY");
             String v = cacheService.get(key);
             if (Objects.isNull(v)) {

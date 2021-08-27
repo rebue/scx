@@ -31,30 +31,25 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
     @Override
     public void set(final String key, final String value, final long expiresInSeconds) {
         stringRedisTemplate.opsForValue().set(key, value, expiresInSeconds, TimeUnit.SECONDS);
-        //RedisConfig.self.getRedis().opsForValue().set(key, value, expiresInSeconds, TimeUnit.SECONDS);
     }
 
     @Override
     public boolean exists(final String key) {
-        //return RedisConfig.self.getRedis().hasKey(key);
         return stringRedisTemplate.hasKey(key);
     }
 
     @Override
     public void delete(final String key) {
-        //RedisConfig.self.getRedis().delete(key);
         stringRedisTemplate.delete(key);
     }
 
     @Override
     public String get(final String key) {
-        //return RedisConfig.self.getRedis().opsForValue().get(key);
         return stringRedisTemplate.opsForValue().get(key);
     }
 
     @Override
     public Long increment(final String key, final long val) {
-        //return RedisConfig.self.getRedis().opsForValue().increment(key, val);
         return stringRedisTemplate.opsForValue().increment(key, val);
     }
 }
