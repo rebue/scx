@@ -1,0 +1,238 @@
+package com.github.rebue.scx.mo;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import org.hibernate.validator.constraints.Length;
+import rebue.robotech.mo.Mo;
+import rebue.robotech.valid.ModifyGroup;
+
+/**
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
+@JsonInclude(Include.NON_NULL)
+public class OapGrantMo implements Serializable, Mo<Long> {
+
+    /**
+     * 主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = ModifyGroup.class, message = "主键不能为空")
+    @PositiveOrZero(message = "主键不能为负数")
+    private Long              id;
+
+    /**
+     * rac_account主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "rac_account主键不能为负数")
+    private Long              accountId;
+
+    /**
+     * oidc access token
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 255, message = "oidc的长度不能大于255")
+    private String            accessToken;
+
+    /**
+     * oidc refresh token
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 255, message = "oidc的长度不能大于255")
+    private String            refreshToken;
+
+    /**
+     * 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "过期时间不能为负数")
+    private Long              expireTimestamp;
+
+    /**
+     * 创建时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "创建时间不能为负数")
+    private Long              createTimestamp;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * 主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * rac_account主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    /**
+     * rac_account主键
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    /**
+     * oidc access token
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    /**
+     * oidc access token
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    /**
+     * oidc refresh token
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    /**
+     * oidc refresh token
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    /**
+     * 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getExpireTimestamp() {
+        return expireTimestamp;
+    }
+
+    /**
+     * 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setExpireTimestamp(Long expireTimestamp) {
+        this.expireTimestamp = expireTimestamp;
+    }
+
+    /**
+     * 创建时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    /**
+     * 创建时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCreateTimestamp(Long createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", accountId=").append(accountId);
+        sb.append(", accessToken=").append(accessToken);
+        sb.append(", refreshToken=").append(refreshToken);
+        sb.append(", expireTimestamp=").append(expireTimestamp);
+        sb.append(", createTimestamp=").append(createTimestamp);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        OapGrantMo other = (OapGrantMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
+    }
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        return result;
+    }
+
+    /**
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Override
+    public String getIdType() {
+        return "Long";
+    }
+}
