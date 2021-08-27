@@ -118,7 +118,7 @@ public class RacAccountSvcImpl extends
     @Resource
     private MinioClient          minioClient;
 
-    @Value("${minio.endpoint:http://127.0.0.1:9000}")
+    @Value("${minio.endpoint:http://172.20.10.154:9000}")
     private String               minioEndpoint;
 
     /**
