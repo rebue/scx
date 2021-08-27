@@ -8,6 +8,8 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.validator.constraints.Length;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.ModifyGroup;
+import javax.validation.constraints.NotBlank;
+import rebue.robotech.valid.AddGroup;
 
 /**
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
@@ -29,6 +31,7 @@ public class OapGrantMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "rac_account主键不能为空")
     @PositiveOrZero(message = "rac_account主键不能为负数")
     private Long              accountId;
 
@@ -37,6 +40,7 @@ public class OapGrantMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "oidc不能为空")
     @Length(max = 255, message = "oidc的长度不能大于255")
     private String            accessToken;
 
@@ -45,6 +49,7 @@ public class OapGrantMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotBlank(groups = AddGroup.class, message = "oidc不能为空")
     @Length(max = 255, message = "oidc的长度不能大于255")
     private String            refreshToken;
 
@@ -53,6 +58,7 @@ public class OapGrantMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "过期时间不能为空")
     @PositiveOrZero(message = "过期时间不能为负数")
     private Long              expireTimestamp;
 
@@ -61,6 +67,7 @@ public class OapGrantMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "创建时间不能为空")
     @PositiveOrZero(message = "创建时间不能为负数")
     private Long              createTimestamp;
 

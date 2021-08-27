@@ -16,6 +16,7 @@ import com.github.rebue.scx.to.OapGrantPageTo;
 import com.github.rebue.scx.dao.OapGrantDao;
 import com.github.rebue.scx.mapper.OapGrantMapper;
 import com.github.rebue.scx.svc.OapGrantSvc;
+import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 
 /**
@@ -56,7 +57,7 @@ public class OapGrantSvcImpl extends
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    protected BaseSvc<java.lang.Long, OapGrantAddTo, OapGrantModifyTo, OapGrantDelTo, OapGrantOneTo, OapGrantListTo, OapGrantPageTo, OapGrantMo, OapGrantJo> getThisSvc() {
+    protected BaseSvc<Long, OapGrantAddTo, OapGrantModifyTo, OapGrantDelTo, OapGrantOneTo, OapGrantListTo, OapGrantPageTo, OapGrantMo, OapGrantJo> getThisSvc() {
         return thisSvc;
     }
 

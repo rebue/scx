@@ -7,12 +7,14 @@ import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.dto.RedirectUris;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.mo.OapAppMo;
+import com.github.rebue.scx.mo.OapGrantMo;
 import com.github.rebue.scx.oidc.AuthorizeInfo;
 import com.github.rebue.scx.oidc.CodeRepository;
 import com.github.rebue.scx.oidc.OidcHelper;
 import com.github.rebue.scx.oidc.OidcTokenError;
 import com.github.rebue.scx.repository.OapAppRepository;
 import com.github.rebue.scx.repository.OapRedirectUriRepository;
+import com.github.rebue.scx.svc.AccessTokenService;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.common.contenttype.ContentType;
 import com.nimbusds.jwt.SignedJWT;
@@ -61,9 +63,6 @@ import java.util.stream.Collectors;
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
-    // 单位是秒
-    private static final long ACCESS_TOKEN_LIFETIME = 60 * 60;
-
     @Autowired
     private CodeRepository codeRepository;
 
@@ -72,6 +71,9 @@ public class OidcSvcImpl implements OidcSvc {
 
     @Resource
     private OapRedirectUriRepository oapRedirectUriRepository;
+
+    @Resource
+    private AccessTokenService accessTokenService;
 
     @DubboReference
     private JwtApi jwtApi;
@@ -223,9 +225,10 @@ public class OidcSvcImpl implements OidcSvc {
             return tokenError(response, OidcTokenError.SERVER_ERROR, "");
         }
 
-        BearerAccessToken accessToken = new BearerAccessToken(ACCESS_TOKEN_LIFETIME, codeValue.getScope());
+        BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, codeValue.getScope());
         RefreshToken refreshToken = new RefreshToken();
-        // todo accessToken refreshToken 存到db
+
+        accessTokenService.saveToken(codeValue.getAccountId(), accessToken, refreshToken);
 
         response.getHeaders().set("Cache-Control", "no-store");
         response.getHeaders().set("Pragma", "no-cache");
@@ -233,36 +236,48 @@ public class OidcSvcImpl implements OidcSvc {
         return new OIDCTokenResponse(tokens).toHTTPResponse().getContentAsJSONObject();
     }
 
+    public static void main(String[] args)
+    {
+        BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, new Scope("openid"));
+        RefreshToken refreshToken = new RefreshToken();
+        System.out.println();
+    }
+
     private Object refreshAccessToken(RefreshToken refreshToken, ServerHttpResponse response)
     {
         if (refreshToken == null) {
             return tokenError(response, OidcTokenError.INVALID_GRANT, "Refresh token is null");
         }
-//        Optional<GrantInfo> infoOp = grantRepository.getByRefreshToken(refreshToken.getValue());
-//        if (!infoOp.isPresent()) {
-//            return tokenError(response, TokenError.invalid_grant, "Refresh token does not exist");
-//        }
-//        GrantInfo info = infoOp.get();
+        OapGrantMo info = accessTokenService.getByRefreshToken(refreshToken.getValue());
+        if (info == null) {
+            return tokenError(response, OidcTokenError.INVALID_GRANT, "Refresh token does not exist");
+        }
+
+//        info.getAccessToken();
+//        info.getRefreshToken();
+//
 //        long toEnd = info.getRefreshGrantedTime().getEpochSecond()
-//                + OidcNS.REFRESH_TOKEN_LIFETIME
+//                + OidcConfig.REFRESH_TOKEN_LIFETIME
 //                - Instant.now().getEpochSecond();
 //        RefreshToken newRefreshToken;
 //        if (toEnd < 24 * 60 * 60) {
-//            // 距离 refresh token 结束时间少于一天，则颁发新的
+////            // 距离 refresh token 结束时间少于一天，则颁发新的
 //            newRefreshToken = new RefreshToken();
 //            info.setRefreshToken(newRefreshToken);
 //        } else {
 //            newRefreshToken = null;
 //        }
-//        BearerAccessToken accessToken = new BearerAccessToken(OidcNS.ACCESS_TOKEN_LIFETIME, info.getScope());
-//        info.setAccessToken(accessToken);
-//        grantRepository.remove(info.getId());
+//        BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, info.getScope());
+//        info.setAccessToken(accessToken.getValue());
+//        accessTokenService.removeById(info.getId());
 //        grantRepository.put(info);
-//        Tokens tokens = new Tokens(info.getAccessToken(), newRefreshToken);
+//        Tokens tokens = new Tokens(accessToken, newRefreshToken);
 //        AccessTokenResponse tokenResponse = new AccessTokenResponse(tokens);
 //        return makeTokenResponse(tokenResponse, response);
         return null;
     }
+
+
 
     private static boolean verifyRedirectionUri(TokenRequest tokenRequest, String uri)
     {

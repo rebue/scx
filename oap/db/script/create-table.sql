@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 27/08/2021 16:59:56
+ Date: 27/08/2021 17:14:26
 */
 
 SET NAMES utf8mb4;
@@ -38,11 +38,11 @@ CREATE TABLE `OAP_APP`  (
 DROP TABLE IF EXISTS `OAP_GRANT`;
 CREATE TABLE `OAP_GRANT`  (
   `ID` bigint UNSIGNED NOT NULL COMMENT '主键',
-  `ACCOUNT_ID` bigint UNSIGNED NULL DEFAULT NULL COMMENT 'rac_account主键',
-  `ACCESS_TOKEN` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'oidc access token',
-  `REFRESH_TOKEN` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'oidc refresh token',
-  `EXPIRE_TIMESTAMP` bigint UNSIGNED NULL DEFAULT NULL COMMENT '过期时间',
-  `CREATE_TIMESTAMP` bigint UNSIGNED NULL DEFAULT NULL COMMENT '创建时间',
+  `ACCOUNT_ID` bigint UNSIGNED NOT NULL COMMENT 'rac_account主键',
+  `ACCESS_TOKEN` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oidc access token',
+  `REFRESH_TOKEN` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'oidc refresh token',
+  `EXPIRE_TIMESTAMP` bigint UNSIGNED NOT NULL COMMENT '过期时间',
+  `CREATE_TIMESTAMP` bigint UNSIGNED NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 

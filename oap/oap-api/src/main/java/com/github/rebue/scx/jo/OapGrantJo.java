@@ -42,8 +42,8 @@ public class OapGrantJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "ACCOUNT_ID", nullable = true, length = 20)
+    @Basic(optional = false)
+    @Column(name = "ACCOUNT_ID", nullable = false, length = 20)
     private Long              accountId;
 
     /**
@@ -51,8 +51,8 @@ public class OapGrantJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "ACCESS_TOKEN", nullable = true, length = 255)
+    @Basic(optional = false)
+    @Column(name = "ACCESS_TOKEN", nullable = false, length = 255)
     private String            accessToken;
 
     /**
@@ -60,8 +60,8 @@ public class OapGrantJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "REFRESH_TOKEN", nullable = true, length = 255)
+    @Basic(optional = false)
+    @Column(name = "REFRESH_TOKEN", nullable = false, length = 255)
     private String            refreshToken;
 
     /**
@@ -69,8 +69,8 @@ public class OapGrantJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "EXPIRE_TIMESTAMP", nullable = true, length = 20)
+    @Basic(optional = false)
+    @Column(name = "EXPIRE_TIMESTAMP", nullable = false, length = 20)
     private Long              expireTimestamp;
 
     /**
@@ -78,8 +78,8 @@ public class OapGrantJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "CREATE_TIMESTAMP", nullable = true, length = 20)
+    @Basic(optional = false)
+    @Column(name = "CREATE_TIMESTAMP", nullable = false, length = 20)
     private Long              createTimestamp;
 
     /**
