@@ -1,5 +1,6 @@
 package rebue.scx.jwt.api;
 
+import com.nimbusds.jwt.SignedJWT;
 import org.springframework.validation.annotation.Validated;
 import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
@@ -15,6 +16,8 @@ public interface JwtApi {
      * @param to 签名中储存的账户信息
      */
     JwtSignRa sign(@Valid JwtSignTo to);
+
+    SignedJWT rawSign(JwtSignTo to);
 
     /**
      * 验证JWT签名

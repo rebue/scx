@@ -42,6 +42,18 @@ public class JwtSvcImpl implements JwtSvc {
     @SneakyThrows
     public JwtSignRa sign(final JwtSignTo to)
     {
+        SignedJWT jwt = rawSign(to);
+        String sign = jwt.serialize();
+        LocalDateTime expLocalDateTime =
+                jwt.getJWTClaimsSet().getExpirationTime()
+                        .toInstant().atZone(ZONE_ID).toLocalDateTime();
+        return JwtSignRa.success(sign, expLocalDateTime);
+    }
+
+    @Override
+    @SneakyThrows
+    public SignedJWT rawSign(final JwtSignTo to)
+    {
         Date now = new Date();
         Date exp = new Date(now.getTime() + jwtKey.getExp());
         Builder builder = new Builder()
@@ -57,9 +69,7 @@ public class JwtSvcImpl implements JwtSvc {
         JWSSigner signer = new RSASSASigner(jwtKey.getPrivateKey());
         SignedJWT jwt = new SignedJWT(new JWSHeader(JWSAlgorithm.RS256), claims);
         jwt.sign(signer);
-        String sign = jwt.serialize();
-        LocalDateTime expLocalDateTime = exp.toInstant().atZone(ZONE_ID).toLocalDateTime();
-        return JwtSignRa.success(sign, expLocalDateTime);
+        return jwt;
     }
 
     /**

@@ -1,5 +1,6 @@
 package rebue.scx.jwt.svc;
 
+import com.nimbusds.jwt.SignedJWT;
 import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
@@ -11,6 +12,8 @@ public interface JwtSvc {
      * @param to 签名中储存的账户信息
      */
     JwtSignRa sign(JwtSignTo to);
+
+    SignedJWT rawSign(final JwtSignTo to);
 
     /**
      * 验证JWT签名

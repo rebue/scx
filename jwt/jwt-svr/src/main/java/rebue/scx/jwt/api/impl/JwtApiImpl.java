@@ -1,5 +1,6 @@
 package rebue.scx.jwt.api.impl;
 
+import com.nimbusds.jwt.SignedJWT;
 import org.apache.dubbo.config.annotation.DubboService;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
@@ -19,6 +20,12 @@ public class JwtApiImpl implements JwtApi {
     public JwtSignRa sign(final JwtSignTo to)
     {
         return svc.sign(to);
+    }
+
+    @Override
+    public SignedJWT rawSign(final JwtSignTo to)
+    {
+        return svc.rawSign(to);
     }
 
     @Override

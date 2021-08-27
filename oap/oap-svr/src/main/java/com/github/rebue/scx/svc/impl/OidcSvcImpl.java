@@ -9,10 +9,12 @@ import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.oidc.AuthorisationCodeFlow;
 import com.github.rebue.scx.oidc.AuthorizeInfo;
 import com.github.rebue.scx.oidc.CodeRepository;
+import com.github.rebue.scx.oidc.OidcTokenError;
 import com.github.rebue.scx.repository.OapAppRepository;
 import com.github.rebue.scx.repository.OapRedirectUriRepository;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.common.contenttype.ContentType;
+import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.oauth2.sdk.*;
 import com.nimbusds.oauth2.sdk.auth.ClientAuthentication;
 import com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod;
@@ -20,7 +22,11 @@ import com.nimbusds.oauth2.sdk.auth.ClientSecretBasic;
 import com.nimbusds.oauth2.sdk.http.HTTPRequest;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.oauth2.sdk.id.State;
+import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
+import com.nimbusds.oauth2.sdk.token.RefreshToken;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
+import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
+import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -33,6 +39,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
+import rebue.scx.jwt.ra.JwtSignRa;
+import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.to.UnifiedLoginTo;
 
@@ -54,6 +62,13 @@ public class OidcSvcImpl implements OidcSvc {
     private static final String AUTH_INFO = "auth_info";
 
     private static final String UNIFIED_LOGIN_COOKIE = "unified_login_cookie";
+
+    private static final String COOKIE_DOMAIN = "localhost"; // todo
+
+    private static final long COOKIE_AGE = 100000L; // todo
+
+    // 单位是秒
+    private static final long ACCESS_TOKEN_LIFETIME = 60 * 60;
 
     @Autowired
     private CodeRepository codeRepository;
@@ -159,17 +174,17 @@ public class OidcSvcImpl implements OidcSvc {
         TokenRequest tokenRequest;
         Pair<TokenRequest, String> pair = tokenRequest(url, authorization, requestBody);
         if ((tokenRequest = pair.getLeft()) == null) {
-            return tokenError(response, "invalid_request", pair.getRight());
+            return tokenError(response, OidcTokenError.INVALID_REQUEST, pair.getRight());
         }
         String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
         OapAppMo mo = new OapAppMo();
         mo.setClientId(clientId);
         OapAppMo app = oapAppRepository.selectByClientId(clientId);
         if (app == null) {
-            return tokenError(response, "invalid_client", "invalid client : " + clientId);
+            return tokenError(response, OidcTokenError.INVALID_CLIENT, "invalid client : " + clientId);
         }
         if (!compareSecret(tokenRequest, app.getSecret())) {
-            return tokenError(response, "unauthorized_client", "unauthorized client : " + clientId);
+            return tokenError(response, OidcTokenError.UNAUTHORIZED_CLIENT, "unauthorized client : " + clientId);
         }
         AuthorizationGrant grant = tokenRequest.getAuthorizationGrant();
         GrantType grantType = grant.getType();
@@ -177,33 +192,46 @@ public class OidcSvcImpl implements OidcSvc {
             return issueIdToken(tokenRequest, response);
         }
         // todo refresh token
-        return tokenError(response, "unsupported_grant_type", "invalid grant_type : " + grantType.getValue());
+        return tokenError(response, OidcTokenError.UNSUPPORTED_GRANT_TYPE, "invalid grant_type : " + grantType.getValue());
     }
 
     /**
-     * @return {@link com.nimbusds.oauth2.sdk.AccessTokenResponse}
+     * @return {@link com.nimbusds.openid.connect.sdk.OIDCTokenResponse}
      * <p> 或 {@link com.github.rebue.orp.core.dto.TokenError}
      */
     private Object issueIdToken(TokenRequest tokenRequest, ServerHttpResponse response)
     {
         String code = getAuthorizationCode(tokenRequest).orElse(null);
         if (code == null) {
-            return tokenError(response, "invalid_grant", "code is empty");
+            return tokenError(response, OidcTokenError.INVALID_GRANT, "code is empty");
         }
         CodeValue codeValue = codeRepository.getAndRemoveCode(code).orElse(null);
         if (codeValue == null) {
-            return tokenError(response, "invalid_grant", "invalid code : " + code);
+            return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid code : " + code);
         }
         String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
         if (!codeValue.getClientId().equals(clientId)) {
-            return tokenError(response, "invalid_grant", "invalid clientId : " + clientId);
+            return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid clientId : " + clientId);
         }
         if (!verifyRedirectionUri(tokenRequest, codeValue.getRedirectionUri())) {
-            return tokenError(response, "invalid_grant", "invalid redirection uri : " + codeValue.getRedirectionUri());
+            return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid redirection uri : " + codeValue.getRedirectionUri());
         }
-        String userCode = codeValue.getUserCode();
-        // todo OidcNS.makeIdtoken()
-        return null;
+        JwtSignRa jwtSignRa = jwtApi.sign(new JwtSignTo(codeValue.getUserCode(), codeValue.getClientId()));
+        if (!jwtSignRa.isSuccess()) {
+            return tokenError(response, OidcTokenError.SERVER_ERROR, "");
+        }
+        SignedJWT idToken = jwtApi.rawSign(new JwtSignTo(codeValue.getUserCode(), codeValue.getClientId()));
+        if (idToken == null) {
+            return tokenError(response, OidcTokenError.SERVER_ERROR, "");
+        }
+
+        BearerAccessToken accessToken = new BearerAccessToken(ACCESS_TOKEN_LIFETIME, codeValue.getScope());
+        RefreshToken refreshToken = new RefreshToken();
+
+        response.getHeaders().set("Cache-Control", "no-store");
+        response.getHeaders().set("Pragma", "no-cache");
+        OIDCTokens tokens = new OIDCTokens(idToken, accessToken, refreshToken);
+        return new OIDCTokenResponse(tokens);
     }
 
     private static boolean verifyRedirectionUri(TokenRequest tokenRequest, String uri)
@@ -234,9 +262,6 @@ public class OidcSvcImpl implements OidcSvc {
         return Optional.empty();
     }
 
-    /**
-     * 对比密钥
-     */
     private boolean compareSecret(TokenRequest tokenRequest, String secret)
     {
         ClientAuthentication clientAuth = tokenRequest.getClientAuthentication();
@@ -277,9 +302,9 @@ public class OidcSvcImpl implements OidcSvc {
     private static ResponseCookie createCookie(String key, String value)
     {
         return ResponseCookie.from(key, value)
-                .domain("localhost") // todo
+                .domain(COOKIE_DOMAIN)
                 .path("/")
-                .maxAge(100000L)
+                .maxAge(COOKIE_AGE)
                 .build();
     }
 
