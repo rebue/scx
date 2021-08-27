@@ -125,15 +125,15 @@ public class AESUtil {
     /**
      * 测试
      */
-    public static void main(final String[] args) throws Exception {
-        final String randomString = RandomUtils.getRandomString(16);
-        final String content = "hahhahaahhahni";
-        System.out.println("加密前：" + content);
-        System.out.println("加密密钥和解密密钥：" + randomString);
-        final String encrypt = aesEncrypt(content, randomString);
-        System.out.println("加密后：" + encrypt);
-        final String decrypt = aesDecrypt(encrypt, randomString);
-        System.out.println("解密后：" + decrypt);
-    }
+//    public static void main(final String[] args) throws Exception {
+//        final String randomString = RandomUtils.getRandomString(16);
+//        final String content = "hahhahaahhahni";
+//        System.out.println("加密前：" + content);
+//        System.out.println("加密密钥和解密密钥：" + randomString);
+//        final String encrypt = aesEncrypt(content, randomString);
+//        System.out.println("加密后：" + encrypt);
+//        final String decrypt = aesDecrypt(encrypt, randomString);
+//        System.out.println("解密后：" + decrypt);
+//    }
 
 }

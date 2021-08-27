@@ -72,7 +72,7 @@ public class AjCaptchaProperties {
     /**
      * 缓存类型redis/local/....
      */
-    private StorageType cacheType =StorageType.local;
+    private StorageType cacheType =StorageType.redis;
     /**
      * 历史数据清除开关
      */

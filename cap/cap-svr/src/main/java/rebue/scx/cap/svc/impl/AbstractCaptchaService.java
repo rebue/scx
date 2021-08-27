@@ -61,7 +61,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
     protected Font clickWordFont;//点选文字字体
 
-    protected static String cacheType = "local";
+    protected static String cacheType = "redis";
 
     protected static int captchaInterferenceOptions = 0;
 

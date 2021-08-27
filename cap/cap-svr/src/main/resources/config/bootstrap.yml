@@ -15,8 +15,8 @@ spring:
   autoconfigure:
     exclude:
       # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
-      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      #- org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      #- org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   jpa:
     # 打印SQL
     show-sql: true

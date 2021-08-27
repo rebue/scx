@@ -2,8 +2,7 @@ package rebue.scx.cap.svc.impl;
 
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 
 import rebue.scx.cap.svc.CaptchaCacheService;
 
@@ -16,7 +15,7 @@ import rebue.scx.cap.svc.CaptchaCacheService;
  * 
  * @Title: 使用redis缓存
  */
-
+@Component
 public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
 
     @Override
@@ -24,31 +23,33 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
         return "redis";
     }
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+//    @Autowired
+//    RedisConfig                 redisConfig;
+//    @Autowired
+//    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void set(final String key, final String value, final long expiresInSeconds) {
-        stringRedisTemplate.opsForValue().set(key, value, expiresInSeconds, TimeUnit.SECONDS);
+        RedisConfig.self.getRedis().opsForValue().set(key, value, expiresInSeconds, TimeUnit.SECONDS);
     }
 
     @Override
     public boolean exists(final String key) {
-        return stringRedisTemplate.hasKey(key);
+        return RedisConfig.self.getRedis().hasKey(key);
     }
 
     @Override
     public void delete(final String key) {
-        stringRedisTemplate.delete(key);
+        RedisConfig.self.getRedis().delete(key);
     }
 
     @Override
     public String get(final String key) {
-        return stringRedisTemplate.opsForValue().get(key);
+        return RedisConfig.self.getRedis().opsForValue().get(key);
     }
 
     @Override
     public Long increment(final String key, final long val) {
-        return stringRedisTemplate.opsForValue().increment(key, val);
+        return RedisConfig.self.getRedis().opsForValue().increment(key, val);
     }
 }
