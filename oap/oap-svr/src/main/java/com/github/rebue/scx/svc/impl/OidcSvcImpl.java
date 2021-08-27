@@ -196,9 +196,10 @@ public class OidcSvcImpl implements OidcSvc {
     }
 
     /**
-     * @return {@link com.nimbusds.openid.connect.sdk.OIDCTokenResponse}
+     * @return {@link com.nimbusds.openid.connect.sdk.OIDCTokenResponse} .toHTTPResponse().getContentAsJSONObject()
      * <p> 或 {@link com.github.rebue.orp.core.dto.TokenError}
      */
+    @SneakyThrows
     private Object issueIdToken(TokenRequest tokenRequest, ServerHttpResponse response)
     {
         String code = getAuthorizationCode(tokenRequest).orElse(null);
@@ -231,7 +232,7 @@ public class OidcSvcImpl implements OidcSvc {
         response.getHeaders().set("Cache-Control", "no-store");
         response.getHeaders().set("Pragma", "no-cache");
         OIDCTokens tokens = new OIDCTokens(idToken, accessToken, refreshToken);
-        return new OIDCTokenResponse(tokens);
+        return new OIDCTokenResponse(tokens).toHTTPResponse().getContentAsJSONObject();
     }
 
     private static boolean verifyRedirectionUri(TokenRequest tokenRequest, String uri)
