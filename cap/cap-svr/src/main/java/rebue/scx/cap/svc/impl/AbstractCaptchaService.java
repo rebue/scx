@@ -47,7 +47,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
     protected static Long EXPIRESIN_THREE = 3 * 60L;
 
-    protected static String waterMark = "我的水印";
+    protected static String waterMark = ".";
 
     protected static String waterMarkFontStr = "WenQuanZhengHei.ttf";
 

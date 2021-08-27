@@ -5,11 +5,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import rebue.scx.cap.properties.AjCaptchaProperties;
+import rebue.scx.cap.properties.CaptchaProperties;
 
 @Configuration
-@EnableConfigurationProperties(AjCaptchaProperties.class)
+@EnableConfigurationProperties(CaptchaProperties.class)
 @ComponentScan("rebue.scx.cap")
-@Import({AjCaptchaServiceAutoConfiguration.class, AjCaptchaStorageAutoConfiguration.class})
-public class AjCaptchaAutoConfiguration {
+@Import({CaptchaServiceAutoConfiguration.class, CaptchaStorageAutoConfiguration.class})
+public class CaptchaAutoConfiguration {
 }

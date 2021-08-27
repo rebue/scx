@@ -5,30 +5,38 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.ServiceLoader;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import rebue.scx.cap.commom.Const;
 import rebue.scx.cap.svc.CaptchaCacheService;
 import rebue.scx.cap.svc.CaptchaService;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 
-
+@Component
 public class CaptchaServiceFactory {
 
-    private static Logger logger = LoggerFactory.getLogger(CaptchaServiceFactory.class);
+    @Autowired
+    private  CaptchaCacheServiceMemImpl   captchaCacheServiceMemImpl;
+    @Autowired
+    private  CaptchaCacheServiceRedisImpl captchaCacheServiceRedisImpl;
+
+    private static CaptchaServiceFactory self;
+    @PostConstruct
+    void Init() {
+        //初始化注入缓存实例
+        self = this;
+    }
+    
+    private static Logger                logger = LoggerFactory.getLogger(CaptchaServiceFactory.class);
 
     public static CaptchaService getInstance(final Properties config) {
-        //先把所有CaptchaService初始化，通过init方法，实例字体等，add by lide1202@hotmail.com
-        /*try{
-            for(CaptchaService item: instances.values()){
-                item.init(config);
-            }
-        }catch (Exception e){
-            logger.warn("init captchaService fail:{}", e);
-        }*/
-
-        final String captchaType = config.getProperty(Const.CAPTCHA_TYPE, "default");
-        final CaptchaService ret = instances.get(captchaType);
+        final String         captchaType = config.getProperty(Const.CAPTCHA_TYPE, "default");
+        final CaptchaService ret         = instances.get(captchaType);
         if (ret == null) {
             throw new RuntimeException("unsupported-[captcha.type]=" + captchaType);
         }
@@ -37,18 +45,19 @@ public class CaptchaServiceFactory {
     }
 
     public static CaptchaCacheService getCache(final String cacheType) {
-        return cacheService.get(cacheType);
+        if ("redis".equals(cacheType)) {
+            return self.captchaCacheServiceRedisImpl;
+        }
+        if ("local".equals(cacheType)) {
+            return self.captchaCacheServiceMemImpl;
+        } 
+        throw new RuntimeExceptionX("尚未配置验证缓存类型，请联系管理员");
     }
 
-    public volatile static Map<String, CaptchaService> instances = new HashMap<String, CaptchaService>();
-    public volatile static Map<String, CaptchaCacheService> cacheService = new HashMap<String, CaptchaCacheService>();
+    public volatile static Map<String, CaptchaService>      instances    = new HashMap<String, CaptchaService>();
 
     static {
-        final ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
-        for (final CaptchaCacheService item : cacheServices) {
-            cacheService.put(item.type(), item);
-        }
-        logger.info("supported-captchaCache-service:{}", cacheService.keySet().toString());
+        //将验证码类型加入Map，根据key来使用对应的验证类型
         final ServiceLoader<CaptchaService> services = ServiceLoader.load(CaptchaService.class);
         for (final CaptchaService item : services) {
             instances.put(item.captchaType(), item);

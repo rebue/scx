@@ -1,5 +1,7 @@
 package rebue.scx.cap.svc.impl;
 
+import org.springframework.stereotype.Component;
+
 import rebue.scx.cap.svc.CaptchaCacheService;
 import rebue.scx.cap.util.CacheUtil;
 
@@ -9,6 +11,7 @@ import rebue.scx.cap.util.CacheUtil;
  * 内存缓存只适合单节点部署的应用，否则验证码生产与验证在节点之间信息不同步，导致失败。
  * @Title: 默认使用内存当缓存
  */
+@Component
 public class CaptchaCacheServiceMemImpl implements CaptchaCacheService {
     @Override
     public void set(final String key, final String value, final long expiresInSeconds) {

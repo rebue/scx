@@ -1,6 +1,6 @@
 package rebue.scx.cap.properties;
 
-import static rebue.scx.cap.properties.AjCaptchaProperties.PREFIX;
+import static rebue.scx.cap.properties.CaptchaProperties.PREFIX;
 
 import java.awt.Font;
 
@@ -10,8 +10,8 @@ import rebue.scx.cap.commom.CaptchaTypeEnum;
 
 
 @ConfigurationProperties(PREFIX)
-public class AjCaptchaProperties {
-    public static final String PREFIX = "aj.captcha";
+public class CaptchaProperties {
+    public static final String PREFIX = "captcha";
 
     /**
      * 验证码类型.

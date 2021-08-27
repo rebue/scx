@@ -16,20 +16,20 @@ import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
 
 import rebue.scx.cap.commom.Const;
-import rebue.scx.cap.properties.AjCaptchaProperties;
+import rebue.scx.cap.properties.CaptchaProperties;
 import rebue.scx.cap.svc.CaptchaService;
 import rebue.scx.cap.svc.impl.CaptchaServiceFactory;
 import rebue.scx.cap.util.ImageUtils;
 import rebue.scx.cap.util.StringUtils;
 
 @Configuration
-public class AjCaptchaServiceAutoConfiguration {
+public class CaptchaServiceAutoConfiguration {
 
-    private static Logger logger = LoggerFactory.getLogger(AjCaptchaServiceAutoConfiguration.class);
+    private static Logger logger = LoggerFactory.getLogger(CaptchaServiceAutoConfiguration.class);
 
     @Bean
     @ConditionalOnMissingBean
-    public CaptchaService captchaService(final AjCaptchaProperties prop) {
+    public CaptchaService captchaService(final CaptchaProperties prop) {
         logger.info("自定义配置项：{}", prop.toString());
         final Properties config = new Properties();
         config.put(Const.CAPTCHA_CACHETYPE, prop.getCacheType().name());
