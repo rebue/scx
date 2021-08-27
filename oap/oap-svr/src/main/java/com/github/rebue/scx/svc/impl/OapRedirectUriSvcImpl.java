@@ -20,7 +20,7 @@ import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 
 /**
- * 服务实现
+ * 第三方应用URL服务实现
  *
  * <pre>
  * 注意：

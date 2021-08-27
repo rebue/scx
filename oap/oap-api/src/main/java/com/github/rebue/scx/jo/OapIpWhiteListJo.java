@@ -13,6 +13,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 第三方应用IP白名单
+ *
  * The persistent class for the OAP_IP_WHITE_LIST database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行

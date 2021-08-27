@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import rebue.robotech.svc.BaseSvc;
 
 /**
- * 服务接口
+ * 第三方应用IP白名单服务接口
  *
  * <pre>
  * 1. 在接口上方必须写上 @Validated 注解

@@ -21,6 +21,8 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 
 /**
+ * 第三方应用
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @RestController
@@ -33,7 +35,7 @@ public class OapAppCtrl {
     private OapAppApi api;
 
     /**
-     * 添加
+     * 添加第三方应用
      *
      * @param to 添加的具体信息
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -44,7 +46,7 @@ public class OapAppCtrl {
     }
 
     /**
-     * 修改的信息
+     * 修改第三方应用的信息
      *
      * @param to 修改的具体数据
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -55,9 +57,9 @@ public class OapAppCtrl {
     }
 
     /**
-     * 删除
+     * 删除第三方应用
      *
-     * @param id ID
+     * @param id 第三方应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/oap/app")
@@ -66,9 +68,9 @@ public class OapAppCtrl {
     }
 
     /**
-     * 获取单个的信息
+     * 获取单个第三方应用的信息
      *
-     * @param id ID
+     * @param id 第三方应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oap/app/get-by-id")
@@ -77,9 +79,9 @@ public class OapAppCtrl {
     }
 
     /**
-     * 判断是否存在
+     * 判断第三方应用是否存在
      *
-     * @param id ID
+     * @param id 第三方应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oap/app/exist-by-id")
@@ -88,7 +90,7 @@ public class OapAppCtrl {
     }
 
     /**
-     * 查询的信息
+     * 查询第三方应用的信息
      *
      * @param qo 查询的具体条件
      * @mbg.generated 自动生成，如需修改，请删除本行

@@ -12,6 +12,8 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
+ * 第三方应用
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -195,8 +197,10 @@ public class OapAppMo implements Serializable, Mo<Long> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", appId=").append(appId);
+        sb.append(", isEnabled=").append(isEnabled);
         sb.append(", clientId=").append(clientId);
         sb.append(", secret=").append(secret);
+        sb.append(", objId=").append(objId);
         sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", updateTimestamp=").append(updateTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
@@ -241,5 +245,56 @@ public class OapAppMo implements Serializable, Mo<Long> {
     @Override
     public String getIdType() {
         return "Long";
+    }
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
+    private Boolean isEnabled;
+
+    /**
+     * 对象ID(文件ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Long    objId;
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    /**
+     * 对象ID(文件ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getObjId() {
+        return objId;
+    }
+
+    /**
+     * 对象ID(文件ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setObjId(Long objId) {
+        this.objId = objId;
     }
 }

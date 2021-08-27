@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.core.RandomEx;
 
 /**
- *  Service层测试
+ * 三方应用账户信息 Service层测试
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
@@ -48,24 +48,24 @@ public class OapGrantSvcTests {
         Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (OapGrantAddTo) RandomEx.randomPojo(OapGrantAddTo.class);
-            log.info("添加的参数为：" + addTo);
+            log.info("添加三方应用账户信息的参数为：" + addTo);
             final OapGrantMo addRo = _svc.add(addTo);
-            log.info("添加的返回值为：" + addRo);
+            log.info("添加三方应用账户信息的返回值为：" + addRo);
             Assertions.assertNotNull(addRo);
             id = addRo.getId();
         }
         final PageInfo<OapGrantMo> pageResult = _svc.page(new OapGrantPageTo());
-        log.info("查询的返回值为：" + pageResult);
+        log.info("查询三方应用账户信息的返回值为：" + pageResult);
         Assertions.assertNotNull(pageResult);
-        log.info("获取单个的参数为：" + id);
+        log.info("获取单个三方应用账户信息的参数为：" + id);
         OapGrantMo getByIdResult = _svc.getById(id);
-        log.info("获取单个的返回值为：" + getByIdResult);
+        log.info("获取单个三方应用账户信息的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
         final OapGrantModifyTo modifyTo = dozerMapper.map(addTo, OapGrantModifyTo.class);
         modifyTo.setId(id);
-        log.info("修改的参数为：" + modifyTo);
+        log.info("修改三方应用账户信息的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-        log.info("删除的参数为：" + id);
+        log.info("删除三方应用账户信息的参数为：" + id);
         _svc.delById(id);
     }
 }

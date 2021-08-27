@@ -37,7 +37,7 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, appId, clientId, secret, createTimestamp, updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, appId, isEnabled, clientId, secret, objId, createTimestamp, updateTimestamp);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -75,9 +75,9 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
      */
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "OapAppMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "CLIENT_ID", property = "clientId", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "SECRET", property = "secret", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "CREATE_TIMESTAMP", property = "createTimestamp", jdbcType = JdbcType.BIGINT),
+        @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT),
+        @Result(column = "CLIENT_ID", property = "clientId", jdbcType = JdbcType.VARCHAR), @Result(column = "SECRET", property = "secret", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "OBJ_ID", property = "objId", jdbcType = JdbcType.BIGINT), @Result(column = "CREATE_TIMESTAMP", property = "createTimestamp", jdbcType = JdbcType.BIGINT),
         @Result(column = "UPDATE_TIMESTAMP", property = "updateTimestamp", jdbcType = JdbcType.BIGINT)
     })
     List<OapAppMo> selectMany(SelectStatementProvider selectStatement);
@@ -113,16 +113,18 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insert(OapAppMo record) {
-        return MyBatis3Utils.insert(this::insert, record, oapApp, c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(clientId).toProperty("clientId").map(secret)
-            .toProperty("secret").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
+        return MyBatis3Utils.insert(this::insert, record, oapApp,
+            c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(isEnabled).toProperty("isEnabled").map(clientId).toProperty("clientId").map(secret)
+                .toProperty("secret").map(objId).toProperty("objId").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertMultiple(Collection<OapAppMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, oapApp, c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(clientId)
-            .toProperty("clientId").map(secret).toProperty("secret").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, oapApp,
+            c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(isEnabled).toProperty("isEnabled").map(clientId).toProperty("clientId").map(secret)
+                .toProperty("secret").map(objId).toProperty("objId").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
@@ -130,8 +132,9 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
      */
     default int insertSelective(OapAppMo record) {
         return MyBatis3Utils.insert(this::insert, record, oapApp,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId).toPropertyWhenPresent("appId", record::getAppId).map(clientId)
-                .toPropertyWhenPresent("clientId", record::getClientId).map(secret).toPropertyWhenPresent("secret", record::getSecret).map(createTimestamp)
+            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId).toPropertyWhenPresent("appId", record::getAppId).map(isEnabled)
+                .toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(clientId).toPropertyWhenPresent("clientId", record::getClientId).map(secret)
+                .toPropertyWhenPresent("secret", record::getSecret).map(objId).toPropertyWhenPresent("objId", record::getObjId).map(createTimestamp)
                 .toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp).map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp));
     }
 
@@ -174,34 +177,36 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(OapAppMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(appId).equalTo(record::getAppId).set(clientId).equalTo(record::getClientId).set(secret).equalTo(record::getSecret)
-            .set(createTimestamp).equalTo(record::getCreateTimestamp).set(updateTimestamp).equalTo(record::getUpdateTimestamp);
+        return dsl.set(id).equalTo(record::getId).set(appId).equalTo(record::getAppId).set(isEnabled).equalTo(record::getIsEnabled).set(clientId).equalTo(record::getClientId)
+            .set(secret).equalTo(record::getSecret).set(objId).equalTo(record::getObjId).set(createTimestamp).equalTo(record::getCreateTimestamp).set(updateTimestamp)
+            .equalTo(record::getUpdateTimestamp);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(OapAppMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId).set(appId).equalToWhenPresent(record::getAppId).set(clientId).equalToWhenPresent(record::getClientId).set(secret)
-            .equalToWhenPresent(record::getSecret).set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp)
-            .equalToWhenPresent(record::getUpdateTimestamp);
+        return dsl.set(id).equalToWhenPresent(record::getId).set(appId).equalToWhenPresent(record::getAppId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(clientId)
+            .equalToWhenPresent(record::getClientId).set(secret).equalToWhenPresent(record::getSecret).set(objId).equalToWhenPresent(record::getObjId).set(createTimestamp)
+            .equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(OapAppMo record) {
-        return update(c -> c.set(appId).equalTo(record::getAppId).set(clientId).equalTo(record::getClientId).set(secret).equalTo(record::getSecret).set(createTimestamp)
-            .equalTo(record::getCreateTimestamp).set(updateTimestamp).equalTo(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalTo(record::getAppId).set(isEnabled).equalTo(record::getIsEnabled).set(clientId).equalTo(record::getClientId).set(secret)
+            .equalTo(record::getSecret).set(objId).equalTo(record::getObjId).set(createTimestamp).equalTo(record::getCreateTimestamp).set(updateTimestamp)
+            .equalTo(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKeySelective(OapAppMo record) {
-        return update(c -> c.set(appId).equalToWhenPresent(record::getAppId).set(clientId).equalToWhenPresent(record::getClientId).set(secret).equalToWhenPresent(record::getSecret)
-            .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp)
-            .where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalToWhenPresent(record::getAppId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(clientId)
+            .equalToWhenPresent(record::getClientId).set(secret).equalToWhenPresent(record::getSecret).set(objId).equalToWhenPresent(record::getObjId).set(createTimestamp)
+            .equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -215,27 +220,30 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteSelective(OapAppMo record) {
-        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId))
-            .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret))
-            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+        return delete(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<OapAppMo> selectOne(OapAppMo record) {
-        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId))
-            .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret))
-            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+        return selectOne(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long countSelective(OapAppMo record) {
-        return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId))
-            .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret))
-            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+        return count(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
@@ -256,9 +264,10 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<OapAppMo> selectSelective(OapAppMo record) {
-        return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId))
-            .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret))
-            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+        return select(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**

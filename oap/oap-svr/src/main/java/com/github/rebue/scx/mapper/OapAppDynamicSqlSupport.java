@@ -25,6 +25,13 @@ public final class OapAppDynamicSqlSupport {
     public static final SqlColumn<String> appId = oapApp.appId;
 
     /**
+    * 是否启用
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Boolean> isEnabled = oapApp.isEnabled;
+
+    /**
     * oidc client id
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -37,6 +44,13 @@ public final class OapAppDynamicSqlSupport {
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<String> secret = oapApp.secret;
+
+    /**
+    * 对象ID(文件ID)
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> objId = oapApp.objId;
 
     /**
     * 建立时间戳
@@ -57,9 +71,13 @@ public final class OapAppDynamicSqlSupport {
 
         public final SqlColumn<String> appId = column("APP_ID", JDBCType.VARCHAR);
 
+        public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
+
         public final SqlColumn<String> clientId = column("CLIENT_ID", JDBCType.VARCHAR);
 
         public final SqlColumn<String> secret = column("SECRET", JDBCType.VARCHAR);
+
+        public final SqlColumn<Long> objId = column("OBJ_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
 

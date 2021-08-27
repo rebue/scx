@@ -11,6 +11,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 三方应用账户信息
+ *
  * The persistent class for the OAP_GRANT database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行

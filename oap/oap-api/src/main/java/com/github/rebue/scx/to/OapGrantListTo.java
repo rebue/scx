@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * 三方应用账户信息
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data

@@ -14,7 +14,7 @@ import com.github.rebue.scx.svc.OapAppSvc;
 import rebue.robotech.api.impl.BaseApiImpl;
 
 /**
- * API实现
+ * 第三方应用API实现
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import rebue.robotech.to.PageTo;
 
 /**
+ * 第三方应用
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
@@ -61,4 +63,18 @@ public class OapAppPageTo extends PageTo implements Serializable {
      */
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long              updateTimestamp;
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Boolean           isEnabled;
+
+    /**
+     * 对象ID(文件ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Long              objId;
 }

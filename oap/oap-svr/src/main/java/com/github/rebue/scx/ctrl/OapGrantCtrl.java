@@ -21,6 +21,8 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 
 /**
+ * 三方应用账户信息
+ *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @RestController
@@ -33,7 +35,7 @@ public class OapGrantCtrl {
     private OapGrantApi api;
 
     /**
-     * 添加
+     * 添加三方应用账户信息
      *
      * @param to 添加的具体信息
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -44,7 +46,7 @@ public class OapGrantCtrl {
     }
 
     /**
-     * 修改的信息
+     * 修改三方应用账户信息的信息
      *
      * @param to 修改的具体数据
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -55,9 +57,9 @@ public class OapGrantCtrl {
     }
 
     /**
-     * 删除
+     * 删除三方应用账户信息
      *
-     * @param id ID
+     * @param id 三方应用账户信息ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/oap/grant")
@@ -66,9 +68,9 @@ public class OapGrantCtrl {
     }
 
     /**
-     * 获取单个的信息
+     * 获取单个三方应用账户信息的信息
      *
-     * @param id ID
+     * @param id 三方应用账户信息ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oap/grant/get-by-id")
@@ -77,9 +79,9 @@ public class OapGrantCtrl {
     }
 
     /**
-     * 判断是否存在
+     * 判断三方应用账户信息是否存在
      *
-     * @param id ID
+     * @param id 三方应用账户信息ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oap/grant/exist-by-id")
@@ -88,7 +90,7 @@ public class OapGrantCtrl {
     }
 
     /**
-     * 查询的信息
+     * 查询三方应用账户信息的信息
      *
      * @param qo 查询的具体条件
      * @mbg.generated 自动生成，如需修改，请删除本行

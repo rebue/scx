@@ -13,6 +13,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 第三方应用URL
+ *
  * The persistent class for the OAP_REDIRECT_URI database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行

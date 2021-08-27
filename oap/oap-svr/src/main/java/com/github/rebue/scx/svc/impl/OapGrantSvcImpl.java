@@ -20,7 +20,7 @@ import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 
 /**
- * 服务实现
+ * 三方应用账户信息服务实现
  *
  * <pre>
  * 注意：

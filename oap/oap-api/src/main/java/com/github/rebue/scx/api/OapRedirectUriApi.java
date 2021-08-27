@@ -7,7 +7,7 @@ import com.github.rebue.scx.to.OapRedirectUriPageTo;
 import rebue.robotech.api.BaseApi;
 
 /**
- * 的API
+ * 第三方应用URL的API
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */

@@ -11,6 +11,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 第三方应用
+ *
  * The persistent class for the OAP_APP database table.
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
@@ -113,4 +115,22 @@ public class OapAppJo implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "IS_ENABLED", nullable = false, length = 1)
+    private Boolean isEnabled;
+
+    /**
+     * 对象ID(文件ID)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "OBJ_ID", nullable = true, length = 19)
+    private Long    objId;
 }
