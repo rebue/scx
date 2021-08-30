@@ -1,5 +1,6 @@
 package com.github.rebue.third.party.demo;
 
+import com.github.rebue.orp.core.OidcCore;
 import com.github.rebue.third.party.demo.utils.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class IndexController {
+public class DemoController {
 
     @Resource
     private Jwt jwt;
@@ -34,8 +35,15 @@ public class IndexController {
 
     @ResponseBody
     @GetMapping("/callback")
-    public String callback()
+    public String callback(String code) throws Exception
     {
+        OidcCore.tokenRequest(
+                configurations.getTokenEndpoint(),
+                configurations.getClientId(),
+                configurations.getClientSecret(),
+                code,
+                ""
+        );
         return "";
     }
 

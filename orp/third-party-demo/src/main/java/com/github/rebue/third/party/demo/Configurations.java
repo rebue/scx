@@ -10,8 +10,12 @@ public class Configurations {
     public static final String LOGIN_COOKIE = "login_cookie";
 
     @Getter
-    @Value("${demo-configurations.app-id}")
-    private String appId;
+    @Value("${demo-configurations.client-id}")
+    private String clientId;
+
+    @Getter
+    @Value("${demo-configurations.client-secret}")
+    private String clientSecret;
 
     @Getter
     @Value("${demo-configurations.issuer}")
@@ -20,5 +24,9 @@ public class Configurations {
     @Getter
     @Value("${demo-configurations.redirect}")
     private String redirect;
+
+    @Getter
+    @Value("${demo-configurations.redirect}")
+    private String tokenEndpoint;
 
 }
