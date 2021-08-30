@@ -267,7 +267,6 @@ public class OidcSvcImpl implements OidcSvc {
         Scope scope = TokenHelper.strToAccessToken(info.getAccessToken()).getScope();
         BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, scope);
         info.setAccessToken(accessToken.getValue());
-        info.setId(null);
         accessTokenService.updateToken(info);
 
         Tokens tokens = new Tokens(accessToken, newRefreshToken);
