@@ -28,8 +28,8 @@ public class AccessTokenService {
         mo.setAccountId(accountId);
         List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
         for (OapGrantMo oapGrantMo : list) {
-            boolean shouldDelete = oapGrantMo.getExpireTimestamp() == null
-                    || now > oapGrantMo.getExpireTimestamp();
+            boolean shouldDelete = oapGrantMo.getAccessTokenExpireTimestamp() == null
+                    || now > oapGrantMo.getAccessTokenExpireTimestamp();
             if (shouldDelete) {
                 oapGrantMapper.deleteByPrimaryKey(oapGrantMo.getId());
             }
@@ -38,15 +38,34 @@ public class AccessTokenService {
         oapGrantMo.setAccountId(accountId);
         oapGrantMo.setAccessToken(accessToken.getValue());
         oapGrantMo.setRefreshToken(refreshToken.getValue());
-        oapGrantMo.setAccessTokenJson(accessToken.toJSONString());
-        oapGrantMo.setRefreshTokenJson(refreshToken.toJSONString());
-        oapGrantMo.setExpireTimestamp(now + OidcConfig.ACCESS_TOKEN_LIFETIME * 1000);
         oapGrantMo.setCreateTimestamp(now);
+        oapGrantMo.setAccessTokenJson(accessToken.toJSONString());
+        oapGrantMo.setAccessTokenExpireTimestamp(now + OidcConfig.ACCESS_TOKEN_LIFETIME * 1000);
+        oapGrantMo.setRefreshTokenExpiresTimestamp(now + OidcConfig.REFRESH_TOKEN_LIFETIME * 1000);
         oapGrantSvc.add(oapGrantMo);
     }
 
-    public OapGrantMo getByRefreshToken(String value)
+    public void updateToken(OapGrantMo mo)
     {
+        oapGrantMapper.updateByPrimaryKey(mo);
+    }
+
+    public OapGrantMo getByRefreshToken(String refreshToken)
+    {
+        OapGrantMo mo = new OapGrantMo();
+        mo.setRefreshToken(refreshToken);
+        List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
+        long now = System.currentTimeMillis();
+        for (OapGrantMo item : list) {
+            boolean shouldDelete = item.getRefreshTokenExpiresTimestamp() == null
+                    || now > item.getRefreshTokenExpiresTimestamp();
+            if (shouldDelete) {
+                oapGrantMapper.deleteByPrimaryKey(item.getId());
+                continue;
+            }
+            oapGrantMapper.deleteByPrimaryKey(item.getId());
+            return item;
+        }
         return null;
     }
 

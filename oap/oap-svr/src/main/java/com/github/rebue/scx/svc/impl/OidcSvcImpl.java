@@ -8,10 +8,7 @@ import com.github.rebue.scx.dto.RedirectUris;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.mo.OapGrantMo;
-import com.github.rebue.scx.oidc.AuthorizeInfo;
-import com.github.rebue.scx.oidc.CodeRepository;
-import com.github.rebue.scx.oidc.OidcHelper;
-import com.github.rebue.scx.oidc.OidcTokenError;
+import com.github.rebue.scx.oidc.*;
 import com.github.rebue.scx.repository.OapAppRepository;
 import com.github.rebue.scx.repository.OapRedirectUriRepository;
 import com.github.rebue.scx.svc.AccessTokenService;
@@ -27,10 +24,12 @@ import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 import com.nimbusds.oauth2.sdk.token.RefreshToken;
+import com.nimbusds.oauth2.sdk.token.Tokens;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
+import net.minidev.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -240,12 +239,11 @@ public class OidcSvcImpl implements OidcSvc {
 
         accessTokenService.saveToken(codeValue.getAccountId(), accessToken, refreshToken);
 
-        response.getHeaders().set("Cache-Control", "no-store");
-        response.getHeaders().set("Pragma", "no-cache");
         OIDCTokens tokens = new OIDCTokens(idToken, accessToken, refreshToken);
-        return new OIDCTokenResponse(tokens).toHTTPResponse().getContentAsJSONObject();
+        return makeTokenResponse(new OIDCTokenResponse(tokens), response);
     }
 
+    @SneakyThrows
     private Object refreshAccessToken(RefreshToken refreshToken, ServerHttpResponse response)
     {
         if (refreshToken == null) {
@@ -256,28 +254,33 @@ public class OidcSvcImpl implements OidcSvc {
             return tokenError(response, OidcTokenError.INVALID_GRANT, "Refresh token does not exist");
         }
 
-//        info.getAccessToken();
-//        info.getRefreshToken();
-//
-//        long toEnd = info.getRefreshGrantedTime().getEpochSecond()
-//                + OidcConfig.REFRESH_TOKEN_LIFETIME
-//                - Instant.now().getEpochSecond();
-//        RefreshToken newRefreshToken;
-//        if (toEnd < 24 * 60 * 60) {
-////            // 距离 refresh token 结束时间少于一天，则颁发新的
-//            newRefreshToken = new RefreshToken();
-//            info.setRefreshToken(newRefreshToken);
-//        } else {
-//            newRefreshToken = null;
-//        }
-//        BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, info.getScope());
-//        info.setAccessToken(accessToken.getValue());
-//        accessTokenService.removeById(info.getId());
-//        grantRepository.put(info);
-//        Tokens tokens = new Tokens(accessToken, newRefreshToken);
-//        AccessTokenResponse tokenResponse = new AccessTokenResponse(tokens);
-//        return makeTokenResponse(tokenResponse, response);
-        return null;
+        long now = System.currentTimeMillis();
+        long toEnd = info.getRefreshTokenExpiresTimestamp() - now;
+        RefreshToken newRefreshToken;
+        if (toEnd < 24 * 60 * 60) {
+            // 距离 refresh token 结束时间少于一天，则颁发新的
+            newRefreshToken = new RefreshToken();
+            info.setRefreshToken(newRefreshToken.getValue());
+        } else {
+            newRefreshToken = null;
+        }
+        Scope scope = TokenHelper.strToAccessToken(info.getAccessToken()).getScope();
+        BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, scope);
+        info.setAccessToken(accessToken.getValue());
+        info.setId(null);
+        accessTokenService.updateToken(info);
+
+        Tokens tokens = new Tokens(accessToken, newRefreshToken);
+        AccessTokenResponse tokenResponse = new AccessTokenResponse(tokens);
+        return makeTokenResponse(tokenResponse, response);
+    }
+
+    @SneakyThrows
+    private JSONObject makeTokenResponse(AccessTokenResponse tokenResponse, ServerHttpResponse response)
+    {
+        response.getHeaders().set("Cache-Control", "no-store");
+        response.getHeaders().set("Pragma", "no-cache");
+        return tokenResponse.toHTTPResponse().getContentAsJSONObject();
     }
 
 
