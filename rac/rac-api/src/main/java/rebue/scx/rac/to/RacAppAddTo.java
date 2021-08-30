@@ -73,4 +73,51 @@ public class RacAppAddTo implements Serializable {
     @NotBlank(message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            realmId;
+    
+    /**
+     * 是否接入 
+     */
+    @NotBlank(message = "领是否接入不能为空")
+    private Boolean           isAccess;
+    
+    /**
+     * 是否启用
+     *
+     */
+    private Boolean           isEnabled;
+    
+    /**
+     * oidc client id
+     *
+     */
+    @Length(max = 255, message = "oidc的长度不能大于255")
+    private String            clientId;
+
+    /**
+     * oidc secret
+     *
+     */
+    @Length(max = 255, message = "oidc的长度不能大于255")
+    private String            secret;
+
+    /**
+     * 允许的重定向URI, 最后一个字符可以是通配符*
+     *
+     */
+    @Length(max = 255, message = "允许的重定向URI,的长度不能大于255")
+    private String            redirectUri;
+    
+    /**
+     * 白名单IP
+     *
+     */
+    @Length(max = 255, message = "白名单IP的长度不能大于255")
+    private String            ipAddr;
+
+    /**
+     * 对象ID(文件ID)
+     *
+     */
+    private Long              objId;
+    
 }
