@@ -19,6 +19,7 @@
         <module>orp-api</module>
         <module>orp-svr</module>
         <module>orp-core</module>
+        <module>third-party-demo</module>
     </modules>
 
     <dependencyManagement>
