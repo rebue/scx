@@ -67,15 +67,6 @@ public class OapGrantJo implements Serializable {
     private String            refreshToken;
 
     /**
-     * 过期时间
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = false)
-    @Column(name = "EXPIRE_TIMESTAMP", nullable = false, length = 20)
-    private Long              expireTimestamp;
-
-    /**
      * 创建时间
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -119,14 +110,25 @@ public class OapGrantJo implements Serializable {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "ACCESS_TOKEN_JSON", nullable = true, length = 255)
+    @Basic(optional = false)
+    @Column(name = "ACCESS_TOKEN_JSON", nullable = false, length = 255)
     private String accessTokenJson;
 
     /**
+     * access token 过期时间
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "REFRESH_TOKEN_JSON", nullable = true, length = 255)
-    private String refreshTokenJson;
+    @Basic(optional = false)
+    @Column(name = "ACCESS_TOKEN_EXPIRE_TIMESTAMP", nullable = false, length = 20)
+    private Long   accessTokenExpireTimestamp;
+
+    /**
+     * refresh token 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "REFRESH_TOKEN_EXPIRES_TIMESTAMP", nullable = false, length = 20)
+    private Long   refreshTokenExpiresTimestamp;
 }

@@ -56,14 +56,6 @@ public class OapGrantModifyTo implements Serializable {
     private String            refreshToken;
 
     /**
-     * 过期时间
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "过期时间不能为负数")
-    private Long              expireTimestamp;
-
-    /**
      * 创建时间
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -78,8 +70,18 @@ public class OapGrantModifyTo implements Serializable {
     private String            accessTokenJson;
 
     /**
+     * access token 过期时间
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 255, message = "的长度不能大于255")
-    private String            refreshTokenJson;
+    @PositiveOrZero(message = "access不能为负数")
+    private Long              accessTokenExpireTimestamp;
+
+    /**
+     * refresh token 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "refresh不能为负数")
+    private Long              refreshTokenExpiresTimestamp;
 }
