@@ -5,7 +5,6 @@ import com.github.rebue.scx.config.OidcConfig;
 import com.github.rebue.scx.dto.CodeValue;
 import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.dto.RedirectUris;
-import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.mo.OapGrantMo;
 import com.github.rebue.scx.oidc.*;
@@ -84,20 +83,20 @@ public class OidcSvcImpl implements OidcSvc {
 
     @Override
     @SneakyThrows
-    public void authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response)
+    public String authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response)
     {
         Map<String, List<String>> params = paramMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> Collections.singletonList(e.getValue())));
         AuthenticationRequest aRequest = AuthenticationRequest.parse(params);
         ResponseType responseType = aRequest.getResponseType();
         if (responseType.impliesCodeFlow()) {
-            codeFlowLoginPage(aRequest, request, response);
+            return codeFlowLoginPage(aRequest, request, response);
         } else {
-            throw new OidcAuthenticationException("Invalid authentication request");
+            return "Invalid authentication request";
         }
     }
 
     @SneakyThrows
-    private void codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse)
+    private String codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse)
     {
         JwtSignInfo jwtSignInfo;
         if ((jwtSignInfo = getAuthenticatedInfo(hRequest)) != null) {
@@ -106,16 +105,17 @@ public class OidcSvcImpl implements OidcSvc {
             String r = redirect.getLocation().toString();
             RedirectUris redirectUris = oapRedirectUriRepository.getRedirectUris(aRequest.getClientID().getValue());
             if (!redirectUris.match(r)) {
-                throw new RuntimeException("!redirectUris.match(r)");
+                return "重定向地址错误";
             }
             hResponse.setStatusCode(HttpStatus.FOUND);
             hResponse.getHeaders().setLocation(URI.create(r));
-            return;
+            return null;
         }
         String cookieValue = new AuthorizeInfo(aRequest).toStr();
         hResponse.addCookie(createCookie(cookieValue));
         hResponse.setStatusCode(HttpStatus.FOUND);
         hResponse.getHeaders().setLocation(URI.create(OidcConfig.LOGIN_URL));
+        return null;
     }
 
     private Optional<AuthorizeInfo> getSessionInfo(ServerHttpRequest request)

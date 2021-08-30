@@ -30,9 +30,10 @@ third party demo
     }
 
     const code = getCode();
+    const redirectUri = 'http://127.0.0.1:30010';
     if (code) {
         axios({
-            url: `/callback?code=${code}`,
+            url: `/callback?code=${code}&redirectUri=${redirectUri}`,
             method: 'get'
         }).then(console.log);
     }

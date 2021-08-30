@@ -27,7 +27,6 @@ public class OidcCtrl {
 
     /**
      * 重定向到前端登录页面(未登录)
-     * 重定向到前端登录页面(未登录)
      * https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint
      * <p>
      * scope           openid
@@ -37,9 +36,9 @@ public class OidcCtrl {
      * state           RECOMMENDED
      */
     @RequestMapping(value = "/authorize", method = {RequestMethod.GET, RequestMethod.POST})
-    public void authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response)
+    public String authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response)
     {
-        oidcSvc.authorize(paramMap, request, response);
+        return oidcSvc.authorize(paramMap, request, response);
     }
 
     @ResponseBody

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface OidcSvc {
 
-    void authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response);
+    String authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response);
 
     Ro<String> login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response);
 
