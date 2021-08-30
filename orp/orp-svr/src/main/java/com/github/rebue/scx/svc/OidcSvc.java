@@ -9,6 +9,6 @@ public interface OidcSvc {
     /**
      * @return [token jsStr, 错误信息]
      */
-    Pair<String, String> callback(ServerHttpRequest request, ServerHttpResponse response, String code);
+    Pair<String, String> callback(ServerHttpRequest request, ServerHttpResponse response, String code, String redirectUri);
 
 }

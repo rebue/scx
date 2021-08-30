@@ -35,9 +35,6 @@ public class OidcSvcImpl implements OidcSvc {
     @Value("${oidc.token-endpoint}")
     private String tokenEndpoint;
 
-    @Value("${oidc.redirect-uri}")
-    private String redirectUri;
-
     @Value("${oidc.public-key}")
     private String publicKeyStr;
 
@@ -57,7 +54,7 @@ public class OidcSvcImpl implements OidcSvc {
      */
     @Override
     @SneakyThrows
-    public Pair<String, String> callback(ServerHttpRequest request, ServerHttpResponse response, String code)
+    public Pair<String, String> callback(ServerHttpRequest request, ServerHttpResponse response, String code, String redirectUri)
     {
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,

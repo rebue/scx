@@ -62,7 +62,7 @@ public class Jwt {
         JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
                 .issuer(configurations.getIssuer())
                 .subject(accountId)
-                .audience(configurations.getAppId())
+                .audience(configurations.getClientId())
                 .expirationTime(exp)
                 .issueTime(now);
         JWTClaimsSet claims = builder.build();

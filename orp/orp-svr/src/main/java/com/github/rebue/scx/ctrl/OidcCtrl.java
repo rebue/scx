@@ -19,10 +19,12 @@ public class OidcCtrl {
     private OidcSvc oidcSvc;
 
     @GetMapping("/callback")
-    public Mono<Ro<String>> callback(ServerHttpRequest request, ServerHttpResponse response, String code)
+    public Mono<Ro<String>> callback(
+            ServerHttpRequest request, ServerHttpResponse response,
+            String code, String redirectUri)
     {
         return Mono.create(cb -> {
-            Pair<String, String> pair = oidcSvc.callback(request, response, code);
+            Pair<String, String> pair = oidcSvc.callback(request, response, code, redirectUri);
             if (pair.getLeft() != null) {
                 cb.success(Ro.success(pair.getLeft()));
                 return;

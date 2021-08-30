@@ -35,14 +35,14 @@ public class DemoController {
 
     @ResponseBody
     @GetMapping("/callback")
-    public String callback(String code) throws Exception
+    public String callback(String code, String redirectUri) throws Exception
     {
         OidcCore.tokenRequest(
                 configurations.getTokenEndpoint(),
                 configurations.getClientId(),
                 configurations.getClientSecret(),
                 code,
-                ""
+                redirectUri
         );
         return "";
     }
