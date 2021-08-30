@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import rebue.robotech.ro.Ro;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -41,10 +42,15 @@ public class OidcCtrl {
         oidcSvc.authorize(paramMap, request, response);
     }
 
-    @PostMapping(value = "/login", consumes = "application/x-www-form-urlencoded")
-    public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
+    @ResponseBody
+    @PostMapping("/login")
+    public Mono<Ro<String>> login(
+            @RequestBody LoginDto loginData,
+            ServerHttpRequest request,
+            ServerHttpResponse response
+    )
     {
-        oidcSvc.login(loginData, request, response);
+        return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
     }
 
     /**

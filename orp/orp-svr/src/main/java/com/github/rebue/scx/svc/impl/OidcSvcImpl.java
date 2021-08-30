@@ -75,7 +75,7 @@ public class OidcSvcImpl implements OidcSvc {
             return Optional.empty();
         }
 
-        response.getCookies().add(OidcConfig.UNIFIED_LOGIN_COOKIE, createCookie(idToken.serialize()));
+        response.addCookie(createCookie(idToken.serialize()));
         return Optional.of(tokens.getAccessToken().getValue());
     }
 

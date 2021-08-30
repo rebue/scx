@@ -13,8 +13,4 @@ public class LoginDto {
 
     private String verificationCode;
 
-    private String state;
-
-    private String redirectUri;
-
 }

@@ -31,7 +31,7 @@ import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
-import net.minidev.json.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +41,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
+import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
@@ -127,14 +128,14 @@ public class OidcSvcImpl implements OidcSvc {
         return AuthorizeInfo.fromCookie(cookie.getValue());
     }
 
+
     @Override
     @SneakyThrows
-    public void login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
+    public Ro<String> login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response)
     {
         AuthorizeInfo sessionInfo = getSessionInfo(request).orElse(null);
         if (sessionInfo == null) {
-            // todo 错误信息
-            return;
+            return Ro.fail("为获取到session信息");
         }
 
         String uri = sessionInfo.getRedirectUri();
@@ -144,8 +145,7 @@ public class OidcSvcImpl implements OidcSvc {
 
         OapAppMo app = oapAppRepository.selectByClientId(clientId);
         if (app == null) {
-            // todo 错误信息
-            return;
+            return Ro.fail("clientId 不存在");
         }
         UnifiedLoginTo to = new UnifiedLoginTo();
         to.setAppId(app.getAppId());
@@ -153,13 +153,22 @@ public class OidcSvcImpl implements OidcSvc {
         to.setPassword(loginData.getPassword());
         RacAccountMo ra = racSignInApi.unifiedLogin(to).orElse(null);
         if (ra == null) {
-            // todo 错误信息
-            return;
+            // region 测试
+            to.setPassword(DigestUtils.md5Hex(loginData.getPassword()));
+            ra = racSignInApi.unifiedLogin(to).orElse(null);
+            if (ra == null) {
+                return Ro.fail("账户或密码错误");
+            }
+            // endregion
         }
         AuthorizationCode code = codeRepository.createCode(uri, clientId, new Scope(scope), ra.getId());
         HTTPResponse redirect = OidcHelper.authenticationSuccessUri(new URI(uri), new State(state), code);
-        response.setStatusCode(HttpStatus.FOUND);
-        response.getHeaders().setLocation(URI.create(redirect.getLocation().toString()));
+        String r = redirect.getLocation().toString();
+        RedirectUris redirectUris = oapRedirectUriRepository.getRedirectUris(clientId);
+        if (!redirectUris.match(r)) {
+            return Ro.fail("重定向地址错误");
+        }
+        return Ro.success(URI.create(redirect.getLocation().toString()).toString());
     }
 
     /**
@@ -236,8 +245,6 @@ public class OidcSvcImpl implements OidcSvc {
         OIDCTokens tokens = new OIDCTokens(idToken, accessToken, refreshToken);
         return new OIDCTokenResponse(tokens).toHTTPResponse().getContentAsJSONObject();
     }
-
-
 
     private Object refreshAccessToken(RefreshToken refreshToken, ServerHttpResponse response)
     {
