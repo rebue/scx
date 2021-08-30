@@ -10,6 +10,7 @@ import com.nimbusds.oauth2.sdk.TokenResponse;
 import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -21,7 +22,6 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import java.util.Optional;
 
 @Service
 public class OidcSvcImpl implements OidcSvc {
@@ -52,9 +52,12 @@ public class OidcSvcImpl implements OidcSvc {
         publicKey = (RSAPublicKey) kf.generatePublic(spec);
     }
 
+    /**
+     * @return [token jsStr, 错误信息]
+     */
     @Override
     @SneakyThrows
-    public Optional<String> callback(ServerHttpRequest request, ServerHttpResponse response, String code)
+    public Pair<String, String> callback(ServerHttpRequest request, ServerHttpResponse response, String code)
     {
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,
@@ -64,19 +67,17 @@ public class OidcSvcImpl implements OidcSvc {
                 redirectUri
         );
         if (!tokenResponse.indicatesSuccess()) {
-            // todo 提示错误信息
-            return Optional.empty();
+            return Pair.of(null, tokenResponse.toErrorResponse().getErrorObject().getDescription());
         }
         OIDCTokenResponse sr = (OIDCTokenResponse) tokenResponse.toSuccessResponse();
         OIDCTokens tokens = sr.getOIDCTokens();
         JWT idToken = tokens.getIDToken();
         if (!validateIdToken(idToken)) {
-            // todo 提示错误信息
-            return Optional.empty();
+            return Pair.of(null, "服务器内部错误");
         }
 
         response.addCookie(createCookie(idToken.serialize()));
-        return Optional.of(tokens.getAccessToken().getValue());
+        return Pair.of(tokens.toJSONObject().toJSONString(), null);
     }
 
     private static ResponseCookie createCookie(String value)

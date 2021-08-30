@@ -1,6 +1,7 @@
 package com.github.rebue.scx.ctrl;
 
 import com.github.rebue.scx.svc.OidcSvc;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -21,10 +22,12 @@ public class OidcCtrl {
     public Mono<Ro<String>> callback(ServerHttpRequest request, ServerHttpResponse response, String code)
     {
         return Mono.create(cb -> {
-            Ro<String> ro = oidcSvc.callback(request, response, code)
-                    .map(Ro::success)
-                    .orElse(Ro.fail("获取token失败"));
-            cb.success(ro);
+            Pair<String, String> pair = oidcSvc.callback(request, response, code);
+            if (pair.getLeft() != null) {
+                cb.success(Ro.success(pair.getLeft()));
+                return;
+            }
+            cb.success(Ro.fail(pair.getRight()));
         });
     }
 
