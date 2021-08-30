@@ -1,5 +1,11 @@
 {
 	"projectName": "OAP微服务",
 	"outPath": "./src/main/resources/static/doc",
-	"allInOne": true
+	"allInOne": true,
+	"appKey": "20210830881930365357260800", 		// torna平台对接appKey,, @since 2.0.9
+	"secret": "K#X$.bc#-RS=L86*^x^eJ!=5GiW1B.T5", 	// torna平台secret，@since 2.0.9
+	"appToken": "ea084b7576f54bbcafb659ed3771e573", // torna平台appToken,@since 2.0.9
+	"openUrl": "http://127.0.0.1:7700/api", 		// torna平台地址，填写自己的私有化部署地址@since 2.0.9
+	"debugEnvName": "测试环境", 						// torna测试环境
+	"debugEnvUrl": "http://127.0.0.1:9400"			// torna
 }
