@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -18,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/oidc")
 public class OidcCtrl {
 
@@ -41,7 +40,6 @@ public class OidcCtrl {
         return oidcSvc.authorize(paramMap, request, response);
     }
 
-    @ResponseBody
     @PostMapping("/login")
     public Mono<Ro<String>> login(
             @RequestBody LoginDto loginData,
@@ -56,7 +54,6 @@ public class OidcCtrl {
      * https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
      * https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
      */
-    @ResponseBody
     @PostMapping(value = "/token", consumes = "application/x-www-form-urlencoded", produces = "application/json")
     public Mono<Object> token(ServerHttpRequest request, ServerHttpResponse response)
     {
