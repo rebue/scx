@@ -12,30 +12,30 @@
 third party demo
 </body>
 <script>
-    axios.defaults.baseURL = 'http://127.0.0.1:30010';
-
-    function getCode() {
-        const idx = window.location.href.indexOf('?');
-        if (idx < 0) {
-            return '';
-        }
-        const kvs = window.location.href.split('?')[1].split('&');
-        for (let i = 0; i < kvs.length; ++i) {
-            const kv = kvs[i].split('=');
-            if (kv[0] === 'code') {
-                return kv[1];
-            }
-        }
-        return '';
-    }
-
-    const code = getCode();
-    const redirectUri = 'http://127.0.0.1:30010';
-    if (code) {
-        axios({
-            url: `/callback?code=${code}&redirectUri=${redirectUri}`,
-            method: 'get'
-        }).then(console.log);
-    }
+    // axios.defaults.baseURL = 'http://127.0.0.1:30010';
+    //
+    // function getCode() {
+    //     const idx = window.location.href.indexOf('?');
+    //     if (idx < 0) {
+    //         return '';
+    //     }
+    //     const kvs = window.location.href.split('?')[1].split('&');
+    //     for (let i = 0; i < kvs.length; ++i) {
+    //         const kv = kvs[i].split('=');
+    //         if (kv[0] === 'code') {
+    //             return kv[1];
+    //         }
+    //     }
+    //     return '';
+    // }
+    //
+    // const code = getCode();
+    // const redirectUri = 'http://127.0.0.1:30010';
+    // if (code) {
+    //     axios({
+    //         url: `/callback?code=${code}&redirectUri=${redirectUri}`,
+    //         method: 'get'
+    //     }).then(console.log);
+    // }
 </script>
 </html>

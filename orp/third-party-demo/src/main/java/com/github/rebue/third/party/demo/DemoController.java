@@ -2,9 +2,9 @@ package com.github.rebue.third.party.demo;
 
 import com.github.rebue.orp.core.OidcCore;
 import com.github.rebue.third.party.demo.utils.CookieUtil;
+import com.nimbusds.oauth2.sdk.TokenResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,21 +30,23 @@ public class DemoController {
         if (isLogin) {
             return "index.html";
         }
-        return "redirect:" + configurations.getRedirect();
+        return "redirect:" + configurations.getAuthUri();
     }
 
-    @ResponseBody
     @GetMapping("/callback")
-    public String callback(String code, String redirectUri) throws Exception
+    public String callback(String code) throws Exception
     {
-        OidcCore.tokenRequest(
+        TokenResponse tokenResponse = OidcCore.tokenRequest(
                 configurations.getTokenEndpoint(),
                 configurations.getClientId(),
                 configurations.getClientSecret(),
                 code,
-                redirectUri
+                configurations.getRedirect()
         );
-        return "";
+        if (tokenResponse.indicatesSuccess()) {
+            return "redirect:index.html";
+        }
+        return "redirect:callback_error.html";
     }
 
 }

@@ -26,7 +26,11 @@ public class Configurations {
     private String redirect;
 
     @Getter
-    @Value("${demo-configurations.redirect}")
+    @Value("${demo-configurations.auth-uri}")
+    private String authUri;
+
+    @Getter
+    @Value("${demo-configurations.token-endpoint}")
     private String tokenEndpoint;
 
 }

@@ -9,6 +9,9 @@ public class CookieUtil {
     public static Optional<String> getFirstCookieValue(HttpServletRequest request, String cookieName)
     {
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return Optional.empty();
+        }
         for (Cookie cookie : cookies) {
             if (cookieName.equals(cookie.getName())) {
                 return Optional.of(cookie.getValue());
