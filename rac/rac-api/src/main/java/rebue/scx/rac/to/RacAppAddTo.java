@@ -75,9 +75,9 @@ public class RacAppAddTo implements Serializable {
     private String            realmId;
     
     /**
-     * 是否接入 
+     * 是否认证
      */
-    @NotBlank(message = "领是否接入不能为空")
+    @NotBlank(message = "是否认证不能为空")
     private Boolean           isAccess;
     
     /**

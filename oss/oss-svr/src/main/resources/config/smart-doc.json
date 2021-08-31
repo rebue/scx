@@ -1,5 +1,11 @@
 {
 	"projectName": "OSS微服务",
 	"outPath": "./src/main/resources/static/doc",
-	"allInOne": true
+	"allInOne": true,
+	"appKey": "20210830881930365357260800", 		// torna平台对接appKey,, @since 2.0.9
+	"secret": "K#X$.bc#-RS=L86*^x^eJ!=5GiW1B.T5", 	// torna平台secret，@since 2.0.9
+	"appToken": "0028f2fd912745f49a6f272bbc653162", // torna平台appToken,@since 2.0.9
+	"openUrl": "http://127.0.0.1:7700/api", 		// torna平台地址，填写自己的私有化部署地址@since 2.0.9
+	"debugEnvName": "测试环境", 						// torna测试环境
+	"debugEnvUrl": "http://127.0.0.1:9536"			// torna
 }

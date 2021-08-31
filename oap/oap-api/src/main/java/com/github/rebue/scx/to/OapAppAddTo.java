@@ -82,4 +82,20 @@ public class OapAppAddTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private Long              objId;
+    
+    /**
+     * 白名单IP
+     *
+     */
+    @NotBlank(message = "白名单IP不能为空")
+    @Length(max = 255, message = "白名单IP的长度不能大于255")
+    private String            ipAddr;
+    
+    /**
+     * 允许的重定向URI, 最后一个字符可以是通配符*
+     *
+     */
+    @NotBlank(message = "允许的重定向URI,不能为空")
+    @Length(max = 255, message = "允许的重定向URI,的长度不能大于255")
+    private String            redirectUri;
 }
