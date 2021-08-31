@@ -7,5 +7,5 @@
 	"appToken": "fff6ea2417ba473aaa26b414a1acd857", // torna平台appToken,@since 2.0.9
 	"openUrl": "http://127.0.0.1:7700/api", 		// torna平台地址，填写自己的私有化部署地址@since 2.0.9
 	"debugEnvName": "测试环境", 						// torna测试环境
-	"debugEnvUrl": "http://127.0.0.1:9605"			// torna
+	"debugEnvUrl": "http://127.0.0.1:9605"			// torna测试调用微服务的地址
 }
