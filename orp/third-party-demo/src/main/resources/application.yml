@@ -5,5 +5,5 @@ demo-configurations:
   client-id: third-party-demo
   client-secret: 123456
   issuer: third-party-demo-issuer
-  redirect: http://127.0.0.1:10080/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=RECOMMENDED&redirect_uri=http%3A%2F%2Fthe-localhost:30010
+  redirect: http://127.0.0.1:10080/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=RECOMMENDED&redirect_uri=http%3A%2F%2Fthe-localhost:30010%2Fcallback
   token-endpoint: http://127.0.0.1:10080/oap-svr/oidc/token

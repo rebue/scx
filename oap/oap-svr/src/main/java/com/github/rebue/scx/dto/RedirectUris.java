@@ -29,7 +29,9 @@ public class RedirectUris {
                 return true;
             } else if (db.endsWith("*")) {
                 String prefix = db.substring(0, db.length() - 1).toLowerCase();
-                return target.toLowerCase().startsWith(prefix);
+                if (target.toLowerCase().startsWith(prefix)) {
+                    return true;
+                }
             }
         }
         return false;
