@@ -1,10 +1,13 @@
 package com.github.rebue.scx.to;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -87,15 +90,17 @@ public class OapAppAddTo implements Serializable {
      * 白名单IP
      *
      */
-    @NotBlank(message = "白名单IP不能为空")
+    @NotEmpty(message = "白名单IP不能为空")
+    @Size(max = 255)
     @Length(max = 255, message = "白名单IP的长度不能大于255")
-    private String            ipAddr;
+    private List<String>      ipAddrs;
 
     /**
      * 允许的重定向URI, 最后一个字符可以是通配符*
      *
      */
     @NotBlank(message = "允许的重定向URI,不能为空")
+    @Size(max = 255)
     @Length(max = 255, message = "允许的重定向URI,的长度不能大于255")
-    private String            redirectUri;
+    private List<String>      redirectUris;
 }

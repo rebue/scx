@@ -1,5 +1,8 @@
 package com.github.rebue.scx.svc.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -24,8 +27,10 @@ import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppOneTo;
 import com.github.rebue.scx.to.OapAppPageTo;
 import com.github.rebue.scx.to.OapIpWhiteListAddTo;
+import com.github.rebue.scx.to.OapIpWhiteListListTo;
 import com.github.rebue.scx.to.OapIpWhiteListOneTo;
 import com.github.rebue.scx.to.OapRedirectUriAddTo;
+import com.github.rebue.scx.to.OapRedirectUriListTo;
 import com.github.rebue.scx.to.OapRedirectUriOneTo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -110,18 +115,27 @@ public class OapAppSvcImpl
         // 添加关联白名单IP
         OapIpWhiteListAddTo ipTo  = new OapIpWhiteListAddTo();
         ipTo.setAppId(addMo.getId());
-        ipTo.setIpAddr(to.getIpAddr());
         ipTo.setCreateTimestamp(System.currentTimeMillis());
         ipTo.setUpdateTimestamp(System.currentTimeMillis());
-        OapIpWhiteListMo    ipMo  = oapIpWhiteListSvc.add(ipTo);
+        List<OapIpWhiteListMo> ipList = new ArrayList<OapIpWhiteListMo>();
+        for (String ip : to.getIpAddrs()) {
+            ipTo.setIpAddr(ip);
+            OapIpWhiteListMo ipMo = oapIpWhiteListSvc.add(ipTo);
+            ipList.add(ipMo);
+        }
         // 添加关联重定向地址
         OapRedirectUriAddTo uriTo = new OapRedirectUriAddTo();
         uriTo.setAppId(addMo.getId());
-        uriTo.setRedirectUri(to.getRedirectUri());
+        uriTo.setCreateTimestamp(System.currentTimeMillis());
         uriTo.setUpdateTimestamp(System.currentTimeMillis());
-        OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
-        addMo.setIpWhiteList(ipMo);
-        addMo.setRedirectUri(uriMo);
+        List<OapRedirectUriMo> uriList = new ArrayList<OapRedirectUriMo>();
+        for (String uri : to.getRedirectUris()) {
+            uriTo.setRedirectUri(uri);
+            OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
+            uriList.add(uriMo);
+        }
+        addMo.setIpWhiteLists(ipList);
+        addMo.setRedirectUris(uriList);
         return addMo;
     }
 
@@ -201,15 +215,15 @@ public class OapAppSvcImpl
     public OapAppMo getByAppId(String id) {
         OapAppOneTo oneTo = new OapAppOneTo();
         oneTo.setAppId(id);
-        OapAppMoEx                oneMo = (OapAppMoEx) thisSvc.getOne(oneTo);
-        final OapIpWhiteListOneTo ipOne = new OapIpWhiteListOneTo();
+        OapAppMoEx                 oneMo = (OapAppMoEx) thisSvc.getOne(oneTo);
+        final OapIpWhiteListListTo ipOne = new OapIpWhiteListListTo();
         ipOne.setAppId(oneMo.getId());
-        final OapIpWhiteListMo    ipMo   = oapIpWhiteListSvc.getOne(ipOne);
-        final OapRedirectUriOneTo uriOne = new OapRedirectUriOneTo();
+        final List<OapIpWhiteListMo> ipMo   = oapIpWhiteListSvc.list(ipOne);
+        final OapRedirectUriListTo   uriOne = new OapRedirectUriListTo();
         uriOne.setAppId(oneMo.getId());
-        final OapRedirectUriMo uriMo = oapRedirectUriSvc.getOne(uriOne);
-        oneMo.setIpWhiteList(ipMo);
-        oneMo.setRedirectUri(uriMo);
+        final List<OapRedirectUriMo> uriMo = oapRedirectUriSvc.list(uriOne);
+        oneMo.setIpWhiteLists(ipMo);
+        oneMo.setRedirectUris(uriMo);
         return oneMo;
     }
 
