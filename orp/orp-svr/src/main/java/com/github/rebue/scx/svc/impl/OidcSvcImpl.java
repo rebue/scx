@@ -1,7 +1,9 @@
 package com.github.rebue.scx.svc.impl;
 
 import com.github.rebue.orp.core.OidcCore;
+import com.github.rebue.scx.api.OapAppApi;
 import com.github.rebue.scx.config.OidcConfig;
+import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.JWT;
@@ -11,11 +13,16 @@ import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
+import rebue.robotech.ra.PojoRa;
+import rebue.robotech.ro.Ro;
+import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.mo.RacAppMo;
 
 import javax.annotation.PostConstruct;
 import java.security.KeyFactory;
@@ -38,7 +45,16 @@ public class OidcSvcImpl implements OidcSvc {
     @Value("${oidc.public-key}")
     private String publicKeyStr;
 
+    @Value("${oidc.redirect-uri}")
+    private String redirectUri;
+
     private RSAPublicKey publicKey;
+
+    @DubboReference
+    private RacAppApi racAppApi;
+
+    @DubboReference
+    private OapAppApi oapAppApi;
 
     @PostConstruct
     private void init() throws Exception
@@ -50,11 +66,11 @@ public class OidcSvcImpl implements OidcSvc {
     }
 
     /**
-     * @return [token jsStr, 错误信息]
+     * @return [redirectUri, 错误信息]
      */
     @Override
     @SneakyThrows
-    public Pair<String, String> callback(ServerHttpRequest request, ServerHttpResponse response, String code, String redirectUri)
+    public Pair<String, String> callback(ServerHttpRequest request, ServerHttpResponse response, String code)
     {
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,
@@ -73,8 +89,23 @@ public class OidcSvcImpl implements OidcSvc {
             return Pair.of(null, "服务器内部错误");
         }
 
+        OapAppMo oapAppMo = oapAppApi.selectOneByClientId(clientId).orElse(null);
+        if (oapAppMo == null) {
+            return Pair.of(null, "应用不存在");
+        }
+        Ro<PojoRa<RacAppMo>> appRo = racAppApi.getById(oapAppMo.getAppId());
+        RacAppMo app;
+        if (!appRo.isSuccess()
+                || appRo.getExtra() == null
+                || (app = appRo.getExtra().getOne()) == null) {
+            return Pair.of(null, "应用不存在");
+        }
+        if (app.getUrl() == null) {
+            return Pair.of(null, "应用url为空");
+        }
         response.addCookie(createCookie(idToken.serialize()));
-        return Pair.of(tokens.toJSONObject().toJSONString(), null);
+        // todo 这里可以存储 accessToken refreshToken tokens.toJSONObject().toJSONString()
+        return Pair.of(app.getUrl(), null);
     }
 
     private static ResponseCookie createCookie(String value)

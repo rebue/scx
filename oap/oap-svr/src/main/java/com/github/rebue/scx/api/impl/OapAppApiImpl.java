@@ -13,6 +13,8 @@ import com.github.rebue.scx.jo.OapAppJo;
 import com.github.rebue.scx.svc.OapAppSvc;
 import rebue.robotech.api.impl.BaseApiImpl;
 
+import java.util.Optional;
+
 /**
  * 第三方应用API实现
  *
@@ -20,5 +22,13 @@ import rebue.robotech.api.impl.BaseApiImpl;
  */
 @DubboService
 public class OapAppApiImpl extends BaseApiImpl<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo, OapAppSvc>
-    implements OapAppApi {
+        implements OapAppApi {
+
+    public Optional<OapAppMo> selectOneByClientId(String clientId)
+    {
+        OapAppOneTo oneTo = new OapAppOneTo();
+        oneTo.setClientId(clientId);
+        return Optional.ofNullable(_svc.getOne(oneTo));
+    }
+
 }
