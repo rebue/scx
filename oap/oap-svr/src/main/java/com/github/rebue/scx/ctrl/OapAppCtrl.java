@@ -91,7 +91,7 @@ public class OapAppCtrl {
      * @param id 通过rac_app的ID关联查询
      */
     @GetMapping("/oap/app/get-by-app-id")
-    public Mono<Ro<PojoRa<OapAppMo>>> getByAppId(@RequestParam("id") final String id) {
+    public Mono<Ro<?>> getByAppId(@RequestParam("id") final String id) {
         return Mono.create(callback -> callback.success(api.getByAppId(id)));
     }
 

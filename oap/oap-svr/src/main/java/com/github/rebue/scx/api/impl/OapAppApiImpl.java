@@ -16,8 +16,6 @@ import com.github.rebue.scx.to.OapAppOneTo;
 import com.github.rebue.scx.to.OapAppPageTo;
 
 import rebue.robotech.api.impl.BaseApiImpl;
-import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 
 /**
@@ -28,7 +26,9 @@ import rebue.robotech.ro.Ro;
 @DubboService
 public class OapAppApiImpl extends BaseApiImpl<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo, OapAppSvc>
         implements OapAppApi {
-
+    /**
+     * 请添加文档注释
+     */
     @Override
     public Optional<OapAppMo> selectOneByClientId(String clientId) {
         OapAppOneTo oneTo = new OapAppOneTo();
@@ -42,8 +42,8 @@ public class OapAppApiImpl extends BaseApiImpl<java.lang.Long, OapAppAddTo, OapA
      * @param id 通过rac_app的ID关联查询
      */
     @Override
-    public Ro<PojoRa<OapAppMo>> getByAppId(String id) {
-        return new Ro<>(ResultDic.SUCCESS, "查询成功", new PojoRa<>(_svc.getByAppId(id)));
+    public Ro<?> getByAppId(String id) {
+        return _svc.getByAppId(id);
     }
 
 }

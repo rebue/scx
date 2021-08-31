@@ -11,6 +11,7 @@ import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppOneTo;
 import com.github.rebue.scx.to.OapAppPageTo;
 
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 
 /**
@@ -34,5 +35,5 @@ public interface OapAppSvc extends BaseSvc<java.lang.Long, OapAppAddTo, OapAppMo
      *
      * @param id 通过rac_app的ID关联查询
      */
-    OapAppMo getByAppId(String id);
+    Ro<?> getByAppId(String id);
 }

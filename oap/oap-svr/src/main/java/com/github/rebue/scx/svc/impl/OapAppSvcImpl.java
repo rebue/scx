@@ -2,6 +2,7 @@ package com.github.rebue.scx.svc.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -34,6 +35,8 @@ import com.github.rebue.scx.to.OapRedirectUriListTo;
 import com.github.rebue.scx.to.OapRedirectUriOneTo;
 
 import lombok.extern.slf4j.Slf4j;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.wheel.api.exception.RuntimeExceptionX;
@@ -111,30 +114,31 @@ public class OapAppSvcImpl
         final OapAppMo mo = OrikaUtils.map(to, OapAppMo.class);
         mo.setCreateTimestamp(System.currentTimeMillis());
         mo.setUpdateTimestamp(System.currentTimeMillis());
-        OapAppMoEx          addMo = (OapAppMoEx) thisSvc.addMo(mo);
+        OapAppMo            amo   = thisSvc.addMo(mo);
+        final OapAppMoEx    addMo = OrikaUtils.map(amo, OapAppMoEx.class);
         // 添加关联白名单IP
         OapIpWhiteListAddTo ipTo  = new OapIpWhiteListAddTo();
         ipTo.setAppId(addMo.getId());
         ipTo.setCreateTimestamp(System.currentTimeMillis());
         ipTo.setUpdateTimestamp(System.currentTimeMillis());
-        List<OapIpWhiteListMo> ipList = new ArrayList<OapIpWhiteListMo>();
+        List<String> ipList = new ArrayList<String>();
         for (String ip : to.getIpAddrs()) {
             ipTo.setIpAddr(ip);
             OapIpWhiteListMo ipMo = oapIpWhiteListSvc.add(ipTo);
-            ipList.add(ipMo);
+            ipList.add(ipMo.getIpAddr());
         }
         // 添加关联重定向地址
         OapRedirectUriAddTo uriTo = new OapRedirectUriAddTo();
         uriTo.setAppId(addMo.getId());
         uriTo.setCreateTimestamp(System.currentTimeMillis());
         uriTo.setUpdateTimestamp(System.currentTimeMillis());
-        List<OapRedirectUriMo> uriList = new ArrayList<OapRedirectUriMo>();
+        List<String> uriList = new ArrayList<String>();
         for (String uri : to.getRedirectUris()) {
             uriTo.setRedirectUri(uri);
             OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
-            uriList.add(uriMo);
+            uriList.add(uriMo.getRedirectUri());
         }
-        addMo.setIpWhiteLists(ipList);
+        addMo.setIpAddrs(ipList);
         addMo.setRedirectUris(uriList);
         return addMo;
     }
@@ -146,7 +150,6 @@ public class OapAppSvcImpl
         if (mo.getId() == null || mo.getId() == 0) {
             mo.setId(_idWorker.getId());
         }
-
         final int rowCount = _mapper.insertSelective(mo);
         if (rowCount != 1) {
             throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
@@ -179,16 +182,20 @@ public class OapAppSvcImpl
         ipOne.setAppId(modifyMoById.getId());
         OapIpWhiteListMo ipMo = oapIpWhiteListSvc.getOne(ipOne);
         // 修改白名单IP
-        ipMo.setIpAddr(to.getIpAddr());
         ipMo.setUpdateTimestamp(System.currentTimeMillis());
-        oapIpWhiteListSvc.modifyMoById(ipMo);
+        for (String newIp : to.getIpAddrs()) {
+            ipMo.setIpAddr(newIp);
+            oapIpWhiteListSvc.modifyMoById(ipMo);
+        }
         // 修改重定向uri
         OapRedirectUriOneTo uriOne = new OapRedirectUriOneTo();
         uriOne.setAppId(modifyMoById.getId());
         OapRedirectUriMo uriMo = oapRedirectUriSvc.getOne(uriOne);
-        uriMo.setRedirectUri(to.getRedirectUri());
         uriMo.setUpdateTimestamp(System.currentTimeMillis());
-        oapRedirectUriSvc.modifyMoById(uriMo);
+        for (String newUri : to.getRedirectUris()) {
+            uriMo.setRedirectUri(newUri);
+            oapRedirectUriSvc.modifyMoById(uriMo);
+        }
         return modifyMoById;
     }
 
@@ -212,19 +219,31 @@ public class OapAppSvcImpl
      * @param id 通过rac_app的ID关联查询
      */
     @Override
-    public OapAppMo getByAppId(String id) {
+    public Ro<?> getByAppId(String id) {
         OapAppOneTo oneTo = new OapAppOneTo();
         oneTo.setAppId(id);
-        OapAppMoEx                 oneMo = (OapAppMoEx) thisSvc.getOne(oneTo);
+        OapAppMo one = thisSvc.getOne(oneTo);
+        if (one == null) {
+            return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功");
+        }
+        final OapAppMoEx oneMo = OrikaUtils.map(one, OapAppMoEx.class);
+
+        // 查询白名单IP
         final OapIpWhiteListListTo ipOne = new OapIpWhiteListListTo();
         ipOne.setAppId(oneMo.getId());
-        final List<OapIpWhiteListMo> ipMo   = oapIpWhiteListSvc.list(ipOne);
-        final OapRedirectUriListTo   uriOne = new OapRedirectUriListTo();
+        final List<String> ipList = oapIpWhiteListSvc.list(ipOne).stream().map(item -> {
+            return item.getIpAddr();
+        }).collect(Collectors.toList());
+
+        // 查询重定向地址
+        final OapRedirectUriListTo uriOne = new OapRedirectUriListTo();
         uriOne.setAppId(oneMo.getId());
-        final List<OapRedirectUriMo> uriMo = oapRedirectUriSvc.list(uriOne);
-        oneMo.setIpWhiteLists(ipMo);
-        oneMo.setRedirectUris(uriMo);
-        return oneMo;
+        final List<String> uriList = oapRedirectUriSvc.list(uriOne).stream().map(item -> {
+            return item.getRedirectUri();
+        }).collect(Collectors.toList());
+        oneMo.setIpAddrs(ipList);
+        oneMo.setRedirectUris(uriList);
+        return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", oneMo);
     }
 
 }

@@ -8,7 +8,6 @@ import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppPageTo;
 
 import rebue.robotech.api.BaseApi;
-import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 
 /**
@@ -25,5 +24,5 @@ public interface OapAppApi extends BaseApi<java.lang.Long, OapAppAddTo, OapAppMo
      *
      * @param id 通过rac_app的ID关联查询
      */
-    Ro<PojoRa<OapAppMo>> getByAppId(String id);
+    Ro<?> getByAppId(String id);
 }
