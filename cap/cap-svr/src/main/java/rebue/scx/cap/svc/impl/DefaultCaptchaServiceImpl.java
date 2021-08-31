@@ -1,8 +1,8 @@
 /*
- *Copyright © 2018 anji-plus
-
- *http://www.anji-plus.com
- *All rights reserved.
+ * Copyright © 2018 anji-plus
+ * 
+ * http://www.anji-plus.com
+ * All rights reserved.
  */
 package rebue.scx.cap.svc.impl;
 
@@ -13,8 +13,9 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.svc.CaptchaService;
 import rebue.scx.cap.util.StringUtils;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 
-public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
+public class DefaultCaptchaServiceImpl extends AbstractCaptchaService {
 
     @Override
     public String captchaType() {
@@ -24,7 +25,7 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
     @Override
     public void init(final Properties config) {
         for (final String s : CaptchaServiceFactory.instances.keySet()) {
-            if(captchaType().equals(s)){
+            if (captchaType().equals(s)) {
                 continue;
             }
             getService(s).init(config);
@@ -34,15 +35,21 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
     @Override
     public void destroy(final Properties config) {
         for (final String s : CaptchaServiceFactory.instances.keySet()) {
-            if(captchaType().equals(s)){
+            if (captchaType().equals(s)) {
                 continue;
             }
             getService(s).destroy(config);
         }
     }
 
-    private CaptchaService getService(final String captchaType){
-        return CaptchaServiceFactory.instances.get(captchaType);
+    private CaptchaService getService(final String captchaType) {
+        CaptchaService captchaService = CaptchaServiceFactory.instances.get(captchaType);
+        if (captchaService == null) {
+            throw new RuntimeExceptionX("请求验证类型有错，请联系管理员");
+        }
+        else {
+            return captchaService;
+        }
     }
 
     @Override
@@ -83,7 +90,7 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
                 return new Ro<>(ResultDic.FAIL, "验证码已失效，请重新获取");
             }
-            //二次校验取值后，即刻失效
+            // 二次校验取值后，即刻失效
             CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
         } catch (final Exception e) {
             logger.error("验证码坐标解析失败", e);
