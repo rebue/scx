@@ -1,12 +1,15 @@
 package com.github.rebue.scx.api;
 
+import java.util.Optional;
+
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.to.OapAppAddTo;
 import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppPageTo;
-import rebue.robotech.api.BaseApi;
 
-import java.util.Optional;
+import rebue.robotech.api.BaseApi;
+import rebue.robotech.ra.PojoRa;
+import rebue.robotech.ro.Ro;
 
 /**
  * 第三方应用的API
@@ -17,4 +20,10 @@ public interface OapAppApi extends BaseApi<java.lang.Long, OapAppAddTo, OapAppMo
 
     Optional<OapAppMo> selectOneByClientId(String clientId);
 
+    /**
+     * 获取单个第三方应用的信息
+     *
+     * @param id 通过rac_app的ID关联查询
+     */
+    Ro<PojoRa<OapAppMo>> getByAppId(String id);
 }

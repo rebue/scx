@@ -1,14 +1,16 @@
 package com.github.rebue.scx.svc;
 
+import org.springframework.validation.annotation.Validated;
+
+import com.github.rebue.scx.jo.OapAppJo;
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.to.OapAppAddTo;
-import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppDelTo;
-import com.github.rebue.scx.to.OapAppOneTo;
 import com.github.rebue.scx.to.OapAppListTo;
+import com.github.rebue.scx.to.OapAppModifyTo;
+import com.github.rebue.scx.to.OapAppOneTo;
 import com.github.rebue.scx.to.OapAppPageTo;
-import com.github.rebue.scx.jo.OapAppJo;
-import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.svc.BaseSvc;
 
 /**
@@ -27,4 +29,10 @@ import rebue.robotech.svc.BaseSvc;
  */
 @Validated
 public interface OapAppSvc extends BaseSvc<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo> {
+    /**
+     * 获取单个第三方应用的信息
+     *
+     * @param id 通过rac_app的ID关联查询
+     */
+    OapAppMo getByAppId(String id);
 }

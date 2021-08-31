@@ -38,7 +38,6 @@ public class OapAppModifyTo implements Serializable {
     /**
      * rac_app主键
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 32, message = "rac_app主键的长度不能大于32")
     private String            appId;
