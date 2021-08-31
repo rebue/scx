@@ -47,6 +47,7 @@ import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.to.UnifiedLoginTo;
+import rebue.wheel.turing.JwtUtils;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
@@ -359,7 +360,7 @@ public class OidcSvcImpl implements OidcSvc {
 
     private JwtSignInfo getAuthenticatedInfo(ServerHttpRequest hRequest)
     {
-        HttpCookie cookie = hRequest.getCookies().getFirst(OidcConfig.UNIFIED_LOGIN_COOKIE);
+        HttpCookie cookie = hRequest.getCookies().getFirst(JwtUtils.JWT_TOKEN_NAME);
         if (cookie == null) {
             return null;
         }

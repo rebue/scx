@@ -9,6 +9,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
@@ -20,16 +21,18 @@ public class OidcCtrl {
     private OidcSvc oidcSvc;
 
     @GetMapping("/callback")
-    public String callback(
+    public Mono<String> callback(
             ServerHttpRequest request, ServerHttpResponse response, String code)
     {
-        Pair<String, String> pair = oidcSvc.callback(request, response, code);
-        if (pair.getLeft() != null) {
-            response.setStatusCode(HttpStatus.FOUND);
-            response.getHeaders().setLocation(URI.create(pair.getLeft()));
-            return null;
-        }
-        return pair.getRight();
+        return Mono.create(cb -> {
+            Pair<String, String> pair = oidcSvc.callback(request, response, code);
+            if (pair.getLeft() != null) {
+                response.setStatusCode(HttpStatus.FOUND);
+                response.getHeaders().setLocation(URI.create(pair.getLeft()));
+                cb.success(null);
+            }
+            cb.success(pair.getRight());
+        });
     }
 
 }

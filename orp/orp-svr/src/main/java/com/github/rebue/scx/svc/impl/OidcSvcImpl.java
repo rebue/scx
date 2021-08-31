@@ -23,6 +23,7 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.wheel.turing.JwtUtils;
 
 import javax.annotation.PostConstruct;
 import java.security.KeyFactory;
@@ -110,7 +111,7 @@ public class OidcSvcImpl implements OidcSvc {
 
     private static ResponseCookie createCookie(String value)
     {
-        return ResponseCookie.from(OidcConfig.UNIFIED_LOGIN_COOKIE, value)
+        return ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, value)
                 .domain(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
                 .path("/")
                 .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
