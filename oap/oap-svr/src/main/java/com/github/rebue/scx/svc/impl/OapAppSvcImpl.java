@@ -28,11 +28,11 @@ import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppOneTo;
 import com.github.rebue.scx.to.OapAppPageTo;
 import com.github.rebue.scx.to.OapIpWhiteListAddTo;
+import com.github.rebue.scx.to.OapIpWhiteListDelTo;
 import com.github.rebue.scx.to.OapIpWhiteListListTo;
-import com.github.rebue.scx.to.OapIpWhiteListOneTo;
 import com.github.rebue.scx.to.OapRedirectUriAddTo;
+import com.github.rebue.scx.to.OapRedirectUriDelTo;
 import com.github.rebue.scx.to.OapRedirectUriListTo;
-import com.github.rebue.scx.to.OapRedirectUriOneTo;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
@@ -178,25 +178,40 @@ public class OapAppSvcImpl
         // 固定关联rac_app主键，不可修改
         mo.setAppId(null);
         OapAppMo            modifyMoById = thisSvc.modifyMoById(mo);
-        OapIpWhiteListOneTo ipOne        = new OapIpWhiteListOneTo();
-        ipOne.setAppId(modifyMoById.getId());
-        OapIpWhiteListMo ipMo = oapIpWhiteListSvc.getOne(ipOne);
-        // 修改白名单IP
-        ipMo.setUpdateTimestamp(System.currentTimeMillis());
-        for (String newIp : to.getIpAddrs()) {
-            ipMo.setIpAddr(newIp);
-            oapIpWhiteListSvc.modifyMoById(ipMo);
+        // 先删除
+        OapIpWhiteListDelTo ipDelTo      = new OapIpWhiteListDelTo();
+        ipDelTo.setAppId(modifyMoById.getId());
+        oapIpWhiteListSvc.delSelective(ipDelTo);
+        OapRedirectUriDelTo uriDelTo = new OapRedirectUriDelTo();
+        uriDelTo.setAppId(modifyMoById.getId());
+        oapRedirectUriSvc.delSelective(uriDelTo);
+        // 后添加
+        // 添加关联白名单IP
+        OapIpWhiteListAddTo ipTo = new OapIpWhiteListAddTo();
+        ipTo.setAppId(modifyMoById.getId());
+        ipTo.setCreateTimestamp(System.currentTimeMillis());
+        ipTo.setUpdateTimestamp(System.currentTimeMillis());
+        List<String> ipList = new ArrayList<String>();
+        for (String ip : to.getIpAddrs()) {
+            ipTo.setIpAddr(ip);
+            OapIpWhiteListMo ipMo = oapIpWhiteListSvc.add(ipTo);
+            ipList.add(ipMo.getIpAddr());
         }
-        // 修改重定向uri
-        OapRedirectUriOneTo uriOne = new OapRedirectUriOneTo();
-        uriOne.setAppId(modifyMoById.getId());
-        OapRedirectUriMo uriMo = oapRedirectUriSvc.getOne(uriOne);
-        uriMo.setUpdateTimestamp(System.currentTimeMillis());
-        for (String newUri : to.getRedirectUris()) {
-            uriMo.setRedirectUri(newUri);
-            oapRedirectUriSvc.modifyMoById(uriMo);
+        // 添加关联重定向地址
+        OapRedirectUriAddTo uriTo = new OapRedirectUriAddTo();
+        uriTo.setAppId(modifyMoById.getId());
+        uriTo.setCreateTimestamp(System.currentTimeMillis());
+        uriTo.setUpdateTimestamp(System.currentTimeMillis());
+        List<String> uriList = new ArrayList<String>();
+        for (String uri : to.getRedirectUris()) {
+            uriTo.setRedirectUri(uri);
+            OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
+            uriList.add(uriMo.getRedirectUri());
         }
-        return modifyMoById;
+        final OapAppMoEx moEx = OrikaUtils.map(to, OapAppMoEx.class);
+        moEx.setIpAddrs(ipList);
+        moEx.setRedirectUris(uriList);
+        return moEx;
     }
 
     @Override
@@ -211,6 +226,33 @@ public class OapAppSvcImpl
         }
         // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
         return this.getById(mo.getId());
+    }
+
+    /**
+     * 通过ID删除记录
+     *
+     * @param id 要删除记录的ID
+     *
+     * @return 如果成功，且删除一条记录，正常返回，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void delById(Long id) {
+        // 先删除依赖
+        OapIpWhiteListDelTo ipDelTo = new OapIpWhiteListDelTo();
+        ipDelTo.setAppId(id);
+        oapIpWhiteListSvc.delSelective(ipDelTo);
+        OapRedirectUriDelTo uriDelTo = new OapRedirectUriDelTo();
+        uriDelTo.setAppId(id);
+        oapRedirectUriSvc.delSelective(uriDelTo);
+        // 后删除主表
+        final int rowCount = _mapper.deleteByPrimaryKey(id);
+        if (rowCount == 0) {
+            throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
+        }
+        if (rowCount != 1) {
+            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
+        }
     }
 
     /**

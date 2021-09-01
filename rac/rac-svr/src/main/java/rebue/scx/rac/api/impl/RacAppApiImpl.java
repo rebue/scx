@@ -25,7 +25,7 @@ import rebue.scx.rac.to.RacAppPageTo;
  */
 @DubboService
 public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppSvc>
-    implements RacAppApi {
+        implements RacAppApi {
 
     @Override
     public Ro<ListRa<RacAppMo>> list(final RacAppListTo qo) {
@@ -44,7 +44,7 @@ public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, Ra
             return new Ro<>(ResultDic.SUCCESS, "启用应用成功");
         }
         else {
-            return new Ro<>(ResultDic.SUCCESS, "启用应用成功");
+            return new Ro<>(ResultDic.SUCCESS, "禁用应用成功");
         }
     }
 }

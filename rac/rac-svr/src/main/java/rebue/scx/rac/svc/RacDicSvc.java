@@ -39,4 +39,11 @@ public interface RacDicSvc extends BaseSvc<java.lang.Long, RacDicAddTo, RacDicMo
      * @param qo 查询的具体条件
      */
     DicListWithItemRa listWithDic(DicListWithItemTo to);
+
+    /**
+     * 获取单个字典的信息
+     *
+     * @param dicKey 字典Key
+     */
+    RacDicMo getByDicKey(String dicKey);
 }

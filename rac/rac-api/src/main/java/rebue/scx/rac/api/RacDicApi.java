@@ -22,4 +22,11 @@ public interface RacDicApi extends BaseApi<java.lang.Long, RacDicAddTo, RacDicMo
      * @param qo 查询的具体条件
      */
     Ro<DicListWithItemRa> listWithDic(DicListWithItemTo to);
+
+    /**
+     * 获取单个字典的信息
+     *
+     * @param dicKey 字典Key
+     */
+    Ro<RacDicMo> getByDicKey(String dicKey);
 }

@@ -25,10 +25,21 @@ import rebue.scx.rac.to.ex.DicListWithItemTo;
  */
 @DubboService
 public class RacDicApiImpl extends BaseApiImpl<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicSvc>
-    implements RacDicApi {
+        implements RacDicApi {
 
     @Override
     public Ro<DicListWithItemRa> listWithDic(DicListWithItemTo to) {
         return new Ro<>(ResultDic.SUCCESS, "查询成功", _svc.listWithDic(to));
     }
+
+    /**
+     * 获取单个字典的信息
+     *
+     * @param dicKey 字典Key
+     */
+    @Override
+    public Ro<RacDicMo> getByDicKey(String dicKey) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", _svc.getByDicKey(dicKey));
+    }
+
 }
