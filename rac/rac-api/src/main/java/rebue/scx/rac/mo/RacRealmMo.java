@@ -14,99 +14,100 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
-* 领域
-*
-* @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-*/
+ * 领域
+ *
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
 @JsonInclude(Include.NON_NULL)
 public class RacRealmMo implements Serializable, Mo<String> {
+
     /**
-    * 领域ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = ModifyGroup.class, message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String id;
+    private String            id;
 
     /**
-    * 领域名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "领域名称不能为空")
     @Length(max = 20, message = "领域名称的长度不能大于20")
-    private String name;
+    private String            name;
 
     /**
-    * 领域备注
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Length(max = 50, message = "领域备注的长度不能大于50")
-    private String remark;
+    private String            remark;
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-    * 领域ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getId() {
         return id;
     }
 
     /**
-    * 领域ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-    * 领域名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getName() {
         return name;
     }
 
     /**
-    * 领域名称
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域名称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-    * 领域备注
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getRemark() {
         return remark;
     }
 
     /**
-    * 领域备注
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域备注
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setRemark(String remark) {
         this.remark = remark;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -123,7 +124,7 @@ public class RacRealmMo implements Serializable, Mo<String> {
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -137,12 +138,11 @@ public class RacRealmMo implements Serializable, Mo<String> {
             return false;
         }
         RacRealmMo other = (RacRealmMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-        ;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
@@ -153,10 +153,10 @@ public class RacRealmMo implements Serializable, Mo<String> {
     }
 
     /**
-    * 获取ID的类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     public String getIdType() {
         return "String";

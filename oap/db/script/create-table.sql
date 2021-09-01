@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `OAP_APP`;
 CREATE TABLE `OAP_APP` (
   `ID` bigint(20) unsigned NOT NULL COMMENT '主键',
   `APP_ID` varchar(32) NOT NULL COMMENT 'rac_app主键',
-  `IS_ENABLED` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否启用',
+  `IS_ENABLED` tinyint(1)  DEFAULT '1' COMMENT '是否启用',
   `CLIENT_ID` varchar(255) NOT NULL COMMENT 'oidc client id',
   `SECRET` varchar(255) NOT NULL COMMENT 'oidc secret',
   `OBJ_ID` bigint(20) DEFAULT NULL COMMENT '对象ID(文件ID)',

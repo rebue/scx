@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -16,10 +18,12 @@ import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.to.RacAppAddTo;
 import rebue.scx.rac.to.RacAppDelTo;
+import rebue.scx.rac.to.RacAppEnabledTo;
 import rebue.scx.rac.to.RacAppListTo;
 import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.scx.rac.to.RacAppOneTo;
 import rebue.scx.rac.to.RacAppPageTo;
+import rebue.wheel.core.util.OrikaUtils;
 
 /**
  * 应用服务实现
@@ -71,5 +75,26 @@ public class RacAppSvcImpl
     @Override
     protected BaseSvc<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo> getThisSvc() {
         return thisSvc;
+    }
+
+    /**
+     * 是否启用应用
+     *
+     * @param to 修改的具体数据
+     */
+    @Override
+    public void enable(RacAppEnabledTo to) {
+        final RacAppMo mo = OrikaUtils.map(to, RacAppMo.class);
+        thisSvc.modifyMoById(mo);
+    }
+
+    /**
+     * 查询应用
+     */
+    @Override
+    public List<RacAppMo> list(RacAppListTo qo) {
+        final RacAppMo mo = OrikaUtils.map(qo, RacAppMo.class);
+        return _mapper.selectSelective(mo);
+        // return super.list(qo);
     }
 }

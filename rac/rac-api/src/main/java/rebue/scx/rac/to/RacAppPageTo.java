@@ -65,4 +65,19 @@ public class RacAppPageTo extends PageTo implements Serializable {
      */
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            realmId;
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Boolean           isEnabled;
+
+    /**
+     * 文件对象
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 512, message = "文件对象的长度不能大于512")
+    private String            imgUrl;
 }

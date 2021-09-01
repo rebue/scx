@@ -1,16 +1,19 @@
 package com.github.rebue.scx.test.http;
 
 import java.io.IOException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.extern.slf4j.Slf4j;
 import com.github.rebue.scx.mo.OapGrantMo;
 import com.github.rebue.scx.to.OapGrantAddTo;
 import com.github.rebue.scx.to.OapGrantModifyTo;
+
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;

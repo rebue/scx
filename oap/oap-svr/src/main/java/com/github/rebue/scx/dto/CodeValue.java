@@ -1,6 +1,7 @@
 package com.github.rebue.scx.dto;
 
 import com.nimbusds.oauth2.sdk.Scope;
+
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

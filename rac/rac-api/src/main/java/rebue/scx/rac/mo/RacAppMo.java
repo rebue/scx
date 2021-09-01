@@ -3,6 +3,7 @@ package rebue.scx.rac.mo;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -59,7 +60,6 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public String getId() {
         return id;
     }
@@ -69,8 +69,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    public void setId(final String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -88,7 +87,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -106,7 +105,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRemark(final String remark) {
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 
@@ -115,7 +114,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -125,6 +124,8 @@ public class RacAppMo implements Serializable, Mo<String> {
         sb.append(", url=").append(url);
         sb.append(", menu=").append(menu);
         sb.append(", remark=").append(remark);
+        sb.append(", isEnabled=").append(isEnabled);
+        sb.append(", imgUrl=").append(imgUrl);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -134,7 +135,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object that) {
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -144,8 +145,8 @@ public class RacAppMo implements Serializable, Mo<String> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        final RacAppMo other = (RacAppMo) that;
-        return (getId() == null ? other.getId() == null : getId().equals(other.getId()));
+        RacAppMo other = (RacAppMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
@@ -191,7 +192,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUrl(final String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -217,7 +218,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setMenu(final String menu) {
+    public void setMenu(String menu) {
         this.menu = menu;
     }
 
@@ -253,7 +254,59 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRealmId(final String realmId) {
+    public void setRealmId(String realmId) {
         this.realmId = realmId;
+    }
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
+    private Boolean isEnabled;
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    /**
+     * 文件对象
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 512, message = "文件对象的长度不能大于512")
+    private String imgUrl;
+
+    /**
+     * 文件对象
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    /**
+     * 文件对象
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

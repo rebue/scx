@@ -1,13 +1,15 @@
 package com.github.rebue.scx.repository;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Repository;
+
 import com.github.rebue.scx.dto.RedirectUris;
 import com.github.rebue.scx.mapper.OapRedirectUriMapper;
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.mo.OapRedirectUriMo;
-import org.springframework.stereotype.Repository;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @Repository
 public class OapRedirectUriRepository {

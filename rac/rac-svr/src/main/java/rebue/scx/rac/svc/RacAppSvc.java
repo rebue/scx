@@ -7,6 +7,7 @@ import rebue.scx.rac.jo.RacAppJo;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.to.RacAppAddTo;
 import rebue.scx.rac.to.RacAppDelTo;
+import rebue.scx.rac.to.RacAppEnabledTo;
 import rebue.scx.rac.to.RacAppListTo;
 import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.scx.rac.to.RacAppOneTo;
@@ -28,4 +29,11 @@ import rebue.scx.rac.to.RacAppPageTo;
  */
 @Validated
 public interface RacAppSvc extends BaseSvc<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo> {
+
+    /**
+     * 是否启用应用
+     *
+     * @param to 修改的具体数据
+     */
+    void enable(RacAppEnabledTo to);
 }

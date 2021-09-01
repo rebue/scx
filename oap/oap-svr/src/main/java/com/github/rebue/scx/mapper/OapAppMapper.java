@@ -1,11 +1,22 @@
 package com.github.rebue.scx.mapper;
 
-import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.*;
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import com.github.rebue.scx.mo.OapAppMo;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.appId;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.clientId;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.createTimestamp;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.id;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.isEnabled;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.oapApp;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.objId;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.secret;
+import static com.github.rebue.scx.mapper.OapAppDynamicSqlSupport.updateTimestamp;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +40,9 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
+import com.github.rebue.scx.mo.OapAppMo;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 
 @Mapper

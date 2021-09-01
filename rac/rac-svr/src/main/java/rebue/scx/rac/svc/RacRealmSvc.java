@@ -29,5 +29,4 @@ import rebue.scx.rac.to.RacRealmPageTo;
 @Validated
 public interface RacRealmSvc
     extends BaseSvc<java.lang.String, RacRealmAddTo, RacRealmModifyTo, RacRealmDelTo, RacRealmOneTo, RacRealmListTo, RacRealmPageTo, RacRealmMo, RacRealmJo> {
-
 }

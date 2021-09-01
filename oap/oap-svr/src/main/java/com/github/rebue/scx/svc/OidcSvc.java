@@ -1,12 +1,14 @@
 package com.github.rebue.scx.svc;
 
-import com.github.rebue.scx.dto.LoginDto;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-import rebue.robotech.ro.Ro;
-
 import java.net.URL;
 import java.util.Map;
+
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+
+import com.github.rebue.scx.dto.LoginDto;
+
+import rebue.robotech.ro.Ro;
 
 public interface OidcSvc {
 

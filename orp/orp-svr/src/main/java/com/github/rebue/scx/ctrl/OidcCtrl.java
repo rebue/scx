@@ -1,6 +1,7 @@
 package com.github.rebue.scx.ctrl;
 
-import com.github.rebue.scx.svc.OidcSvc;
+import java.net.URI;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,9 +10,10 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
-import java.net.URI;
+import com.github.rebue.scx.svc.OidcSvc;
+
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/oidc")

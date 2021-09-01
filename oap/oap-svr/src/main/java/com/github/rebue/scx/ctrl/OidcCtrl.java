@@ -1,21 +1,28 @@
 package com.github.rebue.scx.ctrl;
 
-import com.github.rebue.scx.dto.LoginDto;
-import com.github.rebue.scx.svc.OidcSvc;
-import com.github.rebue.scx.svc.impl.OidcSvcImpl;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.github.rebue.scx.dto.LoginDto;
+import com.github.rebue.scx.svc.OidcSvc;
+import com.github.rebue.scx.svc.impl.OidcSvcImpl;
+
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
-
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/oidc")

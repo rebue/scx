@@ -76,25 +76,20 @@ public class RacAppJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
-        final RacAppJo other = (RacAppJo) obj;
+        RacAppJo other = (RacAppJo) obj;
         if (id == null) {
-            if (other.id != null) {
+            if (other.id != null)
                 return false;
-            }
         }
-        else if (!id.equals(other.id)) {
+        else if (!id.equals(other.id))
             return false;
-        }
         return true;
     }
 
@@ -124,4 +119,22 @@ public class RacAppJo implements Serializable {
     @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacRealmJo realm;
+
+    /**
+     * 是否启用
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = false)
+    @Column(name = "IS_ENABLED", nullable = false, length = 1)
+    private Boolean    isEnabled;
+
+    /**
+     * 文件对象
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "IMG_URL", nullable = true, length = 512)
+    private String     imgUrl;
 }

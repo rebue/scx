@@ -1,16 +1,18 @@
 package rebue.scx.jwt.config;
 
-import lombok.Getter;
-import org.springframework.stereotype.Component;
-import rebue.scx.jwt.utils.CreatePublicPrivateKey;
-import rebue.wheel.core.ResourcesWrapper;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.InputStream;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import lombok.Getter;
+import rebue.scx.jwt.utils.CreatePublicPrivateKey;
+import rebue.wheel.core.ResourcesWrapper;
 
 @Component
 public class JwtKey {

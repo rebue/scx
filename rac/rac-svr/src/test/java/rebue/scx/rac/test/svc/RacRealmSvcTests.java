@@ -27,7 +27,7 @@ public class RacRealmSvcTests {
 
     /**
      * 要测试的微服务
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
@@ -63,12 +63,10 @@ public class RacRealmSvcTests {
         RacRealmMo getByIdResult = _svc.getById(id);
         log.info("获取单个领域的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
-
         final RacRealmModifyTo modifyTo = dozerMapper.map(addTo, RacRealmModifyTo.class);
         modifyTo.setId(id);
         log.info("修改领域的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-
         log.info("删除领域的参数为：" + id);
         _svc.delById(id);
     }

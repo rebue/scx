@@ -1,14 +1,15 @@
 package rebue.scx.jwt.utils;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.junit.Test;
-import rebue.wheel.core.ResourcesWrapper;
-
 import java.io.InputStream;
 import java.security.KeyPair;
 import java.security.Security;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.junit.Test;
+
+import rebue.wheel.core.ResourcesWrapper;
 
 public class CreatePublicPrivateKeyTest {
 

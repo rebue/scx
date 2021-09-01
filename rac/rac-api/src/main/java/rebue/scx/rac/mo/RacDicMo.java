@@ -81,7 +81,6 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -100,7 +99,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -118,7 +117,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAppId(final String appId) {
+    public void setAppId(String appId) {
         this.appId = appId;
     }
 
@@ -136,7 +135,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRemark(final String remark) {
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 
@@ -145,7 +144,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -165,7 +164,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object that) {
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -175,8 +174,8 @@ public class RacDicMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        final RacDicMo other = (RacDicMo) that;
-        return (getId() == null ? other.getId() == null : getId().equals(other.getId()));
+        RacDicMo other = (RacDicMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
@@ -214,8 +213,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -233,7 +231,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setDicKey(final String dicKey) {
+    public void setDicKey(String dicKey) {
         this.dicKey = dicKey;
     }
 
@@ -261,7 +259,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setUpdateDatetime(final LocalDateTime updateDatetime) {
+    public void setUpdateDatetime(LocalDateTime updateDatetime) {
         this.updateDatetime = updateDatetime;
     }
 
@@ -296,7 +294,7 @@ public class RacDicMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setRealmId(final String realmId) {
+    public void setRealmId(String realmId) {
         this.realmId = realmId;
     }
 }

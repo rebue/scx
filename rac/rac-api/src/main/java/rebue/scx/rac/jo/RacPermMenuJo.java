@@ -85,25 +85,20 @@ public class RacPermMenuJo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
-        final RacPermMenuJo other = (RacPermMenuJo) obj;
+        RacPermMenuJo other = (RacPermMenuJo) obj;
         if (id == null) {
-            if (other.id != null) {
+            if (other.id != null)
                 return false;
-            }
         }
-        else if (!id.equals(other.id)) {
+        else if (!id.equals(other.id))
             return false;
-        }
         return true;
     }
 }

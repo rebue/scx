@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
@@ -73,9 +72,7 @@ public class OapAppAddTo implements Serializable {
     /**
      * 是否启用
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "是否启用不能为空")
     private Boolean           isEnabled;
 
     /**

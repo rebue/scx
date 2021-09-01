@@ -1,5 +1,29 @@
 package com.github.rebue.scx.svc.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpCookie;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Service;
+
 import com.github.rebue.orp.core.dto.TokenError;
 import com.github.rebue.scx.config.OidcConfig;
 import com.github.rebue.scx.dto.CodeValue;
@@ -7,14 +31,27 @@ import com.github.rebue.scx.dto.LoginDto;
 import com.github.rebue.scx.dto.RedirectUris;
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.mo.OapGrantMo;
-import com.github.rebue.scx.oidc.*;
+import com.github.rebue.scx.oidc.AuthorizeInfo;
+import com.github.rebue.scx.oidc.CodeRepository;
+import com.github.rebue.scx.oidc.OidcHelper;
+import com.github.rebue.scx.oidc.OidcTokenError;
+import com.github.rebue.scx.oidc.TokenHelper;
 import com.github.rebue.scx.repository.OapAppRepository;
 import com.github.rebue.scx.repository.OapRedirectUriRepository;
 import com.github.rebue.scx.svc.AccessTokenService;
 import com.github.rebue.scx.svc.OidcSvc;
 import com.nimbusds.common.contenttype.ContentType;
 import com.nimbusds.jwt.SignedJWT;
-import com.nimbusds.oauth2.sdk.*;
+import com.nimbusds.oauth2.sdk.AccessTokenResponse;
+import com.nimbusds.oauth2.sdk.AuthorizationCode;
+import com.nimbusds.oauth2.sdk.AuthorizationCodeGrant;
+import com.nimbusds.oauth2.sdk.AuthorizationGrant;
+import com.nimbusds.oauth2.sdk.GrantType;
+import com.nimbusds.oauth2.sdk.ParseException;
+import com.nimbusds.oauth2.sdk.RefreshTokenGrant;
+import com.nimbusds.oauth2.sdk.ResponseType;
+import com.nimbusds.oauth2.sdk.Scope;
+import com.nimbusds.oauth2.sdk.TokenRequest;
 import com.nimbusds.oauth2.sdk.auth.ClientAuthentication;
 import com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod;
 import com.nimbusds.oauth2.sdk.auth.ClientSecretBasic;
@@ -27,18 +64,9 @@ import com.nimbusds.oauth2.sdk.token.Tokens;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
+
 import lombok.SneakyThrows;
 import net.minidev.json.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpCookie;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Service;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
@@ -48,18 +76,6 @@ import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.wheel.turing.JwtUtils;
-
-import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OidcSvcImpl implements OidcSvc {

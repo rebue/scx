@@ -119,7 +119,6 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -129,8 +128,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -148,7 +146,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAppId(final String appId) {
+    public void setAppId(String appId) {
         this.appId = appId;
     }
 
@@ -166,7 +164,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAccountId(final Long accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 
@@ -184,7 +182,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpType(final String opType) {
+    public void setOpType(String opType) {
         this.opType = opType;
     }
 
@@ -202,7 +200,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpTitle(final String opTitle) {
+    public void setOpTitle(String opTitle) {
         this.opTitle = opTitle;
     }
 
@@ -220,7 +218,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpDetail(final String opDetail) {
+    public void setOpDetail(String opDetail) {
         this.opDetail = opDetail;
     }
 
@@ -238,7 +236,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setOpDatetime(final LocalDateTime opDatetime) {
+    public void setOpDatetime(LocalDateTime opDatetime) {
         this.opDatetime = opDatetime;
     }
 
@@ -247,7 +245,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -268,7 +266,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object that) {
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -278,8 +276,8 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        final RacOpLogMo other = (RacOpLogMo) that;
-        return (getId() == null ? other.getId() == null : getId().equals(other.getId()));
+        RacOpLogMo other = (RacOpLogMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
@@ -334,7 +332,7 @@ public class RacOpLogMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAgentId(final Long agentId) {
+    public void setAgentId(Long agentId) {
         this.agentId = agentId;
     }
 }

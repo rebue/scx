@@ -1,8 +1,9 @@
 package com.github.rebue.third.party.demo;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
+import lombok.Getter;
 
 @Configuration
 public class Configurations {

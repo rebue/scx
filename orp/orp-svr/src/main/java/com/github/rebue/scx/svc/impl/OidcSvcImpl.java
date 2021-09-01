@@ -1,5 +1,20 @@
 package com.github.rebue.scx.svc.impl;
 
+import java.security.KeyFactory;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Service;
+
 import com.github.rebue.orp.core.OidcCore;
 import com.github.rebue.scx.api.OapAppApi;
 import com.github.rebue.scx.config.OidcConfig;
@@ -11,25 +26,13 @@ import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.oauth2.sdk.TokenResponse;
 import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
+
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Service;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.wheel.turing.JwtUtils;
-
-import javax.annotation.PostConstruct;
-import java.security.KeyFactory;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
 
 @Service
 public class OidcSvcImpl implements OidcSvc {

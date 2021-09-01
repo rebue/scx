@@ -1,14 +1,16 @@
 package rebue.scx.jwt.api.impl;
 
-import com.nimbusds.jwt.SignedJWT;
+import javax.annotation.Resource;
+
 import org.apache.dubbo.config.annotation.DubboService;
+
+import com.nimbusds.jwt.SignedJWT;
+
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
-
-import javax.annotation.Resource;
 
 @DubboService
 public class JwtApiImpl implements JwtApi {

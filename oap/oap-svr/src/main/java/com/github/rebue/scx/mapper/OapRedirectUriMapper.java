@@ -1,11 +1,19 @@
 package com.github.rebue.scx.mapper;
 
-import static com.github.rebue.scx.mapper.OapRedirectUriDynamicSqlSupport.*;
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import com.github.rebue.scx.mo.OapRedirectUriMo;
+import static com.github.rebue.scx.mapper.OapRedirectUriDynamicSqlSupport.appId;
+import static com.github.rebue.scx.mapper.OapRedirectUriDynamicSqlSupport.createTimestamp;
+import static com.github.rebue.scx.mapper.OapRedirectUriDynamicSqlSupport.id;
+import static com.github.rebue.scx.mapper.OapRedirectUriDynamicSqlSupport.oapRedirectUri;
+import static com.github.rebue.scx.mapper.OapRedirectUriDynamicSqlSupport.redirectUri;
+import static com.github.rebue.scx.mapper.OapRedirectUriDynamicSqlSupport.updateTimestamp;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +37,9 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
+import com.github.rebue.scx.mo.OapRedirectUriMo;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 
 @Mapper

@@ -21,6 +21,7 @@ import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.to.RacAppAddTo;
+import rebue.scx.rac.to.RacAppEnabledTo;
 import rebue.scx.rac.to.RacAppListTo;
 import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.scx.rac.to.RacAppPageTo;
@@ -63,6 +64,17 @@ public class RacAppCtrl {
     @PutMapping("/rac/app")
     public Mono<Ro<?>> modify(@RequestBody final RacAppModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
+    }
+
+    /**
+     * 是否启用应用
+     *
+     * @param to 修改的具体数据
+     */
+    @RacOpLog(opType = "启/禁用应用", opTitle = "启/禁用应用: #{#p0.id}")
+    @PutMapping("/rac/app/enable")
+    public Mono<Ro<?>> enable(@RequestBody final RacAppEnabledTo to) {
+        return Mono.create(callback -> callback.success(api.enable(to)));
     }
 
     /**

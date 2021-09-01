@@ -1,16 +1,17 @@
 package com.github.rebue.scx.oidc;
 
+import java.time.Duration;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Repository;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.rebue.scx.dto.CodeValue;
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
 import com.nimbusds.oauth2.sdk.Scope;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Repository;
-
-import java.time.Duration;
-import java.util.Optional;
 
 @Repository
 public class CodeRepository {

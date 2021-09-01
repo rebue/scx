@@ -88,7 +88,6 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -98,8 +97,7 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -117,7 +115,7 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setAppId(final String appId) {
+    public void setAppId(String appId) {
         this.appId = appId;
     }
 
@@ -135,7 +133,7 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setPermId(final Long permId) {
+    public void setPermId(Long permId) {
         this.permId = permId;
     }
 
@@ -153,7 +151,7 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setMenuUrn(final String menuUrn) {
+    public void setMenuUrn(String menuUrn) {
         this.menuUrn = menuUrn;
     }
 
@@ -162,7 +160,7 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
@@ -179,7 +177,7 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
-    public boolean equals(final Object that) {
+    public boolean equals(Object that) {
         if (this == that) {
             return true;
         }
@@ -189,8 +187,8 @@ public class RacPermMenuMo implements Serializable, Mo<Long> {
         if (getClass() != that.getClass()) {
             return false;
         }
-        final RacPermMenuMo other = (RacPermMenuMo) that;
-        return (getId() == null ? other.getId() == null : getId().equals(other.getId()));
+        RacPermMenuMo other = (RacPermMenuMo) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**

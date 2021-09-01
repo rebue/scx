@@ -1,16 +1,18 @@
 package com.github.rebue.scx.test.svc;
 
-import com.github.dozermapper.core.Mapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
 import com.github.rebue.scx.mo.OapRedirectUriMo;
+import com.github.rebue.scx.svc.OapRedirectUriSvc;
 import com.github.rebue.scx.to.OapRedirectUriAddTo;
 import com.github.rebue.scx.to.OapRedirectUriModifyTo;
 import com.github.rebue.scx.to.OapRedirectUriPageTo;
-import com.github.rebue.scx.svc.OapRedirectUriSvc;
+
 import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.core.RandomEx;
 

@@ -1,6 +1,7 @@
 package com.github.rebue.scx.mapper;
 
 import java.sql.JDBCType;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 

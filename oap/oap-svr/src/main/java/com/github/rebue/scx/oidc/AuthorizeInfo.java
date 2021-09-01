@@ -1,16 +1,18 @@
 package com.github.rebue.scx.oidc;
 
+import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.rebue.scx.exception.OidcAuthenticationException;
 import com.github.rebue.scx.utils.Base64Util;
 import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Optional;
 
 
 @Data

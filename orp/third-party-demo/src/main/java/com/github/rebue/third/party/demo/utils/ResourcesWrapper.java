@@ -1,10 +1,10 @@
 package com.github.rebue.third.party.demo.utils;
 
-import org.springframework.util.ResourceUtils;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.springframework.util.ResourceUtils;
 
 public class ResourcesWrapper {
 

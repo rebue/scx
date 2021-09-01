@@ -1,16 +1,18 @@
 package com.github.rebue.scx.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-import com.github.rebue.scx.mo.OapRedirectUriMo;
-import com.github.rebue.scx.to.OapRedirectUriAddTo;
-import com.github.rebue.scx.to.OapRedirectUriModifyTo;
-import com.github.rebue.scx.to.OapRedirectUriDelTo;
-import com.github.rebue.scx.to.OapRedirectUriOneTo;
-import com.github.rebue.scx.to.OapRedirectUriListTo;
-import com.github.rebue.scx.to.OapRedirectUriPageTo;
+
 import com.github.rebue.scx.api.OapRedirectUriApi;
 import com.github.rebue.scx.jo.OapRedirectUriJo;
+import com.github.rebue.scx.mo.OapRedirectUriMo;
 import com.github.rebue.scx.svc.OapRedirectUriSvc;
+import com.github.rebue.scx.to.OapRedirectUriAddTo;
+import com.github.rebue.scx.to.OapRedirectUriDelTo;
+import com.github.rebue.scx.to.OapRedirectUriListTo;
+import com.github.rebue.scx.to.OapRedirectUriModifyTo;
+import com.github.rebue.scx.to.OapRedirectUriOneTo;
+import com.github.rebue.scx.to.OapRedirectUriPageTo;
+
 import rebue.robotech.api.impl.BaseApiImpl;
 
 /**

@@ -31,6 +31,7 @@ import rebue.scx.rac.to.RacRealmPageTo;
  */
 @RestController
 public class RacRealmCtrl {
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -40,10 +41,8 @@ public class RacRealmCtrl {
     /**
      * 添加领域
      *
-     * @param to 添加的具体信息
-     *
      * @mbg.dontOverWriteAnnotation
-     * 
+     * @param to 添加的具体信息
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/realm")
@@ -55,10 +54,8 @@ public class RacRealmCtrl {
     /**
      * 修改领域的信息
      *
-     * @param to 修改的具体数据
-     *
      * @mbg.dontOverWriteAnnotation
-     * 
+     * @param to 修改的具体数据
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/realm")
@@ -70,10 +67,8 @@ public class RacRealmCtrl {
     /**
      * 删除领域
      *
-     * @param id 领域ID
-     * 
      * @mbg.dontOverWriteAnnotation
-     * 
+     * @param id 领域ID
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/realm")
@@ -86,7 +81,6 @@ public class RacRealmCtrl {
      * 获取单个领域的信息
      *
      * @param id 领域ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/realm/get-by-id")
@@ -98,7 +92,6 @@ public class RacRealmCtrl {
      * 判断领域是否存在
      *
      * @param id 领域ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/realm/exist-by-id")
@@ -110,7 +103,6 @@ public class RacRealmCtrl {
      * 查询领域的信息
      *
      * @param qo 查询的具体条件
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/realm/page")

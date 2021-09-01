@@ -5,6 +5,7 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.to.RacAppAddTo;
+import rebue.scx.rac.to.RacAppEnabledTo;
 import rebue.scx.rac.to.RacAppListTo;
 import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.scx.rac.to.RacAppPageTo;
@@ -17,4 +18,11 @@ import rebue.scx.rac.to.RacAppPageTo;
 public interface RacAppApi extends BaseApi<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppPageTo, RacAppMo> {
 
     Ro<ListRa<RacAppMo>> list(final RacAppListTo qo);
+
+    /**
+     * 是否启用应用
+     *
+     * @param to 修改的具体数据
+     */
+    Ro<?> enable(RacAppEnabledTo to);
 }

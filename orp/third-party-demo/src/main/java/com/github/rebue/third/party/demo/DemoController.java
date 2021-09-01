@@ -1,13 +1,14 @@
 package com.github.rebue.third.party.demo;
 
-import com.github.rebue.orp.core.OidcCore;
-import com.github.rebue.third.party.demo.utils.CookieUtil;
-import com.nimbusds.oauth2.sdk.TokenResponse;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.github.rebue.orp.core.OidcCore;
+import com.github.rebue.third.party.demo.utils.CookieUtil;
+import com.nimbusds.oauth2.sdk.TokenResponse;
 
 @Controller
 public class DemoController {

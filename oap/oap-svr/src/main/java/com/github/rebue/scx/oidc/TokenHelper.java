@@ -1,10 +1,11 @@
 package com.github.rebue.scx.oidc;
 
+import java.util.Map;
+
 import com.nimbusds.oauth2.sdk.ParseException;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
-import net.minidev.json.JSONObject;
 
-import java.util.Map;
+import net.minidev.json.JSONObject;
 
 public class TokenHelper {
 

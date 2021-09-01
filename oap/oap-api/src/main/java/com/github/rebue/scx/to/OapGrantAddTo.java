@@ -1,13 +1,17 @@
 package com.github.rebue.scx.to;
 
 import java.io.Serializable;
-import javax.validation.constraints.PositiveOrZero;
-import org.hibernate.validator.constraints.Length;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import lombok.Data;
 
 /**
  * 三方应用账户信息

@@ -72,5 +72,4 @@ public class RacRealmSvcImpl extends
     protected Class<RacRealmMo> getMoClass() {
         return RacRealmMo.class;
     }
-
 }

@@ -81,7 +81,7 @@ public class OssObjSvcImpl
     @Resource
     private MinioClient   minioClient;
 
-    @Value("${minio.endpoint:http://127.0.0.1:9000}")
+    @Value("${minio.endpoint:http://172.20.11.244:9000}")
     private String        minioEndpoint;
 
     static private String FILE_NAME           = "avatar.txt";
@@ -151,7 +151,7 @@ public class OssObjSvcImpl
         mo.setCreateDatetime(LocalDateTime.now());
         mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, OssMinioCo.OBJ_BUCKET, objectName, System.currentTimeMillis()));
         mo = thisSvc.addMo(mo);
-        return new Ro<>(ResultDic.SUCCESS, "上传对象成功");
+        return new Ro<>(ResultDic.SUCCESS, "上传对象成功", mo);
     }
 
     /**

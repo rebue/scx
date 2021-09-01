@@ -24,8 +24,8 @@ import rebue.scx.rac.to.RacRealmPageTo;
  */
 @DubboService
 public class RacRealmApiImpl
-        extends BaseApiImpl<java.lang.String, RacRealmAddTo, RacRealmModifyTo, RacRealmDelTo, RacRealmOneTo, RacRealmListTo, RacRealmPageTo, RacRealmMo, RacRealmJo, RacRealmSvc>
-        implements RacRealmApi {
+    extends BaseApiImpl<java.lang.String, RacRealmAddTo, RacRealmModifyTo, RacRealmDelTo, RacRealmOneTo, RacRealmListTo, RacRealmPageTo, RacRealmMo, RacRealmJo, RacRealmSvc>
+    implements RacRealmApi {
 
     /**
      * 查询所有记录
@@ -34,5 +34,4 @@ public class RacRealmApiImpl
     public Ro<ListRa<RacRealmMo>> listAll() {
         return new Ro<>(ResultDic.SUCCESS, "查询列表成功", new ListRa<>(_svc.listAll()));
     }
-
 }

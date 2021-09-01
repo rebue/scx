@@ -1,16 +1,18 @@
 package com.github.rebue.scx.svc;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.rebue.scx.config.OidcConfig;
 import com.github.rebue.scx.mapper.OapGrantMapper;
 import com.github.rebue.scx.mo.OapGrantMo;
 import com.github.rebue.scx.to.OapGrantAddTo;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 import com.nimbusds.oauth2.sdk.token.RefreshToken;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class AccessTokenService {

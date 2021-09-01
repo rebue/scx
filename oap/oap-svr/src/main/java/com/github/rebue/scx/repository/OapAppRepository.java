@@ -1,10 +1,11 @@
 package com.github.rebue.scx.repository;
 
-import com.github.rebue.scx.mapper.OapAppMapper;
-import com.github.rebue.scx.mo.OapAppMo;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
+import com.github.rebue.scx.mapper.OapAppMapper;
+import com.github.rebue.scx.mo.OapAppMo;
 
 @Repository
 public class OapAppRepository {

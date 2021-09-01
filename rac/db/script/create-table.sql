@@ -76,6 +76,8 @@ create table RAC_APP
    URL                  varchar(100)  comment '应用URL',
    MENU                 varchar(3000)  comment '菜单',
    REMARK               varchar(50)  comment '应用备注',
+   `IS_ENABLED` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+   `IMG_URL` varchar(512) DEFAULT NULL COMMENT '应用图片url',
    primary key (ID),
    unique key AK_APP_NAME (NAME)
 );

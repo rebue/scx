@@ -4,6 +4,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.id;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.imgUrl;
+import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.isEnabled;
 import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.menu;
 import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.name;
 import static rebue.scx.rac.mapper.RacAppDynamicSqlSupport.racApp;
@@ -48,7 +50,7 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, name, realmId, url, menu, remark);
+    BasicColumn[] selectList = BasicColumn.columnList(id, name, realmId, url, menu, remark, isEnabled, imgUrl);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -88,7 +90,8 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
     @Results(id = "RacAppMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
         @Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR), @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR),
         @Result(column = "URL", property = "url", jdbcType = JdbcType.VARCHAR), @Result(column = "MENU", property = "menu", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR)
+        @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR), @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT),
+        @Result(column = "IMG_URL", property = "imgUrl", jdbcType = JdbcType.VARCHAR)
     })
     List<RacAppMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -124,7 +127,7 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     default int insert(RacAppMo record) {
         return MyBatis3Utils.insert(this::insert, record, racApp, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId").map(url)
-            .toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark"));
+            .toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark").map(isEnabled).toProperty("isEnabled").map(imgUrl).toProperty("imgUrl"));
     }
 
     /**
@@ -132,7 +135,7 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     default int insertMultiple(Collection<RacAppMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racApp, c -> c.map(id).toProperty("id").map(name).toProperty("name").map(realmId).toProperty("realmId")
-            .map(url).toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark"));
+            .map(url).toProperty("url").map(menu).toProperty("menu").map(remark).toProperty("remark").map(isEnabled).toProperty("isEnabled").map(imgUrl).toProperty("imgUrl"));
     }
 
     /**
@@ -142,7 +145,8 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
         return MyBatis3Utils.insert(this::insert, record, racApp,
             c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(name).toPropertyWhenPresent("name", record::getName).map(realmId)
                 .toPropertyWhenPresent("realmId", record::getRealmId).map(url).toPropertyWhenPresent("url", record::getUrl).map(menu).toPropertyWhenPresent("menu", record::getMenu)
-                .map(remark).toPropertyWhenPresent("remark", record::getRemark));
+                .map(remark).toPropertyWhenPresent("remark", record::getRemark).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(imgUrl)
+                .toPropertyWhenPresent("imgUrl", record::getImgUrl));
     }
 
     /**
@@ -185,7 +189,7 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacAppMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(url).equalTo(record::getUrl).set(menu)
-            .equalTo(record::getMenu).set(remark).equalTo(record::getRemark);
+            .equalTo(record::getMenu).set(remark).equalTo(record::getRemark).set(isEnabled).equalTo(record::getIsEnabled).set(imgUrl).equalTo(record::getImgUrl);
     }
 
     /**
@@ -193,7 +197,8 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacAppMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId).set(url)
-            .equalToWhenPresent(record::getUrl).set(menu).equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark);
+            .equalToWhenPresent(record::getUrl).set(menu).equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark).set(isEnabled)
+            .equalToWhenPresent(record::getIsEnabled).set(imgUrl).equalToWhenPresent(record::getImgUrl);
     }
 
     /**
@@ -201,7 +206,7 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     default int updateByPrimaryKey(RacAppMo record) {
         return update(c -> c.set(name).equalTo(record::getName).set(realmId).equalTo(record::getRealmId).set(url).equalTo(record::getUrl).set(menu).equalTo(record::getMenu)
-            .set(remark).equalTo(record::getRemark).where(id, isEqualTo(record::getId)));
+            .set(remark).equalTo(record::getRemark).set(isEnabled).equalTo(record::getIsEnabled).set(imgUrl).equalTo(record::getImgUrl).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -209,7 +214,8 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     default int updateByPrimaryKeySelective(RacAppMo record) {
         return update(c -> c.set(name).equalToWhenPresent(record::getName).set(realmId).equalToWhenPresent(record::getRealmId).set(url).equalToWhenPresent(record::getUrl).set(menu)
-            .equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark).where(id, isEqualTo(record::getId)));
+            .equalToWhenPresent(record::getMenu).set(remark).equalToWhenPresent(record::getRemark).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(imgUrl)
+            .equalToWhenPresent(record::getImgUrl).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -217,16 +223,17 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     default int deleteSelective(RacAppMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
+            .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(imgUrl, isEqualToWhenPresent(record::getImgUrl)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<RacAppMo> selectOne(RacAppMo record) {
-        return selectOne(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-                .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
+        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName))
+            .and(realmId, isEqualToWhenPresent(record::getRealmId)).and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu))
+            .and(remark, isEqualToWhenPresent(record::getRemark)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(imgUrl, isEqualToWhenPresent(record::getImgUrl)));
     }
 
     /**
@@ -234,7 +241,8 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     default long countSelective(RacAppMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
+            .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(imgUrl, isEqualToWhenPresent(record::getImgUrl)));
     }
 
     /**
@@ -256,7 +264,8 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
      */
     default List<RacAppMo> selectSelective(RacAppMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark)));
+            .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark))
+            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(imgUrl, isEqualToWhenPresent(record::getImgUrl)));
     }
 
     /**

@@ -1,10 +1,16 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
@@ -17,10 +23,6 @@ import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.ex.RacAgentSignInSvc;
-
-import javax.annotation.Resource;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * 代理登录服务的实现类

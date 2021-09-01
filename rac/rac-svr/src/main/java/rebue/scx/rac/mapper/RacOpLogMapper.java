@@ -59,35 +59,30 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacOpLogMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacOpLogMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacOpLogMoResult")
     Optional<RacOpLogMo> selectOne(SelectStatementProvider selectStatement);
@@ -95,7 +90,6 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacOpLogMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
         @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "ACCOUNT_ID", property = "accountId", jdbcType = JdbcType.BIGINT),
@@ -108,39 +102,34 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default long count(final CountDSLCompleter completer) {
+    default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racOpLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int delete(final DeleteDSLCompleter completer) {
+    default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racOpLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int deleteByPrimaryKey(final Long id_) {
+    default int deleteByPrimaryKey(Long id_) {
         return delete(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int insert(final RacOpLogMo record) {
+    default int insert(RacOpLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racOpLog,
             c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(accountId).toProperty("accountId").map(agentId).toProperty("agentId").map(opType)
                 .toProperty("opType").map(opTitle).toProperty("opTitle").map(opDetail).toProperty("opDetail").map(opDatetime).toProperty("opDatetime"));
@@ -149,8 +138,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int insertMultiple(final Collection<RacOpLogMo> records) {
+    default int insertMultiple(Collection<RacOpLogMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOpLog,
             c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(accountId).toProperty("accountId").map(agentId).toProperty("agentId").map(opType)
                 .toProperty("opType").map(opTitle).toProperty("opTitle").map(opDetail).toProperty("opDetail").map(opDatetime).toProperty("opDatetime"));
@@ -159,8 +147,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int insertSelective(final RacOpLogMo record) {
+    default int insertSelective(RacOpLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racOpLog,
             c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId).toPropertyWhenPresent("appId", record::getAppId).map(accountId)
                 .toPropertyWhenPresent("accountId", record::getAccountId).map(agentId).toPropertyWhenPresent("agentId", record::getAgentId).map(opType)
@@ -171,47 +158,42 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default Optional<RacOpLogMo> selectOne(final SelectDSLCompleter completer) {
+    default Optional<RacOpLogMo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racOpLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default List<RacOpLogMo> select(final SelectDSLCompleter completer) {
+    default List<RacOpLogMo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racOpLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default List<RacOpLogMo> selectDistinct(final SelectDSLCompleter completer) {
+    default List<RacOpLogMo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racOpLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default Optional<RacOpLogMo> selectByPrimaryKey(final Long id_) {
+    default Optional<RacOpLogMo> selectByPrimaryKey(Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int update(final UpdateDSLCompleter completer) {
+    default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racOpLog, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateAllColumns(final RacOpLogMo record, final UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateAllColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(appId).equalTo(record::getAppId).set(accountId).equalTo(record::getAccountId).set(agentId).equalTo(record::getAgentId)
             .set(opType).equalTo(record::getOpType).set(opTitle).equalTo(record::getOpTitle).set(opDetail).equalTo(record::getOpDetail).set(opDatetime)
             .equalTo(record::getOpDatetime);
@@ -220,7 +202,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(final RacOpLogMo record, final UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(appId).equalToWhenPresent(record::getAppId).set(accountId).equalToWhenPresent(record::getAccountId).set(agentId)
             .equalToWhenPresent(record::getAgentId).set(opType).equalToWhenPresent(record::getOpType).set(opTitle).equalToWhenPresent(record::getOpTitle).set(opDetail)
             .equalToWhenPresent(record::getOpDetail).set(opDatetime).equalToWhenPresent(record::getOpDatetime);
@@ -229,8 +211,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int updateByPrimaryKey(final RacOpLogMo record) {
+    default int updateByPrimaryKey(RacOpLogMo record) {
         return update(c -> c.set(appId).equalTo(record::getAppId).set(accountId).equalTo(record::getAccountId).set(agentId).equalTo(record::getAgentId).set(opType)
             .equalTo(record::getOpType).set(opTitle).equalTo(record::getOpTitle).set(opDetail).equalTo(record::getOpDetail).set(opDatetime).equalTo(record::getOpDatetime)
             .where(id, isEqualTo(record::getId)));
@@ -239,8 +220,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int updateByPrimaryKeySelective(final RacOpLogMo record) {
+    default int updateByPrimaryKeySelective(RacOpLogMo record) {
         return update(c -> c.set(appId).equalToWhenPresent(record::getAppId).set(accountId).equalToWhenPresent(record::getAccountId).set(agentId)
             .equalToWhenPresent(record::getAgentId).set(opType).equalToWhenPresent(record::getOpType).set(opTitle).equalToWhenPresent(record::getOpTitle).set(opDetail)
             .equalToWhenPresent(record::getOpDetail).set(opDatetime).equalToWhenPresent(record::getOpDatetime).where(id, isEqualTo(record::getId)));
@@ -249,8 +229,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default int deleteSelective(final RacOpLogMo record) {
+    default int deleteSelective(RacOpLogMo record) {
         return delete(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
                 .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
@@ -260,8 +239,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default Optional<RacOpLogMo> selectOne(final RacOpLogMo record) {
+    default Optional<RacOpLogMo> selectOne(RacOpLogMo record) {
         return selectOne(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
                 .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
@@ -271,8 +249,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default long countSelective(final RacOpLogMo record) {
+    default long countSelective(RacOpLogMo record) {
         return count(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
                 .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
@@ -282,24 +259,21 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default boolean existByPrimaryKey(final Long id_) {
+    default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default boolean existSelective(final RacOpLogMo record) {
+    default boolean existSelective(RacOpLogMo record) {
         return countSelective(record) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default List<RacOpLogMo> selectSelective(final RacOpLogMo record) {
+    default List<RacOpLogMo> selectSelective(RacOpLogMo record) {
         return select(
             c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
                 .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
@@ -334,15 +308,13 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
-    default List<RacOpLogMo> selectIn(final List<Long> ids) {
+    default List<RacOpLogMo> selectIn(List<Long> ids) {
         return select(c -> c.where(id, isIn(ids)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default BasicColumn[] getColumns() {
         return selectList;
     }

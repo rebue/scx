@@ -1,16 +1,18 @@
 package com.github.rebue.scx.test.api;
 
-import com.github.dozermapper.core.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.github.dozermapper.core.Mapper;
+import com.github.rebue.scx.api.OapAppApi;
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.to.OapAppAddTo;
 import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppPageTo;
-import com.github.rebue.scx.api.OapAppApi;
+
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;

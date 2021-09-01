@@ -1,10 +1,10 @@
 package com.github.rebue.scx.dto;
 
-import com.github.rebue.scx.mo.OapRedirectUriMo;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.github.rebue.scx.mo.OapRedirectUriMo;
 
 public class RedirectUris {
 

@@ -53,6 +53,20 @@ public final class RacAppDynamicSqlSupport {
     */
     public static final SqlColumn<String> remark = racApp.remark;
 
+    /**
+    * 是否启用
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Boolean> isEnabled = racApp.isEnabled;
+
+    /**
+    * 文件对象
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> imgUrl = racApp.imgUrl;
+
     public static final class RacApp extends SqlTable {
         public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
 
@@ -65,6 +79,10 @@ public final class RacAppDynamicSqlSupport {
         public final SqlColumn<String> menu = column("MENU", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
+
+        public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
+
+        public final SqlColumn<String> imgUrl = column("IMG_URL", JDBCType.VARCHAR);
 
         public RacApp() {
             super("RAC_APP");

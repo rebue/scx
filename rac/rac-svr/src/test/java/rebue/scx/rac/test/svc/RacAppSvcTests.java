@@ -60,7 +60,7 @@ public class RacAppSvcTests {
         log.info("查询应用的返回值为：" + pageResult);
         Assertions.assertNotNull(pageResult);
         log.info("获取单个应用的参数为：" + id);
-        final RacAppMo getByIdResult = _svc.getById(id);
+        RacAppMo getByIdResult = _svc.getById(id);
         log.info("获取单个应用的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
         final RacAppModifyTo modifyTo = dozerMapper.map(addTo, RacAppModifyTo.class);
