@@ -277,22 +277,10 @@ public class OapAppSvcImpl
             return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功");
         }
         final OapAppMoEx oneMo = OrikaUtils.map(one, OapAppMoEx.class);
-
         // 查询白名单IP
-        final OapIpWhiteListListTo ipOne = new OapIpWhiteListListTo();
-        ipOne.setAppId(oneMo.getId());
-        final List<String> ipList = oapIpWhiteListSvc.list(ipOne).stream().map(item -> {
-            return item.getIpAddr();
-        }).collect(Collectors.toList());
-
+        oneMo.setIpAddrs(this.getIpApprs(oneMo.getId()));
         // 查询重定向地址
-        final OapRedirectUriListTo uriOne = new OapRedirectUriListTo();
-        uriOne.setAppId(oneMo.getId());
-        final List<String> uriList = oapRedirectUriSvc.list(uriOne).stream().map(item -> {
-            return item.getRedirectUri();
-        }).collect(Collectors.toList());
-        oneMo.setIpAddrs(ipList);
-        oneMo.setRedirectUris(uriList);
+        oneMo.setRedirectUris(this.getUris(oneMo.getId()));
         return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", oneMo);
     }
 
@@ -305,29 +293,51 @@ public class OapAppSvcImpl
     @Override
     public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
         // 查询所有应用
-        RacAppListTo    racAppListQo = new RacAppListTo();
-        List<RacAppMo>  racAppList   = racAppApi.list(racAppListQo).getExtra().getList();
+        RacAppListTo              racAppListQo = new RacAppListTo();
+        List<RacAppMo>            racAppList   = racAppApi.list(racAppListQo).getExtra().getList();
         // 查询所有认证应用
-        List<OapAppMo>  oapAppList   = thisSvc.listAll().stream().map(item -> {
-                        final OapIpWhiteListListTo ipOne = new OapIpWhiteListListTo();
-                        ipOne.setAppId(item.getId());
-          final List<String>         ipList  = oapIpWhiteListSvc.list(ipOne).stream().map(ip -> {
-                        return ip.getIpAddr();
-          }).collect(Collectors.toList());
-          final OapRedirectUriListTo uriOne  = new OapRedirectUriListTo();
-                        uriOne.setAppId(item.getId()); 
-                        final List<String>         uriList = oapRedirectUriSvc.list(uriOne).stream().map(uri -> {
-                        return uri.getRedirectUri();
-          }).collect(Collectors.toList());
-          OapAppMoEx   moEx = OrikaUtils.map(item, OapAppMoEx.class);
-                 moEx.setIpAddrs(ipList);
-                 moEx.setRedirectUris(uriList);
-                 return moEx;
-          }).collect(Collectors.toList());
+        List<OapAppMo>            oapAppList   = thisSvc.listAll().stream().map(item -> {
+                                                   OapAppMoEx moEx = OrikaUtils.map(item, OapAppMoEx.class);
+                                                   moEx.setIpAddrs(this.getIpApprs(item.getId()));
+                                                   moEx.setRedirectUris(this.getUris(item.getId()));
+                                                   return moEx;
+                                               }).collect(Collectors.toList());
         OapAppListAndRacAppListRa ra           = new OapAppListAndRacAppListRa();
         ra.setRacAppList(racAppList);
         ra.setOapAppList(oapAppList);
         return new Ro<OapAppListAndRacAppListRa>(ResultDic.SUCCESS, "查询成功", ra);
+    }
+
+    /**
+     * 通过appId查询app的ip
+     * 
+     * @param appId
+     * 
+     * @return
+     */
+    private List<String> getIpApprs(Long appId) {
+        final OapIpWhiteListListTo ipOne = new OapIpWhiteListListTo();
+        ipOne.setAppId(appId);
+        final List<String> ipApprs = oapIpWhiteListSvc.list(ipOne).stream().map(ip -> {
+            return ip.getIpAddr();
+        }).collect(Collectors.toList());
+        return ipApprs;
+    }
+
+    /**
+     * 通过appId查询app的uri
+     * 
+     * @param appId
+     * 
+     * @return
+     */
+    private List<String> getUris(Long appId) {
+        final OapRedirectUriListTo uriOne = new OapRedirectUriListTo();
+        uriOne.setAppId(appId);
+        final List<String> uris = oapRedirectUriSvc.list(uriOne).stream().map(uri -> {
+            return uri.getRedirectUri();
+        }).collect(Collectors.toList());
+        return uris;
     }
 
 }
