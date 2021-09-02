@@ -17,6 +17,10 @@ spring:
       # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
       #- org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
       #- org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      # 项目中禁用数据库(如果使用了数据库，请删除下面三行)
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
   jpa:
     # 打印SQL
     show-sql: true
