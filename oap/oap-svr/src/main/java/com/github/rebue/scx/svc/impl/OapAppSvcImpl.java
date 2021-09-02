@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,6 +18,7 @@ import com.github.rebue.scx.mapper.OapAppMapper;
 import com.github.rebue.scx.mo.OapAppMo;
 import com.github.rebue.scx.mo.OapIpWhiteListMo;
 import com.github.rebue.scx.mo.OapRedirectUriMo;
+import com.github.rebue.scx.mo.ex.OapAppListAndRacAppListRa;
 import com.github.rebue.scx.mo.ex.OapAppMoEx;
 import com.github.rebue.scx.svc.OapAppSvc;
 import com.github.rebue.scx.svc.OapIpWhiteListSvc;
@@ -39,6 +41,9 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
+import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.to.RacAppListTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
 
@@ -80,6 +85,9 @@ public class OapAppSvcImpl
 
     @Resource
     private OapRedirectUriSvc oapRedirectUriSvc;
+
+    @DubboReference
+    private RacAppApi         racAppApi;
 
     /**
      * 从接口获取本服务的单例(提供给基类调用)
@@ -286,6 +294,40 @@ public class OapAppSvcImpl
         oneMo.setIpAddrs(ipList);
         oneMo.setRedirectUris(uriList);
         return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", oneMo);
+    }
+
+    /**
+     * 查询应用的信息并附带第三方应用的信息
+     *
+     * @param qo 查询的具体条件(查询所有，及条件为空)
+     * 
+     */
+    @Override
+    public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
+        // 查询所有应用
+        RacAppListTo    racAppListQo = new RacAppListTo();
+        List<RacAppMo>  racAppList   = racAppApi.list(racAppListQo).getExtra().getList();
+        // 查询所有认证应用
+        List<OapAppMo>  oapAppList   = thisSvc.listAll().stream().map(item -> {
+                        final OapIpWhiteListListTo ipOne = new OapIpWhiteListListTo();
+                        ipOne.setAppId(item.getId());
+          final List<String>         ipList  = oapIpWhiteListSvc.list(ipOne).stream().map(ip -> {
+                        return ip.getIpAddr();
+          }).collect(Collectors.toList());
+          final OapRedirectUriListTo uriOne  = new OapRedirectUriListTo();
+                        uriOne.setAppId(item.getId()); 
+                        final List<String>         uriList = oapRedirectUriSvc.list(uriOne).stream().map(uri -> {
+                        return uri.getRedirectUri();
+          }).collect(Collectors.toList());
+          OapAppMoEx   moEx = OrikaUtils.map(item, OapAppMoEx.class);
+                 moEx.setIpAddrs(ipList);
+                 moEx.setRedirectUris(uriList);
+                 return moEx;
+          }).collect(Collectors.toList());
+        OapAppListAndRacAppListRa ra           = new OapAppListAndRacAppListRa();
+        ra.setRacAppList(racAppList);
+        ra.setOapAppList(oapAppList);
+        return new Ro<OapAppListAndRacAppListRa>(ResultDic.SUCCESS, "查询成功", ra);
     }
 
 }

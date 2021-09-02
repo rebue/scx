@@ -4,6 +4,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.github.rebue.scx.jo.OapAppJo;
 import com.github.rebue.scx.mo.OapAppMo;
+import com.github.rebue.scx.mo.ex.OapAppListAndRacAppListRa;
 import com.github.rebue.scx.to.OapAppAddTo;
 import com.github.rebue.scx.to.OapAppDelTo;
 import com.github.rebue.scx.to.OapAppListTo;
@@ -36,4 +37,12 @@ public interface OapAppSvc extends BaseSvc<java.lang.Long, OapAppAddTo, OapAppMo
      * @param id 通过rac_app的ID关联查询
      */
     Ro<?> getByAppId(String id);
+
+    /**
+     * 查询应用的信息并附带第三方应用的信息
+     *
+     * @param qo 查询的具体条件(查询所有，及条件为空)
+     * 
+     */
+    Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo);
 }

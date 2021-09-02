@@ -13,6 +13,10 @@
 	<artifactId>oap-api</artifactId>
 
 	<dependencies>
+	<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.github.rebue.robotech</groupId>
 			<artifactId>robotech-api</artifactId>

@@ -7,6 +7,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import com.github.rebue.scx.api.OapAppApi;
 import com.github.rebue.scx.jo.OapAppJo;
 import com.github.rebue.scx.mo.OapAppMo;
+import com.github.rebue.scx.mo.ex.OapAppListAndRacAppListRa;
 import com.github.rebue.scx.svc.OapAppSvc;
 import com.github.rebue.scx.to.OapAppAddTo;
 import com.github.rebue.scx.to.OapAppDelTo;
@@ -44,6 +45,17 @@ public class OapAppApiImpl extends BaseApiImpl<java.lang.Long, OapAppAddTo, OapA
     @Override
     public Ro<?> getByAppId(String id) {
         return _svc.getByAppId(id);
+    }
+
+    /**
+     * 查询应用的信息并附带第三方应用的信息
+     *
+     * @param qo 查询的具体条件(查询所有，及条件为空)
+     * 
+     */
+    @Override
+    public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
+        return _svc.listAndTripartite(qo);
     }
 
 }

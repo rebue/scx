@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.rebue.scx.api.OapAppApi;
 import com.github.rebue.scx.mo.OapAppMo;
+import com.github.rebue.scx.mo.ex.OapAppListAndRacAppListRa;
 import com.github.rebue.scx.to.OapAppAddTo;
+import com.github.rebue.scx.to.OapAppListTo;
 import com.github.rebue.scx.to.OapAppModifyTo;
 import com.github.rebue.scx.to.OapAppPageTo;
 
@@ -117,5 +119,16 @@ public class OapAppCtrl {
     @GetMapping("/oap/app/page")
     public Mono<Ro<PageRa<OapAppMo>>> page(final OapAppPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 查询应用的信息并附带第三方应用的信息
+     *
+     * @param qo 查询的具体条件(查询所有，及条件为空)
+     * 
+     */
+    @GetMapping("/oap/app/list-and-tripartite")
+    public Mono<Ro<OapAppListAndRacAppListRa>> page(final OapAppListTo qo) {
+        return Mono.create(callback -> callback.success(api.listAndTripartite(qo)));
     }
 }
