@@ -19,12 +19,9 @@ public class DemoController {
     @Resource
     private Configurations configurations;
 
-    @GetMapping("/")
-    public String index(HttpServletRequest request, String code)
+    @GetMapping(value = {"/", "/index.html"})
+    public String index(HttpServletRequest request)
     {
-        if (code != null) {
-            return "index.html";
-        }
         Boolean isLogin = CookieUtil.getFirstCookieValue(request, Configurations.LOGIN_COOKIE)
                 .map(jwt::verify)
                 .orElse(false);
