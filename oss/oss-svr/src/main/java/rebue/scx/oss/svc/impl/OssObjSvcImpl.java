@@ -81,7 +81,7 @@ public class OssObjSvcImpl
     @Resource
     private MinioClient   minioClient;
 
-    @Value("${minio.endpoint:http://172.20.11.244:9000}")
+    @Value("${minio.endpoint:http://172.20.14.125:9000}")
     private String        minioEndpoint;
 
     static private String FILE_NAME           = "avatar.txt";
