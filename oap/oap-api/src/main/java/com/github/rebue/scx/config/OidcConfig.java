@@ -8,7 +8,7 @@ public class OidcConfig {
 
     public static final long CODE_FLOW_LOGIN_PAGE_COOKIE_AGE = 100000L; // todo
 
-    public static final String LOGIN_URL = "http://127.0.0.1:13080/admin-web#/unifiedLogin";
+    public static final String LOGIN_URL = "http://127.0.0.1:13080/admin-web/#/sign-in/unified";
 
     // 单位是秒
     public static final long ACCESS_TOKEN_LIFETIME = 60 * 60;

@@ -151,7 +151,7 @@ public class OidcSvcImpl implements OidcSvc {
     {
         AuthorizeInfo sessionInfo = getSessionInfo(request).orElse(null);
         if (sessionInfo == null) {
-            return Ro.fail("为获取到session信息");
+            return Ro.fail("未获取到session信息");
         }
 
         String uri = sessionInfo.getRedirectUri();
