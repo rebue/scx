@@ -44,8 +44,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAppSvcImpl
-    extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
-    implements RacAppSvc {
+        extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
+        implements RacAppSvc {
 
     /**
      * 本服务的单例
@@ -78,6 +78,25 @@ public class RacAppSvcImpl
     }
 
     /**
+     * 添加记录
+     *
+     * @param to 添加的参数
+     *
+     * @return 如果成功，且仅添加一条记录，返回添加时自动生成的ID，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacAppMo add(RacAppAddTo to) {
+        RacAppOneTo oneTo = new RacAppOneTo();
+        oneTo.setRealmId(to.getRealmId());
+        // 排序顺序号
+        Long count = thisSvc.countSelective(oneTo);
+        to.setSeqNo((byte) (count + 0));
+        final RacAppMo mo = OrikaUtils.map(to, RacAppMo.class);
+        return thisSvc.addMo(mo);
+    }
+
+    /**
      * 是否启用应用
      *
      * @param to 修改的具体数据
@@ -97,4 +116,17 @@ public class RacAppSvcImpl
         return _mapper.selectSelective(mo);
         // return super.list(qo);
     }
+
+    // /**
+    // * 设置是否认证(传入rac_app_id)
+    // */
+    // @Override
+    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    // public RacAppMo updateIsCertified(RacAppModifyTo qo) {
+    // final RacAppMo mo = OrikaUtils.map(qo, RacAppMo.class);
+    // RacAppOneTo oneTo = new RacAppOneTo();
+    // RacAppMo one = thisSvc.getOne(oneTo);
+    // one.setIsCertified(!one.getIsCertified());
+    // return thisSvc.modifyMoById(mo);
+    // }
 }

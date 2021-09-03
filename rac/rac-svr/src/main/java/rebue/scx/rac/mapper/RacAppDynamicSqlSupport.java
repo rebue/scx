@@ -54,18 +54,32 @@ public final class RacAppDynamicSqlSupport {
     public static final SqlColumn<String> remark = racApp.remark;
 
     /**
-    * 是否启用
+    * 是否启用(如果应用没有启用，则不显示在第三方认证页面）
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Boolean> isEnabled = racApp.isEnabled;
 
     /**
-    * 文件对象
+    * 应用图片地址
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<String> imgUrl = racApp.imgUrl;
+
+    /**
+    * 顺序号排序
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Byte> seqNo = racApp.seqNo;
+
+    /**
+    * 是否认证
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Boolean> isCertified = racApp.isCertified;
 
     public static final class RacApp extends SqlTable {
         public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
@@ -83,6 +97,10 @@ public final class RacAppDynamicSqlSupport {
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 
         public final SqlColumn<String> imgUrl = column("IMG_URL", JDBCType.VARCHAR);
+
+        public final SqlColumn<Byte> seqNo = column("SEQ_NO", JDBCType.TINYINT);
+
+        public final SqlColumn<Boolean> isCertified = column("IS_CERTIFIED", JDBCType.BIT);
 
         public RacApp() {
             super("RAC_APP");

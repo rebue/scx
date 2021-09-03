@@ -3,6 +3,7 @@ package rebue.scx.rac.to;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -114,10 +115,24 @@ public class RacAppAddTo implements Serializable {
     private Boolean           isEnabled;
 
     /**
-     * 文件对象
+     * 应用图片地址
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 512, message = "文件对象的长度不能大于512")
+    @Length(max = 512, message = "应用图片地址的长度不能大于512")
     private String            imgUrl;
+
+    /**
+     * 顺序号排序
+     *
+     */
+    private Byte              seqNo;
+
+    /**
+     * 是否认证
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(message = "是否认证不能为空")
+    private Boolean           isCertified;
 }

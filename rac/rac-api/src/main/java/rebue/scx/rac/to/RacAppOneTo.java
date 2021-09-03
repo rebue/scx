@@ -64,17 +64,31 @@ public class RacAppOneTo implements Serializable {
     private String            realmId;
 
     /**
-     * 是否启用
+     * 是否启用(如果应用没有启用，则不显示在第三方认证页面）
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private Boolean           isEnabled;
 
     /**
-     * 文件对象
+     * 应用图片地址
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 512, message = "文件对象的长度不能大于512")
+    @Length(max = 512, message = "应用图片地址的长度不能大于512")
     private String            imgUrl;
+
+    /**
+     * 顺序号排序
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Byte              seqNo;
+
+    /**
+     * 是否认证
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Boolean           isCertified;
 }

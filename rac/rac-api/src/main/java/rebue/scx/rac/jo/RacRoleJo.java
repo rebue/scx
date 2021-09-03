@@ -6,8 +6,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -112,11 +110,11 @@ public class RacRoleJo implements Serializable {
     }
 
     /**
-     * 领域
+     * 领域ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacRealmJo realm;
+    @Basic(optional = false)
+    @Column(name = "REALM_ID", nullable = false, length = 32)
+    private String realmId;
 }

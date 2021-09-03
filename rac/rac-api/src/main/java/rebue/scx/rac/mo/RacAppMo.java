@@ -126,6 +126,8 @@ public class RacAppMo implements Serializable, Mo<String> {
         sb.append(", remark=").append(remark);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", imgUrl=").append(imgUrl);
+        sb.append(", seqNo=").append(seqNo);
+        sb.append(", isCertified=").append(isCertified);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -259,7 +261,7 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 是否启用
+     * 是否启用(如果应用没有启用，则不显示在第三方认证页面）
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -267,7 +269,7 @@ public class RacAppMo implements Serializable, Mo<String> {
     private Boolean isEnabled;
 
     /**
-     * 是否启用
+     * 是否启用(如果应用没有启用，则不显示在第三方认证页面）
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -276,7 +278,7 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 是否启用
+     * 是否启用(如果应用没有启用，则不显示在第三方认证页面）
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -285,15 +287,15 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 文件对象
+     * 应用图片地址
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 512, message = "文件对象的长度不能大于512")
+    @Length(max = 512, message = "应用图片地址的长度不能大于512")
     private String imgUrl;
 
     /**
-     * 文件对象
+     * 应用图片地址
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -302,11 +304,63 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 文件对象
+     * 应用图片地址
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    /**
+     * 顺序号排序
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "顺序号排序不能为空")
+    private Byte    seqNo;
+
+    /**
+     * 是否认证
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @NotNull(groups = AddGroup.class, message = "是否认证不能为空")
+    private Boolean isCertified;
+
+    /**
+     * 顺序号排序
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Byte getSeqNo() {
+        return seqNo;
+    }
+
+    /**
+     * 顺序号排序
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setSeqNo(Byte seqNo) {
+        this.seqNo = seqNo;
+    }
+
+    /**
+     * 是否认证
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Boolean getIsCertified() {
+        return isCertified;
+    }
+
+    /**
+     * 是否认证
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setIsCertified(Boolean isCertified) {
+        this.isCertified = isCertified;
     }
 }

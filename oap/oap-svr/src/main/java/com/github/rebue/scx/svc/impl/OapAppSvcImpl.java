@@ -44,6 +44,7 @@ import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.to.RacAppListTo;
+import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
 
@@ -148,6 +149,13 @@ public class OapAppSvcImpl
         }
         addMo.setIpAddrs(ipList);
         addMo.setRedirectUris(uriList);
+        RacAppModifyTo modfiy = new RacAppModifyTo();
+        modfiy.setId(to.getAppId());
+        modfiy.setIsCertified(true);
+        Ro<?> mod = racAppApi.modify(modfiy);
+        if (mod.getResult().getCode() != 1) {
+            throw new RuntimeExceptionX("添加记录异常");
+        }
         return addMo;
     }
 
@@ -247,6 +255,7 @@ public class OapAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(Long id) {
         // 先删除依赖
+        OapAppMo            appMo   = thisSvc.getById(id);
         OapIpWhiteListDelTo ipDelTo = new OapIpWhiteListDelTo();
         ipDelTo.setAppId(id);
         oapIpWhiteListSvc.delSelective(ipDelTo);
@@ -261,6 +270,14 @@ public class OapAppSvcImpl
         if (rowCount != 1) {
             throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
         }
+        RacAppModifyTo modfiy = new RacAppModifyTo();
+        modfiy.setId(appMo.getAppId());
+        modfiy.setIsCertified(false);
+        Ro<?> mod = racAppApi.modify(modfiy);
+        if (mod.getResult().getCode() != 1) {
+            throw new RuntimeExceptionX("删除记录异常");
+        }
+
     }
 
     /**

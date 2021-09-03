@@ -43,9 +43,7 @@ public class RacDicCtrl {
      * 添加字典
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param to 添加的具体信息
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加字典", opTitle = "添加字典: #{#p0.id}")
@@ -58,9 +56,7 @@ public class RacDicCtrl {
      * 修改字典的信息
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param to 修改的具体数据
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改字典", opTitle = "修改字典: #{#p0.id}")
@@ -73,7 +69,6 @@ public class RacDicCtrl {
      * 查询字典的信息
      *
      * @param qo 查询的具体条件
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic/page")
@@ -95,7 +90,6 @@ public class RacDicCtrl {
      * 删除字典
      *
      * @param id 字典ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/dic")
@@ -107,7 +101,6 @@ public class RacDicCtrl {
      * 获取单个字典的信息
      *
      * @param id 字典ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic/get-by-id")
@@ -129,7 +122,6 @@ public class RacDicCtrl {
      * 判断字典是否存在
      *
      * @param id 字典ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/dic/exist-by-id")
