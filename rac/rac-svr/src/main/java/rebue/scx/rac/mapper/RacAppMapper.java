@@ -320,8 +320,8 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
     default List<RacAppMo> selectSelectiveOrderBySeqNo(RacAppMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(name, isEqualToWhenPresent(record::getName)).and(realmId, isEqualToWhenPresent(record::getRealmId))
                 .and(url, isEqualToWhenPresent(record::getUrl)).and(menu, isEqualToWhenPresent(record::getMenu)).and(remark, isEqualToWhenPresent(record::getRemark))
-                .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(imgUrl, isEqualToWhenPresent(record::getImgUrl)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
-                .and(isCertified, isEqualToWhenPresent(record::getIsCertified)).orderBy(seqNo));
+                .and(isEnabled, isEqualToWhenPresent(true)).and(imgUrl, isEqualToWhenPresent(record::getImgUrl)).and(seqNo, isEqualToWhenPresent(record::getSeqNo))
+                .and(isCertified, isEqualToWhenPresent(record::getIsCertified)).orderBy(realmId, seqNo));
     }
 
     /**

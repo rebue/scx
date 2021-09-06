@@ -4291,7 +4291,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:ModificationDate>1630909104</a:ModificationDate>
 <a:Modifier>17822</a:Modifier>
 <a:Comment>是否启用(如果应用没有启用，则不显示在第三方认证页面）</a:Comment>
-<a:DefaultValue>false</a:DefaultValue>
+<a:DefaultValue>true</a:DefaultValue>
 <a:DataType>BL</a:DataType>
 <a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
 </o:EntityAttribute>

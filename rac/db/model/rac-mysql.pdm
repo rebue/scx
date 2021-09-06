@@ -7919,7 +7919,7 @@ DAT 1591349233</a:History>
 <a:Comment>是否启用(如果应用没有启用，则不显示在第三方认证页面）</a:Comment>
 <a:History>ORG {7B4B040B-497C-4BD2-9DA6-2CB2C698ED68}
 DAT 1630661744</a:History>
-<a:DefaultValue>false</a:DefaultValue>
+<a:DefaultValue>true</a:DefaultValue>
 <a:DataType>bool</a:DataType>
 <a:Column.Mandatory>1</a:Column.Mandatory>
 </o:Column>
