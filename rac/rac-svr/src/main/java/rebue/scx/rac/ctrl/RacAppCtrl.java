@@ -44,7 +44,9 @@ public class RacAppCtrl {
      * 添加应用
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加应用", opTitle = "添加应用: #{#p0.name}")
@@ -57,13 +59,35 @@ public class RacAppCtrl {
      * 修改应用的信息
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改应用", opTitle = "修改应用: #{#p0.name}")
     @PutMapping("/rac/app")
     public Mono<Ro<?>> modify(@RequestBody final RacAppModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
+    }
+
+    /**
+     * 上移动应用的信息，传入ID
+     *
+     * @param qo
+     */
+    @PostMapping("/rac/app/move-up")
+    public Mono<Ro<?>> moveUp(@RequestBody final RacAppModifyTo qo) {
+        return Mono.create(callback -> callback.success(api.moveUp(qo)));
+    }
+
+    /**
+     * 下移动应用的信息，传入ID
+     *
+     * @param qo
+     */
+    @PostMapping("/rac/app/move-down")
+    public Mono<Ro<?>> moveDown(@RequestBody final RacAppModifyTo qo) {
+        return Mono.create(callback -> callback.success(api.moveDown(qo)));
     }
 
     /**
@@ -81,7 +105,9 @@ public class RacAppCtrl {
      * 删除应用
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param id 应用ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除应用", opTitle = "删除应用: #{#p0}")
@@ -94,6 +120,7 @@ public class RacAppCtrl {
      * 获取单个应用的信息
      *
      * @param id 应用ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/app/get-by-id")
@@ -105,6 +132,7 @@ public class RacAppCtrl {
      * 判断应用是否存在
      *
      * @param id 应用ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/app/exist-by-id")
@@ -116,6 +144,7 @@ public class RacAppCtrl {
      * 查询应用的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/app/page")

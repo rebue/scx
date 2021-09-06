@@ -25,4 +25,14 @@ public interface RacAppApi extends BaseApi<java.lang.String, RacAppAddTo, RacApp
      * @param to 修改的具体数据
      */
     Ro<?> enable(RacAppEnabledTo to);
+
+    /**
+     * 上移
+     */
+    Ro<?> moveUp(RacAppModifyTo qo);
+
+    /**
+     * 下移
+     */
+    Ro<?> moveDown(RacAppModifyTo qo);
 }

@@ -36,4 +36,14 @@ public interface RacAppSvc extends BaseSvc<java.lang.String, RacAppAddTo, RacApp
      * @param to 修改的具体数据
      */
     void enable(RacAppEnabledTo to);
+
+    /**
+     * 上移动
+     */
+    void moveUp(RacAppModifyTo to);
+
+    /**
+     * 下移动
+     */
+    void moveDown(RacAppModifyTo to);
 }

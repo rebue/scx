@@ -41,7 +41,9 @@ public class RacPermGroupCtrl {
      * 添加权限分组
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加权限分组", opTitle = "添加权限分组: #{#p0.name}")
@@ -54,7 +56,9 @@ public class RacPermGroupCtrl {
      * 修改权限分组的信息
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改权限分组", opTitle = "修改权限分组: #{#p0.name}")
@@ -67,7 +71,9 @@ public class RacPermGroupCtrl {
      * 删除权限分组
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param id 权限分组ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除权限分组", opTitle = "删除权限分组: #{#p0}")
@@ -80,6 +86,7 @@ public class RacPermGroupCtrl {
      * 获取单个权限分组的信息
      *
      * @param id 权限分组ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm-group/get-by-id")
@@ -91,6 +98,7 @@ public class RacPermGroupCtrl {
      * 判断权限分组是否存在
      *
      * @param id 权限分组ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm-group/exist-by-id")
@@ -102,6 +110,7 @@ public class RacPermGroupCtrl {
      * 查询权限分组的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm-group/page")
@@ -110,7 +119,7 @@ public class RacPermGroupCtrl {
     }
 
     /**
-     * 上移动权限分组的信息
+     * 上移动权限分组的信息，传入ID
      *
      * @param qo
      */
@@ -120,7 +129,7 @@ public class RacPermGroupCtrl {
     }
 
     /**
-     * 下移动权限分组的信息
+     * 下移动权限分组的信息，传入ID
      *
      * @param qo
      */

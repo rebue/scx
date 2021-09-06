@@ -3,7 +3,6 @@ package rebue.scx.rac.to;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -105,11 +104,6 @@ public class RacAppAddTo implements Serializable {
     private Long              objId;
 
     /**
-     * 是否认证
-     */
-    private Boolean           isAccess;
-
-    /**
      * 是否启用
      */
     private Boolean           isEnabled;
@@ -131,8 +125,6 @@ public class RacAppAddTo implements Serializable {
     /**
      * 是否认证
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "是否认证不能为空")
     private Boolean           isCertified;
 }

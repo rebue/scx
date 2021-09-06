@@ -23,6 +23,7 @@ import rebue.scx.rac.to.RacAppListTo;
 import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.scx.rac.to.RacAppOneTo;
 import rebue.scx.rac.to.RacAppPageTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
 
 /**
@@ -102,9 +103,76 @@ public class RacAppSvcImpl
      * @param to 修改的具体数据
      */
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void enable(RacAppEnabledTo to) {
         final RacAppMo mo = OrikaUtils.map(to, RacAppMo.class);
         thisSvc.modifyMoById(mo);
+    }
+
+    /**
+     * 通过ID删除记录
+     *
+     * @param id 要删除记录的ID
+     *
+     * @return 如果成功，且删除一条记录，正常返回，否则会抛出运行时异常
+     */
+    @Override
+    public void delById(String id) {
+        RacAppMo  byId     = getById(id);
+        final int rowCount = _mapper.deleteByPrimaryKey(id);
+        if (rowCount == 0) {
+            throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
+        }
+        if (rowCount != 1) {
+            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
+        }
+        // 删除后对其余应用进行顺序号更新
+        _mapper.updateSeqNoByDeleteAfter(byId);
+    }
+
+    /**
+     * 上移动
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void moveUp(final RacAppModifyTo to) {
+        // 获取当前这条数据的具体数据
+        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacAppMo appQo = new RacAppMo();
+        appQo.setSeqNo((byte) (qo.getSeqNo() - 1));
+        appQo.setRealmId(qo.getRealmId());
+        final RacAppMo appUp = _mapper.selectOne(appQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 修改当前这条数据上面一条的数据的顺序号
+        appUp.setSeqNo((byte) (appUp.getSeqNo() + 1));
+        final RacAppMo mo = OrikaUtils.map(appUp, getMoClass());
+        thisSvc.modifyMoById(mo);
+        // 修改当前这条数据的顺序号
+        final RacAppMo qoMo = OrikaUtils.map(qo, getMoClass());
+        qoMo.setSeqNo((byte) (qo.getSeqNo() - 1));
+        thisSvc.modifyMoById(qoMo);
+    }
+
+    /**
+     * 下移动
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void moveDown(final RacAppModifyTo to) {
+        // 获取当前这条数据的具体数据
+        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 获取当前这条数据下面一条的具体数据
+        final RacAppMo appQo = new RacAppMo();
+        appQo.setSeqNo((byte) (qo.getSeqNo() + 1));
+        appQo.setRealmId(qo.getRealmId());
+        final RacAppMo appDown = _mapper.selectOne(appQo).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 修改当前这条数据下面一条的数据的顺序号
+        appDown.setSeqNo((byte) (appDown.getSeqNo() - 1));
+        final RacAppMo mo = OrikaUtils.map(appDown, getMoClass());
+        thisSvc.modifyMoById(mo);
+        // 修改当前这条数据的顺序号
+        final RacAppMo qoMo = OrikaUtils.map(qo, getMoClass());
+        qoMo.setSeqNo((byte) (qo.getSeqNo() + 1));
+        thisSvc.modifyMoById(qoMo);
     }
 
     /**

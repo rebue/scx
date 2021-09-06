@@ -25,11 +25,29 @@ import rebue.scx.rac.to.RacAppPageTo;
  */
 @DubboService
 public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppSvc>
-    implements RacAppApi {
+        implements RacAppApi {
 
     @Override
     public Ro<ListRa<RacAppMo>> list(final RacAppListTo qo) {
         return new Ro<>(ResultDic.SUCCESS, "列表查询成功", new ListRa<>(_svc.list(qo)));
+    }
+
+    /**
+     * 上移
+     */
+    @Override
+    public Ro<?> moveUp(RacAppModifyTo qo) {
+        _svc.moveUp(qo);
+        return new Ro<>(ResultDic.SUCCESS, "上移成功");
+    }
+
+    /**
+     * 下移
+     */
+    @Override
+    public Ro<?> moveDown(RacAppModifyTo qo) {
+        _svc.moveDown(qo);
+        return new Ro<>(ResultDic.SUCCESS, "下移成功");
     }
 
     /**

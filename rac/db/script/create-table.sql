@@ -78,7 +78,7 @@ create table RAC_APP
    IS_ENABLED           bool not null default true  comment '是否启用(如果应用没有启用，则不显示在第三方认证页面）',
    IMG_URL              varchar(512)  comment '应用图片地址',
    SEQ_NO               tinyint not null  comment '顺序号排序',
-   IS_CERTIFIED         bool not null default true  comment '是否认证',
+   IS_CERTIFIED         bool not null default false  comment '是否认证',
    primary key (ID),
    unique key AK_APP_NAME (NAME)
 );
