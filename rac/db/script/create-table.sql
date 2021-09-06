@@ -1,7 +1,177 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/3 18:20:06                            */
+/* Created on:     2021/9/6 14:20:12                            */
 /*==============================================================*/
+
+
+
+alter table RAC_ACCOUNT 
+   drop foreign key FK_RAC_ACCO_RELATIONS_RAC_USER;
+
+alter table RAC_ACCOUNT 
+   drop foreign key FK_RAC_ACCO_RELATIONS_RAC_ORG;
+
+alter table RAC_ACCOUNT 
+   drop foreign key FK_RAC_ACCO_RELATIONS_RAC_REAL;
+
+drop table if exists RAC_ACCOUNT;
+
+
+alter table RAC_ACCOUNT_ROLE 
+   drop foreign key FK_RAC_ACCO_RELATIONS_RAC_ROLE;
+
+alter table RAC_ACCOUNT_ROLE 
+   drop foreign key FK_RAC_ACCO_RELATIONS_RAC_ACCO;
+
+drop table if exists RAC_ACCOUNT_ROLE;
+
+
+alter table RAC_APP 
+   drop foreign key FK_RAC_APP_RELATIONS_RAC_REAL;
+
+drop table if exists RAC_APP;
+
+
+alter table RAC_DELEGATION 
+   drop foreign key FK_PRINCIPAL_AND_ACCOUNT;
+
+alter table RAC_DELEGATION 
+   drop foreign key FK_AGENT_AND_ACCOUNT;
+
+drop table if exists RAC_DELEGATION;
+
+
+alter table RAC_DIC 
+   drop foreign key FK_RAC_DIC_RELATIONS_RAC_REAL;
+
+alter table RAC_DIC 
+   drop foreign key FK_RAC_DIC_RELATIONS_RAC_APP;
+
+drop table if exists RAC_DIC;
+
+
+alter table RAC_DIC_ITEM 
+   drop foreign key FK_RAC_DIC__RELATIONS_RAC_DIC;
+
+alter table RAC_DIC_ITEM 
+   drop foreign key FK_RAC_DIC__RELATIONS_RAC_ORG;
+
+drop table if exists RAC_DIC_ITEM;
+
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_LOCK_LOG_AND_LOCK_AGENT;
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_LOCK_LOG_AND_LOCK_OP;
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_LOCK_LOG_AND_UNLOCK_OP;
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_RAC_LOCK_RELATIONS_RAC_REAL;
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_RAC_LOCK_RELATIONS_RAC_ACCO;
+
+alter table RAC_LOCK_LOG 
+   drop foreign key FK_LOCK_LOG_AND_UNLOCK_AGENT;
+
+drop table if exists RAC_LOCK_LOG;
+
+
+alter table RAC_OPS_ORG 
+   drop foreign key FK_OPS_ORG_AND_MASTER_ORG;
+
+alter table RAC_OPS_ORG 
+   drop foreign key FK_OPS_ORG_AND_SLAVE_ORG;
+
+drop table if exists RAC_OPS_ORG;
+
+
+alter table RAC_OP_LOG 
+   drop foreign key FK_RAC_OP_L_RELATIONS_RAC_ACCO;
+
+alter table RAC_OP_LOG 
+   drop foreign key FK_RAC_OP_L_RELATIONS_RAC_APP;
+
+alter table RAC_OP_LOG 
+   drop foreign key FK_OP_LOG_AND_AGENT;
+
+drop table if exists RAC_OP_LOG;
+
+
+alter table RAC_ORG 
+   drop foreign key FK_RAC_ORG_RELATIONS_RAC_ORG;
+
+alter table RAC_ORG 
+   drop foreign key FK_RAC_ORG_RELATIONS_RAC_REAL;
+
+drop table if exists RAC_ORG;
+
+
+alter table RAC_ORG_ACCOUNT 
+   drop foreign key FK_RAC_ORG__RELATIONS_RAC_ORG;
+
+alter table RAC_ORG_ACCOUNT 
+   drop foreign key FK_RAC_ORG__RELATIONS_RAC_ACCO;
+
+drop table if exists RAC_ORG_ACCOUNT;
+
+
+alter table RAC_PERM 
+   drop foreign key FK_RAC_PERM_RELATIONS_RAC_REAL;
+
+alter table RAC_PERM 
+   drop foreign key FK_RAC_PERM_RELATIONS_RAC_PERM;
+
+drop table if exists RAC_PERM;
+
+
+alter table RAC_PERM_COMMAND 
+   drop foreign key FK_RAC_PERM_RELATIONS_RAC_PERM;
+
+drop table if exists RAC_PERM_COMMAND;
+
+
+alter table RAC_PERM_GROUP 
+   drop foreign key FK_RAC_PERM_RELATIONS_RAC_REAL;
+
+drop table if exists RAC_PERM_GROUP;
+
+
+alter table RAC_PERM_MENU 
+   drop foreign key FK_RAC_PERM_RELATIONS_RAC_PERM;
+
+alter table RAC_PERM_MENU 
+   drop foreign key FK_RAC_PERM_RELATIONS_RAC_APP;
+
+drop table if exists RAC_PERM_MENU;
+
+
+alter table RAC_PERM_URN 
+   drop foreign key FK_RAC_PERM_RELATIONS_RAC_PERM;
+
+drop table if exists RAC_PERM_URN;
+
+drop table if exists RAC_REALM;
+
+
+alter table RAC_ROLE 
+   drop foreign key FK_RAC_ROLE_RELATIONS_RAC_REAL;
+
+drop table if exists RAC_ROLE;
+
+
+alter table RAC_ROLE_PERM 
+   drop foreign key FK_RAC_ROLE_RELATIONS_RAC_ROLE;
+
+alter table RAC_ROLE_PERM 
+   drop foreign key FK_RAC_ROLE_RELATIONS_RAC_PERM;
+
+drop table if exists RAC_ROLE_PERM;
+
+drop table if exists RAC_USER;
 
 /*==============================================================*/
 /* Table: RAC_ACCOUNT                                           */
@@ -75,7 +245,7 @@ create table RAC_APP
    URL                  varchar(100)  comment '应用URL',
    MENU                 varchar(3000)  comment '菜单',
    REMARK               varchar(50)  comment '应用备注',
-   IS_ENABLED           bool not null default true  comment '是否启用(如果应用没有启用，则不显示在第三方认证页面）',
+   IS_ENABLED           bool not null default false  comment '是否启用(如果应用没有启用，则不显示在第三方认证页面）',
    IMG_URL              varchar(512)  comment '应用图片地址',
    SEQ_NO               tinyint not null  comment '顺序号排序',
    IS_CERTIFIED         bool not null default false  comment '是否认证',
@@ -101,7 +271,6 @@ alter table RAC_DELEGATION comment '委托';
 
 /*==============================================================*/
 /* Table: RAC_DIC                                               */
-
 /*==============================================================*/
 create table RAC_DIC
 (

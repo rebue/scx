@@ -181,20 +181,8 @@ public class RacAppSvcImpl
     @Override
     public List<RacAppMo> list(RacAppListTo qo) {
         final RacAppMo mo = OrikaUtils.map(qo, RacAppMo.class);
-        return _mapper.selectSelective(mo);
+        return _mapper.selectSelectiveOrderBySeqNo(mo);
         // return super.list(qo);
     }
 
-    // /**
-    // * 设置是否认证(传入rac_app_id)
-    // */
-    // @Override
-    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    // public RacAppMo updateIsCertified(RacAppModifyTo qo) {
-    // final RacAppMo mo = OrikaUtils.map(qo, RacAppMo.class);
-    // RacAppOneTo oneTo = new RacAppOneTo();
-    // RacAppMo one = thisSvc.getOne(oneTo);
-    // one.setIsCertified(!one.getIsCertified());
-    // return thisSvc.modifyMoById(mo);
-    // }
 }
