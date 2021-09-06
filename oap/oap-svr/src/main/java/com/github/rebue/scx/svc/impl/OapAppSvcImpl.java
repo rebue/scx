@@ -311,7 +311,7 @@ public class OapAppSvcImpl
     public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
         // 查询所有应用
         RacAppListTo              racAppListQo = new RacAppListTo();
-        List<RacAppMo>            racAppList   = racAppApi.list(racAppListQo).getExtra().getList();
+        List<RacAppMo>            racAppList   = racAppApi.listOrderBySeqNo(racAppListQo).getExtra().getList();
         // 查询所有认证应用
         List<OapAppMo>            oapAppList   = thisSvc.listAll().stream().map(item -> {
                                                    OapAppMoEx moEx = OrikaUtils.map(item, OapAppMoEx.class);

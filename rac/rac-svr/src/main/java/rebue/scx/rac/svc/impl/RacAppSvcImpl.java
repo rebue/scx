@@ -179,10 +179,9 @@ public class RacAppSvcImpl
      * 查询应用
      */
     @Override
-    public List<RacAppMo> list(RacAppListTo qo) {
+    public List<RacAppMo> listOrderBySeqNo(RacAppListTo qo) {
         final RacAppMo mo = OrikaUtils.map(qo, RacAppMo.class);
         return _mapper.selectSelectiveOrderBySeqNo(mo);
-        // return super.list(qo);
     }
 
 }

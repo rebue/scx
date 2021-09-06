@@ -21,7 +21,20 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>jwt-api</artifactId>
 		</dependency>
+				<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>orp-core</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-turing</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.github.rebue.robotech</groupId>
 			<artifactId>robotech-bll</artifactId>
@@ -35,6 +48,11 @@
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>sc-spring-boot-starter</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>amqp-spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -70,7 +88,6 @@
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-net</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -82,21 +99,6 @@
 		<dependency>
 			<groupId>com.nimbusds</groupId>
 			<artifactId>oauth2-oidc-sdk</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.scx</groupId>
-			<artifactId>orp-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.scx</groupId>
-			<artifactId>rac-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-turing</artifactId>
 		</dependency>
 	</dependencies>
 

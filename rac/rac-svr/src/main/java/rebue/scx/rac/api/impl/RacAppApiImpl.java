@@ -65,4 +65,10 @@ public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, Ra
             return new Ro<>(ResultDic.SUCCESS, "禁用应用成功");
         }
     }
+
+    @Override
+    public Ro<ListRa<RacAppMo>> listOrderBySeqNo(RacAppListTo qo) {
+        return new Ro<>(ResultDic.SUCCESS, "列表查询成功", new ListRa<>(_svc.listOrderBySeqNo(qo)));
+    }
+
 }

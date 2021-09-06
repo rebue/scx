@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
@@ -46,4 +48,9 @@ public interface RacAppSvc extends BaseSvc<java.lang.String, RacAppAddTo, RacApp
      * 下移动
      */
     void moveDown(RacAppModifyTo to);
+
+    /**
+     * 查询应用
+     */
+    List<RacAppMo> listOrderBySeqNo(RacAppListTo qo);
 }

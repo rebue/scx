@@ -19,6 +19,8 @@ public interface RacAppApi extends BaseApi<java.lang.String, RacAppAddTo, RacApp
 
     Ro<ListRa<RacAppMo>> list(final RacAppListTo qo);
 
+    Ro<ListRa<RacAppMo>> listOrderBySeqNo(final RacAppListTo qo);
+
     /**
      * 是否启用应用
      *

@@ -24,6 +24,7 @@ import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.rac.ann.RacOpLog;
 
 /**
  * 第三方应用
@@ -42,10 +43,13 @@ public class OapAppCtrl {
     /**
      * 添加第三方应用
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 添加的具体信息
      * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @RacOpLog(opType = "添加应用认证信息", opTitle = "添加应用认证信息: #{#p0.appId}")
     @PostMapping("/oap/app")
     public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final OapAppAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
@@ -54,10 +58,13 @@ public class OapAppCtrl {
     /**
      * 修改第三方应用的信息
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 修改的具体数据
      * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @RacOpLog(opType = "修改应用认证信息", opTitle = "修改应用认证信息: #{#p0.appId}")
     @PutMapping("/oap/app")
     public Mono<Ro<?>> modify(@RequestBody final OapAppModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
@@ -66,10 +73,13 @@ public class OapAppCtrl {
     /**
      * 删除第三方应用
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @param id 第三方应用ID
      * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @RacOpLog(opType = "删除应用认证信息", opTitle = "删除应用认证信息: #{#p0}")
     @DeleteMapping("/oap/app")
     public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.del(id)));
