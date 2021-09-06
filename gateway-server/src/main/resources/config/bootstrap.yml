@@ -38,7 +38,27 @@ spring:
           # 开启从注册中心动态创建路由的功能
           enabled: true
           # 使用小写服务名，默认是大写
-          lower-case-service-id: true 
+          lower-case-service-id: true
+          filters:
+            - StripPrefix=1
+            - name: SignPre
+              args:
+                filter-urls:
+                  - "'/ctid/**'"
+            - name: JwtPre
+              args:
+                filter-urls:
+                  - "'*:/sgn/**'"
+                  - "'*:/rac/**'"
+                  - "'*:/cap/**'"
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
+                ignore-urls:
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
+                  - "'POST:/rac/sign-in/**'"
+                  - "'POST:/cap/captcha/**'"
+                  - "'GET:/rac/account/get-cur-account-info'"
 
 dubbo:
   protocol:

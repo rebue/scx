@@ -11,30 +11,6 @@ scx:
             limit: 75KB
 
 spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          filters:
-            - StripPrefix=1
-            - name: SignPre
-              args:
-                filter-urls:
-                  - "'/ctid/**'"
-            - name: JwtPre
-              args:
-                filter-urls:
-                  - "'*:/sgn/**'"
-                  - "'*:/rac/**'"
-                  - "'*:/cap/**'"
-                  - "'*:/oss/**'"
-                  - "'*:/wxx/**'"
-                ignore-urls:
-                  - "'*:/oss/**'"
-                  - "'*:/wxx/**'"
-                  - "'POST:/rac/sign-in/**'"
-                  - "'POST:/cap/captcha/**'"
-                  - "'GET:/rac/account/get-cur-account-info'"
   # 链路追踪采集器
   sleuth:
     sampler:
