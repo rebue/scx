@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  rac-svr:
+    image: nnzbz/spring-boot-app:1.0.3
+    environment:
+      # 最好使用此设定时区，其它镜像也可以使用
+      - TZ=CST-8
+    volumes:
+      # 配置文件目录
+      - /usr/local/rac-svr/config/:/usr/local/myservice/config/
+      - /usr/local/rac-svr/rac-svr-1.2.4.jar:/usr/local/myservice/myservice.jar
+networks:
+  default:
+    external: true
+    name: rebue
+
+# docker stack deploy -c /usr/local/rac-svr/stack.yml rac-svr
