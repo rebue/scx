@@ -15,6 +15,14 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+  redis:
+    password: Redis@nnxy2021
+    sentinel:
+      master: mymaster
+      nodes:
+        - redis_sentinel1:26379
+        - redis_sentinel2:26379
+        - redis_sentinel3:26379
   # 链路追踪采集器
   sleuth:
     sampler:
