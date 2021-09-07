@@ -21,11 +21,11 @@ spring:
     gateway:
       routes:
         - id: sr
-          uri: nginx:20010
+          uri: http://10.200.101.16:20010
           predicates:
             - Path=/admin-web/**
         - id: welcome
-          uri: nginx:20010
+          uri: http://10.200.101.16:20010
           predicates:
             - Path=/
           filters:
@@ -58,4 +58,4 @@ logging:
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
 
 oidc:
-  redirect-uri: http://10.200.101.16/admin-web/#/sign-in/unified
+  redirect-uri: http://10.200.101.16/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=st&redirect_uri=http%3A%2F%2F10.200.101.16%2Forp-svr%2Foidc%2Fcallback
