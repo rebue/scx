@@ -18,11 +18,24 @@ spring:
     sentinel:
       transport:
         dashboard: sentinel-dashboard:80
+    gateway:
+      routes:
+        - id: sr
+          uri: nginx
+          predicates:
+            - Path=/admin-web/**
+        - id: welcome
+          uri: nginx
+          predicates:
+            - Path=/
+          filters:
+            - StripPrefix=1
+            - name: JwtPre
   rabbitmq:
     host: rabbitmq
     port: 5672
     username: guest
-    password: xxxxxxxx
+    password: guest
     virtual-host: /
   # 链路追踪可视化服务器
   zipkin:
@@ -43,3 +56,6 @@ logging:
     '[org.springframework.dao]': debug
     '[org.springframework.cloud]': warn
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
+
+oidc:
+  redirect-uri: http://10.200.101.16/admin-web/#/sign-in/unified

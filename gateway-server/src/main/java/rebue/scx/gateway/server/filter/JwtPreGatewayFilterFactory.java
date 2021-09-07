@@ -1,5 +1,6 @@
 package rebue.scx.gateway.server.filter;
 
+import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
@@ -33,6 +35,9 @@ import rebue.wheel.turing.JwtUtils;
 @Slf4j
 @Component
 public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<JwtPreGatewayFilterFactory.Config> {
+
+    @Value("${oidc.redirect-uri}")
+    private String redirectUri;
 
     @DubboReference
     private JwtApi        jwtApi;
@@ -72,8 +77,10 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 if (StringUtils.isBlank(sign)) {
                     log.warn("JWT签名校验失败: 在Cookie中并没有找到签名");
                     final ServerHttpResponse response = exchange.getResponse();
-                    // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
-                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+
+                    response.setStatusCode(HttpStatus.FOUND);
+                    response.getHeaders().setLocation(URI.create(redirectUri));
+
                     return response.setComplete();
                 }
 
@@ -81,8 +88,10 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 if (!verifyRo.isSuccess()) {
                     log.warn("JWT签名校验失败: url-{}", url);
                     final ServerHttpResponse response = exchange.getResponse();
-                    // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
-                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+
+                    response.setStatusCode(HttpStatus.FOUND);
+                    response.getHeaders().setLocation(URI.create(redirectUri));
+
                     return response.setComplete();
                 }
                 log.info("JWT签名校验成功");
