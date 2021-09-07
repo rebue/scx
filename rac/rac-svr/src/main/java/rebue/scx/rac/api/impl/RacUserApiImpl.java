@@ -3,6 +3,8 @@ package rebue.scx.rac.api.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacUserApi;
 import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mo.RacUserMo;
@@ -21,5 +23,19 @@ import rebue.scx.rac.to.RacUserPageTo;
  */
 @DubboService
 public class RacUserApiImpl extends
-    BaseApiImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserSvc> implements RacUserApi {
+        BaseApiImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserSvc>
+        implements RacUserApi {
+
+    /**
+     * 根据姓名和身份张号查询用户信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    @Override
+    public Ro<RacUserMo> getOneByRealNameIdCard(final RacUserOneTo to) {
+        RacUserMo userMo = _svc.getOneByRealNameIdCard(to);
+        return new Ro<>(ResultDic.SUCCESS, "查询用户信息成功", userMo);
+    }
 }

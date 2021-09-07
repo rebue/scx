@@ -20,6 +20,7 @@ import rebue.scx.rac.to.RacUserListTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.to.RacUserPageTo;
+import rebue.wheel.core.util.OrikaUtils;
 
 /**
  * 用户服务实现
@@ -40,8 +41,9 @@ import rebue.scx.rac.to.RacUserPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacUserSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
-    implements RacUserSvc {
+        extends
+        BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+        implements RacUserSvc {
 
     /**
      * 本服务的单例
@@ -72,4 +74,33 @@ public class RacUserSvcImpl
     protected BaseSvc<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo> getThisSvc() {
         return thisSvc;
     }
+
+    /**
+     * 添加记录
+     *
+     * @param to 添加的参数
+     *
+     * @return 如果成功，且仅添加一条记录，返回添加时自动生成的ID，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacUserMo add(RacUserAddTo to) {
+        to.setCreateTimestamp(System.currentTimeMillis());
+        to.setUpdateTimestamp(System.currentTimeMillis());
+        final RacUserMo mo = OrikaUtils.map(to, getMoClass());
+        return thisSvc.addMo(mo);
+    }
+
+    /**
+     * 根据姓名和身份张号查询用户信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    @Override
+    public RacUserMo getOneByRealNameIdCard(RacUserOneTo one) {
+        return thisSvc.getOne(one);
+    }
+
 }

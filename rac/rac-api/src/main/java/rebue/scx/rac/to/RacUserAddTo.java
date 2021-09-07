@@ -2,7 +2,6 @@ package rebue.scx.rac.to;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
@@ -97,18 +96,14 @@ public class RacUserAddTo implements Serializable {
     /**
      * 修改时间戳
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "修改时间戳不能为空")
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long              updateTimestamp;
 
     /**
      * 建立时间戳
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(message = "建立时间戳不能为空")
     @PositiveOrZero(message = "建立时间戳不能为负数")
     private Long              createTimestamp;
 }

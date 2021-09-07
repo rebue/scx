@@ -28,4 +28,13 @@ import rebue.scx.rac.to.RacUserPageTo;
  */
 @Validated
 public interface RacUserSvc extends BaseSvc<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo> {
+
+    /**
+     * 根据姓名和身份张号查询用户信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    RacUserMo getOneByRealNameIdCard(RacUserOneTo one);
 }

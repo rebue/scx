@@ -20,6 +20,7 @@ import rebue.scx.rac.api.RacUserApi;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserModifyTo;
+import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.to.RacUserPageTo;
 
 /**
@@ -40,6 +41,7 @@ public class RacUserCtrl {
      * 添加用户
      *
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/user")
@@ -51,6 +53,7 @@ public class RacUserCtrl {
      * 修改用户的信息
      *
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/user")
@@ -62,6 +65,7 @@ public class RacUserCtrl {
      * 删除用户
      *
      * @param id 用户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/user")
@@ -70,9 +74,22 @@ public class RacUserCtrl {
     }
 
     /**
+     * 根据姓名和身份张号查询用户信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    @GetMapping("/rac/user/get-by-realName-idCard")
+    public Mono<Ro<RacUserMo>> getOneByRealNameIdCard(@RequestBody final RacUserOneTo to) {
+        return Mono.create(callback -> callback.success(api.getOneByRealNameIdCard(to)));
+    }
+
+    /**
      * 获取单个用户的信息
      *
      * @param id 用户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/get-by-id")
@@ -84,6 +101,7 @@ public class RacUserCtrl {
      * 判断用户是否存在
      *
      * @param id 用户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/exist-by-id")
@@ -95,6 +113,7 @@ public class RacUserCtrl {
      * 查询用户的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/user/page")
