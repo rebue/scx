@@ -1,14 +1,33 @@
 package com.github.rebue.scx.config;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+
+@Component
 public class OidcConfig {
+
+    @Value("${oidc.login-url}")
+    private String loginUrl;
+
+    @Value("${oidc.cookie-domain}")
+    private String cookieDomain;
+
+    @PostConstruct
+    private void init()
+    {
+        OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN = loginUrl;
+        OidcConfig.LOGIN_URL = cookieDomain;
+    }
+
+    public static String CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN;
+
+    public static String LOGIN_URL;
 
     public static final String AUTH_INFO = "auth_info";
 
-    public static final String CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN = "127.0.0.1"; // todo
-
     public static final long CODE_FLOW_LOGIN_PAGE_COOKIE_AGE = 100000L; // todo
-
-    public static final String LOGIN_URL = "http://127.0.0.1:13080/admin-web/#/sign-in/unified";
 
     // 单位是秒
     public static final long ACCESS_TOKEN_LIFETIME = 60 * 60;

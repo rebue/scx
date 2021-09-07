@@ -37,3 +37,7 @@ logging:
     org.apache.dubbo.registry.integration.RegistryProtocol: error
     org.springframework.web.context.support.GenericWebApplicationContext: error
     org.springframework.beans.factory.BeanCreationNotAllowedException: error
+
+oidc:
+  login-url: http://127.0.0.1:13080/admin-web/#/sign-in/unified
+  cookie-domain: 127.0.0.1
