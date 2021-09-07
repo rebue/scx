@@ -7,6 +7,7 @@ import java.util.Base64;
 
 import javax.annotation.PostConstruct;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.wheel.turing.JwtUtils;
 
+@Slf4j
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
@@ -84,6 +86,7 @@ public class OidcSvcImpl implements OidcSvc {
                 redirectUri
         );
         if (!tokenResponse.indicatesSuccess()) {
+            log.info("111 callback");
             return Pair.of(null, tokenResponse.toErrorResponse().getErrorObject().getDescription());
         }
         OIDCTokenResponse sr = (OIDCTokenResponse) tokenResponse.toSuccessResponse();
@@ -108,6 +111,7 @@ public class OidcSvcImpl implements OidcSvc {
             return Pair.of(null, "应用url为空");
         }
         response.addCookie(createCookie(idToken.serialize()));
+        log.info("222 response appurl = " + app.getUrl());
         // todo 这里可以存储 accessToken refreshToken tokens.toJSONObject().toJSONString()
         return Pair.of(app.getUrl(), null);
     }
