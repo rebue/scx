@@ -17,13 +17,13 @@ public class OidcConfig {
     @PostConstruct
     private void init()
     {
-        OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN = loginUrl;
-        OidcConfig.LOGIN_URL = cookieDomain;
+        OidcConfig.LOGIN_URL = loginUrl;
+        OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN = cookieDomain;
     }
 
-    public static String CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN;
-
     public static String LOGIN_URL;
+
+    public static String CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN;
 
     public static final String AUTH_INFO = "auth_info";
 
