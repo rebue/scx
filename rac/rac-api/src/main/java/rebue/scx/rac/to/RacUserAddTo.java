@@ -86,9 +86,8 @@ public class RacUserAddTo implements Serializable {
     private Boolean           isVerifiedIdcard;
 
     /**
-     * 性别
+     * 性别0为女，1为男
      *
-     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "性别不能为负数")
     private Byte              sex;

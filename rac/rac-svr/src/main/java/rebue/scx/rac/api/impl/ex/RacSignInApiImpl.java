@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 
-import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
@@ -40,13 +39,13 @@ public class RacSignInApiImpl implements RacSignInApi {
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
         // 校验验证码
 
-        final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
-        if (verifyVo.getResult().getCode() == 1) {
-            return svc.signInByAccountName(to);
-        }
-        else {
-            return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
-        }
+        // final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
+        // if (verifyVo.getResult().getCode() == 1) {
+        return svc.signInByAccountName(to);
+        // }
+        // else {
+        // return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
+        // }
     }
 
 }
