@@ -3,7 +3,7 @@ debug: true
 
 server:
   # 自定义端口号，方便开发测试
-  port: 80
+  port: 10085
 
 logging:
   config: classpath:config/log4j2.xml
