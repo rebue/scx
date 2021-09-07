@@ -21,11 +21,11 @@ spring:
     gateway:
       routes:
         - id: sr
-          uri: nginx
+          uri: nginx:20010
           predicates:
             - Path=/admin-web/**
         - id: welcome
-          uri: nginx
+          uri: nginx:20010
           predicates:
             - Path=/
           filters:
