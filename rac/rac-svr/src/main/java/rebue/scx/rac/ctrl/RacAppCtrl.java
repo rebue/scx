@@ -95,7 +95,7 @@ public class RacAppCtrl {
      *
      * @param to 修改的具体数据
      */
-    @RacOpLog(opType = "启/禁用应用", opTitle = "启/禁用应用: #{#p0.id}")
+    @RacOpLog(opType = "启用/禁用应用", opTitle = "启用/禁用应用: #{#p0.id}")
     @PutMapping("/rac/app/enable")
     public Mono<Ro<?>> enable(@RequestBody final RacAppEnabledTo to) {
         return Mono.create(callback -> callback.success(api.enable(to)));

@@ -8,7 +8,7 @@ scx:
         default-limit: 1MB
         specifies:
           - url: POST:/rac/account/upload-avatar
-            limit: 75KB
+            limit: 500KB
 
 spring:
   # 链路追踪采集器
