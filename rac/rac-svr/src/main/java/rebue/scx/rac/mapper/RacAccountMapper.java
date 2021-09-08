@@ -85,36 +85,41 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     BasicColumn[] selectList = BasicColumn.columnList(id, userId, remark, orgId, realmId, isEnabled, signInName, signInMobile, signInEmail, signInPswd, signInPswdSalt, payPswd,
-        payPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp,
-        updateTimestamp);
+            payPswdSalt, signInNickname, signInAvatar, wxOpenId, wxUnionId, wxNickname, wxAvatar, qqOpenId, qqUnionId, qqNickname, qqAvatar, isTester, createTimestamp,
+            updateTimestamp);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacAccountMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacAccountMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacAccountMoResult")
     Optional<RacAccountMo> selectOne(SelectStatementProvider selectStatement);
@@ -122,37 +127,44 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacAccountMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "USER_ID", property = "userId", jdbcType = JdbcType.BIGINT), @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "ORG_ID", property = "orgId", jdbcType = JdbcType.BIGINT), @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT), @Result(column = "SIGN_IN_NAME", property = "signInName", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "SIGN_IN_MOBILE", property = "signInMobile", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "SIGN_IN_EMAIL", property = "signInEmail", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "SIGN_IN_PSWD", property = "signInPswd", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "SIGN_IN_PSWD_SALT", property = "signInPswdSalt", jdbcType = JdbcType.CHAR),
-        @Result(column = "PAY_PSWD", property = "payPswd", jdbcType = JdbcType.VARCHAR), @Result(column = "PAY_PSWD_SALT", property = "payPswdSalt", jdbcType = JdbcType.CHAR),
-        @Result(column = "SIGN_IN_NICKNAME", property = "signInNickname", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "SIGN_IN_AVATAR", property = "signInAvatar", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "WX_OPEN_ID", property = "wxOpenId", jdbcType = JdbcType.VARCHAR), @Result(column = "WX_UNION_ID", property = "wxUnionId", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "WX_NICKNAME", property = "wxNickname", jdbcType = JdbcType.VARCHAR), @Result(column = "WX_AVATAR", property = "wxAvatar", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "QQ_OPEN_ID", property = "qqOpenId", jdbcType = JdbcType.VARCHAR), @Result(column = "QQ_UNION_ID", property = "qqUnionId", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "QQ_NICKNAME", property = "qqNickname", jdbcType = JdbcType.VARCHAR), @Result(column = "QQ_AVATAR", property = "qqAvatar", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "IS_TESTER", property = "isTester", jdbcType = JdbcType.BIT),
-        @Result(column = "CREATE_TIMESTAMP", property = "createTimestamp", jdbcType = JdbcType.BIGINT),
-        @Result(column = "UPDATE_TIMESTAMP", property = "updateTimestamp", jdbcType = JdbcType.BIGINT)
+            @Result(column = "USER_ID", property = "userId", jdbcType = JdbcType.BIGINT), @Result(column = "REMARK", property = "remark", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "ORG_ID", property = "orgId", jdbcType = JdbcType.BIGINT), @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT), @Result(column = "SIGN_IN_NAME", property = "signInName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "SIGN_IN_MOBILE", property = "signInMobile", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "SIGN_IN_EMAIL", property = "signInEmail", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "SIGN_IN_PSWD", property = "signInPswd", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "SIGN_IN_PSWD_SALT", property = "signInPswdSalt", jdbcType = JdbcType.CHAR),
+            @Result(column = "PAY_PSWD", property = "payPswd", jdbcType = JdbcType.VARCHAR), @Result(column = "PAY_PSWD_SALT", property = "payPswdSalt", jdbcType = JdbcType.CHAR),
+            @Result(column = "SIGN_IN_NICKNAME", property = "signInNickname", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "SIGN_IN_AVATAR", property = "signInAvatar", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "WX_OPEN_ID", property = "wxOpenId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "WX_UNION_ID", property = "wxUnionId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "WX_NICKNAME", property = "wxNickname", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "WX_AVATAR", property = "wxAvatar", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "QQ_OPEN_ID", property = "qqOpenId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "QQ_UNION_ID", property = "qqUnionId", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "QQ_NICKNAME", property = "qqNickname", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "QQ_AVATAR", property = "qqAvatar", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "IS_TESTER", property = "isTester", jdbcType = JdbcType.BIT),
+            @Result(column = "CREATE_TIMESTAMP", property = "createTimestamp", jdbcType = JdbcType.BIGINT),
+            @Result(column = "UPDATE_TIMESTAMP", property = "updateTimestamp", jdbcType = JdbcType.BIGINT)
     })
     List<RacAccountMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racAccount, completer);
     }
@@ -160,6 +172,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racAccount, completer);
     }
@@ -167,6 +180,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> c.where(id, isEqualTo(id_)));
     }
@@ -174,54 +188,61 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int insert(RacAccountMo record) {
         return MyBatis3Utils.insert(this::insert, record, racAccount,
-            c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(realmId).toProperty("realmId")
-                .map(isEnabled).toProperty("isEnabled").map(signInName).toProperty("signInName").map(signInMobile).toProperty("signInMobile").map(signInEmail)
-                .toProperty("signInEmail").map(signInPswd).toProperty("signInPswd").map(signInPswdSalt).toProperty("signInPswdSalt").map(payPswd).toProperty("payPswd")
-                .map(payPswdSalt).toProperty("payPswdSalt").map(signInNickname).toProperty("signInNickname").map(signInAvatar).toProperty("signInAvatar").map(wxOpenId)
-                .toProperty("wxOpenId").map(wxUnionId).toProperty("wxUnionId").map(wxNickname).toProperty("wxNickname").map(wxAvatar).toProperty("wxAvatar").map(qqOpenId)
-                .toProperty("qqOpenId").map(qqUnionId).toProperty("qqUnionId").map(qqNickname).toProperty("qqNickname").map(qqAvatar).toProperty("qqAvatar").map(isTester)
-                .toProperty("isTester").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
+                c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(realmId).toProperty("realmId")
+                        .map(isEnabled).toProperty("isEnabled").map(signInName).toProperty("signInName").map(signInMobile).toProperty("signInMobile").map(signInEmail)
+                        .toProperty("signInEmail").map(signInPswd).toProperty("signInPswd").map(signInPswdSalt).toProperty("signInPswdSalt").map(payPswd).toProperty("payPswd")
+                        .map(payPswdSalt).toProperty("payPswdSalt").map(signInNickname).toProperty("signInNickname").map(signInAvatar).toProperty("signInAvatar").map(wxOpenId)
+                        .toProperty("wxOpenId").map(wxUnionId).toProperty("wxUnionId").map(wxNickname).toProperty("wxNickname").map(wxAvatar).toProperty("wxAvatar").map(qqOpenId)
+                        .toProperty("qqOpenId").map(qqUnionId).toProperty("qqUnionId").map(qqNickname).toProperty("qqNickname").map(qqAvatar).toProperty("qqAvatar").map(isTester)
+                        .toProperty("isTester").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int insertMultiple(Collection<RacAccountMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racAccount,
-            c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(realmId).toProperty("realmId")
-                .map(isEnabled).toProperty("isEnabled").map(signInName).toProperty("signInName").map(signInMobile).toProperty("signInMobile").map(signInEmail)
-                .toProperty("signInEmail").map(signInPswd).toProperty("signInPswd").map(signInPswdSalt).toProperty("signInPswdSalt").map(payPswd).toProperty("payPswd")
-                .map(payPswdSalt).toProperty("payPswdSalt").map(signInNickname).toProperty("signInNickname").map(signInAvatar).toProperty("signInAvatar").map(wxOpenId)
-                .toProperty("wxOpenId").map(wxUnionId).toProperty("wxUnionId").map(wxNickname).toProperty("wxNickname").map(wxAvatar).toProperty("wxAvatar").map(qqOpenId)
-                .toProperty("qqOpenId").map(qqUnionId).toProperty("qqUnionId").map(qqNickname).toProperty("qqNickname").map(qqAvatar).toProperty("qqAvatar").map(isTester)
-                .toProperty("isTester").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
+                c -> c.map(id).toProperty("id").map(userId).toProperty("userId").map(remark).toProperty("remark").map(orgId).toProperty("orgId").map(realmId).toProperty("realmId")
+                        .map(isEnabled).toProperty("isEnabled").map(signInName).toProperty("signInName").map(signInMobile).toProperty("signInMobile").map(signInEmail)
+                        .toProperty("signInEmail").map(signInPswd).toProperty("signInPswd").map(signInPswdSalt).toProperty("signInPswdSalt").map(payPswd).toProperty("payPswd")
+                        .map(payPswdSalt).toProperty("payPswdSalt").map(signInNickname).toProperty("signInNickname").map(signInAvatar).toProperty("signInAvatar").map(wxOpenId)
+                        .toProperty("wxOpenId").map(wxUnionId).toProperty("wxUnionId").map(wxNickname).toProperty("wxNickname").map(wxAvatar).toProperty("wxAvatar").map(qqOpenId)
+                        .toProperty("qqOpenId").map(qqUnionId).toProperty("qqUnionId").map(qqNickname).toProperty("qqNickname").map(qqAvatar).toProperty("qqAvatar").map(isTester)
+                        .toProperty("isTester").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int insertSelective(RacAccountMo record) {
         return MyBatis3Utils.insert(this::insert, record, racAccount,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(userId).toPropertyWhenPresent("userId", record::getUserId).map(remark)
-                .toPropertyWhenPresent("remark", record::getRemark).map(orgId).toPropertyWhenPresent("orgId", record::getOrgId).map(realmId)
-                .toPropertyWhenPresent("realmId", record::getRealmId).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(signInName)
-                .toPropertyWhenPresent("signInName", record::getSignInName).map(signInMobile).toPropertyWhenPresent("signInMobile", record::getSignInMobile).map(signInEmail)
-                .toPropertyWhenPresent("signInEmail", record::getSignInEmail).map(signInPswd).toPropertyWhenPresent("signInPswd", record::getSignInPswd).map(signInPswdSalt)
-                .toPropertyWhenPresent("signInPswdSalt", record::getSignInPswdSalt).map(payPswd).toPropertyWhenPresent("payPswd", record::getPayPswd).map(payPswdSalt)
-                .toPropertyWhenPresent("payPswdSalt", record::getPayPswdSalt).map(signInNickname).toPropertyWhenPresent("signInNickname", record::getSignInNickname)
-                .map(signInAvatar).toPropertyWhenPresent("signInAvatar", record::getSignInAvatar).map(wxOpenId).toPropertyWhenPresent("wxOpenId", record::getWxOpenId)
-                .map(wxUnionId).toPropertyWhenPresent("wxUnionId", record::getWxUnionId).map(wxNickname).toPropertyWhenPresent("wxNickname", record::getWxNickname).map(wxAvatar)
-                .toPropertyWhenPresent("wxAvatar", record::getWxAvatar).map(qqOpenId).toPropertyWhenPresent("qqOpenId", record::getQqOpenId).map(qqUnionId)
-                .toPropertyWhenPresent("qqUnionId", record::getQqUnionId).map(qqNickname).toPropertyWhenPresent("qqNickname", record::getQqNickname).map(qqAvatar)
-                .toPropertyWhenPresent("qqAvatar", record::getQqAvatar).map(isTester).toPropertyWhenPresent("isTester", record::getIsTester).map(createTimestamp)
-                .toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp).map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp));
+                c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(userId).toPropertyWhenPresent("userId", record::getUserId).map(remark)
+                        .toPropertyWhenPresent("remark", record::getRemark).map(orgId).toPropertyWhenPresent("orgId", record::getOrgId).map(realmId)
+                        .toPropertyWhenPresent("realmId", record::getRealmId).map(isEnabled).toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(signInName)
+                        .toPropertyWhenPresent("signInName", record::getSignInName).map(signInMobile).toPropertyWhenPresent("signInMobile", record::getSignInMobile)
+                        .map(signInEmail)
+                        .toPropertyWhenPresent("signInEmail", record::getSignInEmail).map(signInPswd).toPropertyWhenPresent("signInPswd", record::getSignInPswd).map(signInPswdSalt)
+                        .toPropertyWhenPresent("signInPswdSalt", record::getSignInPswdSalt).map(payPswd).toPropertyWhenPresent("payPswd", record::getPayPswd).map(payPswdSalt)
+                        .toPropertyWhenPresent("payPswdSalt", record::getPayPswdSalt).map(signInNickname).toPropertyWhenPresent("signInNickname", record::getSignInNickname)
+                        .map(signInAvatar).toPropertyWhenPresent("signInAvatar", record::getSignInAvatar).map(wxOpenId).toPropertyWhenPresent("wxOpenId", record::getWxOpenId)
+                        .map(wxUnionId).toPropertyWhenPresent("wxUnionId", record::getWxUnionId).map(wxNickname).toPropertyWhenPresent("wxNickname", record::getWxNickname)
+                        .map(wxAvatar)
+                        .toPropertyWhenPresent("wxAvatar", record::getWxAvatar).map(qqOpenId).toPropertyWhenPresent("qqOpenId", record::getQqOpenId).map(qqUnionId)
+                        .toPropertyWhenPresent("qqUnionId", record::getQqUnionId).map(qqNickname).toPropertyWhenPresent("qqNickname", record::getQqNickname).map(qqAvatar)
+                        .toPropertyWhenPresent("qqAvatar", record::getQqAvatar).map(isTester).toPropertyWhenPresent("isTester", record::getIsTester).map(createTimestamp)
+                        .toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp).map(updateTimestamp)
+                        .toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default Optional<RacAccountMo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racAccount, completer);
     }
@@ -229,6 +250,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacAccountMo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racAccount, completer);
     }
@@ -236,6 +258,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacAccountMo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racAccount, completer);
     }
@@ -243,6 +266,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default Optional<RacAccountMo> selectByPrimaryKey(Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
@@ -250,6 +274,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racAccount, completer);
     }
@@ -259,13 +284,13 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacAccountMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(userId).equalTo(record::getUserId).set(remark).equalTo(record::getRemark).set(orgId).equalTo(record::getOrgId).set(realmId)
-            .equalTo(record::getRealmId).set(isEnabled).equalTo(record::getIsEnabled).set(signInName).equalTo(record::getSignInName).set(signInMobile)
-            .equalTo(record::getSignInMobile).set(signInEmail).equalTo(record::getSignInEmail).set(signInPswd).equalTo(record::getSignInPswd).set(signInPswdSalt)
-            .equalTo(record::getSignInPswdSalt).set(payPswd).equalTo(record::getPayPswd).set(payPswdSalt).equalTo(record::getPayPswdSalt).set(signInNickname)
-            .equalTo(record::getSignInNickname).set(signInAvatar).equalTo(record::getSignInAvatar).set(wxOpenId).equalTo(record::getWxOpenId).set(wxUnionId)
-            .equalTo(record::getWxUnionId).set(wxNickname).equalTo(record::getWxNickname).set(wxAvatar).equalTo(record::getWxAvatar).set(qqOpenId).equalTo(record::getQqOpenId)
-            .set(qqUnionId).equalTo(record::getQqUnionId).set(qqNickname).equalTo(record::getQqNickname).set(qqAvatar).equalTo(record::getQqAvatar).set(isTester)
-            .equalTo(record::getIsTester).set(createTimestamp).equalTo(record::getCreateTimestamp).set(updateTimestamp).equalTo(record::getUpdateTimestamp);
+                .equalTo(record::getRealmId).set(isEnabled).equalTo(record::getIsEnabled).set(signInName).equalTo(record::getSignInName).set(signInMobile)
+                .equalTo(record::getSignInMobile).set(signInEmail).equalTo(record::getSignInEmail).set(signInPswd).equalTo(record::getSignInPswd).set(signInPswdSalt)
+                .equalTo(record::getSignInPswdSalt).set(payPswd).equalTo(record::getPayPswd).set(payPswdSalt).equalTo(record::getPayPswdSalt).set(signInNickname)
+                .equalTo(record::getSignInNickname).set(signInAvatar).equalTo(record::getSignInAvatar).set(wxOpenId).equalTo(record::getWxOpenId).set(wxUnionId)
+                .equalTo(record::getWxUnionId).set(wxNickname).equalTo(record::getWxNickname).set(wxAvatar).equalTo(record::getWxAvatar).set(qqOpenId).equalTo(record::getQqOpenId)
+                .set(qqUnionId).equalTo(record::getQqUnionId).set(qqNickname).equalTo(record::getQqNickname).set(qqAvatar).equalTo(record::getQqAvatar).set(isTester)
+                .equalTo(record::getIsTester).set(createTimestamp).equalTo(record::getCreateTimestamp).set(updateTimestamp).equalTo(record::getUpdateTimestamp);
     }
 
     /**
@@ -273,107 +298,122 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacAccountMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(userId).equalToWhenPresent(record::getUserId).set(remark).equalToWhenPresent(record::getRemark).set(orgId)
-            .equalToWhenPresent(record::getOrgId).set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName)
-            .equalToWhenPresent(record::getSignInName).set(signInMobile).equalToWhenPresent(record::getSignInMobile).set(signInEmail).equalToWhenPresent(record::getSignInEmail)
-            .set(signInPswd).equalToWhenPresent(record::getSignInPswd).set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt).set(payPswd)
-            .equalToWhenPresent(record::getPayPswd).set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt).set(signInNickname).equalToWhenPresent(record::getSignInNickname)
-            .set(signInAvatar).equalToWhenPresent(record::getSignInAvatar).set(wxOpenId).equalToWhenPresent(record::getWxOpenId).set(wxUnionId)
-            .equalToWhenPresent(record::getWxUnionId).set(wxNickname).equalToWhenPresent(record::getWxNickname).set(wxAvatar).equalToWhenPresent(record::getWxAvatar).set(qqOpenId)
-            .equalToWhenPresent(record::getQqOpenId).set(qqUnionId).equalToWhenPresent(record::getQqUnionId).set(qqNickname).equalToWhenPresent(record::getQqNickname).set(qqAvatar)
-            .equalToWhenPresent(record::getQqAvatar).set(isTester).equalToWhenPresent(record::getIsTester).set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
-            .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
+                .equalToWhenPresent(record::getOrgId).set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName)
+                .equalToWhenPresent(record::getSignInName).set(signInMobile).equalToWhenPresent(record::getSignInMobile).set(signInEmail).equalToWhenPresent(record::getSignInEmail)
+                .set(signInPswd).equalToWhenPresent(record::getSignInPswd).set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt).set(payPswd)
+                .equalToWhenPresent(record::getPayPswd).set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt).set(signInNickname)
+                .equalToWhenPresent(record::getSignInNickname)
+                .set(signInAvatar).equalToWhenPresent(record::getSignInAvatar).set(wxOpenId).equalToWhenPresent(record::getWxOpenId).set(wxUnionId)
+                .equalToWhenPresent(record::getWxUnionId).set(wxNickname).equalToWhenPresent(record::getWxNickname).set(wxAvatar).equalToWhenPresent(record::getWxAvatar)
+                .set(qqOpenId)
+                .equalToWhenPresent(record::getQqOpenId).set(qqUnionId).equalToWhenPresent(record::getQqUnionId).set(qqNickname).equalToWhenPresent(record::getQqNickname)
+                .set(qqAvatar)
+                .equalToWhenPresent(record::getQqAvatar).set(isTester).equalToWhenPresent(record::getIsTester).set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp)
+                .set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int updateByPrimaryKey(RacAccountMo record) {
         return update(
-            c -> c.set(userId).equalTo(record::getUserId).set(remark).equalTo(record::getRemark).set(orgId).equalTo(record::getOrgId).set(realmId).equalTo(record::getRealmId)
-                .set(isEnabled).equalTo(record::getIsEnabled).set(signInName).equalTo(record::getSignInName).set(signInMobile).equalTo(record::getSignInMobile).set(signInEmail)
-                .equalTo(record::getSignInEmail).set(signInPswd).equalTo(record::getSignInPswd).set(signInPswdSalt).equalTo(record::getSignInPswdSalt).set(payPswd)
-                .equalTo(record::getPayPswd).set(payPswdSalt).equalTo(record::getPayPswdSalt).set(signInNickname).equalTo(record::getSignInNickname).set(signInAvatar)
-                .equalTo(record::getSignInAvatar).set(wxOpenId).equalTo(record::getWxOpenId).set(wxUnionId).equalTo(record::getWxUnionId).set(wxNickname)
-                .equalTo(record::getWxNickname).set(wxAvatar).equalTo(record::getWxAvatar).set(qqOpenId).equalTo(record::getQqOpenId).set(qqUnionId).equalTo(record::getQqUnionId)
-                .set(qqNickname).equalTo(record::getQqNickname).set(qqAvatar).equalTo(record::getQqAvatar).set(isTester).equalTo(record::getIsTester).set(createTimestamp)
-                .equalTo(record::getCreateTimestamp).set(updateTimestamp).equalTo(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
+                c -> c.set(userId).equalTo(record::getUserId).set(remark).equalTo(record::getRemark).set(orgId).equalTo(record::getOrgId).set(realmId).equalTo(record::getRealmId)
+                        .set(isEnabled).equalTo(record::getIsEnabled).set(signInName).equalTo(record::getSignInName).set(signInMobile).equalTo(record::getSignInMobile)
+                        .set(signInEmail)
+                        .equalTo(record::getSignInEmail).set(signInPswd).equalTo(record::getSignInPswd).set(signInPswdSalt).equalTo(record::getSignInPswdSalt).set(payPswd)
+                        .equalTo(record::getPayPswd).set(payPswdSalt).equalTo(record::getPayPswdSalt).set(signInNickname).equalTo(record::getSignInNickname).set(signInAvatar)
+                        .equalTo(record::getSignInAvatar).set(wxOpenId).equalTo(record::getWxOpenId).set(wxUnionId).equalTo(record::getWxUnionId).set(wxNickname)
+                        .equalTo(record::getWxNickname).set(wxAvatar).equalTo(record::getWxAvatar).set(qqOpenId).equalTo(record::getQqOpenId).set(qqUnionId)
+                        .equalTo(record::getQqUnionId)
+                        .set(qqNickname).equalTo(record::getQqNickname).set(qqAvatar).equalTo(record::getQqAvatar).set(isTester).equalTo(record::getIsTester).set(createTimestamp)
+                        .equalTo(record::getCreateTimestamp).set(updateTimestamp).equalTo(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int updateByPrimaryKeySelective(RacAccountMo record) {
         return update(c -> c.set(userId).equalToWhenPresent(record::getUserId).set(remark).equalToWhenPresent(record::getRemark).set(orgId).equalToWhenPresent(record::getOrgId)
-            .set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName).equalToWhenPresent(record::getSignInName)
-            .set(signInMobile).equalToWhenPresent(record::getSignInMobile).set(signInEmail).equalToWhenPresent(record::getSignInEmail).set(signInPswd)
-            .equalToWhenPresent(record::getSignInPswd).set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt).set(payPswd).equalToWhenPresent(record::getPayPswd)
-            .set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt).set(signInNickname).equalToWhenPresent(record::getSignInNickname).set(signInAvatar)
-            .equalToWhenPresent(record::getSignInAvatar).set(wxOpenId).equalToWhenPresent(record::getWxOpenId).set(wxUnionId).equalToWhenPresent(record::getWxUnionId)
-            .set(wxNickname).equalToWhenPresent(record::getWxNickname).set(wxAvatar).equalToWhenPresent(record::getWxAvatar).set(qqOpenId).equalToWhenPresent(record::getQqOpenId)
-            .set(qqUnionId).equalToWhenPresent(record::getQqUnionId).set(qqNickname).equalToWhenPresent(record::getQqNickname).set(qqAvatar).equalToWhenPresent(record::getQqAvatar)
-            .set(isTester).equalToWhenPresent(record::getIsTester).set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp)
-            .equalToWhenPresent(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
+                .set(realmId).equalToWhenPresent(record::getRealmId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(signInName)
+                .equalToWhenPresent(record::getSignInName)
+                .set(signInMobile).equalToWhenPresent(record::getSignInMobile).set(signInEmail).equalToWhenPresent(record::getSignInEmail).set(signInPswd)
+                .equalToWhenPresent(record::getSignInPswd).set(signInPswdSalt).equalToWhenPresent(record::getSignInPswdSalt).set(payPswd).equalToWhenPresent(record::getPayPswd)
+                .set(payPswdSalt).equalToWhenPresent(record::getPayPswdSalt).set(signInNickname).equalToWhenPresent(record::getSignInNickname).set(signInAvatar)
+                .equalToWhenPresent(record::getSignInAvatar).set(wxOpenId).equalToWhenPresent(record::getWxOpenId).set(wxUnionId).equalToWhenPresent(record::getWxUnionId)
+                .set(wxNickname).equalToWhenPresent(record::getWxNickname).set(wxAvatar).equalToWhenPresent(record::getWxAvatar).set(qqOpenId)
+                .equalToWhenPresent(record::getQqOpenId)
+                .set(qqUnionId).equalToWhenPresent(record::getQqUnionId).set(qqNickname).equalToWhenPresent(record::getQqNickname).set(qqAvatar)
+                .equalToWhenPresent(record::getQqAvatar)
+                .set(isTester).equalToWhenPresent(record::getIsTester).set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp)
+                .equalToWhenPresent(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int deleteSelective(RacAccountMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
-            .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
-            .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd)).and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
-            .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname)).and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
-            .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId)).and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
-            .and(wxNickname, isEqualToWhenPresent(record::getWxNickname)).and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar))
-            .and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId)).and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
-            .and(qqNickname, isEqualToWhenPresent(record::getQqNickname)).and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
-            .and(isTester, isEqualToWhenPresent(record::getIsTester)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
-            .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+                .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
+                .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
+                .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
+                .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+                .and(payPswd, isEqualToWhenPresent(record::getPayPswd)).and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
+                .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname)).and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
+                .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId)).and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
+                .and(wxNickname, isEqualToWhenPresent(record::getWxNickname)).and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar))
+                .and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId)).and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
+                .and(qqNickname, isEqualToWhenPresent(record::getQqNickname)).and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
+                .and(isTester, isEqualToWhenPresent(record::getIsTester)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
+                .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default Optional<RacAccountMo> selectOne(RacAccountMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
-            .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
-            .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd)).and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
-            .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname)).and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
-            .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId)).and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
-            .and(wxNickname, isEqualToWhenPresent(record::getWxNickname)).and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar))
-            .and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId)).and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
-            .and(qqNickname, isEqualToWhenPresent(record::getQqNickname)).and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
-            .and(isTester, isEqualToWhenPresent(record::getIsTester)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
-            .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+                .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
+                .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
+                .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
+                .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+                .and(payPswd, isEqualToWhenPresent(record::getPayPswd)).and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
+                .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname)).and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
+                .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId)).and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
+                .and(wxNickname, isEqualToWhenPresent(record::getWxNickname)).and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar))
+                .and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId)).and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
+                .and(qqNickname, isEqualToWhenPresent(record::getQqNickname)).and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
+                .and(isTester, isEqualToWhenPresent(record::getIsTester)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
+                .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default long countSelective(RacAccountMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId)).and(remark, isEqualToWhenPresent(record::getRemark))
-            .and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-            .and(signInName, isEqualToWhenPresent(record::getSignInName)).and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
-            .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail)).and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
-            .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt)).and(payPswd, isEqualToWhenPresent(record::getPayPswd))
-            .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt)).and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
-            .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar)).and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
-            .and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId)).and(wxNickname, isEqualToWhenPresent(record::getWxNickname))
-            .and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar)).and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId))
-            .and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId)).and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
-            .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar)).and(isTester, isEqualToWhenPresent(record::getIsTester))
-            .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+                .and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
+                .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(signInName, isEqualToWhenPresent(record::getSignInName)).and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
+                .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail)).and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
+                .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt)).and(payPswd, isEqualToWhenPresent(record::getPayPswd))
+                .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt)).and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
+                .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar)).and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
+                .and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId)).and(wxNickname, isEqualToWhenPresent(record::getWxNickname))
+                .and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar)).and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId))
+                .and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId)).and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
+                .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar)).and(isTester, isEqualToWhenPresent(record::getIsTester))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
@@ -381,6 +421,7 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default boolean existSelective(RacAccountMo record) {
         return countSelective(record) > 0;
     }
@@ -388,20 +429,21 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacAccountMo> selectSelective(RacAccountMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(userId, isEqualToWhenPresent(record::getUserId))
-            .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
-            .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
-            .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
-            .and(payPswd, isEqualToWhenPresent(record::getPayPswd)).and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
-            .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname)).and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
-            .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId)).and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
-            .and(wxNickname, isEqualToWhenPresent(record::getWxNickname)).and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar))
-            .and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId)).and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
-            .and(qqNickname, isEqualToWhenPresent(record::getQqNickname)).and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
-            .and(isTester, isEqualToWhenPresent(record::getIsTester)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
-            .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+                .and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
+                .and(isEnabled, isEqualToWhenPresent(record::getIsEnabled)).and(signInName, isEqualToWhenPresent(record::getSignInName))
+                .and(signInMobile, isEqualToWhenPresent(record::getSignInMobile)).and(signInEmail, isEqualToWhenPresent(record::getSignInEmail))
+                .and(signInPswd, isEqualToWhenPresent(record::getSignInPswd)).and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt))
+                .and(payPswd, isEqualToWhenPresent(record::getPayPswd)).and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt))
+                .and(signInNickname, isEqualToWhenPresent(record::getSignInNickname)).and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar))
+                .and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId)).and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId))
+                .and(wxNickname, isEqualToWhenPresent(record::getWxNickname)).and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar))
+                .and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId)).and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId))
+                .and(qqNickname, isEqualToWhenPresent(record::getQqNickname)).and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar))
+                .and(isTester, isEqualToWhenPresent(record::getIsTester)).and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
+                .and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
@@ -412,24 +454,26 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      * @return
      */
     default List<RacAccountMo> list(final RacAccountListTo qo) {
-        final String keywords = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
-        final String // 
-        hierarchical = ((qo.getOrgId() != null) && qo.getHierarchical() != null && qo.getHierarchical()) ? qo.getOrgTreeCode() + "%" : null;
+        final String keywords     = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
+        final String //
+                     hierarchical = ((qo.getOrgId() != null) && qo.getHierarchical() != null && qo.getHierarchical()) ? qo.getOrgTreeCode() + "%" : null;
         return select(c -> {
             final SqlCriterion<String> sqlCriterion = and(racAccount.signInNickname, isLikeWhenPresent(keywords), or(racAccount.signInName, isLikeWhenPresent(keywords)),
-                or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
-                or(racAccount.signInEmail, isLikeWhenPresent(keywords)), or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
-                or(racAccount.qqNickname, isLikeWhenPresent(keywords)), or(racAccount.qqOpenId, isLikeWhenPresent(keywords)), or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
-                or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)), or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
-                or(racAccount.remark, isLikeWhenPresent(keywords)));
+                    or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
+                    or(racAccount.signInEmail, isLikeWhenPresent(keywords)), or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
+                    or(racAccount.qqNickname, isLikeWhenPresent(keywords)), or(racAccount.qqOpenId, isLikeWhenPresent(keywords)),
+                    or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
+                    or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)),
+                    or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
+                    or(racAccount.remark, isLikeWhenPresent(keywords)));
             if (qo.getOrgId() != null) {
                 if (hierarchical != null) {
                     return c.join(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId)).leftJoin(racOrg).on(racOrg.id, equalTo(racOrgAccount.orgId))
-                        .where(racOrg.treeCode, isLike(hierarchical), and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
+                            .where(racOrg.treeCode, isLike(hierarchical), and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
                 }
                 else {
                     return c.join(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId)).where(racOrgAccount.orgId, isEqualTo(qo::getOrgId),
-                        and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
+                            and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
                 }
             }
             else {
@@ -446,20 +490,34 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      * @return
      */
     @Select({ "<script>" + "SELECT     ac.* FROM    RAC_ACCOUNT ac   LEFT JOIN " + "    RAC_ORG_ACCOUNT oac ON ac.ID = oac.ACCOUNT_ID " + "WHERE " + "   "
-        + " ac.REALM_ID = #{record.realmId}" + "<if test='record.keywords!=null'> " + " and (ac.SIGN_IN_NAME like '%${record.keywords}%' "
-        + " or ac.SIGN_IN_MOBILE like '%${record.keywords}%' " + " or ac.SIGN_IN_EMAIL like '%${record.keywords}%' " + " or ac.REMARK like '%${record.keywords}%' "
-        + " or ac.SIGN_IN_NICKNAME like '%${record.keywords}%' " + " or ac.WX_NICKNAME like '%${record.keywords}%' " + " or ac.QQ_NICKNAME like '%${record.keywords}%' "
-        + " or ac.ID like '%${record.keywords}%' ) " + "</if> " + "        AND ((ac.ORG_ID IS NULL " + "        OR NOT EXISTS( SELECT  " + "            a.ID " + "        FROM "
-        + "            RAC_ORG_ACCOUNT a " + "        WHERE " + "            a.ORG_ID = #{record.orgId} " + "                AND ac.ID = a.ACCOUNT_ID))) " + "GROUP BY ac.ID "
-        + "</script>"
+            + " ac.REALM_ID = #{record.realmId}" + "<if test='record.keywords!=null'> " + " and (ac.SIGN_IN_NAME like '%${record.keywords}%' "
+            + " or ac.SIGN_IN_MOBILE like '%${record.keywords}%' " + " or ac.SIGN_IN_EMAIL like '%${record.keywords}%' " + " or ac.REMARK like '%${record.keywords}%' "
+            + " or ac.SIGN_IN_NICKNAME like '%${record.keywords}%' " + " or ac.WX_NICKNAME like '%${record.keywords}%' " + " or ac.QQ_NICKNAME like '%${record.keywords}%' "
+            + " or ac.ID like '%${record.keywords}%' ) " + "</if> " + "        AND ((ac.ORG_ID IS NULL " + "        OR NOT EXISTS( SELECT  " + "            a.ID " + "        FROM "
+            + "            RAC_ORG_ACCOUNT a " + "        WHERE " + "            a.ORG_ID = #{record.orgId} " + "                AND ac.ID = a.ACCOUNT_ID))) " + "GROUP BY ac.ID "
+            + "</script>"
     })
     List<RacAccountMo> getAddablAccountList(@Param(value = "record") RacAccountExMo record);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacAccountMo> selectIn(List<Long> ids) {
         return select(c -> c.where(id, isIn(ids)));
+    }
+
+    /**
+     * 根据关键字查询登录被锁定的账户
+     */
+    default List<RacAccountMo> selectIn(List<Long> ids, String keywords) {
+        final SqlCriterion<String> sqlCriterion = and(racAccount.signInNickname, isLikeWhenPresent(keywords), or(racAccount.signInName, isLikeWhenPresent(keywords)),
+                or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
+                or(racAccount.signInEmail, isLikeWhenPresent(keywords)), or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
+                or(racAccount.qqNickname, isLikeWhenPresent(keywords)), or(racAccount.qqOpenId, isLikeWhenPresent(keywords)), or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
+                or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)), or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
+                or(racAccount.remark, isLikeWhenPresent(keywords)));
+        return select(c -> c.where(id, isIn(ids), sqlCriterion));
     }
 
     /**
@@ -470,15 +528,16 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      * @return 查询到的分页信息
      */
     @Select({
-        "<script>" + "SELECT \n" + "    ac.ID accountId,ac.*,us.*\n" + "FROM\n" + "    rac.RAC_ACCOUNT ac\n" + "        LEFT JOIN\n" + "    RAC_USER us ON ac.USER_ID = us.ID "
-            + "WHERE 1=1 " + "<if test='record.orgId!=null'>" + " and ac.ORG_ID = #{record.orgId}" + "</if>" + "<if test='record.keywords!=null'>"
-            + "  and( us.ID_CARD like '%${record.keywords}%' or us.MOBILE like '%${record.keywords}%' or us.REAL_NAME like '%${record.keywords}%')" + "</if>" + "</script>"
+            "<script>" + "SELECT \n" + "    ac.ID accountId,ac.*,us.*\n" + "FROM\n" + "    rac.RAC_ACCOUNT ac\n" + "        LEFT JOIN\n" + "    RAC_USER us ON ac.USER_ID = us.ID "
+                    + "WHERE 1=1 " + "<if test='record.orgId!=null'>" + " and ac.ORG_ID = #{record.orgId}" + "</if>" + "<if test='record.keywords!=null'>"
+                    + "  and( us.ID_CARD like '%${record.keywords}%' or us.MOBILE like '%${record.keywords}%' or us.REAL_NAME like '%${record.keywords}%')" + "</if>" + "</script>"
     })
     List<RacUserAccountMo> pageAccountMos(@Param(value = "record") RacAccountPageTo record);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default BasicColumn[] getColumns() {
         return selectList;
     }

@@ -1,5 +1,6 @@
 package rebue.scx.rac.svc.ex;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -33,5 +34,17 @@ public interface RacSignInSvc {
      * 通过账户名称注册
      */
     Ro<SignUpOrInRa> signInByAccountName(@Valid SignInByAccountNameTo to);
+
+    /**
+     * 获取输入密码错误而被锁定的账户记录
+     * 
+     * @return
+     */
+    List<RacAccountMo> getSignInLockRecord(String keywords);
+
+    /**
+     * 手动删除输入登录密码错误次数
+     */
+    Boolean handDelWrongPswdTimesOfSignIn(Long accountId);
 
 }

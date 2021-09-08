@@ -1,25 +1,32 @@
 package rebue.scx.rac.svc.impl.ex;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.dozermapper.core.Mapper;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.cap.api.CapApi;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
+import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -56,6 +63,10 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * 允许输入登录密码错误次数
      */
     private static final Long   ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN            = 5L;
+    /**
+     * 保存账户密码输入错误被锁定的key
+     */
+    public static final String  PASSWORD_LOCK_OF_SIGN_IN                     = "passwordLockOfSignIn";
 
     /**
      * 缓存当天连续输入登录密码错误的次数的Key的前缀
@@ -80,9 +91,14 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Resource
     private Mapper              dozerMapper;
 
+    @Resource
+    private RacAccountMapper    racAccountMapper;
+
+    @DubboReference
+    private CapApi              capApi;
+
     @Override
-    public Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to)
-    {
+    public Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to) {
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
             return Optional.empty();
@@ -104,6 +120,13 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
+        log.info("校验验证码是否正确");
+        final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
+        if (verifyVo.getResult().getCode() != 1) {
+            log.info("校验验证码失败");
+            return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
+        }
+        log.info("校验验证码成功");
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
@@ -164,6 +187,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
             String     msg;
             if (allowErrCount == 0) {
+                keepSignInLockRecord(accountMo.getId());
                 msg = "密码错误，账户已被锁定，请明天再试";
             }
             else {
@@ -213,6 +237,55 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     }
 
     /**
+     * 手动删除输入登录密码错误次数
+     */
+    @Override
+    public Boolean handDelWrongPswdTimesOfSignIn(final Long accountId) {
+        log.info("手动删除账户输入错误登录密码的次数: {}", accountId);
+        delSignInLockRecord(accountId);
+        return delWrongPswdTimesOfSignIn(accountId);
+    }
+
+    /**
+     * 保存输入密码错误而被锁定的账户记录
+     */
+    private void keepSignInLockRecord(final Long accountId) {
+        log.info("保存输入密码错误而被锁定的账户记录: {}", accountId);
+        final Map<Long, Long> map = new HashedMap();
+        map.put(accountId, accountId);
+        String jsonString = JSONObject.toJSONString(map);
+        stringRedisTemplate.opsForValue().set(PASSWORD_LOCK_OF_SIGN_IN, jsonString, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
+    }
+
+    /**
+     * 清除输入密码错误而被锁定的账户记录
+     */
+    private void delSignInLockRecord(final Long accountId) {
+        log.info("清除输入密码错误而被锁定的账户记录: {}", accountId);
+        String              string = stringRedisTemplate.opsForValue().get(PASSWORD_LOCK_OF_SIGN_IN);
+        Map<String, Object> map    = JSONObject.parseObject(string);
+        map.remove(accountId + "");
+        String jsonString = JSONObject.toJSONString(map);
+        stringRedisTemplate.opsForValue().set(PASSWORD_LOCK_OF_SIGN_IN, jsonString, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
+    }
+
+    /**
+     * 获取输入密码错误而被锁定的账户记录
+     * 
+     * @return
+     */
+    @Override
+    public List<RacAccountMo> getSignInLockRecord(String keywords) {
+        String              string = stringRedisTemplate.opsForValue().get(PASSWORD_LOCK_OF_SIGN_IN);
+        Map<String, Object> map    = JSONObject.parseObject(string);
+        List<Long>          list   = new ArrayList<Long>();
+        for (Object id : map.values()) {
+            list.add((Long) id);
+        }
+        return racAccountMapper.selectIn(list, keywords);
+    }
+
+    /**
      * 返回成功登录
      *
      * @param accountMo 获取到的账户信息
@@ -224,9 +297,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         final JwtSignRa signRo = jwtApi.sign(signTo);
         if (signRo.isSuccess()) {
             final SignUpOrInRa ra = new SignUpOrInRa(
-                accountMo.getId(),
-                signRo.getSign(),
-                signRo.getExpirationTime());
+                    accountMo.getId(),
+                    signRo.getSign(),
+                    signRo.getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户登录成功", ra);
         }
         else {

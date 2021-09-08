@@ -4,11 +4,11 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
-import rebue.scx.cap.api.CapApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -24,8 +24,6 @@ public class RacSignInApiImpl implements RacSignInApi {
 
     @Resource
     private RacSignInSvc svc;
-    @DubboReference
-    private CapApi       capApi;
 
     @Override
     public Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to) {
@@ -37,15 +35,29 @@ public class RacSignInApiImpl implements RacSignInApi {
      */
     @Override
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
-        // 校验验证码
-
-        // final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
-        // if (verifyVo.getResult().getCode() == 1) {
         return svc.signInByAccountName(to);
-        // }
-        // else {
-        // return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
-        // }
+    }
+
+    /**
+     * 通过关键字获取输入密码错误而被锁定的账户记录
+     */
+    @Override
+    public Ro<ListRa<RacAccountMo>> getSignInLockRecord(final String keywords) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(svc.getSignInLockRecord(keywords)));
+    }
+
+    /**
+     * 手动删除输入登录密码错误次数
+     */
+    @Override
+    public Ro<?> handDelWrongPswdTimesOfSignIn(final Long id) {
+        Boolean boo = svc.handDelWrongPswdTimesOfSignIn(id);
+        if (boo) {
+            return new Ro<>(ResultDic.SUCCESS, "解锁密码锁定成功");
+        }
+        else {
+            return new Ro<>(ResultDic.FAIL, "解锁密码锁定失败，可能已经解锁或者已经被改变");
+        }
     }
 
 }
