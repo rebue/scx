@@ -23,30 +23,18 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: sr1
+        - id: sr
           uri: http://127.0.0.1:20010
           predicates:
-            - Path=/admin-web/**
+          - Path=/admin-web/**
           filters:
-            - name: JwtPre
-        - id: sr2
-          uri: http://127.0.0.1:20010
-          predicates:
-            - Path=/admin-web/
-          filters:
-            - name: JwtPre
-        - id: sr3
-          uri: http://127.0.0.1:20010
-          predicates:
-            - Path=/admin-web
-          filters:
-            - name: JwtPre
+          - name: JwtPre
         - id: welcome
           uri: http://127.0.0.1:20010
           predicates:
-            - Path=/
+          - Path=/
           filters:
-            - name: JwtPre
+          - name: JwtPre
 
 oidc:
   redirect-uri: http://127.0.0.1/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=st&redirect_uri=http%3A%2F%2F127.0.0.1%2Forp-svr%2Foidc%2Fcallback
