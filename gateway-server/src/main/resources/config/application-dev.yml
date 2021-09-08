@@ -28,14 +28,12 @@ spring:
           predicates:
             - Path=/admin-web/**
           filters:
-            - StripPrefix=1
             - name: JwtPre
         - id: welcome
           uri: http://127.0.0.1:20010
           predicates:
             - Path=/
           filters:
-            - StripPrefix=1
             - name: JwtPre
 
 oidc:

@@ -100,7 +100,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 }
                 log.info("JWT签名校验成功");
 
-                boolean skip = path != null && (path.equals("/") || path.startsWith("/admin-web"));
+                boolean skip = path.equals("/") || path.startsWith("/admin-web");
                 if (!skip) {
                     log.info("获取可访问的链接列表");
                     final Long               accountId = JwtUtils.getJwtAccountIdFromSign(sign);

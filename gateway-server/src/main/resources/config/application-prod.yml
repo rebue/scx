@@ -24,12 +24,13 @@ spring:
           uri: http://10.200.101.16:20010
           predicates:
             - Path=/admin-web/**
+          filters:
+            - name: JwtPre
         - id: welcome
           uri: http://10.200.101.16:20010
           predicates:
             - Path=/
           filters:
-            - StripPrefix=1
             - name: JwtPre
   rabbitmq:
     host: rabbitmq
