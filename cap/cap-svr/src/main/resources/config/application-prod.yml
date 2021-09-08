@@ -15,6 +15,14 @@ spring:
     username: guest
     password: xxxxxxxx
     virtual-host: /
+  redis:
+    password: xxxxxxxx
+    sentinel:
+      master: mymaster
+      nodes:
+        - redis_sentinel1:26379
+        - redis_sentinel2:26379
+        - redis_sentinel3:26379
   cloud:
     sentinel:
       enabled: false
