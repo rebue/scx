@@ -96,25 +96,28 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 }
                 log.info("JWT签名校验成功");
 
-                log.info("获取可访问的链接列表");
-                final Long               accountId = JwtUtils.getJwtAccountIdFromSign(sign);
-                final Ro<ListRa<String>> urnsRo    = racPermUrnApi.getUrnsOfAccount(accountId);
-                if (!ResultDic.SUCCESS.equals(urnsRo.getResult())) {
-                    log.warn("获取可访问的链接列表失败: url-{}", url);
-                    final ServerHttpResponse response = exchange.getResponse();
-                    // 503:服务失效
-                    response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
-                    return response.setComplete();
+                boolean skip = path != null && (path.equals("/") || path.startsWith("/admin-web"));
+                if (!skip) {
+                    log.info("获取可访问的链接列表");
+                    final Long               accountId = JwtUtils.getJwtAccountIdFromSign(sign);
+                    final Ro<ListRa<String>> urnsRo    = racPermUrnApi.getUrnsOfAccount(accountId);
+                    if (!ResultDic.SUCCESS.equals(urnsRo.getResult())) {
+                        log.warn("获取可访问的链接列表失败: url-{}", url);
+                        final ServerHttpResponse response = exchange.getResponse();
+                        // 503:服务失效
+                        response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
+                        return response.setComplete();
+                    }
+                    log.info("判断账户是否有该链接的访问权限: accountId-{}, url-{}", accountId, url);
+                    if (AntPathMatcherUtils.noneMatch(method, path, urnsRo.getExtra().getList())) {
+                        log.warn("账户没有访问该链接的权限: accountId-{}, url-{}", accountId, url);
+                        final ServerHttpResponse response = exchange.getResponse();
+                        // 403:没有访问该资源的权限
+                        response.setStatusCode(HttpStatus.FORBIDDEN);
+                        return response.setComplete();
+                    }
+                    log.info("账户有访问该链接的权限");
                 }
-                log.info("判断账户是否有该链接的访问权限: accountId-{}, url-{}", accountId, url);
-                if (AntPathMatcherUtils.noneMatch(method, path, urnsRo.getExtra().getList())) {
-                    log.warn("账户没有访问该链接的权限: accountId-{}, url-{}", accountId, url);
-                    final ServerHttpResponse response = exchange.getResponse();
-                    // 403:没有访问该资源的权限
-                    response.setStatusCode(HttpStatus.FORBIDDEN);
-                    return response.setComplete();
-                }
-                log.info("账户有访问该链接的权限");
 
                 log.info("延长JWT签名时效");
                 final ServerHttpResponse                    response        = exchange.getResponse();
