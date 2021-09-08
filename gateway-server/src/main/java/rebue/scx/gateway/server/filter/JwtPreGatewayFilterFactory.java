@@ -63,6 +63,12 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     return returnFilter(chain, exchange);
                 }
 
+                // 登录页面
+                if (path.startsWith("/admin-web")
+                    && "u=1".equals(request.getURI().getQuery())) {
+                    return returnFilter(chain, exchange);
+                }
+
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
                     && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
@@ -140,7 +146,8 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
 
     private static boolean isStaticResource(String path)
     {
-        return path.matches(".*[.](jpg|css|svg|ttf|ddf|png|js|woff|txt|ico|json|html|map)$");
+        // 拦截html
+        return path.matches(".*[.](jpg|css|svg|ttf|ddf|png|js|woff|txt|ico|json|map)$");
     }
 
     private Mono<Void> returnFilter(final GatewayFilterChain chain, final ServerWebExchange exchange) {

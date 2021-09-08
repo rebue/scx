@@ -24,6 +24,8 @@ spring:
           uri: http://10.200.101.16:20010
           predicates:
             - Path=/admin-web/**
+            - Path=/admin-web/
+            - Path=/admin-web
           filters:
             - name: JwtPre
         - id: welcome
