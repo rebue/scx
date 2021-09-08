@@ -39,5 +39,5 @@ logging:
     org.springframework.beans.factory.BeanCreationNotAllowedException: error
 
 oidc:
-  login-url: http://127.0.0.1:13080/admin-web/#/sign-in/unified
+  login-url: http://127.0.0.1/admin-web/#/sign-in/unified
   cookie-domain: 127.0.0.1
