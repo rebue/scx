@@ -23,11 +23,21 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: sr
+        - id: sr1
           uri: http://127.0.0.1:20010
           predicates:
             - Path=/admin-web/**
+          filters:
+            - name: JwtPre
+        - id: sr2
+          uri: http://127.0.0.1:20010
+          predicates:
             - Path=/admin-web/
+          filters:
+            - name: JwtPre
+        - id: sr3
+          uri: http://127.0.0.1:20010
+          predicates:
             - Path=/admin-web
           filters:
             - name: JwtPre

@@ -20,11 +20,22 @@ spring:
         dashboard: sentinel-dashboard:80
     gateway:
       routes:
-        - id: sr
+        - id: sr1
           uri: http://10.200.101.16:20010
           predicates:
             - Path=/admin-web/**
+            - Path=/admin-web
+          filters:
+            - name: JwtPre
+        - id: sr2
+          uri: http://10.200.101.16:20010
+          predicates:
             - Path=/admin-web/
+          filters:
+            - name: JwtPre
+        - id: sr3
+          uri: http://10.200.101.16:20010
+          predicates:
             - Path=/admin-web
           filters:
             - name: JwtPre
