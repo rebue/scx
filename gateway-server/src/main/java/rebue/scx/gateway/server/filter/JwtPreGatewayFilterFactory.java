@@ -59,6 +59,10 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 final String            path    = request.getPath().toString();
                 final String            url     = method + ":" + path;
 
+                if (isStaticResource(path)) {
+                    return returnFilter(chain, exchange);
+                }
+
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
                     && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
@@ -132,6 +136,11 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 log.info(StringUtils.rightPad("~~~ 结束 JwtPreFilter 过滤器 ~~~", 100));
             }
         }, 7);
+    }
+
+    private static boolean isStaticResource(String path)
+    {
+        return path.matches(".*[.](jpg|css|svg|ttf|ddf|png|js|woff|txt|ico|json|html|map)$");
     }
 
     private Mono<Void> returnFilter(final GatewayFilterChain chain, final ServerWebExchange exchange) {
