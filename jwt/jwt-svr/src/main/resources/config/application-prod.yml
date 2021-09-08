@@ -1,5 +1,5 @@
 jwt:
-  key-pair: jwt-prod-key-pair.pem
+  key-pair: jwt-dev-key-pair.pem
   issuer: rebue
   expiration-duration: 30m
 

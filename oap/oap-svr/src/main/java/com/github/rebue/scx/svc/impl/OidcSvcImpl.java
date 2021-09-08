@@ -244,11 +244,11 @@ public class OidcSvcImpl implements OidcSvc {
         }
         JwtSignRa jwtSignRa = jwtApi.sign(new JwtSignTo(String.valueOf(codeValue.getAccountId()), codeValue.getClientId()));
         if (!jwtSignRa.isSuccess()) {
-            return tokenError(response, OidcTokenError.SERVER_ERROR, "");
+            return tokenError(response, OidcTokenError.SERVER_ERROR, "1111111111111111111111");
         }
         SignedJWT idToken = jwtApi.rawSign(new JwtSignTo(String.valueOf(codeValue.getAccountId()), codeValue.getClientId()));
         if (idToken == null) {
-            return tokenError(response, OidcTokenError.SERVER_ERROR, "");
+            return tokenError(response, OidcTokenError.SERVER_ERROR, "22222222222222222222222");
         }
 
         BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, codeValue.getScope());
