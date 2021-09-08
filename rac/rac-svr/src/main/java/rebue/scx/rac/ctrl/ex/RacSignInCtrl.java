@@ -58,7 +58,7 @@ public class RacSignInCtrl {
     }
 
     /**
-     * 手动删除输入登录密码错误次数
+     * 手动删除输入登录密码错误次数账户解锁
      * 
      * @param id(账户ID)
      * 

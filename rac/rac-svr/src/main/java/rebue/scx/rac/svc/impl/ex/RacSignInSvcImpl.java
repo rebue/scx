@@ -120,13 +120,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
-        log.info("校验验证码是否正确");
-        final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
-        if (verifyVo.getResult().getCode() != 1) {
-            log.info("校验验证码失败");
-            return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
-        }
-        log.info("校验验证码成功");
+
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
@@ -173,7 +167,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountName());
         }
 
-        log.info("检查账户输错密码是否超过限定次数");
+        // log.info("检查账户输错密码是否超过限定次数");
         final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
             final String msg = "账户已被锁定，请明天再试";
@@ -181,11 +175,10 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.WARN, msg);
         }
 
+        final Long allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(accountMo.getId());
         log.info("校验密码是否正确");
         if (!accountMo.getSignInPswd().equals(PswdUtils.saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
-            final Long allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(accountMo.getId());
-
-            String     msg;
+            String msg;
             if (allowErrCount == 0) {
                 keepSignInLockRecord(accountMo.getId());
                 msg = "密码错误，账户已被锁定，请明天再试";
@@ -195,9 +188,18 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             }
 
             log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg);
+            return new Ro<>(ResultDic.WARN, msg, "1");
         }
-
+        // 第一次不进行校验，有输入密码错误记录后，才进行校验
+        if (allowErrCount != 5) {
+            log.info("校验验证码是否正确");
+            final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
+            if (verifyVo.getResult().getCode() != 1) {
+                log.info("校验验证码失败");
+                return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
+            }
+            log.info("校验验证码成功");
+        }
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn > 0) {
             log.info("校验密码正确后，清除输错密码次数");
             delWrongPswdTimesOfSignIn(accountMo.getId());
