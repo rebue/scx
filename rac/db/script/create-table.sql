@@ -1,10 +1,7 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/6 14:20:12                            */
+/* Created on:     2021/9/8 17:21:21                            */
 /*==============================================================*/
-
-
-
 /*==============================================================*/
 /* Table: RAC_ACCOUNT                                           */
 /*==============================================================*/
@@ -53,6 +50,20 @@ create table RAC_ACCOUNT
 alter table RAC_ACCOUNT comment '账户';
 
 /*==============================================================*/
+/* Table: RAC_ACCOUNT_LOCK                                      */
+/*==============================================================*/
+create table RAC_ACCOUNT_LOCK
+(
+   ID                   bigint not null  comment 'ID',
+   ACCOUNT_ID           bigint not null  comment '账户ID',
+   LOCK_DATETIME        datetime not null  comment '锁定时间',
+   primary key (ID),
+   unique key AK_ACCOUNT_AND_LOCK_DATETIME (ACCOUNT_ID, LOCK_DATETIME)
+);
+
+alter table RAC_ACCOUNT_LOCK comment '账户锁定';
+
+/*==============================================================*/
 /* Table: RAC_ACCOUNT_ROLE                                      */
 /*==============================================================*/
 create table RAC_ACCOUNT_ROLE
@@ -77,7 +88,7 @@ create table RAC_APP
    URL                  varchar(100)  comment '应用URL',
    MENU                 varchar(3000)  comment '菜单',
    REMARK               varchar(50)  comment '应用备注',
-   IS_ENABLED           bool not null default false  comment '是否启用(如果应用没有启用，则不显示在第三方认证页面）',
+   IS_ENABLED           bool not null default true  comment '是否启用(如果应用没有启用，则不显示在第三方认证页面）',
    IMG_URL              varchar(512)  comment '应用图片地址',
    SEQ_NO               tinyint not null  comment '顺序号排序',
    IS_CERTIFIED         bool not null default false  comment '是否认证',
@@ -393,6 +404,9 @@ alter table RAC_ACCOUNT add constraint FK_RAC_ACCO_RELATIONS_RAC_ORG foreign key
 alter table RAC_ACCOUNT add constraint FK_RAC_ACCO_RELATIONS_RAC_REAL foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
+alter table RAC_ACCOUNT_LOCK add constraint FK_RAC_ACCO_RELATIONS_RAC_ACCO foreign key (ACCOUNT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
 alter table RAC_ACCOUNT_ROLE add constraint FK_RAC_ACCO_RELATIONS_RAC_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
 
@@ -468,25 +482,25 @@ alter table RAC_ORG_ACCOUNT add constraint FK_RAC_ORG__RELATIONS_RAC_ACCO foreig
 alter table RAC_PERM add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (GROUP_ID)
       references RAC_PERM_GROUP (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM add constraint FK_RAC_PERM_RELATIONS_RAC_REAL1 foreign key (REALM_ID)
+alter table RAC_PERM add constraint FK_RAC_PERM_RELATIONS_RAC_REAL foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_COMMAND add constraint FK_RAC_PERM_RELATIONS_RAC_PERM2 foreign key (PERM_ID)
+alter table RAC_PERM_COMMAND add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_GROUP add constraint FK_RAC_PERM_RELATIONS_RAC_REAL3 foreign key (REALM_ID)
+alter table RAC_PERM_GROUP add constraint FK_RAC_PERM_RELATIONS_RAC_REAL foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_MENU add constraint FK_RAC_PERM_RELATIONS_RAC_PERM4 foreign key (PERM_ID)
+alter table RAC_PERM_MENU add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_MENU add constraint FK_RAC_PERM_RELATIONS_RAC_APP5 foreign key (APP_ID)
+alter table RAC_PERM_MENU add constraint FK_RAC_PERM_RELATIONS_RAC_APP foreign key (APP_ID)
       references RAC_APP (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_URN add constraint FK_RAC_PERM_RELATIONS_RAC_PERM6 foreign key (PERM_ID)
+alter table RAC_PERM_URN add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_ROLE add constraint FK_RAC_ROLE_RELATIONS_RAC_REAL7 foreign key (REALM_ID)
+alter table RAC_ROLE add constraint FK_RAC_ROLE_RELATIONS_RAC_REAL foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_ROLE_PERM add constraint FK_RAC_ROLE_RELATIONS_RAC_PERM foreign key (PERM_ID)
