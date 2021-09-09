@@ -80,8 +80,8 @@ public class RacUserCtrl {
      * 
      * @return
      */
-    @GetMapping("/rac/user/get-by-realName-idCard")
-    public Mono<Ro<RacUserMo>> getOneByRealNameIdCard(@RequestBody final RacUserOneTo to) {
+    @GetMapping("/rac/user/get-by-real-name-id-card")
+    public Mono<Ro<RacUserMo>> getOneByRealNameIdCard(final RacUserOneTo to) {
         return Mono.create(callback -> callback.success(api.getOneByRealNameIdCard(to)));
     }
 

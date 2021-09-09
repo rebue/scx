@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.ListRa;
+import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 
 /**
@@ -53,8 +54,8 @@ public class RacSignInCtrl {
      * @return
      */
     @GetMapping("/rac/sign-in/sign-in-lock-record")
-    public Mono<Ro<ListRa<RacAccountMo>>> getSignInLockRecord(@RequestParam("keywords") final String keywords) {
-        return Mono.create(callback -> callback.success(api.getSignInLockRecord(keywords)));
+    public Mono<Ro<PageRa<RacAccountMo>>> getSignInLockRecord(final RacAccountPageTo qo) {
+        return Mono.create(callback -> callback.success(api.getSignInLockRecord(qo)));
     }
 
     /**

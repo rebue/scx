@@ -1,15 +1,17 @@
 package rebue.scx.rac.svc.ex;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 
@@ -40,7 +42,7 @@ public interface RacSignInSvc {
      * 
      * @return
      */
-    List<RacAccountMo> getSignInLockRecord(String keywords);
+    PageInfo<RacAccountMo> getSignInLockRecord(RacAccountPageTo qo);
 
     /**
      * 手动删除输入登录密码错误次数

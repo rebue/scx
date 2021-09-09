@@ -1,22 +1,21 @@
 package rebue.scx.rac.svc.impl.ex;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.dozermapper.core.Mapper;
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageInfo;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
@@ -30,10 +29,15 @@ import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.svc.RacAccountLockSvc;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
+import rebue.scx.rac.svc.impl.RacAccountSvcImpl;
+import rebue.scx.rac.to.RacAccountLockAddTo;
+import rebue.scx.rac.to.RacAccountLockDelTo;
+import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.util.PswdUtils;
@@ -84,6 +88,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private RacAppSvc           appSvc;
     @Resource
     private RacOpLogSvc         opLogSvc;
+    @Resource
+    private RacAccountLockSvc   accountLockSvc;
 
     @Resource
     StringRedisTemplate         stringRedisTemplate;
@@ -93,6 +99,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
     @Resource
     private RacAccountMapper    racAccountMapper;
+    @Resource
+    private RacAccountSvcImpl   accountSvcImpl;
 
     @DubboReference
     private CapApi              capApi;
@@ -244,7 +252,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     public Boolean handDelWrongPswdTimesOfSignIn(final Long accountId) {
         log.info("手动删除账户输入错误登录密码的次数: {}", accountId);
-        delSignInLockRecord(accountId);
+        RacAccountLockDelTo delTo = new RacAccountLockDelTo();
+        delTo.setAccountId(accountId);
+        accountLockSvc.delSelective(delTo);
         return delWrongPswdTimesOfSignIn(accountId);
     }
 
@@ -253,22 +263,10 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     private void keepSignInLockRecord(final Long accountId) {
         log.info("保存输入密码错误而被锁定的账户记录: {}", accountId);
-        final Map<Long, Long> map = new HashedMap();
-        map.put(accountId, accountId);
-        String jsonString = JSONObject.toJSONString(map);
-        stringRedisTemplate.opsForValue().set(PASSWORD_LOCK_OF_SIGN_IN, jsonString, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
-    }
-
-    /**
-     * 清除输入密码错误而被锁定的账户记录
-     */
-    private void delSignInLockRecord(final Long accountId) {
-        log.info("清除输入密码错误而被锁定的账户记录: {}", accountId);
-        String              string = stringRedisTemplate.opsForValue().get(PASSWORD_LOCK_OF_SIGN_IN);
-        Map<String, Object> map    = JSONObject.parseObject(string);
-        map.remove(accountId + "");
-        String jsonString = JSONObject.toJSONString(map);
-        stringRedisTemplate.opsForValue().set(PASSWORD_LOCK_OF_SIGN_IN, jsonString, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
+        RacAccountLockAddTo addTo = new RacAccountLockAddTo();
+        addTo.setAccountId(accountId);
+        addTo.setLockDatetime(LocalDateTime.now());
+        accountLockSvc.add(addTo);
     }
 
     /**
@@ -277,14 +275,12 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * @return
      */
     @Override
-    public List<RacAccountMo> getSignInLockRecord(String keywords) {
-        String              string = stringRedisTemplate.opsForValue().get(PASSWORD_LOCK_OF_SIGN_IN);
-        Map<String, Object> map    = JSONObject.parseObject(string);
-        List<Long>          list   = new ArrayList<Long>();
-        for (Object id : map.values()) {
-            list.add((Long) id);
-        }
-        return racAccountMapper.selectIn(list, keywords);
+    public PageInfo<RacAccountMo> getSignInLockRecord(RacAccountPageTo qo) {
+        String        likeDate = "%" + LocalDate.now().toString() + "%";
+        final ISelect select   = () -> racAccountMapper.selectLockAccount(qo, likeDate);
+        // 固定
+        qo.setOrderBy("lockDatetime");
+        return accountSvcImpl.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
     }
 
     /**

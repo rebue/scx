@@ -7,12 +7,13 @@ import javax.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.ListRa;
+import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
+import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 
@@ -42,8 +43,8 @@ public class RacSignInApiImpl implements RacSignInApi {
      * 通过关键字获取输入密码错误而被锁定的账户记录
      */
     @Override
-    public Ro<ListRa<RacAccountMo>> getSignInLockRecord(final String keywords) {
-        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(svc.getSignInLockRecord(keywords)));
+    public Ro<PageRa<RacAccountMo>> getSignInLockRecord(final RacAccountPageTo qo) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new PageRa<>(svc.getSignInLockRecord(qo)));
     }
 
     /**

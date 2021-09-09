@@ -35,6 +35,7 @@ import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxAvatar;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxNickname;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxOpenId;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.wxUnionId;
+import static rebue.scx.rac.mapper.RacAccountLockDynamicSqlSupport.racAccountLock;
 import static rebue.scx.rac.mapper.RacOrgAccountDynamicSqlSupport.racOrgAccount;
 import static rebue.scx.rac.mapper.RacOrgDynamicSqlSupport.racOrg;
 
@@ -518,6 +519,23 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
                 or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)), or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
                 or(racAccount.remark, isLikeWhenPresent(keywords)));
         return select(c -> c.where(id, isIn(ids), sqlCriterion));
+    }
+
+    /**
+     * 根据关键字查询登录被锁定的账户
+     */
+    default List<RacAccountMo> selectLockAccount(RacAccountPageTo qo, String likeDate) {
+        final String               keywords     = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
+        final SqlCriterion<String> sqlCriterion = and(racAccount.signInNickname, isLikeWhenPresent(keywords), or(racAccount.signInName, isLikeWhenPresent(keywords)),
+                or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
+                or(racAccount.signInEmail, isLikeWhenPresent(keywords)), or(racAccount.signInMobile, isLikeWhenPresent(keywords)),
+                or(racAccount.qqNickname, isLikeWhenPresent(keywords)), or(racAccount.qqOpenId, isLikeWhenPresent(keywords)), or(racAccount.qqUnionId, isLikeWhenPresent(keywords)),
+                or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)), or(racAccount.wxUnionId, isLikeWhenPresent(keywords)),
+                or(racAccount.remark, isLikeWhenPresent(keywords)));
+        return select(c -> c.join(racAccountLock).on(racAccount.id, equalTo(racAccountLock.accountId)).where(racAccount.id, isEqualTo(racAccountLock.accountId),
+                and(racAccount.realmId, isEqualToWhenPresent(qo::getRealmId)),
+                and(racAccount.orgId, isEqualToWhenPresent(qo::getOrgId)),
+                and(racAccountLock.column("LOCK_DATETIME"), isLikeWhenPresent(likeDate)), sqlCriterion));
     }
 
     /**
