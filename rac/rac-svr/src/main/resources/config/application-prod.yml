@@ -16,7 +16,7 @@ spring:
     password: guest
     virtual-host: /
   redis:
-    password: xxxxxxxx
+    password: Redis@nnxy2021
     sentinel:
       master: mymaster
       nodes:
