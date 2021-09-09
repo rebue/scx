@@ -1,0 +1,26 @@
+# 生成环境的配置
+logging:
+  config: config/log4j2.xml
+  level:
+    root: info
+    rebue: trace
+    org.apache.http: warn
+    com.netflix.discovery: warn
+    org.springframework.context.event.SimpleApplicationEventMulticaster: warn
+    org.springframework.dao: debug
+    org.springframework.cloud: warn
+    com.alibaba.nacos.client.config.impl.ClientWorker: warn
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos1:8848,nacos2:8848,nacos3:8848
+      discovery:
+        server-addr: nacos1:8848,nacos2:8848,nacos3:8848
+    sentinel:
+      enabled: false
+
+oidc:
+  login-url: http://10.200.101.16:443/admin-web/?u=1#/sign-in/unified
+  cookie-domain: 10.200.101.16

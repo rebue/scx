@@ -1,0 +1,31 @@
+# 生成环境的配置
+logging:
+  config: config/log4j2.xml
+  level:
+    root: info
+    rebue: trace
+    org.apache.http: warn
+    com.netflix.discovery: warn
+    org.springframework.context.event.SimpleApplicationEventMulticaster: warn
+    org.springframework.dao: debug
+    org.springframework.cloud: warn
+    com.alibaba.nacos.client.config.impl.ClientWorker: warn
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos1:8848,nacos2:8848,nacos3:8848
+      discovery:
+        server-addr: nacos1:8848,nacos2:8848,nacos3:8848
+    sentinel:
+      enabled: false
+
+oidc:
+  client-id: unified-auth
+  client-secret: 123456
+  token-endpoint: http://10.200.101.16:443/oap-svr/oidc/token
+  redirect-uri: http://10.200.101.16:443/orp-svr/oidc/callback
+  public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx1PdAIB021x1DExsXPO7hgzE0EASZiFoQh5F4X0H8lZrdCVG+Qk6ek9Aowp4bUnAf93PiM4A0L9zjck8jOedd6gbRPifsqdtDWx4jlfy7nGUd3LUF3wFH7VwNlCTkMucetnxFuNtGMVM8rz/YCXAYv6pYi56vq7BWlNh373qhVhqxY6SBs2qo5hxWe/zpv6CqxAXSKjcCJVLQhe7jnfWGJbLPnwSTK/b/jVtic/e9rD7EdSfPF3rt5TSqEdsX0EHHUSLFLUbpDOQzSBXdyGsAHQdeytr/i5AVi3BOKV9k5h1ricIZta6KD7krxZk60o70fWDF+0DQVQD5upWEeRLdQIDAQAB
+  login-url: http://10.200.101.16:443/admin-web/#/sign-in/unified
+  cookie-domain: 10.200.101.16
