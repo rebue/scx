@@ -45,9 +45,14 @@ public class LimitFileSizePreGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
+        final ServerHttpRequest request = exchange.getRequest();
+        if (FilterUtils.logSkip(request)) {
+            return chain.filter(exchange);
+        }
+
         log.info(StringUtils.rightPad("*** 进入 LimitFileSizePreGlobalFilter 过滤器 ***", 100));
         try {
-            final ServerHttpRequest request     = exchange.getRequest();
+
             final HttpHeaders       headers     = request.getHeaders();
             final MediaType         contentType = headers.getContentType();
 

@@ -62,7 +62,7 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
                 // 获取请求参数
                 Map<String, Object>                 requestParams;
                 final MultiValueMap<String, String> requestQueryParams = request.getQueryParams();
-                if (requestQueryParams != null && requestQueryParams.size() > 0) {
+                if (requestQueryParams.size() > 0) {
                     requestParams = new LinkedHashMap<>();
                     requestQueryParams.forEach((key, values) -> {
                         // XXX 签名的请求不允许有数组参数
