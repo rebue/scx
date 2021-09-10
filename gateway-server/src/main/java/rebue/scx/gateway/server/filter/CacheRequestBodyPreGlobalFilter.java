@@ -77,7 +77,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
     @Resource
     private ObjectMapper             objectMapper;
 
-    private static DateTimeFormatter _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private static final DateTimeFormatter _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     @PostConstruct
     public void init() throws Exception {
@@ -132,20 +132,11 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         // 获取请求信息
         // 会话ID
         final Long                              sessionId         = _idWorker.getId();
-        // 获取请求时间
         final LocalDateTime                     requestTime       = LocalDateTime.now();
         final String                            requestTimeString = _dateTimeFormatter.format(requestTime);
         final ServerHttpRequest                 request           = exchange.getRequest();
-        final HttpMethod                        requestMethod     = request.getMethod();
-        final URI                               requestUri        = request.getURI();
-        final String                            requestScheme     = requestUri.getScheme();
-        final String                            requestHost       = requestUri.getHost();
-        final int                               requestPort       = requestUri.getPort();
-        final String                            requestPath       = requestUri.getPath();
         final HttpHeaders                       requestHeaders    = request.getHeaders();
         final MediaType                         contentType       = requestHeaders.getContentType();
-        final MultiValueMap<String, HttpCookie> requestCookies    = request.getCookies();
-        final MultiValueMap<String, String>     queryParams       = request.getQueryParams();
 
         // 缓存请求ID
         exchange.getAttributes().put(CachedKeyCo.SESSION_ID, sessionId);
@@ -155,10 +146,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         // 如果是文件上传，不要读取Body
         if (contentType != null && "multipart".equals(contentType.getType())
                 || MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType)) {
-            // 记录文件日志
-            logFile(sessionId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, null);
-            logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
-                queryParams, null);
+            logFile(sessionId, requestTimeString, request, null);
+            logDb(sessionId, requestTime, request, null);
             return chain.filter(exchange);
         }
 
@@ -184,12 +173,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             // 上一步结束，在then之前，记录一下日志
             // 从缓存中获取Body
             final Object body = exchange.getAttributes().get(CachedKeyCo.REQUEST_BODY_STRING);
-
-            // 记录文件日志
-            logFile(sessionId, requestTimeString, requestMethod, requestUri, requestHeaders, contentType, requestCookies, queryParams, body);
-
-            logDb(sessionId, requestTime, requestMethod, requestUri, requestScheme, requestHost, requestPort, requestPath, requestHeaders, contentType, requestCookies,
-                queryParams, body);
+            logFile(sessionId, requestTimeString, request, body);
+            logDb(sessionId, requestTime, request, body);
         }).then(chain.filter(exchange));
     }
 
@@ -197,8 +182,15 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
      * 记录文件日志
      */
     @SuppressWarnings("deprecation")
-    private void logFile(final Long sessionId, final String requestTimeString, final HttpMethod requestMethod, final URI requestUri, final HttpHeaders requestHeaders,
-                         final MediaType contentType, final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+    private void logFile(
+            final Long sessionId, final String requestTimeString,
+            final ServerHttpRequest request,
+            final Object body)
+    {
+        if (FilterUtils.logSkip(request)) {
+            return;
+        }
+
         final StringBuilder sb = new StringBuilder();
         sb.append("接收到新的请求!!!\r\n----------------------- 请求的详情 -----------------------\r\n");
         sb.append("* 会话ID:\r\n*    ");
@@ -206,10 +198,11 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
         sb.append("\r\n* 请求时间:\r\n*    ");
         sb.append(requestTimeString);
         sb.append("\r\n* 请求链接:\r\n*    ");
-        sb.append(requestMethod);
+        sb.append(request.getMethodValue());
         sb.append(" ");
-        sb.append(requestUri);
-        if (requestHeaders != null && !requestHeaders.isEmpty()) {
+        sb.append(request.getURI());
+        HttpHeaders requestHeaders = request.getHeaders();
+        if (!requestHeaders.isEmpty()) {
             sb.append("\r\n* 请求的Headers:");
             requestHeaders.forEach((name, values) -> {
                 values.forEach(value -> {
@@ -217,11 +210,13 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 });
             });
         }
+        MediaType contentType = requestHeaders.getContentType();
         if (contentType != null) {
             sb.append("\r\n* 请求的contentType:\r\n*    ");
             sb.append(contentType);
         }
-        if (requestCookies != null && !requestCookies.isEmpty()) {
+        MultiValueMap<String, HttpCookie> requestCookies = request.getCookies();
+        if (!requestCookies.isEmpty()) {
             sb.append("\r\n* 请求的Cookies:");
             requestCookies.forEach((name, values) -> {
                 values.forEach(value -> {
@@ -229,7 +224,8 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 });
             });
         }
-        if (queryParams != null && !queryParams.isEmpty()) {
+        MultiValueMap<String, String> queryParams = request.getQueryParams();
+        if (!queryParams.isEmpty()) {
             sb.append("\r\n* 请求的QueryParams:");
             queryParams.forEach((key, values) -> {
                 values.forEach(value -> {
@@ -244,7 +240,7 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                 if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)
                     || MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(contentType)) {
                     // 格式化JSON
-                    String jsonText = null;
+                    String jsonText;
                     try {
                         jsonText = objectMapper.writerWithDefaultPrettyPrinter()
                             .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
@@ -260,37 +256,46 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             }
         }
         sb.append(StringUtils.rightPad("\r\n------------------------------------------------------------------------------", 100));
-        log.info(sb.toString());
+        log.debug(sb.toString());
     }
 
     /**
      * 记录数据库日志
      */
-    private void logDb(final Long sessionId, final LocalDateTime requestTime, final HttpMethod requestMethod, final URI requestUri, final String requestScheme,
-                       final String requestHost, final int requestPort, final String requestPath, final HttpHeaders requestHeaders, final MediaType contentType,
-                       final MultiValueMap<String, HttpCookie> requestCookies, final MultiValueMap<String, String> queryParams, final Object body) {
+    private void logDb(final Long sessionId, final LocalDateTime requestTime,
+                       final ServerHttpRequest request,
+                       final Object body)
+    {
+        if (FilterUtils.logSkip(request)) {
+            return;
+        }
+
         // 记录数据库日志
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();
         to.setEventId(GatewayServerCo.RRL_EVENT_ID);
         to.setSessionId(sessionId);    // XXX 本次请求的会话ID与响应的会话ID相同
         to.setCreateTimestamp(LocalDateTimeUtils.getMillis(requestTime));
-        to.setMethod(requestMethod.toString());
-        to.setScheme(requestScheme);
-        to.setHost(requestHost);
-        to.setPort(requestPort);
-        to.setPath(requestPath);
-        to.setUri(requestUri.toString());
-        if (requestHeaders != null && !requestHeaders.isEmpty()) {
+        to.setMethod(request.getMethodValue());
+        to.setScheme(request.getURI().getScheme());
+        to.setHost(request.getURI().getHost());
+        to.setPort(request.getURI().getPort());
+        to.setPath(request.getURI().getPath());
+        to.setUri(request.getURI().toString());
+        HttpHeaders requestHeaders = request.getHeaders();
+        if (!requestHeaders.isEmpty()) {
             to.setHeaders(requestHeaders.toString());
         }
+        MediaType contentType = requestHeaders.getContentType();
         if (contentType != null) {
             to.setContentType(contentType.toString());
         }
-        if (requestCookies != null && !requestCookies.isEmpty()) {
+        MultiValueMap<String, HttpCookie> requestCookies = request.getCookies();
+        if (!requestCookies.isEmpty()) {
             to.setCookies(requestCookies.toString());
         }
-        if (queryParams != null && !queryParams.isEmpty()) {
+        MultiValueMap<String, String> queryParams = request.getQueryParams();
+        if (!queryParams.isEmpty()) {
             to.setQueryParams(queryParams.toString());
         }
         if (body != null) {

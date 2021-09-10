@@ -52,23 +52,17 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
     @Override
     public GatewayFilter apply(final Config config) {
         return new OrderedGatewayFilter((exchange, chain) -> {
+            final ServerHttpRequest request = exchange.getRequest();
+            if (FilterUtils.backendInterceptSkip(request)) {
+                return returnFilter(chain, exchange);
+            }
+
+            final String            method  = request.getMethod().toString();
+            final String            path    = request.getPath().toString();
+            final String            url     = method + ":" + path;
+
             log.info(StringUtils.rightPad("*** 进入JwtPreFilter过滤器 ***", 100));
             try {
-                final ServerHttpRequest request = exchange.getRequest();
-                final String            method  = request.getMethod().toString();
-                final String            path    = request.getPath().toString();
-                final String            url     = method + ":" + path;
-
-                if (FilterUtils.backendInterceptSkip(path)) {
-                    return returnFilter(chain, exchange);
-                }
-
-                // 登录页面
-                if (path.startsWith("/admin-web")
-                    && "u=1".equals(request.getURI().getQuery())) {
-                    return returnFilter(chain, exchange);
-                }
-
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
                     && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {

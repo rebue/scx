@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyResponseBodyGatewayFilterFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -48,15 +47,12 @@ import rebue.wheel.core.LocalDateTimeUtils;
 public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
 
     @Resource
-    private ModifyResponseBodyGatewayFilterFactory modifyResponseBodyGatewayFilterFactory;
-
-    @Resource
     private RrlPub                                 rrlPub;
 
     @Resource
     private ObjectMapper                           objectMapper;
 
-    private static DateTimeFormatter               _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private static final DateTimeFormatter         _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     /**
      * 注意我开始使用@Order注解没有起作用，所以以实现Ordered接口的方式设置最高的优先级
@@ -69,7 +65,7 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
-        if (FilterUtils.logSkip(exchange.getRequest().getPath().toString())) {
+        if (FilterUtils.logSkip(exchange.getRequest())) {
             return chain.filter(exchange);
         }
 
