@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  rac-svr:
+  oss-svr:
     image: nnzbz/spring-boot-app:1.0.3
     environment:
       # 最好使用此设定时区，其它镜像也可以使用
@@ -13,5 +13,3 @@ networks:
   default:
     external: true
     name: rebue
-
-# docker stack deploy -c /usr/local/oss-svr/stack.yml oss-svr
