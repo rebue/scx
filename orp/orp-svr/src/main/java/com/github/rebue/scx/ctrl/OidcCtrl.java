@@ -1,39 +1,39 @@
 package com.github.rebue.scx.ctrl;
 
-import java.net.URI;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.rebue.scx.api.OidcApi;
+import com.github.rebue.scx.svc.OidcSvc;
+import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.github.rebue.scx.svc.OidcSvc;
-
 import reactor.core.publisher.Mono;
+
+import javax.annotation.Resource;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/oidc")
 public class OidcCtrl {
 
-    @Autowired
-    private OidcSvc oidcSvc;
+    @Resource
+    private OidcApi oidcApi;
 
     @GetMapping("/callback")
-    public Mono<String> callback(
-            ServerHttpRequest request, ServerHttpResponse response, String code)
+    public Mono<String> callback(ServerHttpResponse response, String code)
     {
         return Mono.create(cb -> {
-            Pair<String, String> pair = oidcSvc.callback(request, response, code);
+
+            Triple<String, String, ResponseCookie> pair = oidcApi.callback(code);
             if (pair.getLeft() != null) {
                 response.setStatusCode(HttpStatus.FOUND);
                 response.getHeaders().setLocation(URI.create(pair.getLeft()));
+                response.addCookie(pair.getRight());
                 cb.success(null);
             }
-            cb.success(pair.getRight());
+            cb.success(pair.getMiddle());
         });
     }
 
