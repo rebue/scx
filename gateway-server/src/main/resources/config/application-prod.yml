@@ -59,4 +59,4 @@ logging:
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
 
 oidc:
-  redirect-uri: http://10.200.101.16:443/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=st&redirect_uri=http%3A%2F%2F10.200.101.16:443%2Forp-svr%2Foidc%2Fcallback
+  redirect-uri: http://10.200.101.16/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=st&redirect_uri=http%3A%2F%2F10.200.101.16%2Forp-svr%2Foidc%2Fcallback
