@@ -1,24 +1,43 @@
-jwt:
-  key-pair: jwt-dev-key-pair.pem
-  issuer: rebue
-  expiration-duration: 30m
+# 配置中心的配置
+scx:
+  gateway:
+    # 发送消息的超时时间(发送添加请求和响应日志的消息时使用)
+    send-timeout: 5000
+    multipart:
+      max-file-size:
+        specifies:
+          - url: "POST:/rac/account/upload-avatar"
+            limit: 200KB
 
 # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
 spring:
-  redis:
-    password: xxxxxxxx
-    sentinel:
-      master: mymaster
-      nodes:
-        - redis_sentinel1:26379
-        - redis_sentinel2:26379
-        - redis_sentinel3:26379
   cloud:
     sentinel:
-      enabled: false
+      transport:
+        dashboard: sentinel-dashboard:80
+    gateway:
+      routes:
+        - id: sr
+          uri: http://122.9.104.17:20010
+          predicates:
+          - Path=/admin-web/**
+          filters:
+          - name: JwtPre
+        - id: welcome
+          uri: http://122.9.104.17:20010
+          predicates:
+            - Path=/
+          filters:
+            - name: JwtPre
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
   # 链路追踪可视化服务器
   zipkin:
     base-url: zipkin:9411
@@ -38,3 +57,6 @@ logging:
     '[org.springframework.dao]': debug
     '[org.springframework.cloud]': warn
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
+
+oidc:
+  redirect-uri: http://122.9.104.17/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=st&redirect_uri=http%3A%2F%2F122.9.104.17%2Forp-svr%2Foidc%2Fcallback

@@ -22,5 +22,5 @@ spring:
       enabled: false
 
 oidc:
-  login-url: http://10.200.101.16:443/admin-web/?u=1#/sign-in/unified
-  cookie-domain: 10.200.101.16
+  login-url: http://122.9.104.17/admin-web/?u=1#/sign-in/unified
+  cookie-domain: 122.9.104.17
