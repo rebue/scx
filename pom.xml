@@ -25,7 +25,8 @@
 		<module>orp</module>
 		<module>cap</module>
     <module>doc</module>
-  </modules>
+        <module>bat-generator</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
