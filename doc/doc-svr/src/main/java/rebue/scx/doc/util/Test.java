@@ -35,6 +35,7 @@ public class Test {
         EngineConfig engineConfig = EngineConfig.builder()
                 // 生成文件路径
                 .fileOutputDir("/home/yuanman/myapps/")
+
                 // 打开目录
                 .openOutputDir(true)
                 // 文件类型
