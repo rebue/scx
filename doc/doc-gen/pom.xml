@@ -9,9 +9,10 @@
 		<version>1.2.4</version>
 	</parent>
 
-	<artifactId>doc-svr</artifactId>
+	<artifactId>doc-gen</artifactId>
 
 	<dependencies>
+		<!-- 生成数据库文档 -->
 		<dependency>
 			<groupId>cn.smallbun.screw</groupId>
 			<artifactId>screw-core</artifactId>

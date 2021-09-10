@@ -12,23 +12,10 @@
     <artifactId>doc</artifactId>
     <packaging>pom</packaging>
     <description>基于Spring Cloud构建微服务的演示项目</description>
-    <version>1.2.4</version>
 
     <modules>
         <module>doc-gen</module>
-        <module>doc-api</module>
-        <module>doc-svr</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.github.rebue.scx</groupId>
-                <artifactId>doc-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
