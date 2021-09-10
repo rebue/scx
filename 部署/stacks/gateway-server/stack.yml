@@ -2,6 +2,8 @@ version: "3.9"
 services:
   gateway-server:
     image: nnzbz/spring-boot-app:1.0.3
+    ports:
+      - 10085:10085
     environment:
       # 最好使用此设定时区，其它镜像也可以使用
       - TZ=CST-8
