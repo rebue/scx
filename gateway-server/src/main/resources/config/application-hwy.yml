@@ -21,13 +21,13 @@ spring:
     gateway:
       routes:
         - id: sr
-          uri: http://nginx:20010
+          uri: http://nginx-html:20010
           predicates:
           - Path=/admin-web/**
           filters:
           - name: JwtPre
         - id: welcome
-          uri: http://nginx:20010
+          uri: http://nginx-html:20010
           predicates:
             - Path=/
           filters:
