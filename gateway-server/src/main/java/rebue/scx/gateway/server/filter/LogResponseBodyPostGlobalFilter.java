@@ -69,11 +69,15 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
+        if (FilterUtils.logSkip(exchange.getRequest().getPath().toString())) {
+            return chain.filter(exchange);
+        }
+
         log.info(StringUtils.rightPad("*** 进入 LogResponseBodyPostGlobalFilter 过滤器 ***", 100));
         try {
             final ServerHttpResponse          originalResponse  = exchange.getResponse();
-
             final DataBufferFactory           bufferFactory     = originalResponse.bufferFactory();
+
             final ServerHttpResponseDecorator decoratedResponse = decorate(exchange, originalResponse, bufferFactory);
             // replace response with decorator
             return chain.filter(exchange.mutate().response(decoratedResponse).build());
