@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/11 11:46:32                           */
+/* Created on:     2021/9/11 12:28:07                           */
 /*==============================================================*/
 
 
@@ -36,6 +36,11 @@ create table RAC_ACCOUNT
    QQ_UNION_ID          varchar(64)  comment 'QQ的UnionId',
    QQ_NICKNAME          varchar(100)  comment 'QQ昵称',
    QQ_AVATAR            varchar(300)  comment 'QQ头像',
+   DD_OPEN_ID           varchar(64)  comment '钉钉的OpenId',
+   DD_UNION_ID          varchar(64)  comment '钉钉的UnionId',
+   DD_USER_ID           varchar(64)  comment '钉钉的UserId',
+   DD_NICKNAME          varchar(100)  comment '钉钉昵称',
+   DD_AVATAR            varchar(300)  comment '钉钉头像',
    IS_TESTER            bool not null default false  comment '是否测试者',
    CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
@@ -48,7 +53,10 @@ create table RAC_ACCOUNT
    unique key AK_REALM_AND_WX_UNION_ID (WX_UNION_ID, REALM_ID),
    unique key AK_REALM_AND_QQ_OPEN_ID (QQ_OPEN_ID, REALM_ID),
    unique key AK_REALM_AND_QQ_UNION_ID (QQ_UNION_ID, REALM_ID),
-   key AK_REALM_AND_ACCOUNT_CODE (CODE, REALM_ID)
+   unique key AK_REALM_AND_DD_OPEN_ID (REALM_ID, DD_OPEN_ID),
+   unique key AK_REALM_AND_DD_UNION_ID (REALM_ID, DD_UNION_ID),
+   unique key AK_REALM_AND_DD_USER_ID (REALM_ID, DD_USER_ID),
+   unique key AK_REALM_AND_ACCOUNT_CODE (CODE, REALM_ID)
 );
 
 alter table RAC_ACCOUNT comment '账户';
