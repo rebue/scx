@@ -1,7 +1,9 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/8 17:21:21                            */
+/* Created on:     2021/9/11 11:46:32                           */
 /*==============================================================*/
+
+
 /*==============================================================*/
 /* Table: RAC_ACCOUNT                                           */
 /*==============================================================*/
@@ -11,6 +13,7 @@ create table RAC_ACCOUNT
    USER_ID              bigint unsigned  comment '用户ID',
    REMARK               varchar(150)  comment '备注',
    ORG_ID               bigint unsigned  comment '组织ID',
+   CODE                 varchar(32)  comment '账户编码',
    REALM_ID             varchar(32) not null  comment '领域ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SIGN_IN_NAME         varchar(20)  comment '登录名称',
@@ -44,24 +47,11 @@ create table RAC_ACCOUNT
    unique key AK_REALM_AND_WX_OPEN_ID (WX_OPEN_ID, REALM_ID),
    unique key AK_REALM_AND_WX_UNION_ID (WX_UNION_ID, REALM_ID),
    unique key AK_REALM_AND_QQ_OPEN_ID (QQ_OPEN_ID, REALM_ID),
-   unique key AK_REALM_AND_QQ_UNION_ID (QQ_UNION_ID, REALM_ID)
+   unique key AK_REALM_AND_QQ_UNION_ID (QQ_UNION_ID, REALM_ID),
+   key AK_REALM_AND_ACCOUNT_CODE (CODE, REALM_ID)
 );
 
 alter table RAC_ACCOUNT comment '账户';
-
-/*==============================================================*/
-/* Table: RAC_ACCOUNT_LOCK                                      */
-/*==============================================================*/
-create table RAC_ACCOUNT_LOCK
-(
-   ID                   bigint not null  comment 'ID',
-   ACCOUNT_ID           bigint not null  comment '账户ID',
-   LOCK_DATETIME        datetime not null  comment '锁定时间',
-   primary key (ID),
-   unique key AK_ACCOUNT_AND_LOCK_DATETIME (ACCOUNT_ID, LOCK_DATETIME)
-);
-
-alter table RAC_ACCOUNT_LOCK comment '账户锁定';
 
 /*==============================================================*/
 /* Table: RAC_ACCOUNT_ROLE                                      */
@@ -152,6 +142,27 @@ create table RAC_DIC_ITEM
 alter table RAC_DIC_ITEM comment '字典项';
 
 /*==============================================================*/
+/* Table: RAC_DISABLE_LOG                                       */
+/*==============================================================*/
+create table RAC_DISABLE_LOG
+(
+   ID                   bigint unsigned not null  comment '日志ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
+   DISABLE_OP_AGENT_ID  bigint unsigned  comment '代理禁用操作员ID',
+   ENABLE_OP_AGENT_ID   bigint unsigned  comment '代理启用操作员ID',
+   ENABLE_OP_ID         bigint unsigned not null  comment '启用操作员ID',
+   ACCOUNT_ID           bigint unsigned not null  comment '禁用账户ID',
+   DISABLE_OP_ID        bigint unsigned not null  comment '禁用操作员ID',
+   DISABLE_REASON       varchar(100) not null  comment '禁用原因',
+   DISABLE_DATETIME     datetime not null  comment '禁用时间',
+   ENABLE_REASON        varchar(100)  comment '启用原因',
+   ENABLE_DATETIME      datetime  comment '启用时间',
+   primary key (ENABLE_OP_ID, ACCOUNT_ID, DISABLE_OP_ID, ID)
+);
+
+alter table RAC_DISABLE_LOG comment '账户启/禁用日志';
+
+/*==============================================================*/
 /* Table: RAC_LOCK_LOG                                          */
 /*==============================================================*/
 create table RAC_LOCK_LOG
@@ -159,14 +170,13 @@ create table RAC_LOCK_LOG
    ID                   bigint unsigned not null  comment '锁定日志ID',
    REALM_ID             varchar(32) not null  comment '领域ID',
    LOCK_ACCOUNT_ID      bigint unsigned not null  comment '锁定账户的账户ID',
-   LOCK_OP_ID           bigint unsigned not null  comment '锁定操作员的账户ID',
-   LOCK_OP_AGENT_ID     bigint unsigned  comment '锁定操作的代理人的账户ID',
    LOCK_REASON          varchar(100) not null  comment '锁定原因',
    LOCK_DATETIME        datetime not null  comment '锁定时间',
    UNLOCK_REASON        varchar(100)  comment '解锁原因',
    UNLOCK_DATETIME      datetime  comment '解锁时间',
    UNLOCK_OP_ID         bigint unsigned  comment '解锁操作员的账户ID',
    UNLOCK_OP_AGENT_ID   bigint unsigned  comment '解锁操作的代理人的账户ID',
+   AUTO_UNLOCK_DATETIME datetime  comment '自动解锁时间',
    primary key (ID),
    unique key AK_ACCOUNT_AND_LOCK_DATETIME (LOCK_ACCOUNT_ID, LOCK_DATETIME),
    unique key AK_ACCOUNT_AND_UNLOCK_DATETIME (LOCK_ACCOUNT_ID, UNLOCK_DATETIME)
@@ -215,6 +225,7 @@ create table RAC_ORG
    ID                   bigint unsigned not null  comment '组织ID',
    NAME                 varchar(30) not null  comment '组织名称',
    PARENT_ID            bigint unsigned  comment '上级组织ID(根组织填0)',
+   CODE                 varchar(32)  comment '组织编码',
    REALM_ID             varchar(32) not null  comment '领域ID',
    ORG_TYPE             tinyint unsigned not null  comment '组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)',
    TREE_CODE            varchar(50) not null  comment '树编码',
@@ -228,7 +239,8 @@ create table RAC_ORG
    EMAIL                varchar(50)  comment '邮箱',
    primary key (ID),
    unique key AK_NAME (NAME),
-   unique key AK_FULL_NAME (FULL_NAME)
+   unique key AK_FULL_NAME (FULL_NAME),
+   key AK_REALM_AND_ORG_CODE (CODE, REALM_ID)
 );
 
 alter table RAC_ORG comment '组织';
@@ -395,25 +407,22 @@ create table RAC_USER
 
 alter table RAC_USER comment '用户';
 
-alter table RAC_ACCOUNT add constraint FK_RAC_ACCO_RELATIONS_RAC_USER foreign key (USER_ID)
+alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_USER foreign key (USER_ID)
       references RAC_USER (ID) on delete restrict on update restrict;
 
-alter table RAC_ACCOUNT add constraint FK_RAC_ACCO_RELATIONS_RAC_ORG foreign key (ORG_ID)
+alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_ACCOUNT add constraint FK_RAC_ACCO_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_ACCOUNT add constraint FK_ACCOUNT_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_ACCOUNT_LOCK add constraint FK_RAC_ACCO_RELATIONS_RAC_ACCO foreign key (ACCOUNT_ID)
-      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
-
-alter table RAC_ACCOUNT_ROLE add constraint FK_RAC_ACCO_RELATIONS_RAC_ROLE foreign key (ROLE_ID)
+alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
 
-alter table RAC_ACCOUNT_ROLE add constraint FK_RAC_ACCO_RELATIONS_RAC_ACCO foreign key (ACCOUNT_ID)
+alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_APP add constraint FK_RAC_APP_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_APP add constraint FK_APP_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
 alter table RAC_DELEGATION add constraint FK_PRINCIPAL_AND_ACCOUNT foreign key (PRINCIPAL_ID)
@@ -422,32 +431,44 @@ alter table RAC_DELEGATION add constraint FK_PRINCIPAL_AND_ACCOUNT foreign key (
 alter table RAC_DELEGATION add constraint FK_AGENT_AND_ACCOUNT foreign key (AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_DIC add constraint FK_RAC_DIC_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_DIC add constraint FK_DIC_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_DIC add constraint FK_RAC_DIC_RELATIONS_RAC_APP foreign key (APP_ID)
+alter table RAC_DIC add constraint FK_DIC_AND_APP foreign key (APP_ID)
       references RAC_APP (ID) on delete restrict on update restrict;
 
-alter table RAC_DIC_ITEM add constraint FK_RAC_DIC__RELATIONS_RAC_DIC foreign key (DIC_ID)
+alter table RAC_DIC_ITEM add constraint FK_DIC_ITEM_AND_DIC foreign key (DIC_ID)
       references RAC_DIC (ID) on delete restrict on update restrict;
 
-alter table RAC_DIC_ITEM add constraint FK_RAC_DIC__RELATIONS_RAC_ORG foreign key (ORG_ID)
+alter table RAC_DIC_ITEM add constraint FK_DIC_ITEM_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_AGENT foreign key (LOCK_ACCOUNT_ID)
+alter table RAC_DISABLE_LOG add constraint FK_DISABLE_OP_AND_ACCOUNT foreign key (DISABLE_OP_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_OP foreign key (LOCK_OP_ID)
+alter table RAC_DISABLE_LOG add constraint FK_DISABLE_ACCOUNT_AND_ACCOUNT foreign key (ACCOUNT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_DISABLE_LOG add constraint FK_ENABLE_OP_AND_ACCOUNT foreign key (ENABLE_OP_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_DISABLE_LOG add constraint FK_ENABLE_AGENT_OP_AND_ACCOUNT foreign key (ENABLE_OP_AGENT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_DISABLE_LOG add constraint FK_DISABLE_AGENT_OP_AND_ACCOUNT foreign key (DISABLE_OP_AGENT_ID)
+      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
+
+alter table RAC_DISABLE_LOG add constraint FK_DISABLE_LOG_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
+
+alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_LOCK_AGENT foreign key (LOCK_ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_UNLOCK_OP foreign key (UNLOCK_OP_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_LOCK_LOG add constraint FK_RAC_LOCK_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
-
-alter table RAC_LOCK_LOG add constraint FK_RAC_LOCK_RELATIONS_RAC_ACCO foreign key (LOCK_OP_AGENT_ID)
-      references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
 alter table RAC_LOCK_LOG add constraint FK_LOCK_LOG_AND_UNLOCK_AGENT foreign key (UNLOCK_OP_AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
@@ -458,54 +479,54 @@ alter table RAC_OPS_ORG add constraint FK_OPS_ORG_AND_MASTER_ORG foreign key (MA
 alter table RAC_OPS_ORG add constraint FK_OPS_ORG_AND_SLAVE_ORG foreign key (SLAVE_ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_OP_LOG add constraint FK_RAC_OP_L_RELATIONS_RAC_ACCO foreign key (ACCOUNT_ID)
+alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_OP_LOG add constraint FK_RAC_OP_L_RELATIONS_RAC_APP foreign key (APP_ID)
+alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_APP foreign key (APP_ID)
       references RAC_APP (ID) on delete restrict on update restrict;
 
 alter table RAC_OP_LOG add constraint FK_OP_LOG_AND_AGENT foreign key (AGENT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_ORG add constraint FK_RAC_ORG_RELATIONS_RAC_ORG foreign key (PARENT_ID)
+alter table RAC_ORG add constraint FK_ORG_AND_ORG foreign key (PARENT_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_ORG add constraint FK_RAC_ORG_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_ORG add constraint FK_ORG_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_ORG_ACCOUNT add constraint FK_RAC_ORG__RELATIONS_RAC_ORG foreign key (ORG_ID)
+alter table RAC_ORG_ACCOUNT add constraint FK_ORG_ACCOUNT_AND_ORG foreign key (ORG_ID)
       references RAC_ORG (ID) on delete restrict on update restrict;
 
-alter table RAC_ORG_ACCOUNT add constraint FK_RAC_ORG__RELATIONS_RAC_ACCO foreign key (ACCOUNT_ID)
+alter table RAC_ORG_ACCOUNT add constraint FK_ORG_ACCOUNT_AND_ACCOUNT foreign key (ACCOUNT_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (GROUP_ID)
+alter table RAC_PERM add constraint FK_PERM_AND_PERM_GROUP foreign key (GROUP_ID)
       references RAC_PERM_GROUP (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM add constraint FK_RAC_PERM_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_PERM add constraint FK_PERM_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_COMMAND add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (PERM_ID)
+alter table RAC_PERM_COMMAND add constraint FK_PERM_COMMAND_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_GROUP add constraint FK_RAC_PERM_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_PERM_GROUP add constraint FK_PERM_GROUP_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_MENU add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (PERM_ID)
+alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_MENU add constraint FK_RAC_PERM_RELATIONS_RAC_APP foreign key (APP_ID)
+alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_APP foreign key (APP_ID)
       references RAC_APP (ID) on delete restrict on update restrict;
 
-alter table RAC_PERM_URN add constraint FK_RAC_PERM_RELATIONS_RAC_PERM foreign key (PERM_ID)
+alter table RAC_PERM_URN add constraint FK_PERM_URN_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_ROLE add constraint FK_RAC_ROLE_RELATIONS_RAC_REAL foreign key (REALM_ID)
+alter table RAC_ROLE add constraint FK_ROLE_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
-alter table RAC_ROLE_PERM add constraint FK_RAC_ROLE_RELATIONS_RAC_PERM foreign key (PERM_ID)
+alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_ROLE_PERM add constraint FK_RAC_ROLE_RELATIONS_RAC_ROLE foreign key (ROLE_ID)
+alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
 
