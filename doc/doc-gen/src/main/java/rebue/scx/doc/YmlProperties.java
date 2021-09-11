@@ -8,11 +8,11 @@ import org.yaml.snakeyaml.Yaml;
 public class YmlProperties {
     /**
      * 根据fields读取yml文件获取值
-     * 
+     *
      * @param pathToYmlDir 文件路径
      * @param profile      dev或者prod
      * @param fields       读取的Key
-     * 
+     *
      * @return
      */
     public static Map<String, String> getProperties(String pathToYmlDir, String profile, String... fields) {
@@ -20,9 +20,9 @@ public class YmlProperties {
         Yaml                yaml;
         String              ymlStr;
         try {
-            // yaml = new Yaml();
-            // ymlStr = FileWrapper.readFileStr(pathToYmlDir + "\\application.yml");
-            // Object ymlProperties = yaml.load(ymlStr);
+            yaml   = new Yaml();
+            ymlStr = FileWrapper.readFileStr(pathToYmlDir + "application-" + profile + ".yml");
+            Object ymlProperties = yaml.load(ymlStr);
 
             yaml   = new Yaml();
             ymlStr = FileWrapper.readFileStr(pathToYmlDir + "bootstrap-" + profile + ".yml");
@@ -31,7 +31,7 @@ public class YmlProperties {
             for (String field : fields) {
                 String valueFromYml = (String) getValueFromYml(profileProperties, field, String.class);
                 if (valueFromYml == null) {
-                    // valueFromYml = (String) getValueFromYml(ymlProperties, field, String.class);
+                    valueFromYml = (String) getValueFromYml(ymlProperties, field, String.class);
                     if (valueFromYml == null) {
                         throw new RuntimeException();
                     }

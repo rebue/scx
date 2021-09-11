@@ -30,7 +30,7 @@ public class DocApplication {
     /**
      * 生成的文件类型
      */
-    private static EngineFileType FILE_TYPE      = EngineFileType.HTML;
+    private static EngineFileType FILE_TYPE      = EngineFileType.MD;
     /**
      * 生成的文档版本
      */
@@ -50,10 +50,13 @@ public class DocApplication {
         String filePathSuffix = "/src/main/resources/config/";
         // 输出文件
         genFile("aop", filePathPrefix + "oap/oap-svr" + filePathSuffix, "dev");
+        System.out.println("-------------------aop生成输出文件完成---------------------------");
         genFile("oss", filePathPrefix + "oss/oss-svr" + filePathSuffix, "dev");
+        System.out.println("-------------------oss生成输出文件完成---------------------------");
         genFile("rac", filePathPrefix + "rac/rac-svr" + filePathSuffix, "dev");
+        System.out.println("-------------------rac生成输出文件完成---------------------------");
         genFile("rrl", filePathPrefix + "rrl/rrl-svr" + filePathSuffix, "dev");
-        System.out.println("-------------------生成输出文件完成---------------------------");
+        System.out.println("-------------------rrl生成输出文件完成---------------------------");
 
     }
 
