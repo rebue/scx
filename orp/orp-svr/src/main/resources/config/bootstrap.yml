@@ -35,7 +35,7 @@ spring:
 dubbo:
   scan:
     # dubbo 服务扫描基准包
-    base-packages: com.github.rebue.scx.api
+    base-packages: rebue.scx.orp
   protocol:
     # dubbo 协议
     name: dubbo
