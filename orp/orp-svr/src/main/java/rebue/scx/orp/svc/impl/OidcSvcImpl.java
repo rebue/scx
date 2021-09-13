@@ -1,9 +1,9 @@
 package rebue.scx.orp.svc.impl;
 
 import com.github.rebue.orp.core.OidcCore;
-import rebue.scx.orp.api.OapAppApi;
-import rebue.scx.orp.config.OidcConfig;
-import rebue.scx.orp.mo.OapAppMo;
+import rebue.scx.oap.api.OapAppApi;
+import rebue.scx.oap.config.OidcConfig;
+import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.orp.svc.OidcSvc;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.JWT;
