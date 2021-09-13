@@ -8,15 +8,13 @@ import rebue.scx.orp.core.strategy.Strategy;
 import rebue.scx.orp.core.strategy.WechatOpenStrategy;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.net.httpclient.HttpClient;
-import rebue.wheel.net.httpclient.impl.ApacheHttpClientImpl;
 
 /**
  * 策略工厂
  */
 public class StrategyFactory {
 
-    public static Strategy getStrategy(OrpTypeDic orpType, StrategyConfig orpConfig, StateCache stateCache) {
-        HttpClient httpClient = new ApacheHttpClientImpl();
+    public static Strategy getStrategy(OrpTypeDic orpType, StrategyConfig orpConfig, StateCache stateCache, HttpClient httpClient) {
         switch (orpType) {
         case DingTalk:
             return new DingTalkStrategy(orpConfig, stateCache, httpClient);
