@@ -6,6 +6,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -83,20 +85,20 @@ public class RacPermMenuJo implements Serializable {
     }
 
     /**
-     * 应用ID
+     * 应用
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "APP_ID", nullable = true, length = 32)
-    private String appId;
+    @JoinColumn(name = "APP_ID", referencedColumnName = "ID")
+    @ManyToOne()
+    private RacAppJo  app;
 
     /**
-     * 权限ID
+     * 权限
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "PERM_ID", nullable = false, length = 20)
-    private Long   permId;
+    @JoinColumn(name = "PERM_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacPermJo perm;
 }

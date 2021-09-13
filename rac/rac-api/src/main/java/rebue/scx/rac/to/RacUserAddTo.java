@@ -87,21 +87,18 @@ public class RacUserAddTo implements Serializable {
 
     /**
      * 性别0为女，1为男
-     *
      */
     @PositiveOrZero(message = "性别不能为负数")
     private Byte              sex;
 
     /**
      * 修改时间戳
-     *
      */
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long              updateTimestamp;
 
     /**
      * 建立时间戳
-     *
      */
     @PositiveOrZero(message = "建立时间戳不能为负数")
     private Long              createTimestamp;

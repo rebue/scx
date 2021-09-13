@@ -40,6 +40,13 @@ public final class RacAccountDynamicSqlSupport {
     public static final SqlColumn<Long> orgId = racAccount.orgId;
 
     /**
+    * 账户编码
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> code = racAccount.code;
+
+    /**
     * 领域ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -176,6 +183,41 @@ public final class RacAccountDynamicSqlSupport {
     public static final SqlColumn<String> qqAvatar = racAccount.qqAvatar;
 
     /**
+    * 钉钉的OpenId
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> ddOpenId = racAccount.ddOpenId;
+
+    /**
+    * 钉钉的UnionId
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> ddUnionId = racAccount.ddUnionId;
+
+    /**
+    * 钉钉的UserId
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> ddUserId = racAccount.ddUserId;
+
+    /**
+    * 钉钉昵称
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> ddNickname = racAccount.ddNickname;
+
+    /**
+    * 钉钉头像
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> ddAvatar = racAccount.ddAvatar;
+
+    /**
     * 是否测试者
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -204,6 +246,8 @@ public final class RacAccountDynamicSqlSupport {
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> orgId = column("ORG_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<String> code = column("CODE", JDBCType.VARCHAR);
 
         public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
 
@@ -242,6 +286,16 @@ public final class RacAccountDynamicSqlSupport {
         public final SqlColumn<String> qqNickname = column("QQ_NICKNAME", JDBCType.VARCHAR);
 
         public final SqlColumn<String> qqAvatar = column("QQ_AVATAR", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> ddOpenId = column("DD_OPEN_ID", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> ddUnionId = column("DD_UNION_ID", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> ddUserId = column("DD_USER_ID", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> ddNickname = column("DD_NICKNAME", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> ddAvatar = column("DD_AVATAR", JDBCType.VARCHAR);
 
         public final SqlColumn<Boolean> isTester = column("IS_TESTER", JDBCType.BIT);
 

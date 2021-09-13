@@ -81,15 +81,6 @@ public class RacLockLogJo implements Serializable {
     private LocalDateTime     unlockDatetime;
 
     /**
-     * 锁定操作员的账户
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "LOCK_OP_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacAccountJo      lockOp;
-
-    /**
      * 锁定账户的账户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -140,22 +131,13 @@ public class RacLockLogJo implements Serializable {
     }
 
     /**
-     * 锁定操作的代理人的账户
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "LOCK_OP_AGENT_ID", referencedColumnName = "ID")
-    @ManyToOne()
-    private RacAccountJo lockOpAgent;
-
-    /**
      * 解锁操作的代理人的账户
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @JoinColumn(name = "UNLOCK_OP_AGENT_ID", referencedColumnName = "ID")
     @ManyToOne()
-    private RacAccountJo unlockOpAgent;
+    private RacAccountJo  unlockOpAgent;
 
     /**
      * 领域
@@ -164,5 +146,14 @@ public class RacLockLogJo implements Serializable {
      */
     @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacRealmJo   realm;
+    private RacRealmJo    realm;
+
+    /**
+     * 自动解锁时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "AUTO_UNLOCK_DATETIME", nullable = true, length = 19)
+    private LocalDateTime autoUnlockDatetime;
 }

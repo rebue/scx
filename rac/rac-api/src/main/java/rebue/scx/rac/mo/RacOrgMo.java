@@ -244,6 +244,7 @@ public class RacOrgMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", parentId=").append(parentId);
+        sb.append(", code=").append(code);
         sb.append(", realmId=").append(realmId);
         sb.append(", orgType=").append(orgType);
         sb.append(", treeCode=").append(treeCode);
@@ -490,5 +491,31 @@ public class RacOrgMo implements Serializable, Mo<Long> {
      */
     public void setRealmId(String realmId) {
         this.realmId = realmId;
+    }
+
+    /**
+     * 组织编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "组织编码的长度不能大于32")
+    private String code;
+
+    /**
+     * 组织编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * 组织编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCode(String code) {
+        this.code = code;
     }
 }

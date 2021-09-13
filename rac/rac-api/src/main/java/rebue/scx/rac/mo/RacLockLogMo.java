@@ -47,15 +47,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     private Long              lockAccountId;
 
     /**
-     * 锁定操作员的账户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(groups = AddGroup.class, message = "锁定操作员的账户ID不能为空")
-    @PositiveOrZero(message = "锁定操作员的账户ID不能为负数")
-    private Long              lockOpId;
-
-    /**
      * 锁定原因
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -103,15 +94,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 锁定操作员的账户
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacAccountMo      lockOp;
 
     /**
      * 锁定账户的账户
@@ -165,24 +147,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      */
     public void setLockAccountId(Long lockAccountId) {
         this.lockAccountId = lockAccountId;
-    }
-
-    /**
-     * 锁定操作员的账户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getLockOpId() {
-        return lockOpId;
-    }
-
-    /**
-     * 锁定操作员的账户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setLockOpId(Long lockOpId) {
-        this.lockOpId = lockOpId;
     }
 
     /**
@@ -287,14 +251,13 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", realmId=").append(realmId);
         sb.append(", lockAccountId=").append(lockAccountId);
-        sb.append(", lockOpId=").append(lockOpId);
-        sb.append(", lockOpAgentId=").append(lockOpAgentId);
         sb.append(", lockReason=").append(lockReason);
         sb.append(", lockDatetime=").append(lockDatetime);
         sb.append(", unlockReason=").append(unlockReason);
         sb.append(", unlockDatetime=").append(unlockDatetime);
         sb.append(", unlockOpId=").append(unlockOpId);
         sb.append(", unlockOpAgentId=").append(unlockOpAgentId);
+        sb.append(", autoUnlockDatetime=").append(autoUnlockDatetime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -340,29 +303,12 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 锁定操作的代理人的账户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "锁定操作的代理人的账户ID不能为负数")
-    private Long         lockOpAgentId;
-
-    /**
      * 解锁操作的代理人的账户ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "解锁操作的代理人的账户ID不能为负数")
     private Long         unlockOpAgentId;
-
-    /**
-     * 锁定操作的代理人的账户
-     *
-     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-     */
-    @Getter
-    @Setter
-    private RacAccountMo lockOpAgent;
 
     /**
      * 解锁操作的代理人的账户
@@ -372,24 +318,6 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
     @Getter
     @Setter
     private RacAccountMo unlockOpAgent;
-
-    /**
-     * 锁定操作的代理人的账户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getLockOpAgentId() {
-        return lockOpAgentId;
-    }
-
-    /**
-     * 锁定操作的代理人的账户ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setLockOpAgentId(Long lockOpAgentId) {
-        this.lockOpAgentId = lockOpAgentId;
-    }
 
     /**
      * 解锁操作的代理人的账户ID
@@ -443,5 +371,32 @@ public class RacLockLogMo implements Serializable, Mo<Long> {
      */
     public void setRealmId(String realmId) {
         this.realmId = realmId;
+    }
+
+    /**
+     * 自动解锁时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime autoUnlockDatetime;
+
+    /**
+     * 自动解锁时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public LocalDateTime getAutoUnlockDatetime() {
+        return autoUnlockDatetime;
+    }
+
+    /**
+     * 自动解锁时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAutoUnlockDatetime(LocalDateTime autoUnlockDatetime) {
+        this.autoUnlockDatetime = autoUnlockDatetime;
     }
 }

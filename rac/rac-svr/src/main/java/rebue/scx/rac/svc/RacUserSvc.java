@@ -31,9 +31,9 @@ public interface RacUserSvc extends BaseSvc<java.lang.Long, RacUserAddTo, RacUse
 
     /**
      * 根据姓名和身份张号查询用户信息
-     * 
+     *
      * @param id
-     * 
+     *
      * @return
      */
     RacUserMo getOneByRealNameIdCard(RacUserOneTo one);

@@ -118,13 +118,11 @@ public class RacAppAddTo implements Serializable {
 
     /**
      * 顺序号排序
-     *
      */
     private Byte              seqNo;
 
     /**
      * 是否认证
-     *
      */
     private Boolean           isCertified;
 }

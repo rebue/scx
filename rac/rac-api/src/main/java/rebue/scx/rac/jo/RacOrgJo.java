@@ -191,4 +191,13 @@ public class RacOrgJo implements Serializable {
     @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacRealmJo realm;
+
+    /**
+     * 组织编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "CODE", nullable = true, length = 32)
+    private String     code;
 }

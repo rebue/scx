@@ -25,7 +25,7 @@ import rebue.scx.rac.to.RacAppPageTo;
  */
 @DubboService
 public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppSvc>
-        implements RacAppApi {
+    implements RacAppApi {
 
     @Override
     public Ro<ListRa<RacAppMo>> list(final RacAppListTo qo) {
@@ -70,5 +70,4 @@ public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, Ra
     public Ro<ListRa<RacAppMo>> listOrderBySeqNo(RacAppListTo qo) {
         return new Ro<>(ResultDic.SUCCESS, "列表查询成功", new ListRa<>(_svc.listOrderBySeqNo(qo)));
     }
-
 }

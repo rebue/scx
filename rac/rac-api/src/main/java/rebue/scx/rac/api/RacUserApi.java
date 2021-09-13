@@ -17,9 +17,9 @@ public interface RacUserApi extends BaseApi<java.lang.Long, RacUserAddTo, RacUse
 
     /**
      * 根据姓名和身份张号查询用户信息
-     * 
+     *
      * @param id
-     * 
+     *
      * @return
      */
     Ro<RacUserMo> getOneByRealNameIdCard(RacUserOneTo to);

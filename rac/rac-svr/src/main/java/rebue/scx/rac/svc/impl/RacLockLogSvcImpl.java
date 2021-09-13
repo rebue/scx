@@ -85,7 +85,7 @@ public class RacLockLogSvcImpl extends
         if (rowCount == 0) {
             final RacLockLogAddTo ato = new RacLockLogAddTo();
             ato.setRealmId(qo.getRealmId());
-            ato.setLockOpId(0L);
+            // ato.setLockOpId(0L);
             ato.setLockDatetime(LocalDateTime.now());
             ato.setLockReason("应用未找到锁定记录");
             ato.setLockAccountId(qo.getLockAccountId());

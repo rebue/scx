@@ -42,9 +42,7 @@ public class RacPermCtrl {
      * 添加权限
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param to 添加的具体信息
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加权限", opTitle = "添加权限: #{#p0.name}")
@@ -57,9 +55,7 @@ public class RacPermCtrl {
      * 修改权限的信息
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param to 修改的具体数据
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改权限", opTitle = "修改权限: #{#p0.name}")
@@ -72,9 +68,7 @@ public class RacPermCtrl {
      * 删除权限
      *
      * @mbg.dontOverWriteAnnotation
-     * 
      * @param id 权限ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除权限", opTitle = "删除权限: #{#p0}")
@@ -87,7 +81,6 @@ public class RacPermCtrl {
      * 获取单个权限的信息
      *
      * @param id 权限ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm/get-by-id")
@@ -99,7 +92,6 @@ public class RacPermCtrl {
      * 判断权限是否存在
      *
      * @param id 权限ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm/exist-by-id")
@@ -111,7 +103,6 @@ public class RacPermCtrl {
      * 查询权限的信息
      *
      * @param qo 查询的具体条件
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/perm/page")

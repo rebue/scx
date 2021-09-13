@@ -32,14 +32,16 @@ import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacAccountLockSvc;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
+import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.svc.impl.RacAccountSvcImpl;
-import rebue.scx.rac.to.RacAccountLockAddTo;
-import rebue.scx.rac.to.RacAccountLockDelTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.RacLockLogAddTo;
+import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+import rebue.scx.rac.to.ex.UnlockSignInTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.DateUtils;
 import rebue.wheel.core.RegexUtils;
@@ -90,6 +92,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private RacOpLogSvc         opLogSvc;
     @Resource
     private RacAccountLockSvc   accountLockSvc;
+    @Resource
+    private RacLockLogSvc       racLockLogSvc;
 
     @Resource
     StringRedisTemplate         stringRedisTemplate;
@@ -250,23 +254,33 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * 手动删除输入登录密码错误次数
      */
     @Override
-    public Boolean handDelWrongPswdTimesOfSignIn(final Long accountId) {
-        log.info("手动删除账户输入错误登录密码的次数: {}", accountId);
-        RacAccountLockDelTo delTo = new RacAccountLockDelTo();
-        delTo.setAccountId(accountId);
-        accountLockSvc.delSelective(delTo);
-        return delWrongPswdTimesOfSignIn(accountId);
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Boolean handDelWrongPswdTimesOfSignIn(UnlockSignInTo to) {
+        log.info("手动删除账户输入错误登录密码的次数: {}", to.getAccountId());
+        RacLockLogModifyTo modifyTo = new RacLockLogModifyTo();
+        modifyTo.setId(to.getId());
+        modifyTo.setUnlockOpId(to.getOpAccountId());
+        modifyTo.setUnlockDatetime(LocalDateTime.now());
+        // modifyTo.setUnlockReason("手动解锁");
+        modifyTo.setUnlockOpAgentId(to.getAgentAccountId());
+        racLockLogSvc.modifyById(modifyTo);
+        return delWrongPswdTimesOfSignIn(to.getAccountId());
     }
 
     /**
      * 保存输入密码错误而被锁定的账户记录
      */
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private void keepSignInLockRecord(final Long accountId) {
         log.info("保存输入密码错误而被锁定的账户记录: {}", accountId);
-        RacAccountLockAddTo addTo = new RacAccountLockAddTo();
-        addTo.setAccountId(accountId);
+        RacAccountMo    accountMo = accountSvc.getById(accountId);
+        RacLockLogAddTo addTo     = new RacLockLogAddTo();
+        addTo.setLockAccountId(accountMo.getId());
+        addTo.setRealmId(accountMo.getRealmId());
+        addTo.setLockReason("登录密码连续输入错误5次");
         addTo.setLockDatetime(LocalDateTime.now());
-        accountLockSvc.add(addTo);
+        addTo.setAutoUnlockDatetime(LocalDate.now().plusDays(1).atStartOfDay());
+        racLockLogSvc.add(addTo);
     }
 
     /**

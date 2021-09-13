@@ -22,6 +22,7 @@ import rebue.robotech.valid.ModifyGroup;
  * 账户
  *
  * @mbg.dontOverWriteAnnotation
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -38,7 +39,22 @@ public class RacAccountMo implements Serializable, Mo<Long> {
     @NotNull(groups = ModifyGroup.class, message = "账户ID不能为空")
     @PositiveOrZero(message = "账户ID不能为负数")
     private Long              id;
+    @Setter
+    @Getter
+    private Long              lockAccountId;
 
+    @Setter
+    @Getter
+    private Long              lockLogId;
+    /**
+     * 锁定原因
+     *
+     */
+    @Setter
+    @Getter
+    @NotBlank(groups = AddGroup.class, message = "锁定原因不能为空")
+    @Length(max = 100, message = "锁定原因的长度不能大于100")
+    private String            lockReason;
     /**
      * 是否启用
      *
@@ -73,9 +89,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -206,6 +222,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -215,6 +232,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -293,9 +311,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -305,9 +323,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -580,6 +598,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         sb.append(", userId=").append(userId);
         sb.append(", remark=").append(remark);
         sb.append(", orgId=").append(orgId);
+        sb.append(", code=").append(code);
         sb.append(", realmId=").append(realmId);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", signInName=").append(signInName);
@@ -599,6 +618,11 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         sb.append(", qqUnionId=").append(qqUnionId);
         sb.append(", qqNickname=").append(qqNickname);
         sb.append(", qqAvatar=").append(qqAvatar);
+        sb.append(", ddOpenId=").append(ddOpenId);
+        sb.append(", ddUnionId=").append(ddUnionId);
+        sb.append(", ddUserId=").append(ddUserId);
+        sb.append(", ddNickname=").append(ddNickname);
+        sb.append(", ddAvatar=").append(ddAvatar);
         sb.append(", isTester=").append(isTester);
         sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", updateTimestamp=").append(updateTimestamp);
@@ -630,8 +654,8 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
+        final int prime  = 31;
+        int       result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
@@ -828,5 +852,161 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     public void setRealmId(String realmId) {
         this.realmId = realmId;
+    }
+
+    /**
+     * 账户编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "账户编码的长度不能大于32")
+    private String code;
+
+    /**
+     * 账户编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * 账户编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
+     * 钉钉的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 64, message = "钉钉的OpenId的长度不能大于64")
+    private String ddOpenId;
+
+    /**
+     * 钉钉的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 64, message = "钉钉的UnionId的长度不能大于64")
+    private String ddUnionId;
+
+    /**
+     * 钉钉的UserId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 64, message = "钉钉的UserId的长度不能大于64")
+    private String ddUserId;
+
+    /**
+     * 钉钉昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 100, message = "钉钉昵称的长度不能大于100")
+    private String ddNickname;
+
+    /**
+     * 钉钉头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 300, message = "钉钉头像的长度不能大于300")
+    private String ddAvatar;
+
+    /**
+     * 钉钉的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDdOpenId() {
+        return ddOpenId;
+    }
+
+    /**
+     * 钉钉的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDdOpenId(String ddOpenId) {
+        this.ddOpenId = ddOpenId;
+    }
+
+    /**
+     * 钉钉的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDdUnionId() {
+        return ddUnionId;
+    }
+
+    /**
+     * 钉钉的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDdUnionId(String ddUnionId) {
+        this.ddUnionId = ddUnionId;
+    }
+
+    /**
+     * 钉钉的UserId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDdUserId() {
+        return ddUserId;
+    }
+
+    /**
+     * 钉钉的UserId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDdUserId(String ddUserId) {
+        this.ddUserId = ddUserId;
+    }
+
+    /**
+     * 钉钉昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDdNickname() {
+        return ddNickname;
+    }
+
+    /**
+     * 钉钉昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDdNickname(String ddNickname) {
+        this.ddNickname = ddNickname;
+    }
+
+    /**
+     * 钉钉头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDdAvatar() {
+        return ddAvatar;
+    }
+
+    /**
+     * 钉钉头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDdAvatar(String ddAvatar) {
+        this.ddAvatar = ddAvatar;
     }
 }

@@ -302,4 +302,58 @@ public class RacAccountJo implements Serializable {
     @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacRealmJo realm;
+
+    /**
+     * 账户编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "CODE", nullable = true, length = 32)
+    private String     code;
+
+    /**
+     * 钉钉的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "DD_OPEN_ID", nullable = true, length = 64)
+    private String     ddOpenId;
+
+    /**
+     * 钉钉的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "DD_UNION_ID", nullable = true, length = 64)
+    private String     ddUnionId;
+
+    /**
+     * 钉钉的UserId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "DD_USER_ID", nullable = true, length = 64)
+    private String     ddUserId;
+
+    /**
+     * 钉钉昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "DD_NICKNAME", nullable = true, length = 100)
+    private String     ddNickname;
+
+    /**
+     * 钉钉头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "DD_AVATAR", nullable = true, length = 300)
+    private String     ddAvatar;
 }

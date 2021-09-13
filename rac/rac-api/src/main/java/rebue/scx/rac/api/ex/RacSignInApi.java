@@ -9,6 +9,7 @@ import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+import rebue.scx.rac.to.ex.UnlockSignInTo;
 
 /**
  * 账户登录API
@@ -29,7 +30,9 @@ public interface RacSignInApi {
 
     /**
      * 手动删除输入登录密码错误次数
+     * 
+     * @param to
      */
-    Ro<?> handDelWrongPswdTimesOfSignIn(Long id);
+    Ro<?> handDelWrongPswdTimesOfSignIn(UnlockSignInTo to);
 
 }

@@ -14,6 +14,7 @@ import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+import rebue.scx.rac.to.ex.UnlockSignInTo;
 
 /**
  * 账户登录服务接口
@@ -46,7 +47,9 @@ public interface RacSignInSvc {
 
     /**
      * 手动删除输入登录密码错误次数
+     * 
+     * @param agentAccountId
      */
-    Boolean handDelWrongPswdTimesOfSignIn(Long accountId);
+    Boolean handDelWrongPswdTimesOfSignIn(UnlockSignInTo to);
 
 }

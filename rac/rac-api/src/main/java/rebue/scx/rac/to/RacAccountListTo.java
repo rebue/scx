@@ -243,4 +243,52 @@ public class RacAccountListTo implements Serializable {
      */
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            realmId;
+
+    /**
+     * 账户编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "账户编码的长度不能大于32")
+    private String            code;
+
+    /**
+     * 钉钉的OpenId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 64, message = "钉钉的OpenId的长度不能大于64")
+    private String            ddOpenId;
+
+    /**
+     * 钉钉的UnionId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 64, message = "钉钉的UnionId的长度不能大于64")
+    private String            ddUnionId;
+
+    /**
+     * 钉钉的UserId
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 64, message = "钉钉的UserId的长度不能大于64")
+    private String            ddUserId;
+
+    /**
+     * 钉钉昵称
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 100, message = "钉钉昵称的长度不能大于100")
+    private String            ddNickname;
+
+    /**
+     * 钉钉头像
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 300, message = "钉钉头像的长度不能大于300")
+    private String            ddAvatar;
 }

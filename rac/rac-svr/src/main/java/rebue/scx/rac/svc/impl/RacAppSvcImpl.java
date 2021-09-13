@@ -45,8 +45,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAppSvcImpl
-        extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
-        implements RacAppSvc {
+    extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
+    implements RacAppSvc {
 
     /**
      * 本服务的单例
@@ -118,7 +118,7 @@ public class RacAppSvcImpl
      */
     @Override
     public void delById(String id) {
-        RacAppMo  byId     = getById(id);
+        RacAppMo byId = getById(id);
         final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
@@ -137,7 +137,7 @@ public class RacAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacAppModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacAppMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         final RacAppMo appQo = new RacAppMo();
         appQo.setSeqNo((byte) (qo.getSeqNo() - 1));
         appQo.setRealmId(qo.getRealmId());
@@ -159,7 +159,7 @@ public class RacAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacAppModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacAppMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacAppMo appQo = new RacAppMo();
         appQo.setSeqNo((byte) (qo.getSeqNo() + 1));
@@ -183,5 +183,4 @@ public class RacAppSvcImpl
         final RacAppMo mo = OrikaUtils.map(qo, RacAppMo.class);
         return _mapper.selectSelectiveOrderBySeqNo(mo);
     }
-
 }

@@ -16,6 +16,7 @@ import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+import rebue.scx.rac.to.ex.UnlockSignInTo;
 
 /**
  * 账户登录API的实现类
@@ -51,8 +52,8 @@ public class RacSignInApiImpl implements RacSignInApi {
      * 手动删除输入登录密码错误次数
      */
     @Override
-    public Ro<?> handDelWrongPswdTimesOfSignIn(final Long id) {
-        Boolean boo = svc.handDelWrongPswdTimesOfSignIn(id);
+    public Ro<?> handDelWrongPswdTimesOfSignIn(final UnlockSignInTo to) {
+        Boolean boo = svc.handDelWrongPswdTimesOfSignIn(to);
         if (boo) {
             return new Ro<>(ResultDic.SUCCESS, "解锁密码锁定成功");
         }

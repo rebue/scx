@@ -3,11 +3,12 @@ package rebue.scx.rac.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
+import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.autoUnlockDatetime;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.id;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockAccountId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockDatetime;
-import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockOpAgentId;
-import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockOpId;
+// import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockOpAgentId;
+// import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockOpId;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.lockReason;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.racLockLog;
 import static rebue.scx.rac.mapper.RacLockLogDynamicSqlSupport.realmId;
@@ -58,8 +59,8 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(id, realmId, lockAccountId, lockOpId, lockOpAgentId, lockReason, lockDatetime, unlockReason, unlockDatetime, unlockOpId,
-        unlockOpAgentId);
+    BasicColumn[] selectList = BasicColumn.columnList(id, realmId, lockAccountId, lockReason, lockDatetime, unlockReason, unlockDatetime, unlockOpId, unlockOpAgentId,
+        autoUnlockDatetime);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -99,14 +100,13 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     @Results(id = "RacLockLogMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
         @Result(column = "REALM_ID", property = "realmId", jdbcType = JdbcType.VARCHAR),
         @Result(column = "LOCK_ACCOUNT_ID", property = "lockAccountId", jdbcType = JdbcType.BIGINT),
-        @Result(column = "LOCK_OP_ID", property = "lockOpId", jdbcType = JdbcType.BIGINT),
-        @Result(column = "LOCK_OP_AGENT_ID", property = "lockOpAgentId", jdbcType = JdbcType.BIGINT),
         @Result(column = "LOCK_REASON", property = "lockReason", jdbcType = JdbcType.VARCHAR),
         @Result(column = "LOCK_DATETIME", property = "lockDatetime", jdbcType = JdbcType.TIMESTAMP),
         @Result(column = "UNLOCK_REASON", property = "unlockReason", jdbcType = JdbcType.VARCHAR),
         @Result(column = "UNLOCK_DATETIME", property = "unlockDatetime", jdbcType = JdbcType.TIMESTAMP),
         @Result(column = "UNLOCK_OP_ID", property = "unlockOpId", jdbcType = JdbcType.BIGINT),
-        @Result(column = "UNLOCK_OP_AGENT_ID", property = "unlockOpAgentId", jdbcType = JdbcType.BIGINT)
+        @Result(column = "UNLOCK_OP_AGENT_ID", property = "unlockOpAgentId", jdbcType = JdbcType.BIGINT),
+        @Result(column = "AUTO_UNLOCK_DATETIME", property = "autoUnlockDatetime", jdbcType = JdbcType.TIMESTAMP)
     })
     List<RacLockLogMo> selectMany(SelectStatementProvider selectStatement);
 
@@ -142,10 +142,9 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default int insert(RacLockLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racLockLog,
-            c -> c.map(id).toProperty("id").map(realmId).toProperty("realmId").map(lockAccountId).toProperty("lockAccountId").map(lockOpId).toProperty("lockOpId")
-                .map(lockOpAgentId).toProperty("lockOpAgentId").map(lockReason).toProperty("lockReason").map(lockDatetime).toProperty("lockDatetime").map(unlockReason)
-                .toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId).toProperty("unlockOpId").map(unlockOpAgentId)
-                .toProperty("unlockOpAgentId"));
+            c -> c.map(id).toProperty("id").map(realmId).toProperty("realmId").map(lockAccountId).toProperty("lockAccountId").map(lockReason).toProperty("lockReason")
+                .map(lockDatetime).toProperty("lockDatetime").map(unlockReason).toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId)
+                .toProperty("unlockOpId").map(unlockOpAgentId).toProperty("unlockOpAgentId").map(autoUnlockDatetime).toProperty("autoUnlockDatetime"));
     }
 
     /**
@@ -153,10 +152,9 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default int insertMultiple(Collection<RacLockLogMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racLockLog,
-            c -> c.map(id).toProperty("id").map(realmId).toProperty("realmId").map(lockAccountId).toProperty("lockAccountId").map(lockOpId).toProperty("lockOpId")
-                .map(lockOpAgentId).toProperty("lockOpAgentId").map(lockReason).toProperty("lockReason").map(lockDatetime).toProperty("lockDatetime").map(unlockReason)
-                .toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId).toProperty("unlockOpId").map(unlockOpAgentId)
-                .toProperty("unlockOpAgentId"));
+            c -> c.map(id).toProperty("id").map(realmId).toProperty("realmId").map(lockAccountId).toProperty("lockAccountId").map(lockReason).toProperty("lockReason")
+                .map(lockDatetime).toProperty("lockDatetime").map(unlockReason).toProperty("unlockReason").map(unlockDatetime).toProperty("unlockDatetime").map(unlockOpId)
+                .toProperty("unlockOpId").map(unlockOpAgentId).toProperty("unlockOpAgentId").map(autoUnlockDatetime).toProperty("autoUnlockDatetime"));
     }
 
     /**
@@ -165,11 +163,11 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
     default int insertSelective(RacLockLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racLockLog,
             c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(realmId).toPropertyWhenPresent("realmId", record::getRealmId).map(lockAccountId)
-                .toPropertyWhenPresent("lockAccountId", record::getLockAccountId).map(lockOpId).toPropertyWhenPresent("lockOpId", record::getLockOpId).map(lockOpAgentId)
-                .toPropertyWhenPresent("lockOpAgentId", record::getLockOpAgentId).map(lockReason).toPropertyWhenPresent("lockReason", record::getLockReason).map(lockDatetime)
+                .toPropertyWhenPresent("lockAccountId", record::getLockAccountId).map(lockReason).toPropertyWhenPresent("lockReason", record::getLockReason).map(lockDatetime)
                 .toPropertyWhenPresent("lockDatetime", record::getLockDatetime).map(unlockReason).toPropertyWhenPresent("unlockReason", record::getUnlockReason).map(unlockDatetime)
                 .toPropertyWhenPresent("unlockDatetime", record::getUnlockDatetime).map(unlockOpId).toPropertyWhenPresent("unlockOpId", record::getUnlockOpId).map(unlockOpAgentId)
-                .toPropertyWhenPresent("unlockOpAgentId", record::getUnlockOpAgentId));
+                .toPropertyWhenPresent("unlockOpAgentId", record::getUnlockOpAgentId).map(autoUnlockDatetime)
+                .toPropertyWhenPresent("autoUnlockDatetime", record::getAutoUnlockDatetime));
     }
 
     /**
@@ -211,10 +209,10 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacLockLogMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId).set(realmId).equalTo(record::getRealmId).set(lockAccountId).equalTo(record::getLockAccountId).set(lockOpId)
-            .equalTo(record::getLockOpId).set(lockOpAgentId).equalTo(record::getLockOpAgentId).set(lockReason).equalTo(record::getLockReason).set(lockDatetime)
-            .equalTo(record::getLockDatetime).set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime).equalTo(record::getUnlockDatetime).set(unlockOpId)
-            .equalTo(record::getUnlockOpId).set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId);
+        return dsl.set(id).equalTo(record::getId).set(realmId).equalTo(record::getRealmId).set(lockAccountId).equalTo(record::getLockAccountId).set(lockReason)
+            .equalTo(record::getLockReason).set(lockDatetime).equalTo(record::getLockDatetime).set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime)
+            .equalTo(record::getUnlockDatetime).set(unlockOpId).equalTo(record::getUnlockOpId).set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId).set(autoUnlockDatetime)
+            .equalTo(record::getAutoUnlockDatetime);
     }
 
     /**
@@ -222,31 +220,29 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacLockLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(realmId).equalToWhenPresent(record::getRealmId).set(lockAccountId).equalToWhenPresent(record::getLockAccountId)
-            .set(lockOpId).equalToWhenPresent(record::getLockOpId).set(lockOpAgentId).equalToWhenPresent(record::getLockOpAgentId).set(lockReason)
-            .equalToWhenPresent(record::getLockReason).set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason).equalToWhenPresent(record::getUnlockReason)
-            .set(unlockDatetime).equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId).set(unlockOpAgentId)
-            .equalToWhenPresent(record::getUnlockOpAgentId);
+            .set(lockReason).equalToWhenPresent(record::getLockReason).set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason)
+            .equalToWhenPresent(record::getUnlockReason).set(unlockDatetime).equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId)
+            .set(unlockOpAgentId).equalToWhenPresent(record::getUnlockOpAgentId).set(autoUnlockDatetime).equalToWhenPresent(record::getAutoUnlockDatetime);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(RacLockLogMo record) {
-        return update(c -> c.set(realmId).equalTo(record::getRealmId).set(lockAccountId).equalTo(record::getLockAccountId).set(lockOpId).equalTo(record::getLockOpId)
-            .set(lockOpAgentId).equalTo(record::getLockOpAgentId).set(lockReason).equalTo(record::getLockReason).set(lockDatetime).equalTo(record::getLockDatetime)
-            .set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime).equalTo(record::getUnlockDatetime).set(unlockOpId).equalTo(record::getUnlockOpId)
-            .set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId).where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(realmId).equalTo(record::getRealmId).set(lockAccountId).equalTo(record::getLockAccountId).set(lockReason).equalTo(record::getLockReason)
+            .set(lockDatetime).equalTo(record::getLockDatetime).set(unlockReason).equalTo(record::getUnlockReason).set(unlockDatetime).equalTo(record::getUnlockDatetime)
+            .set(unlockOpId).equalTo(record::getUnlockOpId).set(unlockOpAgentId).equalTo(record::getUnlockOpAgentId).set(autoUnlockDatetime).equalTo(record::getAutoUnlockDatetime)
+            .where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKeySelective(RacLockLogMo record) {
-        return update(c -> c.set(realmId).equalToWhenPresent(record::getRealmId).set(lockAccountId).equalToWhenPresent(record::getLockAccountId).set(lockOpId)
-            .equalToWhenPresent(record::getLockOpId).set(lockOpAgentId).equalToWhenPresent(record::getLockOpAgentId).set(lockReason).equalToWhenPresent(record::getLockReason)
-            .set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason).equalToWhenPresent(record::getUnlockReason).set(unlockDatetime)
-            .equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId).set(unlockOpAgentId)
-            .equalToWhenPresent(record::getUnlockOpAgentId).where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(realmId).equalToWhenPresent(record::getRealmId).set(lockAccountId).equalToWhenPresent(record::getLockAccountId).set(lockReason)
+            .equalToWhenPresent(record::getLockReason).set(lockDatetime).equalToWhenPresent(record::getLockDatetime).set(unlockReason).equalToWhenPresent(record::getUnlockReason)
+            .set(unlockDatetime).equalToWhenPresent(record::getUnlockDatetime).set(unlockOpId).equalToWhenPresent(record::getUnlockOpId).set(unlockOpAgentId)
+            .equalToWhenPresent(record::getUnlockOpAgentId).set(autoUnlockDatetime).equalToWhenPresent(record::getAutoUnlockDatetime).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -254,11 +250,10 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default int deleteSelective(RacLockLogMo record) {
         return delete(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
             .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
             .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)).and(autoUnlockDatetime, isEqualToWhenPresent(record::getAutoUnlockDatetime)));
     }
 
     /**
@@ -266,11 +261,10 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default Optional<RacLockLogMo> selectOne(RacLockLogMo record) {
         return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
             .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
             .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)).and(autoUnlockDatetime, isEqualToWhenPresent(record::getAutoUnlockDatetime)));
     }
 
     /**
@@ -278,11 +272,10 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default long countSelective(RacLockLogMo record) {
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
             .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
             .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)).and(autoUnlockDatetime, isEqualToWhenPresent(record::getAutoUnlockDatetime)));
     }
 
     /**
@@ -304,11 +297,10 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      */
     default List<RacLockLogMo> selectSelective(RacLockLogMo record) {
         return select(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(realmId, isEqualToWhenPresent(record::getRealmId))
-            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockOpId, isEqualToWhenPresent(record::getLockOpId))
-            .and(lockOpAgentId, isEqualToWhenPresent(record::getLockOpAgentId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
+            .and(lockAccountId, isEqualToWhenPresent(record::getLockAccountId)).and(lockReason, isEqualToWhenPresent(record::getLockReason))
             .and(lockDatetime, isEqualToWhenPresent(record::getLockDatetime)).and(unlockReason, isEqualToWhenPresent(record::getUnlockReason))
             .and(unlockDatetime, isEqualToWhenPresent(record::getUnlockDatetime)).and(unlockOpId, isEqualToWhenPresent(record::getUnlockOpId))
-            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)));
+            .and(unlockOpAgentId, isEqualToWhenPresent(record::getUnlockOpAgentId)).and(autoUnlockDatetime, isEqualToWhenPresent(record::getAutoUnlockDatetime)));
     }
 
     /**

@@ -23,14 +23,13 @@ import rebue.scx.rac.to.RacUserPageTo;
  */
 @DubboService
 public class RacUserApiImpl extends
-        BaseApiImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserSvc>
-        implements RacUserApi {
+    BaseApiImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserSvc> implements RacUserApi {
 
     /**
      * 根据姓名和身份张号查询用户信息
-     * 
+     *
      * @param id
-     * 
+     *
      * @return
      */
     @Override

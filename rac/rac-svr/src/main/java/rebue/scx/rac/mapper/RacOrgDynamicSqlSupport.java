@@ -33,6 +33,13 @@ public final class RacOrgDynamicSqlSupport {
     public static final SqlColumn<Long> parentId = racOrg.parentId;
 
     /**
+    * 组织编码
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> code = racOrg.code;
+
+    /**
     * 领域ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -115,6 +122,8 @@ public final class RacOrgDynamicSqlSupport {
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> parentId = column("PARENT_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<String> code = column("CODE", JDBCType.VARCHAR);
 
         public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
 

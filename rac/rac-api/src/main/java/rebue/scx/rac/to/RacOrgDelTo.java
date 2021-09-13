@@ -128,4 +128,12 @@ public class RacOrgDelTo implements Serializable {
      */
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            realmId;
+
+    /**
+     * 组织编码
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 32, message = "组织编码的长度不能大于32")
+    private String            code;
 }
