@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   rac-svr:
-    image: nnzbz/spring-boot-app:1.0.3
+    image: nnzbz/spring-boot-app:1.0.4
     environment:
       # 最好使用此设定时区，其它镜像也可以使用
       - TZ=CST-8
