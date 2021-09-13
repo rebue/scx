@@ -16,12 +16,10 @@ public enum OrpTypeDic {
     /**
      * 钉钉
      */
-    DingTalk("dingtalk", "钉钉"),
+    DingTalk,
     /**
      * 微信开放平台
      */
-    WeChatOpen("wechat-open", "微信开放平台");
+    WeChatOpen;
 
-    private final String code;
-    private final String desc;
 }
