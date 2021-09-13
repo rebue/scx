@@ -131,7 +131,7 @@ public class OidcSvcImpl implements OidcSvc {
         String cookieValue = new AuthorizeInfo(aRequest).toStr();
         hResponse.addCookie(createCookie(cookieValue));
         hResponse.setStatusCode(HttpStatus.FOUND);
-        hResponse.getHeaders().setLocation(URI.create(OidcConfig.LOGIN_URL));
+        hResponse.getHeaders().setLocation(URI.create(OidcConfig.getLoginUrl()));
         return null;
     }
 
