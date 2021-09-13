@@ -24,7 +24,6 @@
 		<module>oap</module>
 		<module>orp</module>
 		<module>cap</module>
-    <module>doc</module>
         <module>bat-generator</module>
     </modules>
 
