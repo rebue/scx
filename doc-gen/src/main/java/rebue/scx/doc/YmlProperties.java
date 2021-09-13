@@ -1,9 +1,11 @@
 package rebue.scx.doc;
 
+import org.yaml.snakeyaml.Yaml;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.yaml.snakeyaml.Yaml;
+import static rebue.scx.doc.Utils.concat;
 
 public class YmlProperties {
     /**
@@ -12,20 +14,20 @@ public class YmlProperties {
      * @param pathToYmlDir 文件路径
      * @param profile      dev或者prod
      * @param fields       读取的Key
-     *
      * @return
      */
-    public static Map<String, String> getProperties(String pathToYmlDir, String profile, String... fields) {
+    public static Map<String, String> getProperties(String pathToYmlDir, String profile, String... fields)
+    {
         Map<String, String> result = new LinkedHashMap<>();
-        Yaml                yaml;
-        String              ymlStr;
+        Yaml yaml;
+        String ymlStr;
         try {
-            yaml   = new Yaml();
-            ymlStr = FileWrapper.readFileStr(pathToYmlDir + "application-" + profile + ".yml");
+            yaml = new Yaml();
+            ymlStr = Utils.readFileStr(concat(pathToYmlDir, "application-" + profile + ".yml"));
             Object ymlProperties = yaml.load(ymlStr);
 
-            yaml   = new Yaml();
-            ymlStr = FileWrapper.readFileStr(pathToYmlDir + "bootstrap-" + profile + ".yml");
+            yaml = new Yaml();
+            ymlStr = Utils.readFileStr(concat(pathToYmlDir, "bootstrap-" + profile + ".yml"));
             Object profileProperties = yaml.load(ymlStr);
 
             for (String field : fields) {
@@ -44,15 +46,16 @@ public class YmlProperties {
         return result;
     }
 
-    private static Object getValueFromYml(Object ymlProperties, String springValue, Class<?> clazz) {
+    private static Object getValueFromYml(Object ymlProperties, String springValue, Class<?> clazz)
+    {
         // springValue = springValue.substring(2, springValue.length() - 1);
         Object raw = ((LinkedHashMap) ymlProperties).get(springValue);
         if (raw != null) {
             return valueToString(clazz, raw);
         }
         String[] keys = springValue.split("\\.");
-        Object   m    = ymlProperties;
-        Object   value;
+        Object m = ymlProperties;
+        Object value;
         for (String key : keys) {
             value = ((LinkedHashMap) m).get(key);
             if (value == null) {
@@ -67,7 +70,8 @@ public class YmlProperties {
         return null;
     }
 
-    private static Object valueToString(Class<?> clazz, Object value) {
+    private static Object valueToString(Class<?> clazz, Object value)
+    {
         if (clazz == String.class) {
             if (value instanceof String) {
                 return value;
