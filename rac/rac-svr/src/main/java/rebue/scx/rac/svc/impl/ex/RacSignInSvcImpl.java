@@ -29,7 +29,6 @@ import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.svc.RacAccountLockSvc;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.RacLockLogSvc;
@@ -90,8 +89,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private RacAppSvc           appSvc;
     @Resource
     private RacOpLogSvc         opLogSvc;
-    @Resource
-    private RacAccountLockSvc   accountLockSvc;
     @Resource
     private RacLockLogSvc       racLockLogSvc;
 
