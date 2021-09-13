@@ -20,7 +20,3 @@ spring:
         server-addr: nacos1:8848,nacos2:8848,nacos3:8848
     sentinel:
       enabled: false
-
-oidc:
-  login-url: http://10.200.101.16/admin-web/?u=1#/sign-in/unified
-  cookie-domain: 10.200.101.16

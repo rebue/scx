@@ -11,16 +11,18 @@ public class OidcConfig {
     @Value("${oidc.login-url}")
     private String loginUrl;
 
-    @Value("${oidc.cookie-domain}")
-    private String cookieDomain;
+    private static OidcConfig self;
 
     @PostConstruct
     private void init()
     {
-        OidcConfig.LOGIN_URL = loginUrl;
+        OidcConfig.self = this;
     }
 
-    public static String LOGIN_URL;
+    public static String getLoginUrl()
+    {
+        return self.loginUrl;
+    }
 
     public static final String AUTH_INFO = "auth_info";
 
