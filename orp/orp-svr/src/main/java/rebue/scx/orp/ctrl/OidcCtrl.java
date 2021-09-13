@@ -46,7 +46,7 @@ public class OidcCtrl {
             @RequestParam("code") String code,
             @RequestParam("state") String state) {
         return Mono.create(cb -> {
-            oidcApi.authCode(code,state);
+            // oidcApi.authCode(code,state);
 
             Triple<String, String, ResponseCookie> pair = oidcApi.callback(code);
             if (pair.getLeft() != null) {
