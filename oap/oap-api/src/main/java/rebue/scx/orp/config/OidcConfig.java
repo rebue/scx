@@ -18,12 +18,9 @@ public class OidcConfig {
     private void init()
     {
         OidcConfig.LOGIN_URL = loginUrl;
-        OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN = cookieDomain;
     }
 
     public static String LOGIN_URL;
-
-    public static String CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN;
 
     public static final String AUTH_INFO = "auth_info";
 

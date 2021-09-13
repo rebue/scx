@@ -5,24 +5,6 @@ curator:
   connect-string: zookeeper_zoo1:2181,zookeeper_zoo2:2181,zookeeper_zoo3:2181
 
 spring:
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/orp?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: orp
-    password: orp
-  rabbitmq:
-    host: rabbitmq_rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-    virtual-host: /
-  redis:
-    password: xxxxxxxx
-    sentinel:
-      master: mymaster
-      nodes:
-        - redis_sentinel1:26379
-        - redis_sentinel2:26379
-        - redis_sentinel3:26379
   # 链路追踪采集器
   sleuth:
     sampler:
@@ -32,3 +14,12 @@ spring:
   zipkin:
     # 服务器地址
     base-url: http://zipkin:9411
+
+oidc:
+  client-id: unified-auth
+  client-secret: 123456
+  token-endpoint: http://auth.maiyuesoft.com/oap-svr/oidc/token
+  redirect-uri: http://auth.maiyuesoft.com/orp-svr/oidc/callback
+  public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx1PdAIB021x1DExsXPO7hgzE0EASZiFoQh5F4X0H8lZrdCVG+Qk6ek9Aowp4bUnAf93PiM4A0L9zjck8jOedd6gbRPifsqdtDWx4jlfy7nGUd3LUF3wFH7VwNlCTkMucetnxFuNtGMVM8rz/YCXAYv6pYi56vq7BWlNh373qhVhqxY6SBs2qo5hxWe/zpv6CqxAXSKjcCJVLQhe7jnfWGJbLPnwSTK/b/jVtic/e9rD7EdSfPF3rt5TSqEdsX0EHHUSLFLUbpDOQzSBXdyGsAHQdeytr/i5AVi3BOKV9k5h1ricIZta6KD7krxZk60o70fWDF+0DQVQD5upWEeRLdQIDAQAB
+  login-url: http://auth.maiyuesoft.com/admin-web/#/sign-in/unified
+  cookie-domain: auth.maiyuesoft.com

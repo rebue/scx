@@ -115,7 +115,6 @@ public class OidcSvcImpl implements OidcSvc {
     private static ResponseCookie createCookie(String value)
     {
         return ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, value)
-                .domain(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_DOMAIN)
                 .path("/")
                 .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                 .build();
