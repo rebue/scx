@@ -5,6 +5,9 @@ services:
     environment:
       # 最好使用此设定时区，其它镜像也可以使用
       - TZ=CST-8
+      - PROG_ARGS=--spring.profiles.active=prod
+      # - PROG_ARGS=--spring.profiles.active=hwy
+      # - JAVA_OPTS=-Xms150M -Xmx150M
     volumes:
       # 配置文件目录
       - /usr/local/jwt-svr/config/:/usr/local/myservice/config/
