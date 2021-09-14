@@ -5,17 +5,18 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
+import lombok.Getter;
 import lombok.SneakyThrows;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
+import rebue.scx.orp.core.mo.ClientMo;
 import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
+import rebue.wheel.core.GenericTypeUtils;
 import rebue.wheel.core.MapUtils;
 import rebue.wheel.net.httpclient.HttpClient;
 
@@ -30,20 +31,27 @@ import rebue.wheel.net.httpclient.HttpClient;
  */
 public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN_TO, REFRESH_ACCESS_TOKEN_RO, GET_USER_INFO_TO, GET_USER_INFO_RO> implements Strategy {
 
-    private StrategyConfig  _orpConfig;
+    @Getter
+    private Map<String, ClientMo> clients;
 
-    protected MapperFactory _mapperFactory = new DefaultMapperFactory.Builder().build();
+    private StrategyConfig        _orpConfig;
 
-    private StateCache      _stateCache;
+    private StateCache            _stateCache;
 
-    private HttpClient      _httpClient;
+    private HttpClient            _httpClient;
+
+    /**
+     * 映射工厂(用于不同类型的对象之间复制属性)
+     */
+    protected MapperFactory       _mapperFactory = new DefaultMapperFactory.Builder().build();
 
     private AbstractStrategy() {
         mapperRegister();
     }
 
-    public AbstractStrategy(final StrategyConfig orpConfig, final StateCache stateCache, final HttpClient httpClient) {
+    public AbstractStrategy(final StrategyConfig orpConfig, final Map<String, ClientMo> clients, final StateCache stateCache, final HttpClient httpClient) {
         this();
+        this.clients     = clients;
         this._orpConfig  = orpConfig;
         this._stateCache = stateCache;
         this._httpClient = httpClient;
@@ -64,7 +72,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
         final Map<String, Object> requestParams = _mapperFactory.getMapperFacade().map(authTo, Map.class);
         if (_orpConfig.getIsCheckState()) {
             final String state = UUID.randomUUID().toString();
-            _stateCache.set(authTo.getClientId(), state);
+            _stateCache.set(getOrpType().name(), authTo.getClientId(), state);
             requestParams.put("state", state);
         }
         return String.format(authUrl(), MapUtils.map2UrlParams(requestParams));
@@ -115,6 +123,40 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     }
 
     /**
+     * GET_ACCESS_TOKEN_RO泛型的class
+     */
+    @SuppressWarnings("unchecked")
+    private Class<GET_ACCESS_TOKEN_RO> GET_ACCESS_TOKEN_RO() {
+        return (Class<GET_ACCESS_TOKEN_RO>) GenericTypeUtils.getGenericClass(0);
+    }
+
+    // @SuppressWarnings("unchecked")
+    // private Class<REFRESH_ACCESS_TOKEN_TO> REFRESH_ACCESS_TOKEN_TO() {
+    // return (Class<REFRESH_ACCESS_TOKEN_TO>) GenericTypeUtils.getGenericClass(1);
+    // }
+
+    /**
+     * REFRESH_ACCESS_TOKEN_RO泛型的class
+     */
+    @SuppressWarnings("unchecked")
+    private Class<REFRESH_ACCESS_TOKEN_RO> REFRESH_ACCESS_TOKEN_RO() {
+        return (Class<REFRESH_ACCESS_TOKEN_RO>) GenericTypeUtils.getGenericClass(2);
+    }
+
+    // @SuppressWarnings("unchecked")
+    // private Class<GET_USER_INFO_TO> GET_USER_INFO_TO() {
+    // return (Class<GET_USER_INFO_TO>) GenericTypeUtils.getGenericClass(3);
+    // }
+
+    /**
+     * GET_USER_INFO_RO泛型的class
+     */
+    @SuppressWarnings("unchecked")
+    private Class<GET_USER_INFO_RO> GET_USER_INFO_RO() {
+        return (Class<GET_USER_INFO_RO>) GenericTypeUtils.getGenericClass(4);
+    }
+
+    /**
      * 映射注册
      */
     protected abstract void mapperRegister();
@@ -125,6 +167,9 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     protected void checkAuthTo(final AuthTo authTo) {
         if (StringUtils.isBlank(authTo.getClientId())) {
             throw new RuntimeExceptionX("clientId不能为空");
+        }
+        if (!this.getClients().containsKey(authTo.getClientId())) {
+            throw new RuntimeExceptionX("没有配置此clientId: " + authTo.getClientId());
         }
         if (StringUtils.isBlank(authTo.getRedirectUri())) {
             throw new RuntimeExceptionX("redirectUri不能为空");
@@ -143,9 +188,14 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
         if (StringUtils.isBlank(authCodeTo.getClientId())) {
             throw new RuntimeExceptionX("clientId不能为空");
         }
-        if (StringUtils.isBlank(authCodeTo.getClientSecret())) {
-            throw new RuntimeExceptionX("clientSecret不能为空");
+
+        final ClientMo clientMo = this.getClients().get(authCodeTo.getClientId());
+        if (clientMo == null) {
+            throw new RuntimeExceptionX("没有配置此clientId: " + authCodeTo.getClientId());
         }
+        // 填充secret
+        authCodeTo.setClientSecret(clientMo.getSecret());
+
         if (StringUtils.isBlank(authCodeTo.getCode())) {
             throw new RuntimeExceptionX("code不能为空");
         }
@@ -153,11 +203,9 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
             if (StringUtils.isBlank(authCodeTo.getState())) {
                 throw new RuntimeExceptionX("state不能为空");
             }
-            if (_orpConfig.getIsCheckState()) {
-                final String state = _stateCache.get(authCodeTo.getClientId());
-                if (state == null || !state.equals(authCodeTo.getState())) {
-                    throw new RuntimeExceptionX("state错误");
-                }
+            final String state = _stateCache.get(getOrpType().name(), authCodeTo.getClientId());
+            if (state == null || !state.equals(authCodeTo.getState())) {
+                throw new RuntimeExceptionX("state错误: " + state);
             }
         }
     }
@@ -166,6 +214,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
      * 填充AuthCodeTo默认的值
      */
     protected void fillAuthCodeToDefaultValue(final AuthCodeTo authCodeTo) {
+
     }
 
     /**
@@ -174,8 +223,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     @SneakyThrows
     protected GET_ACCESS_TOKEN_RO getAccessToken(final AuthCodeTo authCodeTo) {
         // 发出获取AccessToken请求
-        GET_ACCESS_TOKEN_RO getAccessTokenRo = sendGet(getAccessTokenUrl(), authCodeTo, new TypeReference<GET_ACCESS_TOKEN_RO>() {
-        });
+        GET_ACCESS_TOKEN_RO getAccessTokenRo = sendGet(getAccessTokenUrl(), authCodeTo, GET_ACCESS_TOKEN_RO());
         // 检查获取AccessToken的结果是否正确
         checkGetAccessTokenRo(getAccessTokenRo);
         // 刷新AccessToken
@@ -203,8 +251,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     @SneakyThrows
     protected void refreshAccessToken(final GET_ACCESS_TOKEN_RO getAccessTokenRo, final REFRESH_ACCESS_TOKEN_TO refreshAccessTokenTo) {
         // 发出刷新AccessToken请求
-        REFRESH_ACCESS_TOKEN_RO refreshAccessTokenRo = sendGet(refreshAccessTokenUrl(), refreshAccessTokenTo, new TypeReference<REFRESH_ACCESS_TOKEN_RO>() {
-        });
+        REFRESH_ACCESS_TOKEN_RO refreshAccessTokenRo = sendGet(refreshAccessTokenUrl(), refreshAccessTokenTo, REFRESH_ACCESS_TOKEN_RO());
         // 检查刷新AccessToken的结果是否正确
         checkRefreshAccessTokenRo(refreshAccessTokenRo);
         // 更新AccessToken
@@ -246,8 +293,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
      * 发送获取用户信息的请求
      */
     protected GET_USER_INFO_RO sendGetUserInfo(final GET_USER_INFO_TO getUserInfoTo) {
-        return sendGet(getUserInfoUrl(), getUserInfoTo, new TypeReference<GET_USER_INFO_RO>() {
-        });
+        return sendGet(getUserInfoUrl(), getUserInfoTo, GET_USER_INFO_RO());
     }
 
     /**
@@ -271,10 +317,20 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     /**
      * 发送Get请求
      */
-    private <T> T sendGet(final String url, final Object requestPamams, final TypeReference<T> valueTypeRef) {
+    protected <T> T sendGet(final String url, final Object requestPamams, final Class<T> clazz) {
         @SuppressWarnings("unchecked")
         final Map<String, Object> map = _mapperFactory.getMapperFacade().map(requestPamams, Map.class);
-        return _httpClient.getWithJsonResponse(url, map, valueTypeRef);
+        // return _httpClient.getWithJsonResponse(url, map, clazz, "ISO-8859-1");
+        return _httpClient.getWithJsonResponse(url, map, clazz);
+    }
+
+    /**
+     * 发送Get请求
+     */
+    protected <T> T sendGet(final String url, final Object requestPamams, final Class<T> clazz, final String encoding) {
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> map = _mapperFactory.getMapperFacade().map(requestPamams, Map.class);
+        return _httpClient.getWithJsonResponse(url, map, clazz, encoding);
     }
 
 }

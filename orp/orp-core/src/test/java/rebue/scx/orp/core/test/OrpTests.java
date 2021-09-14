@@ -1,6 +1,8 @@
 package rebue.scx.orp.core.test;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -12,6 +14,7 @@ import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
 import rebue.scx.orp.core.dic.OrpTypeDic;
 import rebue.scx.orp.core.factory.StrategyFactory;
+import rebue.scx.orp.core.mo.ClientMo;
 import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.strategy.Strategy;
 import rebue.scx.orp.core.to.AuthCodeTo;
@@ -46,14 +49,19 @@ public class OrpTests {
      */
     @SneakyThrows
     public static void test01() {
-        String         clientId     = "ding****************";
-        String         clientSecret = "********************";
-        String         redirectUri  = "http://www.abc.com";
+        // String clientId = "ding****************";
+        // String clientSecret = "********************";
+        String                clientId     = "dingsahvlqybvb44jd50";
+        String                clientSecret = "hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm80";
+        String                redirectUri  = "http://www.abc.com";
 
-        StrategyConfig orpConfig    = StrategyConfig.builder().isCheckState(true).build();
-        StateCache     stateCache   = new StateCache(stringRedisTemplate, Duration.ofMinutes(5));
-        Strategy       strategy     = StrategyFactory.getStrategy(OrpTypeDic.DingTalk, orpConfig, stateCache, httpClient);
-        String         authUrl      = strategy.getAuthUrl(AuthTo.builder().clientId(clientId).redirectUri(redirectUri).build());
+        Map<String, ClientMo> clients      = new HashMap<>();
+        clients.put(clientId, ClientMo.builder().id(clientId).secret(clientSecret).build());
+
+        StrategyConfig orpConfig  = StrategyConfig.builder().isCheckState(true).build();
+        StateCache     stateCache = new StateCache(stringRedisTemplate, Duration.ofMinutes(5));
+        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.DingTalk, clients, orpConfig, stateCache, httpClient);
+        String         authUrl    = strategy.getAuthUrl(AuthTo.builder().clientId(clientId).redirectUri(redirectUri).build());
         log.info("获取钉钉认证的URL为: {}", authUrl);
 
         String code;
@@ -70,7 +78,6 @@ public class OrpTests {
 
         UserInfoRo ro = strategy.authCode(AuthCodeTo.builder()
                 .clientId(clientId)
-                .clientSecret(clientSecret)
                 .code(code)
                 .state(state)
                 .build());
@@ -82,14 +89,20 @@ public class OrpTests {
      */
     @SneakyThrows
     public static void test02() {
-        String         clientId     = "wx****************";
-        String         clientSecret = "******************";
-        String         redirectUri  = "http://www.abc.com";
+        // String clientId = "wx****************";
+        // String clientSecret = "******************";
+        // String redirectUri = "http://www.abc.com";
+        String                clientId     = "wxc9bcdf70da391cdd";
+        String                clientSecret = "4a215a29ccf5d91c2c8ea2af12a57e93";
+        String                redirectUri  = "http://maiyuesoft.com";
 
-        StrategyConfig orpConfig    = StrategyConfig.builder().isCheckState(true).build();
-        StateCache     stateCache   = new StateCache(stringRedisTemplate, Duration.ofMinutes(5));
-        Strategy       strategy     = StrategyFactory.getStrategy(OrpTypeDic.WeChatOpen, orpConfig, stateCache, httpClient);
-        String         authUrl      = strategy.getAuthUrl(AuthTo.builder().clientId(clientId).redirectUri(redirectUri).build());
+        Map<String, ClientMo> clients      = new HashMap<>();
+        clients.put(clientId, ClientMo.builder().id(clientId).secret(clientSecret).build());
+
+        StrategyConfig orpConfig  = StrategyConfig.builder().isCheckState(true).build();
+        StateCache     stateCache = new StateCache(stringRedisTemplate, Duration.ofMinutes(5));
+        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.WeChatOpen, clients, orpConfig, stateCache, httpClient);
+        String         authUrl    = strategy.getAuthUrl(AuthTo.builder().clientId(clientId).redirectUri(redirectUri).build());
         log.info("获取微信认证的URL为: {}", authUrl);
 
         String code;
@@ -106,7 +119,6 @@ public class OrpTests {
 
         UserInfoRo ro = strategy.authCode(AuthCodeTo.builder()
                 .clientId(clientId)
-                .clientSecret(clientSecret)
                 .code(code)
                 .state(state)
                 .build());

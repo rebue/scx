@@ -29,6 +29,11 @@ public class WechatGetAccessTokenRo {
     private String  openid;
 
     /**
+     * 当且仅当该网站应用已获得该用户的userinfo授权时，才会出现该字段
+     */
+    private String  unionid;
+
+    /**
      * 用户授权的作用域，使用逗号（,）分隔
      */
     private String  scope;

@@ -1,10 +1,10 @@
 package rebue.scx.orp.core.to;
 
+import java.io.Serializable;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 
 @Data
 @Accessors(chain = true)

@@ -8,10 +8,8 @@ import rebue.scx.orp.core.strategy.Strategy;
 
 @Data
 @Builder
-public class OrpBeans {
+public class OrpStrategies {
 
-    Map<String, String>   apps;
-
-    Map<String, Strategy> strategies;
+    Map<String, Strategy> items;
 
 }

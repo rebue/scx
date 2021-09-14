@@ -1,5 +1,6 @@
 package rebue.scx.orp.core.strategy;
 
+import rebue.scx.orp.core.dic.OrpTypeDic;
 import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
@@ -11,6 +12,11 @@ import rebue.scx.orp.core.to.AuthTo;
  *
  */
 public interface Strategy {
+
+    /**
+     * 获取Orp类型
+     */
+    OrpTypeDic getOrpType();
 
     /**
      * 获取认证Url(获取认证Url后前端跳转此URL)

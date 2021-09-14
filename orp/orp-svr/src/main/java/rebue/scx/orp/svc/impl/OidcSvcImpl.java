@@ -29,7 +29,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.oap.api.OapAppApi;
 import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.oap.mo.OapAppMo;
-import rebue.scx.orp.config.OrpBeans;
+import rebue.scx.orp.config.OrpStrategies;
 import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
@@ -43,30 +43,30 @@ import rebue.wheel.turing.JwtUtils;
 public class OidcSvcImpl implements OidcSvc {
 
     @Value("${oidc.client-id}")
-    private String       clientId;
+    private String        clientId;
 
     @Value("${oidc.client-secret}")
-    private String       clientSecret;
+    private String        clientSecret;
 
     @Value("${oidc.token-endpoint}")
-    private String       tokenEndpoint;
+    private String        tokenEndpoint;
 
     @Value("${oidc.public-key}")
-    private String       publicKeyStr;
+    private String        publicKeyStr;
 
     @Value("${oidc.redirect-uri}")
-    private String       redirectUri;
+    private String        redirectUri;
 
-    private RSAPublicKey publicKey;
-
-    @DubboReference
-    private RacAppApi    racAppApi;
+    private RSAPublicKey  publicKey;
 
     @DubboReference
-    private OapAppApi    oapAppApi;
+    private RacAppApi     racAppApi;
+
+    @DubboReference
+    private OapAppApi     oapAppApi;
 
     @Resource
-    private OrpBeans     orpBeans;
+    private OrpStrategies strategy;
 
     @PostConstruct
     private void init() throws Exception {
@@ -135,7 +135,7 @@ public class OidcSvcImpl implements OidcSvc {
      */
     @Override
     public String getAuthUrl(final String orpType, final String clientId, final String redirectUri) {
-        return orpBeans.getStrategies().get(orpType).getAuthUrl(AuthTo.builder()
+        return strategy.getItems().get(orpType).getAuthUrl(AuthTo.builder()
                 .clientId(clientId)
                 .redirectUri(redirectUri)
                 .build());
@@ -146,10 +146,8 @@ public class OidcSvcImpl implements OidcSvc {
      */
     @Override
     public UserInfoRo authCode(final String orpType, final String clientId, final String code, final String state) {
-        final String secret = orpBeans.getApps().get(clientId);
-        return orpBeans.getStrategies().get(orpType).authCode(AuthCodeTo.builder()
+        return strategy.getItems().get(orpType).authCode(AuthCodeTo.builder()
                 .clientId(clientId)
-                .clientSecret(secret)
                 .code(code)
                 .state(state)
                 .build());

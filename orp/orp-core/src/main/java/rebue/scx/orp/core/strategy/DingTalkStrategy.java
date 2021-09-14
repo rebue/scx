@@ -1,24 +1,32 @@
 package rebue.scx.orp.core.strategy;
 
+import java.util.Arrays;
+import java.util.Map;
+
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.request.OapiSnsGetuserinfoBycodeRequest;
 import com.dingtalk.api.response.OapiSnsGetuserinfoBycodeResponse;
+
 import lombok.SneakyThrows;
 import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
+import rebue.scx.orp.core.dic.OrpTypeDic;
+import rebue.scx.orp.core.mo.ClientMo;
 import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.net.httpclient.HttpClient;
 
-import java.util.Arrays;
-import java.util.Map;
-
 /**
  * 钉钉
  */
 public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthCodeTo, OapiSnsGetuserinfoBycodeResponse> {
+
+    @Override
+    public OrpTypeDic getOrpType() {
+        return OrpTypeDic.DingTalk;
+    }
 
     /**
      * 认证的URL
@@ -36,8 +44,8 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
         return "https://oapi.dingtalk.com/sns/getuserinfo_bycode";
     }
 
-    public DingTalkStrategy(StrategyConfig orpConfig, StateCache stateCache, HttpClient httpClient) {
-        super(orpConfig, stateCache, httpClient);
+    public DingTalkStrategy(final StrategyConfig orpConfig, final Map<String, ClientMo> clients, final StateCache stateCache, final HttpClient httpClient) {
+        super(orpConfig, clients, stateCache, httpClient);
     }
 
     /**
@@ -58,7 +66,7 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      * 填充AuthTo默认的值
      */
     @Override
-    protected void fillAuthToDefaultValue(AuthTo authTo) {
+    protected void fillAuthToDefaultValue(final AuthTo authTo) {
         authTo.setResponseType("code");
         authTo.setScopes(Arrays.asList("snsapi_login"));
     }
@@ -67,7 +75,7 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      * 获取AccessToken
      */
     @Override
-    protected AuthCodeTo getAccessToken(AuthCodeTo authCodeTo) {
+    protected AuthCodeTo getAccessToken(final AuthCodeTo authCodeTo) {
         return authCodeTo;
     }
 
@@ -75,7 +83,7 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      * 生成获取用户信息的参数
      */
     @Override
-    protected AuthCodeTo genGetUserInfoTo(AuthCodeTo authCodeTo) {
+    protected AuthCodeTo genGetUserInfoTo(final AuthCodeTo authCodeTo) {
         return authCodeTo;
     }
 
@@ -84,7 +92,7 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      */
     @SneakyThrows
     @Override
-    protected OapiSnsGetuserinfoBycodeResponse sendGetUserInfo(AuthCodeTo getUserInfoTo) {
+    protected OapiSnsGetuserinfoBycodeResponse sendGetUserInfo(final AuthCodeTo getUserInfoTo) {
         // 通过临时授权码获取授权用户的个人信息
         DefaultDingTalkClient           client           = new DefaultDingTalkClient(getUserInfoUrl());
         OapiSnsGetuserinfoBycodeRequest reqBycodeRequest = new OapiSnsGetuserinfoBycodeRequest();
@@ -97,7 +105,7 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      * 检查获取用户信息的结果是否正确
      */
     @Override
-    protected void checkGetUserInfoRo(OapiSnsGetuserinfoBycodeResponse getUserInfoRo) {
+    protected void checkGetUserInfoRo(final OapiSnsGetuserinfoBycodeResponse getUserInfoRo) {
         if (!getUserInfoRo.isSuccess()) {
             throw new RuntimeExceptionX("获取用户信息错误: 钉钉返回错误("
                     + getUserInfoRo.getErrcode() + ", "
@@ -110,11 +118,12 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      * 转换不同策略的用户信息为统一的用户信息
      */
     @Override
-    protected UserInfoRo convertUserInfo(OapiSnsGetuserinfoBycodeResponse getUserInfoRo) {
+    protected UserInfoRo convertUserInfo(final OapiSnsGetuserinfoBycodeResponse getUserInfoRo) {
         return UserInfoRo.builder()
                 .openId(getUserInfoRo.getUserInfo().getOpenid())
                 .unionId(getUserInfoRo.getUserInfo().getUnionid())
                 .nickname(getUserInfoRo.getUserInfo().getNick())
                 .build();
     }
+
 }

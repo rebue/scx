@@ -21,26 +21,18 @@ import rebue.wheel.net.httpclient.HttpClient;
 public class OrpConfig {
 
     @Bean
-    public OrpBeans getOrpBeans(final OrpProperties orpProperties, final StringRedisTemplate stringRedisTemplate,
+    public OrpStrategies getOrpStategies(final OrpProperties orpProperties, final StringRedisTemplate stringRedisTemplate,
             final HttpClient httpClient) {
-
-        final Map<String, String> apps = new HashMap<>();
-
-        orpProperties.getApps().forEach((appid, secret) -> {
-            apps.put(appid, secret);
-        });
 
         final StateCache            stateCache = new StateCache(stringRedisTemplate, orpProperties.getStateCacheExpiration());
 
         final Map<String, Strategy> strategies = new HashMap<>();
-
-        orpProperties.getStrategies().forEach((key, strategyProperies) -> {
+        orpProperties.getStrategies().forEach((strategyName, strategyProperies) -> {
             final StrategyConfig orpConfig = StrategyConfig.builder().isCheckState(strategyProperies.getIsCheckState()).build();
-            strategies.put(key, StrategyFactory.getStrategy(OrpTypeDic.valueOf(key), orpConfig, stateCache, httpClient));
-
+            strategies.put(strategyName, StrategyFactory.getStrategy(OrpTypeDic.valueOf(strategyName), strategyProperies.getClients(), orpConfig, stateCache, httpClient));
         });
 
-        return OrpBeans.builder().apps(apps).strategies(strategies).build();
+        return OrpStrategies.builder().items(strategies).build();
     }
 
 }

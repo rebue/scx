@@ -1,7 +1,12 @@
 package rebue.scx.orp.core.strategy;
 
+import java.util.Arrays;
+import java.util.Map;
+
 import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
+import rebue.scx.orp.core.dic.OrpTypeDic;
+import rebue.scx.orp.core.mo.ClientMo;
 import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.ro.WechatGetAccessTokenRo;
 import rebue.scx.orp.core.ro.WechatGetUserInfoRo;
@@ -12,13 +17,15 @@ import rebue.scx.orp.core.to.WechatRefreshAccessTokenTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.net.httpclient.HttpClient;
 
-import java.util.Arrays;
-import java.util.Map;
-
 /**
  * 微信开放平台
  */
 public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo, WechatRefreshAccessTokenTo, WechatGetAccessTokenRo, WechatGetUserInfoTo, WechatGetUserInfoRo> {
+
+    @Override
+    public OrpTypeDic getOrpType() {
+        return OrpTypeDic.WeChatOpen;
+    }
 
     /**
      * 认证的URL
@@ -52,8 +59,8 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
         return "https://api.weixin.qq.com/sns/userinfo?%s";
     }
 
-    public WechatOpenStrategy(StrategyConfig orpConfig, StateCache stateCache, HttpClient httpClient) {
-        super(orpConfig, stateCache, httpClient);
+    public WechatOpenStrategy(final StrategyConfig orpConfig, final Map<String, ClientMo> clients, final StateCache stateCache, final HttpClient httpClient) {
+        super(orpConfig, clients, stateCache, httpClient);
     }
 
     /**
@@ -68,18 +75,27 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
                 .field("scopes", "scope")
                 .field("redirectUri", "redirect_uri")
                 .byDefault().register();
-        // 认证授权码参数转换为Map类型的请求参数
+        // 认证授权码的参数转换为Map类型的请求参数
         _mapperFactory.classMap(AuthCodeTo.class, Map.class)
                 .field("clientId", "appid")
                 .field("clientSecret", "secret")
                 .field("grantType", "grant_type")
                 .exclude("state")
                 .byDefault().register();
+        // 刷新AccessToken的参数转换为Map类型的请求参数
+        _mapperFactory.classMap(WechatRefreshAccessTokenTo.class, Map.class)
+                .field("clientId", "appid")
+                .field("grantType", "grant_type")
+                .field("refreshToken", "refresh_token")
+                .byDefault().register();
+        // 不同策略获取用户信息的参数转换为Map类型的请求参数
+        _mapperFactory.classMap(WechatGetUserInfoTo.class, Map.class)
+                .field("accessToken", "access_token")
+                .byDefault().register();
         // 不同策略获取用户信息的结果转换为统一的用户信息的结果
         _mapperFactory.classMap(WechatGetUserInfoRo.class, UserInfoRo.class)
                 .field("openid", "openId")
                 .field("unionid", "unionId")
-                .field("nickname", "nickname")
                 .field("headimgurl", "avatar")
                 .byDefault().register();
     }
@@ -88,7 +104,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 填充AuthTo默认的值
      */
     @Override
-    protected void fillAuthToDefaultValue(AuthTo authTo) {
+    protected void fillAuthToDefaultValue(final AuthTo authTo) {
         authTo.setResponseType("code");
         authTo.setScopes(Arrays.asList("snsapi_login"));
     }
@@ -97,7 +113,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 填充AuthCodeTo默认的值
      */
     @Override
-    protected void fillAuthCodeToDefaultValue(AuthCodeTo authCodeTo) {
+    protected void fillAuthCodeToDefaultValue(final AuthCodeTo authCodeTo) {
         authCodeTo.setGrantType("authorization_code");
     }
 
@@ -105,7 +121,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 检查获取AccessToken的结果是否正确
      */
     @Override
-    protected void checkGetAccessTokenRo(WechatGetAccessTokenRo getAccessTokenRo) {
+    protected void checkGetAccessTokenRo(final WechatGetAccessTokenRo getAccessTokenRo) {
         if (getAccessTokenRo.getErrcode() != null && !getAccessTokenRo.getErrcode().equals(0L)) {
             throw new RuntimeExceptionX("获取AccessToken错误: 微信返回错误("
                     + getAccessTokenRo.getErrcode() + ", "
@@ -117,7 +133,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 生成刷新AccessToken的参数
      */
     @Override
-    protected WechatRefreshAccessTokenTo genRefreshAccessTokenTo(AuthCodeTo authCodeTo, WechatGetAccessTokenRo getAccessTokenRo) {
+    protected WechatRefreshAccessTokenTo genRefreshAccessTokenTo(final AuthCodeTo authCodeTo, final WechatGetAccessTokenRo getAccessTokenRo) {
         return WechatRefreshAccessTokenTo.builder()
                 .clientId(authCodeTo.getClientId())
                 .grantType("refresh_token")
@@ -129,7 +145,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 检查刷新AccessToken的结果是否正确
      */
     @Override
-    protected void checkRefreshAccessTokenRo(WechatGetAccessTokenRo refreshAccessTokenRo) {
+    protected void checkRefreshAccessTokenRo(final WechatGetAccessTokenRo refreshAccessTokenRo) {
         if (refreshAccessTokenRo.getErrcode() != null && !refreshAccessTokenRo.getErrcode().equals(0L)) {
             throw new RuntimeExceptionX("刷新AccessToken错误: 微信返回错误("
                     + refreshAccessTokenRo.getErrcode() + ", "
@@ -141,7 +157,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 更新AccessToken
      */
     @Override
-    protected void updateAccessToken(WechatGetAccessTokenRo getAccessTokenRo, WechatGetAccessTokenRo refreshAccessTokenRo) {
+    protected void updateAccessToken(final WechatGetAccessTokenRo getAccessTokenRo, final WechatGetAccessTokenRo refreshAccessTokenRo) {
         getAccessTokenRo.setAccessToken(refreshAccessTokenRo.getAccessToken());
     }
 
@@ -149,18 +165,27 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 生成获取用户信息的参数
      */
     @Override
-    protected WechatGetUserInfoTo genGetUserInfoTo(WechatGetAccessTokenRo getAccessTokenRo) {
+    protected WechatGetUserInfoTo genGetUserInfoTo(final WechatGetAccessTokenRo getAccessTokenRo) {
         return WechatGetUserInfoTo.builder()
                 .accessToken(getAccessTokenRo.getAccessToken())
                 .openid(getAccessTokenRo.getOpenid())
+                .lang("zh_CN")
                 .build();
+    }
+
+    /**
+     * 发送获取用户信息的请求
+     */
+    @Override
+    protected WechatGetUserInfoRo sendGetUserInfo(final WechatGetUserInfoTo getUserInfoTo) {
+        return sendGet(getUserInfoUrl(), getUserInfoTo, WechatGetUserInfoRo.class, "ISO-8859-1");
     }
 
     /**
      * 检查获取用户信息的结果是否正确
      */
     @Override
-    protected void checkGetUserInfoRo(WechatGetUserInfoRo wechatGetUserInfoRo) {
+    protected void checkGetUserInfoRo(final WechatGetUserInfoRo wechatGetUserInfoRo) {
         if (wechatGetUserInfoRo.getErrcode() != null && !wechatGetUserInfoRo.getErrcode().equals(0L)) {
             throw new RuntimeExceptionX("获取用户信息错误: 微信返回错误("
                     + wechatGetUserInfoRo.getErrcode() + ", "
@@ -172,7 +197,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 设置Token信息
      */
     @Override
-    protected void setTokenInfo(UserInfoRo userInfo, WechatGetAccessTokenRo wechatGetAccessTokenRo) {
+    protected void setTokenInfo(final UserInfoRo userInfo, final WechatGetAccessTokenRo wechatGetAccessTokenRo) {
         userInfo.setAccessToken(wechatGetAccessTokenRo.getAccessToken());
     }
 }
