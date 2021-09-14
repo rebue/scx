@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/11 12:28:07                           */
+/* Created on:     2021/9/14 14:24:36                           */
 /*==============================================================*/
 
 
@@ -165,7 +165,7 @@ create table RAC_DISABLE_LOG
    DISABLE_DATETIME     datetime not null  comment '禁用时间',
    ENABLE_REASON        varchar(100)  comment '启用原因',
    ENABLE_DATETIME      datetime  comment '启用时间',
-   primary key (ENABLE_OP_ID, ACCOUNT_ID, DISABLE_OP_ID, ID)
+   primary key (ID)
 );
 
 alter table RAC_DISABLE_LOG comment '账户启/禁用日志';
