@@ -15,13 +15,13 @@ import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
-import rebue.scx.rac.to.RacAccountDisableTo;
-import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.RacDisableLogAddTo;
+import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -31,8 +31,8 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-    implements RacAccountApi {
+        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+        implements RacAccountApi {
 
     /**
      * 修改账户登录密码
@@ -51,7 +51,7 @@ public class RacAccountApiImpl extends
      * @param to 启用的具体数据
      */
     @Override
-    public Ro<?> enable(final RacAccountEnableTo to) {
+    public Ro<?> enable(final RacDisableLogModifyTo to) {
         _svc.enable(to);
         return new Ro<>(ResultDic.SUCCESS, "启用账户成功");
     }
@@ -62,7 +62,7 @@ public class RacAccountApiImpl extends
      * @param to 禁用的具体数据
      */
     @Override
-    public Ro<?> disable(final RacAccountDisableTo to) {
+    public Ro<?> disable(final RacDisableLogAddTo to) {
         _svc.disable(to);
         return new Ro<>(ResultDic.SUCCESS, "禁用账户成功");
     }

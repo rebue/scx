@@ -301,6 +301,7 @@ public class OapAppSvcImpl
         oneMo.setIpAddrs(this.getIpApprs(oneMo.getId()));
         // 查询重定向地址
         oneMo.setRedirectUris(this.getUris(oneMo.getId()));
+        oneMo.setSecret(null);
         return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", oneMo);
     }
 
@@ -314,14 +315,17 @@ public class OapAppSvcImpl
     public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
         // 查询所有应用
         RacAppListTo              racAppListQo = new RacAppListTo();
-        List<RacAppMo>            racAppList   = racAppApi.listOrderBySeqNo(racAppListQo).getExtra().getList();
+        List<RacAppMo>            racAppList   = racAppApi.listOrderBySeqNo(racAppListQo).getExtra().getList().stream().map(item -> {
+                                                   item.setMenu(null);
+                                                   return item;
+                                               }).collect(Collectors.toList());
         // 查询所有认证应用
         List<OapAppMo>            oapAppList   = thisSvc.listAll().stream().map(item -> {
                                                    OapAppMoEx moEx = OrikaUtils.map(item, OapAppMoEx.class);
-                                                   moEx.setIpAddrs(this.getIpApprs(item.getId()));
-                                                   moEx.setRedirectUris(this.getUris(item.getId()));
+                                                   // moEx.setIpAddrs(this.getIpApprs(item.getId()));
+                                                   // moEx.setRedirectUris(this.getUris(item.getId()));
                                                    // 不显示在前端
-                                                   moEx.setSecret(null);
+                                                   // moEx.setSecret(null);
                                                    return moEx;
                                                }).collect(Collectors.toList());
         OapAppListAndRacAppListRa ra           = new OapAppListAndRacAppListRa();

@@ -13,27 +13,6 @@ public final class RacDisableLogDynamicSqlSupport {
     public static final RacDisableLog racDisableLog = new RacDisableLog();
 
     /**
-    * 启用操作员ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Long> enableOpId = racDisableLog.enableOpId;
-
-    /**
-    * 禁用账户ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Long> accountId = racDisableLog.accountId;
-
-    /**
-    * 禁用操作员ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Long> disableOpId = racDisableLog.disableOpId;
-
-    /**
     * 日志ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -60,6 +39,27 @@ public final class RacDisableLogDynamicSqlSupport {
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Long> enableOpAgentId = racDisableLog.enableOpAgentId;
+
+    /**
+    * 启用操作员ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> enableOpId = racDisableLog.enableOpId;
+
+    /**
+    * 禁用账户ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> accountId = racDisableLog.accountId;
+
+    /**
+    * 禁用操作员ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> disableOpId = racDisableLog.disableOpId;
 
     /**
     * 禁用原因
@@ -90,12 +90,6 @@ public final class RacDisableLogDynamicSqlSupport {
     public static final SqlColumn<LocalDateTime> enableDatetime = racDisableLog.enableDatetime;
 
     public static final class RacDisableLog extends SqlTable {
-        public final SqlColumn<Long> enableOpId = column("ENABLE_OP_ID", JDBCType.BIGINT);
-
-        public final SqlColumn<Long> accountId = column("ACCOUNT_ID", JDBCType.BIGINT);
-
-        public final SqlColumn<Long> disableOpId = column("DISABLE_OP_ID", JDBCType.BIGINT);
-
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
@@ -103,6 +97,12 @@ public final class RacDisableLogDynamicSqlSupport {
         public final SqlColumn<Long> disableOpAgentId = column("DISABLE_OP_AGENT_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> enableOpAgentId = column("ENABLE_OP_AGENT_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> enableOpId = column("ENABLE_OP_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> accountId = column("ACCOUNT_ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> disableOpId = column("DISABLE_OP_ID", JDBCType.BIGINT);
 
         public final SqlColumn<String> disableReason = column("DISABLE_REASON", JDBCType.VARCHAR);
 

@@ -5,7 +5,6 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +41,6 @@ import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mapper.RacPermCommandMapper;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.mo.RacPermCommandMo;
 import rebue.scx.rac.mo.RacUserMo;
@@ -50,20 +48,19 @@ import rebue.scx.rac.mo.ex.RacAccountExMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
-import rebue.scx.rac.svc.RacLockLogSvc;
+import rebue.scx.rac.svc.RacDisableLogSvc;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.svc.RacPermMenuSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
-import rebue.scx.rac.to.RacAccountDisableTo;
-import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
-import rebue.scx.rac.to.RacLockLogAddTo;
+import rebue.scx.rac.to.RacDisableLogAddTo;
+import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.scx.rac.util.PswdUtils;
@@ -89,8 +86,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAccountSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
-    implements RacAccountSvc {
+        BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
+        implements RacAccountSvc {
 
     /**
      * 本服务的单例
@@ -109,7 +106,7 @@ public class RacAccountSvcImpl extends
     private RacPermMenuSvc       permMenuSvc;
 
     @Resource
-    private RacLockLogSvc        lockLogSvc;
+    private RacDisableLogSvc     disableLogSvc;
 
     @Resource
     private RacOrgAccountMapper  orgAccountMapper;
@@ -205,21 +202,17 @@ public class RacAccountSvcImpl extends
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void enable(final RacAccountEnableTo to) {
-        final RacAccountMo lockAccount = thisSvc.getById(to.getLockAccountId());
-        if (lockAccount != null) {
-            if (!lockAccount.getIsEnabled()) {
+    public void enable(final RacDisableLogModifyTo to) {
+        final RacAccountMo eableAccount = thisSvc.getById(to.getAccountId());
+        if (eableAccount != null) {
+            if (!eableAccount.getIsEnabled()) {
                 final RacAccountMo mo = new RacAccountMo();
-                mo.setId(to.getLockAccountId());
-                mo.setIsEnabled(to.getIsEnabled());
-                final RacLockLogMo qo = new RacLockLogMo();
-                qo.setRealmId(to.getRealmId());
-                qo.setUnlockOpId(to.getUnlockOpId());
-                qo.setUnlockDatetime(LocalDateTime.now());
-                qo.setUnlockReason(to.getUnlockReason());
-                qo.setLockAccountId(to.getLockAccountId());
+                mo.setId(to.getAccountId());
+                mo.setIsEnabled(!eableAccount.getIsEnabled());
+                to.setRealmId(to.getRealmId());
+                to.setAccountId(to.getAccountId());
                 // 启用时添加锁定日志
-                lockLogSvc.updateLockLog(qo);
+                disableLogSvc.updateDisableLog(to);
                 _mapper.updateByPrimaryKeySelective(mo);
             }
             else {
@@ -238,21 +231,16 @@ public class RacAccountSvcImpl extends
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void disable(final RacAccountDisableTo to) {
-        final RacAccountMo lockAccount = thisSvc.getById(to.getLockAccountId());
-        if (lockAccount != null) {
-            if (lockAccount.getIsEnabled()) {
+    public void disable(final RacDisableLogAddTo to) {
+        final RacAccountMo disableAccount = thisSvc.getById(to.getAccountId());
+        if (disableAccount != null) {
+            if (disableAccount.getIsEnabled()) {
                 final RacAccountMo mo = new RacAccountMo();
-                mo.setId(to.getLockAccountId());
-                mo.setIsEnabled(to.getIsEnabled());
-                final RacLockLogAddTo ato = new RacLockLogAddTo();
-                ato.setRealmId(to.getRealmId());
-                // ato.setLockOpId(to.getLockOpId());
-                ato.setLockDatetime(LocalDateTime.now());
-                ato.setLockReason(to.getLockReason());
-                ato.setLockAccountId(to.getLockAccountId());
-                // 禁用时添加锁定日志
-                lockLogSvc.add(ato);
+                mo.setId(to.getAccountId());
+                mo.setIsEnabled(!disableAccount.getIsEnabled());
+                to.setRealmId(to.getRealmId());
+                // 禁用时添加禁用日志
+                disableLogSvc.add(to);
                 _mapper.updateByPrimaryKeySelective(mo);
             }
             else {
@@ -271,13 +259,13 @@ public class RacAccountSvcImpl extends
     @SneakyThrows
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> uploadAvatar(final Long accountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
-        final String fileExt = Files.getFileExtension(fileName);
-        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
+        final String  fileExt = Files.getFileExtension(fileName);
+        final boolean found   = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
             final String policyJson = String.format(
-                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                RacMinioCo.AVATAR_BUCKET);
+                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+                    RacMinioCo.AVATAR_BUCKET);
             minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).config(policyJson).build());
         }
         final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
@@ -287,7 +275,7 @@ public class RacAccountSvcImpl extends
         headers.put("Content-Type", contentType);
         final String objectName = accountId.toString() + "." + fileExt;
         minioClient.putObject(
-            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
+                PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(accountId);
         // XXX 添加a参数并设置时间戳，以防前端接收到地址未改变，图片不刷新
@@ -346,8 +334,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
-        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
-        final RacAccountMo accountMo = thisSvc.getById(curAccountId);
+        final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
+        final RacAccountMo        accountMo = thisSvc.getById(curAccountId);
         if (accountMo == null) {
             return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
         }
@@ -413,14 +401,14 @@ public class RacAccountSvcImpl extends
         existQo.setKeywords(to.getExistKeywords());
         final List<RacAccountMo> existAccountList = _mapper.list(existQo);
         // 查询可添加的所有用户
-        final RacAccountExMo addableQo = new RacAccountExMo();
+        final RacAccountExMo     addableQo        = new RacAccountExMo();
         addableQo.setRealmId(to.getRealmId());
         addableQo.setOrgId(to.getOrgId());
         addableQo.setKeywords(to.getAddableKeywords());
-        final ISelect select = () -> _mapper.getAddablAccountList(addableQo);
+        final ISelect                select      = () -> _mapper.getAddablAccountList(addableQo);
         final PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
         // 将所有记录添加到返回ListTransferOfOrgRa的对象中
-        final ListTransferOfOrgRa ro = new ListTransferOfOrgRa();
+        final ListTransferOfOrgRa    ro          = new ListTransferOfOrgRa();
         ro.setAddableList(addableList);
         ro.setExistList(existAccountList);
         return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);

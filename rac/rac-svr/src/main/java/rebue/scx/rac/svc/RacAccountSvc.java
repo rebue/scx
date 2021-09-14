@@ -16,13 +16,13 @@ import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
-import rebue.scx.rac.to.RacAccountDisableTo;
-import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountListTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.RacDisableLogAddTo;
+import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -41,7 +41,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @Validated
 public interface RacAccountSvc
-    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -55,14 +55,14 @@ public interface RacAccountSvc
      *
      * @param to 启用的具体数据
      */
-    void enable(@Valid RacAccountEnableTo to);
+    void enable(@Valid RacDisableLogModifyTo to);
 
     /**
      * 禁用账户
      *
      * @param to 禁用的具体数据
      */
-    void disable(RacAccountDisableTo to);
+    void disable(RacDisableLogAddTo to);
 
     /**
      * 上传头像
@@ -73,7 +73,7 @@ public interface RacAccountSvc
      * 通过email获取账户信息
      *
      * @param realmId 领域ID
-     * @param email    电子邮箱
+     * @param email   电子邮箱
      *
      * @return 账户信息
      */
@@ -83,7 +83,7 @@ public interface RacAccountSvc
      * 通过手机号获取账户信息
      *
      * @param realmId 领域ID
-     * @param mobile   手机号
+     * @param mobile  手机号
      *
      * @return 账户信息
      */
@@ -92,7 +92,7 @@ public interface RacAccountSvc
     /**
      * 通过登录名称获取账户信息
      *
-     * @param realmId   领域ID
+     * @param realmId    领域ID
      * @param signInName 登录名称
      *
      * @return 账户信息
@@ -116,4 +116,5 @@ public interface RacAccountSvc
      * @param qo 查询的具体条件
      */
     Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
+
 }
