@@ -122,25 +122,28 @@ public class OssObjSvcImpl
     @Override
     @SneakyThrows
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<?> upload(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
+    public Ro<?> upload(final String path, final Long curAccountId, final String fileName, final String contentDisposition, final String contentType,
+            final InputStream inputStream) {
         final Long    id         = _idWorker.getId();
         final String  fileExt    = Files.getFileExtension(fileName);
         final String  objectName = id.toString() + "." + fileExt;
-        final boolean found      = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+        final String  bucketName = getBucketName(path);
+        final boolean found      = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
         if (!found) {
-            minioClient.makeBucket(MakeBucketArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             final String policyJson = String.format(
                     "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                    OssMinioCo.OBJ_BUCKET);
-            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).config(policyJson).build());
+                    bucketName);
+            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(policyJson).build());
         }
-        final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+        final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(bucketName).build());
         System.out.println(bucketPolicy);
         final Map<String, String> headers = new HashMap<>();
         headers.put("Content-Disposition", contentDisposition);
         headers.put("Content-Type", contentType);
         minioClient.putObject(
-                PutObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
+                PutObjectArgs.builder().bucket(bucketName).contentType(contentType).headers(headers).object(objectName)
+                        .stream(inputStream, -1, 10485760).build());
         OssObjMo mo = new OssObjMo();
         mo.setId(id);
         mo.setObjName(fileName);
@@ -149,7 +152,7 @@ public class OssObjSvcImpl
         mo.setObjSize((long) inputStream.available());
         mo.setCreatorId(curAccountId);
         mo.setCreateDatetime(LocalDateTime.now());
-        mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, OssMinioCo.OBJ_BUCKET, objectName, System.currentTimeMillis()));
+        mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, bucketName, objectName, System.currentTimeMillis()));
         mo = thisSvc.addMo(mo);
         return new Ro<>(ResultDic.SUCCESS, "上传对象成功", mo);
     }
@@ -256,5 +259,9 @@ public class OssObjSvcImpl
         }
         thisSvc.delById(id);
         return new Ro<>(ResultDic.SUCCESS, "删除对象成功");
+    }
+
+    private static String getBucketName(final String path) {
+        return path != null ? path : OssMinioCo.OBJ_BUCKET;
     }
 }

@@ -41,7 +41,7 @@ public interface OssObjSvc extends BaseSvc<java.lang.Long, OssObjAddTo, OssObjMo
      * @param contentType        请求头中的 Content-Type
      * @param inputStream        文件输入流
      */
-    Ro<?> upload(Long curAccountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
+    Ro<?> upload(String path, Long curAccountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
 
     /**
      * 上传字符串大文本内容
