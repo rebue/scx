@@ -1,9 +1,8 @@
 package com.github.rebue.third.party.demo.utils;
 
-import java.util.Optional;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 public class CookieUtil {
 
