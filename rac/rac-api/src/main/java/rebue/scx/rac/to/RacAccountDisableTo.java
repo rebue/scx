@@ -22,66 +22,66 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 public class RacAccountDisableTo implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 启用或禁用
-	 */
-	@NotNull(message = "是否启用不能为空")
-	private Boolean isEnabled;
+    /**
+     * 启用或禁用
+     */
+    @NotNull(message = "是否启用不能为空")
+    private Boolean           isEnabled;
 
-	/**
-	 * 领域ID
-	 *
-	 */
-	private String realmId;
-	
-	/**
-	 * 被锁定账户的账户ID
-	 *
-	 */
-	@PositiveOrZero(message = "锁定账户的账户ID不能为负数")
-	private Long lockAccountId;
+    /**
+     * 领域ID
+     *
+     */
+    private String            realmId;
 
-	/**
-	 * 锁定操作员的账户ID
-	 *
-	 */
-	@PositiveOrZero(message = "锁定操作员的账户ID不能为负数")
-	private Long lockOpId;
+    /**
+     * 被禁用账户的账户ID
+     *
+     */
+    @PositiveOrZero(message = "禁用账户的账户ID不能为负数")
+    private Long              disableAccountId;
 
-	/**
-	 * 锁定原因
-	 *
-	 */
-	@Length(max = 100, message = "锁定原因的长度不能大于100")
-	private String lockReason;
+    /**
+     * 禁用操作员的账户ID
+     *
+     */
+    @PositiveOrZero(message = "禁用操作员的账户ID不能为负数")
+    private Long              lockOpId;
 
-	/**
-	 * 锁定时间
-	 *
-	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private LocalDateTime lockDatetime;
+    /**
+     * 禁用原因
+     *
+     */
+    @Length(max = 100, message = "禁用原因的长度不能大于100")
+    private String            disableReason;
 
-	/**
-	 * 解锁原因
-	 */
-	@Length(max = 100, message = "解锁原因的长度不能大于100")
-	private String unlockReason;
+    /**
+     * 禁用时间
+     *
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime     disableDatetime;
 
-	/**
-	 * 解锁时间
-	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private LocalDateTime unlockDatetime;
+    /**
+     * 启用原因
+     */
+    @Length(max = 100, message = "启用原因的长度不能大于100")
+    private String            eableReason;
 
-	/**
-	 * 解锁操作员的账户ID
-	 */
-	@PositiveOrZero(message = "解锁操作员的账户ID不能为负数")
-	private Long unlockOpId;
+    /**
+     * 启用时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime     eableDatetime;
+
+    /**
+     * 启用操作员的账户ID
+     */
+    @PositiveOrZero(message = "启用操作员的账户ID不能为负数")
+    private Long              eableOpId;
 
 }

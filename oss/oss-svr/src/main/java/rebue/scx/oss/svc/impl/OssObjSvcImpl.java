@@ -261,7 +261,14 @@ public class OssObjSvcImpl
         return new Ro<>(ResultDic.SUCCESS, "删除对象成功");
     }
 
+    /**
+     * 判断是否使用自定义的桶，否则使用默认
+     * 
+     * @param path
+     * 
+     * @return
+     */
     private static String getBucketName(final String path) {
-        return path != null ? path : OssMinioCo.OBJ_BUCKET;
+        return path != null && !path.equals("") ? path : OssMinioCo.OBJ_BUCKET;
     }
 }

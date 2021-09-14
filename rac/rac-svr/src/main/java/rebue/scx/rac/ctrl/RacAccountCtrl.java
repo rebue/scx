@@ -39,11 +39,11 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
-import rebue.scx.rac.to.RacAccountDisableTo;
-import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.RacDisableLogAddTo;
+import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.wheel.turing.JwtUtils;
 
@@ -65,7 +65,9 @@ public class RacAccountCtrl {
      * 添加账户
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加账户", opTitle = "添加账户: #{#p0.signInName}")
@@ -78,7 +80,9 @@ public class RacAccountCtrl {
      * 修改账户的信息
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改账户", opTitle = "修改账户: #{#p0.signInName}")
@@ -91,7 +95,9 @@ public class RacAccountCtrl {
      * 删除账户
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param id 账户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除账户", opTitle = "删除账户: #{#p0}")
@@ -104,6 +110,7 @@ public class RacAccountCtrl {
      * 获取单个账户的信息
      *
      * @param id 账户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/get-by-id")
@@ -115,6 +122,7 @@ public class RacAccountCtrl {
      * 判断账户是否存在
      *
      * @param id 账户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/exist-by-id")
@@ -126,6 +134,7 @@ public class RacAccountCtrl {
      * 查询账户的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/page")
@@ -151,12 +160,12 @@ public class RacAccountCtrl {
      */
     @RacOpLog(opType = "启用账户", opTitle = "启用账户: #{#p0.lockAccountId}")
     @PutMapping("/rac/account/enable")
-    public Mono<Ro<?>> enable(@RequestBody final RacAccountEnableTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
+    public Mono<Ro<?>> enable(@RequestBody final RacDisableLogModifyTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
-        qo.setUnlockOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
-        qo.setUnlockDatetime(LocalDateTime.now());
+        qo.setEnableOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
+        qo.setEnableDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.enable(qo)));
     }
 
@@ -167,11 +176,11 @@ public class RacAccountCtrl {
      */
     @RacOpLog(opType = "禁用账户", opTitle = "禁用账户: #{#p0.lockAccountId}")
     @PutMapping("/rac/account/disable")
-    public Mono<Ro<?>> disable(@RequestBody final RacAccountDisableTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
+    public Mono<Ro<?>> disable(@RequestBody final RacDisableLogAddTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         if (StringUtils.isBlank(jwtToken)) {
         }
-        qo.setLockOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
-        qo.setLockDatetime(LocalDateTime.now());
+        qo.setDisableOpId(JwtUtils.getJwtAccountIdFromSign(jwtToken));
+        qo.setDisableDatetime(LocalDateTime.now());
         return Mono.create(callback -> callback.success(api.disable(qo)));
     }
 
@@ -182,7 +191,7 @@ public class RacAccountCtrl {
      */
     @PostMapping(value = "/rac/account/upload-avatar")
     public Mono<?> uploadAvatar(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux,
-        final ServerHttpResponse response) {
+            final ServerHttpResponse response) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -191,9 +200,9 @@ public class RacAccountCtrl {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
         return filePartFlux.flatMap(filePart -> {
-            final String fileName = filePart.filename();
+            final String             fileName           = filePart.filename();
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
-            final MediaType contentType = filePart.headers().getContentType();
+            final MediaType          contentType        = filePart.headers().getContentType();
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
                 final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition.toString(), contentType.toString(), inputStream);
                 if (!ResultDic.SUCCESS.equals(ro.getResult())) {
@@ -219,7 +228,7 @@ public class RacAccountCtrl {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
         // 从JWT签名中获取代理账户ID
-        Long agentAccountId = null;
+        Long         agentAccountId     = null;
         final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(jwtToken, RacJwtSignCo.AGENT_ACCOUNT_ID);
         if (agentAccountIdItem != null) {
             final String agentAccountIdString = agentAccountIdItem.toString();

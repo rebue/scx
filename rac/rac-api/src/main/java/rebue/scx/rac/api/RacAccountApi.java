@@ -8,11 +8,11 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
-import rebue.scx.rac.to.RacAccountDisableTo;
-import rebue.scx.rac.to.RacAccountEnableTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.RacDisableLogAddTo;
+import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -34,14 +34,14 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      *
      * @param to 启用的具体数据
      */
-    Ro<?> enable(RacAccountEnableTo to);
+    Ro<?> enable(RacDisableLogModifyTo to);
 
     /**
      * 禁用账户
      *
-     * @param to 禁用的具体数据
+     * @param qo 禁用的具体数据
      */
-    Ro<?> disable(RacAccountDisableTo to);
+    Ro<?> disable(RacDisableLogAddTo qo);
 
     /**
      * 上传头像
@@ -64,4 +64,5 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param qo 查询的具体条件
      */
     Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
+
 }
