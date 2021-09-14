@@ -44,124 +44,124 @@ public class RacLockLogExMo extends RacLockLogMo {
      */
     private String            qqNickname;
 
-    /**
-     * 锁定人登录名称
-     */
-    private String            lockSignInName;
-    /**
-     * 锁定人登录手机号
-     */
-    private String            lockSignInMobile;
-    /**
-     * 锁定人登录邮箱
-     */
-    private String            lockSignInEmail;
-    /**
-     * 锁定人登录账户昵称
-     */
-    private String            lockSignInNickname;
-    /**
-     * 锁定人微信昵称
-     */
-    private String            lockwxNickname;
-    /**
-     * 锁定人QQ昵称
-     */
-    private String            lockqqNickname;
-
-    /**
-     * 代理锁定人登录名称
-     */
-    private String            lockAgentSignInName;
-
-    /**
-     * 代理锁定人登录账户昵称
-     */
-    private String            lockAgentSignInNickname;
-
-    /**
-     * 代理锁定人登录手机
-     *
-     */
-    private String            lockAgentSignInMobile;
-
-    /**
-     * 代理锁定人登录邮箱
-     *
-     */
-    private String            lockAgentSignInEmail;
-
-    /**
-     * 代理锁定人微信昵称
-     */
-    private String            lockAgentwxNickname;
-
-    /**
-     * 代理锁定人QQ昵称
-     */
-    private String            lockAgentqqNickname;
+    // /**
+    // * 锁定人登录名称
+    // */
+    // private String lockSignInName;
+    // /**
+    // * 锁定人登录手机号
+    // */
+    // private String lockSignInMobile;
+    // /**
+    // * 锁定人登录邮箱
+    // */
+    // private String lockSignInEmail;
+    // /**
+    // * 锁定人登录账户昵称
+    // */
+    // private String lockSignInNickname;
+    // /**
+    // * 锁定人微信昵称
+    // */
+    // private String lockwxNickname;
+    // /**
+    // * 锁定人QQ昵称
+    // */
+    // private String lockqqNickname;
+    //
+    // /**
+    // * 代理锁定人登录名称
+    // */
+    // private String lockAgentSignInName;
+    //
+    // /**
+    // * 代理锁定人登录账户昵称
+    // */
+    // private String lockAgentSignInNickname;
+    //
+    // /**
+    // * 代理锁定人登录手机
+    // *
+    // */
+    // private String lockAgentSignInMobile;
+    //
+    // /**
+    // * 代理锁定人登录邮箱
+    // *
+    // */
+    // private String lockAgentSignInEmail;
+    //
+    // /**
+    // * 代理锁定人微信昵称
+    // */
+    // private String lockAgentwxNickname;
+    //
+    // /**
+    // * 代理锁定人QQ昵称
+    // */
+    // private String lockAgentqqNickname;
 
     /**
      * 解锁人登录名称
      */
-    private String            unlockSignInName;
+    private String unlockSignInName;
 
     /**
      * 解锁人登录手机号
      */
-    private String            unlockSignInMobile;
+    private String unlockSignInMobile;
 
     /**
      * 解锁人登录邮箱
      */
-    private String            unlockSignInEmail;
+    private String unlockSignInEmail;
 
     /**
      * 解锁人登录账户昵称
      */
-    private String            unlockSignInNickname;
+    private String unlockSignInNickname;
 
     /**
      * 解锁人微信昵称
      */
-    private String            unlockwxNickname;
+    private String unlockwxNickname;
 
     /**
      * 解锁人QQ昵称
      */
-    private String            unlockqqNickname;
+    private String unlockqqNickname;
 
     /**
      * 代理解锁人登录名称
      */
-    private String            unlockAgentSignInName;
+    private String unlockAgentSignInName;
 
     /**
      * 代理解锁人登录账户昵称
      */
-    private String            unlockAgentSignInNickname;
+    private String unlockAgentSignInNickname;
 
     /**
      * 代理解锁人登录手机
      *
      */
-    private String            unlockAgentSignInMobile;
+    private String unlockAgentSignInMobile;
 
     /**
      * 代理解锁人登录邮箱
      *
      */
-    private String            unlockAgentSignInEmail;
+    private String unlockAgentSignInEmail;
 
     /**
      * 代理解锁人微信昵称
      */
-    private String            unlockAgentwxNickname;
+    private String unlockAgentwxNickname;
 
     /**
      * 代理解锁人QQ昵称
      */
-    private String            unlockAgentqqNickname;
+    private String unlockAgentqqNickname;
 
     public RacLockLogExMo() {
         super();
@@ -213,102 +213,6 @@ public class RacLockLogExMo extends RacLockLogMo {
 
     public void setQqNickname(final String qqNickname) {
         this.qqNickname = qqNickname;
-    }
-
-    public String getLockSignInName() {
-        return lockSignInName;
-    }
-
-    public void setLockSignInName(final String lockSignInName) {
-        this.lockSignInName = lockSignInName;
-    }
-
-    public String getLockSignInMobile() {
-        return lockSignInMobile;
-    }
-
-    public void setLockSignInMobile(final String lockSignInMobile) {
-        this.lockSignInMobile = lockSignInMobile;
-    }
-
-    public String getLockSignInEmail() {
-        return lockSignInEmail;
-    }
-
-    public void setLockSignInEmail(final String lockSignInEmail) {
-        this.lockSignInEmail = lockSignInEmail;
-    }
-
-    public String getLockSignInNickname() {
-        return lockSignInNickname;
-    }
-
-    public void setLockSignInNickname(final String lockSignInNickname) {
-        this.lockSignInNickname = lockSignInNickname;
-    }
-
-    public String getLockwxNickname() {
-        return lockwxNickname;
-    }
-
-    public void setLockwxNickname(final String lockwxNickname) {
-        this.lockwxNickname = lockwxNickname;
-    }
-
-    public String getLockqqNickname() {
-        return lockqqNickname;
-    }
-
-    public void setLockqqNickname(final String lockqqNickname) {
-        this.lockqqNickname = lockqqNickname;
-    }
-
-    public String getLockAgentSignInName() {
-        return lockAgentSignInName;
-    }
-
-    public void setLockAgentSignInName(final String lockAgentSignInName) {
-        this.lockAgentSignInName = lockAgentSignInName;
-    }
-
-    public String getLockAgentSignInNickname() {
-        return lockAgentSignInNickname;
-    }
-
-    public void setLockAgentSignInNickname(final String lockAgentSignInNickname) {
-        this.lockAgentSignInNickname = lockAgentSignInNickname;
-    }
-
-    public String getLockAgentSignInMobile() {
-        return lockAgentSignInMobile;
-    }
-
-    public void setLockAgentSignInMobile(final String lockAgentSignInMobile) {
-        this.lockAgentSignInMobile = lockAgentSignInMobile;
-    }
-
-    public String getLockAgentSignInEmail() {
-        return lockAgentSignInEmail;
-    }
-
-    public void setLockAgentSignInEmail(final String lockAgentSignInEmail) {
-        this.lockAgentSignInEmail = lockAgentSignInEmail;
-    }
-
-    public String getLockAgentwxNickname() {
-        return lockAgentwxNickname;
-    }
-
-    public void setLockAgentwxNickname(final String lockAgentwxNickname) {
-        this.lockAgentwxNickname = lockAgentwxNickname;
-    }
-
-    public String getLockAgentqqNickname() {
-        return lockAgentqqNickname;
-    }
-
-    public void setLockAgentqqNickname(final String lockAgentqqNickname) {
-        this.lockAgentqqNickname = lockAgentqqNickname;
     }
 
     public String getUnlockSignInName() {
