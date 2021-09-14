@@ -31,12 +31,11 @@ public class DocApplication {
     /**
      * 生成的文件类型
      */
-    private static final EngineFileType FILE_TYPE = EngineFileType.MD;
+    private static final EngineFileType FILE_TYPE = EngineFileType.WORD;
     /**
      * 生成的文档版本
      */
     private static final String VERSION = "1.0.0";
-
     /**
      * 读取数据源的Key,不可修改
      */
@@ -49,10 +48,27 @@ public class DocApplication {
     public static void main(final String[] args)
     {
         String filePathSuffix = concat("src", "main", "resources", "config");
-        genFile("oap", concat(filePathPrefix, "oap", "oap-svr", filePathSuffix), "dev");
-        genFile("oss", concat(filePathPrefix, "oss", "oss-svr", filePathSuffix), "dev");
-        genFile("rac", concat(filePathPrefix, "rac", "rac-svr", filePathSuffix), "dev");
-        genFile("rrl", concat(filePathPrefix, "rrl", "rrl-svr", filePathSuffix), "dev");
+        genFile("rac", concat(filePathPrefix, "rac", "rac-svr", filePathSuffix), "hwy");
+        genFile("oap", concat(filePathPrefix, "oap", "oap-svr", filePathSuffix), "hwy");
+        genFile("oss", concat(filePathPrefix, "oss", "oss-svr", filePathSuffix), "hwy");
+        genFile("rrl", concat(filePathPrefix, "rrl", "rrl-svr", filePathSuffix), "hwy");
+    }
+
+    private static String transformUrl(String raw)
+    {
+        return raw.replace("mysql:3306", "122.9.104.17:3306");
+    }
+
+    private static String transformUsername(String raw)
+    {
+        // return "root";
+        return raw;
+    }
+
+    private static String transformPassword(String raw)
+    {
+        // return "xxxxxxxx";
+        return raw;
     }
 
     /**
@@ -66,9 +82,9 @@ public class DocApplication {
         // 数据源
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        hikariConfig.setJdbcUrl(map.get(fields[0]));
-        hikariConfig.setUsername(map.get(fields[1]));
-        hikariConfig.setPassword(map.get(fields[2]));
+        hikariConfig.setJdbcUrl(transformUrl(map.get(fields[0])));
+        hikariConfig.setUsername(transformUsername(map.get(fields[1])));
+        hikariConfig.setPassword(transformPassword(map.get(fields[2])));
         // 设置可以获取tables remarks信息
         hikariConfig.addDataSourceProperty("useInformationSchema", "true");
         hikariConfig.setMinimumIdle(2);
