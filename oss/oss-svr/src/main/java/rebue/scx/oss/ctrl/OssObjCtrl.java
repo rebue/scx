@@ -125,15 +125,17 @@ public class OssObjCtrl {
      * 上传文件
      * 
      * @param jwtToken
-     * @param filePartFlux 向服务器发送的文件name="avatar"
-     * @param path         文件存储桶名称只能由小写字母、数字、句点 (.) 和连字符 (-) 组成。存储桶名称必须以字母或数字开头和结尾。
+     * @param filePartFlux  向服务器发送的文件属性name="avatar"
+     * @param path          文件存储桶名称只能由小写字母、数字、句点 (.) 和连字符 (-) 组成。存储桶名称必须以字母或数字开头和结尾。
+     * @param orignFileName 文件名称
      * @param response
      * 
      * @return
      */
     @PostMapping(value = "/oss/obj/upload")
     public Mono<?> upload(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux,
-            @RequestPart(value = "path", required = false) final String path, final ServerHttpResponse response) {
+            @RequestPart(value = "path", required = false) final String path, @RequestPart(value = "orignFileName", required = false) final String orignFileName,
+            final ServerHttpResponse response) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -142,7 +144,8 @@ public class OssObjCtrl {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
         return filePartFlux.flatMap(filePart -> {
-            final String             fileName           = filePart.filename();
+            // 判断是否使用控件默认文件名
+            final String             fileName           = orignFileName != null && !orignFileName.equals("") ? orignFileName : filePart.filename();
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
             final MediaType          contentType        = filePart.headers().getContentType();
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
