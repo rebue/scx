@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.BooleanRa;
+import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.PageRa;
+import rebue.robotech.ra.PojoRa;
+import rebue.robotech.ro.Ro;
 import rebue.scx.oap.api.OapAppApi;
 import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.oap.mo.ex.OapAppListAndRacAppListRa;
@@ -17,14 +24,8 @@ import rebue.scx.oap.to.OapAppAddTo;
 import rebue.scx.oap.to.OapAppListTo;
 import rebue.scx.oap.to.OapAppModifyTo;
 import rebue.scx.oap.to.OapAppPageTo;
-
-import reactor.core.publisher.Mono;
-import rebue.robotech.ra.BooleanRa;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ra.PageRa;
-import rebue.robotech.ra.PojoRa;
-import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
+import rebue.wheel.core.RandomEx;
 
 /**
  * 第三方应用
@@ -105,6 +106,17 @@ public class OapAppCtrl {
     @GetMapping("/oap/app/get-by-app-id")
     public Mono<Ro<?>> getByAppId(@RequestParam("id") final String id) {
         return Mono.create(callback -> callback.success(api.getByAppId(id)));
+    }
+
+    /**
+     * 生成应用secret
+     *
+     */
+    @GetMapping("/oap/app/get-app-secret")
+    public Mono<Ro<?>> getAppSecret() {
+        OapAppMo oapAppMo = new OapAppMo();
+        oapAppMo.setSecret(RandomEx.randomUUID());
+        return Mono.create(callback -> callback.success(new Ro<>(ResultDic.SUCCESS, "生成成功", oapAppMo)));
     }
 
     /**

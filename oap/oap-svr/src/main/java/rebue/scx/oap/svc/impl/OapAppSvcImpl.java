@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
+import rebue.robotech.svc.BaseSvc;
+import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.oap.dao.OapAppDao;
 import rebue.scx.oap.jo.OapAppJo;
 import rebue.scx.oap.mapper.OapAppMapper;
@@ -35,17 +40,12 @@ import rebue.scx.oap.to.OapIpWhiteListListTo;
 import rebue.scx.oap.to.OapRedirectUriAddTo;
 import rebue.scx.oap.to.OapRedirectUriDelTo;
 import rebue.scx.oap.to.OapRedirectUriListTo;
-
-import lombok.extern.slf4j.Slf4j;
-import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ro.Ro;
-import rebue.robotech.svc.BaseSvc;
-import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.to.RacAppListTo;
 import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
+import rebue.wheel.core.RandomEx;
 import rebue.wheel.core.util.OrikaUtils;
 
 /**
@@ -291,7 +291,10 @@ public class OapAppSvcImpl
         oneTo.setAppId(id);
         OapAppMo one = thisSvc.getOne(oneTo);
         if (one == null) {
-            return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功");
+            OapAppMo mo = new OapAppMo();
+            mo.setAppId("uiap" + _idWorker.getIdStr());
+            mo.setSecret(RandomEx.randomUUID());
+            return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", mo);
         }
         final OapAppMoEx oneMo = OrikaUtils.map(one, OapAppMoEx.class);
         // 查询白名单IP
@@ -317,6 +320,8 @@ public class OapAppSvcImpl
                                                    OapAppMoEx moEx = OrikaUtils.map(item, OapAppMoEx.class);
                                                    moEx.setIpAddrs(this.getIpApprs(item.getId()));
                                                    moEx.setRedirectUris(this.getUris(item.getId()));
+                                                   // 不显示在前端
+                                                   moEx.setSecret(null);
                                                    return moEx;
                                                }).collect(Collectors.toList());
         OapAppListAndRacAppListRa ra           = new OapAppListAndRacAppListRa();
