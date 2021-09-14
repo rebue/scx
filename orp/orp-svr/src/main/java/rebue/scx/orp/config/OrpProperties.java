@@ -1,6 +1,8 @@
 package rebue.scx.orp.config;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,23 +16,23 @@ public class OrpProperties {
     /**
      * 缓存state超时(默认5分钟)
      */
-    private final Duration                  stateCacheExpiration = Duration.ofMinutes(5L);
+    private Duration                        stateCacheExpiration = Duration.ofMinutes(5L);
 
     /**
      * 策略集合
      */
-    private Map<String, StrategyProperties> strategies;
+    private Map<String, StrategyProperties> strategies           = new HashMap<>();
 
     @Data
-    class StrategyProperties {
+    public static class StrategyProperties {
         /**
          * 是否检查State参数
          */
-        private Boolean               isCheckState;
+        private Boolean        isCheckState;
 
         /**
          * 应用集合
          */
-        private Map<String, ClientMo> clients;
+        private List<ClientMo> clients;
     }
 }

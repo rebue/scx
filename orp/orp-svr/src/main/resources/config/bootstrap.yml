@@ -18,9 +18,6 @@ spring:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
       - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
-      # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
-      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   cloud:
     nacos:
       discovery:
