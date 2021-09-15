@@ -9,13 +9,13 @@ import java.net.URLEncoder;
 @Component
 public class OidcConfig {
 
-    @Value("${oidc.call-uri}")
+    @Value("${oidc-redirect.call-uri}")
     private String callUri;
 
-    @Value("${oidc.client-id}")
+    @Value("${oidc-redirect.client-id}")
     private String clientId;
 
-    @Value("${oidc.redirect-uri}")
+    @Value("${oidc-redirect.redirect-uri}")
     private String redirectUri;
 
     @SneakyThrows
