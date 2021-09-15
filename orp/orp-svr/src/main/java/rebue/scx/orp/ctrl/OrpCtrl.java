@@ -65,18 +65,24 @@ public class OrpCtrl {
      * 通过授权码登录
      */
     @GetMapping("/sign-in-by-code/{appId}/{orpType}/{clientId}")
-    public Mono<ServerHttpResponse> signInByCode(@PathVariable("appId") final String appId,
+    public Mono<Void> signInByCode(@PathVariable("appId") final String appId,
             @PathVariable("orpType") final String orpType,
             @PathVariable("clientId") final String clientId,
             final OrpCodeTo to, final ServerHttpResponse resp) {
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signInByCode(appId, orpType, clientId, to);
+            final SignUpOrInRa     ra = ro.getExtra();
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                JwtUtils.addCookie(ro.getExtra().getSign(), ro.getExtra().getExpirationTime(), resp);
+                JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), resp);
                 resp.setStatusCode(HttpStatus.FOUND);
-                resp.getHeaders().setLocation(URI.create("/api/v1"));
+                resp.getHeaders().setLocation(URI.create(ra.getRedirectUrl()));
             }
-            callback.success(resp);
+            else {
+                // 401:认证失败，其实应该是UNAUTHENTICATED，HTTP协议历史遗留问题
+                resp.setStatusCode(HttpStatus.UNAUTHORIZED);
+            }
+            resp.setComplete();
+            callback.success();
         });
     }
 

@@ -48,12 +48,12 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
 
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
-                    && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
+                        && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
                     log.debug("经判断不过滤此URL");
                     return returnFilter(chain, exchange);
                 }
                 if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
-                    && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
+                        && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
                     log.debug("经判断忽略此URL");
                     return returnFilter(chain, exchange);
                 }
@@ -76,7 +76,7 @@ public class SignPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Si
                 if (!ResultDic.SUCCESS.equals(sgnVerifyApi.verify(requestParams).getResult())) {
                     log.warn("认证失败: url-{}, requestParams-{}", url, requestParams);
                     final ServerHttpResponse response = exchange.getResponse();
-                    // 401:认证失败，其实应该是UNAUTHENTICATED，Spring代码历史遗留问题
+                    // 401:认证失败，其实应该是UNAUTHENTICATED，HTTP协议历史遗留问题
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
                 }
