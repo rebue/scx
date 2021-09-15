@@ -30,9 +30,9 @@ import rebue.scx.oap.api.OapAppApi;
 import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.orp.config.OrpStrategies;
-import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
+import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.scx.orp.svc.OidcSvc;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
@@ -145,7 +145,7 @@ public class OidcSvcImpl implements OidcSvc {
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
     @Override
-    public UserInfoRo authCode(final String orpType, final String clientId, final String code, final String state) {
+    public OrpUserInfoRa authCode(final String orpType, final String clientId, final String code, final String state) {
         return strategy.getItems().get(orpType).authCode(AuthCodeTo.builder()
                 .clientId(clientId)
                 .code(code)

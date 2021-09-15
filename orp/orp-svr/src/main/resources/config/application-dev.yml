@@ -9,12 +9,12 @@ oidc:
 orp:
   state-cache-expiration: PT1M
   strategies:
-    DingTalk:
+    ding-talk:
       is-check-state: true
       clients:
         - id: dingsahvlqybvb44jd50
           secret: hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm80
-    WeChatOpen:
+    wechat-open:
       is-check-state: true
       clients:
         - id: wxc9bcdf70da391cdd

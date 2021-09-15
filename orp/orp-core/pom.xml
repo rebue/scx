@@ -13,6 +13,12 @@
 	<description>OIDC Relying Party Core</description>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>orp-api</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-core</artifactId>

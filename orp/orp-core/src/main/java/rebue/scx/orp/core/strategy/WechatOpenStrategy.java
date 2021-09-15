@@ -7,13 +7,13 @@ import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
 import rebue.scx.orp.core.dic.OrpTypeDic;
 import rebue.scx.orp.core.mo.ClientMo;
-import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.ro.WechatGetAccessTokenRo;
 import rebue.scx.orp.core.ro.WechatGetUserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
 import rebue.scx.orp.core.to.WechatGetUserInfoTo;
 import rebue.scx.orp.core.to.WechatRefreshAccessTokenTo;
+import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.net.httpclient.HttpClient;
 
@@ -24,7 +24,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
 
     @Override
     public OrpTypeDic getOrpType() {
-        return OrpTypeDic.WeChatOpen;
+        return OrpTypeDic.WechatOpen;
     }
 
     /**
@@ -93,7 +93,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
                 .field("accessToken", "access_token")
                 .byDefault().register();
         // 不同策略获取用户信息的结果转换为统一的用户信息的结果
-        _mapperFactory.classMap(WechatGetUserInfoRo.class, UserInfoRo.class)
+        _mapperFactory.classMap(WechatGetUserInfoRo.class, OrpUserInfoRa.class)
                 .field("openid", "openId")
                 .field("unionid", "unionId")
                 .field("headimgurl", "avatar")
@@ -197,7 +197,7 @@ public class WechatOpenStrategy extends AbstractStrategy<WechatGetAccessTokenRo,
      * 设置Token信息
      */
     @Override
-    protected void setTokenInfo(final UserInfoRo userInfo, final WechatGetAccessTokenRo wechatGetAccessTokenRo) {
+    protected void setTokenInfo(final OrpUserInfoRa userInfo, final WechatGetAccessTokenRo wechatGetAccessTokenRo) {
         userInfo.setAccessToken(wechatGetAccessTokenRo.getAccessToken());
     }
 }

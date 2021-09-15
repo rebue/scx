@@ -20,6 +20,6 @@ public enum OrpTypeDic {
     /**
      * 微信开放平台
      */
-    WeChatOpen;
+    WechatOpen;
 
 }

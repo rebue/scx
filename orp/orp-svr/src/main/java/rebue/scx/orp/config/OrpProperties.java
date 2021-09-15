@@ -28,7 +28,7 @@ public class OrpProperties {
         /**
          * 是否检查State参数
          */
-        private Boolean        isCheckState;
+        private Boolean        isCheckState = true;
 
         /**
          * 应用集合

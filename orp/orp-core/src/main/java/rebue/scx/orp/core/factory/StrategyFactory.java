@@ -22,7 +22,7 @@ public class StrategyFactory {
         switch (orpType) {
         case DingTalk:
             return new DingTalkStrategy(orpConfig, clients, stateCache, httpClient);
-        case WeChatOpen:
+        case WechatOpen:
             return new WechatOpenStrategy(orpConfig, clients, stateCache, httpClient);
         default:
             throw new RuntimeExceptionX("不能识别的RP类型: " + orpType.name() + "(不会运行到此处)");

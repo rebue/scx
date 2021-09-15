@@ -12,9 +12,9 @@ import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
 import rebue.scx.orp.core.dic.OrpTypeDic;
 import rebue.scx.orp.core.mo.ClientMo;
-import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
+import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.net.httpclient.HttpClient;
 
@@ -118,8 +118,8 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      * 转换不同策略的用户信息为统一的用户信息
      */
     @Override
-    protected UserInfoRo convertUserInfo(final OapiSnsGetuserinfoBycodeResponse getUserInfoRo) {
-        return UserInfoRo.builder()
+    protected OrpUserInfoRa convertUserInfo(final OapiSnsGetuserinfoBycodeResponse getUserInfoRo) {
+        return OrpUserInfoRa.builder()
                 .openId(getUserInfoRo.getUserInfo().getOpenid())
                 .unionId(getUserInfoRo.getUserInfo().getUnionid())
                 .nickname(getUserInfoRo.getUserInfo().getNick())

@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import com.google.common.base.CaseFormat;
+
 import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
 import rebue.scx.orp.core.dic.OrpTypeDic;
@@ -32,9 +34,11 @@ public class OrpConfig {
 
         final Map<String, Strategy> strategies = new HashMap<>();
         orpProperties.getStrategies().forEach((strategyName, strategyProperies) -> {
+            // 将配置策略的羊肉串格式转换为大驼峰格式，以获取ORP类型
+            final OrpTypeDic            orpType   = OrpTypeDic.valueOf(CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, strategyName));
             final StrategyConfig        orpConfig = StrategyConfig.builder().isCheckState(strategyProperies.getIsCheckState()).build();
             final Map<String, ClientMo> clients   = strategyProperies.getClients().stream().collect(Collectors.toMap(ClientMo::getId, item -> item));
-            strategies.put(strategyName, StrategyFactory.getStrategy(OrpTypeDic.valueOf(strategyName), clients, orpConfig, stateCache, httpClient));
+            strategies.put(strategyName, StrategyFactory.getStrategy(orpType, clients, orpConfig, stateCache, httpClient));
         });
 
         return OrpStrategies.builder().items(strategies).build();

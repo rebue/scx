@@ -12,9 +12,9 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.config.StrategyConfig;
 import rebue.scx.orp.core.mo.ClientMo;
-import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
+import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.GenericTypeUtils;
 import rebue.wheel.core.MapUtils;
@@ -82,13 +82,13 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
     @Override
-    public UserInfoRo authCode(final AuthCodeTo authCodeTo) {
+    public OrpUserInfoRa authCode(final AuthCodeTo authCodeTo) {
         // 检查AuthCodeTo参数是否符合规范
         checkAuthCodeTo(authCodeTo);
         // 填充AuthCodeTo默认的值
         fillAuthCodeToDefaultValue(authCodeTo);
         final GET_ACCESS_TOKEN_RO getAccessTokenRo = getAccessToken(authCodeTo);
-        final UserInfoRo          userInfo         = getUserInfo(genGetUserInfoTo(getAccessTokenRo));
+        final OrpUserInfoRa       userInfo         = getUserInfo(genGetUserInfoTo(getAccessTokenRo));
         // 设置Token信息
         setTokenInfo(userInfo, getAccessTokenRo);
         return userInfo;
@@ -280,7 +280,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     /**
      * 获取用户信息
      */
-    protected UserInfoRo getUserInfo(final GET_USER_INFO_TO getUserInfoTo) {
+    protected OrpUserInfoRa getUserInfo(final GET_USER_INFO_TO getUserInfoTo) {
         // 发出获取用户信息请求
         final GET_USER_INFO_RO getUserInfoRo = sendGetUserInfo(getUserInfoTo);
         // 检查获取AccessToken的结果是否正确
@@ -304,14 +304,14 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     /**
      * 转换不同策略的用户信息为统一的用户信息
      */
-    protected UserInfoRo convertUserInfo(final GET_USER_INFO_RO getUserInfoRo) {
-        return _mapperFactory.getMapperFacade().map(getUserInfoRo, UserInfoRo.class);
+    protected OrpUserInfoRa convertUserInfo(final GET_USER_INFO_RO getUserInfoRo) {
+        return _mapperFactory.getMapperFacade().map(getUserInfoRo, OrpUserInfoRa.class);
     }
 
     /**
      * 设置Token信息
      */
-    protected void setTokenInfo(final UserInfoRo userInfo, final GET_ACCESS_TOKEN_RO getAccessTokenRo) {
+    protected void setTokenInfo(final OrpUserInfoRa userInfo, final GET_ACCESS_TOKEN_RO getAccessTokenRo) {
     }
 
     /**

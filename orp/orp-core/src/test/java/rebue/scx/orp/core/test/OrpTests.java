@@ -15,10 +15,10 @@ import rebue.scx.orp.core.config.StrategyConfig;
 import rebue.scx.orp.core.dic.OrpTypeDic;
 import rebue.scx.orp.core.factory.StrategyFactory;
 import rebue.scx.orp.core.mo.ClientMo;
-import rebue.scx.orp.core.ro.UserInfoRo;
 import rebue.scx.orp.core.strategy.Strategy;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
+import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.wheel.net.httpclient.HttpClient;
 import rebue.wheel.net.httpclient.impl.ApacheHttpClientImpl;
 
@@ -74,7 +74,7 @@ public class OrpTests {
             state = s.nextLine().trim();
         }
 
-        UserInfoRo ro = strategy.authCode(AuthCodeTo.builder()
+        OrpUserInfoRa ro = strategy.authCode(AuthCodeTo.builder()
                 .clientId(clientId)
                 .code(code)
                 .state(state)
@@ -96,7 +96,7 @@ public class OrpTests {
 
         StrategyConfig orpConfig  = StrategyConfig.builder().isCheckState(true).build();
         StateCache     stateCache = new StateCache(stringRedisTemplate, Duration.ofMinutes(5));
-        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.WeChatOpen, clients, orpConfig, stateCache, httpClient);
+        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.WechatOpen, clients, orpConfig, stateCache, httpClient);
         String         authUrl    = strategy.getAuthUrl(AuthTo.builder().clientId(clientId).redirectUri(redirectUri).build());
         log.info("获取微信认证的URL为: {}", authUrl);
 
@@ -112,7 +112,7 @@ public class OrpTests {
             state = s.nextLine().trim();
         }
 
-        UserInfoRo ro = strategy.authCode(AuthCodeTo.builder()
+        OrpUserInfoRa ro = strategy.authCode(AuthCodeTo.builder()
                 .clientId(clientId)
                 .code(code)
                 .state(state)
