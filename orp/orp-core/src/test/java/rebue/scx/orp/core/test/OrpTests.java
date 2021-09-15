@@ -30,8 +30,8 @@ public class OrpTests {
 
     public static void main(final String[] args) {
         init();
-        // test01();
-        test02();
+        test01();
+        // test02();
     }
 
     /**
@@ -49,8 +49,8 @@ public class OrpTests {
      */
     @SneakyThrows
     public static void test01() {
-        String                clientId     = "ding****************";
-        String                clientSecret = "********************";
+        String                clientId     = "dingsahvlqybvb44jd50";
+        String                clientSecret = "hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm80";
         String                redirectUri  = "http://www.abc.com";
 
         Map<String, ClientMo> clients      = new HashMap<>();

@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
-import rebue.scx.orp.api.OidcApi;
+import rebue.scx.orp.api.OrpApi;
 
 @RestController
-@RequestMapping("/oidc")
-public class OidcCtrl {
+@RequestMapping("/orp")
+public class OrpCtrl {
 
     @Resource
-    private OidcApi oidcApi;
+    private OrpApi oidcApi;
 
     @GetMapping("/callback")
     public Mono<String> callback(final ServerHttpResponse response, @RequestParam("code") final String code) {

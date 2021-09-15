@@ -8,14 +8,14 @@ import org.springframework.http.ResponseCookie;
 
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.scx.orp.api.OidcApi;
-import rebue.scx.orp.svc.OidcSvc;
+import rebue.scx.orp.api.OrpApi;
+import rebue.scx.orp.svc.OrpSvc;
 
 @DubboService
-public class OidcApiImpl implements OidcApi {
+public class OrpApiImpl implements OrpApi {
 
     @Resource
-    private OidcSvc oidcSvc;
+    private OrpSvc oidcSvc;
 
     @Override
     public Triple<String, String, ResponseCookie> callback(final String code) {

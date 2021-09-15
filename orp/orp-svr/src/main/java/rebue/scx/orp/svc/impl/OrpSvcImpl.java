@@ -33,14 +33,14 @@ import rebue.scx.orp.config.OrpStrategies;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
 import rebue.scx.orp.ra.OrpUserInfoRa;
-import rebue.scx.orp.svc.OidcSvc;
+import rebue.scx.orp.svc.OrpSvc;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
 @Service
-public class OidcSvcImpl implements OidcSvc {
+public class OrpSvcImpl implements OrpSvc {
 
     @Value("${oidc.client-id}")
     private String        clientId;
