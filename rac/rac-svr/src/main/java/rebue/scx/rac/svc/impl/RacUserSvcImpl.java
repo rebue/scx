@@ -41,8 +41,9 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacUserSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
-    implements RacUserSvc {
+        extends
+        BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+        implements RacUserSvc {
 
     /**
      * 本服务的单例
@@ -86,12 +87,18 @@ public class RacUserSvcImpl
     public RacUserMo add(RacUserAddTo to) {
         to.setCreateTimestamp(System.currentTimeMillis());
         to.setUpdateTimestamp(System.currentTimeMillis());
-        final RacUserMo mo = OrikaUtils.map(to, getMoClass());
-        String idCard = mo.getIdCard();
+        final RacUserMo mo     = OrikaUtils.map(to, getMoClass());
+        String          idCard = mo.getIdCard();
         if (idCard != null) {
             // 取身份证第17位数自动判断性别，0为女，1为男
             int parseInt = Integer.parseInt(idCard.substring(16, 17));
             mo.setSex((byte) (parseInt % 2));
+        }
+        if (to.getMobile().equals("")) {
+            mo.setMobile(null);
+        }
+        if (to.getEmail().equals("")) {
+            mo.setEmail(null);
         }
         return thisSvc.addMo(mo);
     }

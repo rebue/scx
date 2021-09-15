@@ -292,7 +292,7 @@ public class OapAppSvcImpl
         OapAppMo one = thisSvc.getOne(oneTo);
         if (one == null) {
             OapAppMo mo = new OapAppMo();
-            mo.setAppId("uiap" + _idWorker.getIdStr());
+            mo.setClientId("uiap" + _idWorker.getIdStr());
             mo.setSecret(RandomEx.randomUUID());
             return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", mo);
         }

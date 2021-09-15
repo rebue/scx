@@ -158,7 +158,7 @@ public class RacAccountCtrl {
      *
      * @param to 启用的具体数据
      */
-    @RacOpLog(opType = "启用账户", opTitle = "启用账户: #{#p0.lockAccountId}")
+    @RacOpLog(opType = "启用账户", opTitle = "启用账户: #{#p0.accountId}")
     @PutMapping("/rac/account/enable")
     public Mono<Ro<?>> enable(@RequestBody final RacDisableLogModifyTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         if (StringUtils.isBlank(jwtToken)) {
@@ -174,7 +174,7 @@ public class RacAccountCtrl {
      *
      * @param to 禁用的具体数据
      */
-    @RacOpLog(opType = "禁用账户", opTitle = "禁用账户: #{#p0.lockAccountId}")
+    @RacOpLog(opType = "禁用账户", opTitle = "禁用账户: #{#p0.accountId}")
     @PutMapping("/rac/account/disable")
     public Mono<Ro<?>> disable(@RequestBody final RacDisableLogAddTo qo, @CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken) {
         if (StringUtils.isBlank(jwtToken)) {
