@@ -26,18 +26,21 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.gateway.server.config.OidcConfig;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.rac.api.RacPermUrnApi;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
 import rebue.wheel.turing.JwtUtils;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Component
 public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<JwtPreGatewayFilterFactory.Config> {
 
-    @Value("${oidc.redirect-uri}")
-    private String redirectUri;
+    @Resource
+    private OidcConfig oidcConfig;
 
     @DubboReference
     private JwtApi        jwtApi;
@@ -83,7 +86,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     final ServerHttpResponse response = exchange.getResponse();
 
                     response.setStatusCode(HttpStatus.FOUND);
-                    response.getHeaders().setLocation(URI.create(redirectUri));
+                    response.getHeaders().setLocation(URI.create(oidcConfig.getRedirectUri()));
 
                     return response.setComplete();
                 }
@@ -94,7 +97,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     final ServerHttpResponse response = exchange.getResponse();
 
                     response.setStatusCode(HttpStatus.FOUND);
-                    response.getHeaders().setLocation(URI.create(redirectUri));
+                    response.getHeaders().setLocation(URI.create(oidcConfig.getRedirectUri()));
 
                     return response.setComplete();
                 }

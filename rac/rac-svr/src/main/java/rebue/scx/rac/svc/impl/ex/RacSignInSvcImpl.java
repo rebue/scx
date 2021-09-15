@@ -195,7 +195,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.WARN, msg, "1");
         }
         // 第一次不进行校验，有输入密码错误记录后，才进行校验
-        if (allowErrCount != 5) {
+        if (wrongPswdTimesOfSignIn != null) {
             log.info("校验验证码是否正确");
             final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
             if (verifyVo.getResult().getCode() != 1) {

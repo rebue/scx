@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacDisableLogDao;
@@ -98,6 +101,16 @@ public class RacDisableLogSvcImpl extends
         }
         // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
         return getById(qo.getId());
+    }
+
+    /**
+     * 分页查询日志
+     */
+    @Override
+    public PageInfo<RacDisableLogMo> page(RacDisableLogPageTo qo) {
+        // final MO mo = _dozerMapper.map(qo, getMoClass());
+        final ISelect select = () -> _mapper.selectEx(qo);
+        return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
     }
 
 }

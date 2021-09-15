@@ -14,6 +14,13 @@ import java.net.URISyntaxException;
 
 public class OidcCore {
 
+    /**
+     * @param tokenEndpointURI 统一身份认证token接口地址
+     * @param clientId         第三方应用id, 需要在统一身份认证系统中配置
+     * @param clientSecret     第三方应用密钥, 需要在统一身份认证系统中配置
+     * @param code             todo
+     * @param redirectUri      todo
+     */
     public static TokenResponse tokenRequest(
             String tokenEndpointURI,
             String clientId,

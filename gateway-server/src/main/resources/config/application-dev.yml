@@ -36,5 +36,7 @@ spring:
           filters:
           - name: JwtPre
 
-oidc:
-  redirect-uri: http://127.0.0.1/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=st&redirect_uri=http%3A%2F%2F127.0.0.1%2Forp-svr%2Foidc%2Fcallback
+oidc-redirect:
+  call-uri: http://127.0.0.1
+  client-id: unified-auth
+  redirect-uri: http://127.0.0.1

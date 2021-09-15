@@ -2,6 +2,6 @@ demo-configurations:
   client-id: third-party-demo
   client-secret: 123456
   issuer: third-party-demo-issuer
-  auth-uri: http://auth.maiyuesoft.com/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=third-party-demo&state=tr&redirect_uri=http%3A%2F%2F122.9.109.134:30010%2Fcallback
+  auth-uri: http://auth.maiyuesoft.com/oap-svr/oap/authorize?scope=openid&response_type=code&client_id=third-party-demo&state=tr&redirect_uri=http%3A%2F%2F122.9.109.134:30010%2Fcallback
   redirect: http://122.9.109.134:30010/callback
-  token-endpoint: http://auth.maiyuesoft.com/oap-svr/oidc/token
+  token-endpoint: http://auth.maiyuesoft.com/oap-svr/oap/token

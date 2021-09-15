@@ -58,5 +58,7 @@ logging:
     '[org.springframework.cloud]': warn
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
 
-oidc:
-  redirect-uri: http://auth.maiyuesoft.com/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=unified-auth&state=st&redirect_uri=http%3A%2F%2Fauth.maiyuesoft.com%2Forp-svr%2Foidc%2Fcallback
+oidc-redirect:
+  call-uri: http://auth.maiyuesoft.com
+  client-id: unified-auth
+  redirect-uri: http://auth.maiyuesoft.com

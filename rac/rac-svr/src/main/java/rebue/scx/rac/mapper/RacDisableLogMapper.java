@@ -27,6 +27,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
@@ -48,8 +49,9 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.rac.mo.RacDisableLogMo;
-import rebue.scx.rac.mo.RacLockLogMo;
+import rebue.scx.rac.mo.ex.RacDisableLogExMo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.RacDisableLogPageTo;
 
 @Mapper
 public interface RacDisableLogMapper extends MapperRootInterface<RacDisableLogMo, Long> {
@@ -421,9 +423,39 @@ public interface RacDisableLogMapper extends MapperRootInterface<RacDisableLogMo
      *
      * @return
      */
-    @Update("update RAC_LOCK_LOG lo set lo.unlock_reason=#{record.unlockReason}, lo.unlock_datetime=#{record.unlockDatetime}, lo.unlock_op_id=#{record.unlockOpId}  "
-            + " where lo.lock_account_id=#{record.lockAccountId} and lo.unlock_op_id is null  " + " order by  lo.lock_datetime desc limit 1")
-    int updateUnLockOpLogEx(@Param(value = "record") RacLockLogMo record);
+    @Update("update RAC_DISABLE_LOG lo set lo.ENABLE_REASON=#{record.enableReason}, lo.ENABLE_DATETIME=#{record.enableDatetime}, lo.ENABLE_OP_ID=#{record.enableOpId}  "
+            + " where lo.ACCOUNT_ID=#{record.accountId} and lo.ENABLE_OP_ID is null  " + " order by  lo.DISABLE_DATETIME desc limit 1")
+    int updateDisableLogEx(@Param(value = "record") RacDisableLogModifyTo qo);
 
-    int updateDisableLogEx(RacDisableLogModifyTo qo);
+    /**
+     * 查询日志/条件/分页
+     *
+     * @param record
+     *
+     * @return
+     */
+    @Select({ "<script>"
+            + "SELECT lo.*, a.SIGN_IN_NAME signInName, a.SIGN_IN_MOBILE signInMobile, a.SIGN_IN_EMAIL signInEmail, a.WX_NICKNAME wxNickname, a.QQ_NICKNAME qqNickname, a.SIGN_IN_NICKNAME signInNickname,"
+            + "  b.SIGN_IN_NAME disableSignInName, b.SIGN_IN_MOBILE disableSignInMobile, b.SIGN_IN_EMAIL disableSignInEmail, b.WX_NICKNAME disablewxNickname, b.QQ_NICKNAME disableqqNickname, b.SIGN_IN_NICKNAME disableSignInNickname,"
+            + "  c.SIGN_IN_NAME enableSignInName, c.SIGN_IN_MOBILE enableSignInMobile, c.SIGN_IN_EMAIL enableSignInEmail, c.WX_NICKNAME enablewxNickname, c.QQ_NICKNAME enableqqNickname, c.SIGN_IN_NICKNAME enableSignInNickname, "
+            + "  d.SIGN_IN_NAME disableAgentSignInName, d.SIGN_IN_MOBILE disableAgentSignInMobile, d.SIGN_IN_EMAIL disableAgentSignInEmail, d.WX_NICKNAME disableAgentwxNickname, d.QQ_NICKNAME disableAgentqqNickname, d.SIGN_IN_NICKNAME disableAgentSignInNickname, "
+            + "  e.SIGN_IN_NAME enableAgentSignInName, e.SIGN_IN_MOBILE enableAgentSignInMobile, e.SIGN_IN_EMAIL enableAgentSignInEmail, e.WX_NICKNAME enableAgentwxNickname, e.QQ_NICKNAME enableAgentqqNickname, e.SIGN_IN_NICKNAME enableAgentSignInNickname "
+            + "  FROM RAC_DISABLE_LOG lo " + "  left join RAC_ACCOUNT a ON lo.ACCOUNT_ID=a.ID " + "  left join RAC_ACCOUNT b ON lo.DISABLE_OP_ID=b.ID "
+            + "  left join RAC_ACCOUNT c ON lo.ENABLE_OP_ID=c.ID " + "  left join RAC_ACCOUNT d ON lo.DISABLE_OP_AGENT_ID=d.ID "
+            + "  left join RAC_ACCOUNT e ON lo.ENABLE_OP_AGENT_ID=e.ID " + "  where 1=1 and a.realm_Id=#{record.realmId} " + "<if test='record.keywords!=null'> " + "  and ("
+            + "    a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
+            + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+            + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
+            + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+            + " or c.ID like '%${record.keywords}%' or c.SIGN_IN_NAME like '%${record.keywords}%' or c.SIGN_IN_MOBILE like '%${record.keywords}%' or c.SIGN_IN_EMAIL like '%${record.keywords}%' "
+            + " or c.WX_NICKNAME like '%${record.keywords}%' or c.QQ_NICKNAME like '%${record.keywords}%' or c.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+            + " or d.ID like '%${record.keywords}%' or d.SIGN_IN_NAME like '%${record.keywords}%' or d.SIGN_IN_MOBILE like '%${record.keywords}%' or d.SIGN_IN_EMAIL like '%${record.keywords}%' "
+            + " or d.WX_NICKNAME like '%${record.keywords}%' or d.QQ_NICKNAME like '%${record.keywords}%' or d.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+            + " or e.ID like '%${record.keywords}%' or e.SIGN_IN_NAME like '%${record.keywords}%' or e.SIGN_IN_MOBILE like '%${record.keywords}%' or e.SIGN_IN_EMAIL like '%${record.keywords}%' "
+            + " or e.WX_NICKNAME like '%${record.keywords}%' or e.QQ_NICKNAME like '%${record.keywords}%' or e.SIGN_IN_NICKNAME like '%${record.keywords}%' " + "   ) </if>"
+            + "<if test='record.startDate!=null and record.endDate!=null'>"
+            + "  and (lo.DISABLE_DATETIME between  '${record.startDate}' and  '${record.endDate}'  or lo.ENABLE_DATETIME between '${record.startDate}' and  '${record.endDate}') </if>"
+            + "</script>"
+    })
+    List<RacDisableLogExMo> selectEx(@Param(value = "record") RacDisableLogPageTo qo);
 }

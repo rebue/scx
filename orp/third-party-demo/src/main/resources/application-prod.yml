@@ -2,8 +2,8 @@ demo-configurations:
   client-id: third-party-demo
   client-secret: 123456
   issuer: third-party-demo-issuer
-  auth-uri: https://auth.nnxy.edu.cn/oap-svr/oidc/authorize?scope=openid&response_type=code&client_id=third-party-demo&state=tr&redirect_uri=http%3A%2F%2F10.200.101.16:30010%2Fcallback
+  auth-uri: https://auth.nnxy.edu.cn/oap-svr/oap/authorize?scope=openid&response_type=code&client_id=third-party-demo&state=tr&redirect_uri=http%3A%2F%2F10.200.101.16:30010%2Fcallback
   redirect: http://10.200.101.16:30010/callback
-  token-endpoint: http://10.200.101.16:3456/oap-svr/oidc/token
+  token-endpoint: http://10.200.101.16:3456/oap-svr/oap/token
 
 #
