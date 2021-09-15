@@ -4,6 +4,8 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.http.ResponseCookie;
 
 import rebue.robotech.ro.Ro;
+import rebue.scx.orp.to.OrpCodeTo;
+import rebue.scx.rac.ra.SignUpOrInRa;
 
 public interface OrpApi {
 
@@ -17,6 +19,11 @@ public interface OrpApi {
     /**
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
-    Ro<?> getUserInfo(String orpType, String clientId, String code, String state);
+    Ro<?> getUserInfo(String orpType, String clientId, OrpCodeTo to);
+
+    /**
+     * 通过授权码登录
+     */
+    Ro<SignUpOrInRa> signInByCode(String appId, String orpType, String clientId, OrpCodeTo to);
 
 }

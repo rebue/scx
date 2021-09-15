@@ -34,8 +34,14 @@ import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
 import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.scx.orp.svc.OrpSvc;
+import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.to.ex.SignInByOidcTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
@@ -61,6 +67,9 @@ public class OrpSvcImpl implements OrpSvc {
 
     @DubboReference
     private RacAppApi     racAppApi;
+
+    @DubboReference
+    private RacSignInApi  racSignInApi;
 
     @DubboReference
     private OapAppApi     oapAppApi;
@@ -145,11 +154,35 @@ public class OrpSvcImpl implements OrpSvc {
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
     @Override
-    public OrpUserInfoRa authCode(final String orpType, final String clientId, final String code, final String state) {
+    public OrpUserInfoRa authCode(final String orpType, final String clientId, final OrpCodeTo to) {
         return strategy.getItems().get(orpType).authCode(AuthCodeTo.builder()
                 .clientId(clientId)
-                .code(code)
-                .state(state)
+                .code(to.getCode())
+                .state(to.getState())
+                .build());
+    }
+
+    /**
+     * 通过授权码登录
+     */
+    @Override
+    public Ro<SignUpOrInRa> signInByCode(final String appId, final String orpType, final String clientId, final OrpCodeTo to) {
+        final OrpUserInfoRa    userInfo = authCode(orpType, clientId, to);
+        final SignUpOrInWayDic signUpOrInWay;
+        switch (orpType) {
+        case "ding-talk":
+            signUpOrInWay = SignUpOrInWayDic.DINGTALK;
+            break;
+        case "wechat-open":
+            signUpOrInWay = SignUpOrInWayDic.WECHAT;
+            break;
+        default:
+            throw new RuntimeExceptionX("不支持此登录方式: " + orpType);
+        }
+        return racSignInApi.signInByOidc(signUpOrInWay, SignInByOidcTo.builder()
+                .appId(appId)
+                .unionId(userInfo.getUnionId())
+                .openId(userInfo.getOpenId())
                 .build());
     }
 

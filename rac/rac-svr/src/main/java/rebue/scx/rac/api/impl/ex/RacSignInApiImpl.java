@@ -10,12 +10,14 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
 
 /**
@@ -28,7 +30,7 @@ public class RacSignInApiImpl implements RacSignInApi {
     private RacSignInSvc svc;
 
     @Override
-    public Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to) {
+    public Optional<RacAccountMo> unifiedLogin(final UnifiedLoginTo to) {
         return svc.unifiedLogin(to);
     }
 
@@ -38,6 +40,14 @@ public class RacSignInApiImpl implements RacSignInApi {
     @Override
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
         return svc.signInByAccountName(to);
+    }
+
+    /**
+     * 通过OIDC登录
+     */
+    @Override
+    public Ro<SignUpOrInRa> signInByOidc(final SignUpOrInWayDic signUpOrInWay, final SignInByOidcTo to) {
+        return svc.signInByOidc(signUpOrInWay, to);
     }
 
     /**
@@ -53,7 +63,7 @@ public class RacSignInApiImpl implements RacSignInApi {
      */
     @Override
     public Ro<?> handDelWrongPswdTimesOfSignIn(final UnlockSignInTo to) {
-        Boolean boo = svc.handDelWrongPswdTimesOfSignIn(to);
+        final Boolean boo = svc.handDelWrongPswdTimesOfSignIn(to);
         if (boo) {
             return new Ro<>(ResultDic.SUCCESS, "解锁密码锁定成功");
         }

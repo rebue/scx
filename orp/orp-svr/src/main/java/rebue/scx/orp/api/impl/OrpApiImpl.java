@@ -10,16 +10,18 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.api.OrpApi;
 import rebue.scx.orp.svc.OrpSvc;
+import rebue.scx.orp.to.OrpCodeTo;
+import rebue.scx.rac.ra.SignUpOrInRa;
 
 @DubboService
 public class OrpApiImpl implements OrpApi {
 
     @Resource
-    private OrpSvc oidcSvc;
+    private OrpSvc svc;
 
     @Override
     public Triple<String, String, ResponseCookie> callback(final String code) {
-        return oidcSvc.callback(code);
+        return svc.callback(code);
     }
 
     /**
@@ -27,15 +29,23 @@ public class OrpApiImpl implements OrpApi {
      */
     @Override
     public Ro<?> getAuthUrl(final String orpType, final String clientId, final String redirectUri) {
-        return new Ro<>(ResultDic.SUCCESS, "获取认证URL成功", oidcSvc.getAuthUrl(orpType, clientId, redirectUri));
+        return new Ro<>(ResultDic.SUCCESS, "获取认证URL成功", svc.getAuthUrl(orpType, clientId, redirectUri));
     }
 
     /**
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
     @Override
-    public Ro<?> getUserInfo(final String orpType, final String clientId, final String code, final String state) {
-        return new Ro<>(ResultDic.SUCCESS, "获取用户信息成功", oidcSvc.authCode(orpType, clientId, code, state));
+    public Ro<?> getUserInfo(final String orpType, final String clientId, final OrpCodeTo to) {
+        return new Ro<>(ResultDic.SUCCESS, "获取用户信息成功", svc.authCode(orpType, clientId, to));
+    }
+
+    /**
+     * 通过授权码登录
+     */
+    @Override
+    public Ro<SignUpOrInRa> signInByCode(final String appId, final String orpType, final String clientId, final OrpCodeTo to) {
+        return svc.signInByCode(appId, orpType, clientId, to);
     }
 
 }

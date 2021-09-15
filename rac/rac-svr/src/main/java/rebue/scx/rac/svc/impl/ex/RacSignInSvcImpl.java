@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,13 @@ import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.svc.impl.RacAccountSvcImpl;
+import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
+import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.DateUtils;
@@ -107,16 +110,16 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private CapApi              capApi;
 
     @Override
-    public Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to) {
+    public Optional<RacAccountMo> unifiedLogin(final UnifiedLoginTo to) {
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
             return Optional.empty();
         }
-        RacAccountMo account = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getUsername());
+        final RacAccountMo account = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getUsername());
         if (account == null || !account.getIsEnabled()) {
             return Optional.empty();
         }
-        boolean passwordChecked = account.getSignInPswd() != null
+        final boolean passwordChecked = account.getSignInPswd() != null
                 && account.getSignInPswdSalt() != null
                 && to.getPassword() != null
                 && account.getSignInPswd().equals(PswdUtils.saltPswd(to.getPassword(), account.getSignInPswdSalt()));
@@ -133,29 +136,21 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
-            return new Ro<>(ResultDic.FAIL, "未发现此应用信息: " + to.getAppId());
+            final String msg = "未发现此应用的信息";
+            log.warn(msg + ": {}", to.getAppId());
+            return new Ro<>(ResultDic.WARN, msg + to.getAppId());
         }
 
-        RacAccountMo     accountMo = null;
-        SignUpOrInWayDic signInWay = null;
+        RacAccountMo accountMo = null;
         if (RegexUtils.matchEmail(to.getAccountName())) {
             accountMo = accountSvc.getOneByEmail(appMo.getRealmId(), to.getAccountName());
-            if (accountMo != null) {
-                signInWay = SignUpOrInWayDic.EMAIL;
-            }
         }
         else if (RegexUtils.matchMobile(to.getAccountName())) {
             accountMo = accountSvc.getOneByMobile(appMo.getRealmId(), to.getAccountName());
-            if (accountMo != null) {
-                signInWay = SignUpOrInWayDic.MOBILE;
-            }
         }
 
         if (accountMo == null) {
             accountMo = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getAccountName());
-            if (accountMo != null) {
-                signInWay = SignUpOrInWayDic.SIGN_IN_NAME;
-            }
         }
 
         if (accountMo == null) {
@@ -214,7 +209,70 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             delWrongPswdTimesOfSignIn(accountMo.getId());
         }
 
-        return returnSuccessSignIn(accountMo, to.getAppId(), signInWay);
+        return returnSuccessSignIn(accountMo, to.getAppId());
+    }
+
+    /**
+     * 通过OIDC登录
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Ro<SignUpOrInRa> signInByOidc(final SignUpOrInWayDic signUpOrInWay, final SignInByOidcTo to) {
+        if (StringUtils.isAnyBlank(to.getOpenId(), to.getUnionId())) {
+            final String msg = "openid和unionid必须有一项不能为空";
+            log.warn(msg + ": to-{}", to);
+            return new Ro<>(ResultDic.WARN, msg);
+        }
+
+        log.info("根据应用ID获取应用信息");
+        final RacAppMo appMo = appSvc.getById(to.getAppId());
+        if (appMo == null) {
+            final String msg = "未发现此应用的信息";
+            log.warn(msg + ": {}", to.getAppId());
+            return new Ro<>(ResultDic.WARN, msg + to.getAppId());
+        }
+
+        final RacAccountOneTo qo = new RacAccountOneTo();
+        qo.setRealmId(appMo.getRealmId());
+        switch (signUpOrInWay) {
+        case DINGTALK:
+            if (StringUtils.isNotBlank(to.getUnionId())) {
+                qo.setDdUnionId(to.getUnionId());
+            }
+            else {
+                qo.setDdOpenId(to.getOpenId());
+            }
+            break;
+        case WECHAT:
+            if (StringUtils.isNotBlank(to.getUnionId())) {
+                qo.setWxUnionId(to.getUnionId());
+            }
+            else {
+                qo.setWxOpenId(to.getOpenId());
+            }
+            break;
+        default:
+            final String msg = "未支持此方式登录";
+            log.warn(msg + ": {}", to);
+            return new Ro<>(ResultDic.WARN, msg + to.getAppId());
+        }
+        final RacAccountMo accountMo = accountSvc.getOne(qo);
+
+        if (accountMo == null) {
+            final String msg = "找不到此账户";
+            log.warn(msg + ": to-{}", to);
+            return new Ro<>(ResultDic.WARN, msg);
+        }
+
+        log.info("检查账户输错密码是否超过限定次数");
+        final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
+        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
+            final String msg = "账户已被锁定，请明天再试";
+            log.warn(msg + ": to-{}", to);
+            return new Ro<>(ResultDic.WARN, msg);
+        }
+
+        return returnSuccessSignIn(accountMo, to.getAppId());
     }
 
     /**
@@ -252,9 +310,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Boolean handDelWrongPswdTimesOfSignIn(UnlockSignInTo to) {
+    public Boolean handDelWrongPswdTimesOfSignIn(final UnlockSignInTo to) {
         log.info("手动删除账户输入错误登录密码的次数: {}", to.getAccountId());
-        RacLockLogModifyTo modifyTo = new RacLockLogModifyTo();
+        final RacLockLogModifyTo modifyTo = new RacLockLogModifyTo();
         modifyTo.setId(to.getId());
         modifyTo.setUnlockOpId(to.getOpAccountId());
         modifyTo.setUnlockDatetime(LocalDateTime.now());
@@ -270,8 +328,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private void keepSignInLockRecord(final Long accountId) {
         log.info("保存输入密码错误而被锁定的账户记录: {}", accountId);
-        RacAccountMo    accountMo = accountSvc.getById(accountId);
-        RacLockLogAddTo addTo     = new RacLockLogAddTo();
+        final RacAccountMo    accountMo = accountSvc.getById(accountId);
+        final RacLockLogAddTo addTo     = new RacLockLogAddTo();
         addTo.setLockAccountId(accountMo.getId());
         addTo.setRealmId(accountMo.getRealmId());
         addTo.setLockReason("登录密码连续输入错误5次");
@@ -286,8 +344,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * @return
      */
     @Override
-    public PageInfo<RacAccountMo> getSignInLockRecord(RacAccountPageTo qo) {
-        String        likeDate = "%" + LocalDate.now().toString() + "%";
+    public PageInfo<RacAccountMo> getSignInLockRecord(final RacAccountPageTo qo) {
+        final String  likeDate = "%" + LocalDate.now().toString() + "%";
         final ISelect select   = () -> racAccountMapper.selectLockAccount(qo, likeDate);
         // 固定
         qo.setOrderBy("lockDatetime");
@@ -299,9 +357,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      *
      * @param accountMo 获取到的账户信息
      * @param appId     应用ID
-     * @param signInWay 登录方式
      */
-    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final SignUpOrInWayDic signInWay) {
+    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId) {
         final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appId);
         final JwtSignRa signRo = jwtApi.sign(signTo);
         if (signRo.isSuccess()) {

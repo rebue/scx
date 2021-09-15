@@ -14,6 +14,7 @@ import rebue.robotech.dic.DicUtils;
  * 3: 手机号码
  * 4: QQ
  * 5: 微信
+ * 6: 钉钉
  */
 @AllArgsConstructor
 @Getter
@@ -37,7 +38,11 @@ public enum SignUpOrInWayDic implements Dic {
     /**
      * 5: 微信
      */
-    WX((byte) 5, "微信");
+    WECHAT((byte) 5, "微信"),
+    /**
+     * 6: 钉钉
+     */
+    DINGTALK((byte) 6, "钉钉");
 
     private final byte   code;
     private final String desc;
