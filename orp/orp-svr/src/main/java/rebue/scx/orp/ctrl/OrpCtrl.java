@@ -64,7 +64,7 @@ public class OrpCtrl {
     /**
      * 通过授权码登录
      */
-    @GetMapping("/get-user-info/{appId}/{orpType}/{clientId}")
+    @GetMapping("/sign-in-by-code/{appId}/{orpType}/{clientId}")
     public Mono<Ro<?>> signInByCode(@PathVariable("appId") final String appId,
             @PathVariable("orpType") final String orpType,
             @PathVariable("clientId") final String clientId,
