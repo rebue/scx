@@ -19,7 +19,7 @@ import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.ex.RacAgentSignOutApi;
 import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.co.RacJwtSignCo;
-import rebue.scx.rac.ra.AgentSignOutRa;
+import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.wheel.turing.JwtUtils;
 
 /**
@@ -37,8 +37,8 @@ public class RacAgentSignOutCtrl {
     @PostMapping("/rac/agent-sign-out/sign-out")
     @RacOpLog(opType = "登录", opTitle = "登录: 从代理登录退出", opDetail = "")
     @SneakyThrows
-    public Mono<Ro<AgentSignOutRa>> signOut(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken,
-                                            final ServerHttpResponse resp) {
+    public Mono<Ro<SignUpOrInRa>> signOut(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken,
+            final ServerHttpResponse resp) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -65,7 +65,7 @@ public class RacAgentSignOutCtrl {
         final String urlBeforeAgent = urlBeforeAgentObj.toString();
 
         return Mono.create(callback -> {
-            final Ro<AgentSignOutRa> ro = api.signOut(agentAccountId, agentAppId, urlBeforeAgent);
+            final Ro<SignUpOrInRa> ro = api.signOut(agentAccountId, agentAppId, urlBeforeAgent);
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.APP_ID_KEY, agentAppId).path("/").build();
                 resp.addCookie(responseCookie);

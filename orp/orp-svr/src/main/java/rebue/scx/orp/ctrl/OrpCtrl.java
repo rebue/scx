@@ -65,7 +65,7 @@ public class OrpCtrl {
      * 通过授权码登录
      */
     @GetMapping("/sign-in-by-code/{appId}/{orpType}/{clientId}")
-    public Mono<Ro<?>> signInByCode(@PathVariable("appId") final String appId,
+    public Mono<ServerHttpResponse> signInByCode(@PathVariable("appId") final String appId,
             @PathVariable("orpType") final String orpType,
             @PathVariable("clientId") final String clientId,
             final OrpCodeTo to, final ServerHttpResponse resp) {
@@ -73,10 +73,10 @@ public class OrpCtrl {
             final Ro<SignUpOrInRa> ro = api.signInByCode(appId, orpType, clientId, to);
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 JwtUtils.addCookie(ro.getExtra().getSign(), ro.getExtra().getExpirationTime(), resp);
-                ro.getExtra().setSign(null);
-                ro.getExtra().setExpirationTime(null);
+                resp.setStatusCode(HttpStatus.FOUND);
+                resp.getHeaders().setLocation(URI.create("/api/v1"));
             }
-            callback.success(ro);
+            callback.success(resp);
         });
     }
 

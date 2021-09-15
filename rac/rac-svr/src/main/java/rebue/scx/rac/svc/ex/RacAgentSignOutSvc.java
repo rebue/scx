@@ -3,7 +3,7 @@ package rebue.scx.rac.svc.ex;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.ra.AgentSignOutRa;
+import rebue.scx.rac.ra.SignUpOrInRa;
 
 /**
  * 退出代理登录服务接口
@@ -29,6 +29,6 @@ public interface RacAgentSignOutSvc {
      *
      * @return 登录成功或失败的结果
      */
-    Ro<AgentSignOutRa> signOut(Long agentAccountId, String agentAppId, String urlBeforeAgent);
+    Ro<SignUpOrInRa> signOut(Long agentAccountId, String agentAppId, String urlBeforeAgent);
 
 }

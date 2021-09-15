@@ -1,7 +1,7 @@
 package rebue.scx.rac.api.ex;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.ra.AgentSignOutRa;
+import rebue.scx.rac.ra.SignUpOrInRa;
 
 /**
  * 退出代理登录API
@@ -17,6 +17,6 @@ public interface RacAgentSignOutApi {
      *
      * @return 登录成功或失败的结果
      */
-    Ro<AgentSignOutRa> signOut(Long agentAccountId, String agentAppId, String urlBeforeAgent);
+    Ro<SignUpOrInRa> signOut(Long agentAccountId, String agentAppId, String urlBeforeAgent);
 
 }

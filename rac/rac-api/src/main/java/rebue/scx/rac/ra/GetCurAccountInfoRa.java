@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacPermCommandMo;
@@ -17,6 +18,7 @@ import rebue.scx.rac.mo.RacPermCommandMo;
  */
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 // @RequiredArgsConstructor // 不知道@Data中默认包含的@RequiredArgsConstructor为何没起效
 @JsonInclude(Include.NON_NULL)
 public class GetCurAccountInfoRa extends RacAccountMo implements Serializable {

@@ -44,12 +44,12 @@ import rebue.scx.rac.svc.ex.RacAgentSignInSvc;
 public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
 
     @DubboReference(application = "jwt-svr")
-    private JwtApi jwtApi;
+    private JwtApi        jwtApi;
 
     @Resource
     private RacAccountSvc accountSvc;
     @Resource
-    private RacAppSvc appSvc;
+    private RacAppSvc     appSvc;
 
     /**
      * 代理登录
@@ -59,16 +59,18 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
      * @param appId          要登录的应用ID
      * @param agentAppId     代理账户之前登录的应用ID
      * @param urlBeforeAgent 代理之前的URL(退出代理登录时回退到此URL)
+     * 
      * @return 登录成功或失败的结果
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<SignUpOrInRa> signIn(final Long accountId, final Long agentAccountId, final String appId, final String agentAppId, final String urlBeforeAgent)
-    {
+    public Ro<SignUpOrInRa> signIn(final Long accountId, final Long agentAccountId, final String appId, final String agentAppId, final String urlBeforeAgent) {
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(appId);
         if (appMo == null) {
-            return new Ro<>(ResultDic.FAIL, "未发现此应用信息: " + appId);
+            final String msg = "未发现此应用的信息";
+            log.warn(msg + ": {}", appId);
+            return new Ro<>(ResultDic.WARN, msg + ": " + appId);
         }
 
         final RacAccountMo accountMo = accountSvc.getById(accountId);
@@ -109,7 +111,7 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
             return new Ro<>(ResultDic.WARN, msg);
         }
 
-        return returnSuccessSignIn(accountMo, agentAccountMo, agentAppId, urlBeforeAgent, appId);
+        return returnSuccessSignIn(accountMo, agentAccountMo, agentAppId, urlBeforeAgent, appMo);
     }
 
     /**
@@ -120,27 +122,27 @@ public class RacAgentSignInSvcImpl implements RacAgentSignInSvc {
      * @param agentAppId     代理应用ID
      */
     private Ro<SignUpOrInRa> returnSuccessSignIn(
-            RacAccountMo accountMo,
-            RacAccountMo agentAccountMo,
-            String agentAppId,
-            String urlBeforeAgent,
-            String appId
-    )
-    {
-        final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appId);
+            final RacAccountMo accountMo,
+            final RacAccountMo agentAccountMo,
+            final String agentAppId,
+            final String urlBeforeAgent,
+            final RacAppMo appMo) {
+        final JwtSignTo           signTo   = new JwtSignTo(accountMo.getId().toString(), appMo.getId());
         final Map<String, Object> addition = new LinkedHashMap<>();
         addition.put(RacJwtSignCo.AGENT_ACCOUNT_ID, agentAccountMo.getId());
         addition.put(RacJwtSignCo.AGENT_APP_ID, agentAppId);
         addition.put(RacJwtSignCo.URL_BEFORE_AGENT, urlBeforeAgent);
         signTo.setAddition(addition);
-        JwtSignRa signRa = jwtApi.sign(signTo);
+        final JwtSignRa signRa = jwtApi.sign(signTo);
         if (signRa.isSuccess()) {
             final SignUpOrInRa ra = new SignUpOrInRa(
                     accountMo.getId(),
+                    appMo.getUrl(),
                     signRa.getSign(),
                     signRa.getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户代理登录成功", ra);
-        } else {
+        }
+        else {
             return new Ro<>(ResultDic.FAIL, "JWT签名失败");
         }
 

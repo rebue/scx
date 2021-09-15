@@ -15,7 +15,7 @@ import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
-import rebue.scx.rac.ra.AgentSignOutRa;
+import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.ex.RacAgentSignOutSvc;
@@ -58,7 +58,7 @@ public class RacAgentSignOutSvcImpl implements RacAgentSignOutSvc {
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Ro<AgentSignOutRa> signOut(final Long agentAccountId, final String agentAppId, final String urlBeforeAgent) {
+    public Ro<SignUpOrInRa> signOut(final Long agentAccountId, final String agentAppId, final String urlBeforeAgent) {
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(agentAppId);
         if (appMo == null) {
@@ -94,15 +94,15 @@ public class RacAgentSignOutSvcImpl implements RacAgentSignOutSvc {
      * @param appId          应用ID
      * @param urlBeforeAgent 代理之前的URL
      */
-    private Ro<AgentSignOutRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final String urlBeforeAgent) {
+    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId, final String urlBeforeAgent) {
         final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appId);
         final JwtSignRa signRo = jwtApi.sign(signTo);
         if (signRo.isSuccess()) {
-            final AgentSignOutRa ra = new AgentSignOutRa(
-                accountMo.getId(),
-                urlBeforeAgent,
-                signRo.getSign(),
-                signRo.getExpirationTime());
+            final SignUpOrInRa ra = new SignUpOrInRa(
+                    accountMo.getId(),
+                    urlBeforeAgent,
+                    signRo.getSign(),
+                    signRo.getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户代理登录成功", ra);
         }
         else {

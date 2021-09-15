@@ -6,7 +6,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacAgentSignOutApi;
-import rebue.scx.rac.ra.AgentSignOutRa;
+import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.ex.RacAgentSignOutSvc;
 
 /**
@@ -28,7 +28,7 @@ public class RacAgentSignOutApiImpl implements RacAgentSignOutApi {
      * @return 登录成功或失败的结果
      */
     @Override
-    public Ro<AgentSignOutRa> signOut(final Long agentAccountId, final String agentAppId, final String urlBeforeAgent) {
+    public Ro<SignUpOrInRa> signOut(final Long agentAccountId, final String agentAppId, final String urlBeforeAgent) {
         return svc.signOut(agentAccountId, agentAppId, urlBeforeAgent);
     }
 

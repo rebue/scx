@@ -209,7 +209,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             delWrongPswdTimesOfSignIn(accountMo.getId());
         }
 
-        return returnSuccessSignIn(accountMo, to.getAppId());
+        return returnSuccessSignIn(accountMo, appMo);
     }
 
     /**
@@ -272,7 +272,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.WARN, msg);
         }
 
-        return returnSuccessSignIn(accountMo, to.getAppId());
+        return returnSuccessSignIn(accountMo, appMo);
     }
 
     /**
@@ -358,12 +358,13 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      * @param accountMo 获取到的账户信息
      * @param appId     应用ID
      */
-    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final String appId) {
-        final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appId);
+    private Ro<SignUpOrInRa> returnSuccessSignIn(final RacAccountMo accountMo, final RacAppMo appMo) {
+        final JwtSignTo signTo = new JwtSignTo(accountMo.getId().toString(), appMo.getId());
         final JwtSignRa signRo = jwtApi.sign(signTo);
         if (signRo.isSuccess()) {
             final SignUpOrInRa ra = new SignUpOrInRa(
                     accountMo.getId(),
+                    appMo.getUrl(),
                     signRo.getSign(),
                     signRo.getExpirationTime());
             return new Ro<>(ResultDic.SUCCESS, "账户登录成功", ra);
