@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 
 @RestController
-@RequestMapping("/oidc")
+@RequestMapping("/oap")
 public class OidcCtrl {
 
     @Autowired
