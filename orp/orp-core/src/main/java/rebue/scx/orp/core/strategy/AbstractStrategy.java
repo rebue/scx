@@ -127,12 +127,12 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
      */
     @SuppressWarnings("unchecked")
     private Class<GET_ACCESS_TOKEN_RO> GET_ACCESS_TOKEN_RO() {
-        return (Class<GET_ACCESS_TOKEN_RO>) GenericTypeUtils.getGenericClass(0);
+        return (Class<GET_ACCESS_TOKEN_RO>) GenericTypeUtils.getGenericClass(this, 0);
     }
 
     // @SuppressWarnings("unchecked")
     // private Class<REFRESH_ACCESS_TOKEN_TO> REFRESH_ACCESS_TOKEN_TO() {
-    // return (Class<REFRESH_ACCESS_TOKEN_TO>) GenericTypeUtils.getGenericClass(1);
+    // return (Class<REFRESH_ACCESS_TOKEN_TO>) GenericTypeUtils.getGenericClass(this, 1);
     // }
 
     /**
@@ -140,12 +140,12 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
      */
     @SuppressWarnings("unchecked")
     private Class<REFRESH_ACCESS_TOKEN_RO> REFRESH_ACCESS_TOKEN_RO() {
-        return (Class<REFRESH_ACCESS_TOKEN_RO>) GenericTypeUtils.getGenericClass(2);
+        return (Class<REFRESH_ACCESS_TOKEN_RO>) GenericTypeUtils.getGenericClass(this, 2);
     }
 
     // @SuppressWarnings("unchecked")
     // private Class<GET_USER_INFO_TO> GET_USER_INFO_TO() {
-    // return (Class<GET_USER_INFO_TO>) GenericTypeUtils.getGenericClass(3);
+    // return (Class<GET_USER_INFO_TO>) GenericTypeUtils.getGenericClass(this, 3);
     // }
 
     /**
@@ -153,7 +153,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
      */
     @SuppressWarnings("unchecked")
     private Class<GET_USER_INFO_RO> GET_USER_INFO_RO() {
-        return (Class<GET_USER_INFO_RO>) GenericTypeUtils.getGenericClass(4);
+        return (Class<GET_USER_INFO_RO>) GenericTypeUtils.getGenericClass(this, 4);
     }
 
     /**
