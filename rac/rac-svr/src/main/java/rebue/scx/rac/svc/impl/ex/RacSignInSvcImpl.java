@@ -196,13 +196,15 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         }
         // 第一次不进行校验，有输入密码错误记录后，才进行校验
         if (wrongPswdTimesOfSignIn != null) {
-            log.info("校验验证码是否正确");
-            final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
-            if (verifyVo.getResult().getCode() != 1) {
-                log.info("校验验证码失败");
-                return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
+            if (to.getVerification() != null && !to.getVerification().equals("")) {
+                log.info("校验验证码是否正确");
+                final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
+                if (verifyVo.getResult().getCode() != 1) {
+                    log.info("校验验证码失败");
+                    return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
+                }
+                log.info("校验验证码成功");
             }
-            log.info("校验验证码成功");
         }
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn > 0) {
             log.info("校验密码正确后，清除输错密码次数");

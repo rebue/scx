@@ -46,6 +46,12 @@ public class OrpCtrl {
 
     /**
      * 获取认证Url(获取认证Url后前端跳转此URL)
+     * 
+     * @param orpType     orp的类型（钉钉：ding-talk，微信：wechat-open）
+     * @param clientId    客户端ID
+     * @param redirectUri 扫码后回调的地址（/orp/get-user-info/{orpType}/{clientId}）
+     * 
+     * @return
      */
     @GetMapping("/get-auth-url/{orpType}/{clientId}")
     public Mono<Ro<?>> getAuthUrl(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
@@ -55,6 +61,12 @@ public class OrpCtrl {
 
     /**
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
+     * 
+     * @param orpType  orp的类型（钉钉：ding-talk，微信：wechat-open）
+     * @param clientId 客户端ID
+     * @param to
+     * 
+     * @return
      */
     @GetMapping("/get-user-info/{orpType}/{clientId}")
     public Mono<Ro<?>> getUserInfo(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId, final OrpCodeTo to) {
@@ -63,6 +75,14 @@ public class OrpCtrl {
 
     /**
      * 通过授权码登录
+     * 
+     * @param appId    应用ID
+     * @param orpType  orp的类型（钉钉：ding-talk，微信：wechat-open）
+     * @param clientId 客户端ID
+     * @param to
+     * @param resp
+     * 
+     * @return
      */
     @GetMapping("/sign-in-by-code/{appId}/{orpType}/{clientId}")
     public Mono<Void> signInByCode(@PathVariable("appId") final String appId,
