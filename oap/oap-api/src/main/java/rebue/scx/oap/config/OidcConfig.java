@@ -26,7 +26,7 @@ public class OidcConfig {
 
     public static final String AUTH_INFO = "auth_info";
 
-    public static final long CODE_FLOW_LOGIN_PAGE_COOKIE_AGE = 100000L; // todo
+    public static final long CODE_FLOW_LOGIN_PAGE_COOKIE_AGE = 10000000L; // todo
 
     // 单位是秒
     public static final long ACCESS_TOKEN_LIFETIME = 60 * 60;

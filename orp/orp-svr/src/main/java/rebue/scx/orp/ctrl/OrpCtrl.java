@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -33,14 +34,14 @@ public class OrpCtrl {
     public Mono<String> callback(final ServerHttpResponse response, @RequestParam("code") final String code) {
         return Mono.create(cb -> {
 
-            final Triple<String, String, ResponseCookie> pair = api.callback(code);
+            final Pair<String, String> pair = api.callback(code, response);
             if (pair.getLeft() != null) {
                 response.setStatusCode(HttpStatus.FOUND);
                 response.getHeaders().setLocation(URI.create(pair.getLeft()));
-                response.addCookie(pair.getRight());
                 cb.success(null);
+            } else {
+                cb.success(pair.getRight());
             }
-            cb.success(pair.getMiddle());
         });
     }
 

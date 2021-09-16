@@ -8,10 +8,11 @@ import java.util.Base64;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.tuple.Triple;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 
 import com.github.rebue.orp.core.OidcCore;
@@ -37,6 +38,7 @@ import rebue.scx.orp.svc.OrpSvc;
 import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -86,11 +88,11 @@ public class OrpSvcImpl implements OrpSvc {
     }
 
     /**
-     * @return [redirectUri, 错误信息, cookie]
+     * @return [redirectUri, 错误信息]
      */
     @Override
     @SneakyThrows
-    public Triple<String, String, ResponseCookie> callback(final String code) {
+    public Pair<String, String> callback(final String code, ServerHttpResponse response) {
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,
                 clientId,
@@ -99,39 +101,44 @@ public class OrpSvcImpl implements OrpSvc {
                 redirectUri);
         if (!tokenResponse.indicatesSuccess()) {
             log.info("111 callback");
-            return Triple.of(null, tokenResponse.toErrorResponse().getErrorObject().getDescription(), null);
+            return Pair.of(null, tokenResponse.toErrorResponse().getErrorObject().getDescription());
         }
         OIDCTokenResponse sr      = (OIDCTokenResponse) tokenResponse.toSuccessResponse();
         OIDCTokens        tokens  = sr.getOIDCTokens();
         JWT               idToken = tokens.getIDToken();
         if (!validateIdToken(idToken)) {
-            return Triple.of(null, "服务器内部错误", null);
+            return Pair.of(null, "服务器内部错误");
         }
 
         OapAppMo oapAppMo = oapAppApi.selectOneByClientId(clientId).orElse(null);
         if (oapAppMo == null) {
-            return Triple.of(null, "应用不存在", null);
+            return Pair.of(null, "应用不存在");
         }
         Ro<PojoRa<RacAppMo>> appRo = racAppApi.getById(oapAppMo.getAppId());
         RacAppMo             app;
         if (!appRo.isSuccess()
                 || appRo.getExtra() == null
                 || (app = appRo.getExtra().getOne()) == null) {
-            return Triple.of(null, "应用不存在", null);
+            return Pair.of(null, "应用不存在");
         }
         if (app.getUrl() == null) {
-            return Triple.of(null, "应用url为空", null);
+            return Pair.of(null, "应用url为空");
         }
         log.info("222 response appurl = " + app.getUrl());
         // todo 这里可以存储 accessToken refreshToken tokens.toJSONObject().toJSONString()
-        return Triple.of(app.getUrl(), null, createCookie(idToken.serialize()));
-    }
-
-    private static ResponseCookie createCookie(final String value) {
-        return ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, value)
-                .path("/")
-                .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                .build();
+        response.addCookie(
+                ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, idToken.serialize())
+                        .path("/")
+                        .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                        .build()
+        );
+        response.addCookie(
+                ResponseCookie.from(RacCookieCo.APP_ID_KEY, app.getId())
+                        .path("/")
+                        .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                        .build()
+        );
+        return Pair.of(app.getUrl(), null);
     }
 
     private boolean validateIdToken(final JWT idToken) throws Exception {

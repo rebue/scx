@@ -2,10 +2,10 @@ package rebue.scx.orp.api.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.tuple.Triple;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.http.ResponseCookie;
 
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.api.OrpApi;
@@ -20,8 +20,8 @@ public class OrpApiImpl implements OrpApi {
     private OrpSvc svc;
 
     @Override
-    public Triple<String, String, ResponseCookie> callback(final String code) {
-        return svc.callback(code);
+    public Pair<String, String> callback(final String code, ServerHttpResponse response) {
+        return svc.callback(code, response);
     }
 
     /**

@@ -1,8 +1,8 @@
 package rebue.scx.orp.svc;
 
-import org.apache.commons.lang3.tuple.Triple;
-import org.springframework.http.ResponseCookie;
+import org.apache.commons.lang3.tuple.Pair;
 
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.scx.orp.to.OrpCodeTo;
@@ -10,7 +10,7 @@ import rebue.scx.rac.ra.SignUpOrInRa;
 
 public interface OrpSvc {
 
-    Triple<String, String, ResponseCookie> callback(String code);
+    Pair<String, String> callback(String code, ServerHttpResponse response);
 
     /**
      * 获取认证Url(获取认证Url后前端跳转此URL)
