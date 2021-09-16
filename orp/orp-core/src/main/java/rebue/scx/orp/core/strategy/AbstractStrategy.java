@@ -203,8 +203,8 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
             if (StringUtils.isBlank(authCodeTo.getState())) {
                 throw new RuntimeExceptionX("state不能为空");
             }
-            final String state = _stateCache.get(getOrpType().name(), authCodeTo.getClientId());
-            if (state == null || !state.equals(authCodeTo.getState())) {
+            final String state = _stateCache.get(getOrpType().name(), authCodeTo.getClientId(), authCodeTo.getState());
+            if (StringUtils.isBlank(state)) {
                 throw new RuntimeExceptionX("state错误: " + state);
             }
         }
