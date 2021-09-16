@@ -123,6 +123,18 @@ public class RacSignInSvcImpl implements RacSignInSvc {
                 && account.getSignInPswdSalt() != null
                 && to.getPassword() != null
                 && account.getSignInPswd().equals(PswdUtils.saltPswd(to.getPassword(), account.getSignInPswdSalt()));
+        log.info("检查账户输错密码是否超过限定次数");
+        final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(account.getId());
+        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
+            final String msg = "账户已被锁定，请明天再试";
+            log.warn(msg + ": to-{}", to);
+            // return new Ro<>(ResultDic.WARN, msg);
+            return Optional.empty();
+        }
+        // 如果密码错误则
+        if (!passwordChecked) {
+            incrWrongPswdTimesOfSignIn(account.getId());
+        }
         return passwordChecked ? Optional.of(account) : Optional.empty();
     }
 
@@ -171,7 +183,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.WARN, msg + ": " + to.getAccountName());
         }
 
-        // log.info("检查账户输错密码是否超过限定次数");
+        log.info("检查账户输错密码是否超过限定次数");
         final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
             final String msg = "账户已被锁定，请明天再试";
@@ -179,9 +191,10 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.WARN, msg);
         }
 
-        final Long allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(accountMo.getId());
+        final Long allowErrCount;
         log.info("校验密码是否正确");
         if (!accountMo.getSignInPswd().equals(PswdUtils.saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
+            allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(accountMo.getId());
             String msg;
             if (allowErrCount == 0) {
                 keepSignInLockRecord(accountMo.getId());
@@ -195,18 +208,20 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return new Ro<>(ResultDic.WARN, msg, "1");
         }
         // 第一次不进行校验，有输入密码错误记录后，才进行校验
-        if (wrongPswdTimesOfSignIn != null) {
-            if (to.getVerification() != null && !to.getVerification().equals("")) {
-                log.info("校验验证码是否正确");
-                final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
-                if (verifyVo.getResult().getCode() != 1) {
-                    log.info("校验验证码失败");
-                    return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
-                }
-                log.info("校验验证码成功");
+        // if (wrongPswdTimesOfSignIn != null) {
+        if (to.getVerification() != null && !to.getVerification().equals("")) {
+            log.info("校验验证码是否正确");
+            final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
+            if (verifyVo.getResult().getCode() != 1) {
+                log.info("校验验证码失败");
+                return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
             }
+            log.info("校验验证码成功");
         }
-        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn > 0) {
+        // }
+        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn > 0)
+
+        {
             log.info("校验密码正确后，清除输错密码次数");
             delWrongPswdTimesOfSignIn(accountMo.getId());
         }
