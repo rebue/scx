@@ -142,10 +142,10 @@ public class OrpCtrl {
      * 
      * @return
      */
-    @GetMapping("/sign-in-by-code/{appId}/{orpType}/{clientId}")
-    public Mono<Void> signInByCode(@PathVariable("appId") final String appId,
+    @GetMapping("/sign-in-by-code/{orpType}/{clientId}/{appId}")
+    public Mono<Void> signInByCode(
             @PathVariable("orpType") final String orpType,
-            @PathVariable("clientId") final String clientId,
+            @PathVariable("clientId") final String clientId, @PathVariable("appId") final String appId,
             final OrpCodeTo to, final ServerHttpResponse resp) {
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signInByCode(appId, orpType, clientId, to);

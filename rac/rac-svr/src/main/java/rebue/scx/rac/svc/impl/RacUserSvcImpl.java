@@ -94,11 +94,15 @@ public class RacUserSvcImpl
             int parseInt = Integer.parseInt(idCard.substring(16, 17));
             mo.setSex((byte) (parseInt % 2));
         }
-        if (to.getMobile().equals("")) {
-            mo.setMobile(null);
+        if (to.getMobile() != null) {
+            if (to.getMobile().equals("")) {
+                mo.setMobile(null);
+            }
         }
-        if (to.getEmail().equals("")) {
-            mo.setEmail(null);
+        if (to.getEmail() != null) {
+            if (to.getEmail().equals("")) {
+                mo.setEmail(null);
+            }
         }
         return thisSvc.addMo(mo);
     }

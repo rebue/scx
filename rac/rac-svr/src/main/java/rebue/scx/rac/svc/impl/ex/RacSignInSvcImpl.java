@@ -111,31 +111,12 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
     @Override
     public Optional<RacAccountMo> unifiedLogin(final UnifiedLoginTo to) {
-        final RacAppMo appMo = appSvc.getById(to.getAppId());
-        if (appMo == null) {
-            return Optional.empty();
-        }
-        final RacAccountMo account = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getUsername());
-        if (account == null || !account.getIsEnabled()) {
-            return Optional.empty();
-        }
-        final boolean passwordChecked = account.getSignInPswd() != null
-                && account.getSignInPswdSalt() != null
-                && to.getPassword() != null
-                && account.getSignInPswd().equals(PswdUtils.saltPswd(to.getPassword(), account.getSignInPswdSalt()));
-        log.info("检查账户输错密码是否超过限定次数");
-        final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(account.getId());
-        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
-            final String msg = "账户已被锁定，请明天再试";
-            log.warn(msg + ": to-{}", to);
-            // return new Ro<>(ResultDic.WARN, msg);
-            return Optional.empty();
-        }
-        // 如果密码错误则
-        if (!passwordChecked) {
-            incrWrongPswdTimesOfSignIn(account.getId());
-        }
-        return passwordChecked ? Optional.of(account) : Optional.empty();
+        SignInByAccountNameTo byAccountNameTo = new SignInByAccountNameTo();
+        byAccountNameTo.setAppId(to.getAppId());
+        byAccountNameTo.setAccountName(to.getUsername());
+        byAccountNameTo.setSignInPswd(to.getPassword());
+        Ro<SignUpOrInRa> ro = signInByAccountName(byAccountNameTo);
+        return ro.isSuccess() ? Optional.of(accountSvc.getById(ro.getExtra().getId())) : Optional.empty();
     }
 
     /**

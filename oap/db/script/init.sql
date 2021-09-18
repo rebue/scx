@@ -4,12 +4,12 @@ INSERT INTO `rac`.`RAC_ACCOUNT`(`ID`, `USER_ID`, `REMARK`, `ORG_ID`, `REALM_ID`,
 
 -- rac 库
 INSERT INTO `rac`.`RAC_APP`(`ID`, `NAME`, `REALM_ID`, `URL`, `MENU`, `REMARK`, `IS_ENABLED`, `IMG_URL`, `SEQ_NO`, `IS_CERTIFIED`)
-VALUES ('unified-auth', '统一认证平台', 'default', 'http://127.0.0.1/admin-web/#/app/index', NULL, '', 1, '', 0, 0);
+VALUES ('unified-auth', '统一认证平台', 'default', 'http://127.0.0.1/admin-web/#/app/index', NULL, '', 1, '', 0, 1);
 
 -- rac 库
 -- 第三方示例应用
 INSERT INTO `rac`.`RAC_APP`(`ID`, `NAME`, `REALM_ID`, `URL`, `MENU`, `REMARK`, `IS_ENABLED`, `IMG_URL`, `SEQ_NO`, `IS_CERTIFIED`)
-VALUES ('third-party-demo', '第三方实例应用', 'default', 'http://the-localhost:30010', NULL, NULL, 1, NULL, 0, 0);
+VALUES ('third-party-demo', '第三方实例应用', 'default', 'http://the-localhost:30010', NULL, NULL, 1, NULL, 0, 1);
 
 -- oap 库
 -- 第三方示例应用
