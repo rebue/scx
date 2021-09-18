@@ -33,7 +33,7 @@ public class DingTalkStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, A
      */
     @Override
     protected String authUrl() {
-        return "https://oapi.dingtalk.com/connect/qrconnect?%s";
+        return "https://oapi.dingtalk.com/connect/oauth2/sns_authorize?%s";
     }
 
     /**

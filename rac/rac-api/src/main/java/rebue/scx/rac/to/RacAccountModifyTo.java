@@ -7,17 +7,28 @@ import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 
 /**
  * 账户
- *
+ * 
+ * @mbg.dontOverWriteAnnotation
+ * 
  * @mbg.removedMember isEnabled,createTimestamp,updateTimestamp
+ * 
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
+// 不进行反序列化
+@JsonIgnoreProperties(value = { "ddNickname", "ddUserId", "ddUnionId", "ddAvatar", "ddOpenId",
+        "wxAvatar", "wxNickname", "wxUnionId", "wxOpenId",
+        "qqAvatar", "qqNickname", "qqUnionId", "qqOpenId"
+}, allowGetters = true, allowSetters = false)
 @Data
 @JsonInclude(Include.NON_NULL)
 public class RacAccountModifyTo implements Serializable {
@@ -62,9 +73,9 @@ public class RacAccountModifyTo implements Serializable {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *             注意：
-     *             1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *             2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -98,64 +109,96 @@ public class RacAccountModifyTo implements Serializable {
     /**
      * 微信的OpenId
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 64, message = "微信的OpenId的长度不能大于64")
     private String            wxOpenId;
 
     /**
      * 微信的UnionId
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 64, message = "微信的UnionId的长度不能大于64")
     private String            wxUnionId;
 
     /**
      * 微信昵称
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 100, message = "微信昵称的长度不能大于100")
     private String            wxNickname;
 
     /**
      * 微信头像
+     * 
+     * @mbg.dontOverWriteAnnotation
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 300, message = "微信头像的长度不能大于300")
     private String            wxAvatar;
 
     /**
      * QQ的OpenId
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String            qqOpenId;
 
     /**
      * QQ的UnionId
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 64, message = "QQ的UnionId的长度不能大于64")
     private String            qqUnionId;
 
     /**
      * QQ昵称
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 100, message = "QQ昵称的长度不能大于100")
     private String            qqNickname;
 
     /**
      * QQ头像
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 300, message = "QQ头像的长度不能大于300")
     private String            qqAvatar;
 
@@ -225,40 +268,59 @@ public class RacAccountModifyTo implements Serializable {
     /**
      * 钉钉的OpenId
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 64, message = "钉钉的OpenId的长度不能大于64")
     private String            ddOpenId;
 
     /**
      * 钉钉的UnionId
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 64, message = "钉钉的UnionId的长度不能大于64")
     private String            ddUnionId;
 
     /**
      * 钉钉的UserId
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.READ_ONLY)
     @Length(max = 64, message = "钉钉的UserId的长度不能大于64")
     private String            ddUserId;
 
     /**
      * 钉钉昵称
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
     @Length(max = 100, message = "钉钉昵称的长度不能大于100")
     private String            ddNickname;
 
     /**
      * 钉钉头像
      *
+     * @mbg.dontOverWriteAnnotation
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    // 不进行反序列化
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 300, message = "钉钉头像的长度不能大于300")
     private String            ddAvatar;
 }

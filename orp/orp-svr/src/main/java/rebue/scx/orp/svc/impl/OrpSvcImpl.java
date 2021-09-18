@@ -36,12 +36,14 @@ import rebue.scx.orp.core.to.AuthTo;
 import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.scx.orp.svc.OrpSvc;
 import rebue.scx.orp.to.OrpCodeTo;
+import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
+import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.turing.JwtUtils;
@@ -69,6 +71,9 @@ public class OrpSvcImpl implements OrpSvc {
 
     @DubboReference
     private RacAppApi     racAppApi;
+
+    @DubboReference
+    private RacAccountApi racAccountApi;
 
     @DubboReference
     private RacSignInApi  racSignInApi;
@@ -130,14 +135,12 @@ public class OrpSvcImpl implements OrpSvc {
                 ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, idToken.serialize())
                         .path("/")
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                        .build()
-        );
+                        .build());
         response.addCookie(
                 ResponseCookie.from(RacCookieCo.APP_ID_KEY, app.getId())
                         .path("/")
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                        .build()
-        );
+                        .build());
         return Pair.of(app.getUrl(), null);
     }
 
@@ -162,11 +165,77 @@ public class OrpSvcImpl implements OrpSvc {
      */
     @Override
     public OrpUserInfoRa authCode(final String orpType, final String clientId, final OrpCodeTo to) {
-        return strategy.getItems().get(orpType).authCode(AuthCodeTo.builder()
+        OrpUserInfoRa userInfoRa = strategy.getItems().get(orpType).authCode(AuthCodeTo.builder()
                 .clientId(clientId)
                 .code(to.getCode())
                 .state(to.getState())
                 .build());
+
+        return userInfoRa;
+    }
+
+    /**
+     * 根据账户ID绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    public Ro<?> bindModify(String orpType, String clientId, Long accountId, OrpCodeTo to) {
+        OrpUserInfoRa authCodeRa = authCode(orpType, clientId, to);
+        switch (orpType) {
+        case "ding-talk":
+            RacAccountModifyTo bindDingTalk = new RacAccountModifyTo();
+            bindDingTalk.setId(accountId);
+            bindDingTalk.setDdAvatar(authCodeRa.getAvatar());
+            bindDingTalk.setDdNickname(authCodeRa.getNickname());
+            bindDingTalk.setDdOpenId(authCodeRa.getOpenId());
+            bindDingTalk.setDdUnionId(authCodeRa.getUnionId());
+            bindDingTalk.setDdUserId(authCodeRa.getId());
+            return racAccountApi.bindModify(bindDingTalk);
+        case "wechat-open":
+            RacAccountModifyTo wechatOpen = new RacAccountModifyTo();
+            wechatOpen.setId(accountId);
+            wechatOpen.setWxAvatar(authCodeRa.getAvatar());
+            wechatOpen.setWxNickname(authCodeRa.getNickname());
+            wechatOpen.setWxOpenId(authCodeRa.getOpenId());
+            wechatOpen.setWxUnionId(authCodeRa.getUnionId());
+            return racAccountApi.bindModify(wechatOpen);
+        default:
+            throw new RuntimeExceptionX("不支持此绑定方式: " + orpType);
+        }
+    }
+
+    /**
+     * 解除绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    public Ro<?> unbindModify(String orpType, String clientId, Long accountId, OrpCodeTo to) {
+        OrpUserInfoRa authCodeRa = authCode(orpType, clientId, to);
+        switch (orpType) {
+        case "ding-talk":
+            RacAccountModifyTo bindDingTalk = new RacAccountModifyTo();
+            bindDingTalk.setId(accountId);
+            bindDingTalk.setDdAvatar(authCodeRa.getAvatar());
+            bindDingTalk.setDdNickname(authCodeRa.getNickname());
+            bindDingTalk.setDdOpenId(authCodeRa.getOpenId());
+            bindDingTalk.setDdUnionId(authCodeRa.getUnionId());
+            bindDingTalk.setDdUserId(authCodeRa.getId());
+            return racAccountApi.unbindModify(bindDingTalk);
+        case "wechat-open":
+            RacAccountModifyTo wechatOpen = new RacAccountModifyTo();
+            wechatOpen.setId(accountId);
+            wechatOpen.setWxAvatar(authCodeRa.getAvatar());
+            wechatOpen.setWxNickname(authCodeRa.getNickname());
+            wechatOpen.setWxOpenId(authCodeRa.getOpenId());
+            wechatOpen.setWxUnionId(authCodeRa.getUnionId());
+            return racAccountApi.unbindModify(wechatOpen);
+        default:
+            throw new RuntimeExceptionX("不支持此解绑方式: " + orpType);
+        }
     }
 
     /**

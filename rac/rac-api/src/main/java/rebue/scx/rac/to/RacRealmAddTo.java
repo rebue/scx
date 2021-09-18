@@ -26,6 +26,12 @@ public class RacRealmAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 领域ID
+     */
+    @NotBlank(message = "领域ID不能为空")
+    @Length(max = 32, message = "领域ID的长度不能大于32")
+    private String            id;
+    /**
      * 领域名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行

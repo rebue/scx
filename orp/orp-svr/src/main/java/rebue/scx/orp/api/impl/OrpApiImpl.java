@@ -4,8 +4,8 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboService;
-
 import org.springframework.http.server.reactive.ServerHttpResponse;
+
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.api.OrpApi;
@@ -46,6 +46,28 @@ public class OrpApiImpl implements OrpApi {
     @Override
     public Ro<SignUpOrInRa> signInByCode(final String appId, final String orpType, final String clientId, final OrpCodeTo to) {
         return svc.signInByCode(appId, orpType, clientId, to);
+    }
+
+    /**
+     * 根据账户ID绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    public Ro<?> bindModify(String orpType, String clientId, Long accountId, OrpCodeTo to) {
+        return new Ro<>(ResultDic.SUCCESS, "绑定成功", svc.bindModify(orpType, clientId, accountId, to));
+    }
+
+    /**
+     * 解除绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    public Ro<?> unbindModify(String orpType, String clientId, Long accountId, OrpCodeTo to) {
+        return new Ro<>(ResultDic.SUCCESS, "解除绑定成功", svc.unbindModify(orpType, clientId, accountId, to));
     }
 
 }

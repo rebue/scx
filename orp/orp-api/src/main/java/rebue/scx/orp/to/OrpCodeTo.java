@@ -29,4 +29,8 @@ public class OrpCodeTo implements Serializable {
      * 状态
      */
     private String            state;
+    /**
+     * 响应前端的重定向的地址
+     */
+    private String            callbackUrl;
 }

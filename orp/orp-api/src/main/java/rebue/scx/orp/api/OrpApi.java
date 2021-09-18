@@ -1,8 +1,8 @@
 package rebue.scx.orp.api;
 
 import org.apache.commons.lang3.tuple.Pair;
-
 import org.springframework.http.server.reactive.ServerHttpResponse;
+
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -25,5 +25,21 @@ public interface OrpApi {
      * 通过授权码登录
      */
     Ro<SignUpOrInRa> signInByCode(String appId, String orpType, String clientId, OrpCodeTo to);
+
+    /**
+     * 根据账户ID绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    Ro<?> bindModify(String orpType, String clientId, Long accountId, OrpCodeTo to);
+
+    /**
+     * 解除绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    Ro<?> unbindModify(String orpType, String clientId, Long accountId, OrpCodeTo to);
 
 }

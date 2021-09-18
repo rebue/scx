@@ -117,4 +117,20 @@ public interface RacAccountSvc
      */
     Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
 
+    /**
+     * 根据账户ID绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    void bindModify(RacAccountModifyTo to);
+
+    /**
+     * 解除绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    void unbindModify(RacAccountModifyTo to);
+
 }

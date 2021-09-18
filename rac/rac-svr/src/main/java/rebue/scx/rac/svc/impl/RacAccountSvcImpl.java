@@ -196,6 +196,53 @@ public class RacAccountSvcImpl extends
     }
 
     /**
+     * 根据账户ID绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void bindModify(RacAccountModifyTo to) {
+        thisSvc.modifyById(to);
+    }
+
+    /**
+     * 解除绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void unbindModify(RacAccountModifyTo to) {
+        RacAccountOneTo oneTo = OrikaUtils.map(to, RacAccountOneTo.class);
+        // 解除绑定钉钉
+        if (to.getDdUnionId() != null) {
+            RacAccountMo one = thisSvc.getOne(oneTo);
+            if (one == null) {
+                throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
+            }
+            int unbindDingTalk = _mapper.unbindDingTalk(one.getId());
+            if (unbindDingTalk != 1) {
+                throw new RuntimeExceptionX("解除绑定异常信息，请确认后再试");
+
+            }
+        }
+        // 解除绑定微信
+        else if (to.getWxUnionId() != null) {
+            RacAccountMo one = thisSvc.getOne(oneTo);
+            if (one == null) {
+                throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
+            }
+            _mapper.unbindWechatOpen(one.getId());
+        }
+        else {
+            throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
+        }
+    }
+
+    /**
      * 启用账户
      *
      * @param to 启用的具体数据

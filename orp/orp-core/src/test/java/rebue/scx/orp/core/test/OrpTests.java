@@ -87,9 +87,9 @@ public class OrpTests {
      */
     @SneakyThrows
     public static void test02() {
-        String                clientId     = "wx****************";
-        String                clientSecret = "******************";
-        String                redirectUri  = "http://www.abc.com";
+        String                clientId     = "wxc9bcdf70da391cdd";
+        String                clientSecret = "4a215a29ccf5d91c2c8ea2af12a57e93";
+        String                redirectUri  = "http://maiyuesoft.com";
 
         Map<String, ClientMo> clients      = new HashMap<>();
         clients.put(clientId, ClientMo.builder().id(clientId).secret(clientSecret).build());

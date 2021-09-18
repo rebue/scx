@@ -65,4 +65,20 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      */
     Ro<ListTransferOfOrgRa> listTransferOfOrg(RacListTransferOfOrgTo qo);
 
+    /**
+     * 解除绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    Ro<?> unbindModify(RacAccountModifyTo to);
+
+    /**
+     * 根据账户ID绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    Ro<?> bindModify(RacAccountModifyTo to);
+
 }

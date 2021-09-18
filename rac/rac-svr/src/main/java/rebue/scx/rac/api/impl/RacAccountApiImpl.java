@@ -46,6 +46,30 @@ public class RacAccountApiImpl extends
     }
 
     /**
+     * 根据账户ID绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    public Ro<?> bindModify(RacAccountModifyTo to) {
+        _svc.bindModify(to);
+        return new Ro<>(ResultDic.SUCCESS, "绑定成功");
+    }
+
+    /**
+     * 解除绑定微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     * 
+     */
+    @Override
+    public Ro<?> unbindModify(RacAccountModifyTo to) {
+        _svc.unbindModify(to);
+        return new Ro<>(ResultDic.SUCCESS, "解除绑定成功");
+    }
+
+    /**
      * 启用账户
      *
      * @param to 启用的具体数据
