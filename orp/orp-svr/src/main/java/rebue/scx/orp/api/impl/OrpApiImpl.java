@@ -56,7 +56,14 @@ public class OrpApiImpl implements OrpApi {
      */
     @Override
     public Ro<?> bindModify(String orpType, String clientId, Long accountId, OrpCodeTo to) {
-        return new Ro<>(ResultDic.SUCCESS, "绑定成功", svc.bindModify(orpType, clientId, accountId, to));
+        Ro<?>   bindModify = svc.bindModify(orpType, clientId, accountId, to);
+        boolean flag       = bindModify.getResult().getCode() == 1;
+        if (flag) {
+            return new Ro<>(ResultDic.SUCCESS, "绑定成功", bindModify);
+        }
+        else {
+            return new Ro<>(ResultDic.FAIL, "绑定失败:" + bindModify.getMsg(), bindModify);
+        }
     }
 
     /**
@@ -67,7 +74,14 @@ public class OrpApiImpl implements OrpApi {
      */
     @Override
     public Ro<?> unbindModify(String orpType, String clientId, Long accountId, OrpCodeTo to) {
-        return new Ro<>(ResultDic.SUCCESS, "解除绑定成功", svc.unbindModify(orpType, clientId, accountId, to));
+        Ro<?>   unbindModify = svc.unbindModify(orpType, clientId, accountId, to);
+        boolean flag         = unbindModify.getResult().getCode() == 1;
+        if (flag) {
+            return new Ro<>(ResultDic.SUCCESS, "解除绑定成功", unbindModify);
+        }
+        else {
+            return new Ro<>(ResultDic.FAIL, "解除绑定失败:" + unbindModify.getMsg(), unbindModify);
+        }
     }
 
 }

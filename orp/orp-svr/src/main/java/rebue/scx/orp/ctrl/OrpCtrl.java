@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
-import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.orp.api.OrpApi;
 import rebue.scx.orp.to.OrpCodeTo;
+import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.wheel.turing.JwtUtils;
 
@@ -87,8 +89,8 @@ public class OrpCtrl {
     public Mono<Void> bindModify(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
             @PathVariable("accountId") final Long accountId, final OrpCodeTo to, ServerHttpResponse response) {
         Ro<?>   ro   = api.bindModify(orpType, clientId, accountId, to);
-        boolean flag = ro.isSuccess();
-        return getResponse(response, orpType + "-bind", to.getCallbackUrl(), flag);
+        boolean flag = ro.getResult().getCode() == 1;
+        return getResponse(response, orpType + "-bind", to.getCallbackUrl(), ro.getMsg(), flag);
     }
 
     /**
@@ -102,8 +104,8 @@ public class OrpCtrl {
     public Mono<Void> unbindModify(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
             @PathVariable("accountId") final Long accountId, final OrpCodeTo to, ServerHttpResponse response) {
         Ro<?>   ro   = api.unbindModify(orpType, clientId, accountId, to);
-        boolean flag = ro.isSuccess();
-        return getResponse(response, orpType + "-unbind", to.getCallbackUrl(), flag);
+        boolean flag = ro.getResult().getCode() == 1;
+        return getResponse(response, orpType + "-unbind", to.getCallbackUrl(), ro.getMsg(), flag);
     }
 
     /**
@@ -115,18 +117,18 @@ public class OrpCtrl {
      * 
      * @return
      */
-    private static Mono<Void> getResponse(ServerHttpResponse response, String orpType, String callbackUrl, boolean flag) {
+    private static Mono<Void> getResponse(ServerHttpResponse response, String orpType, String callbackUrl, String msg, boolean flag) {
         response.setStatusCode(HttpStatus.FOUND);
-        response.getHeaders().setLocation(URI.create(getRedirectUrl(callbackUrl, orpType, flag)));
+        response.getHeaders().setLocation(URI.create(getRedirectUrl(callbackUrl, orpType, msg, flag)));
         return response.setComplete();
     }
 
-    private static String getRedirectUrl(String callbackUrl, String orpType, boolean flag) {
+    private static String getRedirectUrl(String callbackUrl, String orpType, String msg, boolean flag) {
         if (flag) {
-            return callbackUrl + "?event=" + orpType + "&result=success";
+            return callbackUrl + "?event=" + orpType + "&result=success&msg=" + msg;
         }
         else {
-            return callbackUrl + "?event=" + orpType + "&result=error";
+            return callbackUrl + "?event=" + orpType + "&result=error&msg=" + msg;
         }
 
     }
@@ -146,22 +148,24 @@ public class OrpCtrl {
     public Mono<Void> signInByCode(
             @PathVariable("orpType") final String orpType,
             @PathVariable("clientId") final String clientId, @PathVariable("appId") final String appId,
-            final OrpCodeTo to, final ServerHttpResponse resp) {
-        return Mono.create(callback -> {
-            final Ro<SignUpOrInRa> ro = api.signInByCode(appId, orpType, clientId, to);
-            final SignUpOrInRa     ra = ro.getExtra();
-            if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), resp);
-                resp.setStatusCode(HttpStatus.FOUND);
-                resp.getHeaders().setLocation(URI.create(ra.getRedirectUrl()));
-            }
-            else {
-                // 401:认证失败，其实应该是UNAUTHENTICATED，HTTP协议历史遗留问题
-                resp.setStatusCode(HttpStatus.UNAUTHORIZED);
-            }
-            resp.setComplete();
-            callback.success();
-        });
+            final OrpCodeTo to, final ServerHttpResponse response) {
+        final Ro<SignUpOrInRa> ro   = api.signInByCode(appId, orpType, clientId, to);
+        final SignUpOrInRa     ra   = ro.getExtra();
+        boolean                flag = ro.getResult().getCode() == 1;
+        if (flag) {
+            JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), response);
+            response.addCookie(ResponseCookie.from(RacCookieCo.APP_ID_KEY, appId)
+                    .path("/")
+                    .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                    .build());
+            to.setCallbackUrl(ra.getRedirectUrl());
+            return getResponse(response, orpType + "-sign-in", to.getCallbackUrl(), ro.getMsg(), flag);
+
+        }
+        response.setStatusCode(HttpStatus.UNAUTHORIZED);
+        return response.setComplete();
+        // 401:认证失败，其实应该是UNAUTHENTICATED，HTTP协议历史遗留问题
+
     }
 
 }
