@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/14 14:24:36                           */
+/* Created on:     2021/9/22 10:47:48                           */
 /*==============================================================*/
 
 
@@ -10,6 +10,7 @@
 create table RAC_ACCOUNT
 (
    ID                   bigint unsigned not null  comment '账户ID',
+   UNION_ID             bigint unsigned  comment '联合账户ID',
    USER_ID              bigint unsigned  comment '用户ID',
    REMARK               varchar(150)  comment '备注',
    ORG_ID               bigint unsigned  comment '组织ID',
@@ -56,7 +57,8 @@ create table RAC_ACCOUNT
    unique key AK_REALM_AND_DD_OPEN_ID (REALM_ID, DD_OPEN_ID),
    unique key AK_REALM_AND_DD_UNION_ID (REALM_ID, DD_UNION_ID),
    unique key AK_REALM_AND_DD_USER_ID (REALM_ID, DD_USER_ID),
-   unique key AK_REALM_AND_ACCOUNT_CODE (CODE, REALM_ID)
+   unique key AK_REALM_AND_ACCOUNT_CODE (CODE, REALM_ID),
+   unique key AK_REALM_AND_UNION_ID (UNION_ID, REALM_ID)
 );
 
 alter table RAC_ACCOUNT comment '账户';
