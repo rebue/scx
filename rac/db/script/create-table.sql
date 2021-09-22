@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/22 10:47:48                           */
+/* Created on:     2021/9/22 11:06:15                           */
 /*==============================================================*/
 
 
@@ -369,6 +369,7 @@ create table RAC_ROLE
    ID                   bigint unsigned not null  comment '角色ID',
    NAME                 varchar(20) not null  comment '角色名称',
    REALM_ID             varchar(32) not null  comment '领域ID',
+   STATUS               varchar(32)  comment '角色身份(字典项KEY)',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '角色备注',
