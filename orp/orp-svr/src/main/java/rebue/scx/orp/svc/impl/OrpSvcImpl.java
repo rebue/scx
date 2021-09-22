@@ -41,6 +41,7 @@ import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacAccountModifyTo;
@@ -217,22 +218,34 @@ public class OrpSvcImpl implements OrpSvc {
         OrpUserInfoRa authCodeRa = authCode(orpType, clientId, to);
         switch (orpType) {
         case "ding-talk":
-            RacAccountModifyTo bindDingTalk = new RacAccountModifyTo();
-            bindDingTalk.setId(accountId);
-            bindDingTalk.setDdAvatar(authCodeRa.getAvatar());
-            bindDingTalk.setDdNickname(authCodeRa.getNickname());
-            bindDingTalk.setDdOpenId(authCodeRa.getOpenId());
-            bindDingTalk.setDdUnionId(authCodeRa.getUnionId());
-            bindDingTalk.setDdUserId(authCodeRa.getId());
-            return racAccountApi.unbindModify(bindDingTalk);
+            Ro<PojoRa<RacAccountMo>> byId = racAccountApi.getById(accountId);
+            if (byId.getExtra().getOne().getDdOpenId().equals(authCodeRa.getOpenId())) {
+                RacAccountModifyTo bindDingTalk = new RacAccountModifyTo();
+                bindDingTalk.setId(accountId);
+                bindDingTalk.setDdAvatar(authCodeRa.getAvatar());
+                bindDingTalk.setDdNickname(authCodeRa.getNickname());
+                bindDingTalk.setDdOpenId(authCodeRa.getOpenId());
+                bindDingTalk.setDdUnionId(authCodeRa.getUnionId());
+                bindDingTalk.setDdUserId(authCodeRa.getId());
+                return racAccountApi.unbindModify(bindDingTalk);
+            }
+            else {
+                throw new RuntimeExceptionX("扫码用户不对: " + orpType);
+            }
         case "wechat-open":
-            RacAccountModifyTo wechatOpen = new RacAccountModifyTo();
-            wechatOpen.setId(accountId);
-            wechatOpen.setWxAvatar(authCodeRa.getAvatar());
-            wechatOpen.setWxNickname(authCodeRa.getNickname());
-            wechatOpen.setWxOpenId(authCodeRa.getOpenId());
-            wechatOpen.setWxUnionId(authCodeRa.getUnionId());
-            return racAccountApi.unbindModify(wechatOpen);
+            Ro<PojoRa<RacAccountMo>> byIdMo = racAccountApi.getById(accountId);
+            if (byIdMo.getExtra().getOne().getWxOpenId().equals(authCodeRa.getOpenId())) {
+                RacAccountModifyTo wechatOpen = new RacAccountModifyTo();
+                wechatOpen.setId(accountId);
+                wechatOpen.setWxAvatar(authCodeRa.getAvatar());
+                wechatOpen.setWxNickname(authCodeRa.getNickname());
+                wechatOpen.setWxOpenId(authCodeRa.getOpenId());
+                wechatOpen.setWxUnionId(authCodeRa.getUnionId());
+                return racAccountApi.unbindModify(wechatOpen);
+            }
+            else {
+                throw new RuntimeExceptionX("扫码用户不对: " + orpType);
+            }
         default:
             throw new RuntimeExceptionX("不支持此解绑方式: " + orpType);
         }

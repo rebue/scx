@@ -160,7 +160,7 @@ create table RAC_DISABLE_LOG
    REALM_ID             varchar(32) not null  comment '领域ID',
    DISABLE_OP_AGENT_ID  bigint unsigned  comment '代理禁用操作员ID',
    ENABLE_OP_AGENT_ID   bigint unsigned  comment '代理启用操作员ID',
-   ENABLE_OP_ID         bigint unsigned not null  comment '启用操作员ID',
+   ENABLE_OP_ID         bigint unsigned  comment '启用操作员ID',
    ACCOUNT_ID           bigint unsigned not null  comment '禁用账户ID',
    DISABLE_OP_ID        bigint unsigned not null  comment '禁用操作员ID',
    DISABLE_REASON       varchar(100) not null  comment '禁用原因',
