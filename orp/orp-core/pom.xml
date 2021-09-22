@@ -37,6 +37,9 @@
 			<artifactId>robotech-api</artifactId>
 		</dependency>
 
+		<!--切换到jar包所在路径
+		  	运行命令 mvn install:install-file -Dfile=taobao-sdk-java-auto_1479188381469-20210908.jar -DgroupId=com.dingtalk.open -DartifactId=taobao-sdk-java-auto -Dversion=20210908 -Dpackaging=jar
+		-->
 		<dependency>
 			<groupId>com.dingtalk.open</groupId>
 			<artifactId>taobao-sdk-java-auto</artifactId>
