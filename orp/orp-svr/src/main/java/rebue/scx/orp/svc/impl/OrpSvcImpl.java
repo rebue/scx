@@ -25,6 +25,7 @@ import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.oap.api.OapAppApi;
@@ -230,7 +231,7 @@ public class OrpSvcImpl implements OrpSvc {
                 return racAccountApi.unbindModify(bindDingTalk);
             }
             else {
-                throw new RuntimeExceptionX("扫码用户不对: " + orpType);
+                return new Ro<>(ResultDic.FAIL, "扫码用户不对");
             }
         case "wechat-open":
             Ro<PojoRa<RacAccountMo>> byIdMo = racAccountApi.getById(accountId);
@@ -244,7 +245,7 @@ public class OrpSvcImpl implements OrpSvc {
                 return racAccountApi.unbindModify(wechatOpen);
             }
             else {
-                throw new RuntimeExceptionX("扫码用户不对: " + orpType);
+                return new Ro<>(ResultDic.FAIL, "扫码用户不对");
             }
         default:
             throw new RuntimeExceptionX("不支持此解绑方式: " + orpType);

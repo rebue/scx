@@ -219,7 +219,7 @@ public class RacAccountSvcImpl extends
         RacAccountOneTo oneTo = OrikaUtils.map(to, RacAccountOneTo.class);
         // 解除绑定钉钉
         if (to.getDdUnionId() != null) {
-            RacAccountMo one = thisSvc.getOne(oneTo);
+            RacAccountMo one = thisSvc.getById(to.getId());
             if (one == null) {
                 throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
             }
@@ -231,7 +231,7 @@ public class RacAccountSvcImpl extends
         }
         // 解除绑定微信
         else if (to.getWxUnionId() != null) {
-            RacAccountMo one = thisSvc.getOne(oneTo);
+            RacAccountMo one = thisSvc.getById(to.getId());
             if (one == null) {
                 throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
             }
