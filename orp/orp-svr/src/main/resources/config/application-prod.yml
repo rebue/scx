@@ -13,19 +13,6 @@ orp:
     ding-talk:
       is-check-state: true
       clients:
-        - id: dingxxxxxxxxxxxxxxxx
-          secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    wechat-open:
-      is-check-state: true
-      clients:
-        - id: wxxxxxxxxxxxxxxxxx
-          secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-orp:
-  state-cache-expiration: PT1M
-  strategies:
-    ding-talk:
-      is-check-state: true
-      clients:
         - id: dingsahvlqybvb44jd50
           secret: hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm80
     wechat-open:
