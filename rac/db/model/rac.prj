@@ -600,7 +600,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>4</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>3156887E-88CA-4102-B018-D82580F18DE2</a:CustomPictureID>
+<a:CustomPictureID>978CD823-8739-45F3-8BC3-F69BF1DDC88F</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -621,7 +621,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>4</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>61E0561C-BDBB-40C3-B347-9BC6D8BEB13D</a:CustomPictureID>
+<a:CustomPictureID>9FD3BED1-0F3A-4A56-ACE4-174BFB268571</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -657,7 +657,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>rac</a:Code>
 <a:CreationDate>1591534833</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1632278361</a:ModificationDate>
+<a:ModificationDate>1632279951</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:Location>file:///%[PRJ_ROOT_DIR]%/rac.ldm</a:Location>
 <a:Extension>ldm</a:Extension>

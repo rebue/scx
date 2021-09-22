@@ -24,8 +24,9 @@
 		<module>oap</module>
 		<module>orp</module>
 		<module>cap</module>
-        <module>bat-generator</module>
-    </modules>
+		<module>bat-generator</module>
+    <module>dcs</module>
+  </modules>
 
 	<dependencyManagement>
 		<dependencies>

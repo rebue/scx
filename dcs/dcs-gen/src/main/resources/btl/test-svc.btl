@@ -1,0 +1,75 @@
+package ${modulePackage}.test.svc;
+
+import com.github.dozermapper.core.Mapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.github.pagehelper.PageInfo;
+import ${modulePackage}.mo.${entityName}Mo;
+import ${modulePackage}.to.${entityName}AddTo;
+import ${modulePackage}.to.${entityName}ModifyTo;
+import ${modulePackage}.to.${entityName}PageTo;
+import ${modulePackage}.svc.${entityName}Svc;
+
+import lombok.extern.slf4j.Slf4j;
+import rebue.wheel.core.RandomEx;
+
+/**
+ * ${table.remarks} Service层测试
+ *
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
+@Slf4j
+@SpringBootTest
+public class ${entityName}SvcTests {
+
+    /**
+     * 要测试的微服务
+     * 
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Autowired
+    private ${entityName}Svc _svc;
+
+    /**
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Autowired
+    private Mapper        dozerMapper;
+
+    /**
+     * 测试基本的增删改查
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Test
+    public void testCrud() {
+        ${entityName}AddTo addTo = null;
+        ${idType} id = null;        
+        for (int i = 0; i < 20; i++) {
+            addTo = (${entityName}AddTo) RandomEx.randomPojo(${entityName}AddTo.class);
+            log.info("添加${table.remarks}的参数为：" + addTo);
+            final ${entityName}Mo addRo = _svc.add(addTo);
+            log.info("添加${table.remarks}的返回值为：" + addRo);
+            Assertions.assertNotNull(addRo);
+            id = addRo.getId();
+        }
+        final PageInfo<${entityName}Mo> pageResult = _svc.page(new ${entityName}PageTo());
+        log.info("查询${table.remarks}的返回值为：" + pageResult);
+        Assertions.assertNotNull(pageResult);
+        log.info("获取单个${table.remarks}的参数为：" + id);
+        ${entityName}Mo getByIdResult = _svc.getById(id);
+        log.info("获取单个${table.remarks}的返回值为：" + getByIdResult);
+        Assertions.assertNotNull(getByIdResult);
+        
+        final ${entityName}ModifyTo modifyTo = dozerMapper.map(addTo, ${entityName}ModifyTo.class);
+        modifyTo.setId(id);
+        log.info("修改${table.remarks}的参数为：" + modifyTo);
+        _svc.modifyById(modifyTo);
+        
+        log.info("删除${table.remarks}的参数为：" + id);
+        _svc.delById(id);
+    }
+}
