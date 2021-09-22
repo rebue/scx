@@ -20,7 +20,19 @@ orp:
       clients:
         - id: wxxxxxxxxxxxxxxxxx
           secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+orp:
+  state-cache-expiration: PT1M
+  strategies:
+    ding-talk:
+      is-check-state: true
+      clients:
+        - id: dingsahvlqybvb44jd50
+          secret: hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm80
+    wechat-open:
+      is-check-state: true
+      clients:
+        - id: wxc9bcdf70da391cdd
+          secret: 4a215a29ccf5d91c2c8ea2af12a57e93
 # 生成workid使用
 curator:
   connect-string: zookeeper_zoo1:2181,zookeeper_zoo2:2181,zookeeper_zoo3:2181
