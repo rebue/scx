@@ -155,6 +155,9 @@ public class RacAccountSvcImpl extends
         final long now = System.currentTimeMillis();
         mo.setCreateTimestamp(now);
         mo.setUpdateTimestamp(now);
+        if (mo.getCode() != null && mo.getCode().equals("")) {
+            mo.setCode(null);
+        }
         final RacAccountMo result = super.addMo(mo);
         // 判断是否设置了默认组织，有则添加组织关系
         if (result.getOrgId() != null) {

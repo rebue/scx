@@ -19,6 +19,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.orp.api.OrpApi;
 import rebue.scx.orp.to.OrpCodeTo;
+import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.wheel.turing.JwtUtils;
@@ -84,7 +85,7 @@ public class OrpCtrl {
      * @return
      * 
      */
-    // @RacOpLog(opType = "修改账户", opTitle = "修改账户: #{#p0.accountId}")
+    @RacOpLog(opType = "绑定微信/钉钉", opTitle = "绑定微信/钉钉: #{#p0}")
     @GetMapping("/account-bind/{orpType}/{clientId}/{accountId}")
     public Mono<Void> bindModify(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
             @PathVariable("accountId") final Long accountId, final OrpCodeTo to, ServerHttpResponse response) {
@@ -99,7 +100,7 @@ public class OrpCtrl {
      * @param to 只需要上传微信/钉钉的信息
      * 
      */
-    // @RacOpLog(opType = "修改账户", opTitle = "修改账户: #{#p0.id}")
+    @RacOpLog(opType = "解绑微信/钉钉", opTitle = "解绑微信/钉钉: #{#p0}")
     @GetMapping("/account-unbind/{orpType}/{clientId}/{accountId}")
     public Mono<Void> unbindModify(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
             @PathVariable("accountId") final Long accountId, final OrpCodeTo to, ServerHttpResponse response) {

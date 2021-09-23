@@ -57,6 +57,7 @@ spring:
                   - "'*:/oss/**'"
                   - "'*:/wxx/**'"
                   - "'POST:/rac/sign-in/**'"
+                  - "'*:/orp/**'"
                   - "'POST:/cap/captcha/**'"
                   - "'GET:/rac/account/get-cur-account-info'"
 
