@@ -91,6 +91,7 @@ public class OrpCtrl {
             @PathVariable("accountId") final Long accountId, final OrpCodeTo to, ServerHttpResponse response) {
         Ro<?>   ro   = api.bindModify(orpType, clientId, accountId, to);
         boolean flag = ro.getResult().getCode() == 1;
+
         return getResponse(response, orpType + "-bind", to.getCallbackUrl(), ro.getMsg(), flag);
     }
 
@@ -126,10 +127,10 @@ public class OrpCtrl {
 
     private static String getRedirectUrl(String callbackUrl, String orpType, String msg, boolean flag) {
         if (flag) {
-            return callbackUrl + "?event=" + orpType + "&result=success&msg=" + msg;
+            return callbackUrl + "?u=1&event=" + orpType + "&result=success&msg=" + msg;
         }
         else {
-            return callbackUrl + "?event=" + orpType + "&result=error&msg=" + msg;
+            return callbackUrl + "?u=1&event=" + orpType + "&result=error&msg=" + msg;
         }
 
     }
