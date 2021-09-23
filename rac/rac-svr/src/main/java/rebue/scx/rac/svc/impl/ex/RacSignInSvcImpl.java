@@ -2,7 +2,6 @@ package rebue.scx.rac.svc.impl.ex;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -110,13 +109,14 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private CapApi              capApi;
 
     @Override
-    public Optional<RacAccountMo> unifiedLogin(final UnifiedLoginTo to) {
+    public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
         SignInByAccountNameTo byAccountNameTo = new SignInByAccountNameTo();
         byAccountNameTo.setAppId(to.getAppId());
         byAccountNameTo.setAccountName(to.getUsername());
         byAccountNameTo.setSignInPswd(to.getPassword());
         Ro<SignUpOrInRa> ro = signInByAccountName(byAccountNameTo);
-        return ro.isSuccess() ? Optional.of(accountSvc.getById(ro.getExtra().getId())) : Optional.empty();
+        // return ro.isSuccess() ? Optional.of(accountSvc.getById(ro.getExtra().getId())) : Optional.empty();
+        return ro;
     }
 
     /**

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacUserDao;
@@ -94,10 +97,8 @@ public class RacUserSvcImpl
             int parseInt = Integer.parseInt(idCard.substring(16, 17));
             mo.setSex((byte) (parseInt % 2));
         }
-        if (to.getMobile() != null) {
-            if (to.getMobile().equals("")) {
-                mo.setMobile(null);
-            }
+        if (to.getMobile() != null && to.getMobile().equals("")) {
+            mo.setMobile(null);
         }
         if (to.getEmail() != null) {
             if (to.getEmail().equals("")) {
@@ -118,4 +119,11 @@ public class RacUserSvcImpl
     public RacUserMo getOneByRealNameIdCard(RacUserOneTo one) {
         return thisSvc.getOne(one);
     }
+
+    @Override
+    public PageInfo<RacUserMo> page(RacUserPageTo qo) {
+        final ISelect select = () -> _mapper.listQo(qo);
+        return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+    }
+
 }

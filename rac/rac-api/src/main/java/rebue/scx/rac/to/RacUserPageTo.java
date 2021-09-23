@@ -37,6 +37,11 @@ public class RacUserPageTo extends PageTo implements Serializable {
     private String            mobile;
 
     /**
+     * 关键字
+     */
+    @Length(max = 256, message = "搜索关键字不能超过20位数")
+    private String            keywords;
+    /**
      * 是否已验证手机号码
      *
      * @mbg.generated 自动生成，如需修改，请删除本行

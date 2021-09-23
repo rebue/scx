@@ -1,7 +1,5 @@
 package rebue.scx.rac.svc.ex;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +31,7 @@ import rebue.scx.rac.to.ex.UnlockSignInTo;
 @Validated
 public interface RacSignInSvc {
 
-    Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to);
+    Ro<SignUpOrInRa> unifiedLogin(UnifiedLoginTo to);
 
     /**
      * 通过账户名称注册

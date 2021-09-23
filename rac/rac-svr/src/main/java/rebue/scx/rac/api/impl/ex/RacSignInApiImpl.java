@@ -1,7 +1,5 @@
 package rebue.scx.rac.api.impl.ex;
 
-import java.util.Optional;
-
 import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.DubboService;
@@ -30,7 +28,7 @@ public class RacSignInApiImpl implements RacSignInApi {
     private RacSignInSvc svc;
 
     @Override
-    public Optional<RacAccountMo> unifiedLogin(final UnifiedLoginTo to) {
+    public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
         return svc.unifiedLogin(to);
     }
 

@@ -1,7 +1,5 @@
 package rebue.scx.rac.api.ex;
 
-import java.util.Optional;
-
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
@@ -18,7 +16,7 @@ import rebue.scx.rac.to.ex.UnlockSignInTo;
  */
 public interface RacSignInApi {
 
-    Optional<RacAccountMo> unifiedLogin(UnifiedLoginTo to);
+    Ro<SignUpOrInRa> unifiedLogin(UnifiedLoginTo to);
 
     /**
      * 通过账户名称登录
