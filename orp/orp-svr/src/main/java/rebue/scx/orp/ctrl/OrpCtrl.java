@@ -162,8 +162,10 @@ public class OrpCtrl {
             return getResponse(response, orpType + "-sign-in", to.getCallbackUrl(), ro.getMsg(), flag);
 
         }
-        response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        return response.setComplete();
+        to.setCallbackUrl(ra.getRedirectUrl());
+        return getResponse(response, orpType + "-sign-in", to.getCallbackUrl(), ro.getMsg(), flag);
+        // response.setStatusCode(HttpStatus.UNAUTHORIZED);
+        // return response.setComplete();
         // 401:认证失败，其实应该是UNAUTHENTICATED，HTTP协议历史遗留问题
 
     }
