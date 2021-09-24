@@ -86,7 +86,7 @@ public class OrpCtrl {
      * @return
      * 
      */
-    @RacOpLog(opType = "绑定微信/钉钉", opTitle = "绑定微信/钉钉: #{#p0}")
+    @RacOpLog(opType = "绑定微信/钉钉", opTitle = "绑定微信/钉钉: #{#p3}")
     @GetMapping("/account-bind/{orpType}/{clientId}/{accountId}")
     public Mono<Void> bindModify(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
             @PathVariable("accountId") final Long accountId, final OrpCodeTo to, ServerHttpResponse response) {

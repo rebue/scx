@@ -59,6 +59,6 @@ logging:
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
 
 oidc-redirect:
-  call-uri: http://auth.maiyuesoft.com
+  call-uri: https://auth.maiyuesoft.com
   client-id: unified-auth
-  redirect-uri: http://auth.maiyuesoft.com
+  redirect-uri: https://auth.maiyuesoft.com
