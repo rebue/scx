@@ -1,11 +1,9 @@
 package rebue.scx.rac.pub;
 
-import javax.annotation.Resource;
-
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import rebue.scx.rac.to.RacOpLogAddTo;
 
 /**
@@ -14,13 +12,14 @@ import rebue.scx.rac.to.RacOpLogAddTo;
  * @author zbz
  *
  */
-@Service
+@Data
+@AllArgsConstructor
 public class RacPub {
 
-    @Value("${rac.send-timeout:5000}")
-    private Long           sendTimeout;
+    // @Value("${rac.send-timeout:5000}")
+    private Long sendTimeout;
 
-    @Resource
+    // @Resource
     private RabbitTemplate rabbitTemplate;
 
     public void addOpLog(final RacOpLogAddTo to) {
