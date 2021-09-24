@@ -65,7 +65,7 @@ spring:
                   - "'GET:/rac/account/get-cur-account-info'"
                   - "'GET:/rac/account/get-by-id'"
                   - "'GET:/rac/op-log/page'"
-                  - "'PUT:/rac/account/modify-sign-in-pswd'"
+                  - "'PUT:/rac/account/modify-sign-in-by-old-pswd'"
                   - "'POST:/rac/account/upload-avatar'"
 
 dubbo:
