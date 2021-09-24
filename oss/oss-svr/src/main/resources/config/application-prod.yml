@@ -1,6 +1,8 @@
 # 配置中心中的配置
 minio:
-  endpoint: http://127.0.0.1:9000  
+  endpoint: http://122.9.104.17:9000  
+  accessKey: AKIAIOSFODNN7EXAMPLE
+  secretKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
@@ -31,7 +33,5 @@ logging:
     '[org.springframework.context.event.SimpleApplicationEventMulticaster]': warn
     '[org.springframework.dao]': debug
     '[org.springframework.cloud]': warn
-    '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
-minio:
-  endpoint: http://122.9.104.17:9000   
+    '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn  
     
