@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/23 17:23:15                           */
+/* Created on:     2021/9/24 9:36:46                            */
 /*==============================================================*/
 
 
@@ -33,9 +33,9 @@ create table DCS_SYNC_STRATEGY
    NAME                 varchar(32) not null  comment '策略名称',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SRC_CONN_ID          bigint unsigned not null  comment '来源的连接器ID',
-   SRC_NAME             varchar(32) not null  comment '来源表的名称',
+   SRC_NAME             varchar(32) not null  comment '来源名称',
    DST_CONN_ID          bigint unsigned not null  comment '目的的连接器ID',
-   DST_NAME             varchar(32) not null  comment '目的表的名称',
+   DST_NAME             varchar(32) not null  comment '目的名称',
    REMARK               varchar(32)  comment '策略备注',
    primary key (ID),
    unique key AK_STRATEGY_NAME (NAME)
@@ -50,10 +50,12 @@ create table DCS_SYNC_STRATEGY_DETAIL
 (
    ID                   bigint unsigned not null  comment 'ID',
    STRATEGY_ID          bigint unsigned  comment '策略ID',
+   SRC_TABLE_NAME       varchar(32)  comment '来源表名称',
    SRC_FIELD_NAME       varchar(32) not null  comment '来源字段名称',
    SRC_FIELD_TYPE       varchar(32) not null  comment '来源字段类型',
    SRC_FIELD_LENGTH     tinyint unsigned  comment '来源字段长度',
    SRC_FIELD_PRECISION  tinyint unsigned  comment '来源字段精度',
+   DST_TABLE_NAME2      varchar(32) not null  comment '目的表名称',
    DST_FIELD_NAME       varchar(32) not null  comment '目的字段名称',
    DST_FIELD_TYPE       varchar(32) not null  comment '目的字段类型',
    DST_FIELD_LENGTH     tinyint unsigned  comment '目的字段长度',
