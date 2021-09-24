@@ -1,5 +1,6 @@
 package rebue.scx.orp.ctrl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
 import javax.annotation.Resource;
@@ -160,16 +161,51 @@ public class OrpCtrl {
                     .path("/")
                     .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                     .build());
-            to.setCallbackUrl(ra.getRedirectUrl());
-            return getResponse(response, orpType + "-sign-in", to.getCallbackUrl(), ro.getMsg(), flag);
+            // to.setCallbackUrl(ra.getRedirectUrl());
+            return getResponse(response, orpType + "-sign-in" + "&url=" + getURLEncoderString(ra.getRedirectUrl()), to.getCallbackUrl(), ro.getMsg(), flag);
 
         }
-        to.setCallbackUrl(ra.getRedirectUrl());
+        // to.setCallbackUrl(ra.getRedirectUrl());
         return getResponse(response, orpType + "-sign-in", to.getCallbackUrl(), ro.getMsg(), flag);
         // response.setStatusCode(HttpStatus.UNAUTHORIZED);
         // return response.setComplete();
         // 401:认证失败，其实应该是UNAUTHENTICATED，HTTP协议历史遗留问题
+    }
 
+    /**
+     * URL 转码
+     *
+     * @return String
+     */
+    private static String getURLEncoderString(String str) {
+        String result = "";
+        if (null == str) {
+            return "";
+        }
+        try {
+            result = java.net.URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * URL 解码
+     *
+     * @return String
+     */
+    private static String getURLDecoderString(String str) {
+        String result = "";
+        if (null == str) {
+            return "";
+        }
+        try {
+            result = java.net.URLDecoder.decode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

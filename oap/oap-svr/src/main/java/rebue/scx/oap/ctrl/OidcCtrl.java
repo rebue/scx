@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Mono;
+import rebue.robotech.ro.Ro;
 import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.oap.svc.impl.OidcSvcImpl;
-
-import reactor.core.publisher.Mono;
-import rebue.robotech.ro.Ro;
 
 @RestController
 @RequestMapping("/oap")
@@ -35,25 +34,32 @@ public class OidcCtrl {
      * 重定向到前端登录页面(未登录)
      * https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint
      * <p>
-     * scope           openid
-     * response_type   code
-     * client_id       test1
-     * redirect_uri    https://www.baidu.com
-     * state           RECOMMENDED
+     * scope openid
+     * response_type code
+     * client_id test1
+     * redirect_uri https://www.baidu.com
+     * state RECOMMENDED
      */
-    @RequestMapping(value = "/authorize", method = {RequestMethod.GET, RequestMethod.POST})
-    public String authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response)
-    {
+    @RequestMapping(value = "/authorize", method = { RequestMethod.GET, RequestMethod.POST
+    })
+    public String authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response) {
         return oidcSvc.authorize(paramMap, request, response);
     }
 
+    /**
+     * 登录
+     * 
+     * @param loginData
+     * @param request
+     * @param response
+     * 
+     * @return
+     */
     @PostMapping("/login")
     public Mono<Ro<String>> login(
             @RequestBody LoginDto loginData,
             ServerHttpRequest request,
-            ServerHttpResponse response
-    )
-    {
+            ServerHttpResponse response) {
         return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
     }
 
@@ -62,8 +68,7 @@ public class OidcCtrl {
      * https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
      */
     @PostMapping(value = "/token", consumes = "application/x-www-form-urlencoded", produces = "application/json")
-    public Mono<Object> token(ServerHttpRequest request, ServerHttpResponse response)
-    {
+    public Mono<Object> token(ServerHttpRequest request, ServerHttpResponse response) {
         List<String> authorizations = request.getHeaders().get("Authorization");
         if (CollectionUtils.isEmpty(authorizations)) {
             return Mono.just(OidcSvcImpl.tokenError(response, "auth", "missing Authorization header"));

@@ -39,6 +39,7 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountModifySignInByOldPswdTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
@@ -151,6 +152,17 @@ public class RacAccountCtrl {
     @PutMapping("/rac/account/modify-sign-in-pswd")
     public Mono<Ro<?>> modifySignInPswd(@RequestBody final RacAccountModifySignInPswdTo to) {
         return Mono.create(callback -> callback.success(api.modifySignInPswd(to)));
+    }
+
+    /**
+     * 根据旧登录密码更新新登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    @RacOpLog(opType = "修改账户密码", opTitle = "修改账户密码: #{#p0.id}")
+    @PutMapping("/rac/account/modify-sign-in-by-old-pswd")
+    public Mono<Ro<?>> modifySignInByOldPswd(@RequestBody final RacAccountModifySignInByOldPswdTo to) {
+        return Mono.create(callback -> callback.success(api.modifySignInByOldPswd(to)));
     }
 
     /**

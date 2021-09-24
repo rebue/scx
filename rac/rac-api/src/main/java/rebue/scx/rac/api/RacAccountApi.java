@@ -8,6 +8,7 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountModifySignInByOldPswdTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
@@ -80,5 +81,12 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * 
      */
     Ro<?> bindModify(RacAccountModifyTo to);
+
+    /**
+     * 根据旧登录密码更新新登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to);
 
 }

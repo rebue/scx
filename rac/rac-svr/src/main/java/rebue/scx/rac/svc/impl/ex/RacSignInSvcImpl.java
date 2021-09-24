@@ -231,7 +231,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         }
 
         final RacAccountOneTo qo = new RacAccountOneTo();
-        qo.setRealmId(appMo.getRealmId());
+        // qo.setRealmId(appMo.getRealmId());
         switch (signUpOrInWay) {
         case DINGTALK:
             if (StringUtils.isNotBlank(to.getUnionId())) {
@@ -257,7 +257,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         final RacAccountMo accountMo = accountSvc.getOne(qo);
 
         if (accountMo == null) {
-            final String msg = "找不到此账户";
+            final String msg = "找不到此账户/或尚未绑定";
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.WARN, msg);
         }

@@ -17,6 +17,7 @@ import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
 import rebue.scx.rac.to.RacAccountListTo;
+import rebue.scx.rac.to.RacAccountModifySignInByOldPswdTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
@@ -132,5 +133,14 @@ public interface RacAccountSvc
      * 
      */
     void unbindModify(RacAccountModifyTo to);
+
+    /**
+     * 根据旧登录密码更新新登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     * 
+     * @return
+     */
+    Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to);
 
 }

@@ -55,6 +55,7 @@ import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
 import rebue.scx.rac.to.RacAccountListTo;
+import rebue.scx.rac.to.RacAccountModifySignInByOldPswdTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountOneTo;
@@ -196,6 +197,33 @@ public class RacAccountSvcImpl extends
         mo.setId(to.getId());
         mo.setSignInPswd(to.getSignInPswd());
         thisSvc.modifyMoById(mo);
+    }
+
+    /**
+     * 根据旧登录密码更新新登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     * 
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to) {
+        RacAccountMo accountMo = thisSvc.getById(to.getId());
+        if (accountMo.getSignInPswd().equals(PswdUtils.saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
+            final RacAccountMo mo = new RacAccountMo();
+            // 随机生成盐值
+            mo.setSignInPswdSalt(PswdUtils.randomSalt());
+            // 根据生成的盐值进行摘要
+            mo.setSignInPswd(PswdUtils.saltPswd(to.getNewSignInPswd(), mo.getSignInPswdSalt()));
+            mo.setUpdateTimestamp(System.currentTimeMillis());
+            mo.setId(to.getId());
+            super.modifyMoById(mo);
+            return new Ro<>(ResultDic.SUCCESS, "修改成功");
+        }
+        else {
+            return new Ro<>(ResultDic.WARN, "旧密码不正确");
+        }
     }
 
     /**
