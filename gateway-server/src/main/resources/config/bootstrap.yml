@@ -60,6 +60,13 @@ spring:
                   - "'*:/orp/**'"
                   - "'POST:/cap/captcha/**'"
                   - "'GET:/rac/account/get-cur-account-info'"
+                  #统一应用平台账户基础权限
+                  - "'GET:/oap/app/list-and-tripartite'"
+                  - "'GET:/rac/account/get-cur-account-info'"
+                  - "'GET:/rac/account/get-by-id'"
+                  - "'GET:/rac/op-log/page'"
+                  - "'PUT:/rac/account/modify-sign-in-pswd'"
+                  - "'POST:/rac/account/upload-avatar'"
 
 dubbo:
   protocol:
