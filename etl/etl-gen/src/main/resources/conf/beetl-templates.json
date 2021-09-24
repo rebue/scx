@@ -1,0 +1,114 @@
+[
+	{
+		"templateName": "jo.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/jo/",
+		"targetFile": "${entityName}Jo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-add.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}AddTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-modify.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}ModifyTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-del.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}DelTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-one.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}OneTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-list.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}ListTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "to-page.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/to/",
+		"targetFile": "${entityName}PageTo.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "api.btl",
+		"targetDir": "etl-api/src/main/java/${modulePath}/api/",
+		"targetFile": "${entityName}Api.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "svc.btl",
+		"targetDir": "etl-svr/src/main/java/${modulePath}/svc/",
+		"targetFile": "${entityName}Svc.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "dao.btl",
+		"targetDir": "etl-svr/src/main/java/${modulePath}/dao/",
+		"targetFile": "${entityName}Dao.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "svc-impl.btl",
+		"targetDir": "etl-svr/src/main/java/${modulePath}/svc/impl/",
+		"targetFile": "${entityName}SvcImpl.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "api-impl.btl",
+		"targetDir": "etl-svr/src/main/java/${modulePath}/api/impl/",
+		"targetFile": "${entityName}ApiImpl.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "ctrl.btl",
+		"targetDir": "etl-svr/src/main/java/${modulePath}/ctrl/",
+		"targetFile": "${entityName}Ctrl.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "test-svc.btl",
+		"targetDir": "etl-svr/src/test/java/${modulePath}/test/svc",
+		"targetFile": "${entityName}SvcTests.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "test-api.btl",
+		"targetDir": "etl-svr/src/test/java/${modulePath}/test/api",
+		"targetFile": "${entityName}ApiTests.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	},
+	{
+		"templateName": "test-http.btl",
+		"targetDir": "etl-svr/src/test/java/${modulePath}/test/http",
+		"targetFile": "${entityName}HttpTests.java",
+		"isGenTargetOnMiddleTable": false,
+		"backup": false
+	}
+]
