@@ -547,15 +547,15 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
             if (qo.getOrgId() != null) {
                 if (hierarchical != null) {
                     return c.join(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId)).leftJoin(racOrg).on(racOrg.id, equalTo(racOrgAccount.orgId))
-                            .where(racOrg.treeCode, isLike(hierarchical), and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
+                            .where(racOrg.treeCode, isLike(hierarchical), and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion)).groupBy(racAccount.id);
                 }
                 else {
                     return c.join(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId)).where(racOrgAccount.orgId, isEqualTo(qo::getOrgId),
-                            and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion));
+                            and(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion)).groupBy(racAccount.id);
                 }
             }
             else {
-                return c.where(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion);
+                return c.where(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion).groupBy(racAccount.id);
             }
         });
     }
@@ -676,5 +676,19 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
                 .where(racAccount.id, isEqualTo(id))
                 .build().render(RenderingStrategies.MYBATIS3);
         return this.update(update);
+    }
+
+    /**
+     * 根据用户ID查询用户下的账户的信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    default List<RacAccountMo> getByUserId(Long id) {
+        SelectStatementProvider select = SqlBuilder.select(racAccount.allColumns()).from(racAccount)
+                .where(racAccount.userId, isEqualTo(id))
+                .build().render(RenderingStrategies.MYBATIS3);
+        return this.selectMany(select);
     }
 }

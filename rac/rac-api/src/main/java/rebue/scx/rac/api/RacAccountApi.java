@@ -3,6 +3,7 @@ package rebue.scx.rac.api;
 import java.io.InputStream;
 
 import rebue.robotech.api.BaseApi;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
@@ -88,5 +89,14 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param to 修改账户登录密码的具体数据
      */
     Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to);
+
+    /**
+     * 根据用户ID查询用户下的账户的信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    Ro<ListRa<RacAccountMo>> getByUserId(Long id);
 
 }

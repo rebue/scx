@@ -31,6 +31,7 @@ import io.minio.PutObjectArgs;
 import io.minio.SetBucketPolicyArgs;
 import lombok.SneakyThrows;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
@@ -505,4 +506,18 @@ public class RacAccountSvcImpl extends
         }
         return accountMo;
     }
+
+    /**
+     * 根据用户ID查询用户下的账户的信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    @Override
+    public Ro<ListRa<RacAccountMo>> getByUserId(Long id) {
+        List<RacAccountMo> List = _mapper.getByUserId(id);
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(List));
+    }
+
 }

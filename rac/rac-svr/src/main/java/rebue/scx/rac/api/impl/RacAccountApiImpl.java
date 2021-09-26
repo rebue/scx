@@ -6,6 +6,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.jo.RacAccountJo;
@@ -118,6 +119,18 @@ public class RacAccountApiImpl extends
     @Override
     public Ro<ListTransferOfOrgRa> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
         return _svc.listTransferOfOrg(qo);
+    }
+
+    /**
+     * 根据用户ID查询用户下的账户的信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    @Override
+    public Ro<ListRa<RacAccountMo>> getByUserId(Long id) {
+        return _svc.getByUserId(id);
     }
 
     /**

@@ -28,6 +28,7 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
@@ -264,5 +265,17 @@ public class RacAccountCtrl {
     @GetMapping("/rac/account/listTransferOfOrg")
     public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
         return Mono.create(callback -> callback.success(api.listTransferOfOrg(qo)));
+    }
+
+    /**
+     * 根据用户ID查询用户下的账户的信息
+     * 
+     * @param userId
+     * 
+     * @return
+     */
+    @GetMapping("/rac/account/get-by-user-id")
+    public Mono<Ro<ListRa<RacAccountMo>>> getByUserId(@RequestParam("userId") final java.lang.Long userId) {
+        return Mono.create(callback -> callback.success(api.getByUserId(userId)));
     }
 }

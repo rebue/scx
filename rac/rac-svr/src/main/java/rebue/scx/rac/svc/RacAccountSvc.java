@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAccountJo;
@@ -142,5 +143,14 @@ public interface RacAccountSvc
      * @return
      */
     Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to);
+
+    /**
+     * 根据用户ID查询用户下的账户的信息
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    Ro<ListRa<RacAccountMo>> getByUserId(Long id);
 
 }
