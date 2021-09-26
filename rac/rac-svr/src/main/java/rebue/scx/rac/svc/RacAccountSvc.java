@@ -43,7 +43,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @Validated
 public interface RacAccountSvc
-        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -123,7 +123,6 @@ public interface RacAccountSvc
      * 根据账户ID绑定微信钉钉的信息
      *
      * @param to 只需要上传微信/钉钉的信息
-     * 
      */
     void bindModify(RacAccountModifyTo to);
 
@@ -131,7 +130,6 @@ public interface RacAccountSvc
      * 解除绑定微信钉钉的信息
      *
      * @param to 只需要上传微信/钉钉的信息
-     * 
      */
     void unbindModify(RacAccountModifyTo to);
 
@@ -139,18 +137,17 @@ public interface RacAccountSvc
      * 根据旧登录密码更新新登录密码
      *
      * @param to 修改账户登录密码的具体数据
-     * 
+     *
      * @return
      */
     Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to);
 
     /**
      * 根据用户ID查询用户下的账户的信息
-     * 
+     *
      * @param id
-     * 
+     *
      * @return
      */
     Ro<ListRa<RacAccountMo>> getByUserId(Long id);
-
 }

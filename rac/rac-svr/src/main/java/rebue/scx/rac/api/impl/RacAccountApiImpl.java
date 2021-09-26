@@ -33,8 +33,8 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-        implements RacAccountApi {
+    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+    implements RacAccountApi {
 
     /**
      * 修改账户登录密码
@@ -61,7 +61,6 @@ public class RacAccountApiImpl extends
      * 根据账户ID绑定微信钉钉的信息
      *
      * @param to 只需要上传微信/钉钉的信息
-     * 
      */
     @Override
     public Ro<?> bindModify(RacAccountModifyTo to) {
@@ -73,7 +72,6 @@ public class RacAccountApiImpl extends
      * 解除绑定微信钉钉的信息
      *
      * @param to 只需要上传微信/钉钉的信息
-     * 
      */
     @Override
     public Ro<?> unbindModify(RacAccountModifyTo to) {
@@ -123,9 +121,9 @@ public class RacAccountApiImpl extends
 
     /**
      * 根据用户ID查询用户下的账户的信息
-     * 
+     *
      * @param id
-     * 
+     *
      * @return
      */
     @Override

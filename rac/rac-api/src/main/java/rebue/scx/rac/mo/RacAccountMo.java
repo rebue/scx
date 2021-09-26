@@ -594,6 +594,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", unionId=").append(unionId);
         sb.append(", userId=").append(userId);
         sb.append(", remark=").append(remark);
         sb.append(", orgId=").append(orgId);
@@ -1007,5 +1008,31 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     public void setDdAvatar(String ddAvatar) {
         this.ddAvatar = ddAvatar;
+    }
+
+    /**
+     * 联合账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "联合账户ID不能为负数")
+    private Long unionId;
+
+    /**
+     * 联合账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getUnionId() {
+        return unionId;
+    }
+
+    /**
+     * 联合账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setUnionId(Long unionId) {
+        this.unionId = unionId;
     }
 }

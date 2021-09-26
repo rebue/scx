@@ -19,6 +19,7 @@ import lombok.ToString;
  * 账户启/禁用日志
  *
  * The persistent class for the RAC_DISABLE_LOG database table.
+ *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
@@ -34,94 +35,103 @@ public class RacDisableLogJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * 日志ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 日志ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
+
     /**
-    * 禁用原因
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 禁用原因
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "DISABLE_REASON", nullable = false, length = 100)
     private String            disableReason;
+
     /**
-    * 禁用时间
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 禁用时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = false)
     @Column(name = "DISABLE_DATETIME", nullable = false, length = 19)
     private LocalDateTime     disableDatetime;
+
     /**
-    * 启用原因
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 启用原因
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "ENABLE_REASON", nullable = true, length = 100)
     private String            enableReason;
+
     /**
-    * 启用时间
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 启用时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Basic(optional = true)
     @Column(name = "ENABLE_DATETIME", nullable = true, length = 19)
     private LocalDateTime     enableDatetime;
 
     /**
-    * 禁用账户
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 禁用账户
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacAccountJo      account;
+
     /**
-    * 代理禁用操作员
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 代理禁用操作员
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "DISABLE_OP_AGENT_ID", referencedColumnName = "ID")
     @ManyToOne()
     private RacAccountJo      disableOpAgent;
+
     /**
-    * 领域
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 领域
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacRealmJo        realm;
+
     /**
-    * 禁用操作员
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 禁用操作员
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "DISABLE_OP_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacAccountJo      disableOp;
+
     /**
-    * 代理启用操作员
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 代理启用操作员
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @JoinColumn(name = "ENABLE_OP_AGENT_ID", referencedColumnName = "ID")
     @ManyToOne()
     private RacAccountJo      enableOpAgent;
+
     /**
-    * 启用操作员
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    @JoinColumn(name = "ENABLE_OP_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
+     * 启用操作员
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @JoinColumn(name = "ENABLE_OP_ID", referencedColumnName = "ID")
+    @ManyToOne()
     private RacAccountJo      enableOp;
 
     /**
@@ -155,5 +165,4 @@ public class RacDisableLogJo implements Serializable {
             return false;
         return true;
     }
-
 }

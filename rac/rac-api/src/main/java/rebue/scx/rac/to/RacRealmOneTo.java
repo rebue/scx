@@ -7,7 +7,10 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 领域
@@ -15,6 +18,9 @@ import lombok.Data;
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonInclude(Include.NON_NULL)
 public class RacRealmOneTo implements Serializable {
 

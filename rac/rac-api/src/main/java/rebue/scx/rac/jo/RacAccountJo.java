@@ -356,4 +356,13 @@ public class RacAccountJo implements Serializable {
     @Basic(optional = true)
     @Column(name = "DD_AVATAR", nullable = true, length = 300)
     private String     ddAvatar;
+
+    /**
+     * 联合账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "UNION_ID", nullable = true, length = 20)
+    private Long       unionId;
 }

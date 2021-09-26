@@ -27,7 +27,7 @@ public class RacDisableLogSvcTests {
 
     /**
      * 要测试的微服务
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Autowired
@@ -63,12 +63,10 @@ public class RacDisableLogSvcTests {
         RacDisableLogMo getByIdResult = _svc.getById(id);
         log.info("获取单个账户启/禁用日志的返回值为：" + getByIdResult);
         Assertions.assertNotNull(getByIdResult);
-
         final RacDisableLogModifyTo modifyTo = dozerMapper.map(addTo, RacDisableLogModifyTo.class);
         modifyTo.setId(id);
         log.info("修改账户启/禁用日志的参数为：" + modifyTo);
         _svc.modifyById(modifyTo);
-
         log.info("删除账户启/禁用日志的参数为：" + id);
         _svc.delById(id);
     }

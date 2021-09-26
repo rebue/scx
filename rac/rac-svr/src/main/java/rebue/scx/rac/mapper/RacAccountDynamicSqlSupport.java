@@ -19,6 +19,13 @@ public final class RacAccountDynamicSqlSupport {
     public static final SqlColumn<Long> id = racAccount.id;
 
     /**
+    * 联合账户ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Long> unionId = racAccount.unionId;
+
+    /**
     * 用户ID
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -240,6 +247,8 @@ public final class RacAccountDynamicSqlSupport {
 
     public static final class RacAccount extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> unionId = column("UNION_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Long> userId = column("USER_ID", JDBCType.BIGINT);
 

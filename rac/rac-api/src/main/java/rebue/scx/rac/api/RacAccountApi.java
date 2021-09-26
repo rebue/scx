@@ -71,7 +71,6 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * 解除绑定微信钉钉的信息
      *
      * @param to 只需要上传微信/钉钉的信息
-     * 
      */
     Ro<?> unbindModify(RacAccountModifyTo to);
 
@@ -79,7 +78,6 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * 根据账户ID绑定微信钉钉的信息
      *
      * @param to 只需要上传微信/钉钉的信息
-     * 
      */
     Ro<?> bindModify(RacAccountModifyTo to);
 
@@ -92,11 +90,10 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
 
     /**
      * 根据用户ID查询用户下的账户的信息
-     * 
+     *
      * @param id
-     * 
+     *
      * @return
      */
     Ro<ListRa<RacAccountMo>> getByUserId(Long id);
-
 }

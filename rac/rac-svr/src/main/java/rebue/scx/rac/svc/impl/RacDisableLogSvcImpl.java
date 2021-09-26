@@ -45,8 +45,8 @@ import rebue.scx.rac.to.RacDisableLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDisableLogSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacDisableLogAddTo, RacDisableLogModifyTo, RacDisableLogDelTo, RacDisableLogOneTo, RacDisableLogListTo, RacDisableLogPageTo, RacDisableLogMo, RacDisableLogJo, RacDisableLogMapper, RacDisableLogDao>
-        implements RacDisableLogSvc {
+    BaseSvcImpl<java.lang.Long, RacDisableLogAddTo, RacDisableLogModifyTo, RacDisableLogDelTo, RacDisableLogOneTo, RacDisableLogListTo, RacDisableLogPageTo, RacDisableLogMo, RacDisableLogJo, RacDisableLogMapper, RacDisableLogDao>
+    implements RacDisableLogSvc {
 
     /**
      * 本服务的单例
@@ -112,5 +112,4 @@ public class RacDisableLogSvcImpl extends
         final ISelect select = () -> _mapper.selectEx(qo);
         return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
     }
-
 }

@@ -12,14 +12,20 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import rebue.robotech.to.PageTo;
 
 /**
  * 账户
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
 public class RacAccountPageTo extends PageTo implements Serializable {
@@ -281,4 +287,12 @@ public class RacAccountPageTo extends PageTo implements Serializable {
      */
     @Length(max = 300, message = "钉钉头像的长度不能大于300")
     private String            ddAvatar;
+
+    /**
+     * 联合账户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "联合账户ID不能为负数")
+    private Long              unionId;
 }

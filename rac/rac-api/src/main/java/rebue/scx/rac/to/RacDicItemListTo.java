@@ -12,8 +12,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 字典项
@@ -21,6 +24,9 @@ import lombok.EqualsAndHashCode;
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode
 @JsonInclude(Include.NON_NULL)
 public class RacDicItemListTo implements Serializable {

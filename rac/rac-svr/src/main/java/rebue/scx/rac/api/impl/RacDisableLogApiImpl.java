@@ -23,5 +23,4 @@ import rebue.scx.rac.to.RacDisableLogPageTo;
 public class RacDisableLogApiImpl extends
     BaseApiImpl<java.lang.Long, RacDisableLogAddTo, RacDisableLogModifyTo, RacDisableLogDelTo, RacDisableLogOneTo, RacDisableLogListTo, RacDisableLogPageTo, RacDisableLogMo, RacDisableLogJo, RacDisableLogSvc>
     implements RacDisableLogApi {
-
 }

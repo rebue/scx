@@ -28,8 +28,7 @@ import rebue.scx.rac.to.RacDisableLogPageTo;
  */
 @Validated
 public interface RacDisableLogSvc extends
-        BaseSvc<java.lang.Long, RacDisableLogAddTo, RacDisableLogModifyTo, RacDisableLogDelTo, RacDisableLogOneTo, RacDisableLogListTo, RacDisableLogPageTo, RacDisableLogMo, RacDisableLogJo> {
+    BaseSvc<java.lang.Long, RacDisableLogAddTo, RacDisableLogModifyTo, RacDisableLogDelTo, RacDisableLogOneTo, RacDisableLogListTo, RacDisableLogPageTo, RacDisableLogMo, RacDisableLogJo> {
 
     RacDisableLogMo updateDisableLog(RacDisableLogModifyTo to);
-
 }

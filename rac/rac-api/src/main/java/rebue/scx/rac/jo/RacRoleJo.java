@@ -119,4 +119,13 @@ public class RacRoleJo implements Serializable {
     @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private RacRealmJo realm;
+
+    /**
+     * 角色身份(字典项KEY)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "STATUS", nullable = true, length = 32)
+    private String     status;
 }

@@ -32,7 +32,7 @@ public class RacDisableLogApiTests {
 
     /**
      * 要测试的API
-     * 
+     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DubboReference
@@ -67,14 +67,12 @@ public class RacDisableLogApiTests {
         log.info("获取单个账户启/禁用日志的参数为：" + id);
         final Ro<PojoRa<RacDisableLogMo>> getByIdResult = _api.getById(id);
         log.info("获取单个账户启/禁用日志的返回值为：" + getByIdResult);
-
         final RacDisableLogModifyTo modifyTo = dozerMapper.map(addTo, RacDisableLogModifyTo.class);
         modifyTo.setId(id);
         log.info("修改账户启/禁用日志的参数为：" + modifyTo);
         final Ro<?> modifyResult = _api.modify(modifyTo);
         log.info("修改账户启/禁用日志的返回值为：" + modifyResult);
         Assertions.assertEquals(ResultDic.SUCCESS, modifyResult.getResult());
-
         log.info("删除账户启/禁用日志的参数为：" + id);
         final Ro<?> deleteResult = _api.del(id);
         log.info("删除账户启/禁用日志的返回值为：" + deleteResult);

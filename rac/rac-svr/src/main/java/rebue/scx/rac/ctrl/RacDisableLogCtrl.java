@@ -29,6 +29,7 @@ import rebue.scx.rac.to.RacDisableLogPageTo;
  */
 @RestController
 public class RacDisableLogCtrl {
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -39,7 +40,6 @@ public class RacDisableLogCtrl {
      * 添加账户启/禁用日志
      *
      * @param to 添加的具体信息
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/disable-log")
@@ -51,7 +51,6 @@ public class RacDisableLogCtrl {
      * 修改账户启/禁用日志的信息
      *
      * @param to 修改的具体数据
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/disable-log")
@@ -63,7 +62,6 @@ public class RacDisableLogCtrl {
      * 删除账户启/禁用日志
      *
      * @param id 账户启/禁用日志ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/disable-log")
@@ -75,7 +73,6 @@ public class RacDisableLogCtrl {
      * 获取单个账户启/禁用日志的信息
      *
      * @param id 账户启/禁用日志ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/disable-log/get-by-id")
@@ -87,7 +84,6 @@ public class RacDisableLogCtrl {
      * 判断账户启/禁用日志是否存在
      *
      * @param id 账户启/禁用日志ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/disable-log/exist-by-id")
@@ -99,12 +95,10 @@ public class RacDisableLogCtrl {
      * 查询账户启/禁用日志的信息
      *
      * @param qo 查询的具体条件
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/disable-log/page")
     public Mono<Ro<PageRa<RacDisableLogMo>>> page(final RacDisableLogPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
     }
-
 }
