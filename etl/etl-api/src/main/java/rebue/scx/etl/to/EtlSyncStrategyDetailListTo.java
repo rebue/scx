@@ -1,4 +1,4 @@
-package rebue.scx.rac.to;
+package rebue.scx.etl.to;
 
 import java.io.Serializable;
 
@@ -14,10 +14,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import rebue.robotech.to.PageTo;
 
 /**
- * 用户
+ * 同步策略详情
  *
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
@@ -25,9 +24,9 @@ import rebue.robotech.to.PageTo;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @JsonInclude(Include.NON_NULL)
-public class RacUserPageTo extends PageTo implements Serializable {
+public class EtlSyncStrategyDetailListTo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -35,92 +34,90 @@ public class RacUserPageTo extends PageTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 手机
+     * 策略ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 11, message = "手机的长度不能大于11")
-    private String            mobile;
+    @PositiveOrZero(message = "策略ID不能为负数")
+    private Long              strategyId;
 
     /**
-     * 关键字
-     */
-    @Length(max = 256, message = "搜索关键字不能超过20位数")
-    private String            keywords;
-
-    /**
-     * 是否已验证手机号码
+     * 来源表名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean           isVerifiedMobile;
+    @Length(max = 32, message = "来源表名称的长度不能大于32")
+    private String            srcTableName;
 
     /**
-     * 电子邮箱
+     * 来源字段名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 50, message = "电子邮箱的长度不能大于50")
-    private String            email;
+    @Length(max = 32, message = "来源字段名称的长度不能大于32")
+    private String            srcFieldName;
 
     /**
-     * 是否已验证电子邮箱
+     * 来源字段类型
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean           isVerifiedEmail;
+    @Length(max = 32, message = "来源字段类型的长度不能大于32")
+    private String            srcFieldType;
 
     /**
-     * 用户实名
+     * 来源字段长度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 100, message = "用户实名的长度不能大于100")
-    private String            realName;
+    @PositiveOrZero(message = "来源字段长度不能为负数")
+    private Byte              srcFieldLength;
 
     /**
-     * 是否已验证实名
+     * 来源字段精度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean           isVerifiedRealname;
+    @PositiveOrZero(message = "来源字段精度不能为负数")
+    private Byte              srcFieldPrecision;
 
     /**
-     * 身份证号
+     * 目的表名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 18, message = "身份证号的长度不能大于18")
-    private String            idCard;
+    @Length(max = 32, message = "目的表名称的长度不能大于32")
+    private String            dstTableName;
 
     /**
-     * 是否已验证身份证号
+     * 目的字段名称
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean           isVerifiedIdcard;
+    @Length(max = 32, message = "目的字段名称的长度不能大于32")
+    private String            dstFieldName;
 
     /**
-     * 性别
+     * 目的字段类型
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "性别不能为负数")
-    private Byte              sex;
+    @Length(max = 32, message = "目的字段类型的长度不能大于32")
+    private String            dstFieldType;
 
     /**
-     * 修改时间戳
+     * 目的字段长度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "修改时间戳不能为负数")
-    private Long              updateTimestamp;
+    @PositiveOrZero(message = "目的字段长度不能为负数")
+    private Byte              dstFieldLength;
 
     /**
-     * 建立时间戳
+     * 目的字段精度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @PositiveOrZero(message = "建立时间戳不能为负数")
-    private Long              createTimestamp;
+    @PositiveOrZero(message = "目的字段精度不能为负数")
+    private Byte              dstFieldPrecision;
 }
