@@ -16,6 +16,7 @@
         <module>rac-gen</module>
         <module>rac-api</module>
         <module>rac-svr</module>
+        <module>rac-oplog</module>
     </modules>
 
     <build>

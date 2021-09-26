@@ -21,7 +21,7 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>jwt-api</artifactId>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>orp-core</artifactId>
 		</dependency>
@@ -30,7 +30,11 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rac-api</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-oplog</artifactId>
+			<version>1.2.4</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-turing</artifactId>
@@ -49,7 +53,7 @@
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>sc-spring-boot-starter</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>amqp-spring-boot-starter</artifactId>

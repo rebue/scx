@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.expression.EvaluationContext;
@@ -40,6 +41,7 @@ import rebue.wheel.turing.JwtUtils;
 @Aspect
 @Configuration(proxyBeanMethods = false)
 @Slf4j
+@EnableConfigurationProperties(RacPubProperties.class)
 public class RacOpLogAopConfig {
     @Resource
     private RacPub racPub;
@@ -60,8 +62,10 @@ public class RacOpLogAopConfig {
                     String sign  = CookieUtils.getValue(context.getResponse(), JwtUtils.JWT_TOKEN_NAME);
                     String appId = CookieUtils.getValue(context.getResponse(), RacCookieCo.APP_ID_KEY);
 
-                    if (!StringUtils.isNoneBlank(sign, appId)) {
-                        sign  = CookieUtils.getValue(context.getRequest(), JwtUtils.JWT_TOKEN_NAME);
+                    if (!StringUtils.isNoneBlank(sign)) {
+                        sign = CookieUtils.getValue(context.getRequest(), JwtUtils.JWT_TOKEN_NAME);
+                    }
+                    if (!StringUtils.isNoneBlank(appId)) {
                         appId = CookieUtils.getValue(context.getRequest(), RacCookieCo.APP_ID_KEY);
                     }
 
@@ -79,7 +83,8 @@ public class RacOpLogAopConfig {
                             // 从JWT签名中获取代理账户ID
                             Long agentAccountId = null;
                             try {
-                                final Object agentAccountIdObj = JwtUtils.getJwtAdditionItemFromSign(sign, RacJwtSignCo.AGENT_ACCOUNT_ID);
+                                final Object agentAccountIdObj = JwtUtils.getJwtAdditionItemFromSign(sign,
+                                        RacJwtSignCo.AGENT_ACCOUNT_ID);
                                 if (agentAccountIdObj != null) {
                                     final String agentAccountIdString = agentAccountIdObj.toString();
                                     if (StringUtils.isNotBlank(agentAccountIdString)) {

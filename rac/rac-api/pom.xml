@@ -13,42 +13,15 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-turing</artifactId>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-net</artifactId>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>com.github.rebue.robotech</groupId>
 			<artifactId>robotech-api</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.github.rebue.sbs</groupId>
-			<artifactId>amqp-spring-boot-starter</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.sbs</groupId>
-			<artifactId>sb-spring-boot-starter</artifactId>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-aop</artifactId>
-			<optional>true</optional>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.rebue.sbs</groupId> -->
+		<!-- <artifactId>amqp-spring-boot-starter</artifactId> -->
+		<!-- <optional>true</optional> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>javax.servlet</groupId>

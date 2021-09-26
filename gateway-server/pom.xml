@@ -26,6 +26,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-oplog</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rrl-api</artifactId>
 		</dependency>
 
