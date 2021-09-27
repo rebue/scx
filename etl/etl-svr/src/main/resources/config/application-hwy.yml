@@ -1,0 +1,39 @@
+# 配置中心中的配置
+
+# 生成workid使用
+curator:
+  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
+
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/etl-svr?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: etl
+    password: xxxxxxxx
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: xxxxxxxx
+    virtual-host: /
+  cloud:
+    sentinel:
+      enabled: false
+  # 链路追踪可视化服务器
+  zipkin:
+    base-url: zipkin:9411
+  # 链路追踪采集器
+  sleuth:
+    sampler:
+      # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+      probability: 1
+
+logging:
+  level:
+    root: info
+    rebue: trace
+    '[org.apache.http]': warn
+    '[com.netflix.discovery]': warn
+    '[org.springframework.context.event.SimpleApplicationEventMulticaster]': warn
+    '[org.springframework.dao]': debug
+    '[org.springframework.cloud]': warn
+    '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn

@@ -1,5 +1,7 @@
 package rebue.scx.etl.svc.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -7,6 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.BooleanRa;
+import rebue.robotech.ra.ListRa;
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.etl.dao.EtlConnDao;
@@ -20,6 +26,7 @@ import rebue.scx.etl.to.EtlConnListTo;
 import rebue.scx.etl.to.EtlConnModifyTo;
 import rebue.scx.etl.to.EtlConnOneTo;
 import rebue.scx.etl.to.EtlConnPageTo;
+import rebue.wheel.core.JdbcUtils;
 
 /**
  * 数据库连接器服务实现
@@ -40,8 +47,9 @@ import rebue.scx.etl.to.EtlConnPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class EtlConnSvcImpl
-    extends BaseSvcImpl<java.lang.Long, EtlConnAddTo, EtlConnModifyTo, EtlConnDelTo, EtlConnOneTo, EtlConnListTo, EtlConnPageTo, EtlConnMo, EtlConnJo, EtlConnMapper, EtlConnDao>
-    implements EtlConnSvc {
+        extends
+        BaseSvcImpl<java.lang.Long, EtlConnAddTo, EtlConnModifyTo, EtlConnDelTo, EtlConnOneTo, EtlConnListTo, EtlConnPageTo, EtlConnMo, EtlConnJo, EtlConnMapper, EtlConnDao>
+        implements EtlConnSvc {
 
     /**
      * 本服务的单例
@@ -72,4 +80,47 @@ public class EtlConnSvcImpl
     protected Class<EtlConnMo> getMoClass() {
         return EtlConnMo.class;
     }
+
+    /**
+     * 根据连接器ID查询表名
+     *
+     * @param id 数据库连接器ID
+     */
+    @Override
+    public Ro<?> getTablesName(Long id) {
+        EtlConnMo    connMo = thisSvc.getById(id);
+        String       url    = JdbcUtils.getMysqlUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName());
+        List<String> tables = JdbcUtils.getTables(url, connMo.getUserName(), connMo.getUserPswd());
+        return new Ro<>(ResultDic.SUCCESS, "查询表格成功", new ListRa<>(tables));
+    }
+
+    /**
+     * 根据连接器ID和表名查询列名
+     * 
+     * @param id        数据库连接器ID
+     * @param tableName 表名
+     */
+    @Override
+    public Ro<?> getColumnsByTableName(Long id, String tableName) {
+        EtlConnMo    connMo                 = thisSvc.getById(id);
+        String       url                    = JdbcUtils.getMysqlUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName());
+        List<String> columnsByTableNameList = JdbcUtils.getColumnsByTableName(url, connMo.getUserName(), connMo.getUserPswd(), tableName);
+        return new Ro<>(ResultDic.SUCCESS, "查询列成功", new ListRa<>(columnsByTableNameList));
+    }
+
+    /**
+     * 测试连接
+     * 
+     * @param id 数据库连接器ID
+     * 
+     * @return
+     */
+    @Override
+    public Ro<BooleanRa> testConnectionById(Long id) {
+        EtlConnMo connMo = thisSvc.getById(id);
+        String    url    = JdbcUtils.getMysqlUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName());
+        Boolean   bool   = JdbcUtils.getTestConnection(url, connMo.getUserName(), connMo.getUserPswd());
+        return new Ro<>(ResultDic.SUCCESS, "测试结果", new BooleanRa(bool));
+    }
+
 }
