@@ -1,6 +1,7 @@
 package rebue.scx.etl.mo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,8 +33,13 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @NotNull(groups = ModifyGroup.class, message = "策略ID不能为空")
     @PositiveOrZero(message = "策略ID不能为负数")
-    private Long              id;
-
+    private Long                  id;
+    /**
+     * 策略详情
+     */
+    @Setter
+    @Getter
+    List<EtlSyncStrategyDetailMo> strategyDetailList;
     /**
      * 策略名称
      *
@@ -41,7 +47,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @NotBlank(groups = AddGroup.class, message = "策略名称不能为空")
     @Length(max = 32, message = "策略名称的长度不能大于32")
-    private String            name;
+    private String                name;
 
     /**
      * 是否启用
@@ -49,7 +55,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
-    private Boolean           isEnabled;
+    private Boolean               isEnabled;
 
     /**
      * 来源的连接器ID
@@ -58,7 +64,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @NotNull(groups = AddGroup.class, message = "来源的连接器ID不能为空")
     @PositiveOrZero(message = "来源的连接器ID不能为负数")
-    private Long              srcConnId;
+    private Long                  srcConnId;
 
     /**
      * 来源名称
@@ -67,7 +73,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @NotBlank(groups = AddGroup.class, message = "来源名称不能为空")
     @Length(max = 32, message = "来源名称的长度不能大于32")
-    private String            srcName;
+    private String                srcName;
 
     /**
      * 目的的连接器ID
@@ -76,7 +82,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @NotNull(groups = AddGroup.class, message = "目的的连接器ID不能为空")
     @PositiveOrZero(message = "目的的连接器ID不能为负数")
-    private Long              dstConnId;
+    private Long                  dstConnId;
 
     /**
      * 目的名称
@@ -85,7 +91,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @NotBlank(groups = AddGroup.class, message = "目的名称不能为空")
     @Length(max = 32, message = "目的名称的长度不能大于32")
-    private String            dstName;
+    private String                dstName;
 
     /**
      * 策略备注
@@ -93,12 +99,12 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 32, message = "策略备注的长度不能大于32")
-    private String            remark;
+    private String                remark;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private static final long serialVersionUID = 1L;
+    private static final long     serialVersionUID = 1L;
 
     /**
      * 目的的连接器
@@ -107,7 +113,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @Getter
     @Setter
-    private EtlConnMo         dstConn;
+    private EtlConnMo             dstConn;
 
     /**
      * 来源的连接器
@@ -116,13 +122,14 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @Getter
     @Setter
-    private EtlConnMo         srcConn;
+    private EtlConnMo             srcConn;
 
     /**
      * 策略ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -132,6 +139,7 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -307,8 +315,8 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
+        final int prime  = 31;
+        int       result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }

@@ -89,4 +89,16 @@ public class EtlSyncStrategyModifyTo implements Serializable {
      */
     @Length(max = 32, message = "策略备注的长度不能大于32")
     private String            remark;
+    /**
+     * 来源表名称(Map的josn字符串，key为表名，value为源表字段list集合)
+     */
+    private String            srcTableNames;
+    /**
+     * 目的表名称(Map的josn字符串，key为表名，value为目的表字段list集合)
+     */
+    private String            dstTableNames;
+    /**
+     * 确保源表一一对应目的表(Map的josn字符串，key为源表名，value为目的表名)
+     */
+    private String            srcDstMap;
 }

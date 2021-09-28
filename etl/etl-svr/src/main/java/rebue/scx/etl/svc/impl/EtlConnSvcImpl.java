@@ -1,6 +1,10 @@
 package rebue.scx.etl.svc.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
@@ -10,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.dic.SqlDic;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
@@ -89,7 +94,7 @@ public class EtlConnSvcImpl
     @Override
     public Ro<?> getTablesName(Long id) {
         EtlConnMo    connMo = thisSvc.getById(id);
-        String       url    = JdbcUtils.getMysqlUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName());
+        String       url    = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
         List<String> tables = JdbcUtils.getTables(url, connMo.getUserName(), connMo.getUserPswd());
         return new Ro<>(ResultDic.SUCCESS, "查询表格成功", new ListRa<>(tables));
     }
@@ -102,9 +107,15 @@ public class EtlConnSvcImpl
      */
     @Override
     public Ro<?> getColumnsByTableName(Long id, String tableName) {
-        EtlConnMo    connMo                 = thisSvc.getById(id);
-        String       url                    = JdbcUtils.getMysqlUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName());
-        List<String> columnsByTableNameList = JdbcUtils.getColumnsByTableName(url, connMo.getUserName(), connMo.getUserPswd(), tableName);
+        EtlConnMo                       connMo                 = thisSvc.getById(id);
+        String                          url                    = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(),
+                SqlDic.getItem(connMo.getDbType()).getDesc());
+        Map<String, String>             columnsByTableNameMap  = JdbcUtils.getColumnsByTableName(url, connMo.getUserName(), connMo.getUserPswd(), tableName);
+        Iterator<Entry<String, String>> iterator               = columnsByTableNameMap.entrySet().iterator();
+        List<String>                    columnsByTableNameList = new ArrayList<String>();
+        while (iterator.hasNext()) {
+            columnsByTableNameList.add(iterator.next().getKey());
+        }
         return new Ro<>(ResultDic.SUCCESS, "查询列成功", new ListRa<>(columnsByTableNameList));
     }
 
@@ -118,7 +129,7 @@ public class EtlConnSvcImpl
     @Override
     public Ro<BooleanRa> testConnectionById(Long id) {
         EtlConnMo connMo = thisSvc.getById(id);
-        String    url    = JdbcUtils.getMysqlUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName());
+        String    url    = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
         Boolean   bool   = JdbcUtils.getTestConnection(url, connMo.getUserName(), connMo.getUserPswd());
         return new Ro<>(ResultDic.SUCCESS, "测试结果", new BooleanRa(bool));
     }
