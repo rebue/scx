@@ -43,7 +43,12 @@ orp:
       clients:
         - id: wxc9bcdf70da391cdd
           secret: 4a215a29ccf5d91c2c8ea2af12a57e93
-    extras:
-      call-uri: https://auth.maiyuesoft.com
-      redirect-uri: https://auth.maiyuesoft.com
-      client-id: unified-auth
+    oidc:
+      is-check-state: true
+      clients:
+        - id: unified-auth
+          secret: 123456
+      extras:
+        call-uri: https://auth.maiyuesoft.com
+        redirect-uri: https://auth.maiyuesoft.com
+        client-id: unified-auth
