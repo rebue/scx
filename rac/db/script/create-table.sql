@@ -561,6 +561,6 @@ alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE
 
 alter table RAC_STATUS add constraint FK_STATUS_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
---该外键有问题
-alter table RAC_ROLE add constraint FK_ROLE_AND_STATUS foreign key (STATUS_ID)
-      references RAC_STATUS (ID) on delete restrict on update restrict;
+-- 该外键有问题
+-- alter table RAC_ROLE add constraint FK_ROLE_AND_STATUS foreign key (STATUS_ID)
+--       references RAC_STATUS (ID) on delete restrict on update restrict;
