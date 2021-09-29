@@ -343,6 +343,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     @Override
     public PageInfo<RacAccountMo> getSignInLockRecord(final RacAccountPageTo qo) {
+        // 确保是在今天被锁定的记录
         final String  likeDate = "%" + LocalDate.now().toString() + "%";
         final ISelect select   = () -> racAccountMapper.selectLockAccount(qo, likeDate);
         // 固定
