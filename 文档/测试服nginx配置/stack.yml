@@ -1,17 +1,20 @@
 version: "3.9"
 services:
-  nginx-html:
+  nginx-gate:
     image: nginx
     ports:
-      - 20010:20010
+      - 80:80
+      - 443:443
     environment:
       # 最好使用此设定时区，其它镜像也可以使用
       - TZ=CST-8
     volumes:
       # 配置文件目录
-      - /usr/local/nginx-html/conf/:/etc/nginx/conf.d/
+      - /usr/local/nginx-gate/conf/:/etc/nginx/conf.d/
+      # 数字证书目录
+      - /usr/local/nginx-gate/cert/:/etc/nginx/cert/
       # 网页存放目录
-      - /usr/local/nginx-html/html:/usr/share/nginx/html
+      - /usr/local/nginx-gate/html:/usr/share/nginx/html
     deploy:
       replicas: 1
 
