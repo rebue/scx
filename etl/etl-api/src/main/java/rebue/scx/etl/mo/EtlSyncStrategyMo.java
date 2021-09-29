@@ -3,6 +3,7 @@ package rebue.scx.etl.mo;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -129,25 +130,25 @@ public class EtlSyncStrategyMo implements Serializable, Mo<Long> {
      */
     @Getter
     @Setter
-    private List<String>          srcTableNames;
+    private List<String>          srcTableName;
     /**
      * 回显的目的所有表下拉框数据
      */
     @Getter
     @Setter
-    private List<String>          dstTableNames;
+    private List<String>          dstTableName;
     /**
      * 回显示的来源表字段名，key为表名
      */
     @Getter
     @Setter
-    Map<String, List<String>>     srcFieldsMap;
+    Map<String, Set<String>>      srcFieldsMap;
     /**
      * 回显示的目的表字段名，key为表名
      */
     @Getter
     @Setter
-    Map<String, List<String>>     dstFieldsMap;
+    Map<String, Set<String>>      dstFieldsMap;
 
     /**
      * 策略ID

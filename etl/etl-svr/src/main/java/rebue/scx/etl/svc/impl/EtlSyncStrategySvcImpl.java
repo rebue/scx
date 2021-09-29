@@ -1,11 +1,12 @@
 package rebue.scx.etl.svc.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -36,6 +37,7 @@ import rebue.scx.etl.to.EtlSyncStrategyDetailAddTo;
 import rebue.scx.etl.to.EtlSyncStrategyDetailDelTo;
 import rebue.scx.etl.to.EtlSyncStrategyDetailListTo;
 import rebue.scx.etl.to.EtlSyncStrategyListTo;
+import rebue.scx.etl.to.EtlSyncStrategyModifyEnableTo;
 import rebue.scx.etl.to.EtlSyncStrategyModifyTo;
 import rebue.scx.etl.to.EtlSyncStrategyOneTo;
 import rebue.scx.etl.to.EtlSyncStrategyPageTo;
@@ -100,6 +102,17 @@ public class EtlSyncStrategySvcImpl extends
     }
 
     /**
+     * 启用/禁用策略
+     *
+     */
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public EtlSyncStrategyMo enable(EtlSyncStrategyModifyEnableTo to) {
+        final EtlSyncStrategyMo mo = OrikaUtils.map(to, EtlSyncStrategyMo.class);
+        return super.modifyMoById(mo);
+    }
+
+    /**
      * 添加记录
      *
      * @param to 添加的参数
@@ -109,7 +122,7 @@ public class EtlSyncStrategySvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public EtlSyncStrategyMo add(EtlSyncStrategyAddTo to) {
-        final EtlSyncStrategyMo         mo              = OrikaUtils.map(to, getMoClass());
+        final EtlSyncStrategyMo         mo              = OrikaUtils.map(to, EtlSyncStrategyMo.class);
         // 添加策略
         EtlSyncStrategyMo               strategyMo      = thisSvc.addMo(mo);
         // 添加策略详情
@@ -238,12 +251,12 @@ public class EtlSyncStrategySvcImpl extends
         EtlSyncStrategyMo           strategyMo = super.getById(id);
         EtlSyncStrategyDetailListTo listTo     = new EtlSyncStrategyDetailListTo();
         listTo.setStrategyId(strategyMo.getId());
-        List<EtlSyncStrategyDetailMo> list          = syncStrategyDetailSvc.list(listTo);
-        Map<String, List<String>>     srcFieldsMap  = new HashMap<String, List<String>>();
-        Map<String, List<String>>     dstFieldsMap  = new HashMap<String, List<String>>();
-        List<String>                  srcFieldNames = new ArrayList<String>();
-        List<String>                  dstFieldNames = new ArrayList<String>();
+        List<EtlSyncStrategyDetailMo> list         = syncStrategyDetailSvc.list(listTo);
+        Map<String, Set<String>>      srcFieldsMap = new HashMap<String, Set<String>>();
+        Map<String, Set<String>>      dstFieldsMap = new HashMap<String, Set<String>>();
         list.stream().map(item -> {
+            final Set<String>               srcFieldNames = new HashSet<>();
+            final Set<String>               dstFieldNames = new HashSet<>();
             Map<String, String>             srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), item.getSrcTableName());
             Map<String, String>             dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), item.getDstTableName());
             Iterator<Entry<String, String>> srcIterator   = srcColumnsMap.entrySet().iterator();
@@ -263,9 +276,9 @@ public class EtlSyncStrategySvcImpl extends
         // 获取数据库下的所有表名
         List<String> srcTableNames = this.getTableNames(strategyMo.getSrcConnId());
         List<String> dstTableNames = this.getTableNames(strategyMo.getDstConnId());
-        strategyMo.setSrcTableNames(srcTableNames);
+        strategyMo.setSrcTableName(srcTableNames);
         strategyMo.setSrcFieldsMap(srcFieldsMap);
-        strategyMo.setDstTableNames(dstTableNames);
+        strategyMo.setDstTableName(dstTableNames);
         strategyMo.setDstFieldsMap(dstFieldsMap);
         return strategyMo;
     }

@@ -8,6 +8,7 @@ import rebue.scx.etl.mo.EtlSyncStrategyMo;
 import rebue.scx.etl.to.EtlSyncStrategyAddTo;
 import rebue.scx.etl.to.EtlSyncStrategyDelTo;
 import rebue.scx.etl.to.EtlSyncStrategyListTo;
+import rebue.scx.etl.to.EtlSyncStrategyModifyEnableTo;
 import rebue.scx.etl.to.EtlSyncStrategyModifyTo;
 import rebue.scx.etl.to.EtlSyncStrategyOneTo;
 import rebue.scx.etl.to.EtlSyncStrategyPageTo;
@@ -28,5 +29,10 @@ import rebue.scx.etl.to.EtlSyncStrategyPageTo;
  */
 @Validated
 public interface EtlSyncStrategySvc extends
-    BaseSvc<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo> {
+        BaseSvc<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo> {
+    /**
+     * 启用/禁用策略
+     *
+     */
+    EtlSyncStrategyMo enable(EtlSyncStrategyModifyEnableTo to);
 }
