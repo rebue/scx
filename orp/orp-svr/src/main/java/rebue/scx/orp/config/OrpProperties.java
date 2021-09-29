@@ -25,6 +25,7 @@ public class OrpProperties {
 
     @Data
     public static class StrategyProperties {
+
         /**
          * 是否检查State参数
          */
@@ -34,5 +35,11 @@ public class OrpProperties {
          * 应用集合
          */
         private List<ClientMo> clients;
+
+        /**
+         * 应用特殊参数
+         */
+        private Map<String, String> extras;
+
     }
 }

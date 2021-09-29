@@ -1,9 +1,6 @@
 package rebue.scx.gateway.server.filter;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -16,12 +13,13 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.server.ServerWebExchange;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.properties.MaxFileSizeProperties;
 import rebue.scx.gateway.server.properties.MaxFileSizeProperties.Specify;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 限制文件上传大小
@@ -46,9 +44,6 @@ public class LimitFileSizePreGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
         final ServerHttpRequest request = exchange.getRequest();
-        if (FilterUtils.logSkip(request)) {
-            return chain.filter(exchange);
-        }
 
         log.info(StringUtils.rightPad("*** 进入 LimitFileSizePreGlobalFilter 过滤器 ***", 100));
         try {

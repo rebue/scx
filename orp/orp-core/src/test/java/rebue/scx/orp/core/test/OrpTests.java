@@ -58,7 +58,7 @@ public class OrpTests {
 
         StrategyConfig orpConfig  = StrategyConfig.builder().isCheckState(true).build();
         StateCache     stateCache = new StateCache(stringRedisTemplate, Duration.ofMinutes(5));
-        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.DingTalk, clients, orpConfig, stateCache, httpClient);
+        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.DingTalk, clients, orpConfig, stateCache, httpClient, null);
         String         authUrl    = strategy.getAuthUrl(AuthTo.builder().clientId(clientId).redirectUri(redirectUri).build());
         log.info("获取钉钉认证的URL为: {}", authUrl);
 
@@ -96,7 +96,7 @@ public class OrpTests {
 
         StrategyConfig orpConfig  = StrategyConfig.builder().isCheckState(true).build();
         StateCache     stateCache = new StateCache(stringRedisTemplate, Duration.ofMinutes(5));
-        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.WechatOpen, clients, orpConfig, stateCache, httpClient);
+        Strategy       strategy   = StrategyFactory.getStrategy(OrpTypeDic.WechatOpen, clients, orpConfig, stateCache, httpClient, null);
         String         authUrl    = strategy.getAuthUrl(AuthTo.builder().clientId(clientId).redirectUri(redirectUri).build());
         log.info("获取微信认证的URL为: {}", authUrl);
 

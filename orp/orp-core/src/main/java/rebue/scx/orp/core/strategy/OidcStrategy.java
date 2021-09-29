@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class OidcStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthCodeTo, Void> {
 
-    public OidcStrategy(StrategyConfig orpConfig, Map<String, ClientMo> clients, StateCache stateCache, HttpClient httpClient)
+    public OidcStrategy(StrategyConfig orpConfig, Map<String, ClientMo> clients, StateCache stateCache, HttpClient httpClient, Map<String, String> extras)
     {
         super(orpConfig, clients, stateCache, httpClient);
     }
@@ -45,6 +45,12 @@ public class OidcStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthC
     public OrpTypeDic getOrpType()
     {
         return null;
+    }
+
+    @Override
+    protected String authUrl()
+    {
+        return super.authUrl();
     }
 
 }

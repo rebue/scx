@@ -1,12 +1,8 @@
 package rebue.scx.gateway.server.filter;
 
-import java.nio.charset.Charset;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import javax.annotation.Resource;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -23,11 +19,6 @@ import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
@@ -35,6 +26,12 @@ import rebue.scx.gateway.server.co.GatewayServerCo;
 import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlRespLogAddTo;
 import rebue.wheel.core.LocalDateTimeUtils;
+
+import javax.annotation.Resource;
+import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 记录响应包括Body在内的详细信息
@@ -65,10 +62,6 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, final GatewayFilterChain chain) {
-        if (FilterUtils.logSkip(exchange.getRequest())) {
-            return chain.filter(exchange);
-        }
-
         log.info(StringUtils.rightPad("*** 进入 LogResponseBodyPostGlobalFilter 过滤器 ***", 100));
         try {
             final ServerHttpResponse          originalResponse  = exchange.getResponse();

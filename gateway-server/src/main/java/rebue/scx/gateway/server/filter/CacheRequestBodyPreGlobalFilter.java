@@ -187,10 +187,6 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
             final ServerHttpRequest request,
             final Object body)
     {
-        if (FilterUtils.logSkip(request)) {
-            return;
-        }
-
         final StringBuilder sb = new StringBuilder();
         sb.append("接收到新的请求!!!\r\n----------------------- 请求的详情 -----------------------\r\n");
         sb.append("* 会话ID:\r\n*    ");
@@ -266,10 +262,6 @@ public class CacheRequestBodyPreGlobalFilter implements GlobalFilter, Ordered {
                        final ServerHttpRequest request,
                        final Object body)
     {
-        if (FilterUtils.logSkip(request)) {
-            return;
-        }
-
         // 记录数据库日志
         // 构造消息对象
         final RrlReqLogAddTo to = new RrlReqLogAddTo();

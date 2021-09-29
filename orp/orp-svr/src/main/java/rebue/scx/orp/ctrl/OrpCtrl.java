@@ -59,7 +59,7 @@ public class OrpCtrl {
      */
     @GetMapping("/get-auth-url/{orpType}/{clientId}")
     public Mono<Ro<?>> getAuthUrl(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
-            @RequestParam("redirectUri") final String redirectUri) {
+            @RequestParam(value = "redirectUri", required = false) final String redirectUri) {
         return Mono.create(callback -> callback.success(api.getAuthUrl(orpType, clientId, redirectUri)));
     }
 

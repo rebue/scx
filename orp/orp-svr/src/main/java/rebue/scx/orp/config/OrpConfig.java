@@ -38,7 +38,7 @@ public class OrpConfig {
             final OrpTypeDic            orpType   = OrpTypeDic.valueOf(CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, strategyName));
             final StrategyConfig        orpConfig = StrategyConfig.builder().isCheckState(strategyProperies.getIsCheckState()).build();
             final Map<String, ClientMo> clients   = strategyProperies.getClients().stream().collect(Collectors.toMap(ClientMo::getId, item -> item));
-            strategies.put(strategyName, StrategyFactory.getStrategy(orpType, clients, orpConfig, stateCache, httpClient));
+            strategies.put(strategyName, StrategyFactory.getStrategy(orpType, clients, orpConfig, stateCache, httpClient, strategyProperies.getExtras()));
         });
 
         return OrpStrategies.builder().items(strategies).build();

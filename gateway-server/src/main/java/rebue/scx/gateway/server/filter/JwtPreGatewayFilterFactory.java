@@ -1,14 +1,8 @@
 package rebue.scx.gateway.server.filter;
 
-import java.net.URI;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
@@ -20,27 +14,25 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
-import rebue.scx.gateway.server.config.OidcConfig;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.rac.api.RacPermUrnApi;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
 import rebue.wheel.turing.JwtUtils;
 
-import javax.annotation.Resource;
+import java.net.URI;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Component
 public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<JwtPreGatewayFilterFactory.Config> {
-
-    @Resource
-    private OidcConfig oidcConfig;
 
     @DubboReference
     private JwtApi        jwtApi;
@@ -56,9 +48,6 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
     public GatewayFilter apply(final Config config) {
         return new OrderedGatewayFilter((exchange, chain) -> {
             final ServerHttpRequest request = exchange.getRequest();
-            if (FilterUtils.backendInterceptSkip(request)) {
-                return returnFilter(chain, exchange);
-            }
 
             final String            method  = request.getMethod().toString();
             final String            path    = request.getPath().toString();
@@ -84,10 +73,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 if (StringUtils.isBlank(sign)) {
                     log.warn("JWT签名校验失败: 在Cookie中并没有找到签名");
                     final ServerHttpResponse response = exchange.getResponse();
-
-                    response.setStatusCode(HttpStatus.FOUND);
-                    response.getHeaders().setLocation(URI.create(oidcConfig.getRedirectUri()));
-
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
                 }
 
@@ -95,10 +81,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 if (!verifyRo.isSuccess()) {
                     log.warn("JWT签名校验失败: url-{}", url);
                     final ServerHttpResponse response = exchange.getResponse();
-
-                    response.setStatusCode(HttpStatus.FOUND);
-                    response.getHeaders().setLocation(URI.create(oidcConfig.getRedirectUri()));
-
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
                 }
                 log.info("JWT签名校验成功");

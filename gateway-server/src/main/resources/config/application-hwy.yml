@@ -57,8 +57,3 @@ logging:
     '[org.springframework.dao]': debug
     '[org.springframework.cloud]': warn
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
-
-oidc-redirect:
-  call-uri: https://auth.maiyuesoft.com
-  client-id: unified-auth
-  redirect-uri: https://auth.maiyuesoft.com

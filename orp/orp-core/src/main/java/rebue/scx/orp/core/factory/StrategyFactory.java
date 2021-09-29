@@ -18,15 +18,21 @@ import rebue.wheel.net.httpclient.HttpClient;
  */
 public class StrategyFactory {
 
-    public static Strategy getStrategy(final OrpTypeDic orpType, final Map<String, ClientMo> clients, final StrategyConfig orpConfig, final StateCache stateCache,
-            final HttpClient httpClient) {
+    public static Strategy getStrategy(
+            final OrpTypeDic orpType,
+            final Map<String, ClientMo> clients,
+            final StrategyConfig orpConfig,
+            final StateCache stateCache,
+            final HttpClient httpClient,
+            Map<String, String> extras
+    ) {
         switch (orpType) {
         case DingTalk:
             return new DingTalkStrategy(orpConfig, clients, stateCache, httpClient);
         case WechatOpen:
             return new WechatOpenStrategy(orpConfig, clients, stateCache, httpClient);
         case Oidc:
-            return new OidcStrategy(orpConfig, clients, stateCache, httpClient);
+            return new OidcStrategy(orpConfig, clients, stateCache, httpClient, extras);
         default:
             throw new RuntimeExceptionX("不能识别的RP类型: " + orpType.name() + "(不会运行到此处)");
         }

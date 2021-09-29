@@ -35,8 +35,3 @@ spring:
           - Path=/
           filters:
           - name: JwtPre
-
-oidc-redirect:
-  call-uri: http://127.0.0.1
-  client-id: unified-auth
-  redirect-uri: http://127.0.0.1
