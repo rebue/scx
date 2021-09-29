@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/22 11:06:15                           */
+/* Created on:     2021/9/29 11:24:26                           */
 /*==============================================================*/
 
 
@@ -90,8 +90,9 @@ create table RAC_APP
    REMARK               varchar(50)  comment '应用备注',
    IS_ENABLED           bool not null default true  comment '是否启用(如果应用没有启用，则不显示在第三方认证页面）',
    IMG_URL              varchar(512)  comment '应用图片地址',
-   SEQ_NO               tinyint not null  comment '顺序号排序',
-   IS_CERTIFIED         bool not null default false  comment '是否认证',
+   SEQ_NO               tinyint not null  comment '顺序号',
+   IS_CERTIFIED         bool not null default false  comment '是否认证(@deprecated 请使用认证方式判断)',
+   AUTHN_TYPE           tinyint unsigned not null  comment '认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)',
    primary key (ID),
    unique key AK_APP_NAME (NAME)
 );
@@ -125,7 +126,7 @@ create table RAC_DIC
    REMARK               varchar(50)  comment '字典备注',
    UPDATE_DATETIME      datetime not null  comment '修改时间',
    primary key (ID),
-   unique key AK_NAME (NAME)
+   unique key AK_NAME (NAME, REALM_ID)
 );
 
 alter table RAC_DIC comment '字典';
@@ -248,7 +249,6 @@ create table RAC_ORG
    CONTACT_WAY          varchar(30)  comment '联系方式',
    EMAIL                varchar(50)  comment '邮箱',
    primary key (ID),
-   unique key AK_NAME (NAME),
    unique key AK_FULL_NAME (FULL_NAME),
    key AK_REALM_AND_ORG_CODE (CODE, REALM_ID)
 );
@@ -282,7 +282,7 @@ create table RAC_PERM
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '权限备注',
    primary key (ID),
-   unique key AK_PERM_GROUP_AND_PERM_NAME (NAME, GROUP_ID)
+   unique key AK_PERM_GROUP_AND_PERM_NAME (NAME, GROUP_ID, REALM_ID)
 );
 
 alter table RAC_PERM comment '权限';
@@ -369,12 +369,12 @@ create table RAC_ROLE
    ID                   bigint unsigned not null  comment '角色ID',
    NAME                 varchar(20) not null  comment '角色名称',
    REALM_ID             varchar(32) not null  comment '领域ID',
-   STATUS               varchar(32)  comment '角色身份(字典项KEY)',
+   STATUS_ID            bigint  comment '身份ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '角色备注',
    primary key (ID),
-   unique key AK_SYS_AND_ROLE_NAME (NAME)
+   unique key AK_SYS_AND_ROLE_NAME (NAME, REALM_ID)
 );
 
 alter table RAC_ROLE comment '角色';
@@ -392,6 +392,24 @@ create table RAC_ROLE_PERM
 );
 
 alter table RAC_ROLE_PERM comment '角色权限';
+
+/*==============================================================*/
+/* Table: RAC_STATUS                                            */
+/*==============================================================*/
+create table RAC_STATUS
+(
+   ID                   bigint unsigned not null  comment '身份ID',
+   REALM_ID             varchar(32) not null  comment '领域ID',
+   NAME                 varchar(20) not null  comment '身份名称',
+   HOME_URL             varchar(100)  comment '首页URL',
+   IS_ENABLED           bool not null default true  comment '是否启用',
+   SEQ_NO               tinyint unsigned not null  comment '顺序号',
+   REMARK               varchar(50)  comment '身份备注',
+   primary key (ID),
+   unique key AK_STATUS_NAME (NAME)
+);
+
+alter table RAC_STATUS comment '身份';
 
 /*==============================================================*/
 /* Table: RAC_USER                                              */
@@ -532,6 +550,9 @@ alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_APP foreign key (APP_I
 alter table RAC_PERM_URN add constraint FK_PERM_URN_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
+alter table RAC_ROLE add constraint FK_ROLE_AND_STATUS foreign key (STATUS_ID)
+      references RAC_STATUS (ID) on delete restrict on update restrict;
+
 alter table RAC_ROLE add constraint FK_ROLE_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
@@ -540,4 +561,7 @@ alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_PERM foreign key (PERM
 
 alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
+
+alter table RAC_STATUS add constraint FK_STATUS_AND_REALM foreign key (REALM_ID)
+      references RAC_REALM (ID) on delete restrict on update restrict;
 

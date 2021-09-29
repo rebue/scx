@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/24 16:42:24                           */
+/* Created on:     2021/9/29 11:24:55                           */
 /*==============================================================*/
 
 
@@ -48,7 +48,7 @@ alter table ETL_SYNC_STRATEGY comment '同步策略';
 /*==============================================================*/
 create table ETL_SYNC_STRATEGY_DETAIL
 (
-   策略详情ID               bigint unsigned not null  comment '策略详情ID',
+   ID                   bigint unsigned not null  comment '策略详情ID',
    STRATEGY_ID          bigint unsigned  comment '策略ID',
    SRC_TABLE_NAME       varchar(32)  comment '来源表名称',
    SRC_FIELD_NAME       varchar(32) not null  comment '来源字段名称',
@@ -60,8 +60,8 @@ create table ETL_SYNC_STRATEGY_DETAIL
    DST_FIELD_TYPE       varchar(32) not null  comment '目的字段类型',
    DST_FIELD_LENGTH     tinyint unsigned  comment '目的字段长度',
    DST_FIELD_PRECISION  tinyint unsigned  comment '目的字段精度',
-   primary key (策略详情ID),
-   unique key AK_SRC_FIELD_AND_DST_FIELD (SRC_TABLE_NAME, SRC_FIELD_NAME, DST_TABLE_NAME, DST_FIELD_NAME)
+   primary key (ID),
+   unique key AK_SRC_FIELD_AND_DST_FIELD (STRATEGY_ID, SRC_TABLE_NAME, SRC_FIELD_NAME, DST_TABLE_NAME, DST_FIELD_NAME)
 );
 
 alter table ETL_SYNC_STRATEGY_DETAIL comment '同步策略详情';

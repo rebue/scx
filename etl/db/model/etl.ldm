@@ -1508,8 +1508,8 @@ Shadow=0</a:DisplayPreferences>
 <o:RelationshipSymbol Id="o5">
 <a:CreationDate>1632472174</a:CreationDate>
 <a:ModificationDate>1632473028</a:ModificationDate>
-<a:Rect>((-848,2959), (1552,14623))</a:Rect>
-<a:ListOfPoints>((352,14223),(352,4359))</a:ListOfPoints>
+<a:Rect>((-804,3365), (1596,14179))</a:Rect>
+<a:ListOfPoints>((396,13779),(396,4765))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>4627</a:ArrowStyle>
 <a:LineColor>11881048</a:LineColor>
@@ -1530,8 +1530,8 @@ DESTINATION 0 新宋体,8,N</a:FontList>
 <o:RelationshipSymbol Id="o9">
 <a:CreationDate>1632472174</a:CreationDate>
 <a:ModificationDate>1632473028</a:ModificationDate>
-<a:Rect>((-1962,2959), (438,14623))</a:Rect>
-<a:ListOfPoints>((-762,14223),(-762,4359))</a:ListOfPoints>
+<a:Rect>((-2019,3365), (381,14179))</a:Rect>
+<a:ListOfPoints>((-819,13779),(-819,4765))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>4627</a:ArrowStyle>
 <a:LineColor>11881048</a:LineColor>
@@ -1552,8 +1552,8 @@ DESTINATION 0 新宋体,8,N</a:FontList>
 <o:RelationshipSymbol Id="o11">
 <a:CreationDate>1632472174</a:CreationDate>
 <a:ModificationDate>1632710432</a:ModificationDate>
-<a:Rect>((9946,-1656), (23304,744))</a:Rect>
-<a:ListOfPoints>((10346,-456),(21904,-456))</a:ListOfPoints>
+<a:Rect>((10835,-1901), (21836,499))</a:Rect>
+<a:ListOfPoints>((11235,-701),(20436,-701))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>4371</a:ArrowStyle>
 <a:LineColor>11881048</a:LineColor>
@@ -1575,7 +1575,7 @@ DESTINATION 0 新宋体,8,N</a:FontList>
 <a:CreationDate>1632472174</a:CreationDate>
 <a:ModificationDate>1632473028</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-10779,14223), (9639,25021))</a:Rect>
+<a:Rect>((-11687,13779), (10547,25465))</a:Rect>
 <a:LineColor>11881048</a:LineColor>
 <a:FillColor>16759472</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1597,7 +1597,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:CreationDate>1632472174</a:CreationDate>
 <a:ModificationDate>1632473028</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-9686,-5615), (10346,4359))</a:Rect>
+<a:Rect>((-10575,-6021), (11235,4765))</a:Rect>
 <a:LineColor>11881048</a:LineColor>
 <a:FillColor>16759472</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1619,7 +1619,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:CreationDate>1632472174</a:CreationDate>
 <a:ModificationDate>1632710432</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((21904,-1056), (40778,12218))</a:Rect>
+<a:Rect>((20436,-1610), (42246,12772))</a:Rect>
 <a:LineColor>11881048</a:LineColor>
 <a:FillColor>16759472</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1949,13 +1949,14 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>SRC_FIELD_AND_DST_FIELD</a:Code>
 <a:CreationDate>1632472174</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1632472558</a:ModificationDate>
+<a:ModificationDate>1632883903</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <c:Identifier.Attributes>
 <o:EntityAttribute Ref="o41"/>
 <o:EntityAttribute Ref="o42"/>
 <o:EntityAttribute Ref="o43"/>
 <o:EntityAttribute Ref="o44"/>
+<o:EntityAttribute Ref="o45"/>
 </c:Identifier.Attributes>
 </o:Identifier>
 </c:Identifiers>
@@ -1966,26 +1967,26 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:EntityAttribute Id="o39">
 <a:ObjectID>151D2148-A0EA-424E-B271-3E7620D57707</a:ObjectID>
 <a:Name>策略详情ID</a:Name>
-<a:Code>策略详情ID</a:Code>
+<a:Code>ID</a:Code>
 <a:CreationDate>1632472174</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1632472416</a:ModificationDate>
+<a:ModificationDate>1632883924</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:DataType>LI</a:DataType>
 <a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
 </o:EntityAttribute>
-<o:EntityAttribute Id="o45">
+<o:EntityAttribute Id="o41">
 <a:ObjectID>B0995DD8-B86E-47C7-BA25-B76C422CE703</a:ObjectID>
 <a:Name>策略ID</a:Name>
 <a:Code>STRATEGY_ID</a:Code>
 <a:CreationDate>1632472174</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1632472174</a:ModificationDate>
+<a:ModificationDate>1632883903</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:DataType>LI</a:DataType>
 <a:AutoMigrated>1</a:AutoMigrated>
 </o:EntityAttribute>
-<o:EntityAttribute Id="o41">
+<o:EntityAttribute Id="o42">
 <a:ObjectID>36B75F58-7BB8-47A4-A37F-FB425A8ED557</a:ObjectID>
 <a:Name>来源表名称</a:Name>
 <a:Code>SRC_TABLE_NAME</a:Code>
@@ -1996,7 +1997,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:DataType>VA32</a:DataType>
 <a:Length>32</a:Length>
 </o:EntityAttribute>
-<o:EntityAttribute Id="o42">
+<o:EntityAttribute Id="o43">
 <a:ObjectID>D592DD3D-757F-41F9-B71B-6EEE313F58D5</a:ObjectID>
 <a:Name>来源字段名称</a:Name>
 <a:Code>SRC_FIELD_NAME</a:Code>
@@ -2040,7 +2041,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Modifier>zbz</a:Modifier>
 <a:DataType>BT</a:DataType>
 </o:EntityAttribute>
-<o:EntityAttribute Id="o43">
+<o:EntityAttribute Id="o44">
 <a:ObjectID>3F961128-D2E4-4765-8ECD-951482C0506D</a:ObjectID>
 <a:Name>目的表名称</a:Name>
 <a:Code>DST_TABLE_NAME</a:Code>
@@ -2052,7 +2053,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Length>32</a:Length>
 <a:LogicalAttribute.Mandatory>1</a:LogicalAttribute.Mandatory>
 </o:EntityAttribute>
-<o:EntityAttribute Id="o44">
+<o:EntityAttribute Id="o45">
 <a:ObjectID>B72A6298-DA70-4AFE-B073-E25F768A8571</a:ObjectID>
 <a:Name>目的字段名称</a:Name>
 <a:Code>DST_FIELD_NAME</a:Code>
@@ -2197,7 +2198,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:EntityAttribute Ref="o29"/>
 </c:Object1>
 <c:Object2>
-<o:EntityAttribute Ref="o45"/>
+<o:EntityAttribute Ref="o41"/>
 </c:Object2>
 </o:RelationshipJoin>
 </c:Joins>
@@ -2213,12 +2214,12 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>etl-mysql</a:Code>
 <a:CreationDate>1632472220</a:CreationDate>
 <a:Creator>zbz</a:Creator>
-<a:ModificationDate>1632472937</a:ModificationDate>
+<a:ModificationDate>1632885882</a:ModificationDate>
 <a:Modifier>zbz</a:Modifier>
 <a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/etl-mysql.pdm</a:TargetModelURL>
 <a:TargetModelID>031C7C7B-4568-40A2-A1F1-081DD71070C7</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
-<a:TargetModelLastModificationDate>1632472937</a:TargetModelLastModificationDate>
+<a:TargetModelLastModificationDate>1632885882</a:TargetModelLastModificationDate>
 <c:SessionShortcuts>
 <o:Shortcut Ref="o3"/>
 </c:SessionShortcuts>
