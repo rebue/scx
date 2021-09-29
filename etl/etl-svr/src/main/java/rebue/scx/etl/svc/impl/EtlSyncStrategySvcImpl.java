@@ -1,9 +1,12 @@
 package rebue.scx.etl.svc.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -122,14 +125,8 @@ public class EtlSyncStrategySvcImpl extends
             Map.Entry<String, Object> srcDst        = srcDstIt.next();
             List<String>              srcList       = JSON.parseArray(srcMap.get(srcDst.getKey()).toString(), String.class);
             List<String>              dstList       = JSON.parseArray(dstMap.get(srcDst.getValue()).toString().toString(), String.class);
-            EtlConnMo                 srcConnMo     = connSvc.getById(strategyMo.getSrcConnId());
-            String                    srcUrl        = JdbcUtils.getUrl(srcConnMo.getHost(), srcConnMo.getPort(), srcConnMo.getDbName(),
-                    SqlDic.getItem(srcConnMo.getDbType()).getDesc());
-            Map<String, String>       srcColumnsMap = JdbcUtils.getColumnsByTableName(srcUrl, srcConnMo.getUserName(), srcConnMo.getUserPswd(), srcDst.getKey());
-            EtlConnMo                 dstConnMo     = connSvc.getById(strategyMo.getDstConnId());
-            String                    dstUrl        = JdbcUtils.getUrl(dstConnMo.getHost(), dstConnMo.getPort(), dstConnMo.getDbName(),
-                    SqlDic.getItem(dstConnMo.getDbType()).getDesc());
-            Map<String, String>       dstColumnsMap = JdbcUtils.getColumnsByTableName(dstUrl, dstConnMo.getUserName(), dstConnMo.getUserPswd(), (String) srcDst.getValue());
+            Map<String, String>       srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), srcDst.getKey());
+            Map<String, String>       dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), (String) srcDst.getValue());
 
             if (srcList.size() == dstList.size()) {
                 for (int i = 0; i < srcList.size(); i++) {
@@ -177,14 +174,8 @@ public class EtlSyncStrategySvcImpl extends
             Map.Entry<String, Object> srcDst        = srcDstIt.next();
             List<String>              srcList       = JSON.parseArray(srcMap.get(srcDst.getKey()).toString(), String.class);
             List<String>              dstList       = JSON.parseArray(dstMap.get(srcDst.getValue()).toString().toString(), String.class);
-            EtlConnMo                 srcConnMo     = connSvc.getById(strategyMo.getSrcConnId());
-            String                    srcUrl        = JdbcUtils.getUrl(srcConnMo.getHost(), srcConnMo.getPort(), srcConnMo.getDbName(),
-                    SqlDic.getItem(srcConnMo.getDbType()).getDesc());
-            Map<String, String>       srcColumnsMap = JdbcUtils.getColumnsByTableName(srcUrl, srcConnMo.getUserName(), srcConnMo.getUserPswd(), srcDst.getKey());
-            EtlConnMo                 dstConnMo     = connSvc.getById(strategyMo.getDstConnId());
-            String                    dstUrl        = JdbcUtils.getUrl(dstConnMo.getHost(), dstConnMo.getPort(), dstConnMo.getDbName(),
-                    SqlDic.getItem(dstConnMo.getDbType()).getDesc());
-            Map<String, String>       dstColumnsMap = JdbcUtils.getColumnsByTableName(dstUrl, dstConnMo.getUserName(), dstConnMo.getUserPswd(), (String) srcDst.getValue());
+            Map<String, String>       srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), srcDst.getKey());
+            Map<String, String>       dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), (String) srcDst.getValue());
 
             if (srcList.size() == dstList.size()) {
                 for (int i = 0; i < srcList.size(); i++) {
@@ -247,8 +238,66 @@ public class EtlSyncStrategySvcImpl extends
         EtlSyncStrategyMo           strategyMo = super.getById(id);
         EtlSyncStrategyDetailListTo listTo     = new EtlSyncStrategyDetailListTo();
         listTo.setStrategyId(strategyMo.getId());
-        List<EtlSyncStrategyDetailMo> list = syncStrategyDetailSvc.list(listTo);
+        List<EtlSyncStrategyDetailMo> list          = syncStrategyDetailSvc.list(listTo);
+        Map<String, List<String>>     srcFieldsMap  = new HashMap<String, List<String>>();
+        Map<String, List<String>>     dstFieldsMap  = new HashMap<String, List<String>>();
+        List<String>                  srcFieldNames = new ArrayList<String>();
+        List<String>                  dstFieldNames = new ArrayList<String>();
+        list.stream().map(item -> {
+            Map<String, String>             srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), item.getSrcTableName());
+            Map<String, String>             dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), item.getDstTableName());
+            Iterator<Entry<String, String>> srcIterator   = srcColumnsMap.entrySet().iterator();
+            while (srcIterator.hasNext()) {
+                srcFieldNames.add(srcIterator.next().getKey());
+            }
+            srcFieldsMap.put(item.getSrcTableName(), srcFieldNames);
+            Iterator<Entry<String, String>> dstIterator = dstColumnsMap.entrySet().iterator();
+            while (dstIterator.hasNext()) {
+                dstFieldNames.add(dstIterator.next().getKey());
+            }
+            dstFieldsMap.put(item.getDstTableName(), dstFieldNames);
+            return item;
+        }).collect(Collectors.toList());
+
         strategyMo.setStrategyDetailList(list);
+        // 获取数据库下的所有表名
+        List<String> srcTableNames = this.getTableNames(strategyMo.getSrcConnId());
+        List<String> dstTableNames = this.getTableNames(strategyMo.getDstConnId());
+        strategyMo.setSrcTableNames(srcTableNames);
+        strategyMo.setSrcFieldsMap(srcFieldsMap);
+        strategyMo.setDstTableNames(dstTableNames);
+        strategyMo.setDstFieldsMap(dstFieldsMap);
         return strategyMo;
     }
+
+    /**
+     * 获取数据库的所有表名
+     * 
+     * @param connId 连接器ID
+     * 
+     */
+    private List<String> getTableNames(Long connId) {
+        EtlConnMo    ConnMo = connSvc.getById(connId);
+        String       url    = JdbcUtils.getUrl(ConnMo.getHost(), ConnMo.getPort(), ConnMo.getDbName(),
+                SqlDic.getItem(ConnMo.getDbType()).getDesc());
+        List<String> list   = JdbcUtils.getTables(url, ConnMo.getUserName(), ConnMo.getUserPswd());
+        return list;
+    }
+
+    /**
+     * 获取表字段名以及对应字段类型
+     * 
+     * @param connId    连接器ID
+     * @param tableName 查询的表名
+     * 
+     * @return 返回Map<字段名, 字段类型>
+     */
+    private Map<String, String> getColumnsMapByTableName(Long connId, String tableName) {
+        EtlConnMo           ConnMo     = connSvc.getById(connId);
+        String              url        = JdbcUtils.getUrl(ConnMo.getHost(), ConnMo.getPort(), ConnMo.getDbName(),
+                SqlDic.getItem(ConnMo.getDbType()).getDesc());
+        Map<String, String> columnsMap = JdbcUtils.getColumnsByTableName(url, ConnMo.getUserName(), ConnMo.getUserPswd(), tableName);
+        return columnsMap;
+    }
+
 }
