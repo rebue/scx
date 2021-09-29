@@ -15,12 +15,21 @@ import java.util.UUID;
 
 public class OidcStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthCodeTo, Void> {
 
-    private StateCache stateCache;
+    private final StateCache stateCache;
+
+    private final String callUri;
+
+    private final String redirectUri;
+
+    private final String clientId;
 
     public OidcStrategy(StrategyConfig orpConfig, Map<String, ClientMo> clients, StateCache stateCache, HttpClient httpClient, Map<String, String> extras)
     {
         super(orpConfig, clients, stateCache, httpClient);
         this.stateCache = stateCache;
+        this.callUri = extras.get("call-uri");
+        this.redirectUri = extras.get("redirect-uri");
+        this.clientId = extras.get("client-id");
     }
 
     @Override
@@ -47,7 +56,6 @@ public class OidcStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthC
     @Override
     protected void checkGetUserInfoRo(Void unused)
     {
-        System.out.println();
     }
 
     @Override
@@ -56,16 +64,12 @@ public class OidcStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthC
         return OrpTypeDic.Oidc;
     }
 
-    String callUri = "http://127.0.0.1:13080";     // todo 加到yml
-    String redirectUri = "http://127.0.0.1:13080"; // todo 加到yml
-    String clientId = "unified-auth";              // todo 加到yml
-
     @SneakyThrows
     @Override
     public String getAuthUrl(final AuthTo authTo)
     {
         String state = UUID.randomUUID().toString();
-        stateCache.set(OrpTypeDic.Oidc.name(), authTo.getClientId(), state);
+        // stateCache.set(OrpTypeDic.Oidc.name(), authTo.getClientId(), state);
         String authUrl = callUri + "/oap-svr/oap/authorize?scope=openid&response_type=code"
                 + "&client_id=" + clientId
                 + "&state=" + state
