@@ -68,18 +68,25 @@ public final class RacAppDynamicSqlSupport {
     public static final SqlColumn<String> imgUrl = racApp.imgUrl;
 
     /**
-    * 顺序号排序
+    * 顺序号
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Byte> seqNo = racApp.seqNo;
 
     /**
-    * 是否认证
+    * 是否认证(@deprecated 请使用认证方式判断)
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
     */
     public static final SqlColumn<Boolean> isCertified = racApp.isCertified;
+
+    /**
+    * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<Byte> authnType = racApp.authnType;
 
     public static final class RacApp extends SqlTable {
         public final SqlColumn<String> id = column("ID", JDBCType.VARCHAR);
@@ -101,6 +108,8 @@ public final class RacAppDynamicSqlSupport {
         public final SqlColumn<Byte> seqNo = column("SEQ_NO", JDBCType.TINYINT);
 
         public final SqlColumn<Boolean> isCertified = column("IS_CERTIFIED", JDBCType.BIT);
+
+        public final SqlColumn<Byte> authnType = column("AUTHN_TYPE", JDBCType.TINYINT);
 
         public RacApp() {
             super("RAC_APP");

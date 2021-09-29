@@ -51,7 +51,7 @@ public class RacAccountModifyTo implements Serializable {
     private String            signInName;
 
     /**
-     * 微信的OpenId
+     * QQ的OpenId
      *
      * @mbg.dontOverWriteAnnotation
      *
@@ -74,13 +74,6 @@ public class RacAccountModifyTo implements Serializable {
     private String signInEmail;
 
     /**
-     * 微信的UnionId
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
      *             注意：
      *             1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
@@ -92,13 +85,6 @@ public class RacAccountModifyTo implements Serializable {
     private String signInPswd;
 
     /**
-     * 微信昵称
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
      * 登录密码组合码(与密码组合加密用，详见登录密码备注)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -107,7 +93,7 @@ public class RacAccountModifyTo implements Serializable {
     private String signInPswdSalt;
 
     /**
-     * QQ的OpenId
+     * QQ的UnionId
      *
      * @mbg.dontOverWriteAnnotation
      *
@@ -154,17 +140,10 @@ public class RacAccountModifyTo implements Serializable {
     @Length(max = 64, message = "QQ的OpenId的长度不能大于64")
     private String qqOpenId;
 
-    /**
-     * QQ的UnionId
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     // 不进行反序列化
     @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 64, message = "QQ的UnionId的长度不能大于64")
-    private String qqUnionId;
+    private String  qqUnionId;
 
     /**
      * QQ昵称
@@ -176,7 +155,7 @@ public class RacAccountModifyTo implements Serializable {
     // 不进行反序列化
     @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 100, message = "QQ昵称的长度不能大于100")
-    private String qqNickname;
+    private String  qqNickname;
 
     /**
      * QQ头像
@@ -188,15 +167,8 @@ public class RacAccountModifyTo implements Serializable {
     // 不进行反序列化
     @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 300, message = "QQ头像的长度不能大于300")
-    private String qqAvatar;
+    private String  qqAvatar;
 
-    /**
-     * 钉钉的UnionId
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 是否测试者
      *
@@ -221,20 +193,20 @@ public class RacAccountModifyTo implements Serializable {
     private String  payPswd;
 
     /**
-     * 微信头像
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
      * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 6, message = "支付密码组合码的长度不能大于6")
-    private String payPswdSalt;
+    private String  payPswdSalt;
 
+    /**
+     * 微信的OpenId
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 用户ID
      *
@@ -260,6 +232,13 @@ public class RacAccountModifyTo implements Serializable {
     private String realmId;
 
     /**
+     * 微信的UnionId
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
      * 账户编码
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -267,6 +246,20 @@ public class RacAccountModifyTo implements Serializable {
     @Length(max = 32, message = "账户编码的长度不能大于32")
     private String code;
 
+    /**
+     * 钉钉的UnionId
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
+     * 微信头像
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 钉钉的OpenId
      *
@@ -287,18 +280,11 @@ public class RacAccountModifyTo implements Serializable {
     // 不进行反序列化
     @JsonProperty(access = Access.READ_ONLY)
     @Length(max = 64, message = "钉钉的UserId的长度不能大于64")
-    private String  ddUserId;
+    private String ddUserId;
 
-    /**
-     * 钉钉昵称
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     // 不进行反序列化
     @Length(max = 100, message = "钉钉昵称的长度不能大于100")
-    private String  ddNickname;
+    private String ddNickname;
 
     /**
      * 钉钉头像
@@ -310,7 +296,7 @@ public class RacAccountModifyTo implements Serializable {
     // 不进行反序列化
     @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 300, message = "钉钉头像的长度不能大于300")
-    private String  ddAvatar;
+    private String ddAvatar;
 
     /**
      * 联合账户ID
@@ -318,8 +304,15 @@ public class RacAccountModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "联合账户ID不能为负数")
-    private Long    unionId;
+    private Long   unionId;
 
+    /**
+     * 微信昵称
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 是否启用
      *
@@ -336,7 +329,7 @@ public class RacAccountModifyTo implements Serializable {
     private Long    createTimestamp;
 
     /**
-     * 钉钉的UserId
+     * 钉钉昵称
      *
      * @mbg.dontOverWriteAnnotation
      *
@@ -349,4 +342,11 @@ public class RacAccountModifyTo implements Serializable {
      */
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long updateTimestamp;
+    /**
+     * 钉钉的UserId
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
 }

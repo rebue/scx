@@ -139,7 +139,7 @@ public class RacAppJo implements Serializable {
     private String     imgUrl;
 
     /**
-     * 顺序号排序
+     * 顺序号
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -148,11 +148,20 @@ public class RacAppJo implements Serializable {
     private Byte       seqNo;
 
     /**
-     * 是否认证
+     * 是否认证(@deprecated 请使用认证方式判断)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Basic(optional = false)
     @Column(name = "IS_CERTIFIED", nullable = false, length = 1)
     private Boolean    isCertified;
+
+    /**
+     * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "AUTHN_TYPE", nullable = true, length = 3)
+    private Byte       authnType;
 }

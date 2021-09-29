@@ -71,10 +71,9 @@ public class RacRoleOneTo implements Serializable {
     private String            realmId;
 
     /**
-     * 角色身份(字典项KEY)
+     * 身份ID
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Length(max = 32, message = "角色身份的长度不能大于32")
-    private String            status;
+    private Long              statusId;
 }

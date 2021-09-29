@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -128,6 +129,7 @@ public class RacAppMo implements Serializable, Mo<String> {
         sb.append(", imgUrl=").append(imgUrl);
         sb.append(", seqNo=").append(seqNo);
         sb.append(", isCertified=").append(isCertified);
+        sb.append(", authnType=").append(authnType);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -313,15 +315,15 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 顺序号排序
+     * 顺序号
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "顺序号排序不能为空")
+    @NotNull(groups = AddGroup.class, message = "顺序号不能为空")
     private Byte    seqNo;
 
     /**
-     * 是否认证
+     * 是否认证(@deprecated 请使用认证方式判断)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -329,7 +331,7 @@ public class RacAppMo implements Serializable, Mo<String> {
     private Boolean isCertified;
 
     /**
-     * 顺序号排序
+     * 顺序号
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -338,7 +340,7 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 顺序号排序
+     * 顺序号
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -347,7 +349,7 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 是否认证
+     * 是否认证(@deprecated 请使用认证方式判断)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -356,11 +358,37 @@ public class RacAppMo implements Serializable, Mo<String> {
     }
 
     /**
-     * 是否认证
+     * 是否认证(@deprecated 请使用认证方式判断)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setIsCertified(Boolean isCertified) {
         this.isCertified = isCertified;
+    }
+
+    /**
+     * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "认证方式不能为负数")
+    private Byte authnType;
+
+    /**
+     * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Byte getAuthnType() {
+        return authnType;
+    }
+
+    /**
+     * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAuthnType(Byte authnType) {
+        this.authnType = authnType;
     }
 }

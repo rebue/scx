@@ -15,18 +15,17 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 角色
+ * 身份
  *
- * The persistent class for the RAC_ROLE database table.
- *
+ * The persistent class for the RAC_STATUS database table.
  * @mbg.generated 自动生成，如需修改，请删除本行
  */
 @Entity
-@Table(name = "RAC_ROLE")
+@Table(name = "RAC_STATUS")
 @Getter
 @Setter
 @ToString
-public class RacRoleJo implements Serializable {
+public class RacStatusJo implements Serializable {
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -34,50 +33,63 @@ public class RacRoleJo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 身份ID
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, length = 20)
     private Long              id;
-
     /**
-     * 角色名称
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 身份名称
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Basic(optional = false)
     @Column(name = "NAME", nullable = false, length = 20)
     private String            name;
-
     /**
-     * 是否启用
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 首页URL
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    @Basic(optional = true)
+    @Column(name = "HOME_URL", nullable = true, length = 100)
+    private String            homeUrl;
+    /**
+    * 是否启用
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Basic(optional = false)
     @Column(name = "IS_ENABLED", nullable = false, length = 1)
     private Boolean           isEnabled;
-
     /**
-     * 顺序号
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 顺序号
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Basic(optional = false)
     @Column(name = "SEQ_NO", nullable = false, length = 3)
     private Byte              seqNo;
-
     /**
-     * 角色备注
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
+    * 身份备注
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
     @Basic(optional = true)
     @Column(name = "REMARK", nullable = true, length = 50)
     private String            remark;
+
+    /**
+    * 领域
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private RacRealmJo        realm;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -101,7 +113,7 @@ public class RacRoleJo implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RacRoleJo other = (RacRoleJo) obj;
+        RacStatusJo other = (RacStatusJo) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -111,21 +123,4 @@ public class RacRoleJo implements Serializable {
         return true;
     }
 
-    /**
-     * 领域
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private RacRealmJo realm;
-
-    /**
-     * 身份ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Basic(optional = true)
-    @Column(name = "STATUS_ID", nullable = true, length = 19)
-    private Long       statusId;
 }

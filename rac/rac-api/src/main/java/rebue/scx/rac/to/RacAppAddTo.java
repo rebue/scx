@@ -3,6 +3,7 @@ package rebue.scx.rac.to;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -125,4 +126,12 @@ public class RacAppAddTo implements Serializable {
      * 是否认证
      */
     private Boolean           isCertified;
+
+    /**
+     * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @PositiveOrZero(message = "认证方式不能为负数")
+    private Byte              authnType;
 }
