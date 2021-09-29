@@ -34,4 +34,4 @@ spring:
     base-url: http://zipkin:9411
 
 oidc:
-  login-url: https://auth.maiyuesoft.com/admin-web/?u=1#/sign-in/unified
+  login-url: https://auth.maiyuesoft.com/admin-web/sign-in/unified

@@ -1,6 +1,6 @@
 # 配置中心中的配置
 minio:
-  endpoint: http://122.9.104.17:9000  
+  endpoint: https://122.9.104.17:9000
   accessKey: AKIAIOSFODNN7EXAMPLE
   secretKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 # 生成workid使用

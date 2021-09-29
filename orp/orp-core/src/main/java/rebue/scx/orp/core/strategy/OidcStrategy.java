@@ -36,10 +36,6 @@ public class OidcStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthC
     @Override
     protected void mapperRegister()
     {
-        _mapperFactory.classMap(AuthTo.class, Map.class)
-                .field("scopes", "scope")
-                .field("redirectUri", "redirect_uri")
-                .byDefault().register();
     }
 
     @Override
@@ -60,9 +56,9 @@ public class OidcStrategy extends AbstractStrategy<AuthCodeTo, Void, Void, AuthC
         return OrpTypeDic.Oidc;
     }
 
-    String callUri = "http://127.0.0.1";     // todo 加到yml
-    String redirectUri = "http://127.0.0.1"; // todo 加到yml
-    String clientId = "unified-auth";        // todo 加到yml
+    String callUri = "http://127.0.0.1:13080";     // todo 加到yml
+    String redirectUri = "http://127.0.0.1:13080"; // todo 加到yml
+    String clientId = "unified-auth";              // todo 加到yml
 
     @SneakyThrows
     @Override
