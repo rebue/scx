@@ -15,8 +15,8 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: nacos1:8848,nacos2:8848,nacos3:8848
+        server-addr: 122.9.104.17:8848
       discovery:
-        server-addr: nacos1:8848,nacos2:8848,nacos3:8848
+        server-addr: 122.9.104.17:8848
     sentinel:
       enabled: false
