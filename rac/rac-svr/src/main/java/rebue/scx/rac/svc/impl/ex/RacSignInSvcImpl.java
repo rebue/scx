@@ -231,7 +231,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         }
 
         final RacAccountOneTo qo = new RacAccountOneTo();
-        // qo.setRealmId(appMo.getRealmId());
+        qo.setRealmId(appMo.getRealmId());
         switch (signUpOrInWay) {
         case DINGTALK:
             if (StringUtils.isNotBlank(to.getUnionId())) {
