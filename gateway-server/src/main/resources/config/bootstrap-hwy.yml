@@ -13,12 +13,4 @@ spring:
       discovery:
         server-addr: 122.9.104.17:8848
     sentinel:
-      filter: 
-        enabled: false
-      datasource:
-        ds:
-          nacos:
-            server-addr: ${spring.cloud.nacos.config.server-addr}
-            dataId: ${spring.application.name}-sentinel
-            groupId: REBUE
-            rule-type: gw-flow
+      enabled: false
