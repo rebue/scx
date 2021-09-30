@@ -125,6 +125,13 @@ public class RacAccountSvcImpl extends
 
     @Value("${minio.endpoint:http://172.20.14.125:9000}")
     private String               minioEndpoint;
+    /**
+     * 文件路径是否需要全路径还是只需要去除Ip的相对路径地址
+     * true 全路径http://127.0.0.1:9000/oss-svr/***
+     * false 相对路径 /oss-svr/**
+     */
+    @Value("${minio.urlPrefixBool:true}")
+    private Boolean              url_prefix_bool;
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -388,7 +395,7 @@ public class RacAccountSvcImpl extends
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(accountId);
         // XXX 添加a参数并设置时间戳，以防前端接收到地址未改变，图片不刷新
-        mo.setSignInAvatar(String.format("%s/%s/%s?a=%s", minioEndpoint, RacMinioCo.AVATAR_BUCKET, objectName, System.currentTimeMillis()));
+        mo.setSignInAvatar(String.format("%s/%s/%s?a=%s", url_prefix_bool ? minioEndpoint : "", RacMinioCo.AVATAR_BUCKET, objectName, System.currentTimeMillis()));
         thisSvc.modifyMoById(mo);
         return new Ro<>(ResultDic.SUCCESS, "上传头像成功");
     }

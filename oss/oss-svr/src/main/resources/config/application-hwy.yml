@@ -14,8 +14,8 @@ curator:
 spring:
   datasource:
     url: jdbc:mysql://mysql:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: oss
-    password: oss
+    username: root
+    password: xxxxxxxx
   cloud:
     sentinel:
       enabled: false
