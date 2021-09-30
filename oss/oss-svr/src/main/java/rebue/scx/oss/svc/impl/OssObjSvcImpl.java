@@ -83,6 +83,13 @@ public class OssObjSvcImpl
 
     @Value("${minio.endpoint:http://127.0.0.1:9000}")
     private String        minioEndpoint;
+    /**
+     * 文件路径是否需要全路径还是只需要去除Ip的相对路径地址
+     * true 全路径http://127.0.0.1:9000/oss-svr/***
+     * false 相对路径 /oss-svr/**
+     */
+    @Value("${minio.urlPrefixBool:true}")
+    private Boolean       url_prefix_bool;
 
     static private String FILE_NAME           = "avatar.txt";
 
@@ -152,7 +159,7 @@ public class OssObjSvcImpl
         mo.setObjSize((long) inputStream.available());
         mo.setCreatorId(curAccountId);
         mo.setCreateDatetime(LocalDateTime.now());
-        mo.setUrl(String.format("%s/%s/%s?a=%s", minioEndpoint, bucketName, objectName, System.currentTimeMillis()));
+        mo.setUrl(String.format("%s/%s/%s?a=%s", url_prefix_bool ? minioEndpoint : "", bucketName, objectName, System.currentTimeMillis()));
         mo = thisSvc.addMo(mo);
         return new Ro<>(ResultDic.SUCCESS, "上传对象成功", mo);
     }
