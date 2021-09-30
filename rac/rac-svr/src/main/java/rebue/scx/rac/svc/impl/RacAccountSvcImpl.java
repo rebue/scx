@@ -149,6 +149,19 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacAccountMo addMo(final RacAccountMo mo) {
+        RacAccountOneTo oneTo = new RacAccountOneTo();
+        oneTo.setRealmId(mo.getRealmId());
+        oneTo.setSignInName(mo.getSignInName());
+        Long count = thisSvc.countSelective(oneTo);
+        if (count > 0) {
+            throw new RuntimeExceptionX("该领域下已存在" + mo.getSignInName());
+        }
+        oneTo.setSignInName(null);
+        oneTo.setSignInNickname(mo.getSignInNickname());
+        count = thisSvc.countSelective(oneTo);
+        if (count > 0) {
+            throw new RuntimeExceptionX("该领域下已存在" + mo.getSignInNickname());
+        }
         if (StringUtils.isNotBlank(mo.getSignInPswd())) {
             // 随机生成盐值
             mo.setSignInPswdSalt(PswdUtils.randomSalt());
