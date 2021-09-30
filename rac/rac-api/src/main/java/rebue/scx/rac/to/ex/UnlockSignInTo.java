@@ -27,6 +27,12 @@ public class UnlockSignInTo implements Serializable {
      */
     @NotNull(message = "被锁定的账户ID不能为空")
     private Long              accountId;
+
+    /**
+     * 解锁原因
+     */
+    @NotNull(message = "解锁原因不能为空")
+    private String            unlockReason;
     /**
      * 操作员的账户ID
      */

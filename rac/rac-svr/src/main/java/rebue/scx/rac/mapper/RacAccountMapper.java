@@ -618,6 +618,8 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      */
     default List<RacLockLogAndAccountMo> selectLockAccount(RacAccountPageTo qo, String likeDate) {
         final String               keywords     = StringUtils.isBlank(qo.getKeywords()) ? null : "%" + qo.getKeywords() + "%";
+        final String //
+                                   hierarchical = ((qo.getOrgId() != null) && qo.getHierarchical() != null && qo.getHierarchical()) ? qo.getOrgTreeCode() + "%" : null;
         final SqlCriterion<String> sqlCriterion = and(racAccount.signInNickname, isLikeWhenPresent(keywords), or(racAccount.signInName, isLikeWhenPresent(keywords)),
                 or(racAccount.id, isEqualToWhenPresent(NumberUtils.isValidLong(keywords) ? Long.parseLong(keywords) : null)),
                 or(racAccount.signInEmail, isLikeWhenPresent(keywords)),
@@ -625,13 +627,40 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
                 or(racAccount.qqOpenId, isLikeWhenPresent(keywords)),
                 or(racAccount.qqUnionId, isLikeWhenPresent(keywords)), or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)),
                 or(racAccount.wxUnionId, isLikeWhenPresent(keywords)), or(racAccount.remark, isLikeWhenPresent(keywords)));
-        SelectStatementProvider    select       = SqlBuilder.select(racAccount.allColumns(), racLockLog.allColumns(), racLockLog.id.as("lockLogId")).from(racAccount)
-                .rightJoin(racLockLog)
-                .on(racAccount.id, equalTo(racLockLog.lockAccountId)).rightJoin(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId))
-                .where(racAccount.id, isEqualTo(racLockLog.lockAccountId), and(racAccount.realmId, isEqualToWhenPresent(qo::getRealmId)),
-                        and(racLockLog.unlockDatetime, SqlBuilder.isNull()), and(racOrgAccount.orgId, isEqualToWhenPresent(qo::getOrgId)),
-                        and(racLockLog.column("LOCK_DATETIME"), isLikeWhenPresent(likeDate)), sqlCriterion)
-                .build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider    select       = null;
+        if (qo.getOrgId() != null) {
+            if (hierarchical != null) {
+                select = SqlBuilder.select(racAccount.allColumns(), racLockLog.allColumns(), racLockLog.id.as("lockLogId")).from(racAccount)
+                        .rightJoin(racLockLog)
+                        .on(racAccount.id, equalTo(racLockLog.lockAccountId)).rightJoin(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId)).leftJoin(racOrg)
+                        .on(racOrg.id, equalTo(racOrgAccount.orgId))
+                        .where(racAccount.id, isEqualTo(racLockLog.lockAccountId), and(racAccount.realmId, isEqualToWhenPresent(qo::getRealmId)),
+                                and(racLockLog.unlockDatetime, SqlBuilder.isNull()),// and(racOrgAccount.orgId, isEqualToWhenPresent(qo::getOrgId)),
+                                and(racLockLog.column("LOCK_DATETIME"), isLikeWhenPresent(likeDate)), and(racOrg.treeCode, isLike(hierarchical)),
+                                sqlCriterion)
+                        // .groupBy(racOrgAccount.accountId)
+                        .build().render(RenderingStrategies.MYBATIS3);
+            }
+            else {
+                select = SqlBuilder.select(racAccount.allColumns(), racLockLog.allColumns(), racLockLog.id.as("lockLogId")).from(racAccount)
+                        .rightJoin(racLockLog)
+                        .on(racAccount.id, equalTo(racLockLog.lockAccountId)).rightJoin(racOrgAccount).on(racAccount.id, equalTo(racOrgAccount.accountId))
+                        .where(racAccount.id, isEqualTo(racLockLog.lockAccountId), and(racAccount.realmId, isEqualToWhenPresent(qo::getRealmId)),
+                                and(racLockLog.unlockDatetime, SqlBuilder.isNull()), and(racOrgAccount.orgId, isEqualToWhenPresent(qo::getOrgId)),
+                                and(racLockLog.column("LOCK_DATETIME"), isLikeWhenPresent(likeDate)), sqlCriterion)
+                        .build().render(RenderingStrategies.MYBATIS3);
+            }
+        }
+        else {
+            select = SqlBuilder.select(racAccount.allColumns(), racLockLog.allColumns(), racLockLog.id.as("lockLogId")).from(racAccount)
+                    .rightJoin(racLockLog)
+                    .on(racAccount.id, equalTo(racLockLog.lockAccountId))
+                    .where(racAccount.id, isEqualTo(racLockLog.lockAccountId), and(racAccount.realmId, isEqualToWhenPresent(qo::getRealmId)),
+                            and(racLockLog.unlockDatetime, SqlBuilder.isNull()),
+                            and(racLockLog.column("LOCK_DATETIME"), isLikeWhenPresent(likeDate)), sqlCriterion)
+                    .build().render(RenderingStrategies.MYBATIS3);
+        }
+
         return this.selectManyAndLock(select);
     }
 

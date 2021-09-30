@@ -54,6 +54,10 @@ public class RacAccountPageTo extends PageTo implements Serializable {
      * 是否展示全部数据
      */
     private Boolean           hierarchical;
+    /**
+     * 组织的树编码
+     */
+    private String            orgTreeCode;
 
     /**
      * 用户ID
@@ -104,9 +108,9 @@ public class RacAccountPageTo extends PageTo implements Serializable {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *             注意：
-     *             1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *             2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */

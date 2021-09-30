@@ -2,7 +2,9 @@ package rebue.scx.rac.svc.impl.ex;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -28,11 +30,13 @@ import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
+import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.svc.impl.RacAccountSvcImpl;
 import rebue.scx.rac.to.RacAccountOneTo;
@@ -99,7 +103,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
     @Resource
     private Mapper              dozerMapper;
-
+    @Resource
+    private RacOrgSvc           racOrgSvc;
     @Resource
     private RacAccountMapper    racAccountMapper;
     @Resource
@@ -315,6 +320,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         modifyTo.setUnlockOpId(to.getOpAccountId());
         modifyTo.setUnlockDatetime(LocalDateTime.now());
         // modifyTo.setUnlockReason("手动解锁");
+        modifyTo.setUnlockReason(to.getUnlockReason());
         modifyTo.setUnlockOpAgentId(to.getAgentAccountId());
         racLockLogSvc.modifyById(modifyTo);
         return delWrongPswdTimesOfSignIn(to.getAccountId());
@@ -343,12 +349,19 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     @Override
     public PageInfo<RacAccountMo> getSignInLockRecord(final RacAccountPageTo qo) {
+        if (qo.getOrgId() != null) {
+            final RacOrgMo orgMo = racOrgSvc.getById(qo.getOrgId());
+            qo.setOrgTreeCode(orgMo.getTreeCode());
+        }
         // 确保是在今天被锁定的记录
         final String  likeDate = "%" + LocalDate.now().toString() + "%";
         final ISelect select   = () -> racAccountMapper.selectLockAccount(qo, likeDate);
         // 固定
         qo.setOrderBy("lockDatetime");
-        return accountSvcImpl.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+        PageInfo<RacAccountMo> page = accountSvcImpl.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+        List<RacAccountMo>     list = page.getList().stream().distinct().collect(Collectors.toList());
+        page.setList(list);
+        return page;
     }
 
     /**
