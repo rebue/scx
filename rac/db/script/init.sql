@@ -19,7 +19,7 @@ INSERT INTO `RAC_APP` VALUES ('login-manage','登录','ops','http://www.abc.com/
 {\"key\":\"/log/disable-log\",\"title\":\"账户启/禁用日志\"},
 {\"key\":\"/log/op-log\",\"title\":\"操作日志\"}]}]','对平台的后台管理提供最基本的功能',1,NULL,0,0,0)
 
-,('third-party-demo','第三方实例应用','default','http://the-localhost:30010',NULL,NULL,1,NULL,0,1,0),
+,('third-party-demo','第三方实例应用','default','http://the-localhost:30010',NULL,NULL,1,NULL,1,1,0),
 
 ('unified-auth','统一认证平台','default','http://127.0.0.1/admin-web/#/app/index',NULL,'',1,'',0,1,0);
 

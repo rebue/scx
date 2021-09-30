@@ -131,7 +131,7 @@ public class EtlConnSvcImpl
         EtlConnMo connMo = thisSvc.getById(id);
         String    url    = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
         Boolean   bool   = JdbcUtils.getTestConnection(url, connMo.getUserName(), connMo.getUserPswd());
-        return new Ro<>(ResultDic.SUCCESS, "测试结果", new BooleanRa(bool));
+        return new Ro<>(bool ? ResultDic.SUCCESS : ResultDic.WARN, bool ? "测试成功" : "测试失败", new BooleanRa(bool));
     }
 
 }

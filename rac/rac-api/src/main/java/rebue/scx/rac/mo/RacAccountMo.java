@@ -22,6 +22,7 @@ import rebue.robotech.valid.ModifyGroup;
  * 账户
  *
  * @mbg.dontOverWriteAnnotation
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -46,7 +47,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
     @Setter
     @Getter
     private Long              lockLogId;
-
+    @Setter
+    @Getter
+    private String            realName;
     /**
      * 锁定原因
      */
@@ -90,9 +93,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -223,6 +226,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -232,6 +236,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -310,9 +315,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -322,9 +327,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     *              注意：
-     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     * 注意：
+     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -654,8 +659,8 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
+        final int prime  = 31;
+        int       result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
