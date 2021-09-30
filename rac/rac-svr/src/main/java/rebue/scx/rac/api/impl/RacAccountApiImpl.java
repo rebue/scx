@@ -24,6 +24,7 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -33,8 +34,19 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-    implements RacAccountApi {
+        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+        implements RacAccountApi {
+
+    /**
+     * 重置账户登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    @Override
+    public Ro<?> resetPassword(RacAccountResetPasswordTo to) {
+        _svc.resetPassword(to);
+        return new Ro<>(ResultDic.SUCCESS, "重置成功");
+    }
 
     /**
      * 修改账户登录密码

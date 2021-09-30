@@ -25,6 +25,7 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -43,7 +44,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @Validated
 public interface RacAccountSvc
-    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -150,4 +151,11 @@ public interface RacAccountSvc
      * @return
      */
     Ro<ListRa<RacAccountMo>> getByUserId(Long id);
+
+    /**
+     * 重置账户登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    void resetPassword(RacAccountResetPasswordTo to);
 }

@@ -15,6 +15,7 @@ import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -96,4 +97,11 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @return
      */
     Ro<ListRa<RacAccountMo>> getByUserId(Long id);
+
+    /**
+     * 重置账户登录密码
+     *
+     * @param to 修改账户登录密码的具体数据
+     */
+    Ro<?> resetPassword(RacAccountResetPasswordTo to);
 }
