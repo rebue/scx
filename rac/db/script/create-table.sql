@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/29 11:24:26                           */
+/* Created on:     2021/10/8 11:24:15                           */
 /*==============================================================*/
 
 
@@ -92,7 +92,7 @@ create table RAC_APP
    IMG_URL              varchar(512)  comment '应用图片地址',
    SEQ_NO               tinyint not null  comment '顺序号',
    IS_CERTIFIED         bool not null default false  comment '是否认证(@deprecated 请使用认证方式判断)',
-   AUTHN_TYPE           tinyint unsigned not null  comment '认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)',
+   AUTHN_TYPE           tinyint unsigned not null default 0  comment '认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)',
    primary key (ID),
    unique key AK_APP_NAME (NAME)
 );
@@ -369,7 +369,7 @@ create table RAC_ROLE
    ID                   bigint unsigned not null  comment '角色ID',
    NAME                 varchar(20) not null  comment '角色名称',
    REALM_ID             varchar(32) not null  comment '领域ID',
-   STATUS_ID            bigint  comment '身份ID',
+   STATUS_ID            bigint unsigned  comment '身份ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '角色备注',
@@ -401,7 +401,6 @@ create table RAC_STATUS
    ID                   bigint unsigned not null  comment '身份ID',
    REALM_ID             varchar(32) not null  comment '领域ID',
    NAME                 varchar(20) not null  comment '身份名称',
-   HOME_URL             varchar(100)  comment '首页URL',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '身份备注',
@@ -410,6 +409,19 @@ create table RAC_STATUS
 );
 
 alter table RAC_STATUS comment '身份';
+
+/*==============================================================*/
+/* Table: RAC_STATUS_APP                                        */
+/*==============================================================*/
+create table RAC_STATUS_APP
+(
+   ID                   bigint unsigned not null  comment '身份应用ID',
+   APP_ID               varchar(32) not null  comment '应用ID',
+   STATUS_ID            bigint unsigned not null  comment '身份ID',
+   primary key (ID)
+);
+
+alter table RAC_STATUS_APP comment '身份应用';
 
 /*==============================================================*/
 /* Table: RAC_USER                                              */
@@ -550,6 +562,9 @@ alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_APP foreign key (APP_I
 alter table RAC_PERM_URN add constraint FK_PERM_URN_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
+alter table RAC_ROLE add constraint FK_ROLE_AND_STATUS foreign key (STATUS_ID)
+      references RAC_STATUS (ID) on delete restrict on update restrict;
+
 alter table RAC_ROLE add constraint FK_ROLE_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
 
@@ -561,6 +576,10 @@ alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE
 
 alter table RAC_STATUS add constraint FK_STATUS_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
--- 该外键有问题
--- alter table RAC_ROLE add constraint FK_ROLE_AND_STATUS foreign key (STATUS_ID)
---       references RAC_STATUS (ID) on delete restrict on update restrict;
+
+alter table RAC_STATUS_APP add constraint FK_STATUS_APP_AND_APP foreign key (APP_ID)
+      references RAC_APP (ID) on delete restrict on update restrict;
+
+alter table RAC_STATUS_APP add constraint FK_STATUS_APP_AND_STATUS foreign key (STATUS_ID)
+      references RAC_STATUS (ID) on delete restrict on update restrict;
+
