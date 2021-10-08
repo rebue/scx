@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  etl-svr:
+    image: nnzbz/spring-boot-app:1.0.4
+    environment:
+      # 最好使用此设定时区，其它镜像也可以使用
+      - TZ=CST-8
+      - PROG_ARGS=--spring.profiles.active=prod
+      # - PROG_ARGS=--spring.profiles.active=hwy
+      # - JAVA_OPTS=-Xms150M -Xmx150M
+    volumes:
+      # 配置文件目录
+      - /usr/local/etl-svr/config/:/usr/local/myservice/config/
+      - /usr/local/etl-svr/etl-svr-1.2.4.jar:/usr/local/myservice/myservice.jar
+networks:
+  default:
+    external: true
+    name: rebue
