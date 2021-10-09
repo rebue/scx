@@ -232,7 +232,7 @@ public class RacAccountSvcImpl extends
         // 默认登录密码为：12345678
         // 设置固定盐值
         String       signInPswdSalt = "zGxxxC";
-        mo.setSignInPswdSalt(PswdUtils.randomSalt());
+        mo.setSignInPswdSalt(signInPswdSalt);
         // 根据生成的盐值进行摘要
         String signInPswd = "25d55ad283aa400af464c76d713c07ad";
         mo.setSignInPswd(PswdUtils.saltPswd(signInPswd, mo.getSignInPswdSalt()));
@@ -286,7 +286,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unbindModify(RacAccountModifyTo to) {
-        RacAccountOneTo oneTo = OrikaUtils.map(to, RacAccountOneTo.class);
+        // RacAccountOneTo oneTo = OrikaUtils.map(to, RacAccountOneTo.class);
         // 解除绑定钉钉
         if (to.getDdUnionId() != null) {
             RacAccountMo one = thisSvc.getById(to.getId());

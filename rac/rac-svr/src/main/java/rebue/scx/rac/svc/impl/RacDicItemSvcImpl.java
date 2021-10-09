@@ -1,6 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -23,6 +25,7 @@ import rebue.scx.rac.to.RacDicItemListTo;
 import rebue.scx.rac.to.RacDicItemModifyTo;
 import rebue.scx.rac.to.RacDicItemOneTo;
 import rebue.scx.rac.to.RacDicItemPageTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
 
 /**
@@ -44,8 +47,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicItemSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemMapper, RacDicItemDao>
-    implements RacDicItemSvc {
+        BaseSvcImpl<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemMapper, RacDicItemDao>
+        implements RacDicItemSvc {
 
     /**
      * 本服务的单例
@@ -93,6 +96,9 @@ public class RacDicItemSvcImpl extends
             final RacDicItemMo qo = new RacDicItemMo();
             qo.setDicId(to.getDicId());
             Long count = _mapper.countDicSelective(qo);
+            if (count != 0) {
+                count = count - 1;
+            }
             String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             while (true) {
                 final RacDicItemOneTo oneTo = new RacDicItemOneTo();
@@ -103,7 +109,7 @@ public class RacDicItemSvcImpl extends
                     break;
                 }
                 else {
-                    count = count + 1;
+                    count    = count + 1;
                     treeCode = StringUtils.leftPad(count.toString(), 3, '0');
                 }
             }
@@ -112,12 +118,12 @@ public class RacDicItemSvcImpl extends
         else // 字典项下添加字典项
         {
             final RacDicItemMo itemMo = thisSvc.getById(to.getParentId());
-            final RacDicItemMo qo = new RacDicItemMo();
+            final RacDicItemMo qo     = new RacDicItemMo();
             qo.setDicId(to.getDicId());
             // .substring(0, itemMo.getTreeCode().length() == 3 ? itemMo.getTreeCode().length() : itemMo.getTreeCode().length() - 3));
             qo.setTreeCode(itemMo.getTreeCode());
             // 去除本身记录 -1
-            Long count = _mapper.countDicItemSelective(qo);
+            Long   count    = _mapper.countDicItemSelective(qo);
             String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             while (true) {
                 final RacDicItemOneTo oneTo = new RacDicItemOneTo();
@@ -128,7 +134,7 @@ public class RacDicItemSvcImpl extends
                     break;
                 }
                 else {
-                    count = count + 1;
+                    count    = count + 1;
                     treeCode = StringUtils.leftPad(count.toString(), 3, '0');
                 }
             }
@@ -138,4 +144,42 @@ public class RacDicItemSvcImpl extends
         final RacDicItemMo addMo = thisSvc.addMo(mo);
         return addMo;
     }
+
+    /**
+     * 通过ID删除记录
+     *
+     * @param id 要删除记录的ID
+     *
+     * @return 如果成功，且删除一条记录，正常返回，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void delById(Long id) {
+        RacDicItemMo       itemMo    = _mapper.selectByPrimaryKey(id).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        String             treeCode  = itemMo.getTreeCode();
+        // 查询删除该数据对其他数据的影响记录数据
+        List<RacDicItemMo> selective = _mapper.selectDicSelective(itemMo);
+        // 删除字典项
+        final int          rowCount  = _mapper.deleteByPrimaryKey(id);
+        // 删除字典项下的字典项
+        int                count     = _mapper.deleteDicItemSelective(itemMo);
+        // 对余下有影响的数据进行排序
+        // FIXME 字项未进行相应的改动
+        selective.stream().map(item -> {
+            int length  = item.getTreeCode().length();
+            int treeInt = Integer.parseInt(item.getTreeCode());
+            treeInt = treeInt - 1;
+            String tree = StringUtils.leftPad(treeInt + "", length, '0');
+            item.setTreeCode(tree);
+            _mapper.updateByPrimaryKey(item);
+            return item;
+        }).collect(Collectors.toList());
+        if (rowCount == 0) {
+            throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
+        }
+        if (rowCount != 1) {
+            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
+        }
+    }
+
 }

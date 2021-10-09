@@ -2,6 +2,7 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThan;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 import static rebue.scx.rac.mapper.RacDicItemDynamicSqlSupport.dicId;
@@ -319,11 +320,34 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
                 .and(treeCode, isLikeWhenPresent(str)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
+    /**
+     * 查寻字典下面的字典项记录数
+     */
     default Long countDicSelective(final RacDicItemMo record) {
         // _ 表示通配符 匹配一个字符
         final String str = "___";
         return count(c -> c.where(id, isEqualToWhenPresent(record::getId)).and(dicId, isEqualToWhenPresent(record::getDicId)).and(name, isEqualToWhenPresent(record::getName))
                 .and(treeCode, isLikeWhenPresent(str)).and(remark, isEqualToWhenPresent(record::getRemark)));
+    }
+
+    /**
+     * 查询大于当前字典项的treeCode的记录
+     */
+    default List<RacDicItemMo> selectDicSelective(final RacDicItemMo record) {
+        // _ 表示通配符 匹配一个字符
+        final String str = "___";
+        return select(c -> c.where(dicId, isEqualToWhenPresent(record::getDicId))
+                .and(treeCode, isGreaterThan(record::getTreeCode)).and(treeCode, isLikeWhenPresent(str)));
+    }
+
+    /**
+     * 删除当前字典项下面的字典项记录数
+     */
+    default int deleteDicItemSelective(RacDicItemMo record) {
+        // _ 表示通配符 匹配一个字符
+        final String str = record.getTreeCode() + "%";
+        return delete(c -> c.where(dicId, isEqualToWhenPresent(record::getDicId))
+                .and(treeCode, isLikeWhenPresent(str)));
     }
 
     /**
@@ -341,4 +365,5 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
     default BasicColumn[] getColumns() {
         return selectList;
     }
+
 }
