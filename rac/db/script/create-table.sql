@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/10/8 11:24:15                           */
+/* Created on:     2021/10/9 11:33:09                           */
 /*==============================================================*/
 
 
@@ -98,6 +98,19 @@ create table RAC_APP
 );
 
 alter table RAC_APP comment '应用';
+
+/*==============================================================*/
+/* Table: RAC_APP_TAG                                           */
+/*==============================================================*/
+create table RAC_APP_TAG
+(
+   ID                   bigint unsigned not null  comment '应用标签ID',
+   APP_ID               varchar(32) not null  comment '应用ID',
+   DIC_ITEM_ID          bigint unsigned not null  comment '字典项ID',
+   primary key (ID)
+);
+
+alter table RAC_APP_TAG comment '应用标签';
 
 /*==============================================================*/
 /* Table: RAC_DELEGATION                                        */
@@ -369,7 +382,6 @@ create table RAC_ROLE
    ID                   bigint unsigned not null  comment '角色ID',
    NAME                 varchar(20) not null  comment '角色名称',
    REALM_ID             varchar(32) not null  comment '领域ID',
-   STATUS_ID            bigint unsigned  comment '身份ID',
    IS_ENABLED           bool not null default true  comment '是否启用',
    SEQ_NO               tinyint unsigned not null  comment '顺序号',
    REMARK               varchar(50)  comment '角色备注',
@@ -378,6 +390,19 @@ create table RAC_ROLE
 );
 
 alter table RAC_ROLE comment '角色';
+
+/*==============================================================*/
+/* Table: RAC_ROLE_APP                                          */
+/*==============================================================*/
+create table RAC_ROLE_APP
+(
+   ID                   bigint unsigned not null  comment '角色应用ID',
+   APP_ID               varchar(32) not null  comment '应用ID',
+   ROLE_ID              bigint unsigned not null  comment '角色ID',
+   primary key (ID)
+);
+
+alter table RAC_ROLE_APP comment '角色应用';
 
 /*==============================================================*/
 /* Table: RAC_ROLE_PERM                                         */
@@ -392,36 +417,6 @@ create table RAC_ROLE_PERM
 );
 
 alter table RAC_ROLE_PERM comment '角色权限';
-
-/*==============================================================*/
-/* Table: RAC_STATUS                                            */
-/*==============================================================*/
-create table RAC_STATUS
-(
-   ID                   bigint unsigned not null  comment '身份ID',
-   REALM_ID             varchar(32) not null  comment '领域ID',
-   NAME                 varchar(20) not null  comment '身份名称',
-   IS_ENABLED           bool not null default true  comment '是否启用',
-   SEQ_NO               tinyint unsigned not null  comment '顺序号',
-   REMARK               varchar(50)  comment '身份备注',
-   primary key (ID),
-   unique key AK_STATUS_NAME (NAME)
-);
-
-alter table RAC_STATUS comment '身份';
-
-/*==============================================================*/
-/* Table: RAC_STATUS_APP                                        */
-/*==============================================================*/
-create table RAC_STATUS_APP
-(
-   ID                   bigint unsigned not null  comment '身份应用ID',
-   APP_ID               varchar(32) not null  comment '应用ID',
-   STATUS_ID            bigint unsigned not null  comment '身份ID',
-   primary key (ID)
-);
-
-alter table RAC_STATUS_APP comment '身份应用';
 
 /*==============================================================*/
 /* Table: RAC_USER                                              */
@@ -465,6 +460,12 @@ alter table RAC_ACCOUNT_ROLE add constraint FK_ACCOUNT_ROLE_AND_ACCOUNT foreign 
 
 alter table RAC_APP add constraint FK_APP_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
+
+alter table RAC_APP_TAG add constraint FK_APP_TAG_AND_APP foreign key (APP_ID)
+      references RAC_APP (ID) on delete restrict on update restrict;
+
+alter table RAC_APP_TAG add constraint FK_APP_TAG_AND_DIC_ITEM foreign key (DIC_ITEM_ID)
+      references RAC_DIC_ITEM (ID) on delete restrict on update restrict;
 
 alter table RAC_DELEGATION add constraint FK_PRINCIPAL_AND_ACCOUNT foreign key (PRINCIPAL_ID)
       references RAC_ACCOUNT (ID) on delete restrict on update restrict;
@@ -562,24 +563,18 @@ alter table RAC_PERM_MENU add constraint FK_PERM_MENU_AND_APP foreign key (APP_I
 alter table RAC_PERM_URN add constraint FK_PERM_URN_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
-alter table RAC_ROLE add constraint FK_ROLE_AND_STATUS foreign key (STATUS_ID)
-      references RAC_STATUS (ID) on delete restrict on update restrict;
-
 alter table RAC_ROLE add constraint FK_ROLE_AND_REALM foreign key (REALM_ID)
       references RAC_REALM (ID) on delete restrict on update restrict;
+
+alter table RAC_ROLE_APP add constraint FK_ROLE_APP_AND_ROLE foreign key (ROLE_ID)
+      references RAC_ROLE (ID) on delete restrict on update restrict;
+
+alter table RAC_ROLE_APP add constraint FK_ROLE_APP_AND_APP foreign key (APP_ID)
+      references RAC_APP (ID) on delete restrict on update restrict;
 
 alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_PERM foreign key (PERM_ID)
       references RAC_PERM (ID) on delete restrict on update restrict;
 
 alter table RAC_ROLE_PERM add constraint FK_ROLE_PERM_AND_ROLE foreign key (ROLE_ID)
       references RAC_ROLE (ID) on delete restrict on update restrict;
-
-alter table RAC_STATUS add constraint FK_STATUS_AND_REALM foreign key (REALM_ID)
-      references RAC_REALM (ID) on delete restrict on update restrict;
-
-alter table RAC_STATUS_APP add constraint FK_STATUS_APP_AND_APP foreign key (APP_ID)
-      references RAC_APP (ID) on delete restrict on update restrict;
-
-alter table RAC_STATUS_APP add constraint FK_STATUS_APP_AND_STATUS foreign key (STATUS_ID)
-      references RAC_STATUS (ID) on delete restrict on update restrict;
 
