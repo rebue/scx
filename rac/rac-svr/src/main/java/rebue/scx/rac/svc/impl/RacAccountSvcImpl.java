@@ -42,6 +42,7 @@ import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mapper.RacOrgAccountMapper;
 import rebue.scx.rac.mapper.RacPermCommandMapper;
 import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.mo.RacPermCommandMo;
 import rebue.scx.rac.mo.RacUserMo;
@@ -49,6 +50,7 @@ import rebue.scx.rac.mo.ex.RacAccountExMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
+import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.RacDisableLogSvc;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.svc.RacPermMenuSvc;
@@ -104,6 +106,9 @@ public class RacAccountSvcImpl extends
 
     @Resource
     private RacUserSvc           userSvc;
+
+    @Resource
+    private RacAppSvc            appSvc;
 
     @Resource
     private RacPermMenuSvc       permMenuSvc;
@@ -449,9 +454,23 @@ public class RacAccountSvcImpl extends
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId, final Long unionId) {
         final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
-        final RacAccountMo        accountMo = thisSvc.getById(curAccountId);
+        RacAccountMo              accountMo = thisSvc.getById(curAccountId);
+        RacAppMo                  appMo     = appSvc.getById(appId);
+        Boolean                   flag      = accountMo.getRealmId() == appMo.getRealmId();
+        if (!flag) {
+            RacAccountOneTo oneTo = new RacAccountOneTo();
+            oneTo.setRealmId(appMo.getRealmId());
+            if (accountMo.getUnionId() != null) {
+                oneTo.setUnionId(accountMo.getUnionId());
+                RacAccountMo oneMo = thisSvc.getOne(oneTo);
+                accountMo = oneMo;
+            }
+            else {
+                return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
+            }
+        }
         if (accountMo == null) {
             return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
         }

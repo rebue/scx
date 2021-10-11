@@ -12,6 +12,7 @@ import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountModifySignInByOldPswdTo;
 import rebue.scx.rac.to.RacAccountModifySignInPswdTo;
 import rebue.scx.rac.to.RacAccountModifyTo;
+import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
@@ -56,10 +57,11 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      *
      * @param curAccountId 当前账户ID
      * @param appId        应用ID
+     * @param unionId
      *
      * @return 当前账户信息
      */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String appId);
+    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String appId, Long unionId);
 
     /**
      * 查询账户的信息
@@ -104,4 +106,6 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param to 修改账户登录密码的具体数据
      */
     Ro<?> resetPassword(RacAccountResetPasswordTo to);
+
+    RacAccountMo getOne(RacAccountOneTo oneTo);
 }

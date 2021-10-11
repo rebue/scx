@@ -40,7 +40,6 @@ import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
-import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
@@ -138,11 +137,12 @@ public class OrpSvcImpl implements OrpSvc {
                         .path("/")
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                         .build());
-        response.addCookie(
-                ResponseCookie.from(RacCookieCo.APP_ID_KEY, app.getId())
-                        .path("/")
-                        .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                        .build());
+
+        // response.addCookie(
+        // ResponseCookie.from(RacCookieCo.APP_ID_KEY, app.getId())
+        // .path("/")
+        // .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+        // .build());
         return Pair.of(app.getUrl(), null);
     }
 

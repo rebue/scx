@@ -3,6 +3,7 @@ package rebue.scx.rac.ctrl;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -11,6 +12,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -243,7 +245,8 @@ public class RacAccountCtrl {
      */
     @GetMapping("/rac/account/get-cur-account-info")
     @SneakyThrows
-    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCookieCo.APP_ID_KEY) final String appId) {
+    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCookieCo.UNION_ID_KEY) final Long unionId,
+            final ServerHttpRequest request) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -261,12 +264,15 @@ public class RacAccountCtrl {
                 agentAccountId = Long.valueOf(agentAccountIdString);
             }
         }
-        final Long agentAccountIdFinal = agentAccountId;
-        // 从JWT签名中获取应用ID
+        final Long   agentAccountIdFinal = agentAccountId;
+        // 从Headers中获取应用ID
+        List<String> list                = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
+        String       appId               = list.get(0);
         if (StringUtils.isBlank(appId)) {
-            throw new IllegalArgumentException("在Cookie中找不到应用ID");
+            throw new IllegalArgumentException("在Headers中找不到应用ID");
         }
-        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, appId)));
+        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, appId, unionId)));
+
     }
 
     /**

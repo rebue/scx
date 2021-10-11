@@ -34,43 +34,40 @@ import rebue.scx.jwt.to.JwtSignTo;
 public class JwtSvcImpl implements JwtSvc {
 
     @Resource
-    private JwtProperties jwtProperties;
+    private JwtProperties       jwtProperties;
 
     @Resource
-    private JwtKey jwtKey;
+    private JwtKey              jwtKey;
 
     private static final ZoneId ZONE_ID = ZoneId.systemDefault();
 
     @Override
     @SneakyThrows
-    public JwtSignRa sign(final JwtSignTo to)
-    {
-        SignedJWT jwt = rawSign(to);
-        String sign = jwt.serialize();
-        LocalDateTime expLocalDateTime =
-                jwt.getJWTClaimsSet().getExpirationTime()
-                        .toInstant().atZone(ZONE_ID).toLocalDateTime();
+    public JwtSignRa sign(final JwtSignTo to) {
+        SignedJWT     jwt              = rawSign(to);
+        String        sign             = jwt.serialize();
+        LocalDateTime expLocalDateTime = jwt.getJWTClaimsSet().getExpirationTime()
+                .toInstant().atZone(ZONE_ID).toLocalDateTime();
         return JwtSignRa.success(sign, expLocalDateTime);
     }
 
     @Override
     @SneakyThrows
-    public SignedJWT rawSign(final JwtSignTo to)
-    {
-        Date now = new Date();
-        Date exp = new Date(now.getTime() + jwtKey.getExp());
+    public SignedJWT rawSign(final JwtSignTo to) {
+        Date    now     = new Date();
+        Date    exp     = new Date(now.getTime() + jwtKey.getExp());
         Builder builder = new Builder()
                 .issuer(jwtProperties.getIssuer())
                 .subject(to.getAccountId())
-                .audience(to.getAppId())
+                // .audience(to.getAppId())
                 .expirationTime(exp)
                 .issueTime(now);
         if (to.getAddition() != null) {
             builder.claim("addition", to.getAddition());
         }
         JWTClaimsSet claims = builder.build();
-        JWSSigner signer = new RSASSASigner(jwtKey.getPrivateKey());
-        SignedJWT jwt = new SignedJWT(new JWSHeader(JWSAlgorithm.RS256), claims);
+        JWSSigner    signer = new RSASSASigner(jwtKey.getPrivateKey());
+        SignedJWT    jwt    = new SignedJWT(new JWSHeader(JWSAlgorithm.RS256), claims);
         jwt.sign(signer);
         return jwt;
     }
@@ -79,8 +76,7 @@ public class JwtSvcImpl implements JwtSvc {
      * 验证JWT签名 如果验证成功，重新生成新的签名，提供给应用刷新有效期
      */
     @Override
-    public JwtSignRa verify(final String sign)
-    {
+    public JwtSignRa verify(final String sign) {
         try {
             final SignedJWT signedJWT = SignedJWT.parse(sign);
             if (System.currentTimeMillis() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
@@ -92,12 +88,12 @@ public class JwtSvcImpl implements JwtSvc {
             }
 
             // 如果验证成功，需要重新签名延长过期时间
-            final String subject = signedJWT.getJWTClaimsSet().getSubject();
-            final String audience = signedJWT.getJWTClaimsSet().getAudience().get(0);
+            final String              subject  = signedJWT.getJWTClaimsSet().getSubject();
+            // final String audience = signedJWT.getJWTClaimsSet().getAudience().get(0);
             final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
-            final JwtSignTo signTo = JwtSignTo.builder()
+            final JwtSignTo           signTo   = JwtSignTo.builder()
                     .accountId(subject)
-                    .appId(audience)
+                    // .appId(audience)
                     .addition(addition)
                     .build();
             return sign(signTo);
@@ -106,8 +102,8 @@ public class JwtSvcImpl implements JwtSvc {
         }
     }
 
-    public JwtSignInfo verifyNotUpdate(String sign)
-    {
+    @Override
+    public JwtSignInfo verifyNotUpdate(String sign) {
         try {
             final SignedJWT signedJWT = SignedJWT.parse(sign);
             if (System.currentTimeMillis() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
@@ -118,7 +114,7 @@ public class JwtSvcImpl implements JwtSvc {
                 return null;
             }
             final String subject = signedJWT.getJWTClaimsSet().getSubject();
-            JwtSignInfo info = new JwtSignInfo();
+            JwtSignInfo  info    = new JwtSignInfo();
             info.setAccountId(Long.parseLong(subject));
             return info;
         } catch (final Exception e) {

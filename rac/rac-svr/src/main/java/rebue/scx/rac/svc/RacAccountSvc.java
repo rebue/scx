@@ -108,10 +108,11 @@ public interface RacAccountSvc
      * @param curAccountId   当前账户ID
      * @param agentAccountId 代理账户ID
      * @param appId          应用ID
+     * @param unionId
      *
      * @return 当前账户信息
      */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, Long agentAccountId, @NotBlank String appId);
+    Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, Long agentAccountId, @NotBlank String appId, Long unionId);
 
     /**
      * 查询账户的信息

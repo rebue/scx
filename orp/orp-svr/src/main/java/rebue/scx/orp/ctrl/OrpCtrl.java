@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
+import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
-import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.orp.api.OrpApi;
 import rebue.scx.orp.to.OrpCodeTo;
+import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacOpLogApi;
 import rebue.scx.rac.co.RacCookieCo;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
@@ -34,9 +36,11 @@ import rebue.wheel.turing.JwtUtils;
 public class OrpCtrl {
 
     @Resource
-    private OrpApi      api;
+    private OrpApi        api;
     @DubboReference
-    private RacOpLogApi opLogApi;
+    private RacOpLogApi   opLogApi;
+    @DubboReference
+    private RacAccountApi accountApi;
 
     @GetMapping("/callback")
     public Mono<String> callback(final ServerHttpResponse response, @RequestParam("code") final String code) {
@@ -219,10 +223,14 @@ public class OrpCtrl {
             appTo.setOpDatetime(LocalDateTime.now());
             opLogApi.add(appTo);
             JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), response);
-            response.addCookie(ResponseCookie.from(RacCookieCo.APP_ID_KEY, appId)
-                    .path("/")
-                    .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                    .build());
+            Long                     accountId = ro.getExtra().getId();
+            Ro<PojoRa<RacAccountMo>> moRo      = accountApi.getById(accountId);
+            if (moRo.getExtra().getOne().getUnionId() != null) {
+                response.addCookie(ResponseCookie.from(RacCookieCo.UNION_ID_KEY, moRo.getExtra().getOne().getUnionId().toString())
+                        .path("/")
+                        .maxAge(RacCookieCo.COOKIE_AGE)
+                        .build());
+            }
             // to.setCallbackUrl(ra.getRedirectUrl());
             return getResponse(response, orpType + "-sign-in" + "&url=" + getURLEncoderString(ra.getRedirectUrl()), to.getCallbackUrl(), ro.getMsg(), flag);
 

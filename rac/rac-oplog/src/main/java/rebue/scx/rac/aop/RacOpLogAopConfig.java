@@ -3,6 +3,7 @@ package rebue.scx.rac.aop;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -30,10 +31,16 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.sbs.sb.ctx.ReactiveRequestAndResponseContextHolder;
 import rebue.scx.rac.ann.RacOpLog;
+import rebue.scx.rac.api.RacAccountApi;
+import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.co.RacJwtSignCo;
+import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.pub.RacPub;
+import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacOpLogAddTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.LombokUtils;
 import rebue.wheel.net.CookieUtils;
 import rebue.wheel.turing.JwtUtils;
@@ -44,7 +51,11 @@ import rebue.wheel.turing.JwtUtils;
 @EnableConfigurationProperties(RacPubProperties.class)
 public class RacOpLogAopConfig {
     @Resource
-    private RacPub racPub;
+    private RacPub        racPub;
+    @Resource
+    private RacAccountApi racAccountApi;
+    @Resource
+    private RacAppApi     racAppApi;
 
     @Bean
     public RacPub getRacPub(RacPubProperties racPubProperties, RabbitTemplate rabbitTemplate) {
@@ -59,9 +70,10 @@ public class RacOpLogAopConfig {
         return mono.flatMap(ro -> {
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 return ReactiveRequestAndResponseContextHolder.getRequestAndResponseContext().map(context -> {
-                    String sign  = CookieUtils.getValue(context.getResponse(), JwtUtils.JWT_TOKEN_NAME);
-                    String appId = CookieUtils.getValue(context.getResponse(), RacCookieCo.APP_ID_KEY);
-
+                    String       sign  = CookieUtils.getValue(context.getResponse(), JwtUtils.JWT_TOKEN_NAME);
+                    String       appId = CookieUtils.getValue(context.getResponse(), RacCookieCo.APP_ID_KEY);
+                    List<String> list  = context.getRequest().getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
+                    appId = list.get(0);
                     if (!StringUtils.isNoneBlank(sign)) {
                         sign = CookieUtils.getValue(context.getRequest(), JwtUtils.JWT_TOKEN_NAME);
                     }
@@ -70,7 +82,23 @@ public class RacOpLogAopConfig {
                     }
 
                     if (StringUtils.isNoneBlank(sign, appId)) {
-                        final Long accountId = JwtUtils.getJwtAccountIdFromSign(sign);
+                        Long         accountId = JwtUtils.getJwtAccountIdFromSign(sign);
+                        RacAccountMo accountMo = racAccountApi.getById(accountId).getExtra().getOne();
+                        RacAppMo     appMo     = racAppApi.getById(appId).getExtra().getOne();
+                        Boolean      flag      = accountMo.getRealmId() == appMo.getRealmId();
+                        if (!flag) {
+                            RacAccountOneTo oneTo = new RacAccountOneTo();
+                            oneTo.setRealmId(appMo.getRealmId());
+                            if (accountMo.getUnionId() != null) {
+                                oneTo.setUnionId(accountMo.getUnionId());
+                                RacAccountMo oneMo = racAccountApi.getOne(oneTo);
+                                accountMo = oneMo;
+                                accountId = accountMo.getId();
+                            }
+                            else {
+                                throw new RuntimeExceptionX("查找不到当前账户: " + accountId + "的联合账户:" + accountMo.getId());
+                            }
+                        }
                         if (accountId != null) {
                             final Object               target               = joinPoint.getTarget();
                             final Object[]             args                 = joinPoint.getArgs();

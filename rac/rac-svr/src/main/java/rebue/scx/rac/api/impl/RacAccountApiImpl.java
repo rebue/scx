@@ -143,6 +143,12 @@ public class RacAccountApiImpl extends
         return _svc.getByUserId(id);
     }
 
+    @Override
+    public RacAccountMo getOne(RacAccountOneTo oneTo) {
+        _svc.getOne(oneTo);
+        return _svc.getOne(oneTo);
+    }
+
     /**
      * 获取当前账户信息
      *
@@ -153,7 +159,7 @@ public class RacAccountApiImpl extends
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
-        return _svc.getCurAccountInfo(curAccountId, agentAccountId, appId);
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId, final Long unionId) {
+        return _svc.getCurAccountInfo(curAccountId, agentAccountId, appId, unionId);
     }
 }

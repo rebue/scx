@@ -3,10 +3,13 @@ package rebue.scx.rac.ctrl.ex;
 import static rebue.scx.rac.ctrl.ex.SignUpOrInCtrlCommon.jwtSignWithCookie;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.PageRa;
+import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
+import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.co.RacJwtSignCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -35,18 +41,29 @@ import rebue.wheel.turing.JwtUtils;
 public class RacSignInCtrl {
 
     @Resource
-    private RacSignInApi api;
+    private RacSignInApi  api;
+    @Resource
+    private RacAccountApi accountApi;
 
     /**
      * 通过账户名称登录
      */
     @PostMapping("/rac/sign-in/sign-in-by-account-name")
     @RacOpLog(opType = "登录", opTitle = "通过账户名称登录: #{#p0.accountName}")
-    public Mono<Ro<SignUpOrInRa>> signInByAccountName(@RequestBody final SignInByAccountNameTo to, final ServerHttpResponse resp) {
+    public Mono<Ro<SignUpOrInRa>> signInByAccountName(@RequestBody final SignInByAccountNameTo to, final ServerHttpRequest request, final ServerHttpResponse resp) {
+        List<String> list = request.getHeaders().get("app-id");
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signInByAccountName(to);
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 jwtSignWithCookie(ro.getExtra(), resp);
+                Long                     accountId = ro.getExtra().getId();
+                Ro<PojoRa<RacAccountMo>> moRo      = accountApi.getById(accountId);
+                if (moRo.getExtra().getOne().getUnionId() != null) {
+                    resp.addCookie(ResponseCookie.from(RacCookieCo.UNION_ID_KEY, moRo.getExtra().getOne().getUnionId().toString())
+                            .path("/")
+                            .maxAge(RacCookieCo.COOKIE_AGE)
+                            .build());
+                }
             }
             callback.success(ro);
         });

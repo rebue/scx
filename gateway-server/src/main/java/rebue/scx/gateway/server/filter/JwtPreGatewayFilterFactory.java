@@ -1,6 +1,10 @@
 package rebue.scx.gateway.server.filter;
 
-import lombok.extern.slf4j.Slf4j;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -14,21 +18,24 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
+
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
+import rebue.scx.rac.api.RacAccountApi;
+import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.RacPermUrnApi;
+import rebue.scx.rac.co.RacCookieCo;
+import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.to.RacAccountOneTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
 import rebue.wheel.turing.JwtUtils;
-
-import java.net.URI;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -39,6 +46,10 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
 
     @DubboReference
     private RacPermUrnApi racPermUrnApi;
+    @DubboReference
+    private RacAccountApi racAccountApi;
+    @DubboReference
+    private RacAppApi     racAppApi;
 
     public JwtPreGatewayFilterFactory() {
         super(Config.class);
@@ -51,18 +62,19 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
 
             final String            method  = request.getMethod().toString();
             final String            path    = request.getPath().toString();
+            final String            appId   = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY).get(0);
             final String            url     = method + ":" + path;
 
             log.info(StringUtils.rightPad("*** 进入JwtPreFilter过滤器 ***", 100));
             try {
                 log.info("判断是否要过滤此URL-{}", url);
                 if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
-                    && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
+                        && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
                     log.debug("经判断不过滤此URL");
                     return returnFilter(chain, exchange);
                 }
                 if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
-                    && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
+                        && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
                     log.debug("经判断忽略此URL");
                     return returnFilter(chain, exchange);
                 }
@@ -89,8 +101,23 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 boolean skip = path.equals("/") || path.startsWith("/admin-web");
                 if (!skip) {
                     log.info("获取可访问的链接列表");
-                    final Long               accountId = JwtUtils.getJwtAccountIdFromSign(sign);
-                    final Ro<ListRa<String>> urnsRo    = racPermUrnApi.getUrnsOfAccount(accountId);
+                    final Long   accountId = JwtUtils.getJwtAccountIdFromSign(sign);
+                    RacAccountMo accountMo = racAccountApi.getById(accountId).getExtra().getOne();
+                    RacAppMo     appMo     = racAppApi.getById(appId).getExtra().getOne();
+                    Boolean      flag      = accountMo.getRealmId() == appMo.getRealmId();
+                    if (!flag) {
+                        RacAccountOneTo oneTo = new RacAccountOneTo();
+                        oneTo.setRealmId(appMo.getRealmId());
+                        if (accountMo.getUnionId() != null) {
+                            oneTo.setUnionId(accountMo.getUnionId());
+                            RacAccountMo oneMo = racAccountApi.getOne(oneTo);
+                            accountMo = oneMo;
+                        }
+                        else {
+                            throw new RuntimeExceptionX("查找不到当前账户: " + accountId + "的联合账户:" + accountMo.getId());
+                        }
+                    }
+                    final Ro<ListRa<String>> urnsRo = racPermUrnApi.getUrnsOfAccount(accountMo.getId());
                     if (!ResultDic.SUCCESS.equals(urnsRo.getResult())) {
                         log.warn("获取可访问的链接列表失败: url-{}", url);
                         final ServerHttpResponse response = exchange.getResponse();
@@ -98,9 +125,9 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                         response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
                         return response.setComplete();
                     }
-                    log.info("判断账户是否有该链接的访问权限: accountId-{}, url-{}", accountId, url);
+                    log.info("判断账户是否有该链接的访问权限: accountId-{}, url-{}", accountMo.getId(), url);
                     if (AntPathMatcherUtils.noneMatch(method, path, urnsRo.getExtra().getList())) {
-                        log.warn("账户没有访问该链接的权限: accountId-{}, url-{}", accountId, url);
+                        log.warn("账户没有访问该链接的权限: accountId-{}, url-{}", accountMo.getId(), url);
                         final ServerHttpResponse response = exchange.getResponse();
                         // 403:没有访问该资源的权限
                         response.setStatusCode(HttpStatus.FORBIDDEN);
@@ -113,7 +140,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 final ServerHttpResponse                    response        = exchange.getResponse();
                 final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
                 final ResponseCookie                        jwtTokenCookie  = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getSign()).maxAge(
-                    Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime())).path("/").build();
+                        Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime())).path("/").build();
                 responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
                 log.info("完成延长JWT签名时效");
 
