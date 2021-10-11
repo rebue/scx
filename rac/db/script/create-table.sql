@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/10/9 11:33:09                           */
+/* Created on:     2021/10/11 9:49:42                           */
 /*==============================================================*/
 
 
@@ -43,6 +43,7 @@ create table RAC_ACCOUNT
    DD_NICKNAME          varchar(100)  comment '钉钉昵称',
    DD_AVATAR            varchar(300)  comment '钉钉头像',
    IS_TESTER            bool not null default false  comment '是否测试者',
+   EXPIRATION_DATETIME  datetime  comment '过期时间',
    CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
