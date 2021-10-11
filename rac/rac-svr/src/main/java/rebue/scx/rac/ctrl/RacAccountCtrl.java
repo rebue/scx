@@ -48,6 +48,7 @@ import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.wheel.turing.JwtUtils;
@@ -245,7 +246,7 @@ public class RacAccountCtrl {
      */
     @GetMapping("/rac/account/get-cur-account-info")
     @SneakyThrows
-    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @CookieValue(RacCookieCo.UNION_ID_KEY) final Long unionId,
+    public Mono<Ro<GetCurAccountInfoRa>> getCurAccountInfo(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken,
             final ServerHttpRequest request) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
@@ -271,7 +272,7 @@ public class RacAccountCtrl {
         if (StringUtils.isBlank(appId)) {
             throw new IllegalArgumentException("在Headers中找不到应用ID");
         }
-        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, appId, unionId)));
+        return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, appId)));
 
     }
 
@@ -279,10 +280,24 @@ public class RacAccountCtrl {
      * 查询账户的信息
      *
      * @param qo 查询的具体条件
+     * 
+     * @return
      */
     @GetMapping("/rac/account/listTransferOfOrg")
     public Mono<Ro<ListTransferOfOrgRa>> listTransferOfOrg(final RacListTransferOfOrgTo qo) {
         return Mono.create(callback -> callback.success(api.listTransferOfOrg(qo)));
+    }
+
+    /**
+     * 根据账户ID领域ID关键字查询该领域下账户(用户的下帐号)的信息
+     *
+     * @param to 查询的具体条件
+     * 
+     * @return
+     */
+    @GetMapping("/rac/account/get-account-by-user")
+    public Mono<Ro<PageRa<RacAccountMo>>> getAccountByUser(final RacAccountByUserTo to) {
+        return Mono.create(callback -> callback.success(api.getAccountByUser(to)));
     }
 
     /**

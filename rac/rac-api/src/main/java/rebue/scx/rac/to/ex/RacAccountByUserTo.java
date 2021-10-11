@@ -5,6 +5,7 @@ package rebue.scx.rac.to.ex;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
@@ -23,33 +24,28 @@ import rebue.robotech.to.PageTo;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(Include.NON_NULL)
-public class RacListTransferOfOrgTo extends PageTo implements Serializable {
+public class RacAccountByUserTo extends PageTo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
+     * 账户ID
+     *
+     */
+    @NotNull(message = "账户ID不能为空")
+    @PositiveOrZero(message = "账户ID不能为负数")
+    private Long              id;
+    /**
      * 领域ID
      */
+    @NotNull(message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            realmId;
 
     /**
-     * 查询组织下可添加账户的关键字
+     * 查询账户的关键字
      */
     @Length(max = 256, message = "搜索关键字不能超过20位数")
-    private String            addableKeywords;
-
-    /**
-     * 查询组织下存在账户的关键字
-     */
-    @Length(max = 256, message = "搜索关键字不能超过20位数")
-    private String            existKeywords;
-
-    /**
-     * 组织ID
-     *
-     */
-    @PositiveOrZero(message = "组织ID不能为负数")
-    private Long              orgId;
+    private String            keywords;
 
 }

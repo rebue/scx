@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.github.pagehelper.PageInfo;
+
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
@@ -25,6 +27,7 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
@@ -108,11 +111,10 @@ public interface RacAccountSvc
      * @param curAccountId   当前账户ID
      * @param agentAccountId 代理账户ID
      * @param appId          应用ID
-     * @param unionId
-     *
+     * 
      * @return 当前账户信息
      */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, Long agentAccountId, @NotBlank String appId, Long unionId);
+    Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, Long agentAccountId, @NotBlank String appId);
 
     /**
      * 查询账户的信息
@@ -159,4 +161,11 @@ public interface RacAccountSvc
      * @param to 修改账户登录密码的具体数据
      */
     void resetPassword(RacAccountResetPasswordTo to);
+
+    /**
+     * 根据账户ID领域ID关键字查询该领域下账户(用户的下帐号)的信息
+     *
+     * @param to 查询的具体条件
+     */
+    PageInfo<RacAccountMo> getAccountByUser(RacAccountByUserTo to);
 }

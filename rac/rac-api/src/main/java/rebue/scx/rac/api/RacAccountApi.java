@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ra.ListRa;
+import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
@@ -16,6 +17,7 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
@@ -57,11 +59,10 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      *
      * @param curAccountId 当前账户ID
      * @param appId        应用ID
-     * @param unionId
-     *
+     * 
      * @return 当前账户信息
      */
-    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String appId, Long unionId);
+    Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String appId);
 
     /**
      * 查询账户的信息
@@ -108,4 +109,11 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
     Ro<?> resetPassword(RacAccountResetPasswordTo to);
 
     RacAccountMo getOne(RacAccountOneTo oneTo);
+
+    /**
+     * 根据账户ID领域ID关键字查询该领域下账户(用户的下帐号)的信息
+     *
+     * @param to 查询的具体条件
+     */
+    Ro<PageRa<RacAccountMo>> getAccountByUser(RacAccountByUserTo to);
 }

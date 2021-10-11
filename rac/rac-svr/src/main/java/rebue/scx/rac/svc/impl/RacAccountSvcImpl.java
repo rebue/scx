@@ -66,6 +66,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
+import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.scx.rac.util.PswdUtils;
@@ -454,7 +455,7 @@ public class RacAccountSvcImpl extends
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId, final Long unionId) {
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
         final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
         RacAccountMo              accountMo = thisSvc.getById(curAccountId);
         RacAppMo                  appMo     = appSvc.getById(appId);
@@ -561,6 +562,22 @@ public class RacAccountSvcImpl extends
             accountMo.setUser(userMo);
         }
         return accountMo;
+    }
+
+    /**
+     * 根据账户ID领域ID关键字查询该领域下账户(用户的下帐号)的信息
+     *
+     * @param to 查询的具体条件
+     */
+    @Override
+    public PageInfo<RacAccountMo> getAccountByUser(RacAccountByUserTo to) {
+        final RacAccountPageTo qo        = OrikaUtils.map(to, RacAccountPageTo.class);
+        RacAccountMo           accountMo = thisSvc.getById(to.getId());
+        if (accountMo.getUserId() != null) {
+            qo.setUserId(accountMo.getUserId());
+        }
+        final ISelect select = () -> _mapper.getAccountByUser(qo);
+        return thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
     }
 
     /**

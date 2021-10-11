@@ -7,6 +7,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.ListRa;
+import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.jo.RacAccountJo;
@@ -24,6 +25,7 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
@@ -159,7 +161,17 @@ public class RacAccountApiImpl extends
      * @return 当前账户信息
      */
     @Override
-    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId, final Long unionId) {
-        return _svc.getCurAccountInfo(curAccountId, agentAccountId, appId, unionId);
+    public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
+        return _svc.getCurAccountInfo(curAccountId, agentAccountId, appId);
+    }
+
+    /**
+     * 根据账户ID领域ID关键字查询该领域下账户(用户的下帐号)的信息
+     *
+     * @param to 查询的具体条件
+     */
+    @Override
+    public Ro<PageRa<RacAccountMo>> getAccountByUser(RacAccountByUserTo to) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new PageRa<>(_svc.getAccountByUser(to)));
     }
 }
