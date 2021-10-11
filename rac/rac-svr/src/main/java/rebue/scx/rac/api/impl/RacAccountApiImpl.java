@@ -6,6 +6,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
@@ -27,6 +28,7 @@ import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
+import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -48,6 +50,17 @@ public class RacAccountApiImpl extends
     public Ro<?> resetPassword(RacAccountResetPasswordTo to) {
         _svc.resetPassword(to);
         return new Ro<>(ResultDic.SUCCESS, "重置成功");
+    }
+
+    /**
+     * 添加账户unionId映射
+     * 
+     * @param to 添加的具体信息
+     * 
+     */
+    @Override
+    public Ro<IdRa<Long>> addUnionIdMapper(RacAccountUnionIdTo to) {
+        return new Ro<>(ResultDic.SUCCESS, "添加映射关系成功", new IdRa<>(_svc.addUnionIdMapper(to).getId()));
     }
 
     /**

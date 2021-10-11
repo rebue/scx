@@ -68,6 +68,7 @@ import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
+import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.api.exception.RuntimeExceptionX;
@@ -225,6 +226,34 @@ public class RacAccountSvcImpl extends
         mo.setId(to.getId());
         mo.setSignInPswd(to.getSignInPswd());
         thisSvc.modifyMoById(mo);
+    }
+
+    /**
+     * 添加账户unionId映射
+     * 
+     * @param to 添加的具体信息
+     * 
+     */
+    @Override
+    public RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to) {
+        RacAccountMo srcMo = thisSvc.getById(to.getSrcId());
+        RacAccountMo dstMo = thisSvc.getById(to.getDstId());
+        if (srcMo.getUnionId() != null) {
+            dstMo.setUnionId(srcMo.getUnionId());
+            thisSvc.modifyMoById(dstMo);
+        }
+        else if (dstMo.getUnionId() != null) {
+            srcMo.setUnionId(dstMo.getUnionId());
+            thisSvc.modifyMoById(srcMo);
+        }
+        else {
+            Long unionId = _idWorker.getId();
+            dstMo.setUnionId(unionId);
+            srcMo.setUnionId(unionId);
+            thisSvc.modifyMoById(dstMo);
+            thisSvc.modifyMoById(srcMo);
+        }
+        return srcMo;
     }
 
     /**

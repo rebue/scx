@@ -29,6 +29,7 @@ import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
+import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 
 /**
@@ -168,4 +169,12 @@ public interface RacAccountSvc
      * @param to 查询的具体条件
      */
     PageInfo<RacAccountMo> getAccountByUser(RacAccountByUserTo to);
+
+    /**
+     * 添加账户unionId映射
+     * 
+     * @param to 添加的具体信息
+     * 
+     */
+    RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to);
 }

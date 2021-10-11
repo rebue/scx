@@ -50,6 +50,7 @@ import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
+import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
 import rebue.wheel.turing.JwtUtils;
 
@@ -95,6 +96,18 @@ public class RacAccountCtrl {
     @PutMapping("/rac/account")
     public Mono<Ro<?>> modify(@RequestBody final RacAccountModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
+    }
+
+    /**
+     * 添加账户unionId映射
+     * 
+     * @param to 添加的具体信息
+     * 
+     */
+    @RacOpLog(opType = "添加账户unionId", opTitle = "添加账户unionId: #{#p0.id}")
+    @PostMapping("/rac/account/add-union-mapper")
+    public Mono<Ro<IdRa<java.lang.Long>>> addUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
+        return Mono.create(callback -> callback.success(api.addUnionIdMapper(to)));
     }
 
     /**
