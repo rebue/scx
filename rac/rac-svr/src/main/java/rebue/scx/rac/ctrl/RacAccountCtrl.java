@@ -104,10 +104,34 @@ public class RacAccountCtrl {
      * @param to 添加的具体信息
      * 
      */
-    @RacOpLog(opType = "添加账户unionId", opTitle = "添加账户unionId: #{#p0.id}")
+    @RacOpLog(opType = "添加账户unionId", opTitle = "添加账户unionId: #{#p0.srcId}")
     @PostMapping("/rac/account/add-union-mapper")
     public Mono<Ro<IdRa<java.lang.Long>>> addUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
         return Mono.create(callback -> callback.success(api.addUnionIdMapper(to)));
+    }
+
+    /**
+     * 修改账户unionId映射
+     * 
+     * @param to 修改的具体信息
+     * 
+     */
+    @RacOpLog(opType = "修改账户unionId", opTitle = "修改账户unionId: #{#p0.srcId}")
+    @PostMapping("/rac/account/modify-union-mapper")
+    public Mono<Ro<?>> modifyUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
+        return Mono.create(callback -> callback.success(api.addUnionIdMapper(to)));
+    }
+
+    /**
+     * 删除账户unionId映射
+     * 
+     * @param to 删除的具体信息
+     * 
+     */
+    @RacOpLog(opType = "删除账户unionId", opTitle = "删除账户unionId: #{#p0.srcId}")
+    @PostMapping("/rac/account/del-union-mapper")
+    public Mono<Ro<?>> delUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
+        return Mono.create(callback -> callback.success(api.delUnionIdMapper(to)));
     }
 
     /**
@@ -123,6 +147,18 @@ public class RacAccountCtrl {
     @DeleteMapping("/rac/account")
     public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.del(id)));
+    }
+
+    /**
+     * 通过unionId查询账户
+     * 
+     * @param unionId
+     * 
+     * @return
+     */
+    @GetMapping("/rac/account/get-account-by-union-id")
+    public Mono<Ro<ListRa<RacAccountMo>>> getAccountByUnionId(@RequestParam("unionId") final java.lang.Long unionId) {
+        return Mono.create(callback -> callback.success(api.getAccountByUnionId(unionId)));
     }
 
     /**

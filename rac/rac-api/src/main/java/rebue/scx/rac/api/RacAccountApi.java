@@ -126,4 +126,21 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * 
      */
     Ro<IdRa<Long>> addUnionIdMapper(RacAccountUnionIdTo to);
+
+    /**
+     * 删除账户unionId映射
+     * 
+     * @param to 删除的具体信息
+     * 
+     */
+    Ro<?> delUnionIdMapper(RacAccountUnionIdTo to);
+
+    /**
+     * 通过unionId查询账户
+     * 
+     * @param unionId
+     * 
+     * @return
+     */
+    Ro<ListRa<RacAccountMo>> getAccountByUnionId(Long unionId);
 }

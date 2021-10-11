@@ -64,6 +64,30 @@ public class RacAccountApiImpl extends
     }
 
     /**
+     * 删除账户unionId映射
+     * 
+     * @param to 删除的具体信息
+     * 
+     */
+    @Override
+    public Ro<?> delUnionIdMapper(RacAccountUnionIdTo to) {
+        _svc.delUnionIdMapper(to);
+        return new Ro<>(ResultDic.SUCCESS, "删除映射成功");
+    }
+
+    /**
+     * 通过unionId查询账户
+     * 
+     * @param unionId
+     * 
+     * @return
+     */
+    @Override
+    public Ro<ListRa<RacAccountMo>> getAccountByUnionId(Long unionId) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.getAccountByUnionId(unionId)));
+    }
+
+    /**
      * 修改账户登录密码
      *
      * @param to 修改账户登录密码的具体数据

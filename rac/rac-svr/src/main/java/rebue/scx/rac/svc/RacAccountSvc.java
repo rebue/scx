@@ -1,6 +1,7 @@
 package rebue.scx.rac.svc;
 
 import java.io.InputStream;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -177,4 +178,21 @@ public interface RacAccountSvc
      * 
      */
     RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to);
+
+    /**
+     * 删除账户unionId映射
+     * 
+     * @param to 删除的具体信息
+     * 
+     */
+    void delUnionIdMapper(RacAccountUnionIdTo to);
+
+    /**
+     * 通过unionId查询账户
+     * 
+     * @param unionId
+     * 
+     * @return
+     */
+    List<RacAccountMo> getAccountByUnionId(Long unionId);
 }

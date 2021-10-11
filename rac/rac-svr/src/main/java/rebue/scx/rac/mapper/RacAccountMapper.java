@@ -748,4 +748,18 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
 
         return this.selectMany(select);
     }
+
+    /**
+     * 删除账户unionId映射
+     * 
+     * @param to 删除的具体信息
+     * 
+     * @return
+     * 
+     */
+    default int setUnionIdIsNull(Long dstId) {
+        UpdateStatementProvider update = SqlBuilder.update(racAccount).set(unionId).equalToNull()
+                .where(racAccount.id, isEqualTo(dstId)).build().render(RenderingStrategies.MYBATIS3);
+        return this.update(update);
+    }
 }

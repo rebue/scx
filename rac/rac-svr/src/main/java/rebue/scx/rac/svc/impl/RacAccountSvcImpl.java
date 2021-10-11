@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -45,6 +46,7 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.mo.RacPermCommandMo;
+import rebue.scx.rac.mo.RacRealmMo;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.mo.ex.RacAccountExMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
@@ -54,6 +56,7 @@ import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.svc.RacDisableLogSvc;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.svc.RacPermMenuSvc;
+import rebue.scx.rac.svc.RacRealmSvc;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacAccountAddTo;
 import rebue.scx.rac.to.RacAccountDelTo;
@@ -111,6 +114,8 @@ public class RacAccountSvcImpl extends
 
     @Resource
     private RacAppSvc            appSvc;
+    @Resource
+    private RacRealmSvc          realmSvc;
 
     @Resource
     private RacPermMenuSvc       permMenuSvc;
@@ -235,6 +240,7 @@ public class RacAccountSvcImpl extends
      * 
      */
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to) {
         RacAccountMo srcMo = thisSvc.getById(to.getSrcId());
         RacAccountMo dstMo = thisSvc.getById(to.getDstId());
@@ -254,6 +260,43 @@ public class RacAccountSvcImpl extends
             thisSvc.modifyMoById(srcMo);
         }
         return srcMo;
+    }
+
+    /**
+     * 删除账户unionId映射
+     * 
+     * @param to 删除的具体信息
+     * 
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void delUnionIdMapper(RacAccountUnionIdTo to) {
+        int count = _mapper.setUnionIdIsNull(to.getDstId());
+        if (count == 0) {
+            throw new RuntimeExceptionX("操作记录异常，记录已不存在或有变动");
+        }
+        if (count != 1) {
+            throw new RuntimeExceptionX("操作记录异常，影响行数为" + count);
+        }
+    }
+
+    /**
+     * 通过unionId查询账户
+     * 
+     * @param unionId
+     * 
+     * @return
+     */
+    @Override
+    public List<RacAccountMo> getAccountByUnionId(Long unionId) {
+        RacAccountListTo to = new RacAccountListTo();
+        to.setUnionId(unionId);
+        List<RacAccountMo> list = thisSvc.list(to).stream().map(item -> {
+            RacRealmMo realmMo = realmSvc.getById(item.getRealmId());
+            item.setRealm(realmMo);
+            return item;
+        }).collect(Collectors.toList());
+        return list;
     }
 
     /**
