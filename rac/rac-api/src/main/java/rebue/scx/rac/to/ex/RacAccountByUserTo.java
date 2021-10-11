@@ -34,7 +34,7 @@ public class RacAccountByUserTo extends PageTo implements Serializable {
      */
     @NotNull(message = "账户ID不能为空")
     @PositiveOrZero(message = "账户ID不能为负数")
-    private Long              id;
+    private Long              accountId;
     /**
      * 领域ID
      */

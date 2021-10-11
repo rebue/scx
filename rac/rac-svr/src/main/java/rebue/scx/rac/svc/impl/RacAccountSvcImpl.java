@@ -601,7 +601,7 @@ public class RacAccountSvcImpl extends
     @Override
     public PageInfo<RacAccountMo> getAccountByUser(RacAccountByUserTo to) {
         final RacAccountPageTo qo        = OrikaUtils.map(to, RacAccountPageTo.class);
-        RacAccountMo           accountMo = thisSvc.getById(to.getId());
+        RacAccountMo           accountMo = thisSvc.getById(to.getAccountId());
         if (accountMo.getUserId() != null) {
             qo.setUserId(accountMo.getUserId());
         }
