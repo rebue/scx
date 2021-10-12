@@ -367,7 +367,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
 
         UpdateStatementProvider update       = SqlBuilder.update(racDicItem)
                 .set(treeCode).equalToConstant(concatString)
-                .where(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
+                .where(dicId, isEqualTo(item::getDicId)).and(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
         return this.update(update);
     }
 
@@ -392,7 +392,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
 
         UpdateStatementProvider update       = SqlBuilder.update(racDicItem)
                 .set(treeCode).equalToConstant(concatString)
-                .where(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
+                .where(dicId, isEqualTo(item::getDicId)).and(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
         return this.update(update);
     }
 
@@ -415,7 +415,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
 
         UpdateStatementProvider update       = SqlBuilder.update(racDicItem)
                 .set(treeCode).equalToConstant(concatString)
-                .where(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
+                .where(dicId, isEqualTo(item::getDicId)).and(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
         return this.update(update);
     }
 
