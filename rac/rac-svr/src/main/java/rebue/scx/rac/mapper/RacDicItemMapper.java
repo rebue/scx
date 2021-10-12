@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,10 +30,12 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
 import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.MultiRowInsertStatementProvider;
+import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.CountDSLCompleter;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
@@ -330,14 +333,90 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
                 .and(treeCode, isLikeWhenPresent(str)).and(remark, isEqualToWhenPresent(record::getRemark)));
     }
 
+    // update rac.RAC_DIC_ITEM set TREE_CODE=CONCAT('000' , substr(TREE_CODE, 4)) where TREE_CODE like '000%' order by TREE_CODE;
     /**
      * 查询大于当前字典项的treeCode的记录
      */
     default List<RacDicItemMo> selectDicSelective(final RacDicItemMo record) {
         // _ 表示通配符 匹配一个字符
-        final String str = "___";
+        int          length = record.getTreeCode().length();
+        final String str    = StringUtils.leftPad("", length, '_');
+        // final String str = "___";
         return select(c -> c.where(dicId, isEqualToWhenPresent(record::getDicId))
                 .and(treeCode, isGreaterThan(record::getTreeCode)).and(treeCode, isLikeWhenPresent(str)));
+    }
+
+    /**
+     * 排序因删除而被影响的记录，即排序下移动
+     * 
+     * @param item 被影响的同级字典项
+     * 
+     * @return 修改的记录数
+     */
+    default int updateDicDownSelective(RacDicItemMo item) {
+        // _ 表示通配符 匹配一个字符
+        int length  = item.getTreeCode().length();
+        int treeInt = Integer.parseInt(item.getTreeCode());
+        treeInt = treeInt - 1;
+        // 排序减1
+        final String            tree         = StringUtils.leftPad(treeInt + "", length, '0');
+        // like符合被修改的记录
+        final String            likeStr      = item.getTreeCode() + "%";
+        // set TREE_CODE=CONCAT('000' , substr(TREE_CODE, 4)) //mysql写法，设置具体的修改的参数
+        final String            concatString = "CONCAT('" + tree + "' , substr(TREE_CODE, " + (length + 1) + "))";
+
+        UpdateStatementProvider update       = SqlBuilder.update(racDicItem)
+                .set(treeCode).equalToConstant(concatString)
+                .where(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
+        return this.update(update);
+    }
+
+    /**
+     * 排序上移动(主要修改刚才被x标记的上移动记录)
+     * 
+     * @param item 被影响的同级字典项
+     * 
+     * @return 修改的记录数
+     */
+    default int updateDicUpSelective(RacDicItemMo item) {
+        // _ 表示通配符 匹配一个字符
+        int length  = item.getTreeCode().length();
+        int treeInt = Integer.parseInt(item.getTreeCode());
+        treeInt = treeInt + 1;
+        // 排序+1
+        final String            tree         = StringUtils.leftPad(treeInt + "", length, '0');
+        // like符合被修改的记录
+        final String            likeStr      = item.getTreeCode() + "x%";
+        // set TREE_CODE=CONCAT('001' , substr(TREE_CODE, 5)) //mysql写法，设置具体的修改的参数
+        final String            concatString = "CONCAT('" + tree + "' , substr(TREE_CODE, " + (length + 2) + "))";
+
+        UpdateStatementProvider update       = SqlBuilder.update(racDicItem)
+                .set(treeCode).equalToConstant(concatString)
+                .where(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
+        return this.update(update);
+    }
+
+    /**
+     * 因为排序唯一所以需要将上移动的记录修改成一个00x开头，给下移动数据让出位置
+     * 
+     * @param item 被影响的同级字典项
+     * 
+     * @return 修改的记录数
+     */
+    default int updateDicSelective(RacDicItemMo item) {
+        // _ 表示通配符 匹配一个字符
+        int                     length       = item.getTreeCode().length();
+        // 将一级记录编码加入一个x作为标记
+        final String            tree         = item.getTreeCode() + "x";
+        // like符合被修改的记录
+        final String            likeStr      = item.getTreeCode() + "%";
+        // set TREE_CODE=CONCAT('000' , substr(TREE_CODE, 4)) //mysql写法，设置具体的修改的参数
+        final String            concatString = "CONCAT('" + tree + "' , substr(TREE_CODE, " + (length + 1) + "))";
+
+        UpdateStatementProvider update       = SqlBuilder.update(racDicItem)
+                .set(treeCode).equalToConstant(concatString)
+                .where(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
+        return this.update(update);
     }
 
     /**

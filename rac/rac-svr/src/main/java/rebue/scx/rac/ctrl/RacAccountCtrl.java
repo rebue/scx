@@ -106,21 +106,21 @@ public class RacAccountCtrl {
      */
     @RacOpLog(opType = "添加账户unionId", opTitle = "添加账户unionId: #{#p0.srcId}")
     @PostMapping("/rac/account/add-union-mapper")
-    public Mono<Ro<IdRa<java.lang.Long>>> addUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
+    public Mono<Ro<?>> addUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
         return Mono.create(callback -> callback.success(api.addUnionIdMapper(to)));
     }
 
-    /**
-     * 修改账户unionId映射
-     * 
-     * @param to 修改的具体信息
-     * 
-     */
-    @RacOpLog(opType = "修改账户unionId", opTitle = "修改账户unionId: #{#p0.srcId}")
-    @PostMapping("/rac/account/modify-union-mapper")
-    public Mono<Ro<?>> modifyUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
-        return Mono.create(callback -> callback.success(api.addUnionIdMapper(to)));
-    }
+    // /**
+    // * 修改账户unionId映射
+    // *
+    // * @param to 修改的具体信息
+    // *
+    // */
+    // @RacOpLog(opType = "修改账户unionId", opTitle = "修改账户unionId: #{#p0.srcId}")
+    // @PostMapping("/rac/account/modify-union-mapper")
+    // public Mono<Ro<?>> modifyUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
+    // return Mono.create(callback -> callback.success(api.modifyUnionIdMapper(to)));
+    // }
 
     /**
      * 删除账户unionId映射

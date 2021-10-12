@@ -3,7 +3,6 @@ package rebue.scx.rac.api;
 import java.io.InputStream;
 
 import rebue.robotech.api.BaseApi;
-import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
@@ -125,7 +124,7 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param to 添加的具体信息
      * 
      */
-    Ro<IdRa<Long>> addUnionIdMapper(RacAccountUnionIdTo to);
+    Ro<?> addUnionIdMapper(RacAccountUnionIdTo to);
 
     /**
      * 删除账户unionId映射

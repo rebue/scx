@@ -85,7 +85,7 @@ public class RacOpLogAopConfig {
                         Long         accountId = JwtUtils.getJwtAccountIdFromSign(sign);
                         RacAccountMo accountMo = racAccountApi.getById(accountId).getExtra().getOne();
                         RacAppMo     appMo     = racAppApi.getById(appId).getExtra().getOne();
-                        Boolean      flag      = accountMo.getRealmId() == appMo.getRealmId();
+                        boolean      flag      = accountMo.getRealmId().equals(appMo.getRealmId());
                         if (!flag) {
                             RacAccountOneTo oneTo = new RacAccountOneTo();
                             oneTo.setRealmId(appMo.getRealmId());

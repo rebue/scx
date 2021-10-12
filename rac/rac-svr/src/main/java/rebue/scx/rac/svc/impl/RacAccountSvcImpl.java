@@ -259,7 +259,7 @@ public class RacAccountSvcImpl extends
             thisSvc.modifyMoById(dstMo);
             thisSvc.modifyMoById(srcMo);
         }
-        return srcMo;
+        return thisSvc.getById(to.getSrcId());
     }
 
     /**
@@ -531,7 +531,7 @@ public class RacAccountSvcImpl extends
         final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
         RacAccountMo              accountMo = thisSvc.getById(curAccountId);
         RacAppMo                  appMo     = appSvc.getById(appId);
-        Boolean                   flag      = accountMo.getRealmId() == appMo.getRealmId();
+        boolean                   flag      = accountMo.getRealmId().equals(appMo.getRealmId());
         if (!flag) {
             RacAccountOneTo oneTo = new RacAccountOneTo();
             oneTo.setRealmId(appMo.getRealmId());

@@ -155,23 +155,17 @@ public class RacDicItemSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(Long id) {
-        RacDicItemMo       itemMo    = _mapper.selectByPrimaryKey(id).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-        String             treeCode  = itemMo.getTreeCode();
+        RacDicItemMo itemMo   = _mapper.selectByPrimaryKey(id).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 查询删除该数据对其他数据的影响记录数据
-        List<RacDicItemMo> selective = _mapper.selectDicSelective(itemMo);
         // 删除字典项
-        final int          rowCount  = _mapper.deleteByPrimaryKey(id);
+        final int    rowCount = _mapper.deleteByPrimaryKey(id);
         // 删除字典项下的字典项
-        int                count     = _mapper.deleteDicItemSelective(itemMo);
+        _mapper.deleteDicItemSelective(itemMo);
         // 对余下有影响的数据进行排序
-        // FIXME 字项未进行相应的改动
+        List<RacDicItemMo> selective = _mapper.selectDicSelective(itemMo);
+        // 字项进行相应的改动
         selective.stream().map(item -> {
-            int length  = item.getTreeCode().length();
-            int treeInt = Integer.parseInt(item.getTreeCode());
-            treeInt = treeInt - 1;
-            String tree = StringUtils.leftPad(treeInt + "", length, '0');
-            item.setTreeCode(tree);
-            _mapper.updateByPrimaryKey(item);
+            _mapper.updateDicDownSelective(item);
             return item;
         }).collect(Collectors.toList());
         if (rowCount == 0) {
@@ -182,4 +176,82 @@ public class RacDicItemSvcImpl extends
         }
     }
 
+    /**
+     * 上移动字典项的信息，传入ID
+     *
+     * @param qo
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void moveUp(RacDicItemModifyTo qo) {
+        // 获取需要上移动的记录
+        RacDicItemMo    upMo  = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 获取需要下移动的记录
+        RacDicItemOneTo oneTo = new RacDicItemOneTo();
+        oneTo.setDicId(upMo.getDicId());
+        int length  = upMo.getTreeCode().length();
+        int treeInt = Integer.parseInt(upMo.getTreeCode());
+        // 排序+1
+        treeInt = treeInt + 1;
+        final String tree = StringUtils.leftPad(treeInt + "", length, '0');
+        oneTo.setTreeCode(tree);
+        RacDicItemMo downMo = thisSvc.getOne(oneTo);
+        if (downMo == null) {
+            throw new RuntimeExceptionX("该记录已经发生变动，或已在最后位置！");
+        }
+        // 因为排序唯一所以需要将上移动的记录修改成一个00x开头，给下移动数据让出位置
+        _mapper.updateDicSelective(upMo);
+        // 将需要下移动的记录修改成刚才上移动的记录让出的位置
+        _mapper.updateDicDownSelective(downMo);
+        // 最将原来上移动的记录修改成刚才下移动的记录排序的位置
+        _mapper.updateDicUpSelective(upMo);
+
+    }
+
+    /**
+     * 下移动字典项的信息，传入ID
+     *
+     * @param qo
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void moveDown(RacDicItemModifyTo qo) {
+        // 获取需要下移动的记录
+        RacDicItemMo    downMo = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        // 获取需要上移动的记录
+        RacDicItemOneTo oneTo  = new RacDicItemOneTo();
+        oneTo.setDicId(downMo.getDicId());
+        int length  = downMo.getTreeCode().length();
+        int treeInt = Integer.parseInt(downMo.getTreeCode());
+        // 排序-1
+        treeInt = treeInt - 1;
+        final String tree = StringUtils.leftPad(treeInt + "", length, '0');
+        oneTo.setTreeCode(tree);
+        RacDicItemMo upMo = thisSvc.getOne(oneTo);
+        if (upMo == null) {
+            throw new RuntimeExceptionX("该记录已经发生变动，或已在最初位置！");
+        }
+        // 因为排序唯一所以需要将上移动的记录修改成一个00x开头，给下移动数据让出位置
+        _mapper.updateDicSelective(upMo);
+        // 将需要下移动的记录修改成刚才上移动的记录让出的位置
+        _mapper.updateDicDownSelective(downMo);
+        // 最将原来上移动的记录修改成刚才下移动的记录排序的位置
+        _mapper.updateDicUpSelective(upMo);
+    }
+
+    private void delToTreeCodeSort(List<RacDicItemMo> selective) {
+        selective.stream().map(item -> {
+            List<RacDicItemMo> selectList = _mapper.selectDicSelective(item);
+            if (selectList != null) {
+                this.delToTreeCodeSort(selective);
+            }
+            int length  = item.getTreeCode().length();
+            int treeInt = Integer.parseInt(item.getTreeCode());
+            treeInt = treeInt - 1;
+            String tree = StringUtils.leftPad(treeInt + "", length, '0');
+            item.setTreeCode(tree);
+            _mapper.updateByPrimaryKey(item);
+            return item;
+        }).collect(Collectors.toList());
+    }
 }

@@ -739,13 +739,21 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
                 or(racAccount.qqOpenId, isLikeWhenPresent(keywords)),
                 or(racAccount.qqUnionId, isLikeWhenPresent(keywords)), or(racAccount.wxNickname, isLikeWhenPresent(keywords)), or(racAccount.wxOpenId, isLikeWhenPresent(keywords)),
                 or(racAccount.wxUnionId, isLikeWhenPresent(keywords)), or(racAccount.remark, isLikeWhenPresent(keywords)));
+        SelectStatementProvider    select       = null;
+        if (qo.getUserId() != null) {
+            select = SqlBuilder.select(racAccount.allColumns()).from(racAccount)
+                    .rightJoin(racUser)
+                    .on(racAccount.userId, equalTo(racUser.id))
+                    .where(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), and(racUser.id, isEqualToWhenPresent(qo::getUserId)), sqlCriterion)
+                    .build().render(RenderingStrategies.MYBATIS3);
 
-        SelectStatementProvider    select       = SqlBuilder.select(racAccount.allColumns()).from(racAccount)
-                .rightJoin(racUser)
-                .on(racAccount.userId, equalTo(racUser.id))
-                .where(racAccount.realmId, isEqualToWhenPresent(qo.getKeywords()), and(racUser.id, isEqualToWhenPresent(qo::getUserId)), sqlCriterion)
-                .build().render(RenderingStrategies.MYBATIS3);
+        }
+        else {
+            select = SqlBuilder.select(racAccount.allColumns()).from(racAccount)
+                    .where(racAccount.realmId, isEqualToWhenPresent(qo.getRealmId()), sqlCriterion)
+                    .build().render(RenderingStrategies.MYBATIS3);
 
+        }
         return this.selectMany(select);
     }
 

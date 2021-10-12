@@ -6,7 +6,6 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
@@ -59,8 +58,8 @@ public class RacAccountApiImpl extends
      * 
      */
     @Override
-    public Ro<IdRa<Long>> addUnionIdMapper(RacAccountUnionIdTo to) {
-        return new Ro<>(ResultDic.SUCCESS, "添加映射关系成功", new IdRa<>(_svc.addUnionIdMapper(to).getId()));
+    public Ro<?> addUnionIdMapper(RacAccountUnionIdTo to) {
+        return new Ro<>(ResultDic.SUCCESS, "添加映射关系成功", _svc.addUnionIdMapper(to));
     }
 
     /**
