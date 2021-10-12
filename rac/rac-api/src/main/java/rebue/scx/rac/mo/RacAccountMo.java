@@ -1,13 +1,16 @@
 package rebue.scx.rac.mo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -22,7 +25,6 @@ import rebue.robotech.valid.ModifyGroup;
  * 账户
  *
  * @mbg.dontOverWriteAnnotation
- * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -47,9 +49,11 @@ public class RacAccountMo implements Serializable, Mo<Long> {
     @Setter
     @Getter
     private Long              lockLogId;
+
     @Setter
     @Getter
     private String            realName;
+
     /**
      * 锁定原因
      */
@@ -93,9 +97,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -226,7 +230,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -236,7 +239,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -315,9 +317,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -327,9 +329,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -629,6 +631,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
         sb.append(", ddNickname=").append(ddNickname);
         sb.append(", ddAvatar=").append(ddAvatar);
         sb.append(", isTester=").append(isTester);
+        sb.append(", expirationDatetime=").append(expirationDatetime);
         sb.append(", createTimestamp=").append(createTimestamp);
         sb.append(", updateTimestamp=").append(updateTimestamp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
@@ -659,8 +662,8 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
+        final int prime = 31;
+        int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
@@ -1039,5 +1042,32 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     public void setUnionId(Long unionId) {
         this.unionId = unionId;
+    }
+
+    /**
+     * 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime expirationDatetime;
+
+    /**
+     * 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public LocalDateTime getExpirationDatetime() {
+        return expirationDatetime;
+    }
+
+    /**
+     * 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setExpirationDatetime(LocalDateTime expirationDatetime) {
+        this.expirationDatetime = expirationDatetime;
     }
 }

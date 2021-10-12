@@ -23,8 +23,9 @@ import rebue.scx.rac.to.RacDicItemPageTo;
  */
 @DubboService
 public class RacDicItemApiImpl extends
-        BaseApiImpl<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemSvc>
-        implements RacDicItemApi {
+    BaseApiImpl<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemSvc>
+    implements RacDicItemApi {
+
     /**
      * 上移动字典项的信息，传入ID
      *
@@ -46,5 +47,4 @@ public class RacDicItemApiImpl extends
         _svc.moveDown(qo);
         return new Ro<>(ResultDic.SUCCESS, "下移成功");
     }
-
 }

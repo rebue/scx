@@ -37,8 +37,8 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-        implements RacAccountApi {
+    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+    implements RacAccountApi {
 
     /**
      * 重置账户登录密码
@@ -53,9 +53,8 @@ public class RacAccountApiImpl extends
 
     /**
      * 添加账户unionId映射
-     * 
+     *
      * @param to 添加的具体信息
-     * 
      */
     @Override
     public Ro<?> addUnionIdMapper(RacAccountUnionIdTo to) {
@@ -64,9 +63,8 @@ public class RacAccountApiImpl extends
 
     /**
      * 删除账户unionId映射
-     * 
+     *
      * @param to 删除的具体信息
-     * 
      */
     @Override
     public Ro<?> delUnionIdMapper(RacAccountUnionIdTo to) {
@@ -76,9 +74,9 @@ public class RacAccountApiImpl extends
 
     /**
      * 通过unionId查询账户
-     * 
+     *
      * @param unionId
-     * 
+     *
      * @return
      */
     @Override

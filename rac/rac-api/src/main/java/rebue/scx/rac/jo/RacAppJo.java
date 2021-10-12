@@ -161,7 +161,7 @@ public class RacAppJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = true)
-    @Column(name = "AUTHN_TYPE", nullable = true, length = 3)
+    @Basic(optional = false)
+    @Column(name = "AUTHN_TYPE", nullable = false, length = 3)
     private Byte       authnType;
 }

@@ -49,7 +49,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @Validated
 public interface RacAccountSvc
-        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -113,7 +113,7 @@ public interface RacAccountSvc
      * @param curAccountId   当前账户ID
      * @param agentAccountId 代理账户ID
      * @param appId          应用ID
-     * 
+     *
      * @return 当前账户信息
      */
     Ro<GetCurAccountInfoRa> getCurAccountInfo(@NotNull Long curAccountId, Long agentAccountId, @NotBlank String appId);
@@ -173,25 +173,23 @@ public interface RacAccountSvc
 
     /**
      * 添加账户unionId映射
-     * 
+     *
      * @param to 添加的具体信息
-     * 
      */
     RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to);
 
     /**
      * 删除账户unionId映射
-     * 
+     *
      * @param to 删除的具体信息
-     * 
      */
     void delUnionIdMapper(RacAccountUnionIdTo to);
 
     /**
      * 通过unionId查询账户
-     * 
+     *
      * @param unionId
-     * 
+     *
      * @return
      */
     List<RacAccountMo> getAccountByUnionId(Long unionId);

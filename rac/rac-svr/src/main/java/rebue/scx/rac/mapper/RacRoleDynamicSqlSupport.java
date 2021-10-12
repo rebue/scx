@@ -33,13 +33,6 @@ public final class RacRoleDynamicSqlSupport {
     public static final SqlColumn<String> realmId = racRole.realmId;
 
     /**
-    * 身份ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<Long> statusId = racRole.statusId;
-
-    /**
     * 是否启用
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -66,8 +59,6 @@ public final class RacRoleDynamicSqlSupport {
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
         public final SqlColumn<String> realmId = column("REALM_ID", JDBCType.VARCHAR);
-
-        public final SqlColumn<Long> statusId = column("STATUS_ID", JDBCType.BIGINT);
 
         public final SqlColumn<Boolean> isEnabled = column("IS_ENABLED", JDBCType.BIT);
 

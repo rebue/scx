@@ -371,6 +371,7 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @NotNull(groups = AddGroup.class, message = "认证方式不能为空")
     @PositiveOrZero(message = "认证方式不能为负数")
     private Byte authnType;
 

@@ -51,11 +51,4 @@ public class RacRoleAddTo implements Serializable {
     @NotBlank(message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
     private String            realmId;
-
-    /**
-     * 身份ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Long              statusId;
 }

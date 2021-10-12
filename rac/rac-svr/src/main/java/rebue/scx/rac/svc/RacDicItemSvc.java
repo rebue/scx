@@ -28,7 +28,8 @@ import rebue.scx.rac.to.RacDicItemPageTo;
  */
 @Validated
 public interface RacDicItemSvc
-        extends BaseSvc<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo> {
+    extends BaseSvc<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo> {
+
     /**
      * 上移动字典项的信息，传入ID
      *

@@ -1,6 +1,7 @@
 package rebue.scx.rac.jo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -256,7 +257,7 @@ public class RacAccountJo implements Serializable {
      */
     @JoinColumn(name = "ORG_ID", referencedColumnName = "ID")
     @ManyToOne()
-    private RacOrgJo   org;
+    private RacOrgJo      org;
 
     /**
      * 支付密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
@@ -265,7 +266,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "PAY_PSWD", nullable = true, length = 32)
-    private String     payPswd;
+    private String        payPswd;
 
     /**
      * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
@@ -274,7 +275,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "PAY_PSWD_SALT", nullable = true, length = 6)
-    private String     payPswdSalt;
+    private String        payPswdSalt;
 
     /**
      * 用户
@@ -283,7 +284,7 @@ public class RacAccountJo implements Serializable {
      */
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     @ManyToOne()
-    private RacUserJo  user;
+    private RacUserJo     user;
 
     /**
      * 备注
@@ -292,7 +293,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "REMARK", nullable = true, length = 150)
-    private String     remark;
+    private String        remark;
 
     /**
      * 领域
@@ -301,7 +302,7 @@ public class RacAccountJo implements Serializable {
      */
     @JoinColumn(name = "REALM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private RacRealmJo realm;
+    private RacRealmJo    realm;
 
     /**
      * 账户编码
@@ -310,7 +311,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "CODE", nullable = true, length = 32)
-    private String     code;
+    private String        code;
 
     /**
      * 钉钉的OpenId
@@ -319,7 +320,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "DD_OPEN_ID", nullable = true, length = 64)
-    private String     ddOpenId;
+    private String        ddOpenId;
 
     /**
      * 钉钉的UnionId
@@ -328,7 +329,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "DD_UNION_ID", nullable = true, length = 64)
-    private String     ddUnionId;
+    private String        ddUnionId;
 
     /**
      * 钉钉的UserId
@@ -337,7 +338,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "DD_USER_ID", nullable = true, length = 64)
-    private String     ddUserId;
+    private String        ddUserId;
 
     /**
      * 钉钉昵称
@@ -346,7 +347,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "DD_NICKNAME", nullable = true, length = 100)
-    private String     ddNickname;
+    private String        ddNickname;
 
     /**
      * 钉钉头像
@@ -355,7 +356,7 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "DD_AVATAR", nullable = true, length = 300)
-    private String     ddAvatar;
+    private String        ddAvatar;
 
     /**
      * 联合账户ID
@@ -364,5 +365,14 @@ public class RacAccountJo implements Serializable {
      */
     @Basic(optional = true)
     @Column(name = "UNION_ID", nullable = true, length = 20)
-    private Long       unionId;
+    private Long          unionId;
+
+    /**
+     * 过期时间
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "EXPIRATION_DATETIME", nullable = true, length = 19)
+    private LocalDateTime expirationDatetime;
 }

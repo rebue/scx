@@ -175,7 +175,6 @@ public class RacRoleMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", realmId=").append(realmId);
-        sb.append(", statusId=").append(statusId);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", seqNo=").append(seqNo);
         sb.append(", remark=").append(remark);
@@ -258,29 +257,4 @@ public class RacRoleMo implements Serializable, Mo<Long> {
     @Getter
     @Setter
     private RacRealmMo realm;
-
-    /**
-     * 身份ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Long       statusId;
-
-    /**
-     * 身份ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getStatusId() {
-        return statusId;
-    }
-
-    /**
-     * 身份ID
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
-    }
 }

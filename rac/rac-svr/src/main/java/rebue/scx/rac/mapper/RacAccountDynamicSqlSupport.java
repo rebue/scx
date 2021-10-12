@@ -1,6 +1,7 @@
 package rebue.scx.rac.mapper;
 
 import java.sql.JDBCType;
+import java.time.LocalDateTime;
 
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
@@ -232,6 +233,13 @@ public final class RacAccountDynamicSqlSupport {
     public static final SqlColumn<Boolean> isTester = racAccount.isTester;
 
     /**
+    * 过期时间
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<LocalDateTime> expirationDatetime = racAccount.expirationDatetime;
+
+    /**
     * 建立时间戳
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -307,6 +315,8 @@ public final class RacAccountDynamicSqlSupport {
         public final SqlColumn<String> ddAvatar = column("DD_AVATAR", JDBCType.VARCHAR);
 
         public final SqlColumn<Boolean> isTester = column("IS_TESTER", JDBCType.BIT);
+
+        public final SqlColumn<LocalDateTime> expirationDatetime = column("EXPIRATION_DATETIME", JDBCType.TIMESTAMP);
 
         public final SqlColumn<Long> createTimestamp = column("CREATE_TIMESTAMP", JDBCType.BIGINT);
 

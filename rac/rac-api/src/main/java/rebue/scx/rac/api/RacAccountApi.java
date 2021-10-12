@@ -60,7 +60,7 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      *
      * @param curAccountId 当前账户ID
      * @param appId        应用ID
-     * 
+     *
      * @return 当前账户信息
      */
     Ro<GetCurAccountInfoRa> getCurAccountInfo(Long curAccountId, Long agentAccountId, String appId);
@@ -120,25 +120,23 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
 
     /**
      * 添加账户unionId映射
-     * 
+     *
      * @param to 添加的具体信息
-     * 
      */
     Ro<?> addUnionIdMapper(RacAccountUnionIdTo to);
 
     /**
      * 删除账户unionId映射
-     * 
+     *
      * @param to 删除的具体信息
-     * 
      */
     Ro<?> delUnionIdMapper(RacAccountUnionIdTo to);
 
     /**
      * 通过unionId查询账户
-     * 
+     *
      * @param unionId
-     * 
+     *
      * @return
      */
     Ro<ListRa<RacAccountMo>> getAccountByUnionId(Long unionId);
