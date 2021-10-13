@@ -186,13 +186,12 @@ public class RacDicItemSvcImpl extends
     public void moveUp(RacDicItemModifyTo qo) {
         // 获取需要上移动的记录
         RacDicItemMo    upMo  = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-        // 获取需要下移动的记录
+        // 获取需要下移动的记录，即树编码-1
         RacDicItemOneTo oneTo = new RacDicItemOneTo();
         oneTo.setDicId(upMo.getDicId());
         int length  = upMo.getTreeCode().length();
         int treeInt = Integer.parseInt(upMo.getTreeCode());
-        // 排序+1
-        treeInt = treeInt + 1;
+        treeInt = treeInt - 1;
         final String tree = StringUtils.leftPad(treeInt + "", length, '0');
         oneTo.setTreeCode(tree);
         RacDicItemMo downMo = thisSvc.getOne(oneTo);
@@ -217,13 +216,12 @@ public class RacDicItemSvcImpl extends
     public void moveDown(RacDicItemModifyTo qo) {
         // 获取需要下移动的记录
         RacDicItemMo    downMo = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
-        // 获取需要上移动的记录
+        // 获取需要上移动的记录，即树编码+1
         RacDicItemOneTo oneTo  = new RacDicItemOneTo();
         oneTo.setDicId(downMo.getDicId());
         int length  = downMo.getTreeCode().length();
         int treeInt = Integer.parseInt(downMo.getTreeCode());
-        // 排序-1
-        treeInt = treeInt - 1;
+        treeInt = treeInt + 1;
         final String tree = StringUtils.leftPad(treeInt + "", length, '0');
         oneTo.setTreeCode(tree);
         RacDicItemMo upMo = thisSvc.getOne(oneTo);
