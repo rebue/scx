@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
@@ -152,6 +153,7 @@ public class OapAppSvcImpl
         RacAppModifyTo modfiy = new RacAppModifyTo();
         modfiy.setId(to.getAppId());
         modfiy.setIsCertified(true);
+        modfiy.setAuthnType(to.getAuthnType());
         Ro<?> mod = racAppApi.modify(modfiy);
         if (mod.getResult().getCode() != 1) {
             throw new RuntimeExceptionX("添加记录异常");
@@ -227,6 +229,16 @@ public class OapAppSvcImpl
         final OapAppMoEx moEx = OrikaUtils.map(to, OapAppMoEx.class);
         moEx.setIpAddrs(ipList);
         moEx.setRedirectUris(uriList);
+        if (to.getAuthnType() != null) {
+            RacAppModifyTo modfiy = new RacAppModifyTo();
+            modfiy.setId(to.getAppId());
+            modfiy.setIsCertified(to.getAuthnType().equals(0) ? false : true);
+            modfiy.setAuthnType(to.getAuthnType());
+            Ro<?> mod = racAppApi.modify(modfiy);
+            if (mod.getResult().getCode() != 1) {
+                throw new RuntimeExceptionX("修改记录异常");
+            }
+        }
         return moEx;
     }
 
@@ -273,6 +285,7 @@ public class OapAppSvcImpl
         RacAppModifyTo modfiy = new RacAppModifyTo();
         modfiy.setId(appMo.getAppId());
         modfiy.setIsCertified(false);
+        modfiy.setAuthnType((byte) 0);
         Ro<?> mod = racAppApi.modify(modfiy);
         if (mod.getResult().getCode() != 1) {
             throw new RuntimeExceptionX("删除记录异常");
@@ -289,14 +302,19 @@ public class OapAppSvcImpl
     public Ro<?> getByAppId(String id) {
         OapAppOneTo oneTo = new OapAppOneTo();
         oneTo.setAppId(id);
-        OapAppMo one = thisSvc.getOne(oneTo);
+        OapAppMo             one = thisSvc.getOne(oneTo);
+        Ro<PojoRa<RacAppMo>> ro  = racAppApi.getById(id);
         if (one == null) {
             OapAppMo mo = new OapAppMo();
+            // 相关连的rac应用信息
+            mo.setRacAppMo(ro.getExtra().getOne());
             mo.setClientId("uiap" + _idWorker.getIdStr());
             mo.setSecret(RandomEx.randomUUID());
             return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", mo);
         }
         final OapAppMoEx oneMo = OrikaUtils.map(one, OapAppMoEx.class);
+        // 相关连的rac应用信息
+        oneMo.setRacAppMo(ro.getExtra().getOne());
         // 查询白名单IP
         oneMo.setIpAddrs(this.getIpApprs(oneMo.getId()));
         // 查询重定向地址

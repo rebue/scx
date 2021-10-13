@@ -11,9 +11,12 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.Getter;
+import lombok.Setter;
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
+import rebue.scx.rac.mo.RacAppMo;
 
 /**
  * 第三方应用
@@ -31,6 +34,12 @@ public class OapAppMo implements Serializable, Mo<Long> {
     @NotNull(groups = ModifyGroup.class, message = "主键不能为空")
     @PositiveOrZero(message = "主键不能为负数")
     private Long              id;
+    /**
+     * 相关连的rac应用信息
+     */
+    @Setter
+    @Getter
+    private RacAppMo          racAppMo;
 
     /**
      * rac_app主键
@@ -87,6 +96,7 @@ public class OapAppMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -96,6 +106,7 @@ public class OapAppMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -235,8 +246,8 @@ public class OapAppMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
+        final int prime  = 31;
+        int       result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }

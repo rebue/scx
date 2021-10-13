@@ -251,16 +251,19 @@ public class RacAppSvcImpl
      * 根据Id查询应用信息
      */
     @Override
-    public RacAppMo getById(String id) {
-        RacAppMo          appMo    = super.getById(id);
+    public RacAppMo getById(final String id) {
+        RacAppMo          appMo    = _mapper.selectByPrimaryKey(id).orElse(null);
         final RacAppTagMo appTagMo = new RacAppTagMo();
         appTagMo.setAppId(id);
-        List<Long>         collect = appTagMapper.selectSelective(appTagMo).stream().map(item -> {
-                                       return item.getDicItemId();
-                                   }).collect(Collectors.toList());
-        List<RacDicItemMo> listIn  = racDicItemSvc.listIn(collect);
-        // 回显示标签
-        appMo.setAppLabelList(listIn);
+        List<RacAppTagMo> list = appTagMapper.selectSelective(appTagMo);
+        if (list.size() > 0) {
+            List<Long>         collect = list.stream().map(item -> {
+                                           return item.getDicItemId();
+                                       }).collect(Collectors.toList());
+            List<RacDicItemMo> listIn  = racDicItemSvc.listIn(collect);
+            // 回显示标签
+            appMo.setAppLabelList(listIn);
+        }
         return appMo;
     }
 

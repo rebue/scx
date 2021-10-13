@@ -43,7 +43,12 @@ public class OapAppModifyTo implements Serializable {
      */
     @Length(max = 32, message = "rac_app主键的长度不能大于32")
     private String            appId;
-
+    /**
+     * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
+     *
+     */
+    @PositiveOrZero(message = "认证方式不能为负数")
+    private Byte              authnType;
     /**
      * oidc client id
      *
