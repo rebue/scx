@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
-import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.api.OrpApi;
 import rebue.scx.orp.to.OrpCodeTo;
-import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacOpLogApi;
-import rebue.scx.rac.co.RacCookieCo;
-import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
@@ -36,11 +31,9 @@ import rebue.wheel.turing.JwtUtils;
 public class OrpCtrl {
 
     @Resource
-    private OrpApi        api;
+    private OrpApi      api;
     @DubboReference
-    private RacOpLogApi   opLogApi;
-    @DubboReference
-    private RacAccountApi accountApi;
+    private RacOpLogApi opLogApi;
 
     @GetMapping("/callback")
     public Mono<String> callback(final ServerHttpResponse response, @RequestParam("code") final String code) {
@@ -223,14 +216,6 @@ public class OrpCtrl {
             appTo.setOpDatetime(LocalDateTime.now());
             opLogApi.add(appTo);
             JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), response);
-            Long                     accountId = ro.getExtra().getId();
-            Ro<PojoRa<RacAccountMo>> moRo      = accountApi.getById(accountId);
-            if (moRo.getExtra().getOne().getUnionId() != null) {
-                response.addCookie(ResponseCookie.from(RacCookieCo.UNION_ID_KEY, moRo.getExtra().getOne().getUnionId().toString())
-                        .path("/")
-                        .maxAge(RacCookieCo.COOKIE_AGE)
-                        .build());
-            }
             // to.setCallbackUrl(ra.getRedirectUrl());
             return getResponse(response, orpType + "-sign-in" + "&url=" + getURLEncoderString(ra.getRedirectUrl()), to.getCallbackUrl(), ro.getMsg(), flag);
 
