@@ -1,12 +1,9 @@
 package rebue.scx.rac.ctrl;
 
-import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpStatus;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.SneakyThrows;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -303,8 +299,8 @@ public class RacAccountCtrl {
         }
         final Long agentAccountIdFinal = agentAccountId;
         // 从Headers中获取应用ID
-        List<String> list = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
-        String appId = list.get(0);
+        final List<String> list = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
+        final String appId = list.size() > 0 ? list.get(0) : null;
         if (StringUtils.isBlank(appId)) {
             throw new IllegalArgumentException("在Headers中找不到应用ID");
         }

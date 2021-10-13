@@ -1,13 +1,13 @@
 INSERT INTO `RAC_REALM` VALUES ('default','默认领域','应用和账户的默认领域'),('ops','运营领域','运营管理领域')
 ,('platform','平台领域','平台管理领域');
-INSERT INTO `RAC_APP` VALUES ('login-manage','登录','ops','http://www.abc.com/admin-web/#/app/index',NULL,'',1,'',1,0,0)
 
+INSERT INTO `RAC_APP` VALUES ('login-manage','登录','ops','http://www.abc.com/admin-web/#/app/index',NULL,'',1,'',1,0,0)
 ,('ops-admin-web','运营后台管理','ops',NULL,
 '[{\"key\":\"/user\",\"title\":\"用户中心\",\"children\":[{\"key\":\"/user/ops-org\",\"title\":\"组织\"},
 {\"key\":\"/user/ops-account\",\"title\":\"账户\"},{\"key\":\"/user/ops-user\",\"title\":\"用户\"},
 {\"key\":\"/user/rac-account-unlock\",\"title\":\"解锁\"}]},{\"key\":\"/user-log\",\"title\":\"日志\",\"children\":
 [{\"key\":\"/user-log/lock-log\",\"title\":\"账户解锁日志\"},{\"key\":\"/user-log/disable-log\",\"title\":
-\"账户启/禁用日志\"},{\"key\":\"/user-log/op-log\",\"title\":\"操作日志\"}]}]','对运营的后台管理提供最基本的功能',1,NULL,0,0,0)
+\"账户启/禁用日志\"},{\"key\":\"/user-log/op-log\",\"title\":\"操作日志\"}]}]','对运营的后台管理提供最基本的功能',1,NULL,0,0,1)
 
 ,('platform-admin-web','平台后台管理','platform',NULL,'[{\"key\":\"/base\",\"title\":\"基础\",\"children\":
 [{\"key\":\"/base/rac-realm\",\"title\":\"领域\"},{\"key\":\"/base/rac-app\",\"title\":\"应用\"},{\"key\":
@@ -17,11 +17,11 @@ INSERT INTO `RAC_APP` VALUES ('login-manage','登录','ops','http://www.abc.com/
 {\"key\":\"/account/rac-user\",\"title\":\"用户\"},{\"key\":\"/account/rac-account-unlock\",\"title\":\"解锁\"}]},
 {\"key\":\"/log\",\"title\":\"日志\",\"children\":[{\"key\":\"/log/lock-log\",\"title\":\"账户解锁日志\"},
 {\"key\":\"/log/disable-log\",\"title\":\"账户启/禁用日志\"},
-{\"key\":\"/log/op-log\",\"title\":\"操作日志\"}]}]','对平台的后台管理提供最基本的功能',1,NULL,0,0,0)
+{\"key\":\"/log/op-log\",\"title\":\"操作日志\"}]}]','对平台的后台管理提供最基本的功能',1,NULL,0,0,1)
 
-,('third-party-demo','第三方实例应用','default','http://the-localhost:30010',NULL,NULL,1,NULL,1,1,0),
+,('third-party-demo','第三方实例应用','default','http://the-localhost:30010',NULL,NULL,1,NULL,1,1,2),
 
-('unified-auth','统一认证平台','default','http://127.0.0.1/admin-web/#/app/index',NULL,'',1,'',0,1,0);
+('unified-auth','统一认证平台','default','http://127.0.0.1/admin-web/#/app/index',NULL,'',1,'',0,1,2);
 
 INSERT INTO `RAC_PERM_GROUP` VALUES (1,'platform','领域',1,0,'领域')
 ,(2,'platform','应用',1,1,'应用')
