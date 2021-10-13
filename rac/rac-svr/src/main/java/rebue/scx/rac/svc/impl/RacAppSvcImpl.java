@@ -1,6 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -14,8 +16,12 @@ import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacAppDao;
 import rebue.scx.rac.jo.RacAppJo;
 import rebue.scx.rac.mapper.RacAppMapper;
+import rebue.scx.rac.mapper.RacAppTagMapper;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.mo.RacAppTagMo;
+import rebue.scx.rac.mo.RacDicItemMo;
 import rebue.scx.rac.svc.RacAppSvc;
+import rebue.scx.rac.svc.RacDicItemSvc;
 import rebue.scx.rac.to.RacAppAddTo;
 import rebue.scx.rac.to.RacAppDelTo;
 import rebue.scx.rac.to.RacAppEnabledTo;
@@ -45,8 +51,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAppSvcImpl
-    extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
-    implements RacAppSvc {
+        extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
+        implements RacAppSvc {
 
     /**
      * 本服务的单例
@@ -56,7 +62,11 @@ public class RacAppSvcImpl
      */
     @Lazy
     @Resource
-    private RacAppSvc thisSvc;
+    private RacAppSvc       thisSvc;
+    @Resource
+    private RacAppTagMapper appTagMapper;
+    @Resource
+    private RacDicItemSvc   racDicItemSvc;
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -93,8 +103,20 @@ public class RacAppSvcImpl
         // 排序顺序号
         Long count = thisSvc.countSelective(oneTo);
         to.setSeqNo((byte) (count + 0));
-        final RacAppMo mo = OrikaUtils.map(to, RacAppMo.class);
-        return thisSvc.addMo(mo);
+        final RacAppMo mo    = OrikaUtils.map(to, RacAppMo.class);
+        RacAppMo       addMo = thisSvc.addMo(mo);
+        if (to.getDicItemIds() != null) {
+            Iterator<Long> iterator = to.getDicItemIds().iterator();
+            while (iterator.hasNext()) {
+                final RacAppTagMo appTagMo = new RacAppTagMo();
+                // 如果id为空那么自动生成分布式id
+                appTagMo.setId(_idWorker.getId());
+                appTagMo.setAppId(addMo.getId());
+                appTagMo.setDicItemId(iterator.next());
+                appTagMapper.insertSelective(appTagMo);
+            }
+        }
+        return addMo;
     }
 
     /**
@@ -110,6 +132,51 @@ public class RacAppSvcImpl
     }
 
     /**
+     * 通过ID修改记录内容
+     *
+     * @param to 修改的参数，必须包含ID
+     *
+     * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacAppMo modifyById(final RacAppModifyTo to) {
+        final RacAppMo    mo       = OrikaUtils.map(to, getMoClass());
+        RacAppMo          appMo    = this.modifyMoById(mo);
+        // 先删除应用标签
+        final RacAppTagMo appTagMo = new RacAppTagMo();
+        appTagMo.setAppId(appMo.getId());
+        appTagMapper.deleteSelective(appTagMo);
+        // 再添加，已达到修改效果
+        if (to.getDicItemIds() != null) {
+            Iterator<Long> iterator = to.getDicItemIds().iterator();
+            while (iterator.hasNext()) {
+                final RacAppTagMo appTag = new RacAppTagMo();
+                // 如果id为空那么自动生成分布式id
+                appTag.setId(_idWorker.getId());
+                appTag.setAppId(appMo.getId());
+                appTag.setDicItemId(iterator.next());
+                appTagMapper.insertSelective(appTag);
+            }
+        }
+        return appMo;
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacAppMo modifyMoById(RacAppMo mo) {
+        final int rowCount = _mapper.updateByPrimaryKeySelective(mo);
+        if (rowCount == 0) {
+            throw new RuntimeExceptionX("修改记录异常，记录已不存在或有变动");
+        }
+        if (rowCount != 1) {
+            throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
+        }
+        // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
+        return this.getById(mo.getId());
+    }
+
+    /**
      * 通过ID删除记录
      *
      * @param id 要删除记录的ID
@@ -118,7 +185,12 @@ public class RacAppSvcImpl
      */
     @Override
     public void delById(String id) {
-        RacAppMo byId = getById(id);
+        RacAppMo          byId     = getById(id);
+        // 先删除关联应用标签
+        final RacAppTagMo appTagMo = new RacAppTagMo();
+        appTagMo.setAppId(id);
+        appTagMapper.deleteSelective(appTagMo);
+        // 再删除应用
         final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
@@ -137,7 +209,7 @@ public class RacAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacAppModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacAppMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         final RacAppMo appQo = new RacAppMo();
         appQo.setSeqNo((byte) (qo.getSeqNo() - 1));
         appQo.setRealmId(qo.getRealmId());
@@ -159,7 +231,7 @@ public class RacAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacAppModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacAppMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacAppMo appQo = new RacAppMo();
         appQo.setSeqNo((byte) (qo.getSeqNo() + 1));
@@ -173,6 +245,23 @@ public class RacAppSvcImpl
         final RacAppMo qoMo = OrikaUtils.map(qo, getMoClass());
         qoMo.setSeqNo((byte) (qo.getSeqNo() + 1));
         thisSvc.modifyMoById(qoMo);
+    }
+
+    /**
+     * 根据Id查询应用信息
+     */
+    @Override
+    public RacAppMo getById(String id) {
+        RacAppMo          appMo    = super.getById(id);
+        final RacAppTagMo appTagMo = new RacAppTagMo();
+        appTagMo.setAppId(id);
+        List<Long>         collect = appTagMapper.selectSelective(appTagMo).stream().map(item -> {
+                                       return item.getDicItemId();
+                                   }).collect(Collectors.toList());
+        List<RacDicItemMo> listIn  = racDicItemSvc.listIn(collect);
+        // 回显示标签
+        appMo.setAppLabelList(listIn);
+        return appMo;
     }
 
     /**

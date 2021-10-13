@@ -1,6 +1,7 @@
 package rebue.scx.rac.to;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
@@ -104,6 +105,11 @@ public class RacAppModifyTo implements Serializable {
      */
     private Boolean           isCertified;
 
+    /**
+     * 字典项ID(list集合)
+     *
+     */
+    private List<Long>        dicItemIds;
     /**
      * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
      *
