@@ -342,11 +342,36 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
         int          length = record.getTreeCode().length();
         final String str    = StringUtils.leftPad("", length, '_');
         // final String str = "___";
-        return select(c -> c.where(dicId, isEqualToWhenPresent(record::getDicId)).and(treeCode, isGreaterThan(record::getTreeCode)).and(treeCode, isLikeWhenPresent(str)));
+        return select(c -> c.where(dicId, isEqualToWhenPresent(record::getDicId))
+                .and(treeCode, isGreaterThan(record::getTreeCode)).and(treeCode, isLikeWhenPresent(str))
+                .groupBy(treeCode));
     }
 
     /**
-     * 排序因删除而被影响的记录，即排序下移动
+     * 排序因删除而被影响的记录，即树编码+1上移动
+     *
+     * @param item 被影响的同级字典项
+     *
+     * @return 修改的记录数
+     */
+    default int updateDicUpByDetele(RacDicItemMo item) {
+        // _ 表示通配符 匹配一个字符
+        int length  = item.getTreeCode().length();
+        int treeInt = Integer.parseInt(item.getTreeCode());
+        treeInt = treeInt - 1;
+        // 排序下移，即树编码-1
+        final String            tree         = StringUtils.leftPad(treeInt + "", length, '0');
+        // like符合被修改的记录
+        final String            likeStr      = item.getTreeCode() + "%";
+        // set TREE_CODE=CONCAT('000' , substr(TREE_CODE, 4)) //mysql写法，设置具体的修改的参数
+        final String            concatString = "CONCAT('" + tree + "' , substr(TREE_CODE, " + (length + 1) + "))";
+        UpdateStatementProvider update       = SqlBuilder.update(racDicItem).set(treeCode).equalToConstant(concatString).where(dicId, isEqualTo(item::getDicId))
+                .and(treeCode, isLikeWhenPresent(likeStr)).build().render(RenderingStrategies.MYBATIS3);
+        return this.update(update);
+    }
+
+    /**
+     * 排序下移动，即树编码+1
      *
      * @param item 被影响的同级字典项
      *
@@ -369,7 +394,7 @@ public interface RacDicItemMapper extends MapperRootInterface<RacDicItemMo, Long
     }
 
     /**
-     * 排序上移动(主要修改刚才被x标记的上移动记录)
+     * 排序上移动(主要修改刚才被x标记的上移动记录)，即树编码-1
      *
      * @param item 被影响的同级字典项
      *

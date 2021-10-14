@@ -165,7 +165,7 @@ public class RacDicItemSvcImpl extends
         List<RacDicItemMo> selective = _mapper.selectDicSelective(itemMo);
         // 字项进行相应的改动
         selective.stream().map(item -> {
-            _mapper.updateDicDownSelective(item);
+            _mapper.updateDicUpByDetele(item);
             return item;
         }).collect(Collectors.toList());
         if (rowCount == 0) {
