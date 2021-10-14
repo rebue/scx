@@ -16,9 +16,11 @@ import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.rac.dao.RacRoleDao;
 import rebue.scx.rac.jo.RacRoleJo;
 import rebue.scx.rac.mapper.RacAccountRoleMapper;
+import rebue.scx.rac.mapper.RacRoleAppMapper;
 import rebue.scx.rac.mapper.RacRoleMapper;
 import rebue.scx.rac.mapper.RacRolePermMapper;
 import rebue.scx.rac.mo.RacAccountRoleMo;
+import rebue.scx.rac.mo.RacRoleAppMo;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.mo.RacRolePermMo;
 import rebue.scx.rac.ra.ListTransferOfRoleRa;
@@ -26,6 +28,7 @@ import rebue.scx.rac.svc.RacRoleSvc;
 import rebue.scx.rac.to.RacAccountRoleAddTo;
 import rebue.scx.rac.to.RacAccountRoleDelTo;
 import rebue.scx.rac.to.RacRoleAddTo;
+import rebue.scx.rac.to.RacRoleAppAddTo;
 import rebue.scx.rac.to.RacRoleDelTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
@@ -55,8 +58,9 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacRoleSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleMapper, RacRoleDao>
-    implements RacRoleSvc {
+        extends
+        BaseSvcImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleMapper, RacRoleDao>
+        implements RacRoleSvc {
 
     /**
      * 本服务的单例
@@ -70,6 +74,9 @@ public class RacRoleSvcImpl
 
     @Resource
     private RacRolePermMapper    racRolePermMapper;
+
+    @Resource
+    private RacRoleAppMapper     racRoleAppMapper;
 
     @Resource
     private RacAccountRoleMapper racAccountRoleMapper;
@@ -100,7 +107,7 @@ public class RacRoleSvcImpl
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacRoleMo add(final RacRoleAddTo to) {
-        final RacRoleMo mo = OrikaUtils.map(to, getMoClass());
+        final RacRoleMo    mo = OrikaUtils.map(to, getMoClass());
         final RacRoleOneTo qo = new RacRoleOneTo();
         qo.setRealmId(to.getRealmId());
         final Long count = getThisSvc().countSelective(qo);
@@ -130,6 +137,33 @@ public class RacRoleSvcImpl
             mo.setRoleId(to.getRoleId());
             mo.setPermId(permId);
             final int rowCount = racRolePermMapper.insertSelective(mo);
+            if (rowCount != 1) {
+                throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
+            }
+        }
+    }
+
+    /**
+     * 添加/修改角色和应用的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void addRolePerm(RacRoleAppAddTo to) {
+        // 删除已存在的关系
+        final RacRoleAppMo delMo = new RacRoleAppMo();
+        delMo.setRoleId(to.getRoleId());
+        racRoleAppMapper.deleteSelective(delMo);
+        // 再添加新关系，作为覆盖
+        final List<String> lists = to.getAppIds();
+        for (final String appId : lists) {
+            final RacRoleAppMo mo = new RacRoleAppMo();
+            // 如果自动生成分布式id
+            mo.setId(_idWorker.getId());
+            mo.setRoleId(to.getRoleId());
+            mo.setAppId(appId);
+            final int rowCount = racRoleAppMapper.insertSelective(mo);
             if (rowCount != 1) {
                 throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
             }
@@ -181,7 +215,7 @@ public class RacRoleSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacRoleModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacRoleMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacRoleMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取修改当前这条数据上面一条的数据的顺序号
         final RacRoleMo roleQo = new RacRoleMo();
         roleQo.setSeqNo((byte) (qo.getSeqNo() - 1));
@@ -203,7 +237,7 @@ public class RacRoleSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacRoleModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacRoleMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacRoleMo qo     = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacRoleMo roleQo = new RacRoleMo();
         roleQo.setSeqNo((byte) (qo.getSeqNo() + 1));
@@ -244,8 +278,8 @@ public class RacRoleSvcImpl
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final Long id) {
-        final RacRoleMo qo = getById(id);
-        final int rowCount = _mapper.deleteByPrimaryKey(id);
+        final RacRoleMo qo       = getById(id);
+        final int       rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
         }
@@ -269,12 +303,12 @@ public class RacRoleSvcImpl
     public Ro<ListTransferOfRoleRa> listTransferOfRole(final RacListTransferOfRoleTo qo) {
         final RacRoleMo roleMo = new RacRoleMo();
         roleMo.setRealmId(qo.getRealmId());
-        final List<RacRoleMo> listRole = _mapper.selectListOrderByRole(roleMo);
+        final List<RacRoleMo>  listRole      = _mapper.selectListOrderByRole(roleMo);
         final RacAccountRoleMo accountRoleMo = new RacAccountRoleMo();
         accountRoleMo.setAccountId(qo.getAccountId());
         final List<RacAccountRoleMo> listAccountRole = racAccountRoleMapper.selectSelective(accountRoleMo);
         // 将所有记录添加到返回ListTransferOfRoleRa的对象中
-        final ListTransferOfRoleRa ro = new ListTransferOfRoleRa();
+        final ListTransferOfRoleRa   ro              = new ListTransferOfRoleRa();
         ro.setAddableList(listRole);
         ro.setExistList(listAccountRole);
         return new Ro<>(ResultDic.SUCCESS, "查询角色列表成功", ro);
@@ -292,4 +326,18 @@ public class RacRoleSvcImpl
         final List<RacRolePermMo> list = racRolePermMapper.selectSelective(qo);
         return list;
     }
+
+    /**
+     * 查询角色已有的应用的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @Override
+    public List<RacRoleAppMo> listRoleApp(Long roleId) {
+        final RacRoleAppMo qo = new RacRoleAppMo();
+        qo.setRoleId(roleId);
+        final List<RacRoleAppMo> list = racRoleAppMapper.selectSelective(qo);
+        return list;
+    }
+
 }

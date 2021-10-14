@@ -19,12 +19,14 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacRoleApi;
+import rebue.scx.rac.mo.RacRoleAppMo;
 import rebue.scx.rac.mo.RacRoleMo;
 import rebue.scx.rac.mo.RacRolePermMo;
 import rebue.scx.rac.ra.ListTransferOfRoleRa;
 import rebue.scx.rac.to.RacAccountRoleAddTo;
 import rebue.scx.rac.to.RacAccountRoleDelTo;
 import rebue.scx.rac.to.RacRoleAddTo;
+import rebue.scx.rac.to.RacRoleAppAddTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
 import rebue.scx.rac.to.RacRolePageTo;
@@ -49,7 +51,9 @@ public class RacRoleCtrl {
      * 添加角色
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加角色", opTitle = "添加角色: #{#p0.name}")
@@ -67,6 +71,17 @@ public class RacRoleCtrl {
     @PostMapping("/rac/role/add-role-perm")
     public Mono<Ro<?>> addRolePerm(@RequestBody final RacRolePermAddTo to) {
         return Mono.create(callback -> callback.success(api.addRolePerm(to)));
+    }
+
+    /**
+     * 添加/修改角色和应用的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @RacOpLog(opType = "添加/修改角色应用关系", opTitle = "添加/修改角色应用关系: #{#p0.roleId}")
+    @PostMapping("/rac/role/add-role-app")
+    public Mono<Ro<?>> addRoleApp(@RequestBody final RacRoleAppAddTo to) {
+        return Mono.create(callback -> callback.success(api.addRoleApp(to)));
     }
 
     /**
@@ -95,7 +110,9 @@ public class RacRoleCtrl {
      * 修改角色的信息
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改角色", opTitle = "修改角色: #{#p0.name}")
@@ -108,7 +125,9 @@ public class RacRoleCtrl {
      * 删除角色
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param id 角色ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除角色", opTitle = "删除角色: #{#p0}")
@@ -121,6 +140,7 @@ public class RacRoleCtrl {
      * 获取单个角色的信息
      *
      * @param id 角色ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/role/get-by-id")
@@ -132,6 +152,7 @@ public class RacRoleCtrl {
      * 判断角色是否存在
      *
      * @param id 角色ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/role/exist-by-id")
@@ -143,6 +164,7 @@ public class RacRoleCtrl {
      * 查询角色的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/role/page")
@@ -200,6 +222,16 @@ public class RacRoleCtrl {
     @GetMapping("/rac/role/list-role-perm")
     public Mono<Ro<ListRa<RacRolePermMo>>> listRolePerm(@RequestParam("roleId") final java.lang.Long roleId) {
         return Mono.create(callback -> callback.success(api.listRolePerm(roleId)));
+    }
+
+    /**
+     * 查询角色已有的应用的关系
+     *
+     * @param to 添加的具体信息
+     */
+    @GetMapping("/rac/role/list-role-app")
+    public Mono<Ro<ListRa<RacRoleAppMo>>> listRoleApp(@RequestParam("roleId") final java.lang.Long roleId) {
+        return Mono.create(callback -> callback.success(api.listRoleApp(roleId)));
     }
 
     /**
