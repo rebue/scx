@@ -268,12 +268,33 @@ public class RacAppSvcImpl
     }
 
     /**
+     * 根据应用ID查询对应的认证信息
+     */
+    @Override
+    public List<RacAppTagMo> listInAppIdList(List<String> appIds) {
+        return appTagMapper.listInAppIdList(appIds);
+
+    }
+
+    /**
      * 根据顺序号查询App
      */
     @Override
     public List<RacAppMo> list(RacAppListTo qo) {
         final RacAppMo mo = OrikaUtils.map(qo, getMoClass());
         return _mapper.selectListOrderBySeqNo(mo);
+    }
+
+    /**
+     * 根据帐号ID查询他可以看到的应用
+     *
+     * @param accountIds 账户ID集合
+     *
+     * @return
+     */
+    @Override
+    public List<RacAppMo> selectAppByAccountIds(List<Long> accountIds) {
+        return _mapper.selectAppByAccountIds(accountIds);
     }
 
     /**

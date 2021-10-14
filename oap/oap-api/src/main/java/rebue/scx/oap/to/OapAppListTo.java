@@ -34,6 +34,10 @@ public class OapAppListTo implements Serializable {
      */
     @Length(max = 32, message = "rac_app主键的长度不能大于32")
     private String            appId;
+    /**
+     * 账户ID
+     */
+    private Long              accountId;
 
     /**
      * oidc client id

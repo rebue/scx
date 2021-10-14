@@ -1,9 +1,12 @@
 package rebue.scx.rac.api;
 
+import java.util.List;
+
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.mo.RacAppTagMo;
 import rebue.scx.rac.to.RacAppAddTo;
 import rebue.scx.rac.to.RacAppEnabledTo;
 import rebue.scx.rac.to.RacAppListTo;
@@ -37,4 +40,18 @@ public interface RacAppApi extends BaseApi<java.lang.String, RacAppAddTo, RacApp
      * 下移
      */
     Ro<?> moveDown(RacAppModifyTo qo);
+
+    /**
+     * 根据帐号ID查询他可以看到的应用
+     *
+     * @param accountIds 账户ID集合
+     *
+     * @return
+     */
+    Ro<ListRa<RacAppMo>> selectAppByAccountIds(List<Long> accountIds);
+
+    /**
+     * 根据应用ID查询对应的标签信息
+     */
+    Ro<ListRa<RacAppTagMo>> listInAppIdList(List<String> appIds);
 }

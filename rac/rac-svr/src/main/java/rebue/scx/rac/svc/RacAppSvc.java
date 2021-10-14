@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.rac.jo.RacAppJo;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.mo.RacAppTagMo;
 import rebue.scx.rac.to.RacAppAddTo;
 import rebue.scx.rac.to.RacAppDelTo;
 import rebue.scx.rac.to.RacAppEnabledTo;
@@ -53,4 +54,18 @@ public interface RacAppSvc extends BaseSvc<java.lang.String, RacAppAddTo, RacApp
      * 查询应用
      */
     List<RacAppMo> listOrderBySeqNo(RacAppListTo qo);
+
+    /**
+     * 根据帐号ID查询他可以看到的应用
+     *
+     * @param accountIds 账户ID集合
+     *
+     * @return
+     */
+    List<RacAppMo> selectAppByAccountIds(List<Long> accountIds);
+
+    /**
+     * 根据应用ID查询对应的认证信息
+     */
+    List<RacAppTagMo> listInAppIdList(List<String> appIds);
 }

@@ -1,7 +1,11 @@
 package rebue.scx.oap.svc;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
 
+import rebue.robotech.ro.Ro;
+import rebue.robotech.svc.BaseSvc;
 import rebue.scx.oap.jo.OapAppJo;
 import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.oap.mo.ex.OapAppListAndRacAppListRa;
@@ -11,9 +15,6 @@ import rebue.scx.oap.to.OapAppListTo;
 import rebue.scx.oap.to.OapAppModifyTo;
 import rebue.scx.oap.to.OapAppOneTo;
 import rebue.scx.oap.to.OapAppPageTo;
-
-import rebue.robotech.ro.Ro;
-import rebue.robotech.svc.BaseSvc;
 
 /**
  * 第三方应用服务接口
@@ -45,4 +46,7 @@ public interface OapAppSvc extends BaseSvc<java.lang.Long, OapAppAddTo, OapAppMo
      * 
      */
     Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo);
+
+    List<OapAppMo> listInAppIdList(List<String> appIds);
+
 }

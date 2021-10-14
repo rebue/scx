@@ -1,9 +1,12 @@
 package rebue.scx.rac.ctrl;
 
+import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.time.LocalDateTime;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpStatus;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+
 import lombok.SneakyThrows;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -68,7 +72,9 @@ public class RacAccountCtrl {
      * 添加账户
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加账户", opTitle = "添加账户: #{#p0.signInName}")
@@ -81,7 +87,9 @@ public class RacAccountCtrl {
      * 修改账户的信息
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改账户", opTitle = "修改账户: #{#p0.signInName}")
@@ -127,7 +135,9 @@ public class RacAccountCtrl {
      * 删除账户
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param id 账户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除账户", opTitle = "删除账户: #{#p0}")
@@ -152,6 +162,7 @@ public class RacAccountCtrl {
      * 获取单个账户的信息
      *
      * @param id 账户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/get-by-id")
@@ -163,6 +174,7 @@ public class RacAccountCtrl {
      * 判断账户是否存在
      *
      * @param id 账户ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/exist-by-id")
@@ -174,6 +186,7 @@ public class RacAccountCtrl {
      * 查询账户的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/account/page")
@@ -252,7 +265,7 @@ public class RacAccountCtrl {
      */
     @PostMapping(value = "/rac/account/upload-avatar")
     public Mono<?> uploadAvatar(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux,
-        final ServerHttpResponse response) {
+            final ServerHttpResponse response) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -261,9 +274,9 @@ public class RacAccountCtrl {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
         return filePartFlux.flatMap(filePart -> {
-            final String fileName = filePart.filename();
+            final String             fileName           = filePart.filename();
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
-            final MediaType contentType = filePart.headers().getContentType();
+            final MediaType          contentType        = filePart.headers().getContentType();
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
                 final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition.toString(), contentType.toString(), inputStream);
                 if (!ResultDic.SUCCESS.equals(ro.getResult())) {
@@ -276,6 +289,8 @@ public class RacAccountCtrl {
 
     /**
      * 获取当前账户信息
+     * 
+     * @ignoreParams request
      */
     @GetMapping("/rac/account/get-cur-account-info")
     @SneakyThrows
@@ -289,7 +304,7 @@ public class RacAccountCtrl {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
         // 从JWT签名中获取代理账户ID
-        Long agentAccountId = null;
+        Long         agentAccountId     = null;
         final Object agentAccountIdItem = JwtUtils.getJwtAdditionItemFromSign(jwtToken, RacJwtSignCo.AGENT_ACCOUNT_ID);
         if (agentAccountIdItem != null) {
             final String agentAccountIdString = agentAccountIdItem.toString();
@@ -297,10 +312,10 @@ public class RacAccountCtrl {
                 agentAccountId = Long.valueOf(agentAccountIdString);
             }
         }
-        final Long agentAccountIdFinal = agentAccountId;
+        final Long         agentAccountIdFinal = agentAccountId;
         // 从Headers中获取应用ID
-        final List<String> list = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
-        final String appId = list.size() > 0 ? list.get(0) : null;
+        final List<String> list                = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
+        final String       appId               = list.size() > 0 ? list.get(0) : null;
         if (StringUtils.isBlank(appId)) {
             throw new IllegalArgumentException("在Headers中找不到应用ID");
         }

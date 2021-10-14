@@ -1,5 +1,7 @@
 package rebue.scx.rac.api.impl;
 
+import java.util.List;
+
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
@@ -9,6 +11,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.jo.RacAppJo;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.mo.RacAppTagMo;
 import rebue.scx.rac.svc.RacAppSvc;
 import rebue.scx.rac.to.RacAppAddTo;
 import rebue.scx.rac.to.RacAppDelTo;
@@ -25,7 +28,7 @@ import rebue.scx.rac.to.RacAppPageTo;
  */
 @DubboService
 public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppSvc>
-    implements RacAppApi {
+        implements RacAppApi {
 
     @Override
     public Ro<ListRa<RacAppMo>> list(final RacAppListTo qo) {
@@ -64,6 +67,26 @@ public class RacAppApiImpl extends BaseApiImpl<java.lang.String, RacAppAddTo, Ra
         else {
             return new Ro<>(ResultDic.SUCCESS, "禁用应用成功");
         }
+    }
+
+    /**
+     * 根据帐号ID查询他可以看到的应用
+     *
+     * @param accountIds 账户ID集合
+     *
+     * @return
+     */
+    @Override
+    public Ro<ListRa<RacAppMo>> selectAppByAccountIds(List<Long> accountIds) {
+        return new Ro<>(ResultDic.SUCCESS, "列表查询成功", new ListRa<>(_svc.selectAppByAccountIds(accountIds)));
+    }
+
+    /**
+     * 根据应用ID查询对应的标签信息
+     */
+    @Override
+    public Ro<ListRa<RacAppTagMo>> listInAppIdList(List<String> appIds) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.listInAppIdList(appIds)));
     }
 
     @Override

@@ -1,7 +1,9 @@
 package rebue.scx.oap.svc.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -41,9 +43,11 @@ import rebue.scx.oap.to.OapIpWhiteListListTo;
 import rebue.scx.oap.to.OapRedirectUriAddTo;
 import rebue.scx.oap.to.OapRedirectUriDelTo;
 import rebue.scx.oap.to.OapRedirectUriListTo;
+import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
-import rebue.scx.rac.to.RacAppListTo;
+import rebue.scx.rac.mo.RacAppTagMo;
 import rebue.scx.rac.to.RacAppModifyTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.RandomEx;
@@ -90,6 +94,8 @@ public class OapAppSvcImpl
 
     @DubboReference
     private RacAppApi         racAppApi;
+    @DubboReference
+    private RacAccountApi     racAccountApi;
 
     /**
      * 从接口获取本服务的单例(提供给基类调用)
@@ -331,25 +337,54 @@ public class OapAppSvcImpl
      */
     @Override
     public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
-        // 查询所有应用
-        RacAppListTo              racAppListQo = new RacAppListTo();
-        List<RacAppMo>            racAppList   = racAppApi.listOrderBySeqNo(racAppListQo).getExtra().getList().stream().map(item -> {
-                                                   item.setMenu(null);
-                                                   return item;
-                                               }).collect(Collectors.toList());
-        // 查询所有认证应用
-        List<OapAppMo>            oapAppList   = thisSvc.listAll().stream().map(item -> {
-                                                   OapAppMoEx moEx = OrikaUtils.map(item, OapAppMoEx.class);
-                                                   // moEx.setIpAddrs(this.getIpApprs(item.getId()));
-                                                   // moEx.setRedirectUris(this.getUris(item.getId()));
-                                                   // 不显示在前端
-                                                   // moEx.setSecret(null);
-                                                   return moEx;
-                                               }).collect(Collectors.toList());
-        OapAppListAndRacAppListRa ra           = new OapAppListAndRacAppListRa();
+        final OapAppListAndRacAppListRa ra         = new OapAppListAndRacAppListRa();
+        final Long                      accountId  = qo.getAccountId();
+        final RacAccountMo              accountMo  = racAccountApi.getById(accountId).getExtra().getOne();
+        Set<String>                     set        = new HashSet<>();
+        List<Long>                      accountIds = new ArrayList<Long>();
+        if (accountMo.getUnionId() != null) {
+            // 存在映射帐号则一起查询拥有的应用
+            accountIds = racAccountApi.getAccountByUnionId(accountMo.getUnionId()).getExtra()
+                    .getList().stream().map(RacAccountMo::getId).collect(Collectors.toList());
+        }
+        else {
+            // 不存在映射帐号则查询当前账户拥有的应用
+            accountIds.add(accountId);
+        }
+        List<String>   appIds     = new ArrayList<String>();
+        // 查询应用
+        List<RacAppMo> racAppList = racAppApi.selectAppByAccountIds(accountIds).getExtra()
+                .getList().stream().map(item -> {
+                                              item.setMenu(null);
+                                              appIds.add(item.getId());
+                                              return item;
+                                          })
+                .collect(Collectors.toList());
         ra.setRacAppList(racAppList);
-        ra.setOapAppList(oapAppList);
+        // 查询认证应用
+        if (appIds.size() > 0) {
+            List<OapAppMo> oapAppList = thisSvc.listInAppIdList(appIds).stream().map(item -> {
+                // OapAppMoEx moEx = OrikaUtils.map(item, OapAppMoEx.class);
+                // moEx.setIpAddrs(this.getIpApprs(item.getId()));
+                // moEx.setRedirectUris(this.getUris(item.getId()));
+                // 不显示在前端
+                item.setSecret(null);
+                return item;
+            }).collect(Collectors.toList());
+            ra.setOapAppList(oapAppList);
+            List<RacAppTagMo> racAppLabelList = racAppApi.listInAppIdList(appIds).getExtra().getList();
+            ra.setRacAppLabelList(racAppLabelList);
+        }
         return new Ro<OapAppListAndRacAppListRa>(ResultDic.SUCCESS, "查询成功", ra);
+    }
+
+    /**
+     * 根据应用ID查询对应的认证信息
+     */
+    @Override
+    public List<OapAppMo> listInAppIdList(List<String> appIds) {
+        return _mapper.listInAppIdList(appIds);
+
     }
 
     /**

@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import rebue.scx.oap.mo.OapAppMo;
 
 import lombok.Data;
+import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.rac.mo.RacAppMo;
+import rebue.scx.rac.mo.RacAppTagMo;
 
 @Data
 @JsonInclude(Include.NON_NULL)
@@ -26,5 +27,9 @@ public class OapAppListAndRacAppListRa implements Serializable {
      * 所有应用
      */
     private List<RacAppMo>    racAppList;
+    /**
+     * 应用标签
+     */
+    private List<RacAppTagMo> racAppLabelList;
 
 }

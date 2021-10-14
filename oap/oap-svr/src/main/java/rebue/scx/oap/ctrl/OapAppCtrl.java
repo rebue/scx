@@ -2,6 +2,8 @@ package rebue.scx.oap.ctrl;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,7 @@ import rebue.scx.oap.to.OapAppModifyTo;
 import rebue.scx.oap.to.OapAppPageTo;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.wheel.core.RandomEx;
+import rebue.wheel.turing.JwtUtils;
 
 /**
  * 第三方应用
@@ -150,7 +153,16 @@ public class OapAppCtrl {
      * 
      */
     @GetMapping("/oap/app/list-and-tripartite")
-    public Mono<Ro<OapAppListAndRacAppListRa>> page(final OapAppListTo qo) {
+    public Mono<Ro<OapAppListAndRacAppListRa>> listAndTripartite(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, final OapAppListTo qo) {
+        if (StringUtils.isBlank(jwtToken)) {
+            throw new IllegalArgumentException("在Cookie中找不到JWT签名");
+        }
+        // 从JWT签名中获取当前账户ID
+        final Long curAccountId = JwtUtils.getJwtAccountIdFromSign(jwtToken);
+        if (curAccountId == null) {
+            throw new IllegalArgumentException("在JWT签名中找不到账户ID");
+        }
+        qo.setAccountId(curAccountId);
         return Mono.create(callback -> callback.success(api.listAndTripartite(qo)));
     }
 }
