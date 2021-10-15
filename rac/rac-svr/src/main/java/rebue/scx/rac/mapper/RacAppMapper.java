@@ -382,7 +382,7 @@ public interface RacAppMapper extends MapperRootInterface<RacAppMo, String> {
                 .leftJoin(racRoleApp).on(racApp.id, equalTo(racRoleApp.appId))
                 .leftJoin(racRole).on(racRole.id, equalTo(racRoleApp.roleId))
                 .leftJoin(racAccountRole).on(racAccountRole.roleId, equalTo(racRole.id))
-                .where(racAccountRole.accountId, isIn(accountIds)).orderBy(racApp.seqNo)
+                .where(racAccountRole.accountId, isIn(accountIds)).groupBy(racApp.id).orderBy(racApp.seqNo)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return this.selectMany(select);
