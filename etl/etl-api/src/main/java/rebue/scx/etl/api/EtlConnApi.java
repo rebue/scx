@@ -27,10 +27,9 @@ public interface EtlConnApi extends BaseApi<java.lang.Long, EtlConnAddTo, EtlCon
      * 根据连接器ID和表名查询列名
      * 
      * @param id        数据库连接器ID
-     * @param tableName
      * @param tableName 表名
      */
-    Ro<?> getColumnsByTableName(Long id, String tableName);
+    Ro<?> getColumnsByTableName(Long id, final String tableName);
 
     /**
      * 测试连接

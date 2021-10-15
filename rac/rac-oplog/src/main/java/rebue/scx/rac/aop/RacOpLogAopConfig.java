@@ -63,7 +63,7 @@ public class RacOpLogAopConfig {
                     String       sign  = CookieUtils.getValue(context.getResponse(), JwtUtils.JWT_TOKEN_NAME);
                     String       appId = CookieUtils.getValue(context.getResponse(), RacCookieCo.APP_ID_KEY);
                     List<String> list  = context.getRequest().getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
-                    if (list.size() > 0) {
+                    if (list != null && list.size() > 0) {
                         appId = list.get(0);
                     }
                     if (!StringUtils.isNoneBlank(sign)) {

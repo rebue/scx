@@ -63,13 +63,13 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
             final String            method     = request.getMethod().toString();
             final String            path       = request.getPath().toString();
             final List<String>      appIdsList = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
-            String                  appId;
-            if (appIdsList.size() > 0) {
+            String                  appId      = null;
+            if (appIdsList != null && appIdsList.size() > 0) {
                 appId = appIdsList.get(0);
             }
-            else {
-                throw new IllegalArgumentException("在Headers中找不到应用ID");
-            }
+            // else {
+            // throw new RuntimeExceptionX("在Headers中找不到应用ID");
+            // }
             final String url = method + ":" + path;
 
             log.info(StringUtils.rightPad("*** 进入JwtPreFilter过滤器 ***", 100));
@@ -110,8 +110,11 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     log.info("获取可访问的链接列表");
                     final Long   accountId = JwtUtils.getJwtAccountIdFromSign(sign);
                     RacAccountMo accountMo = racAccountApi.getById(accountId).getExtra().getOne();
-                    RacAppMo     appMo     = racAppApi.getById(appId).getExtra().getOne();
-                    boolean      flag      = accountMo.getRealmId().equals(appMo.getRealmId());
+                    if (appId == null) {
+                        throw new RuntimeExceptionX("在Headers中找不到应用ID");
+                    }
+                    RacAppMo appMo = racAppApi.getById(appId).getExtra().getOne();
+                    boolean  flag  = accountMo.getRealmId().equals(appMo.getRealmId());
                     if (!flag) {
                         RacAccountOneTo oneTo = new RacAccountOneTo();
                         oneTo.setRealmId(appMo.getRealmId());

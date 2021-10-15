@@ -52,6 +52,7 @@ import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.turing.JwtUtils;
 
 /**
@@ -315,9 +316,9 @@ public class RacAccountCtrl {
         final Long         agentAccountIdFinal = agentAccountId;
         // 从Headers中获取应用ID
         final List<String> list                = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
-        final String       appId               = list.size() > 0 ? list.get(0) : null;
+        final String       appId               = list != null && list.size() > 0 ? list.get(0) : null;
         if (StringUtils.isBlank(appId)) {
-            throw new IllegalArgumentException("在Headers中找不到应用ID");
+            throw new RuntimeExceptionX("在Headers中找不到应用ID");
         }
         return Mono.create(callback -> callback.success(api.getCurAccountInfo(curAccountId, agentAccountIdFinal, appId)));
     }

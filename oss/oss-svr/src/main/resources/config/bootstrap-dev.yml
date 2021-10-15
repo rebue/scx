@@ -7,8 +7,8 @@ minio:
 # true 全路径http://127.0.0.1:9000/oss-svr/***
 # false 相对路径 /oss-svr/**
   urlPrefixBool: true
-  accessKey: AKIAIOSFODNN7EXAMPLE
-  secretKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  accessKey: minioadmin
+  secretKey: minioadmin
 
 robotech:
   # 用于生成ID，多服务实例情况下不要设置为0，应不同实例分配一个唯一的id，这样以此生成的ID才不会重复 

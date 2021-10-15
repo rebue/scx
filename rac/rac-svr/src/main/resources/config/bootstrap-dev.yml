@@ -6,8 +6,8 @@ minio:
 # true 全路径http://127.0.0.1:9000/oss-svr/***
 # false 相对路径 /oss-svr/**
   urlPrefixBool: true
-  accessKey: AKIAIOSFODNN7EXAMPLE
-  secretKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  accessKey: minioadmin
+  secretKey: minioadmin
 server:
   # 自定义端口号，方便开发测试
   port: 9605
