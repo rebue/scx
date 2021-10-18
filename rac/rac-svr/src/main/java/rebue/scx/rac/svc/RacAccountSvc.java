@@ -49,7 +49,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @Validated
 public interface RacAccountSvc
-    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -193,4 +193,25 @@ public interface RacAccountSvc
      * @return
      */
     List<RacAccountMo> getAccountByUnionId(Long unionId);
+
+    /**
+     * 管理员解除账户绑定钉钉
+     *
+     * @param id 被解绑的账户ID
+     */
+    void unbindDdModify(Long id);
+
+    /**
+     * 管理员解除账户绑定微信
+     *
+     * @param id 被解绑的账户ID
+     */
+    void unbindWxModify(Long id);
+
+    /**
+     * 账户解除关联用户
+     *
+     * @param id 需要解除的账户ID
+     */
+    void disassociateUser(Long id);
 }

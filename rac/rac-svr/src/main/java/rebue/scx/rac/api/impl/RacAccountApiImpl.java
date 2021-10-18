@@ -37,8 +37,8 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-    implements RacAccountApi {
+        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+        implements RacAccountApi {
 
     /**
      * 重置账户登录密码
@@ -70,6 +70,39 @@ public class RacAccountApiImpl extends
     public Ro<?> delUnionIdMapper(RacAccountUnionIdTo to) {
         _svc.delUnionIdMapper(to);
         return new Ro<>(ResultDic.SUCCESS, "删除映射成功");
+    }
+
+    /**
+     * 账户解除关联用户
+     *
+     * @param id 需要解除的账户ID
+     */
+    @Override
+    public Ro<?> disassociateUser(Long id) {
+        _svc.disassociateUser(id);
+        return new Ro<>(ResultDic.SUCCESS, "解除关联成功");
+    }
+
+    /**
+     * 管理员解除账户绑定钉钉
+     *
+     * @param id 被解绑的账户ID
+     */
+    @Override
+    public Ro<?> unbindDdModify(Long id) {
+        _svc.unbindDdModify(id);
+        return new Ro<>(ResultDic.SUCCESS, "解绑成功");
+    }
+
+    /**
+     * 管理员解除账户绑定微信
+     *
+     * @param id 被解绑的账户ID
+     */
+    @Override
+    public Ro<?> unbindWxModify(Long id) {
+        _svc.unbindWxModify(id);
+        return new Ro<>(ResultDic.SUCCESS, "解绑成功");
     }
 
     /**

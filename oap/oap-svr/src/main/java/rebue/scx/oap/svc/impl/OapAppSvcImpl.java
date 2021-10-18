@@ -160,7 +160,7 @@ public class OapAppSvcImpl
         modfiy.setId(to.getAppId());
         modfiy.setIsCertified(true);
         modfiy.setAuthnType(to.getAuthnType());
-        Ro<?> mod = racAppApi.modify(modfiy);
+        Ro<?> mod = racAppApi.oapModifyById(modfiy);
         if (mod.getResult().getCode() != 1) {
             throw new RuntimeExceptionX("添加记录异常");
         }
@@ -240,7 +240,7 @@ public class OapAppSvcImpl
             modfiy.setId(to.getAppId());
             modfiy.setIsCertified(to.getAuthnType().equals(0) ? false : true);
             modfiy.setAuthnType(to.getAuthnType());
-            Ro<?> mod = racAppApi.modify(modfiy);
+            Ro<?> mod = racAppApi.oapModifyById(modfiy);
             if (mod.getResult().getCode() != 1) {
                 throw new RuntimeExceptionX("修改记录异常");
             }
@@ -292,7 +292,7 @@ public class OapAppSvcImpl
         modfiy.setId(appMo.getAppId());
         modfiy.setIsCertified(false);
         modfiy.setAuthnType((byte) 0);
-        Ro<?> mod = racAppApi.modify(modfiy);
+        Ro<?> mod = racAppApi.oapModifyById(modfiy);
         if (mod.getResult().getCode() != 1) {
             throw new RuntimeExceptionX("删除记录异常");
         }

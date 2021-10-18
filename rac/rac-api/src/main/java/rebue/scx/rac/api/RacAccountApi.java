@@ -140,4 +140,25 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @return
      */
     Ro<ListRa<RacAccountMo>> getAccountByUnionId(Long unionId);
+
+    /**
+     * 管理员解除账户绑定钉钉
+     *
+     * @param id 被解绑的账户ID
+     */
+    Ro<?> unbindDdModify(Long id);
+
+    /**
+     * 管理员解除账户绑定微信
+     *
+     * @param id 被解绑的账户ID
+     */
+    Ro<?> unbindWxModify(Long id);
+
+    /**
+     * 账户解除关联用户
+     *
+     * @param id 需要解除的账户ID
+     */
+    Ro<?> disassociateUser(Long id);
 }

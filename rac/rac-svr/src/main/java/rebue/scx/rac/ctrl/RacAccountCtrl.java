@@ -48,6 +48,7 @@ import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.ex.PostParameterTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
@@ -78,7 +79,7 @@ public class RacAccountCtrl {
      * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "添加账户", opTitle = "添加账户: #{#p0.signInName}")
+    @RacOpLog(opType = "账户添加", opTitle = "账户添加: #{#p0.signInName}")
     @PostMapping("/rac/account")
     public Mono<Ro<IdRa<java.lang.Long>>> add(@RequestBody final RacAccountAddTo to) {
         return Mono.create(callback -> callback.success(api.add(to)));
@@ -93,7 +94,7 @@ public class RacAccountCtrl {
      * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "修改账户", opTitle = "修改账户: #{#p0.signInName}")
+    @RacOpLog(opType = "账户修改", opTitle = "账户修改: #{#p0.signInName}")
     @PutMapping("/rac/account")
     public Mono<Ro<?>> modify(@RequestBody final RacAccountModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
@@ -133,6 +134,39 @@ public class RacAccountCtrl {
     }
 
     /**
+     * 账户解除关联用户
+     *
+     * @param id 需要解除的账户ID
+     */
+    @RacOpLog(opType = "解除关联用户", opTitle = "解除关联用户: #{#p0}")
+    @PostMapping("/rac/account/disassociate-user")
+    public Mono<Ro<?>> disassociateUser(@RequestBody final PostParameterTo to) {
+        return Mono.create(callback -> callback.success(api.disassociateUser(to.getId())));
+    }
+
+    /**
+     * 管理员解除账户绑定钉钉
+     *
+     * @param id 被解绑的账户ID
+     */
+    @RacOpLog(opType = "解绑账户钉钉", opTitle = "解绑账户钉钉: #{#p0}")
+    @PostMapping("/rac/account/unbind-ding-talk")
+    public Mono<Ro<?>> unbindDdModify(@RequestBody final PostParameterTo to) {
+        return Mono.create(callback -> callback.success(api.unbindDdModify(to.getId())));
+    }
+
+    /**
+     * 管理员解除账户绑定微信
+     *
+     * @param id 被解绑的账户ID
+     */
+    @RacOpLog(opType = "解绑账户微信", opTitle = "解绑账户微信: #{#p0}")
+    @PostMapping("/rac/account/unbind-wechat-open")
+    public Mono<Ro<?>> unbindWxModify(@RequestBody final PostParameterTo to) {
+        return Mono.create(callback -> callback.success(api.unbindWxModify(to.getId())));
+    }
+
+    /**
      * 删除账户
      *
      * @mbg.dontOverWriteAnnotation
@@ -141,7 +175,7 @@ public class RacAccountCtrl {
      * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @RacOpLog(opType = "删除账户", opTitle = "删除账户: #{#p0}")
+    @RacOpLog(opType = "账户删除", opTitle = "账户删除: #{#p0}")
     @DeleteMapping("/rac/account")
     public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.del(id)));
@@ -207,7 +241,7 @@ public class RacAccountCtrl {
     }
 
     /**
-     * 重置账户登录密码
+     * 重置账户登录密码(12345678)
      *
      * @param to 修改账户登录密码的具体数据
      */
@@ -222,7 +256,7 @@ public class RacAccountCtrl {
      *
      * @param to 修改账户登录密码的具体数据
      */
-    @RacOpLog(opType = "修改账户密码", opTitle = "修改账户密码: #{#p0.id}")
+    @RacOpLog(opType = "账户密码修改", opTitle = "账户密码修改: #{#p0.id}")
     @PutMapping("/rac/account/modify-sign-in-by-old-pswd")
     public Mono<Ro<?>> modifySignInByOldPswd(@RequestBody final RacAccountModifySignInByOldPswdTo to) {
         return Mono.create(callback -> callback.success(api.modifySignInByOldPswd(to)));

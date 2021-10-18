@@ -356,7 +356,7 @@ public class RacAccountSvcImpl extends
     }
 
     /**
-     * 解除绑定微信钉钉的信息
+     * 用户解除绑定微信钉钉的信息
      *
      * @param to 只需要上传微信/钉钉的信息
      */
@@ -381,11 +381,69 @@ public class RacAccountSvcImpl extends
                 if (one == null) {
                     throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
                 }
-                _mapper.unbindWechatOpen(one.getId());
+                int unbindWechatOpen = _mapper.unbindWechatOpen(one.getId());
+                if (unbindWechatOpen != 1) {
+                    throw new RuntimeExceptionX("解除绑定异常信息，请确认后再试");
+                }
             }
             else {
                 throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
             }
+    }
+
+    /**
+     * 管理员解除账户绑定钉钉
+     *
+     * @param id 被解绑的账户ID
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void unbindDdModify(Long id) {
+        RacAccountMo one = thisSvc.getById(id);
+        if (one == null) {
+            throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
+        }
+        int unbindDingTalk = _mapper.unbindDingTalk(one.getId());
+        if (unbindDingTalk != 1) {
+            throw new RuntimeExceptionX("解除绑定异常信息，请确认后再试");
+        }
+    }
+
+    /**
+     * 管理员解除账户绑定微信
+     *
+     * @param id 被解绑的账户ID
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void unbindWxModify(Long id) {
+        RacAccountMo one = thisSvc.getById(id);
+        if (one == null) {
+            throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
+        }
+        int unbindWechatOpen = _mapper.unbindWechatOpen(one.getId());
+        if (unbindWechatOpen != 1) {
+            throw new RuntimeExceptionX("解除绑定异常信息，请确认后再试");
+        }
+    }
+
+    /**
+     * 账户解除关联用户
+     *
+     * @param id 需要解除的账户ID
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void disassociateUser(Long id) {
+        RacAccountMo one = thisSvc.getById(id);
+        if (one == null) {
+            throw new RuntimeExceptionX("查找不到该账户的信息，请确认后再试！");
+        }
+        int disassociateUser = _mapper.disassociateUser(one.getId());
+        if (disassociateUser != 1) {
+            throw new RuntimeExceptionX("解除关联异常信息，请确认后再试");
+        }
+
     }
 
     /**

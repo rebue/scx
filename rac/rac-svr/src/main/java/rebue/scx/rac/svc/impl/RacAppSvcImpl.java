@@ -162,6 +162,20 @@ public class RacAppSvcImpl
         return appMo;
     }
 
+    /**
+     * 通过ID修改记录内容(oap服务调用修改)
+     *
+     * @param to 修改的参数，必须包含ID
+     *
+     * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public RacAppMo oapModifyById(final RacAppModifyTo to) {
+        final RacAppMo mo = OrikaUtils.map(to, getMoClass());
+        return this.modifyMoById(mo);
+    }
+
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacAppMo modifyMoById(RacAppMo mo) {

@@ -68,4 +68,13 @@ public interface RacAppSvc extends BaseSvc<java.lang.String, RacAppAddTo, RacApp
      * 根据应用ID查询对应的认证信息
      */
     List<RacAppTagMo> listInAppIdList(List<String> appIds);
+
+    /**
+     * 通过ID修改记录内容(oap服务调用修改)
+     *
+     * @param to 修改的参数，必须包含ID
+     *
+     * @return 如果成功，且仅修改一条记录，正常返回，否则会抛出运行时异常
+     */
+    RacAppMo oapModifyById(RacAppModifyTo to);
 }
