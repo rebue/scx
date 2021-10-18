@@ -35,7 +35,7 @@ oidc:
   token-endpoint: https://auth.maiyuesoft.com/oap-svr/oap/token
   redirect-uri: https://auth.maiyuesoft.com/orp-svr/orp/callback
   public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx1PdAIB021x1DExsXPO7hgzE0EASZiFoQh5F4X0H8lZrdCVG+Qk6ek9Aowp4bUnAf93PiM4A0L9zjck8jOedd6gbRPifsqdtDWx4jlfy7nGUd3LUF3wFH7VwNlCTkMucetnxFuNtGMVM8rz/YCXAYv6pYi56vq7BWlNh373qhVhqxY6SBs2qo5hxWe/zpv6CqxAXSKjcCJVLQhe7jnfWGJbLPnwSTK/b/jVtic/e9rD7EdSfPF3rt5TSqEdsX0EHHUSLFLUbpDOQzSBXdyGsAHQdeytr/i5AVi3BOKV9k5h1ricIZta6KD7krxZk60o70fWDF+0DQVQD5upWEeRLdQIDAQAB
-  login-url: https://auth.maiyuesoft.com/admin-web/unified-auth/#/sign-in/unified
+  login-url: https://auth.maiyuesoft.com/admin-web/unified-auth/sign-in/unified
 orp:
   state-cache-expiration: PT5M
   strategies:
