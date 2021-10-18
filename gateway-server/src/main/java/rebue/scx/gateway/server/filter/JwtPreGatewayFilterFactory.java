@@ -124,7 +124,11 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                             accountMo = oneMo;
                         }
                         else {
-                            throw new RuntimeExceptionX("查找不到当前账户: " + accountId + "的联合账户:" + accountMo.getId());
+                            final ServerHttpResponse response = exchange.getResponse();
+                            // 403:没有访问该资源的权限
+                            response.setStatusCode(HttpStatus.FORBIDDEN);
+                            return response.setComplete();
+                            // throw new IllegalArgumentException("查找不到当前账户: " + accountId + "的联合账户:" + accountMo.getId());
                         }
                     }
                     final Ro<ListRa<String>> urnsRo = racPermUrnApi.getUrnsOfAccount(accountMo.getId());

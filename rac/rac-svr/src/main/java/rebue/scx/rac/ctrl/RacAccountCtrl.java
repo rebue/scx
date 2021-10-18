@@ -138,7 +138,7 @@ public class RacAccountCtrl {
      *
      * @param id 需要解除的账户ID
      */
-    @RacOpLog(opType = "解除关联用户", opTitle = "解除关联用户: #{#p0}")
+    @RacOpLog(opType = "解除关联用户", opTitle = "解除关联用户: #{#p0.id}")
     @PostMapping("/rac/account/disassociate-user")
     public Mono<Ro<?>> disassociateUser(@RequestBody final PostParameterTo to) {
         return Mono.create(callback -> callback.success(api.disassociateUser(to.getId())));
@@ -149,7 +149,7 @@ public class RacAccountCtrl {
      *
      * @param id 被解绑的账户ID
      */
-    @RacOpLog(opType = "解绑账户钉钉", opTitle = "解绑账户钉钉: #{#p0}")
+    @RacOpLog(opType = "解绑账户钉钉", opTitle = "解绑账户钉钉: #{#p0.id}")
     @PostMapping("/rac/account/unbind-ding-talk")
     public Mono<Ro<?>> unbindDdModify(@RequestBody final PostParameterTo to) {
         return Mono.create(callback -> callback.success(api.unbindDdModify(to.getId())));
@@ -160,7 +160,7 @@ public class RacAccountCtrl {
      *
      * @param id 被解绑的账户ID
      */
-    @RacOpLog(opType = "解绑账户微信", opTitle = "解绑账户微信: #{#p0}")
+    @RacOpLog(opType = "解绑账户微信", opTitle = "解绑账户微信: #{#p0.id}")
     @PostMapping("/rac/account/unbind-wechat-open")
     public Mono<Ro<?>> unbindWxModify(@RequestBody final PostParameterTo to) {
         return Mono.create(callback -> callback.success(api.unbindWxModify(to.getId())));
@@ -179,18 +179,6 @@ public class RacAccountCtrl {
     @DeleteMapping("/rac/account")
     public Mono<Ro<?>> del(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.del(id)));
-    }
-
-    /**
-     * 通过unionId查询账户
-     *
-     * @param unionId
-     *
-     * @return
-     */
-    @GetMapping("/rac/account/get-account-by-union-id")
-    public Mono<Ro<ListRa<RacAccountMo>>> getAccountByUnionId(@RequestParam("unionId") final java.lang.Long unionId) {
-        return Mono.create(callback -> callback.success(api.getAccountByUnionId(unionId)));
     }
 
     /**
@@ -379,6 +367,18 @@ public class RacAccountCtrl {
     @GetMapping("/rac/account/get-account-by-user")
     public Mono<Ro<PageRa<RacAccountMo>>> getAccountByUser(final RacAccountByUserTo to) {
         return Mono.create(callback -> callback.success(api.getAccountByUser(to)));
+    }
+
+    /**
+     * 通过unionId查询账户
+     *
+     * @param unionId
+     *
+     * @return
+     */
+    @GetMapping("/rac/account/get-account-by-union-id")
+    public Mono<Ro<ListRa<RacAccountMo>>> getAccountByUnionId(@RequestParam("unionId") final java.lang.Long unionId) {
+        return Mono.create(callback -> callback.success(api.getAccountByUnionId(unionId)));
     }
 
     /**

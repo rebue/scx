@@ -210,7 +210,7 @@ public class RacAccountSvcImpl extends
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public RacAccountMo modifyMoById(final RacAccountMo mo) {
+    public RacAccountMo modifyPswdById(final RacAccountMo mo) {
         if (StringUtils.isNotBlank(mo.getSignInPswd())) {
             // 随机生成盐值
             mo.setSignInPswdSalt(PswdUtils.randomSalt());
@@ -232,7 +232,7 @@ public class RacAccountSvcImpl extends
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(to.getId());
         mo.setSignInPswd(to.getSignInPswd());
-        thisSvc.modifyMoById(mo);
+        thisSvc.modifyPswdById(mo);
     }
 
     /**
@@ -245,13 +245,24 @@ public class RacAccountSvcImpl extends
     public RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to) {
         RacAccountMo srcMo = thisSvc.getById(to.getSrcId());
         RacAccountMo dstMo = thisSvc.getById(to.getDstId());
-        if (srcMo.getUnionId() != null) {
+        if (srcMo.getUnionId() != null && dstMo.getUnionId() == null) {
             dstMo.setUnionId(srcMo.getUnionId());
             thisSvc.modifyMoById(dstMo);
+
         }
-        else if (dstMo.getUnionId() != null) {
+        else if (dstMo.getUnionId() != null && srcMo.getUnionId() == null) {
             srcMo.setUnionId(dstMo.getUnionId());
             thisSvc.modifyMoById(srcMo);
+        }
+        if (dstMo.getUnionId() != null && srcMo.getUnionId() != null) {
+            RacAccountListTo unIdMo = new RacAccountListTo();
+            unIdMo.setUnionId(dstMo.getUnionId());
+            dstMo.setUnionId(srcMo.getUnionId());
+            thisSvc.modifyMoById(dstMo);
+            List<RacAccountMo> list = thisSvc.list(unIdMo);
+            if (list != null && list.size() == 1) {
+                _mapper.setUnionIdIsNull(list.get(0).getId());
+            }
         }
         else {
             Long unionId = _idWorker.getId();
@@ -271,7 +282,19 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delUnionIdMapper(RacAccountUnionIdTo to) {
-        int count = _mapper.setUnionIdIsNull(to.getDstId());
+        RacAccountMo     srcMo  = thisSvc.getById(to.getSrcId());
+        RacAccountListTo unIdMo = new RacAccountListTo();
+        unIdMo.setUnionId(srcMo.getUnionId());
+        List<RacAccountMo> list  = thisSvc.list(unIdMo);
+        int                count = 0;
+        // 如果该unionId只有两条帐号映射关系，则去除两个帐号的unionId
+        if (list != null && list.size() == 2) {
+            _mapper.setUnionIdIsNull(list.get(0).getId());
+            _mapper.setUnionIdIsNull(list.get(1).getId());
+        }
+        else {
+            count = _mapper.setUnionIdIsNull(to.getDstId());
+        }
         if (count == 0) {
             throw new RuntimeExceptionX("操作记录异常，记录已不存在或有变动");
         }

@@ -214,4 +214,6 @@ public interface RacAccountSvc
      * @param id 需要解除的账户ID
      */
     void disassociateUser(Long id);
+
+    RacAccountMo modifyPswdById(RacAccountMo mo);
 }
