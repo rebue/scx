@@ -289,8 +289,8 @@ public class RacAccountSvcImpl extends
         int                count = 0;
         // 如果该unionId只有两条帐号映射关系，则去除两个帐号的unionId
         if (list != null && list.size() == 2) {
-            _mapper.setUnionIdIsNull(list.get(0).getId());
-            _mapper.setUnionIdIsNull(list.get(1).getId());
+            count = _mapper.setUnionIdIsNull(list.get(0).getId());
+            count = _mapper.setUnionIdIsNull(list.get(1).getId());
         }
         else {
             count = _mapper.setUnionIdIsNull(to.getDstId());
@@ -621,11 +621,12 @@ public class RacAccountSvcImpl extends
                 accountMo = oneMo;
             }
             else {
-                return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
+                return new Ro<>(ResultDic.WARN, "该应用下,查找不到账户,请确认是否存在关联映射帐号");
             }
         }
         if (accountMo == null) {
-            return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
+            return new Ro<>(ResultDic.WARN, "该应用下,查找不到账户,请确认是否存在关联映射帐号");
+            // return new Ro<>(ResultDic.WARN, "查找不到当前账户: " + curAccountId);
         }
         if (accountMo.getOrgId() != null) {
             final RacOrgMo racOrgMo = racOrgSvc.getById(accountMo.getOrgId());
