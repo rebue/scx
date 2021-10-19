@@ -278,10 +278,12 @@ public class RacAccountSvcImpl extends
      * 删除账户unionId映射
      *
      * @param to 删除的具体信息
+     * 
+     * @return
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void delUnionIdMapper(RacAccountUnionIdTo to) {
+    public RacAccountMo delUnionIdMapper(RacAccountUnionIdTo to) {
         RacAccountMo     srcMo  = thisSvc.getById(to.getSrcId());
         RacAccountListTo unIdMo = new RacAccountListTo();
         unIdMo.setUnionId(srcMo.getUnionId());
@@ -301,6 +303,7 @@ public class RacAccountSvcImpl extends
         if (count != 1) {
             throw new RuntimeExceptionX("操作记录异常，影响行数为" + count);
         }
+        return thisSvc.getById(to.getSrcId());
     }
 
     /**

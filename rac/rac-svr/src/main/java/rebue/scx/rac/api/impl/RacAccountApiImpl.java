@@ -68,8 +68,7 @@ public class RacAccountApiImpl extends
      */
     @Override
     public Ro<?> delUnionIdMapper(RacAccountUnionIdTo to) {
-        _svc.delUnionIdMapper(to);
-        return new Ro<>(ResultDic.SUCCESS, "删除映射成功");
+        return new Ro<>(ResultDic.SUCCESS, "删除映射成功", _svc.delUnionIdMapper(to));
     }
 
     /**

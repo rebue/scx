@@ -182,8 +182,10 @@ public interface RacAccountSvc
      * 删除账户unionId映射
      *
      * @param to 删除的具体信息
+     * 
+     * @return
      */
-    void delUnionIdMapper(RacAccountUnionIdTo to);
+    RacAccountMo delUnionIdMapper(RacAccountUnionIdTo to);
 
     /**
      * 通过unionId查询账户
