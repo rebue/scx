@@ -173,6 +173,7 @@ public class OidcSvcImpl implements OidcSvc {
         if (!redirectUris.match(r)) {
             return Ro.fail("重定向地址错误");
         }
+        response.getCookies().remove(OidcConfig.AUTH_INFO);
         return Ro.success(URI.create(redirect.getLocation().toString()).toString());
     }
 
