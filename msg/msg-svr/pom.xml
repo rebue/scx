@@ -5,71 +5,53 @@
 
 	<parent>
 		<groupId>com.github.rebue.scx</groupId>
-		<artifactId>rac</artifactId>
+		<artifactId>msg</artifactId>
 		<version>1.2.4</version>
 	</parent>
 
-	<artifactId>rac-svr</artifactId>
+	<artifactId>msg-svr</artifactId>
 
 	<dependencies>
+		<!-- 接入极光短信SDK -->
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jsms-client</artifactId>
+			<version>1.2.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+<!-- 			<version>2.3</version> -->
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jiguang-common</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+ 		<!-- For log4j --> 
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.slf4j</groupId> -->
+<!-- 			<artifactId>slf4j-log4j12</artifactId> -->
+<!-- 			<version>1.7.7</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>log4j</groupId> -->
+<!-- 			<artifactId>log4j</artifactId> -->
+<!-- 			<version>1.2.17</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
-			<artifactId>cap-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.rebue.scx</groupId>
-			<artifactId>rac-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.scx</groupId>
-			<artifactId>rac-oplog</artifactId>
-			<version>1.2.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.scx</groupId>
-			<artifactId>jwt-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>1.27</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-net</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-turing</artifactId>
+			<artifactId>msg-api</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.rebue.robotech</groupId>
 			<artifactId>robotech-bll</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.sbs</groupId>
-			<artifactId>amqp-spring-boot-starter</artifactId>
-		</dependency>
-
-		<!-- 此包顺序必须放在sb-spring-boot-starter前面，否则启动"APPLICATION FAILED TO START"，会报 -->
-		<!-- An attempt was made to call a method that does not exist. The attempt was made from the following location: -->
-		<!-- rebue.sbs.cache.CacheConfig.setCacheBuilder(CacheConfig.java:164) -->
-		<!-- The following method did not exist: -->
-		<!-- org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine.getSpecs()Ljava/util/Map; -->
-		<!-- The method's class, org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine, is available from the following locations: -->
-		<dependency>
-			<groupId>com.github.rebue.sbs</groupId>
-			<artifactId>cache-spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.rebue.sbs</groupId>
-			<artifactId>minio-spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -111,17 +93,26 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-net</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- SpringBoot服务项目打包插件，会分全包和原始包，并且会配置MANIFEST.MF文件设置运行的主类 -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- 制作docker镜像的插件 -->
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
@@ -143,10 +134,10 @@
 				<configuration>
 					<!-- 此选项指定在settings.xml文件中设置的server -->
 					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
-					<!-- 部署到私服 -->
-					<!-- <repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository> -->
+					<!-- 部署到私服，${my-docker.host}在settins.xml中统一配置 -->
+					<repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository>
 					<!-- 部署到hub.docker.com -->
-					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<!-- <repository>${docker.image.prefix}/${project.artifactId}</repository> -->
 					<tag>${project.version}</tag>
 					<buildArgs>
 						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>

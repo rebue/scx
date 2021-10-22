@@ -29,4 +29,6 @@ public class PostParameterTo implements Serializable {
      */
     private Long              id;
 
+    private String            content;
+
 }

@@ -1,0 +1,321 @@
+package rebue.scx.orp.ctrl;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.Yaml;
+
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.config.ConfigType;
+import com.alibaba.nacos.api.exception.NacosException;
+
+import reactor.core.publisher.Mono;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
+import rebue.scx.orp.ra.YamlRa;
+import rebue.scx.orp.to.NacosAddTo;
+import rebue.scx.orp.to.NacosDelTo;
+import rebue.scx.orp.to.NacosModifyTo;
+import rebue.scx.rac.ann.RacOpLog;
+import rebue.wheel.api.exception.RuntimeExceptionX;
+import rebue.wheel.core.YamlUtils;
+
+/***
+ * 配置信息
+ * 
+ * @author yuanman
+ *
+ */
+@RestController
+@RefreshScope
+public class OrpNacosCtrl {
+    @Value("${spring.cloud.nacos.config.server-addr:127.0.0.1:8848}")
+    private String serverAddr;
+
+    /**
+     * 获取配置信息
+     */
+    @GetMapping("/get/nacos/config")
+    public Mono<Ro<?>> getNacosConfig() {
+        List<Object>              list              = new ArrayList<Object>();
+        String                    ymlStr            = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        List<Map<String, String>> dingTalkMapList   = YamlUtils.getAsMapList(ymlStr, "orp.strategies.ding-talk.clients");
+        List<Map<String, String>> wechatOpenMapList = YamlUtils.getAsMapList(ymlStr, "orp.strategies.wechat-open.clients");
+        YamlRa                    ra                = new YamlRa();
+        ra.setDingTalkMapList(dingTalkMapList);
+        ra.setWechatOpenMapList(wechatOpenMapList);
+        list.add(dingTalkMapList);
+        list.add(wechatOpenMapList);
+        Ro<?> ro = new Ro<>(ResultDic.SUCCESS, "查询成功", ra);
+        return Mono.create(callback -> callback.success(ro));
+    }
+
+    /**
+     * 添加配置信息
+     *
+     * @param to
+     */
+    @RacOpLog(opType = "添加配置信息", opTitle = "添加配置类型: #{#p0.configType}")
+    @PostMapping("/nacos/publish/add-config")
+    public Mono<Ro<?>> addPublishConfig(@RequestBody final NacosAddTo to) {
+        Map<String, String> hashedMap = new HashedMap();
+        hashedMap.put("id", to.getNewAppKey());
+        hashedMap.put("secret", to.getNewAppSecret());
+        hashedMap.put("name", to.getNewName());
+        if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
+            throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
+        }
+        String                    key             = "orp.strategies." + to.getConfigType() + ".clients";
+        String                    type            = ConfigType.YAML.getType();
+        String                    ymlStr          = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
+        dingTalkMapList.add(hashedMap);
+        ymlStr = YamlUtils.setAsMapList(ymlStr, key, dingTalkMapList);
+
+        boolean config = publishConfig("orp-svr-dev.yaml", "REBUE", ymlStr, type);
+        if (config) {
+            Ro<Boolean> ro = new Ro<>(ResultDic.SUCCESS, "提交成功", config);
+            return Mono.create(callback -> callback.success(ro));
+        }
+        else {
+            Ro<Boolean> ro = new Ro<>(ResultDic.FAIL, "提交失败", config);
+            return Mono.create(callback -> callback.success(ro));
+        }
+    }
+
+    /**
+     * 修改配置信息
+     *
+     * @param to
+     */
+    @RacOpLog(opType = "修改配置信息", opTitle = "修改配置类型: #{#p0.configType}")
+    @PostMapping("/nacos/publish/modify-config")
+    public Mono<Ro<?>> publishConfig(@RequestBody final NacosModifyTo to) {
+        if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
+            throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
+        }
+        String                    key             = "orp.strategies." + to.getConfigType() + ".clients";
+        String                    type            = ConfigType.YAML.getType();
+        String                    ymlStr          = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
+        dingTalkMapList.stream().map(item -> {
+            Iterator<Entry<String, String>> entrySet   = item.entrySet().iterator();
+            boolean                         nameFlag   = false;
+            boolean                         idFlag     = false;
+            boolean                         secretFlag = false;
+            while (entrySet.hasNext()) {
+                Entry<String, String> map = entrySet.next();
+                if (map.getKey().equals("id") && map.getValue().equals(to.getOldAppKey()))
+                    idFlag = true;
+                if (map.getKey().equals("secret") && map.getValue().equals(to.getOldAppSecret()))
+                    secretFlag = true;
+                if (map.getKey().equals("name") && map.getValue().equals(to.getOldName()))
+                    nameFlag = true;
+            }
+            if (idFlag) {
+                item.put("id", to.getNewAppKey());
+            }
+            if (secretFlag) {
+                item.put("secret", to.getNewAppSecret());
+            }
+            if (nameFlag) {
+                item.put("name", to.getNewName());
+            }
+            return item;
+        }).collect(Collectors.toList());
+        ymlStr = YamlUtils.setAsMapList(ymlStr, key, dingTalkMapList);
+
+        boolean config = publishConfig("orp-svr-dev.yaml", "REBUE", ymlStr, type);
+        if (config) {
+            Ro<Boolean> ro = new Ro<>(ResultDic.SUCCESS, "提交成功", config);
+            return Mono.create(callback -> callback.success(ro));
+        }
+        else {
+            Ro<Boolean> ro = new Ro<>(ResultDic.FAIL, "提交失败", config);
+            return Mono.create(callback -> callback.success(ro));
+        }
+    }
+
+    /**
+     * 删除配置信息
+     *
+     * @param to
+     */
+    @RacOpLog(opType = "删除配置信息", opTitle = "删除配置类型: #{#p0.configType}")
+    @PostMapping("/nacos/publish/del-config")
+    public Mono<Ro<?>> delPublishConfig(@RequestBody final NacosDelTo to) {
+        if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
+            throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
+        }
+        String                    key             = "orp.strategies." + to.getConfigType() + ".clients";
+        String                    type            = ConfigType.YAML.getType();
+        String                    ymlStr          = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
+        dingTalkMapList.stream().map(item -> {
+            Iterator<Entry<String, String>> entrySet   = item.entrySet().iterator();
+            boolean                         clearFlag  = false;
+            boolean                         idFlag     = false;
+            boolean                         secretFlag = false;
+            while (entrySet.hasNext()) {
+                Entry<String, String> map = entrySet.next();
+                if (map.getKey().equals("id") && map.getValue().equals(to.getOldAppKey()))
+                    idFlag = true;
+                if (map.getKey().equals("secret") && map.getValue().equals(to.getOldAppSecret()))
+                    secretFlag = true;
+                if (idFlag && secretFlag) {
+                    clearFlag = true;
+                }
+            }
+            if (clearFlag) {
+                item.clear();
+            }
+            return item;
+        }).collect(Collectors.toList());
+        ymlStr = YamlUtils.setAsMapList(ymlStr, key, dingTalkMapList);
+
+        boolean config = publishConfig("orp-svr-dev.yaml", "REBUE", ymlStr, type);
+        if (config) {
+            Ro<Boolean> ro = new Ro<>(ResultDic.SUCCESS, "提交成功", config);
+            return Mono.create(callback -> callback.success(ro));
+        }
+        else {
+            Ro<Boolean> ro = new Ro<>(ResultDic.FAIL, "提交失败", config);
+            return Mono.create(callback -> callback.success(ro));
+        }
+    }
+
+    /**
+     * 修改yaml文件字符串格式把注解带上
+     *
+     */
+    public String modifyYamlStr(String ymlStr) {
+        Yaml yaml;
+        yaml = new Yaml();
+        Object                          ymlProperties  = yaml.load(ymlStr);
+        String[]                        split          = ymlStr.split("\\n");
+        Map<String, Object>             strArrayToMap  = StrArrayToMap(split);
+        String                          ymlProperties1 = yaml.dumpAsMap(ymlProperties);
+        Iterator<Entry<String, Object>> iterator       = strArrayToMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Object> entry   = iterator.next();
+            boolean                   isEmpty = entry.getKey().isEmpty();
+            if (isEmpty) {
+                break;
+            }
+            String key   = entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof List<?>) {
+                List<String> valist  = (List<String>) value;
+                String       collect = valist.stream().map(str -> {
+                                         return str;
+                                     }).collect(Collectors.joining("\n")) + "\n";
+                ymlProperties1 = ymlProperties1.replace(key, collect + key);
+            }
+        }
+        return ymlProperties1;
+    }
+
+    /**
+     * 找出注解的行和被注解的行
+     *
+     * @param split
+     *
+     * @return Map<被注解行,注解行>
+     */
+    public Map<String, Object> StrArrayToMap(String[] split) {
+        List<String>        list       = new ArrayList<String>();
+        Map<String, Object> map        = new HashedMap();
+        boolean             searchFalg = false;
+        boolean             setMapFalg = false;
+        for (String str : split) {
+            List<String> keyValue = new ArrayList<String>();
+            int          indexOf  = str.indexOf("#");
+            if (indexOf != -1) {
+                // 去除空格
+                String  replaceAll = str.trim();
+                // 判断是否是#开头
+                boolean startsWith = replaceAll.startsWith("#");
+                if (startsWith) {
+                    list.add(str);
+                    searchFalg = true;
+                }
+            }
+            if (searchFalg && indexOf == -1) {
+                String key = str;
+                searchFalg = false;
+                keyValue.addAll(list);
+                map.put(key, keyValue);
+                list = new ArrayList<String>();
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 获取配置信息
+     *
+     * @param dataId    文件名
+     * @param group     分组名
+     * @param timeoutMs 读取的最大时间
+     *
+     * @return 配置内容
+     */
+    public String getConfig(String dataId, String group, long timeoutMs) {
+        String content = null;
+        try {
+            // String serverAddr = "127.0.0.1:8848";
+            // String dataId = "{dataId}";
+            // String group = "{group}";
+            Properties properties = new Properties();
+            properties.put("serverAddr", serverAddr);
+            ConfigService configService = NacosFactory.createConfigService(properties);
+            content = configService.getConfig(dataId, group, 5000);
+        } catch (NacosException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+    /**
+     * 发布配置信息
+     *
+     * @param dataId  文件名
+     * @param group   分组名
+     * @param content 配置信息
+     *
+     * @return 是否成功boolean
+     */
+    public boolean publishConfig(String dataId, String group, String content, String type) {
+        boolean isPublishOk = false;
+        try {
+            // 初始化配置服务，控制台通过示例代码自动获取下面参数
+            // String serverAddr = "127.0.0.1:8848";
+            // String dataId = "{dataId}";
+            // String group = "{group}";
+            Properties properties = new Properties();
+            properties.put("serverAddr", serverAddr);
+            ConfigService configService = NacosFactory.createConfigService(properties);
+            isPublishOk = configService.publishConfig(dataId, group, content, type);
+        } catch (NacosException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return isPublishOk;
+
+    }
+
+}

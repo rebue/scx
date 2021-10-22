@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: orp-svr
+    name: msg-svr
   profiles:
     active: dev
   main:
@@ -14,15 +14,20 @@ spring:
 #    web-application-type: none
   autoconfigure:
     exclude:
+      # 项目中禁用Redis(如果使用了Redis，请删除下面两行)
+      # - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      # - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
       # 项目中禁用数据库(如果使用了数据库，请删除下面三行)
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
       - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
-  rabbitmq:
-    # 确保消息成功发送到交换器(发布者才用配置)
-    publisher-confirm-type: SIMPLE
-    # 确保消息在未被队列接收时返回(发布者才用配置)
-    publisher-returns: true      
+  jpa:
+    # 打印SQL
+    show-sql: true
+    hibernate:
+      naming:
+        # 识别大写表
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   cloud:
     nacos:
       discovery:
@@ -37,7 +42,7 @@ spring:
 dubbo:
   scan:
     # dubbo 服务扫描基准包
-    base-packages: rebue.scx.orp.api
+    base-packages: rebue.scx.msg.api
   protocol:
     # dubbo 协议
     name: dubbo
@@ -53,4 +58,17 @@ dubbo:
   cloud:
     # 默认订阅所有服务，影响性能，需直接指定要订阅的服务，如无可置为空，如有多个用逗号隔开
     # 请注意，这里去除默认给开发埋了一个雷，如果忘记添加依赖的微服务，启动时会报没有发现依赖的微服务注册的错，很难想到是这里的问题
-    subscribed-services: oap-svr, rac-svr
+    subscribed-services:
+
+mybatis:
+  configuration:
+    # 自动将数据库中用下划线分隔单词的风格转换为小驼峰风格
+    map-underscore-to-camel-case: true
+    # 自动转化枚举类型
+    default-enum-type-handler: rebue.robotech.mybatis.AutoEnumTypeHandler
+
+pagehelper:
+  # 分页合理化参数。
+  # 当该参数设置为 true 时，pageNum<=0 时会查询第一页， 
+  # pageNum>pages（超过总数时），会查询最后一页。
+  reasonable: true

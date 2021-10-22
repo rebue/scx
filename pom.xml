@@ -27,6 +27,7 @@
 		<module>cap</module>
 		<module>bat-generator</module>
 		<module>etl</module>
+		<module>msg</module>
 	</modules>
 
 	<dependencyManagement>
