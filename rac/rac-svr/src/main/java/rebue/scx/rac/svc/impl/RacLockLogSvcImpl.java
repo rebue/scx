@@ -1,6 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -45,8 +47,8 @@ import rebue.scx.rac.to.RacLockLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacLockLogSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogMapper, RacLockLogDao>
-    implements RacLockLogSvc {
+        BaseSvcImpl<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo, RacLockLogMapper, RacLockLogDao>
+        implements RacLockLogSvc {
 
     /**
      * 本服务的单例
@@ -108,5 +110,21 @@ public class RacLockLogSvcImpl extends
         // final MO mo = _dozerMapper.map(qo, getMoClass());
         final ISelect select = () -> _mapper.selectEx(qo);
         return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+    }
+
+    /**
+     * 账户概况
+     * 传参时间和关键字keywords 取值为：账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户
+     * 
+     * @param qo
+     */
+    @Override
+    public Map<String, Long> countSurvey(RacLockLogPageTo qo) {
+        Map<String, Long> map             = new HashMap<String, Long>();
+        long              countLockSurvey = _mapper.countLockSurvey(qo);
+        map.put("账户锁定", countLockSurvey);
+        long countUnlockSurvey = _mapper.countUnlockSurvey(qo);
+        map.put("账户解锁", countUnlockSurvey);
+        return map;
     }
 }

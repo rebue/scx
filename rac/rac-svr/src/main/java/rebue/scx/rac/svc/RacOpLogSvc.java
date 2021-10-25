@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc;
 
+import java.util.Map;
+
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.svc.BaseSvc;
@@ -28,5 +30,12 @@ import rebue.scx.rac.to.RacOpLogPageTo;
  */
 @Validated
 public interface RacOpLogSvc
-    extends BaseSvc<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo> {
+        extends BaseSvc<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo> {
+    /**
+     * 账户概况
+     * 传参时间和关键字keywords 取值为：账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户
+     * 
+     * @param qo
+     */
+    Map<String, Long> countSurvey(RacOpLogPageTo qo);
 }

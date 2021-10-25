@@ -7,6 +7,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import rebue.robotech.ro.Ro;
 import rebue.scx.msg.api.TemplateMessageSendingApi;
 import rebue.scx.msg.svc.TemplateMessageSendingSvc;
+import rebue.scx.msg.to.MsgSMSTo;
 
 @DubboService
 public class TemplateMessageSendingApiImpl implements TemplateMessageSendingApi {
@@ -20,9 +21,17 @@ public class TemplateMessageSendingApiImpl implements TemplateMessageSendingApi 
      * @param code
      */
     @Override
-    public Ro<?> sendTemplateSMS(String phoneNumber, String code) {
-        return svc.sendTemplateSMS(phoneNumber, code);
+    public Ro<?> sendTemplateSMS(String phoneNumber) {
+        return svc.sendTemplateSMS(phoneNumber);
+    }
 
+    /**
+     * 短信验证码校验
+     * 
+     */
+    @Override
+    public Ro<?> msgSMSVerification(MsgSMSTo to) {
+        return svc.msgSMSVerification(to);
     }
 
 }

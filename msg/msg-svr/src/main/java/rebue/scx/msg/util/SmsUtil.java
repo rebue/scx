@@ -3,6 +3,7 @@ package rebue.scx.msg.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +18,16 @@ import cn.jsms.api.common.model.SMSPayload;
 public class SmsUtil {
 
     // masterSecret
+    @Value("${msg.sms.masterSecret:e92f7f27dbd27bf0f1157c61}")
     public String     masterSecret = "e92f7f27dbd27bf0f1157c61";
     // appKey
+    @Value("${msg.sms.appKey:823ebe289daa183f863eee73}")
     public String     appKey       = "823ebe289daa183f863eee73";
     // 短信模板ID
+    @Value("${msg.sms.tempId:202223}")
     public int        tempId       = 202223;
     // 签名id
+    @Value("${msg.sms.signId:20492}")
     public int        signId       = 20492;
     // 初始化发短信客户端
     private SMSClient smsClient    = new SMSClient(masterSecret, appKey);
@@ -31,6 +36,7 @@ public class SmsUtil {
      * 发送模板短信-验证码
      * 
      * @param phoneNumber
+     * @param code
      */
     public void sendSMSCode(String phoneNumber, String code) {
         try {
@@ -92,6 +98,7 @@ public class SmsUtil {
              */
             // insertSendSmsLog(res.getMessageId(),phoneNumber,code,0,System.currentTimeMillis()/1000);
             // 执行业务/
+            System.out.println(res);
         } catch (APIConnectionException e) {
             e.printStackTrace();
         } catch (APIRequestException e) {

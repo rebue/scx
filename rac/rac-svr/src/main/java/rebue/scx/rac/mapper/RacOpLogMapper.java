@@ -2,7 +2,9 @@ package rebue.scx.rac.mapper;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThanWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLessThanWhenPresent;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.accountId;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.agentId;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.appId;
@@ -355,11 +357,19 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
         return selectList;
     }
 
-    default long selectCount(RacOpLogPageTo record) {
-        SelectStatementProvider select = SqlBuilder.select(racOpLog.allColumns()).from(racOpLog)
-                .where(racOpLog.opDatetime, isEqualTo(record.getEndDate()))
+    /**
+     * 今日账户概况
+     * 
+     * @param record
+     */
+    default long countSurvey(RacOpLogPageTo record) {
+        SelectStatementProvider count = SqlBuilder.select(racOpLog.allColumns()).from(racOpLog)
+                .where(racOpLog.opDatetime, isGreaterThanWhenPresent(record.getStartDate()))
+                .and(racOpLog.opDatetime, isLessThanWhenPresent(record.getEndDate()))
+                .and(racOpLog.opType, isEqualToWhenPresent(record.getKeywords()))
+                .groupBy(racOpLog.id)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        return this.count(select);
+        return this.count(count);
     }
 }

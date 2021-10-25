@@ -3,6 +3,9 @@ package rebue.scx.rac.api.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.IdRa;
+import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.RacOpLogApi;
 import rebue.scx.rac.jo.RacOpLogJo;
 import rebue.scx.rac.mo.RacOpLogMo;
@@ -21,6 +24,17 @@ import rebue.scx.rac.to.RacOpLogPageTo;
  */
 @DubboService
 public class RacOpLogApiImpl
-    extends BaseApiImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogSvc>
-    implements RacOpLogApi {
+        extends BaseApiImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogSvc>
+        implements RacOpLogApi {
+    /**
+     * 账户概况
+     * 传参时间和关键字keywords 取值为：账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户
+     * 
+     * @param qo
+     */
+    @Override
+    public Ro<?> countSurvey(RacOpLogPageTo qo) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new IdRa<>(_svc.countSurvey(qo)));
+    }
+
 }

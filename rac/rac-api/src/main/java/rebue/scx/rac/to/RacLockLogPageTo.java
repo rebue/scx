@@ -47,9 +47,12 @@ public class RacLockLogPageTo extends PageTo implements Serializable {
      * startDate开始时间
      * endtDate结束时间
      */
-    private String            startDate;
-
-    private String            endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime     startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime     endDate;
 
     /**
      * 锁定账户的账户ID

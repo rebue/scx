@@ -3,6 +3,7 @@ package rebue.scx.msg.svc;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
+import rebue.scx.msg.to.MsgSMSTo;
 
 @Validated
 public interface TemplateMessageSendingSvc {
@@ -12,6 +13,12 @@ public interface TemplateMessageSendingSvc {
      * @param phoneNumber
      * @param code
      */
-    Ro<?> sendTemplateSMS(String phoneNumber, String code);
+    Ro<?> sendTemplateSMS(String phoneNumber);
+
+    /**
+     * 短信验证码校验
+     * 
+     */
+    Ro<?> msgSMSVerification(MsgSMSTo to);
 
 }

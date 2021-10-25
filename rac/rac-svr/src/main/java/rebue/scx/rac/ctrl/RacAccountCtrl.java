@@ -222,7 +222,7 @@ public class RacAccountCtrl {
      *
      * @param to 修改账户登录密码的具体数据
      */
-    @RacOpLog(opType = "修改账户密码", opTitle = "修改账户密码: #{#p0.id}")
+    @RacOpLog(opType = "账户密码修改", opTitle = "账户密码修改: #{#p0.id}")
     @PutMapping("/rac/account/modify-sign-in-pswd")
     public Mono<Ro<?>> modifySignInPswd(@RequestBody final RacAccountModifySignInPswdTo to) {
         return Mono.create(callback -> callback.success(api.modifySignInPswd(to)));

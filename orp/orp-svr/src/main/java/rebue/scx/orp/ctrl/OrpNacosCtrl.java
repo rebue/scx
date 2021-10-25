@@ -218,6 +218,7 @@ public class OrpNacosCtrl {
             String key   = entry.getKey();
             Object value = entry.getValue();
             if (value instanceof List<?>) {
+                @SuppressWarnings("unchecked")
                 List<String> valist  = (List<String>) value;
                 String       collect = valist.stream().map(str -> {
                                          return str;
@@ -237,6 +238,7 @@ public class OrpNacosCtrl {
      */
     public Map<String, Object> StrArrayToMap(String[] split) {
         List<String>        list       = new ArrayList<String>();
+        @SuppressWarnings("unchecked")
         Map<String, Object> map        = new HashedMap();
         boolean             searchFalg = false;
         boolean             setMapFalg = false;

@@ -64,11 +64,7 @@ public class RacOpLogPageTo extends PageTo implements Serializable {
     private Long              accountId;
 
     // @Length(max = 20, message = "操作类型的长度不能大于20")
-    private String[] opType;
-
-    /**
-     * 操作类型
-     */
+    private String[]      opType;
     /**
      * 操作标题
      *

@@ -1,5 +1,8 @@
 package rebue.scx.rac.svc.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Lazy;
@@ -16,7 +19,9 @@ import rebue.scx.rac.dao.RacOpLogDao;
 import rebue.scx.rac.jo.RacOpLogJo;
 import rebue.scx.rac.mapper.RacOpLogMapper;
 import rebue.scx.rac.mo.RacOpLogMo;
+import rebue.scx.rac.svc.RacLockLogSvc;
 import rebue.scx.rac.svc.RacOpLogSvc;
+import rebue.scx.rac.to.RacLockLogPageTo;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogDelTo;
 import rebue.scx.rac.to.RacOpLogListTo;
@@ -43,8 +48,8 @@ import rebue.scx.rac.to.RacOpLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacOpLogSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
-    implements RacOpLogSvc {
+        BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
+        implements RacOpLogSvc {
 
     /**
      * 本服务的单例
@@ -54,7 +59,9 @@ public class RacOpLogSvcImpl extends
      */
     @Lazy
     @Resource
-    private RacOpLogSvc thisSvc;
+    private RacOpLogSvc   thisSvc;
+    @Resource
+    private RacLockLogSvc lockLogSvc;
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -84,4 +91,29 @@ public class RacOpLogSvcImpl extends
         final ISelect select = () -> _mapper.selectEx(qo);
         return getThisSvc().page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
     }
+
+    /**
+     * 账户概况
+     * 传参时间和关键字keywords 取值为：账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户
+     * 
+     * @param qo
+     */
+    @Override
+    public Map<String, Long> countSurvey(RacOpLogPageTo qo) {
+        String            keys  = "账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户";
+        String[]          split = keys.split("/");
+        Map<String, Long> map   = new HashMap<String, Long>();
+        for (String key : split) {
+            qo.setKeywords(keys);
+            long countSurvey = _mapper.countSurvey(qo);
+            map.put(key, countSurvey);
+        }
+        RacLockLogPageTo lockLogQo = new RacLockLogPageTo();
+        lockLogQo.setStartDate(qo.getStartDate());
+        lockLogQo.setStartDate(qo.getEndDate());
+        Map<String, Long> map2 = lockLogSvc.countSurvey(lockLogQo);
+        map.putAll(map2);
+        return map;
+    }
+
 }
