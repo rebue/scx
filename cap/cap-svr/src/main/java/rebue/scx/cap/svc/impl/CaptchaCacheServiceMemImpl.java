@@ -1,5 +1,8 @@
 package rebue.scx.cap.svc.impl;
 
+import java.util.Collection;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
 import rebue.scx.cap.svc.CaptchaCacheService;
@@ -9,6 +12,7 @@ import rebue.scx.cap.util.CacheUtil;
  * 对于分布式部署的应用，我们建议应用自己实现CaptchaCacheService，比如用Redis，参考service/spring-boot代码示例。
  * 如果应用是单点的，也没有使用redis，那默认使用内存。
  * 内存缓存只适合单节点部署的应用，否则验证码生产与验证在节点之间信息不同步，导致失败。
+ * 
  * @Title: 默认使用内存当缓存
  */
 @Component
@@ -36,8 +40,8 @@ public class CaptchaCacheServiceMemImpl implements CaptchaCacheService {
 
     @Override
     public Long increment(final String key, final long val) {
-        final Long ret = Long.valueOf(CacheUtil.get(key))+val;
-        CacheUtil.set(key,ret+"",0);
+        final Long ret = Long.valueOf(CacheUtil.get(key)) + val;
+        CacheUtil.set(key, ret + "", 0);
         return ret;
     }
 
@@ -45,4 +49,23 @@ public class CaptchaCacheServiceMemImpl implements CaptchaCacheService {
     public String type() {
         return "local";
     }
+
+    @Override
+    public void delete(Collection<String> keys) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Set<String> keys(String pattern) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Long getExpire(String key) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

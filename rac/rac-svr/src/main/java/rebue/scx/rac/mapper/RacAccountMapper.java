@@ -502,6 +502,11 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
+    default boolean existByRealmIdAndMobile(String realmId_, int mobile) {
+        String signInMobile_ = mobile + "";
+        return count(c -> c.where(realmId, isEqualTo(realmId_)).and(signInMobile, isEqualTo(signInMobile_))) > 0;
+    }
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -689,7 +694,6 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      *
      * @param id
      *
-     * @return
      */
     default int unbindDingTalk(Long id) {
         UpdateStatementProvider update = SqlBuilder.update(racAccount).set(ddAvatar).equalToNull().set(ddNickname).equalToNull().set(ddOpenId).equalToNull().set(ddUnionId)
@@ -702,11 +706,22 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      *
      * @param id
      *
-     * @return
      */
     default int unbindWechatOpen(Long id) {
         UpdateStatementProvider update = SqlBuilder.update(racAccount).set(wxAvatar).equalToNull().set(wxNickname).equalToNull().set(wxOpenId).equalToNull().set(wxUnionId)
                 .equalToNull().where(racAccount.id, isEqualTo(id)).build().render(RenderingStrategies.MYBATIS3);
+        return this.update(update);
+    }
+
+    /**
+     * 解除手机号绑定
+     *
+     * @param id
+     *
+     */
+    default int unbindMobile(Long id) {
+        UpdateStatementProvider update = SqlBuilder.update(racAccount).set(signInMobile).equalToNull()
+                .where(racAccount.id, isEqualTo(id)).build().render(RenderingStrategies.MYBATIS3);
         return this.update(update);
     }
 

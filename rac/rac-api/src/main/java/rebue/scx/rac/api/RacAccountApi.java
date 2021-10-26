@@ -3,6 +3,7 @@ package rebue.scx.rac.api;
 import java.io.InputStream;
 
 import rebue.robotech.api.BaseApi;
+import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
@@ -18,6 +19,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
@@ -161,4 +163,27 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param id 需要解除的账户ID
      */
     Ro<?> disassociateUser(Long id);
+
+    /**
+     * 账户绑定手机号
+     *
+     * @param to 账户ID/手机号/校验码
+     */
+    Ro<?> bindMobile(RacAccountMobileTo to);
+
+    /**
+     * 判断手机号是否已被绑定注册
+     * 
+     * @param id     账户ID
+     * @param mobile 手机号
+     */
+    Ro<BooleanRa> existMobileById(Long id, int mobile);
+
+    /**
+     * 管理员解除账户绑定手机号
+     *
+     * @param id 被解绑的账户ID
+     */
+    Ro<?> unbindMobile(Long id);
+
 }

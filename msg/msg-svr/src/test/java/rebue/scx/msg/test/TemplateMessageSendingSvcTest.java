@@ -11,7 +11,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.ro.Ro;
 import rebue.scx.msg.svc.impl.TemplateMessageSendingSvcImpl;
-import rebue.scx.msg.to.MsgSMSTo;
+import rebue.scx.msg.to.MsgSMSVerificationTo;
 import rebue.wheel.net.httpclient.HttpClient;
 import rebue.wheel.net.httpclient.impl.ApacheHttpClientImpl;
 
@@ -42,16 +42,16 @@ public class TemplateMessageSendingSvcTest {
 
     @SneakyThrows
     public static void test01() {
-        svc.setStringRedisTemplate(stringRedisTemplate);
+        // svc.setStringRedisTemplate(stringRedisTemplate);
         Ro<?> sendTemplateSMS = svc.sendTemplateSMS("18775885903");
         System.out.println("*************" + sendTemplateSMS + "****************************");
     }
 
     @SneakyThrows
     public static void test02() {
-        String   code;
-        String   phoneNumber;
-        MsgSMSTo to = new MsgSMSTo();
+        String               code;
+        String               phoneNumber;
+        MsgSMSVerificationTo to = new MsgSMSVerificationTo();
         try (Scanner s = new Scanner(System.in)) {
             System.out.println("************************************************************************");
             System.out.println("************************************************************************");

@@ -1,4 +1,4 @@
-package rebue.scx.msg.to;
+package rebue.scx.cap.to;
 
 import java.io.Serializable;
 
@@ -17,7 +17,7 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class MsgSMSTo implements Serializable {
+public class CapSMSVerificationTo implements Serializable {
     /**
     *
     */
@@ -27,5 +27,10 @@ public class MsgSMSTo implements Serializable {
      */
     @NotNull(message = "手机号不能为空")
     private String            phoneNumber;
+    /**
+     * 验证码
+     */
+    @NotNull(message = "验证码不能为空")
+    private String            code;
 
 }

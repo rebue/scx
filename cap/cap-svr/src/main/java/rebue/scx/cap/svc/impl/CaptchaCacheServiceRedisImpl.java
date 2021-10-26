@@ -1,5 +1,7 @@
 package rebue.scx.cap.svc.impl;
 
+import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +41,18 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
     }
 
     @Override
+    public Long getExpire(final String key) {
+        return stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
+    }
+
+    @Override
     public void delete(final String key) {
         stringRedisTemplate.delete(key);
+    }
+
+    @Override
+    public void delete(Collection<String> keys) {
+        stringRedisTemplate.delete(keys);
     }
 
     @Override
@@ -52,4 +64,10 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
     public Long increment(final String key, final long val) {
         return stringRedisTemplate.opsForValue().increment(key, val);
     }
+
+    @Override
+    public Set<String> keys(String pattern) {
+        return stringRedisTemplate.keys(pattern);
+    }
+
 }

@@ -29,6 +29,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
@@ -218,4 +219,20 @@ public interface RacAccountSvc
     void disassociateUser(Long id);
 
     RacAccountMo modifyPswdById(RacAccountMo mo);
+
+    /**
+     * 账户绑定手机号
+     *
+     * @param to 账户ID/手机号/校验码
+     */
+    Ro<?> bindMobile(RacAccountMobileTo to);
+
+    Boolean existMobileById(Long id, int mobile);
+
+    /**
+     * 管理员解除账户绑定手机号
+     *
+     * @param id 被解绑的账户ID
+     */
+    void unbindMobile(Long id);
 }

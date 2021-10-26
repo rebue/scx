@@ -49,11 +49,12 @@ public class OidcCtrl {
     /**
      * 登录
      * 
+     * @ignoreParams request
+     * 
      * @param loginData
      * @param request
      * @param response
      * 
-     * @return
      */
     @PostMapping("/login")
     public Mono<Ro<String>> login(

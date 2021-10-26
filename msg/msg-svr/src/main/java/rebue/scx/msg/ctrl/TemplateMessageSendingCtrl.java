@@ -3,11 +3,11 @@ package rebue.scx.msg.ctrl;
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 import rebue.scx.msg.api.TemplateMessageSendingApi;
-import rebue.scx.msg.to.MsgSMSTo;
 
 /**
  * 模板消息发送
@@ -15,6 +15,7 @@ import rebue.scx.msg.to.MsgSMSTo;
  * @author yuanman
  *
  */
+@RestController
 public class TemplateMessageSendingCtrl {
     @Resource
     private TemplateMessageSendingApi api;
@@ -27,12 +28,12 @@ public class TemplateMessageSendingCtrl {
         return Mono.create(callback -> callback.success(api.sendTemplateSMS("18775885903")));
     }
 
-    /**
-     * 短信验证码校验
-     * 
-     */
-    @PostMapping("/msg/sms/verification")
-    public Mono<Ro<?>> msgSMSVerification(MsgSMSTo to) {
-        return Mono.create(callback -> callback.success(api.msgSMSVerification(to)));
-    }
+    // /**
+    // * 短信验证码校验
+    // *
+    // */
+    // @PostMapping("/msg/sms/verification")
+    // public Mono<Ro<?>> msgSMSVerification(MsgSMSVerificationTo to) {
+    // return Mono.create(callback -> callback.success(api.msgSMSVerification(to)));
+    // }
 }

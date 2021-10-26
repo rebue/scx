@@ -48,7 +48,9 @@ public class RacOrgCtrl {
      * 添加组织
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 添加的具体信息
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "添加组织", opTitle = "添加组织: #{#p0.name}")
@@ -83,7 +85,9 @@ public class RacOrgCtrl {
      * 修改组织的信息
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param to 修改的具体数据
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "修改组织", opTitle = "修改组织: #{#p0.name}")
@@ -118,7 +122,9 @@ public class RacOrgCtrl {
      * 删除组织
      *
      * @mbg.dontOverWriteAnnotation
+     * 
      * @param id 组织ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @RacOpLog(opType = "删除组织", opTitle = "删除组织: #{#p0}")
@@ -131,6 +137,7 @@ public class RacOrgCtrl {
      * 获取单个组织的信息
      *
      * @param id 组织ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/org/get-by-id")
@@ -142,6 +149,7 @@ public class RacOrgCtrl {
      * 判断组织是否存在
      *
      * @param id 组织ID
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/org/exist-by-id")
@@ -183,6 +191,7 @@ public class RacOrgCtrl {
      * 查询组织的信息
      *
      * @param qo 查询的具体条件
+     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/org/page")

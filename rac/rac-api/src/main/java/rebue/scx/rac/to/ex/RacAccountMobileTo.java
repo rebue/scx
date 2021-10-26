@@ -2,6 +2,8 @@ package rebue.scx.rac.to.ex;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -10,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 接受Post请求只有一个参数的实体
  * 
  * @author yuanman
  *
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class PostParameterTo implements Serializable {
+public class RacAccountMobileTo implements Serializable {
     /**
     * 
     */
@@ -27,16 +28,27 @@ public class PostParameterTo implements Serializable {
     /**
      * ID
      */
+    @NotNull(message = "账户ID不能为空")
     private Long              id;
 
-    private String            content;
     /**
      * 手机号
      */
+    @NotNull(message = "手机号不能为空")
     private String            mobile;
+    /**
+     * 新的手机号
+     */
+    private String            newMobile;
     /**
      * 校验码
      */
+    @NotNull(message = "验证码不能为空")
     private String            code;
+    /**
+     * 绑定类型（绑定：0，解绑：1）
+     */
+    @NotNull(message = "绑定类型不能为空")
+    private String            bindType;
 
 }

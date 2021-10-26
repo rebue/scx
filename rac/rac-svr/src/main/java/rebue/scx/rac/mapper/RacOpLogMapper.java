@@ -362,14 +362,14 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      * 
      * @param record
      */
-    default long countSurvey(RacOpLogPageTo record) {
-        SelectStatementProvider count = SqlBuilder.select(racOpLog.allColumns()).from(racOpLog)
+    default Long countSurvey(RacOpLogPageTo record) {
+        SelectStatementProvider countSurvey = SqlBuilder.countFrom(racOpLog)
                 .where(racOpLog.opDatetime, isGreaterThanWhenPresent(record.getStartDate()))
                 .and(racOpLog.opDatetime, isLessThanWhenPresent(record.getEndDate()))
                 .and(racOpLog.opType, isEqualToWhenPresent(record.getKeywords()))
-                .groupBy(racOpLog.id)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        return this.count(count);
+        long                    count       = count(countSurvey);
+        return count;
     }
 }

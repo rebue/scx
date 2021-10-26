@@ -6,6 +6,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
@@ -26,6 +27,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
@@ -102,6 +104,38 @@ public class RacAccountApiImpl extends
     public Ro<?> unbindWxModify(Long id) {
         _svc.unbindWxModify(id);
         return new Ro<>(ResultDic.SUCCESS, "解绑成功");
+    }
+
+    /**
+     * 管理员解除账户绑定手机号
+     *
+     * @param id 被解绑的账户ID
+     */
+    @Override
+    public Ro<?> unbindMobile(Long id) {
+        _svc.unbindMobile(id);
+        return new Ro<>(ResultDic.SUCCESS, "解绑成功");
+    }
+
+    /**
+     * 账户绑定手机号
+     *
+     * @param to 账户ID/手机号/校验码
+     */
+    @Override
+    public Ro<?> bindMobile(RacAccountMobileTo to) {
+        return _svc.bindMobile(to);
+    }
+
+    /**
+     * 判断手机号是否已被绑定注册
+     * 
+     * @param id     账户ID
+     * @param mobile 手机号
+     */
+    @Override
+    public Ro<BooleanRa> existMobileById(Long id, int mobile) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new BooleanRa(_svc.existMobileById(id, mobile)));
     }
 
     /**

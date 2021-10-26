@@ -15,7 +15,7 @@ import rebue.scx.cap.svc.CaptchaService;
  */
 @RestController
 //@RequestMapping("/auth")
-public class LoginController {
+public class LoginCtrl {
 
     @Autowired
     private CaptchaService captchaService;

@@ -1,26 +1,24 @@
 package rebue.scx.msg.svc.impl;
 
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import lombok.Setter;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.msg.svc.TemplateMessageSendingSvc;
-import rebue.scx.msg.to.MsgSMSTo;
+import rebue.scx.msg.to.MsgSMSVerificationTo;
 import rebue.scx.msg.util.SmsUtil;
 
 @Service
 public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc {
-
-    @Autowired
-    @Setter
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
     private SmsUtil             sms;
@@ -32,10 +30,28 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
      */
     @Override
     public Ro<?> sendTemplateSMS(String phoneNumber) {
-        final String code     = getFourRandom();
+        final String code     = getSixRandom();
         final String redisKey = phoneNumber + code;
-        stringRedisTemplate.opsForValue().set(redisKey, code, 5 * 60L);
-        // sms.sendSMSCode(phoneNumber, code);
+        // 重新获取验证码
+        // 删除旧的验证码缓存
+        Set<String>  keys     = stringRedisTemplate.keys(StringUtils.rightPad(phoneNumber, 17, "?"));
+        stringRedisTemplate.delete(keys);
+        stringRedisTemplate.opsForValue().set(redisKey, code, 5 * 60L, TimeUnit.SECONDS);
+        final String Verifiy = stringRedisTemplate.opsForValue().get(redisKey);
+        sms.sendSMSCode(phoneNumber, code);
+        return new Ro<>(ResultDic.SUCCESS, "发送成功");
+    }
+
+    /**
+     * 模板短信
+     * 
+     * @param phoneNumber
+     * @param code
+     */
+    @Override
+    public Ro<?> sendTemplateSMS(String phoneNumber, String code) {
+        // FIXME 打开则发送短信
+        // return sms.sendSMSCode(phoneNumber, code);
         return new Ro<>(ResultDic.SUCCESS, "发送成功", code);
     }
 
@@ -44,14 +60,15 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
      * 
      */
     @Override
-    public Ro<?> msgSMSVerification(MsgSMSTo to) {
-        final String phoneNumber = to.getPhoneNumber();
-        final String code        = to.getCode();
-        final String redisKey    = phoneNumber + code;
-        final String Verifiy     = stringRedisTemplate.opsForValue().get(redisKey);
-        stringRedisTemplate.delete(redisKey);
-        boolean bool = code.equals(Verifiy);
-        return new Ro<>(ResultDic.SUCCESS, "短信校验结果", bool);
+    public Ro<?> msgSMSVerification(MsgSMSVerificationTo to) {
+        // final String phoneNumber = to.getPhoneNumber();
+        // final String code = to.getCode();
+        // final String redisKey = phoneNumber + code;
+        // final String Verifiy = stringRedisTemplate.opsForValue().get(redisKey);
+        // stringRedisTemplate.delete(redisKey);
+        // boolean bool = code.equals(Verifiy);
+        // return new Ro<>(ResultDic.SUCCESS, "短信校验结果", bool);
+        return null;
     }
 
     /**
@@ -59,7 +76,7 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
      *
      * @return 6位随机数
      */
-    public static String getFourRandom() {
+    public static String getSixRandom() {
         return StringUtils.leftPad(new Random().nextInt(1000000) + "", 6, "0");
     }
 

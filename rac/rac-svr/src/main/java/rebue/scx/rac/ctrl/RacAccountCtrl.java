@@ -50,6 +50,7 @@ import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.PostParameterTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
@@ -164,6 +165,39 @@ public class RacAccountCtrl {
     @PostMapping("/rac/account/unbind-wechat-open")
     public Mono<Ro<?>> unbindWxModify(@RequestBody final PostParameterTo to) {
         return Mono.create(callback -> callback.success(api.unbindWxModify(to.getId())));
+    }
+
+    /**
+     * 管理员解除账户绑定手机号
+     *
+     * @param id 被解绑的账户ID
+     */
+    @RacOpLog(opType = "解绑账户手机号", opTitle = "解绑账户手机号: #{#p0.id}")
+    @PostMapping("/rac/account/unbind-mobile")
+    public Mono<Ro<?>> unbindMobile(@RequestBody final PostParameterTo to) {
+        return Mono.create(callback -> callback.success(api.unbindMobile(to.getId())));
+    }
+
+    /**
+     * 账户绑定/解绑手机号
+     *
+     * @param to 账户ID/手机号/校验码/绑定类型
+     */
+    @RacOpLog(opType = "账户绑定手机号", opTitle = "账户绑定手机号: #{#p0.id}")
+    @PostMapping("/rac/account/bind-mobile")
+    public Mono<Ro<?>> bindMobile(@RequestBody final RacAccountMobileTo to) {
+        return Mono.create(callback -> callback.success(api.bindMobile(to)));
+    }
+
+    /**
+     * 判断手机号是否已被绑定注册
+     * 
+     * @param id     账户ID
+     * @param mobile 手机号
+     */
+    @GetMapping("/rac/account/exist-mobile-by-id")
+    public Mono<Ro<BooleanRa>> existMobileById(@RequestParam("id") final java.lang.Long id, @RequestParam("mobile") final int mobile) {
+        return Mono.create(callback -> callback.success(api.existMobileById(id, mobile)));
     }
 
     /**

@@ -58,15 +58,17 @@ spring:
                   - "'*:/wxx/**'"
                   - "'POST:/rac/sign-in/**'"
                   - "'*:/orp/**'"
-                  - "'POST:/cap/captcha/**'"
+                  - "'POST:/cap/**'"
                   - "'GET:/rac/account/get-cur-account-info'"
                   #统一应用平台账户基础权限
                   - "'GET:/oap/app/list-and-tripartite'"
                   - "'GET:/rac/account/get-cur-account-info'"
                   - "'GET:/rac/account/get-by-id'"
+                  - "'GET:/rac/account/exist-mobile-by-id'"
                   - "'GET:/rac/op-log/page'"
                   - "'PUT:/rac/account/modify-sign-in-by-old-pswd'"
                   - "'POST:/rac/account/upload-avatar'"
+                  - "'POST:/rac/account/bind-mobile'"
 
 dubbo:
   protocol:

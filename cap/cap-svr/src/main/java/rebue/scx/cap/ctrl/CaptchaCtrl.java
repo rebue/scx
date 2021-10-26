@@ -16,8 +16,7 @@ import rebue.scx.cap.svc.CaptchaService;
  */
 @RestController
 @CrossOrigin
-// @RequestMapping("/cap-svr")
-public class CaptchaController {
+public class CaptchaCtrl {
 
     @Autowired
     private CaptchaService captchaService;

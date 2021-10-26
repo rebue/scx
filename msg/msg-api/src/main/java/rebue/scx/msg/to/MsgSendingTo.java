@@ -2,8 +2,6 @@ package rebue.scx.msg.to;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -22,30 +20,39 @@ public class MsgSendingTo implements Serializable {
     *
     */
     private static final long serialVersionUID = 1L;
+
     /**
-     * 配置类型ding-talk/wechat-open
+     * App：app
      */
-    @NotNull(message = "配置类型不能为空")
-    private String            configType;
+    private String            msgApp;
     /**
-     * 旧的appKey
+     * 微信公众号：wechatoa
      */
-    @NotNull(message = "旧的appKey不能为空")
-    private String            oldAppKey;
+    private String            msgWechatoa;
+
     /**
-     * 旧的appSecret
+     * 微信小程序：wechatmp
      */
-    @NotNull(message = "旧的appSecret不能为空")
-    private String            oldAppSecret;
+    private String            msgWechatmp;
     /**
-     * 新的appKey
+     * 短信：sms
      */
-    @NotNull(message = "新的appKey不能为空")
-    private String            newappKey;
+    private String            msgSms;
+    /***
+     * 邮箱：email
+     */
+    private String            msgEmail;
     /**
-     * 新的appSecret
+     * 支付宝生活号：alipayLife
      */
-    @NotNull(message = "新的appSecret不能为空")
-    private String            newAppSecret;
+    private String            msgAlipayLife;
+    /**
+     * 钉钉：dingtalk
+     */
+    private String            msgDingtalk;
+    /**
+     * 企业微信：wechatwk
+     */
+    private String            msgWechatwk;
 
 }

@@ -398,10 +398,9 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * @param record
      */
     default long countLockSurvey(RacLockLogPageTo record) {
-        SelectStatementProvider count = SqlBuilder.select(racLockLog.allColumns()).from(racLockLog)
+        SelectStatementProvider count = SqlBuilder.countFrom(racLockLog)
                 .where(racLockLog.lockDatetime, isGreaterThanWhenPresent(record.getStartDate()))
                 .and(racLockLog.lockDatetime, isLessThanWhenPresent(record.getEndDate()))
-                .groupBy(racLockLog.id)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return this.count(count);
@@ -412,12 +411,11 @@ public interface RacLockLogMapper extends MapperRootInterface<RacLockLogMo, Long
      * 
      * @param record
      */
-    default long countUnlockSurvey(RacLockLogPageTo record) {
-        SelectStatementProvider count = SqlBuilder.select(racLockLog.allColumns()).from(racLockLog)
+    default Long countUnlockSurvey(RacLockLogPageTo record) {
+        SelectStatementProvider count = SqlBuilder.countFrom(racLockLog)
                 .where(racLockLog.lockDatetime, isGreaterThanWhenPresent(record.getStartDate()))
                 .and(racLockLog.lockDatetime, isLessThanWhenPresent(record.getEndDate()))
                 .and(racLockLog.unlockDatetime, isNotNull())
-                .groupBy(racLockLog.id)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return this.count(count);

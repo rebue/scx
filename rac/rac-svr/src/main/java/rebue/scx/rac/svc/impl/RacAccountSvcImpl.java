@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,8 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
+import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.co.RacMinioCo;
 import rebue.scx.rac.dao.RacAccountDao;
 import rebue.scx.rac.jo.RacAccountJo;
@@ -70,6 +73,7 @@ import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
@@ -108,6 +112,9 @@ public class RacAccountSvcImpl extends
     @Lazy
     @Resource
     private RacAccountSvc        thisSvc;
+
+    @DubboReference
+    private CapSMSSendingApi     capSMSSendingApi;
 
     @Resource
     private RacUserSvc           userSvc;
@@ -249,27 +256,6 @@ public class RacAccountSvcImpl extends
             dstMo.setUnionId(srcMo.getUnionId());
             thisSvc.modifyMoById(dstMo);
         }
-        // FIXME 确认不再修改后再删除
-        // 暂时请不要删除
-        // if (srcMo.getUnionId() != null && dstMo.getUnionId() == null) {
-        // dstMo.setUnionId(srcMo.getUnionId());
-        // thisSvc.modifyMoById(dstMo);
-        //
-        // }
-        // else if (dstMo.getUnionId() != null && srcMo.getUnionId() == null) {
-        // srcMo.setUnionId(dstMo.getUnionId());
-        // thisSvc.modifyMoById(srcMo);
-        // }
-        // if (dstMo.getUnionId() != null && srcMo.getUnionId() != null) {
-        // RacAccountListTo unIdMo = new RacAccountListTo();
-        // unIdMo.setUnionId(dstMo.getUnionId());
-        // dstMo.setUnionId(srcMo.getUnionId());
-        // thisSvc.modifyMoById(dstMo);
-        // List<RacAccountMo> list = thisSvc.list(unIdMo);
-        // if (list != null && list.size() == 1) {
-        // _mapper.setUnionIdIsNull(list.get(0).getId());
-        // }
-        // }
         else {
             Long unionId = _idWorker.getId();
             dstMo.setUnionId(unionId);
@@ -290,17 +276,9 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacAccountMo delUnionIdMapper(RacAccountUnionIdTo to) {
-        // RacAccountMo srcMo = thisSvc.getById(to.getSrcId());
-        // RacAccountListTo unIdMo = new RacAccountListTo();
-        // unIdMo.setUnionId(srcMo.getUnionId());
-        // List<RacAccountMo> list = thisSvc.list(unIdMo);
+
         int count = 0;
-        // 如果该unionId只有两条帐号映射关系，则去除两个帐号的unionId
-        // if (list != null && list.size() == 2) {
-        // count = _mapper.setUnionIdIsNull(list.get(0).getId());
-        // count = _mapper.setUnionIdIsNull(list.get(1).getId());
-        // }
-        // else {
+
         count = _mapper.setUnionIdIsNull(to.getDstId());
         // }
         if (count == 0) {
@@ -457,6 +435,101 @@ public class RacAccountSvcImpl extends
         if (unbindWechatOpen != 1) {
             throw new RuntimeExceptionX("解除绑定异常信息，请确认后再试");
         }
+    }
+
+    /**
+     * 管理员解除账户绑定手机号
+     *
+     * @param id 被解绑的账户ID
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void unbindMobile(Long id) {
+        RacAccountMo one = thisSvc.getById(id);
+        if (one == null) {
+            throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
+        }
+        int unbindWechatOpen = _mapper.unbindMobile(one.getId());
+        if (unbindWechatOpen != 1) {
+            throw new RuntimeExceptionX("解除绑定异常信息，请确认后再试");
+        }
+
+    }
+
+    /**
+     * 账户绑定/解绑手机号
+     *
+     * @param to 账户ID/手机号/校验码
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Ro<?> bindMobile(RacAccountMobileTo to) {
+        RacAccountMo         mo      = thisSvc.getById(to.getId());
+        CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
+        verifiy.setPhoneNumber(to.getMobile());
+        verifiy.setCode(to.getCode());
+        Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
+        if (verification.getResult().getCode() == 1) {
+            // 判断解帮还是绑定
+            if (to.getBindType().equals("1")) {
+                if (mo == null) {
+                    throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
+                }
+                int unbindWechatOpen = _mapper.unbindMobile(mo.getId());
+                if (unbindWechatOpen != 1) {
+                    throw new RuntimeExceptionX("解除绑定异常信息，请确认后再试");
+                }
+                return new Ro<>(ResultDic.SUCCESS, "解绑手机成功");
+            }
+            else {
+                // 更换手机号
+                if (mo.getSignInMobile() != null && to.getNewMobile() != null && to.getNewMobile().length() == 11) {
+                    RacAccountOneTo one = new RacAccountOneTo();
+                    one.setSignInMobile(to.getNewMobile());
+                    one.setRealmId(mo.getRealmId());
+                    RacAccountMo oneMo = thisSvc.getOne(one);
+                    // 判断新手机号是否已被绑定
+                    if (oneMo == null) {
+                        // 判断手机号是否正确
+                        if (mo.getSignInMobile().equals(to.getMobile())) {
+                            return new Ro<>(ResultDic.SUCCESS, "手机号更换失败，旧手机号不正确！", mo);
+                        }
+                        mo.setSignInMobile(to.getNewMobile());
+                        thisSvc.modifyMoById(mo);
+                        return new Ro<>(ResultDic.SUCCESS, "更换手机号成功", mo);
+                    }
+                    else {
+                        return new Ro<>(ResultDic.FAIL, "手机号更换失败，新手机号已被绑定！");
+                    }
+                }
+                // 绑定手机号
+                RacAccountOneTo one = new RacAccountOneTo();
+                one.setSignInMobile(to.getMobile());
+                one.setRealmId(mo.getRealmId());
+                RacAccountMo oneMo = thisSvc.getOne(one);
+                if (oneMo != null) {
+                    mo.setSignInMobile(to.getNewMobile());
+                    thisSvc.modifyMoById(mo);
+                    return new Ro<>(ResultDic.SUCCESS, "手机号绑定失败，该手机号已被绑定！", mo);
+                }
+                mo.setSignInMobile(to.getMobile());
+                thisSvc.modifyMoById(mo);
+                return new Ro<>(ResultDic.SUCCESS, "手机号绑定成功", mo);
+            }
+        }
+        return verification;
+    }
+
+    /**
+     * 判断手机号是否已被绑定注册
+     * 
+     * @param id     账户ID
+     * @param mobile 手机号
+     */
+    @Override
+    public Boolean existMobileById(Long id, int mobile) {
+        RacAccountMo byId = thisSvc.getById(id);
+        return _mapper.existByRealmIdAndMobile(byId.getRealmId(), mobile);
     }
 
     /**

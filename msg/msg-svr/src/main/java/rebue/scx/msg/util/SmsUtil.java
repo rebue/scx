@@ -12,6 +12,8 @@ import cn.jiguang.common.resp.APIRequestException;
 import cn.jsms.api.SendSMSResult;
 import cn.jsms.api.common.SMSClient;
 import cn.jsms.api.common.model.SMSPayload;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ro.Ro;
 
 @Component // 交给spring管理
 @RefreshScope
@@ -37,8 +39,10 @@ public class SmsUtil {
      * 
      * @param phoneNumber
      * @param code
+     * 
+     * @return
      */
-    public void sendSMSCode(String phoneNumber, String code) {
+    public Ro<?> sendSMSCode(String phoneNumber, String code) {
         try {
             // 构建发送短信
             SMSPayload payload = SMSPayload.newBuilder()
@@ -59,13 +63,20 @@ public class SmsUtil {
              * 保存到DB
              */
             // insertSendSmsLog(res.getMessageId(),phoneNumber,code,0,System.currentTimeMillis()/1000);
-            // 执行业务/
-            System.out.println(res);
+            if (res.getMessageId() != null) {
+                // 执行业务/
+                System.out.println(res);
+                return new Ro<>(ResultDic.SUCCESS, "发送成功");
+            }
+            else {
+                return new Ro<>(ResultDic.FAIL, "发送失败");
+            }
         } catch (APIConnectionException e) {
             e.printStackTrace();
         } catch (APIRequestException e) {
             e.printStackTrace();
         }
+        return new Ro<>(ResultDic.FAIL, "发送失败");
     }
 
     /**

@@ -2,6 +2,8 @@ package rebue.scx.msg.to;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -15,10 +17,20 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class MsgSendingModifyTo implements Serializable {
+public class MsgSMSVerificationTo implements Serializable {
     /**
     *
     */
     private static final long serialVersionUID = 1L;
+    /**
+     * 手机号
+     */
+    @NotNull(message = "手机号不能为空")
+    private String            phoneNumber;
+    /**
+     * 验证码
+     */
+    @NotNull(message = "验证码不能为空")
+    private String            code;
 
 }

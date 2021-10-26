@@ -104,7 +104,7 @@ public class RacOpLogSvcImpl extends
         String[]          split = keys.split("/");
         Map<String, Long> map   = new HashMap<String, Long>();
         for (String key : split) {
-            qo.setKeywords(keys);
+            qo.setKeywords(key);
             long countSurvey = _mapper.countSurvey(qo);
             map.put(key, countSurvey);
         }
