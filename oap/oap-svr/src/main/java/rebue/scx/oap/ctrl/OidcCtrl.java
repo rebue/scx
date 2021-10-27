@@ -23,6 +23,12 @@ import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.oap.svc.impl.OidcSvcImpl;
 
+/**
+ * OIDC
+ * 
+ * @author yuanman
+ *
+ */
 @RestController
 @RequestMapping("/oap")
 public class OidcCtrl {
@@ -32,13 +38,16 @@ public class OidcCtrl {
 
     /**
      * 重定向到前端登录页面(未登录)
-     * https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint
-     * <p>
-     * scope openid
-     * response_type code
-     * client_id test1
-     * redirect_uri https://www.baidu.com
-     * state RECOMMENDED
+     *
+     * @ignoreParams paramMap
+     * @ignoreParams request
+     *               https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint
+     *               <p>
+     *               scope openid
+     *               response_type code
+     *               client_id test1
+     *               redirect_uri https://www.baidu.com
+     *               state RECOMMENDED
      */
     @RequestMapping(value = "/authorize", method = { RequestMethod.GET, RequestMethod.POST
     })
@@ -83,8 +92,11 @@ public class OidcCtrl {
     }
 
     /**
-     * https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
-     * https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
+     * 
+     * @ignoreParams request
+     * 
+     * @param https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
+     * @param https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
      */
     @PostMapping(value = "/token", consumes = "application/x-www-form-urlencoded", produces = "application/json")
     public Mono<Object> token(ServerHttpRequest request, ServerHttpResponse response) {

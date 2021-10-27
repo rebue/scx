@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
+import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
@@ -112,16 +114,57 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
     @DubboReference
     private CapApi              capApi;
+    @DubboReference
+    private CapSMSSendingApi    capSMSSendingApi;
 
     @Override
     public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
-        SignInByAccountNameTo byAccountNameTo = new SignInByAccountNameTo();
-        byAccountNameTo.setAppId(to.getAppId());
-        byAccountNameTo.setAccountName(to.getUsername());
-        byAccountNameTo.setSignInPswd(to.getPassword());
-        Ro<SignUpOrInRa> ro = signInByAccountName(byAccountNameTo);
+        if (to.getLoginType() == 0) {
+            SignInByAccountNameTo byAccountNameTo = new SignInByAccountNameTo();
+            byAccountNameTo.setAppId(to.getAppId());
+            byAccountNameTo.setAccountName(to.getLoginName());
+            byAccountNameTo.setSignInPswd(to.getPassword());
+            Ro<SignUpOrInRa> ro = signInByAccountName(byAccountNameTo);
+            return ro;
+        }
+        if (to.getLoginType() == 1) {
+            CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
+            verifiy.setPhoneNumber(to.getPhoneNumber());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
+            if (verification.getResult().getCode() != 1) {
+                final String msg = verification.getMsg();
+                log.warn(msg + ": {}", to);
+                return new Ro<>(ResultDic.WARN, msg);
+            }
+            final RacAppMo appMo = appSvc.getById(to.getAppId());
+            if (appMo == null) {
+                final String msg = "未发现此应用的信息";
+                log.warn(msg + ": {}", to.getAppId());
+                return new Ro<>(ResultDic.WARN, msg + to.getAppId());
+            }
+            RacAccountMo accountMo = null;
+            if (RegexUtils.matchMobile(to.getPhoneNumber())) {
+                accountMo = accountSvc.getOneByMobile(appMo.getRealmId(), to.getPhoneNumber());
+            }
+            if (accountMo == null) {
+                final String msg = "找不到此账户";
+                log.warn(msg + ": to-{}", to);
+                return new Ro<>(ResultDic.WARN, msg + ": " + to.getPhoneNumber());
+            }
+            log.info("检查账户今天输错密码是否超过限定次数");
+            final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
+            if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
+                final String msg = "账户今天已被锁定，请明天再试";
+                log.warn(msg + ": to-{}", to);
+                return new Ro<>(ResultDic.WARN, msg);
+            }
+            return returnSuccessSignIn(accountMo, appMo);
+        }
         // return ro.isSuccess() ? Optional.of(accountSvc.getById(ro.getExtra().getId())) : Optional.empty();
-        return ro;
+        final String msg = "未支持此方式登录";
+        log.warn(msg + ": {}", to);
+        return new Ro<>(ResultDic.WARN, msg);
     }
 
     /**

@@ -74,6 +74,7 @@ import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.UnifiedLoginTo;
+import rebue.wheel.core.util.OrikaUtils;
 import rebue.wheel.turing.JwtUtils;
 
 @Service
@@ -141,6 +142,25 @@ public class OidcSvcImpl implements OidcSvc {
         return AuthorizeInfo.fromCookie(cookie.getValue());
     }
 
+    /**
+     * 获取帐号登录信息
+     * 
+     * @param appId
+     * @param loginData
+     */
+    private Ro<SignUpOrInRa> getSignUpOrInRa(final String appId, LoginDto loginData) {
+        UnifiedLoginTo oneTo = OrikaUtils.map(loginData, UnifiedLoginTo.class);
+        oneTo.setAppId(appId);
+        Ro<SignUpOrInRa> ra = racSignInApi.unifiedLogin(oneTo);
+        // UnifiedLoginTo to = new UnifiedLoginTo();
+        // to.setAppId(appId);
+        // to.setLoginName(loginData.getLoginName());
+        // to.setPassword(loginData.getPassword());
+        // Ro<SignUpOrInRa> ra = racSignInApi.unifiedLogin(to);
+        //
+        return ra;
+    }
+
     @Override
     @SneakyThrows
     public Ro<String> login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response) {
@@ -158,11 +178,7 @@ public class OidcSvcImpl implements OidcSvc {
         if (app == null) {
             return Ro.fail("clientId 不存在");
         }
-        UnifiedLoginTo to = new UnifiedLoginTo();
-        to.setAppId(app.getAppId());
-        to.setUsername(loginData.getLoginName());
-        to.setPassword(loginData.getPassword());
-        Ro<SignUpOrInRa> ra = racSignInApi.unifiedLogin(to);
+        Ro<SignUpOrInRa> ra = getSignUpOrInRa(app.getAppId(), loginData);
         if (ra.getResult().getCode() != 1) {
             return Ro.fail(ra.getMsg());
         }

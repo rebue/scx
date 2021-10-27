@@ -1,6 +1,7 @@
 # 配置中心中的配置
 msg:
   sms:
+    simulation: true
     masterSecret: e92f7f27dbd27bf0f1157c61
     appkey: 823ebe289daa183f863eee73
     tempId: 202223
@@ -10,10 +11,6 @@ curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
 spring:
-  datasource:
-    url: jdbc:mysql://mysql:3306/cap-svr?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: cap
-    password: cap
   rabbitmq:
     host: rabbitmq
     port: 5672

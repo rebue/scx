@@ -48,8 +48,8 @@ import rebue.scx.rac.to.RacOpLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacOpLogSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
-    implements RacOpLogSvc {
+        BaseSvcImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogMapper, RacOpLogDao>
+        implements RacOpLogSvc {
 
     /**
      * 本服务的单例
@@ -101,9 +101,9 @@ public class RacOpLogSvcImpl extends
      */
     @Override
     public Map<String, Long> countSurvey(RacOpLogPageTo qo) {
-        String keys = "账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户";
-        String[] split = keys.split("/");
-        Map<String, Long> map = new HashMap<String, Long>();
+        String            keys  = "账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户";
+        String[]          split = keys.split("/");
+        Map<String, Long> map   = new HashMap<String, Long>();
         for (String key : split) {
             qo.setKeywords(key);
             long countSurvey = _mapper.countSurvey(qo);
@@ -111,7 +111,7 @@ public class RacOpLogSvcImpl extends
         }
         RacLockLogPageTo lockLogQo = new RacLockLogPageTo();
         lockLogQo.setStartDate(qo.getStartDate());
-        lockLogQo.setStartDate(qo.getEndDate());
+        lockLogQo.setEndDate(qo.getEndDate());
         Map<String, Long> map2 = lockLogSvc.countSurvey(lockLogQo);
         map.putAll(map2);
         return map;
