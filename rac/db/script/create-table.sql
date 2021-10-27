@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/10/11 9:49:42                           */
+/* Created on:     2021/10/27 9:15:49                           */
 /*==============================================================*/
 
 
@@ -154,6 +154,7 @@ create table RAC_DIC_ITEM
    DIC_ID               bigint unsigned not null  comment '字典ID',
    ORG_ID               bigint unsigned  comment '组织ID',
    DIC_ITEM_KEY         varchar(32)  comment '字典项Key',
+   DIC_ITEM_VALUE       varchar(200)  comment '字典项值',
    NAME                 varchar(200) not null  comment '字典项名称',
    TREE_CODE            varchar(50) not null  comment '树编码(每三位为一级)',
    UPDATE_DATETIME      datetime not null  comment '修改时间',
