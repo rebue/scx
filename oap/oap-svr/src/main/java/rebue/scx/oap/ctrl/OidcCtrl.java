@@ -65,6 +65,24 @@ public class OidcCtrl {
     }
 
     /**
+     * 手机验证码登录
+     * 
+     * @ignoreParams request
+     * 
+     * @param loginData
+     * @param request
+     * @param response
+     * 
+     */
+    @PostMapping("/login-by-mobile")
+    public Mono<Ro<String>> loginByMobile(
+            @RequestBody LoginDto loginData,
+            ServerHttpRequest request,
+            ServerHttpResponse response) {
+        return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
+    }
+
+    /**
      * https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
      * https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
      */

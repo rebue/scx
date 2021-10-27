@@ -169,6 +169,7 @@ public class OidcSvcImpl implements OidcSvc {
         AuthorizationCode code         = codeRepository.createCode(uri, clientId, new Scope(scope), ra.getExtra().getId());
         HTTPResponse      redirect     = OidcHelper.authenticationSuccessUri(new URI(uri), new State(state), code);
         String            r            = redirect.getLocation().toString();
+        // 查询安全域名
         RedirectUris      redirectUris = oapRedirectUriRepository.getRedirectUris(clientId);
         if (!redirectUris.match(r)) {
             return Ro.fail("重定向地址错误");

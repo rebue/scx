@@ -13,8 +13,7 @@ public class OapAppRepository {
     @Resource
     private OapAppMapper oapAppMapper;
 
-    public OapAppMo selectByClientId(String clientId)
-    {
+    public OapAppMo selectByClientId(String clientId) {
         if (clientId == null) {
             return null;
         }
