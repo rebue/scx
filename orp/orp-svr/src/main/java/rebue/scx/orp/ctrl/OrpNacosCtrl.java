@@ -44,6 +44,27 @@ import rebue.wheel.core.YamlUtils;
 public class OrpNacosCtrl {
     @Value("${spring.cloud.nacos.config.server-addr:127.0.0.1:8848}")
     private String serverAddr;
+    @Value("${spring.application.name:orp-svr}")
+    private String name;
+    @Value("${spring.profiles.active:dev}")
+    private String active;
+    @Value("${spring.cloud.nacos.config.file-extension:yaml}")
+    private String fileExtension;
+    @Value("${spring.cloud.nacos.config.group:REBUE}")
+    private String group;
+    /**
+     * 读取nacos配置文件的超时时间
+     */
+    private Long   ReadTimeOut = 4000L;
+
+    /**
+     * 获取配置文件名
+     * 
+     * @return 文件名
+     */
+    private String getNacosConfigName() {
+        return name + "-" + active + "." + fileExtension;
+    }
 
     /**
      * 获取配置信息
@@ -51,7 +72,7 @@ public class OrpNacosCtrl {
     @GetMapping("/get/nacos/config")
     public Mono<Ro<?>> getNacosConfig() {
         List<Object>              list              = new ArrayList<Object>();
-        String                    ymlStr            = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        String                    ymlStr            = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList   = YamlUtils.getAsMapList(ymlStr, "orp.strategies.ding-talk.clients");
         List<Map<String, String>> wechatOpenMapList = YamlUtils.getAsMapList(ymlStr, "orp.strategies.wechat-open.clients");
         YamlRa                    ra                = new YamlRa();
@@ -80,12 +101,12 @@ public class OrpNacosCtrl {
         }
         String                    key             = "orp.strategies." + to.getConfigType() + ".clients";
         String                    type            = ConfigType.YAML.getType();
-        String                    ymlStr          = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        String                    ymlStr          = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
         dingTalkMapList.add(hashedMap);
         ymlStr = YamlUtils.setAsMapList(ymlStr, key, dingTalkMapList);
 
-        boolean config = publishConfig("orp-svr-dev.yaml", "REBUE", ymlStr, type);
+        boolean config = publishConfig(getNacosConfigName(), group, ymlStr, type);
         if (config) {
             Ro<Boolean> ro = new Ro<>(ResultDic.SUCCESS, "提交成功", config);
             return Mono.create(callback -> callback.success(ro));
@@ -109,7 +130,7 @@ public class OrpNacosCtrl {
         }
         String                    key             = "orp.strategies." + to.getConfigType() + ".clients";
         String                    type            = ConfigType.YAML.getType();
-        String                    ymlStr          = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        String                    ymlStr          = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
         dingTalkMapList.stream().map(item -> {
             Iterator<Entry<String, String>> entrySet   = item.entrySet().iterator();
@@ -138,7 +159,7 @@ public class OrpNacosCtrl {
         }).collect(Collectors.toList());
         ymlStr = YamlUtils.setAsMapList(ymlStr, key, dingTalkMapList);
 
-        boolean config = publishConfig("orp-svr-dev.yaml", "REBUE", ymlStr, type);
+        boolean config = publishConfig(getNacosConfigName(), group, ymlStr, type);
         if (config) {
             Ro<Boolean> ro = new Ro<>(ResultDic.SUCCESS, "提交成功", config);
             return Mono.create(callback -> callback.success(ro));
@@ -162,7 +183,7 @@ public class OrpNacosCtrl {
         }
         String                    key             = "orp.strategies." + to.getConfigType() + ".clients";
         String                    type            = ConfigType.YAML.getType();
-        String                    ymlStr          = getConfig("orp-svr-dev.yaml", "REBUE", 3500);
+        String                    ymlStr          = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
         dingTalkMapList.stream().map(item -> {
             Iterator<Entry<String, String>> entrySet   = item.entrySet().iterator();
@@ -186,7 +207,7 @@ public class OrpNacosCtrl {
         }).collect(Collectors.toList());
         ymlStr = YamlUtils.setAsMapList(ymlStr, key, dingTalkMapList);
 
-        boolean config = publishConfig("orp-svr-dev.yaml", "REBUE", ymlStr, type);
+        boolean config = publishConfig(getNacosConfigName(), group, ymlStr, type);
         if (config) {
             Ro<Boolean> ro = new Ro<>(ResultDic.SUCCESS, "提交成功", config);
             return Mono.create(callback -> callback.success(ro));

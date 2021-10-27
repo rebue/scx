@@ -45,6 +45,7 @@ import rebue.scx.rac.mo.RacAppTagMo;
 
 @Mapper
 public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> {
+
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -53,35 +54,30 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacAppTagMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacAppTagMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacAppTagMoResult")
     Optional<RacAppTagMo> selectOne(SelectStatementProvider selectStatement);
@@ -89,26 +85,21 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @Results(id = "RacAppTagMoResult", value = {
-            @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-            @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "DIC_ITEM_ID", property = "dicItemId", jdbcType = JdbcType.BIGINT)
+    @Results(id = "RacAppTagMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+        @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "DIC_ITEM_ID", property = "dicItemId", jdbcType = JdbcType.BIGINT)
     })
     List<RacAppTagMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racAppTag, completer);
     }
@@ -116,7 +107,6 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racAppTag, completer);
     }
@@ -124,7 +114,6 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> c.where(id, isEqualTo(id_)));
     }
@@ -132,37 +121,29 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insert(RacAppTagMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racAppTag, c -> c.map(id).toProperty("id")
-                .map(appId).toProperty("appId")
-                .map(dicItemId).toProperty("dicItemId"));
+        return MyBatis3Utils.insert(this::insert, record, racAppTag, c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(dicItemId).toProperty("dicItemId"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insertMultiple(Collection<RacAppTagMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racAppTag, c -> c.map(id).toProperty("id")
-                .map(appId).toProperty("appId")
-                .map(dicItemId).toProperty("dicItemId"));
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racAppTag,
+            c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(dicItemId).toProperty("dicItemId"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insertSelective(RacAppTagMo record) {
-        return MyBatis3Utils.insert(this::insert, record, racAppTag, c -> c.map(id).toPropertyWhenPresent("id", record::getId)
-                .map(appId).toPropertyWhenPresent("appId", record::getAppId)
-                .map(dicItemId).toPropertyWhenPresent("dicItemId", record::getDicItemId));
+        return MyBatis3Utils.insert(this::insert, record, racAppTag, c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId)
+            .toPropertyWhenPresent("appId", record::getAppId).map(dicItemId).toPropertyWhenPresent("dicItemId", record::getDicItemId));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<RacAppTagMo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racAppTag, completer);
     }
@@ -170,7 +151,6 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAppTagMo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racAppTag, completer);
     }
@@ -178,7 +158,6 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAppTagMo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racAppTag, completer);
     }
@@ -186,7 +165,6 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<RacAppTagMo> selectByPrimaryKey(Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
@@ -194,7 +172,6 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racAppTag, completer);
     }
@@ -203,44 +180,33 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacAppTagMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalTo(record::getId)
-                .set(appId).equalTo(record::getAppId)
-                .set(dicItemId).equalTo(record::getDicItemId);
+        return dsl.set(id).equalTo(record::getId).set(appId).equalTo(record::getAppId).set(dicItemId).equalTo(record::getDicItemId);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacAppTagMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(id).equalToWhenPresent(record::getId)
-                .set(appId).equalToWhenPresent(record::getAppId)
-                .set(dicItemId).equalToWhenPresent(record::getDicItemId);
+        return dsl.set(id).equalToWhenPresent(record::getId).set(appId).equalToWhenPresent(record::getAppId).set(dicItemId).equalToWhenPresent(record::getDicItemId);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int updateByPrimaryKey(RacAppTagMo record) {
-        return update(c -> c.set(appId).equalTo(record::getAppId)
-                .set(dicItemId).equalTo(record::getDicItemId)
-                .where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalTo(record::getAppId).set(dicItemId).equalTo(record::getDicItemId).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int updateByPrimaryKeySelective(RacAppTagMo record) {
-        return update(c -> c.set(appId).equalToWhenPresent(record::getAppId)
-                .set(dicItemId).equalToWhenPresent(record::getDicItemId)
-                .where(id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalToWhenPresent(record::getAppId).set(dicItemId).equalToWhenPresent(record::getDicItemId).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default BasicColumn[] getColumns() {
         return selectList;
     }
@@ -248,37 +214,30 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int deleteSelective(RacAppTagMo record) {
-        return delete(c -> c.where(id, isEqualToWhenPresent(record::getId))
-                .and(appId, isEqualToWhenPresent(record::getAppId))
-                .and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
+        return delete(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<RacAppTagMo> selectOne(RacAppTagMo record) {
-        return selectOne(c -> c.where(id, isEqualToWhenPresent(record::getId))
-                .and(appId, isEqualToWhenPresent(record::getAppId))
-                .and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
+        return selectOne(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default long countSelective(RacAppTagMo record) {
-        return count(c -> c.where(id, isEqualToWhenPresent(record::getId))
-                .and(appId, isEqualToWhenPresent(record::getAppId))
-                .and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
+        return count(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
@@ -286,7 +245,6 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default boolean existSelective(RacAppTagMo record) {
         return countSelective(record) > 0;
     }
@@ -294,17 +252,14 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAppTagMo> selectSelective(RacAppTagMo record) {
-        return select(c -> c.where(id, isEqualToWhenPresent(record::getId))
-                .and(appId, isEqualToWhenPresent(record::getAppId))
-                .and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
+        return select(
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(dicItemId, isEqualToWhenPresent(record::getDicItemId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAppTagMo> selectIn(List<Long> ids) {
         return select(c -> c.where(id, isIn(ids)));
     }
@@ -314,11 +269,8 @@ public interface RacAppTagMapper extends MapperRootInterface<RacAppTagMo, Long> 
      */
     default List<RacAppTagMo> listInAppIdList(List<String> appIds) {
         SelectStatementProvider select = null;
-        select = SqlBuilder.select(racAppTag.allColumns()).from(racAppTag)
-                .leftJoin(racApp).on(racApp.id, equalTo(racAppTag.appId))
-                .where(racAppTag.appId, isIn(appIds))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
+        select = SqlBuilder.select(racAppTag.allColumns()).from(racAppTag).leftJoin(racApp).on(racApp.id, equalTo(racAppTag.appId)).where(racAppTag.appId, isIn(appIds)).build()
+            .render(RenderingStrategies.MYBATIS3);
         return this.selectMany(select);
     }
 }

@@ -38,8 +38,7 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
         stringRedisTemplate.delete(keys);
         stringRedisTemplate.opsForValue().set(redisKey, code, 5 * 60L, TimeUnit.SECONDS);
         final String Verifiy = stringRedisTemplate.opsForValue().get(redisKey);
-        sms.sendSMSCode(phoneNumber, code);
-        return new Ro<>(ResultDic.SUCCESS, "发送成功");
+        return sms.sendSMSCode(phoneNumber, code);
     }
 
     /**
@@ -50,9 +49,7 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
      */
     @Override
     public Ro<?> sendTemplateSMS(String phoneNumber, String code) {
-        // FIXME 打开则发送短信
-        // return sms.sendSMSCode(phoneNumber, code);
-        return new Ro<>(ResultDic.SUCCESS, "发送成功", code);
+        return sms.sendSMSCode(phoneNumber, code);
     }
 
     /**

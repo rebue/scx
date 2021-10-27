@@ -18,120 +18,119 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
-* 角色应用
-*
-* @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-*/
+ * 角色应用
+ *
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
 @JsonInclude(Include.NON_NULL)
 public class RacRoleAppMo implements Serializable, Mo<Long> {
+
     /**
-    * 角色应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 角色应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = ModifyGroup.class, message = "角色应用ID不能为空")
     @PositiveOrZero(message = "角色应用ID不能为负数")
-    private Long id;
+    private Long              id;
 
     /**
-    * 应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "应用ID不能为空")
     @Length(max = 32, message = "应用ID的长度不能大于32")
-    private String appId;
+    private String            appId;
 
     /**
-    * 角色ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 角色ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = AddGroup.class, message = "角色ID不能为空")
     @PositiveOrZero(message = "角色ID不能为负数")
-    private Long roleId;
+    private Long              roleId;
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-    *
-    * 应用
-    *
-    * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-    */
+     * 应用
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
     @Getter
     @Setter
-    private RacAppMo app;
+    private RacAppMo          app;
 
     /**
-    *
-    * 角色
-    *
-    * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-    */
+     * 角色
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
     @Getter
     @Setter
-    private RacRoleMo role;
+    private RacRoleMo         role;
 
     /**
-    * 角色应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 角色应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getId() {
         return id;
     }
 
     /**
-    * 角色应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 角色应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-    * 应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getAppId() {
         return appId;
     }
 
     /**
-    * 应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setAppId(String appId) {
         this.appId = appId;
     }
 
     /**
-    * 角色ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 角色ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getRoleId() {
         return roleId;
     }
 
     /**
-    * 角色ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 角色ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -148,7 +147,7 @@ public class RacRoleAppMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -162,12 +161,11 @@ public class RacRoleAppMo implements Serializable, Mo<Long> {
             return false;
         }
         RacRoleAppMo other = (RacRoleAppMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-        ;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
@@ -178,10 +176,10 @@ public class RacRoleAppMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * 获取ID的类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     public String getIdType() {
         return "Long";

@@ -131,9 +131,9 @@ public class RacAppAddTo implements Serializable {
 
     /**
      * 字典项ID(list集合)
-     *
      */
     private List<Long>        dicItemIds;
+
     /**
      * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
      *

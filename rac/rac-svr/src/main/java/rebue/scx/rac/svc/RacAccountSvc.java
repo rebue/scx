@@ -50,7 +50,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @Validated
 public interface RacAccountSvc
-        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -183,7 +183,7 @@ public interface RacAccountSvc
      * 删除账户unionId映射
      *
      * @param to 删除的具体信息
-     * 
+     *
      * @return
      */
     RacAccountMo delUnionIdMapper(RacAccountUnionIdTo to);

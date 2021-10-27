@@ -39,8 +39,8 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-        implements RacAccountApi {
+    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+    implements RacAccountApi {
 
     /**
      * 重置账户登录密码
@@ -129,7 +129,7 @@ public class RacAccountApiImpl extends
 
     /**
      * 判断手机号是否已被绑定注册
-     * 
+     *
      * @param id     账户ID
      * @param mobile 手机号
      */

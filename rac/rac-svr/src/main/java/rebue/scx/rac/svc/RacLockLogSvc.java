@@ -30,14 +30,14 @@ import rebue.scx.rac.to.RacLockLogPageTo;
  */
 @Validated
 public interface RacLockLogSvc
-        extends BaseSvc<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo> {
+    extends BaseSvc<java.lang.Long, RacLockLogAddTo, RacLockLogModifyTo, RacLockLogDelTo, RacLockLogOneTo, RacLockLogListTo, RacLockLogPageTo, RacLockLogMo, RacLockLogJo> {
 
     RacLockLogMo updateLockLog(RacLockLogMo mo);
 
     /**
      * 账户概况
      * 传参时间
-     * 
+     *
      * @param qo
      */
     Map<String, Long> countSurvey(RacLockLogPageTo qo);

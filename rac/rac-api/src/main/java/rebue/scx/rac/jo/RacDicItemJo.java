@@ -138,4 +138,13 @@ public class RacDicItemJo implements Serializable {
     @Basic(optional = false)
     @Column(name = "UPDATE_DATETIME", nullable = false, length = 19)
     private LocalDateTime updateDatetime;
+
+    /**
+     * 字典项值
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Basic(optional = true)
+    @Column(name = "DIC_ITEM_VALUE", nullable = true, length = 200)
+    private String        dicItemValue;
 }

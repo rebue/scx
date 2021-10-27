@@ -148,6 +148,7 @@ public class RacDicItemMo implements Serializable, Mo<Long> {
         sb.append(", treeCode=").append(treeCode);
         sb.append(", updateDatetime=").append(updateDatetime);
         sb.append(", remark=").append(remark);
+        sb.append(", dicItemValue=").append(dicItemValue);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -324,5 +325,31 @@ public class RacDicItemMo implements Serializable, Mo<Long> {
      */
     public void setUpdateDatetime(LocalDateTime updateDatetime) {
         this.updateDatetime = updateDatetime;
+    }
+
+    /**
+     * 字典项值
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @Length(max = 200, message = "字典项值的长度不能大于200")
+    private String dicItemValue;
+
+    /**
+     * 字典项值
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getDicItemValue() {
+        return dicItemValue;
+    }
+
+    /**
+     * 字典项值
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setDicItemValue(String dicItemValue) {
+        this.dicItemValue = dicItemValue;
     }
 }

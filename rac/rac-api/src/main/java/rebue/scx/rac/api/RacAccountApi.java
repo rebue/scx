@@ -173,7 +173,7 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
 
     /**
      * 判断手机号是否已被绑定注册
-     * 
+     *
      * @param id     账户ID
      * @param mobile 手机号
      */
@@ -185,5 +185,4 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param id 被解绑的账户ID
      */
     Ro<?> unbindMobile(Long id);
-
 }

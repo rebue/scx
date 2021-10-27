@@ -34,12 +34,14 @@ public class RacAppMo implements Serializable, Mo<String> {
     @NotBlank(groups = ModifyGroup.class, message = "应用ID不能为空")
     @Length(max = 32, message = "应用ID的长度不能大于32")
     private String            id;
+
     /**
      * 应用标签
      */
     @Getter
     @Setter
     List<RacDicItemMo>        appLabelList;
+
     /**
      * 应用名称
      *
@@ -67,7 +69,6 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public String getId() {
         return id;
     }
@@ -77,7 +78,6 @@ public class RacAppMo implements Serializable, Mo<String> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -166,8 +166,8 @@ public class RacAppMo implements Serializable, Mo<String> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
+        final int prime = 31;
+        int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }

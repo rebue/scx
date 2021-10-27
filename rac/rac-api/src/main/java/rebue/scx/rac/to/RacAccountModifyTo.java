@@ -46,7 +46,7 @@ public class RacAccountModifyTo implements Serializable {
     private Long              id;
 
     /**
-     * QQ的UnionId
+     * QQ头像
      *
      * @mbg.dontOverWriteAnnotation
      *
@@ -95,13 +95,6 @@ public class RacAccountModifyTo implements Serializable {
     @Length(max = 6, message = "登录密码组合码的长度不能大于6")
     private String signInPswdSalt;
 
-    /**
-     * QQ头像
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 登录账户昵称
      *
@@ -182,22 +175,15 @@ public class RacAccountModifyTo implements Serializable {
     private String  payPswd;
 
     /**
-     * QQ昵称
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    /**
      * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 6, message = "支付密码组合码的长度不能大于6")
-    private String payPswdSalt;
+    private String  payPswdSalt;
 
     /**
-     * QQ的OpenId
+     * QQ的UnionId
      *
      * @mbg.dontOverWriteAnnotation
      *
@@ -235,6 +221,20 @@ public class RacAccountModifyTo implements Serializable {
     @Length(max = 32, message = "账户编码的长度不能大于32")
     private String code;
 
+    /**
+     * QQ昵称
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    /**
+     * QQ的OpenId
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 微信的OpenId
      *
@@ -292,7 +292,7 @@ public class RacAccountModifyTo implements Serializable {
     // 不进行反序列化
     @JsonProperty(access = Access.WRITE_ONLY)
     @Length(max = 300, message = "钉钉头像的长度不能大于300")
-    private String  ddAvatar;
+    private String        ddAvatar;
 
     /**
      * 联合账户ID
@@ -300,22 +300,15 @@ public class RacAccountModifyTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PositiveOrZero(message = "联合账户ID不能为负数")
-    private Long    unionId;
+    private Long          unionId;
 
     /**
      * 是否启用
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private Boolean isEnabled;
+    private Boolean       isEnabled;
 
-    /**
-     * 钉钉头像
-     *
-     * @mbg.dontOverWriteAnnotation
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
     /**
      * 建立时间戳
      *
@@ -340,6 +333,13 @@ public class RacAccountModifyTo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime expirationDatetime;
+    /**
+     * 钉钉头像
+     *
+     * @mbg.dontOverWriteAnnotation
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     /**
      * 微信昵称
      *

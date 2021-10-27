@@ -32,8 +32,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
  */
 @DubboService
 public class RacRoleApiImpl extends
-        BaseApiImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleSvc>
-        implements RacRoleApi {
+    BaseApiImpl<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleDelTo, RacRoleOneTo, RacRoleListTo, RacRolePageTo, RacRoleMo, RacRoleJo, RacRoleSvc> implements RacRoleApi {
 
     /**
      * 添加角色和权限的关系

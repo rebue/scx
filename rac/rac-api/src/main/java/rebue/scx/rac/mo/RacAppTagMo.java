@@ -18,120 +18,119 @@ import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
 
 /**
-* 应用标签
-*
-* @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-*/
+ * 应用标签
+ *
+ * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+ */
 @JsonInclude(Include.NON_NULL)
 public class RacAppTagMo implements Serializable, Mo<Long> {
+
     /**
-    * 应用标签ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用标签ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = ModifyGroup.class, message = "应用标签ID不能为空")
     @PositiveOrZero(message = "应用标签ID不能为负数")
-    private Long id;
+    private Long              id;
 
     /**
-    * 应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotBlank(groups = AddGroup.class, message = "应用ID不能为空")
     @Length(max = 32, message = "应用ID的长度不能大于32")
-    private String appId;
+    private String            appId;
 
     /**
-    * 字典项ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 字典项ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @NotNull(groups = AddGroup.class, message = "字典项ID不能为空")
     @PositiveOrZero(message = "字典项ID不能为负数")
-    private Long dicItemId;
+    private Long              dicItemId;
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-    *
-    * 应用
-    *
-    * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-    */
+     * 应用
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
     @Getter
     @Setter
-    private RacAppMo app;
+    private RacAppMo          app;
 
     /**
-    *
-    * 字典项
-    *
-    * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
-    */
+     * 字典项
+     *
+     * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
+     */
     @Getter
     @Setter
-    private RacDicItemMo dicItem;
+    private RacDicItemMo      dicItem;
 
     /**
-    * 应用标签ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用标签ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getId() {
         return id;
     }
 
     /**
-    * 应用标签ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用标签ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-    * 应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public String getAppId() {
         return appId;
     }
 
     /**
-    * 应用ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setAppId(String appId) {
         this.appId = appId;
     }
 
     /**
-    * 字典项ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 字典项ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public Long getDicItemId() {
         return dicItemId;
     }
 
     /**
-    * 字典项ID
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 字典项ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     public void setDicItemId(Long dicItemId) {
         this.dicItemId = dicItemId;
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public String toString() {
@@ -148,7 +147,7 @@ public class RacAppTagMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public boolean equals(Object that) {
@@ -162,12 +161,11 @@ public class RacAppTagMo implements Serializable, Mo<Long> {
             return false;
         }
         RacAppTagMo other = (RacAppTagMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-        ;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
     }
 
     /**
-    * @mbg.generated 自动生成，如需修改，请删除本行
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
     public int hashCode() {
@@ -178,10 +176,10 @@ public class RacAppTagMo implements Serializable, Mo<Long> {
     }
 
     /**
-    * 获取ID的类型
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
+     * 获取ID的类型
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
     @Override
     public String getIdType() {
         return "Long";

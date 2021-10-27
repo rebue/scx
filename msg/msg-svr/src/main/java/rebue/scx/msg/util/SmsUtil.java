@@ -18,21 +18,23 @@ import rebue.robotech.ro.Ro;
 @Component // 交给spring管理
 @RefreshScope
 public class SmsUtil {
-
+    // 是否模拟短信
+    @Value("${msg.sms.simulation:true}")
+    public Boolean    simulationSMS = true;
     // masterSecret
     @Value("${msg.sms.masterSecret:e92f7f27dbd27bf0f1157c61}")
-    public String     masterSecret = "e92f7f27dbd27bf0f1157c61";
+    public String     masterSecret  = "e92f7f27dbd27bf0f1157c61";
     // appKey
     @Value("${msg.sms.appKey:823ebe289daa183f863eee73}")
-    public String     appKey       = "823ebe289daa183f863eee73";
+    public String     appKey        = "823ebe289daa183f863eee73";
     // 短信模板ID
     @Value("${msg.sms.tempId:202223}")
-    public int        tempId       = 202223;
+    public int        tempId        = 202223;
     // 签名id
     @Value("${msg.sms.signId:20492}")
-    public int        signId       = 20492;
+    public int        signId        = 20492;
     // 初始化发短信客户端
-    private SMSClient smsClient    = new SMSClient(masterSecret, appKey);
+    private SMSClient smsClient     = new SMSClient(masterSecret, appKey);
 
     /**
      * 发送模板短信-验证码
@@ -43,16 +45,21 @@ public class SmsUtil {
      * @return
      */
     public Ro<?> sendSMSCode(String phoneNumber, String code) {
+        // 是否模拟短信
+        if (simulationSMS) {
+            return new Ro<>(ResultDic.SUCCESS, "发送成功", code);
+        }
         try {
             // 构建发送短信
-            SMSPayload payload = SMSPayload.newBuilder()
+            SMSPayload    payload = SMSPayload.newBuilder()
                     .setMobileNumber(phoneNumber) // 手机号码
                     .setTempId(tempId) // 短信模板ID
                     .addTempPara("code", code) // key模板参数value
                     .setSignId(signId)// 签名id
                     .build();
             // 发送短信 会返回msg_id
-            SendSMSResult res = smsClient.sendTemplateSMS(payload);
+            SendSMSResult res     = null;
+            res = smsClient.sendTemplateSMS(payload);
             // 执行业务/
             // 指向保存短信发送记录业务逻辑 可以直接扔到MQ
             /**
@@ -63,7 +70,7 @@ public class SmsUtil {
              * 保存到DB
              */
             // insertSendSmsLog(res.getMessageId(),phoneNumber,code,0,System.currentTimeMillis()/1000);
-            if (res.getMessageId() != null) {
+            if (res != null && res.getMessageId() != null) {
                 // 执行业务/
                 System.out.println(res);
                 return new Ro<>(ResultDic.SUCCESS, "发送成功");

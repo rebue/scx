@@ -51,8 +51,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAppSvcImpl
-        extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
-        implements RacAppSvc {
+    extends BaseSvcImpl<java.lang.String, RacAppAddTo, RacAppModifyTo, RacAppDelTo, RacAppOneTo, RacAppListTo, RacAppPageTo, RacAppMo, RacAppJo, RacAppMapper, RacAppDao>
+    implements RacAppSvc {
 
     /**
      * 本服务的单例
@@ -63,8 +63,10 @@ public class RacAppSvcImpl
     @Lazy
     @Resource
     private RacAppSvc       thisSvc;
+
     @Resource
     private RacAppTagMapper appTagMapper;
+
     @Resource
     private RacDicItemSvc   racDicItemSvc;
 
@@ -103,8 +105,8 @@ public class RacAppSvcImpl
         // 排序顺序号
         Long count = thisSvc.countSelective(oneTo);
         to.setSeqNo((byte) (count + 0));
-        final RacAppMo mo    = OrikaUtils.map(to, RacAppMo.class);
-        RacAppMo       addMo = thisSvc.addMo(mo);
+        final RacAppMo mo = OrikaUtils.map(to, RacAppMo.class);
+        RacAppMo addMo = thisSvc.addMo(mo);
         if (to.getDicItemIds() != null) {
             Iterator<Long> iterator = to.getDicItemIds().iterator();
             while (iterator.hasNext()) {
@@ -141,8 +143,8 @@ public class RacAppSvcImpl
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacAppMo modifyById(final RacAppModifyTo to) {
-        final RacAppMo    mo       = OrikaUtils.map(to, getMoClass());
-        RacAppMo          appMo    = this.modifyMoById(mo);
+        final RacAppMo mo = OrikaUtils.map(to, getMoClass());
+        RacAppMo appMo = this.modifyMoById(mo);
         // 先删除应用标签
         final RacAppTagMo appTagMo = new RacAppTagMo();
         appTagMo.setAppId(appMo.getId());
@@ -199,7 +201,7 @@ public class RacAppSvcImpl
      */
     @Override
     public void delById(String id) {
-        RacAppMo          byId     = getById(id);
+        RacAppMo byId = getById(id);
         // 先删除关联应用标签
         final RacAppTagMo appTagMo = new RacAppTagMo();
         appTagMo.setAppId(id);
@@ -223,7 +225,7 @@ public class RacAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacAppModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacAppMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         final RacAppMo appQo = new RacAppMo();
         appQo.setSeqNo((byte) (qo.getSeqNo() - 1));
         appQo.setRealmId(qo.getRealmId());
@@ -245,7 +247,7 @@ public class RacAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacAppModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacAppMo qo    = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacAppMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacAppMo appQo = new RacAppMo();
         appQo.setSeqNo((byte) (qo.getSeqNo() + 1));
@@ -266,15 +268,15 @@ public class RacAppSvcImpl
      */
     @Override
     public RacAppMo getById(final String id) {
-        RacAppMo          appMo    = _mapper.selectByPrimaryKey(id).orElse(null);
+        RacAppMo appMo = _mapper.selectByPrimaryKey(id).orElse(null);
         final RacAppTagMo appTagMo = new RacAppTagMo();
         appTagMo.setAppId(id);
         List<RacAppTagMo> list = appTagMapper.selectSelective(appTagMo);
         if (list.size() > 0) {
-            List<Long>         collect = list.stream().map(item -> {
-                                           return item.getDicItemId();
-                                       }).collect(Collectors.toList());
-            List<RacDicItemMo> listIn  = racDicItemSvc.listIn(collect);
+            List<Long> collect = list.stream().map(item -> {
+                return item.getDicItemId();
+            }).collect(Collectors.toList());
+            List<RacDicItemMo> listIn = racDicItemSvc.listIn(collect);
             // 回显示标签
             appMo.setAppLabelList(listIn);
         }
@@ -287,7 +289,6 @@ public class RacAppSvcImpl
     @Override
     public List<RacAppTagMo> listInAppIdList(List<String> appIds) {
         return appTagMapper.listInAppIdList(appIds);
-
     }
 
     /**

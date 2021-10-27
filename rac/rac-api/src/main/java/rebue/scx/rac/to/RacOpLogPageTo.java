@@ -65,6 +65,7 @@ public class RacOpLogPageTo extends PageTo implements Serializable {
 
     // @Length(max = 20, message = "操作类型的长度不能大于20")
     private String[]      opType;
+
     /**
      * 操作标题
      *
@@ -87,6 +88,7 @@ public class RacOpLogPageTo extends PageTo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime startDate;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime endDate;

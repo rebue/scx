@@ -40,7 +40,6 @@ public class RacOpLogCtrl {
      * 添加操作日志
      *
      * @param to 添加的具体信息
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/rac/op-log")
@@ -52,7 +51,6 @@ public class RacOpLogCtrl {
      * 修改操作日志的信息
      *
      * @param to 修改的具体数据
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/rac/op-log")
@@ -64,7 +62,6 @@ public class RacOpLogCtrl {
      * 删除操作日志
      *
      * @param id 操作日志ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/rac/op-log")
@@ -76,7 +73,6 @@ public class RacOpLogCtrl {
      * 获取单个操作日志的信息
      *
      * @param id 操作日志ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/op-log/get-by-id")
@@ -88,7 +84,6 @@ public class RacOpLogCtrl {
      * 判断操作日志是否存在
      *
      * @param id 操作日志ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/op-log/exist-by-id")
@@ -100,7 +95,6 @@ public class RacOpLogCtrl {
      * 查询操作日志的信息
      *
      * @param qo 查询的具体条件
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/rac/op-log/page")
@@ -112,7 +106,7 @@ public class RacOpLogCtrl {
      * 账户概况
      * 传参查询时间
      * 暂时不需要关键字keywords 取值为：账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户
-     * 
+     *
      * @param qo
      */
     @GetMapping("/rac/op-log/count-survey")
