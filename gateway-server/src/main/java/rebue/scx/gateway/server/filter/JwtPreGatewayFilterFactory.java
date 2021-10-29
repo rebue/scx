@@ -74,6 +74,19 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
 
             log.info(StringUtils.rightPad("*** 进入JwtPreFilter过滤器 ***", 100));
             try {
+                log.info("判断是否要过滤此URL-{}", url);
+                if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
+                        && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
+                    log.debug("经判断不过滤此URL");
+                    return returnFilter(chain, exchange);
+                }
+                if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
+                        && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
+                    log.debug("经判断忽略此URL");
+                    return returnFilter(chain, exchange);
+                }
+                log.info("经判断要过滤此URL");
+
                 // 获取签名
                 final String sign = JwtUtils.getSignFromCookies(request);
                 if (StringUtils.isBlank(sign)) {
@@ -124,18 +137,6 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                         response.setStatusCode(HttpStatus.FORBIDDEN);
                         return response.setComplete();
                     }
-                    log.info("判断是否要过滤此URL-{}", url);
-                    if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
-                            && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
-                        log.debug("经判断不过滤此URL");
-                        return returnFilter(chain, exchange);
-                    }
-                    if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
-                            && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
-                        log.debug("经判断忽略此URL");
-                        return returnFilter(chain, exchange);
-                    }
-                    log.info("经判断要过滤此URL");
                     final Ro<ListRa<String>> urnsRo = racPermUrnApi.getUrnsOfAccount(accountMo.getId());
                     if (!ResultDic.SUCCESS.equals(urnsRo.getResult())) {
                         log.warn("获取可访问的链接列表失败: url-{}", url);
@@ -154,18 +155,6 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     }
                     log.info("账户有访问该链接的权限");
                 }
-                log.info("判断是否要过滤此URL-{}", url);
-                if (config.getFilterUrls() != null && !config.getFilterUrls().isEmpty()
-                        && AntPathMatcherUtils.noneMatch(method, path, config.getFilterUrls())) {
-                    log.debug("经判断不过滤此URL");
-                    return returnFilter(chain, exchange);
-                }
-                if (config.getIgnoreUrls() != null && !config.getIgnoreUrls().isEmpty()
-                        && AntPathMatcherUtils.anyMatch(method, path, config.getIgnoreUrls())) {
-                    log.debug("经判断忽略此URL");
-                    return returnFilter(chain, exchange);
-                }
-                log.info("经判断要过滤此URL");
 
                 log.info("延长JWT签名时效");
                 final ServerHttpResponse                    response        = exchange.getResponse();
