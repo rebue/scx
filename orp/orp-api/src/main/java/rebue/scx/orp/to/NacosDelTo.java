@@ -39,7 +39,6 @@ public class NacosDelTo implements Serializable {
     /**
      * 旧的appSecret
      */
-    @NotNull(message = "旧的appSecret不能为空")
     private String            oldAppSecret;
 
 }

@@ -55,7 +55,7 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
     /**
      * 上传头像
      */
-    Ro<?> uploadAvatar(Long accountId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
+    Ro<?> uploadAvatar(Long accountId, String appId, String fileName, String contentDisposition, String contentType, InputStream inputStream);
 
     /**
      * 获取当前账户信息

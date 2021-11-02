@@ -4,6 +4,7 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -249,6 +250,38 @@ public class OrpSvcImpl implements OrpSvc {
             }
         default:
             throw new RuntimeExceptionX("不支持此解绑方式: " + orpType);
+        }
+    }
+
+    /**
+     * 根据账户ID校验微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     */
+    @Override
+    public Ro<?> verifiyAccount(String orpType, String clientId, Long accountId, OrpCodeTo to) {
+        OrpUserInfoRa            authCodeRa = authCode(orpType, clientId, to);
+        Ro<PojoRa<RacAccountMo>> byId       = racAccountApi.getById(accountId);
+        RacAccountMo             mo         = byId.getExtra().getOne();
+        switch (orpType) {
+        case "ding-talk":
+            if (mo.getDdOpenId().equals(authCodeRa.getOpenId())) {
+                final String state = UUID.randomUUID().toString();
+                return new Ro<>(ResultDic.SUCCESS, state);
+            }
+            else {
+                return new Ro<>(ResultDic.FAIL, "扫码用户不对");
+            }
+        case "wechat-open":
+            if (mo.getWxOpenId().equals(authCodeRa.getOpenId())) {
+                final String state = UUID.randomUUID().toString();
+                return new Ro<>(ResultDic.SUCCESS, state);
+            }
+            else {
+                return new Ro<>(ResultDic.FAIL, "扫码用户不对");
+            }
+        default:
+            throw new RuntimeExceptionX("不支持此方式: " + orpType);
         }
     }
 

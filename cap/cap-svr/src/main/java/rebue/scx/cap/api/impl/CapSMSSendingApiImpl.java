@@ -7,6 +7,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapSMSSendingApi;
 import rebue.scx.cap.svc.CapSMSSendingSvc;
+import rebue.scx.cap.to.CapSMSTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 
 @DubboService
@@ -21,8 +22,8 @@ public class CapSMSSendingApiImpl implements CapSMSSendingApi {
      * @param code
      */
     @Override
-    public Ro<?> sendTemplateSMS(String phoneNumber) {
-        return svc.sendTemplateSMS(phoneNumber);
+    public Ro<?> sendTemplateSMS(CapSMSTo to) {
+        return svc.sendTemplateSMS(to);
     }
 
     /**
@@ -32,6 +33,17 @@ public class CapSMSSendingApiImpl implements CapSMSSendingApi {
     @Override
     public Ro<?> msgSMSVerification(CapSMSVerificationTo to) {
         return svc.msgSMSVerification(to);
+    }
+
+    /**
+     * 校验成功后删除手机验证码缓存
+     * 
+     * @param phoneNumber
+     * @param code
+     */
+    @Override
+    public void deleteVerifiyCode(final CapSMSVerificationTo to) {
+        svc.deleteVerifiyCode(to);
     }
 
 }

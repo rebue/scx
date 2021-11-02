@@ -3,9 +3,11 @@ package rebue.scx.rac.svc.impl.ex;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +26,7 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
 import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
@@ -49,6 +52,7 @@ import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
+import rebue.scx.rac.util.LevelProtectUtils;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.DateUtils;
 import rebue.wheel.core.RegexUtils;
@@ -75,7 +79,11 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 允许输入登录密码错误次数
      */
-    private static final Long   ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN            = 5L;
+    private static Long         ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN            = 5L;
+    /**
+     * 登录错误被锁定的时间
+     */
+    private static long         lockDuration                                 = DateUtils.getSecondUtilTomorrow();
     /**
      * 保存账户密码输入错误被锁定的key
      */
@@ -111,12 +119,43 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private RacAccountMapper    racAccountMapper;
     @Resource
     private RacAccountSvcImpl   accountSvcImpl;
+    @Resource
+    private LevelProtectUtils   levelProtectUtils;
 
     @DubboReference
     private CapApi              capApi;
     @DubboReference
     private CapSMSSendingApi    capSMSSendingApi;
 
+    // private String str = "passwordErrors,lockDuration,passwordTips,passworDoverdue";
+    /**
+     * 刷新等堡配置
+     */
+    @PostConstruct
+    @Override
+    public void refreshUpdateLevelProtect() {
+        Map<String, String> configMap = levelProtectUtils.getConfigMap();
+        for (String key : configMap.keySet()) {
+            String str = configMap.get(key);
+            if (key.equals("passwordErrors")) {
+                ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN = Long.parseLong(str);
+            }
+            if (key.equals("lockDuration")) {
+                lockDuration = Long.parseLong(str) * 60L;
+            }
+            // if (key.equals("passwordTips")) {
+            // configMap.get(key);
+            // }
+            // if (key.equals("passworDoverdue")) {
+            // configMap.get(key);
+            // }
+        }
+
+    }
+
+    /**
+     * 
+     */
     @Override
     public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
         if (to.getLoginType() == 0) {
@@ -128,6 +167,19 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             return ro;
         }
         if (to.getLoginType() == 1) {
+            if (!(to.getCaptchaVerification() != null)) {
+                final String msg = "图形验证码为空";
+                log.warn(msg + ": to-{}", to);
+                return new Ro<>(ResultDic.WARN, msg);
+            }
+            // 校验图形验证码
+            final CaptchaVO captchaVO = new CaptchaVO();
+            captchaVO.setCaptchaVerification(to.getCaptchaVerification());
+            final Ro<?> model = capApi.verification(captchaVO);
+            if (model.getResult().getCode() != 1) {
+                return new Ro<>(ResultDic.FAIL, model.getMsg());
+            }
+            // 校验短信验证码
             CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
             verifiy.setPhoneNumber(to.getPhoneNumber());
             verifiy.setCode(to.getCode());
@@ -159,6 +211,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
                 log.warn(msg + ": to-{}", to);
                 return new Ro<>(ResultDic.WARN, msg);
             }
+            // 成功后清理验证码
+            capSMSSendingApi.deleteVerifiyCode(verifiy);
+            capApi.deleteVerifiyCode(captchaVO);
             return returnSuccessSignIn(accountMo, appMo);
         }
         // return ro.isSuccess() ? Optional.of(accountSvc.getById(ro.getExtra().getId())) : Optional.empty();
@@ -173,7 +228,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
-
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
@@ -240,7 +294,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         // if (wrongPswdTimesOfSignIn != null) {
         if (to.getVerification() != null && !to.getVerification().equals("")) {
             log.info("校验验证码是否正确");
-            final Ro<?> verifyVo = capApi.verifyVo(to.getVerification());
+            final CaptchaVO captchaVO = new CaptchaVO();
+            captchaVO.setCaptchaVerification(to.getVerification());
+            final Ro<?> verifyVo = capApi.verification(captchaVO);
             if (verifyVo.getResult().getCode() != 1) {
                 log.info("校验验证码失败");
                 return new Ro<>(ResultDic.FAIL, "验证码二次校验失败！");
@@ -339,7 +395,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private Long incrWrongPswdTimesOfSignIn(final Long accountId) {
         log.info("递增账户输入错误登录密码的次数: {}", accountId);
         final Long result = stringRedisTemplate.opsForValue().increment(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId);
-        stringRedisTemplate.expire(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId, DateUtils.getSecondUtilTomorrow(), TimeUnit.SECONDS);
+        stringRedisTemplate.expire(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId, lockDuration, TimeUnit.SECONDS);
         return result;
     }
 
@@ -381,7 +437,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         addTo.setRealmId(accountMo.getRealmId());
         addTo.setLockReason("登录密码连续输入错误5次");
         addTo.setLockDatetime(LocalDateTime.now());
-        addTo.setAutoUnlockDatetime(LocalDate.now().plusDays(1).atStartOfDay());
+        LocalDateTime dateTime = LocalDateTime.now().plusSeconds(lockDuration);
+        addTo.setAutoUnlockDatetime(dateTime);
         racLockLogSvc.add(addTo);
     }
 

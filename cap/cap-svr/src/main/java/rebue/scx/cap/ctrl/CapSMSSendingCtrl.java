@@ -29,7 +29,7 @@ public class CapSMSSendingCtrl {
      */
     @PostMapping("/cap/sms/sending")
     public Mono<Ro<?>> msgSMSSending(@RequestBody CapSMSTo to) {
-        return Mono.create(callback -> callback.success(api.sendTemplateSMS(to.getPhoneNumber())));
+        return Mono.create(callback -> callback.success(api.sendTemplateSMS(to)));
     }
 
     /**
@@ -37,7 +37,7 @@ public class CapSMSSendingCtrl {
      *
      */
     @PostMapping("/cap/sms/verification")
-    public Mono<Ro<?>> msgSMSVerification(CapSMSVerificationTo to) {
+    public Mono<Ro<?>> msgSMSVerification(@RequestBody CapSMSVerificationTo to) {
         return Mono.create(callback -> callback.success(api.msgSMSVerification(to)));
     }
 }

@@ -24,7 +24,7 @@ import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.oap.svc.impl.OidcSvcImpl;
 
 /**
- * OIDC
+ * OIDC登录
  * 
  * @author yuanman
  *
@@ -38,19 +38,22 @@ public class OidcCtrl {
 
     /**
      * 重定向到前端登录页面(未登录)
-     *
-     * @ignoreParams paramMap
-     * @ignoreParams request
-     *               https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint
-     *               <p>
-     *               scope openid
-     *               response_type code
-     *               client_id test1
-     *               redirect_uri https://www.baidu.com
-     *               state RECOMMENDED
+     * https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint
+     * scope openid
+     * response_type code
+     * client_id test1
+     * redirect_uri https://www.baidu.com
+     * state RECOMMENDED
+     * 
+     * @ignoreParams paramMap,request
+     * 
+     * @param paramMap
+     * @param request
+     * @param response
      */
     @RequestMapping(value = "/authorize", method = { RequestMethod.GET, RequestMethod.POST
     })
+    @PostMapping("/authorize")
     public String authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response) {
         return oidcSvc.authorize(paramMap, request, response);
     }
@@ -73,30 +76,31 @@ public class OidcCtrl {
         return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
     }
 
-    /**
-     * 手机验证码登录
-     * 
-     * @ignoreParams request
-     * 
-     * @param loginData
-     * @param request
-     * @param response
-     * 
-     */
-    @PostMapping("/login-by-mobile")
-    public Mono<Ro<String>> loginByMobile(
-            @RequestBody LoginDto loginData,
-            ServerHttpRequest request,
-            ServerHttpResponse response) {
-        return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
-    }
+    // /**
+    // * 手机验证码登录
+    // *
+    // * @ignoreParams request
+    // *
+    // * @param loginData
+    // * @param request
+    // * @param response
+    // *
+    // */
+    // @PostMapping("/login-by-mobile")
+    // public Mono<Ro<String>> loginByMobile(
+    // @RequestBody LoginDto loginData,
+    // ServerHttpRequest request,
+    // ServerHttpResponse response) {
+    // return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
+    // }
 
     /**
+     * token校验
+     * 
+     * https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
+     * https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
      * 
      * @ignoreParams request
-     * 
-     * @param https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
-     * @param https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens
      */
     @PostMapping(value = "/token", consumes = "application/x-www-form-urlencoded", produces = "application/json")
     public Mono<Object> token(ServerHttpRequest request, ServerHttpResponse response) {

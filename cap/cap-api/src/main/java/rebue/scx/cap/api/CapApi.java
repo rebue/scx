@@ -24,6 +24,12 @@ public interface CapApi {
      * 二次验证登录信息
      * 
      */
-    Ro<?> verifyVo(String verification);
+    Ro<?> verification(CaptchaVO captchaVO);
+
+    /**
+     * 校验成功后删除验证码缓存
+     * 
+     */
+    void deleteVerifiyCode(CaptchaVO captchaVO);
 
 }

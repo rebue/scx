@@ -44,7 +44,6 @@ public class NacosModifyTo implements Serializable {
     /**
      * 旧的appSecret
      */
-    @NotNull(message = "旧的appSecret不能为空")
     private String            oldAppSecret;
     /**
      * 新的appKey
@@ -59,7 +58,6 @@ public class NacosModifyTo implements Serializable {
     /**
      * 新的appSecret
      */
-    @NotNull(message = "新的appSecret不能为空")
     private String            newAppSecret;
 
 }

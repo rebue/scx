@@ -25,6 +25,7 @@ import rebue.scx.rac.co.RacJwtSignCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.ex.PostParameterTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
 import rebue.wheel.turing.JwtUtils;
@@ -53,6 +54,15 @@ public class RacSignInCtrl {
             }
             callback.success(ro);
         });
+    }
+
+    /**
+     * 刷新等堡配置
+     */
+    @PostMapping("/rac/sign-in/refresh-update-level-protect")
+    @RacOpLog(opType = "刷新等堡配置", opTitle = "刷新等堡配置: #{#p0.id}")
+    public Mono<Ro<?>> refreshUpdateLevelProtect(@RequestBody final PostParameterTo to) {
+        return Mono.create(callback -> callback.success(api.refreshUpdateLevelProtect()));
     }
 
     /**

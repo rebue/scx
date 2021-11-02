@@ -28,8 +28,10 @@ public class LoginDto {
      * 登录密码
      */
     private String password;
-
-    private String verificationCode;
+    /**
+     * 图形验证码
+     */
+    private String captchaVerification;
 
     /**
      * 手机验证码登录手的机号

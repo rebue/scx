@@ -32,5 +32,9 @@ public class CapSMSVerificationTo implements Serializable {
      */
     @NotNull(message = "验证码不能为空")
     private String            code;
+    /**
+     * 图形验证码
+     */
+    private String            captchaVerification;
 
 }

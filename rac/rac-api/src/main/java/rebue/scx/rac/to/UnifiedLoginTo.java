@@ -27,6 +27,10 @@ public class UnifiedLoginTo {
     private String password;
 
     /**
+     * 图形验证码
+     */
+    private String captchaVerification;
+    /**
      * 手机验证码登录手机号
      */
     private String phoneNumber;

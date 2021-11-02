@@ -1,7 +1,7 @@
 /*
- *Copyright © 2018 anji-plus
- *http://www.anji-plus.com
- *All rights reserved.
+ * Copyright © 2018 anji-plus
+ * http://www.anji-plus.com
+ * All rights reserved.
  */
 package rebue.scx.cap.svc;
 
@@ -21,34 +21,51 @@ public interface CaptchaService {
 
     /**
      * 获取验证码
+     * 
      * @param captchaVO
+     * 
      * @return
      */
     Ro<?> get(CaptchaVO captchaVO);
 
     /**
      * 核对验证码(前端)
+     * 
      * @param captchaVO
+     * 
      * @return
      */
     Ro<?> check(CaptchaVO captchaVO);
 
     /**
      * 二次校验验证码(后端)
+     * 
      * @param captchaVO
+     * 
      * @return
      */
     Ro<?> verification(CaptchaVO captchaVO);
 
+    /**
+     * 校验成功后删除验证码缓存
+     * 
+     * @param captchaVO
+     * 
+     * @return
+     */
+    Ro<?> deleteVerifiyCode(CaptchaVO captchaVO);
+
     /***
      * 验证码类型
      * 通过java SPI机制，接入方可自定义实现类，实现新的验证类型
+     * 
      * @return
      */
     String captchaType();
 
     /**
      * 历史资源清除(过期的图片文件，生成的临时图片...)
+     * 
      * @param config 配置项 控制资源清理的粒度
      */
     void destroy(Properties config);

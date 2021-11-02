@@ -39,8 +39,8 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @DubboService
 public class RacAccountApiImpl extends
-    BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
-    implements RacAccountApi {
+        BaseApiImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountSvc>
+        implements RacAccountApi {
 
     /**
      * 重置账户登录密码
@@ -219,8 +219,9 @@ public class RacAccountApiImpl extends
      * 上传头像
      */
     @Override
-    public Ro<?> uploadAvatar(final Long accountId, final String fileName, final String contentDisposition, final String contentType, final InputStream inputStream) {
-        return _svc.uploadAvatar(accountId, fileName, contentDisposition, contentType, inputStream);
+    public Ro<?> uploadAvatar(final Long accountId, final String appId, final String fileName, final String contentDisposition, final String contentType,
+            final InputStream inputStream) {
+        return _svc.uploadAvatar(accountId, appId, fileName, contentDisposition, contentType, inputStream);
     }
 
     /**

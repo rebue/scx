@@ -42,4 +42,11 @@ public interface OrpApi {
      */
     Ro<?> unbindModify(String orpType, String clientId, Long accountId, OrpCodeTo to);
 
+    /**
+     * 根据账户ID校验微信钉钉的信息
+     *
+     * @param to 只需要上传微信/钉钉的信息
+     */
+    Ro<?> verifiyAccount(String orpType, String clientId, Long accountId, OrpCodeTo to);
+
 }

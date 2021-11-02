@@ -317,12 +317,14 @@ public class RacAccountCtrl {
 
     /**
      * 上传头像
-     *
+     * 
+     * @ignoreParams request
+     * 
      * @throws IOException
      */
     @PostMapping(value = "/rac/account/upload-avatar")
     public Mono<?> uploadAvatar(@CookieValue(JwtUtils.JWT_TOKEN_NAME) final String jwtToken, @RequestPart("avatar") final Flux<FilePart> filePartFlux,
-            final ServerHttpResponse response) {
+            final ServerHttpRequest request, final ServerHttpResponse response) {
         if (StringUtils.isBlank(jwtToken)) {
             throw new IllegalArgumentException("在Cookie中找不到JWT签名");
         }
@@ -330,12 +332,18 @@ public class RacAccountCtrl {
         if (curAccountId == null) {
             throw new IllegalArgumentException("在JWT签名中找不到账户ID");
         }
+        // 从Headers中获取应用ID
+        final List<String> list  = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
+        final String       appId = list != null && list.size() > 0 ? list.get(0) : null;
+        if (StringUtils.isBlank(appId)) {
+            throw new RuntimeExceptionX("在Headers中找不到应用ID");
+        }
         return filePartFlux.flatMap(filePart -> {
             final String             fileName           = filePart.filename();
             final ContentDisposition contentDisposition = filePart.headers().getContentDisposition();
             final MediaType          contentType        = filePart.headers().getContentType();
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true)).reduce(SequenceInputStream::new).map(inputStream -> {
-                final Ro<?> ro = api.uploadAvatar(curAccountId, fileName, contentDisposition.toString(), contentType.toString(), inputStream);
+                final Ro<?> ro = api.uploadAvatar(curAccountId, appId, fileName, contentDisposition.toString(), contentType.toString(), inputStream);
                 if (!ResultDic.SUCCESS.equals(ro.getResult())) {
                     response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
                 }

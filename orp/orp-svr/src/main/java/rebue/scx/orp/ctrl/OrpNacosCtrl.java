@@ -69,13 +69,21 @@ public class OrpNacosCtrl {
     /**
      * 获取配置信息
      */
-    @GetMapping("/get/nacos/config")
+    @GetMapping("/orp/get/nacos/config")
     public Mono<Ro<?>> getNacosConfig() {
         List<Object>              list              = new ArrayList<Object>();
         String                    ymlStr            = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList   = YamlUtils.getAsMapList(ymlStr, "orp.strategies.ding-talk.clients");
         List<Map<String, String>> wechatOpenMapList = YamlUtils.getAsMapList(ymlStr, "orp.strategies.wechat-open.clients");
-        YamlRa                    ra                = new YamlRa();
+        dingTalkMapList.stream().map(item -> {
+            item.remove("secret");
+            return item;
+        }).collect(Collectors.toList());
+        wechatOpenMapList.stream().map(item -> {
+            item.remove("secret");
+            return item;
+        }).collect(Collectors.toList());
+        YamlRa ra = new YamlRa();
         ra.setDingTalkMapList(dingTalkMapList);
         ra.setWechatOpenMapList(wechatOpenMapList);
         list.add(dingTalkMapList);
@@ -90,12 +98,12 @@ public class OrpNacosCtrl {
      * @param to
      */
     @RacOpLog(opType = "添加配置信息", opTitle = "添加配置类型: #{#p0.configType}")
-    @PostMapping("/nacos/publish/add-config")
+    @PostMapping("/orp/nacos/publish/add-config")
     public Mono<Ro<?>> addPublishConfig(@RequestBody final NacosAddTo to) {
         Map<String, String> hashedMap = new HashedMap();
         hashedMap.put("id", to.getNewAppKey());
-        hashedMap.put("secret", to.getNewAppSecret());
         hashedMap.put("name", to.getNewName());
+        hashedMap.put("secret", to.getNewAppSecret());
         if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
             throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
         }
@@ -123,7 +131,7 @@ public class OrpNacosCtrl {
      * @param to
      */
     @RacOpLog(opType = "修改配置信息", opTitle = "修改配置类型: #{#p0.configType}")
-    @PostMapping("/nacos/publish/modify-config")
+    @PostMapping("/orp/nacos/publish/modify-config")
     public Mono<Ro<?>> publishConfig(@RequestBody final NacosModifyTo to) {
         if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
             throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
@@ -134,26 +142,21 @@ public class OrpNacosCtrl {
         List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
         dingTalkMapList.stream().map(item -> {
             Iterator<Entry<String, String>> entrySet   = item.entrySet().iterator();
-            boolean                         nameFlag   = false;
             boolean                         idFlag     = false;
             boolean                         secretFlag = false;
             while (entrySet.hasNext()) {
                 Entry<String, String> map = entrySet.next();
-                if (map.getKey().equals("id") && map.getValue().equals(to.getOldAppKey()))
-                    idFlag = true;
-                if (map.getKey().equals("secret") && map.getValue().equals(to.getOldAppSecret()))
+                if (map.getKey().equals("id") && map.getValue().equals(to.getOldAppKey())) {
+                    idFlag     = true;
                     secretFlag = true;
-                if (map.getKey().equals("name") && map.getValue().equals(to.getOldName()))
-                    nameFlag = true;
+                }
             }
             if (idFlag) {
                 item.put("id", to.getNewAppKey());
-            }
-            if (secretFlag) {
-                item.put("secret", to.getNewAppSecret());
-            }
-            if (nameFlag) {
                 item.put("name", to.getNewName());
+            }
+            if (secretFlag && to.getNewAppSecret() != null) {
+                item.put("secret", to.getNewAppSecret());
             }
             return item;
         }).collect(Collectors.toList());
@@ -176,7 +179,7 @@ public class OrpNacosCtrl {
      * @param to
      */
     @RacOpLog(opType = "删除配置信息", opTitle = "删除配置类型: #{#p0.configType}")
-    @PostMapping("/nacos/publish/del-config")
+    @PostMapping("/orp/nacos/publish/del-config")
     public Mono<Ro<?>> delPublishConfig(@RequestBody final NacosDelTo to) {
         if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
             throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
@@ -186,19 +189,12 @@ public class OrpNacosCtrl {
         String                    ymlStr          = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
         dingTalkMapList.stream().map(item -> {
-            Iterator<Entry<String, String>> entrySet   = item.entrySet().iterator();
-            boolean                         clearFlag  = false;
-            boolean                         idFlag     = false;
-            boolean                         secretFlag = false;
+            Iterator<Entry<String, String>> entrySet  = item.entrySet().iterator();
+            boolean                         clearFlag = false;
             while (entrySet.hasNext()) {
                 Entry<String, String> map = entrySet.next();
                 if (map.getKey().equals("id") && map.getValue().equals(to.getOldAppKey()))
-                    idFlag = true;
-                if (map.getKey().equals("secret") && map.getValue().equals(to.getOldAppSecret()))
-                    secretFlag = true;
-                if (idFlag && secretFlag) {
                     clearFlag = true;
-                }
             }
             if (clearFlag) {
                 item.clear();

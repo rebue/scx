@@ -73,7 +73,7 @@ public class SmsUtil {
             if (res != null && res.getMessageId() != null) {
                 // 执行业务/
                 System.out.println(res);
-                return new Ro<>(ResultDic.SUCCESS, "发送成功");
+                return new Ro<>(ResultDic.SUCCESS, "发送成功,请注意接收手机短信");
             }
             else {
                 return new Ro<>(ResultDic.FAIL, "发送失败");
@@ -87,7 +87,7 @@ public class SmsUtil {
     }
 
     /**
-     * 发送模板短信-取快递 示例2
+     * 发送模板短信-取快递
      *
      * @param phoneNumber 手机号
      * @param name        名字

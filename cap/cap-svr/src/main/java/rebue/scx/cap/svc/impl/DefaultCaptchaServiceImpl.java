@@ -88,15 +88,42 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService {
         try {
             final String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
-                return new Ro<>(ResultDic.FAIL, "验证码已失效，请重新获取");
+                return new Ro<>(ResultDic.FAIL, "图形验证码已失效，请重新获取");
             }
             // 二次校验取值后，即刻失效
+            // CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
+        } catch (final Exception e) {
+            logger.error("图形验证码坐标解析失败", e);
+            return new Ro<>(ResultDic.FAIL, "图形验证码解析失败，请联系管理员");
+        }
+        return new Ro<>(ResultDic.SUCCESS, "图形验证码二次校验成功");
+    }
+
+    /**
+     * 校验成功后删除验证码缓存
+     * 
+     * @param captchaVO
+     * 
+     * @return
+     */
+    @Override
+    public Ro<?> deleteVerifiyCode(CaptchaVO captchaVO) {
+        final Ro<?> r = super.verification(captchaVO);
+        if (!validatedReq(r)) {
+            return r;
+        }
+        try {
+            final String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
+            if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
+                return new Ro<>(ResultDic.FAIL, "验证码已失效，请重新获取");
+            }
+            // 二次校验取值后，删除验证码缓存
             CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
         } catch (final Exception e) {
             logger.error("验证码坐标解析失败", e);
-            return new Ro<>(ResultDic.FAIL, "验证码解析失败，请联系管理员");
+            return new Ro<>(ResultDic.FAIL, "验证码坐标解析失败，请联系管理员");
         }
-        return new Ro<>(ResultDic.SUCCESS, "验证码二次校验成功");
+        return new Ro<>(ResultDic.SUCCESS, "验证码校验成功");
     }
 
 }
