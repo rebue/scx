@@ -27,6 +27,12 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         username: rac
         password: rac
+    rules:
+      readwrite-splitting:
+        data-sources:
+          masterslave:
+            write-data-source-name: master
+            read-data-source-names: slave
   rabbitmq:
     host: rabbitmq
     port: 5672
