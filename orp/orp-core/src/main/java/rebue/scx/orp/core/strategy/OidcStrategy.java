@@ -28,6 +28,8 @@ import rebue.wheel.net.httpclient.HttpClient;
 @Slf4j
 public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAccessTokenTo, TokenResponse, TokenResponse, Void> {
 
+    private final String requestDomainName = _orpConfig.getRequestDomainName();
+
     @Override
     public OrpTypeDic getOrpType() {
         return OrpTypeDic.Oidc;
@@ -38,7 +40,7 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
      */
     @Override
     protected String authUrl() {
-        return "http://172.20.10.44:13080/oap-svr/oap/authorize?%s";
+        return requestDomainName + "/oap-svr/oap/authorize?%s";
     }
 
     /**
@@ -46,7 +48,7 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
      */
     @Override
     protected String getAccessTokenUrl() {
-        return "http://172.20.10.44:13080/oap-svr/oap/token";
+        return requestDomainName + "/oap-svr/oap/token";
     }
 
     /**
@@ -54,7 +56,7 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
      */
     @Override
     protected String refreshAccessTokenUrl() {
-        return "http://172.20.10.44:13080/oap-svr/oap/token";
+        return requestDomainName + "/oap-svr/oap/token";
     }
 
     /**

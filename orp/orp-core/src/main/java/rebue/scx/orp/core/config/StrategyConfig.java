@@ -10,5 +10,9 @@ public class StrategyConfig {
      * 是否检查State参数
      */
     private Boolean isCheckState;
+    /**
+     * 请求域名参数http
+     */
+    private String  requestDomainName;
 
 }
