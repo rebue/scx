@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -127,11 +126,9 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @DubboReference
     private CapSMSSendingApi    capSMSSendingApi;
 
-    // private String str = "passwordErrors,lockDuration,passwordTips,passworDoverdue";
     /**
-     * 刷新等堡配置
+     * 刷新等保配置
      */
-    @PostConstruct
     @Override
     public void refreshUpdateLevelProtect() {
         Map<String, String> configMap = levelProtectUtils.getConfigMap();
@@ -143,12 +140,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             if (key.equals("lockDuration")) {
                 lockDuration = Long.parseLong(str) * 60L;
             }
-            // if (key.equals("passwordTips")) {
-            // configMap.get(key);
-            // }
-            // if (key.equals("passworDoverdue")) {
-            // configMap.get(key);
-            // }
         }
 
     }
@@ -228,6 +219,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
+        refreshUpdateLevelProtect();
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
