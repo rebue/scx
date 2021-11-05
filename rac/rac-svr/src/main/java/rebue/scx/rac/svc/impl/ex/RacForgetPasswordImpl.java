@@ -25,7 +25,7 @@ import rebue.scx.rac.svc.ex.RacForgetPasswordSvc;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.ex.CheckAccountNumberTo;
 import rebue.scx.rac.to.ex.ForgetSignInPswdToSetTo;
-import rebue.wheel.core.RegexUtils;
+import rebue.wheel.core.util.RegexUtils;
 
 /**
  * 账户忘记密码服务的实现类
