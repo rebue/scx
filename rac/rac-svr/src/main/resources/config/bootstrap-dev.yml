@@ -1,3 +1,37 @@
+# 开发环境的配置
+debug: true
+
+server:
+  # 自定义端口号，方便开发测试
+  port: 9605
+
+curator:
+  connect-string: zoo:2181
+
+spring:
+  shardingsphere:
+    enabled: false
+  datasource:
+    url: jdbc:mysql://mysql:3306/rac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: root
+    password: root
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos:8848
+      discovery:
+        server-addr: nacos:8848
+    sentinel:
+      enabled: false
+  sleuth:
+    enabled: false
+
 logging:
   config: classpath:config/log4j2.xml
   level:
