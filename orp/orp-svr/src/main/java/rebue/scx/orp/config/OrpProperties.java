@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import lombok.Data;
 import rebue.scx.orp.core.mo.ClientMo;
@@ -28,9 +27,13 @@ public class OrpProperties {
     public static class StrategyProperties {
 
         /**
+         * 请求域名参数http
+         */
+        private String              requestDomainName = "http://172.20.10.44:13080";
+        /**
          * 是否检查State参数
          */
-        private Boolean             isCheckState = true;
+        private Boolean             isCheckState      = true;
 
         /**
          * 应用集合

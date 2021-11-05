@@ -33,7 +33,8 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
 
     @Getter
     private Map<String, ClientMo> clients;
-    private StrategyConfig        _orpConfig;
+
+    protected StrategyConfig      _orpConfig;
 
     private StateCache            _stateCache;
 

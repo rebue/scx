@@ -36,11 +36,12 @@ public class OrpConfig {
         orpProperties.getStrategies().forEach((strategyName, strategyProperies) -> {
             // 将配置策略的羊肉串格式转换为大驼峰格式，以获取ORP类型
             final OrpTypeDic            orpType   = OrpTypeDic.valueOf(CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, strategyName));
-            final StrategyConfig        orpConfig = StrategyConfig.builder().isCheckState(strategyProperies.getIsCheckState()).build();
+            final StrategyConfig        orpConfig = StrategyConfig.builder().isCheckState(strategyProperies.getIsCheckState())
+                    .requestDomainName(strategyProperies.getRequestDomainName())
+                    .build();
             final Map<String, ClientMo> clients   = strategyProperies.getClients().stream().collect(Collectors.toMap(ClientMo::getId, item -> item));
             strategies.put(strategyName, StrategyFactory.getStrategy(orpType, clients, orpConfig, stateCache, httpClient, strategyProperies.getExtras()));
         });
-
         return OrpStrategies.builder().items(strategies).build();
     }
 
