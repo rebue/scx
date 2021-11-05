@@ -33,7 +33,6 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
 
     @Getter
     private Map<String, ClientMo> clients;
-
     private StrategyConfig        _orpConfig;
 
     private StateCache            _stateCache;
@@ -75,6 +74,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
             _stateCache.set(getOrpType().name(), authTo.getClientId(), state);
             requestParams.put("state", state);
         }
+        String format = String.format(authUrl(), MapUtils.map2UrlParams(requestParams));
         return String.format(authUrl(), MapUtils.map2UrlParams(requestParams));
     }
 
@@ -205,7 +205,7 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
             }
             final String state = _stateCache.get(getOrpType().name(), authCodeTo.getClientId(), authCodeTo.getState());
             if (StringUtils.isBlank(state)) {
-                throw new RuntimeExceptionX("state错误: " + state);
+                throw new RuntimeExceptionX("state错误/或已过期: " + state);
             }
         }
     }

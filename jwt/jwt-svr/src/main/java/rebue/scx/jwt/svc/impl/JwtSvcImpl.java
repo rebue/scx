@@ -59,7 +59,7 @@ public class JwtSvcImpl implements JwtSvc {
         Builder builder = new Builder()
                 .issuer(jwtProperties.getIssuer())
                 .subject(to.getAccountId())
-                // .audience(to.getAppId())
+                .audience(to.getAppId())
                 .expirationTime(exp)
                 .issueTime(now);
         if (to.getAddition() != null) {
@@ -89,11 +89,11 @@ public class JwtSvcImpl implements JwtSvc {
 
             // 如果验证成功，需要重新签名延长过期时间
             final String              subject  = signedJWT.getJWTClaimsSet().getSubject();
-            // final String audience = signedJWT.getJWTClaimsSet().getAudience().get(0);
+            final String              audience = signedJWT.getJWTClaimsSet().getAudience().get(0);
             final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
             final JwtSignTo           signTo   = JwtSignTo.builder()
                     .accountId(subject)
-                    // .appId(audience)
+                    .appId(audience)
                     .addition(addition)
                     .build();
             return sign(signTo);

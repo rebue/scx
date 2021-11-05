@@ -11,10 +11,10 @@ public class CodeValue {
 
     private final String clientId;
 
-    private final String redirectionUri;
+    // private final String redirectionUri;
 
     private final Scope scope;
 
-    private final long accountId;
+    private final long  accountId;
 
 }

@@ -12,6 +12,19 @@
 	<artifactId>msg-svr</artifactId>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.httpcomponents</groupId> -->
+		<!-- <artifactId>httpclient</artifactId> -->
+		<!-- <version>4.5.13</version> -->
+		<!-- </dependency> -->
+
 		<!-- 接入极光短信SDK -->
 		<dependency>
 			<groupId>cn.jpush.api</groupId>
@@ -21,34 +34,33 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-<!-- 			<version>2.3</version> -->
+			<!-- <version>2.3</version> -->
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>cn.jpush.api</groupId>
 			<artifactId>jiguang-common</artifactId>
 			<version>1.0.8</version>
 		</dependency>
- 		<!-- For log4j --> 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.slf4j</groupId> -->
-<!-- 			<artifactId>slf4j-log4j12</artifactId> -->
-<!-- 			<version>1.7.7</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>log4j</groupId> -->
-<!-- 			<artifactId>log4j</artifactId> -->
-<!-- 			<version>1.2.17</version> -->
-<!-- 		</dependency> -->
+		<!-- For log4j -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.slf4j</groupId> -->
+		<!-- <artifactId>slf4j-log4j12</artifactId> -->
+		<!-- <version>1.7.7</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>log4j</groupId> -->
+		<!-- <artifactId>log4j</artifactId> -->
+		<!-- <version>1.2.17</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>msg-api</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.github.rebue.robotech</groupId>
 			<artifactId>robotech-bll</artifactId>
@@ -57,6 +69,12 @@
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>sb-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.github.rebue.sbs</groupId>
+					<artifactId>shardingsphere-spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

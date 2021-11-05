@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,9 @@ import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
 import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
@@ -59,7 +62,9 @@ import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.oap.dto.CodeValue;
 import rebue.scx.oap.dto.LoginDto;
+import rebue.scx.oap.dto.OidcGetUserInfoTo;
 import rebue.scx.oap.dto.RedirectUris;
+import rebue.scx.oap.dto.UserInfoMo;
 import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.oap.mo.OapGrantMo;
 import rebue.scx.oap.oidc.AuthorizeInfo;
@@ -70,13 +75,17 @@ import rebue.scx.oap.oidc.TokenHelper;
 import rebue.scx.oap.repository.OapAppRepository;
 import rebue.scx.oap.repository.OapRedirectUriRepository;
 import rebue.scx.oap.svc.AccessTokenService;
+import rebue.scx.oap.svc.OapGrantSvc;
 import rebue.scx.oap.svc.OidcSvc;
+import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.wheel.core.util.OrikaUtils;
 import rebue.wheel.turing.JwtUtils;
 
+@Slf4j
 @Service
 public class OidcSvcImpl implements OidcSvc {
 
@@ -85,7 +94,8 @@ public class OidcSvcImpl implements OidcSvc {
 
     @Resource
     private OapAppRepository         oapAppRepository;
-
+    @Resource
+    private OapGrantSvc              OapGrantSvc;
     @Resource
     private OapRedirectUriRepository oapRedirectUriRepository;
 
@@ -97,6 +107,35 @@ public class OidcSvcImpl implements OidcSvc {
 
     @DubboReference
     private RacSignInApi             racSignInApi;
+    @DubboReference
+    private RacAccountApi            racAccountApi;
+
+    /**
+     * 根据accessToken idToken获取用户基础信息
+     */
+    @Override
+    public Ro<UserInfoMo> getUserInfo(OidcGetUserInfoTo userInfoTo) {
+        long       now         = System.currentTimeMillis();
+        String     accessToken = userInfoTo.getAccessToken();
+        OapGrantMo userInfoMo  = accessTokenService.getUserInfo(accessToken);
+        String     idToken     = userInfoTo.getIdToken();
+        Long       accountId   = JwtUtils.getJwtAccountIdFromSign(idToken);
+        if (accountId == null) {
+            return new Ro<>(ResultDic.PARAM_ERROR, "获取失败idToken不存在/已过期");
+        }
+        if (userInfoMo == null) {
+            return new Ro<>(ResultDic.PARAM_ERROR, "获取失败accessToken不存在");
+        }
+        else if (userInfoMo.getAccessTokenExpireTimestamp() < now) {
+            return new Ro<>(ResultDic.PARAM_ERROR, "获取失败accessToken已过期");
+        }
+        if (!userInfoMo.getAccountId().equals(accountId)) {
+            return new Ro<>(ResultDic.PARAM_ERROR, "获取失败accessToken与idToken不对应");
+        }
+        RacAccountMo     mo     = racAccountApi.getById(accountId).getExtra().getOne();
+        final UserInfoMo userMo = OrikaUtils.map(mo, UserInfoMo.class);
+        return new Ro<>(ResultDic.SUCCESS, "获取信息成功", userMo);
+    }
 
     @Override
     @SneakyThrows
@@ -115,19 +154,26 @@ public class OidcSvcImpl implements OidcSvc {
     @SneakyThrows
     private String codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse) {
         JwtSignInfo jwtSignInfo;
+        log.info(StringUtils.rightPad("*** 判断是否已登录***", 100));
         if ((jwtSignInfo = getAuthenticatedInfo(hRequest)) != null) {
+            log.info(StringUtils.rightPad("*** 已登录***", 100));
             AuthorizationCode code         = codeRepository.createCode(aRequest, jwtSignInfo.getAccountId());
             HTTPResponse      redirect     = OidcHelper.authenticationSuccessUri(aRequest.getRedirectionURI(), aRequest.getState(), code);
             String            r            = redirect.getLocation().toString();
             RedirectUris      redirectUris = oapRedirectUriRepository.getRedirectUris(aRequest.getClientID().getValue());
             if (!redirectUris.match(r)) {
-                return "重定向地址错误";
+                return "codeFlowLoginPage重定向地址错误";
             }
             hResponse.setStatusCode(HttpStatus.FOUND);
+            log.info("********* RedirectionURI*********:" + r + "\t");
             hResponse.getHeaders().setLocation(URI.create(r));
             return null;
         }
+        log.info(StringUtils.rightPad("*** 未登录***", 100));
         String cookieValue = new AuthorizeInfo(aRequest).toStr();
+        log.info(StringUtils.rightPad("*** 向Cookie中添加编码后的ClientID/RedirectionURI 如下***", 100));
+        log.info(StringUtils.rightPad("*** ClientID ***:" + aRequest.getClientID(), 100));
+        log.info("********* RedirectionURI*********:" + aRequest.getRedirectionURI() + "\t\t");
         hResponse.addCookie(createCookie(cookieValue));
         hResponse.setStatusCode(HttpStatus.FOUND);
         hResponse.getHeaders().setLocation(URI.create(OidcConfig.getLoginUrl()));
@@ -182,7 +228,10 @@ public class OidcSvcImpl implements OidcSvc {
         if (ra.getResult().getCode() != 1) {
             return Ro.fail(ra.getMsg());
         }
-        AuthorizationCode code         = codeRepository.createCode(uri, clientId, new Scope(scope), ra.getExtra().getId());
+        if (ra.getExtra().getRedirectUrl() == null) {
+            return Ro.fail("应用URL地址不能为空，请到平台管理设置应用主页地址");
+        }
+        AuthorizationCode code         = codeRepository.createCode(clientId, new Scope(scope), ra.getExtra().getId());
         HTTPResponse      redirect     = OidcHelper.authenticationSuccessUri(new URI(uri), new State(state), code);
         String            r            = redirect.getLocation().toString();
         // 查询安全域名
@@ -191,7 +240,14 @@ public class OidcSvcImpl implements OidcSvc {
             return Ro.fail("重定向地址错误");
         }
         response.getCookies().remove(OidcConfig.AUTH_INFO);
-        return Ro.success(URI.create(redirect.getLocation().toString()).toString());
+        response.addCookie(
+                ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign())
+                        .path("/")
+                        .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                        .build());
+        log.info("********* 登录login重定向地址*********:" + r + "\t\t");
+        String redirectUrl = redirect.getLocation().toString().toString() + "&callbackUrl=" + getURLEncoderString(ra.getExtra().getRedirectUrl());
+        return Ro.success(URI.create(redirectUrl).toString());
     }
 
     /**
@@ -204,6 +260,7 @@ public class OidcSvcImpl implements OidcSvc {
         TokenRequest               tokenRequest;
         Pair<TokenRequest, String> pair = tokenRequest(url, authorization, requestBody);
         if ((tokenRequest = pair.getLeft()) == null) {
+            log.info(StringUtils.rightPad("*** token校验request请求错误 ***", 100));
             return tokenError(response, OidcTokenError.INVALID_REQUEST, pair.getRight());
         }
         String   clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
@@ -211,9 +268,11 @@ public class OidcSvcImpl implements OidcSvc {
         mo.setClientId(clientId);
         OapAppMo app = oapAppRepository.selectByClientId(clientId);
         if (app == null) {
+            log.info(StringUtils.rightPad("*** token校验ClientId错误 ***", 100));
             return tokenError(response, OidcTokenError.INVALID_CLIENT, "invalid client : " + clientId);
         }
         if (!compareSecret(tokenRequest, app.getSecret())) {
+            log.info(StringUtils.rightPad("*** token校验ClientSecret错误 ***", 100));
             return tokenError(response, OidcTokenError.UNAUTHORIZED_CLIENT, "unauthorized client : " + clientId);
         }
         AuthorizationGrant grant     = tokenRequest.getAuthorizationGrant();
@@ -237,19 +296,23 @@ public class OidcSvcImpl implements OidcSvc {
     private Object issueIdToken(TokenRequest tokenRequest, ServerHttpResponse response) {
         String code = getAuthorizationCode(tokenRequest).orElse(null);
         if (code == null) {
+            log.info(StringUtils.rightPad("*** token校验code is empty ***", 100));
             return tokenError(response, OidcTokenError.INVALID_GRANT, "code is empty");
         }
         CodeValue codeValue = codeRepository.getAndRemoveCode(code).orElse(null);
         if (codeValue == null) {
+            log.info(StringUtils.rightPad("*** token校验code 是无效的 ***", 100));
             return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid code : " + code);
         }
         String clientId = tokenRequest.getClientAuthentication().getClientID().getValue();
         if (!codeValue.getClientId().equals(clientId)) {
+            log.info(StringUtils.rightPad("*** token校验clientId 是无效的 ***", 100));
             return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid clientId : " + clientId);
         }
-        if (!verifyRedirectionUri(tokenRequest, codeValue.getRedirectionUri())) {
-            return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid redirection uri : " + codeValue.getRedirectionUri());
-        }
+        // if (!verifyRedirectionUri(tokenRequest, codeValue.getRedirectionUri())) {
+        // log.info(StringUtils.rightPad("*** token校验redirection uri 是无效的 ***", 100));
+        // return tokenError(response, OidcTokenError.INVALID_GRANT, "invalid redirection uri : " + codeValue.getRedirectionUri());
+        // }
         JwtSignRa jwtSignRa = jwtApi.sign(new JwtSignTo(String.valueOf(codeValue.getAccountId()), codeValue.getClientId()));
         if (!jwtSignRa.isSuccess()) {
             return tokenError(response, OidcTokenError.SERVER_ERROR, "1111111111111111111111");
@@ -381,4 +444,21 @@ public class OidcSvcImpl implements OidcSvc {
         return jwtApi.verifyNotUpdate(cookie.getValue());
     }
 
+    /**
+     * URL 转码
+     *
+     * @return String
+     */
+    private static String getURLEncoderString(String str) {
+        String result = "";
+        if (null == str) {
+            return "";
+        }
+        try {
+            result = java.net.URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

@@ -138,12 +138,6 @@ public class OrpSvcImpl implements OrpSvc {
                         .path("/")
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                         .build());
-
-        // response.addCookie(
-        // ResponseCookie.from(RacCookieCo.APP_ID_KEY, app.getId())
-        // .path("/")
-        // .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-        // .build());
         return Pair.of(app.getUrl(), null);
     }
 
@@ -167,13 +161,21 @@ public class OrpSvcImpl implements OrpSvc {
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
     @Override
+    @SneakyThrows
     public OrpUserInfoRa authCode(final String orpType, final String clientId, final OrpCodeTo to) {
         OrpUserInfoRa userInfoRa = strategy.getItems().get(orpType).authCode(AuthCodeTo.builder()
                 .clientId(clientId)
                 .code(to.getCode())
                 .state(to.getState())
                 .build());
-
+        switch (orpType) {
+        case "oidc":
+            String sign = userInfoRa.getIdToken();
+            final SignedJWT jwt = SignedJWT.parse(sign);
+            if (!validateIdToken(jwt)) {
+                throw new RuntimeExceptionX("*********** 服务器内部错误   ***************");
+            }
+        }
         return userInfoRa;
     }
 

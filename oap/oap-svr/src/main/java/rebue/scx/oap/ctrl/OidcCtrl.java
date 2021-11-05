@@ -10,6 +10,7 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 import rebue.scx.oap.dto.LoginDto;
+import rebue.scx.oap.dto.OidcGetUserInfoTo;
+import rebue.scx.oap.dto.UserInfoMo;
 import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.oap.svc.impl.OidcSvcImpl;
 
@@ -59,6 +62,18 @@ public class OidcCtrl {
     }
 
     /**
+     * 获取用户信息
+     * 
+     * @param userInfoTo
+     * 
+     * @return 用户基础信息
+     */
+    @GetMapping("/get-user-info")
+    public Mono<Ro<UserInfoMo>> getUserInfo(OidcGetUserInfoTo userInfoTo) {
+        return Mono.create(cb -> cb.success(oidcSvc.getUserInfo(userInfoTo)));
+    }
+
+    /**
      * 登录
      * 
      * @ignoreParams request
@@ -76,26 +91,8 @@ public class OidcCtrl {
         return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
     }
 
-    // /**
-    // * 手机验证码登录
-    // *
-    // * @ignoreParams request
-    // *
-    // * @param loginData
-    // * @param request
-    // * @param response
-    // *
-    // */
-    // @PostMapping("/login-by-mobile")
-    // public Mono<Ro<String>> loginByMobile(
-    // @RequestBody LoginDto loginData,
-    // ServerHttpRequest request,
-    // ServerHttpResponse response) {
-    // return Mono.create(cb -> cb.success(oidcSvc.login(loginData, request, response)));
-    // }
-
     /**
-     * token校验
+     * token校验获取
      * 
      * https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint
      * https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens

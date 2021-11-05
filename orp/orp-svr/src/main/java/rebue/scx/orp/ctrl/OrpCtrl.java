@@ -8,8 +8,12 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
+import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.orp.api.OrpApi;
+import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.api.RacOpLogApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -75,10 +81,21 @@ public class OrpCtrl {
      * 
      * @return
      */
-    @GetMapping("/get-user-info/{orpType}/{clientId}")
-    public Mono<Ro<?>> getUserInfo(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
-            final OrpCodeTo to) {
-        return Mono.create(callback -> callback.success(api.getUserInfo(orpType, clientId, to)));
+    @GetMapping("/auth-code/{orpType}/{clientId}")
+    public Mono<String> authCode(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
+            final OrpCodeTo to, final ServerHttpResponse response) {
+        Ro<?>         authCode = api.authCode(orpType, clientId, to);
+        OrpUserInfoRa extra    = (OrpUserInfoRa) authCode.getExtra();
+        return Mono.create(cb -> {
+            response.setStatusCode(HttpStatus.FOUND);
+            response.addCookie(
+                    ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, extra.getIdToken())
+                            .path("/")
+                            .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                            .build());
+            response.getHeaders().setLocation(URI.create(to.getCallbackUrl()));
+            cb.success(null);
+        });
     }
 
     /**
@@ -89,9 +106,10 @@ public class OrpCtrl {
     // @RacOpLog(opType = "绑定微信/钉钉", opTitle = "绑定微信/钉钉: #{#p0}")
     @GetMapping("/account-bind/{orpType}/{clientId}/{accountId}")
     public Mono<Void> bindModify(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
-            @PathVariable("accountId") final Long accountId, final OrpCodeTo to, ServerHttpResponse response) {
-        Ro<?>   ro   = api.bindModify(orpType, clientId, accountId, to);
-        boolean flag = ro.getResult().getCode() == 1;
+            @PathVariable("accountId") final Long accountId, final OrpCodeTo to, final ServerHttpRequest request, ServerHttpResponse response) {
+        Ro<?>                             ro      = api.bindModify(orpType, clientId, accountId, to);
+        MultiValueMap<String, HttpCookie> cookies = request.getCookies();
+        boolean                           flag    = ro.getResult().getCode() == 1;
         if (flag) {
             final RacOpLogAddTo appTo = new RacOpLogAddTo();
             switch (orpType) {

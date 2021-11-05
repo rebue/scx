@@ -7,12 +7,13 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
+import com.nimbusds.oauth2.sdk.token.RefreshToken;
+
 import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.oap.mapper.OapGrantMapper;
 import rebue.scx.oap.mo.OapGrantMo;
 import rebue.scx.oap.to.OapGrantAddTo;
-import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
-import com.nimbusds.oauth2.sdk.token.RefreshToken;
 
 @Service
 public class AccessTokenService {
@@ -21,12 +22,11 @@ public class AccessTokenService {
     private OapGrantMapper oapGrantMapper;
 
     @Autowired
-    private OapGrantSvc oapGrantSvc;
+    private OapGrantSvc    oapGrantSvc;
 
-    public void saveToken(long accountId, BearerAccessToken accessToken, RefreshToken refreshToken)
-    {
-        long now = System.currentTimeMillis();
-        OapGrantMo mo = new OapGrantMo();
+    public void saveToken(long accountId, BearerAccessToken accessToken, RefreshToken refreshToken) {
+        long       now = System.currentTimeMillis();
+        OapGrantMo mo  = new OapGrantMo();
         mo.setAccountId(accountId);
         List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
         for (OapGrantMo oapGrantMo : list) {
@@ -47,17 +47,15 @@ public class AccessTokenService {
         oapGrantSvc.add(oapGrantMo);
     }
 
-    public void updateToken(OapGrantMo mo)
-    {
+    public void updateToken(OapGrantMo mo) {
         oapGrantMapper.updateByPrimaryKey(mo);
     }
 
-    public OapGrantMo getByRefreshToken(String refreshToken)
-    {
+    public OapGrantMo getByRefreshToken(String refreshToken) {
         OapGrantMo mo = new OapGrantMo();
         mo.setRefreshToken(refreshToken);
         List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
-        long now = System.currentTimeMillis();
+        long             now  = System.currentTimeMillis();
         for (OapGrantMo item : list) {
             boolean shouldDelete = item.getRefreshTokenExpiresTimestamp() == null
                     || now > item.getRefreshTokenExpiresTimestamp();
@@ -71,4 +69,9 @@ public class AccessTokenService {
         return null;
     }
 
+    public OapGrantMo getUserInfo(String accessToken) {
+        OapGrantMo mo = new OapGrantMo();
+        mo.setAccessToken(accessToken);
+        return oapGrantMapper.selectOne(mo).orElse(null);
+    }
 }

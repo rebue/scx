@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -24,7 +23,6 @@ import rebue.wheel.net.httpclient.impl.ApacheHttpClientImpl;
 @Configuration(proxyBeanMethods = false)
 // XXX 启用属性类(也就是注入属性类，如果没有这一行，属性类要另外写注入，如在属性类上加注解@Compenent，或扫描)
 @EnableConfigurationProperties(OrpProperties.class)
-@RefreshScope
 public class OrpConfig {
 
     @Bean

@@ -40,7 +40,8 @@ public class StateCache {
     public String get(final String strategy, final String clientId, final String state) {
         final String key    = genKey(strategy, clientId, state);
         final String result = _stringRedisTemplate.opsForValue().get(key);
-        _stringRedisTemplate.delete(key);
+        // FIXME登录成功后 state 未进行删除处理
+        // _stringRedisTemplate.delete(key);
         return result;
     }
 

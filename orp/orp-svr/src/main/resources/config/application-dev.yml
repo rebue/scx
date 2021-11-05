@@ -31,6 +31,10 @@ orp:
       clients:
         - id: unified-auth
           secret: 123456
+        - id: platform-admin-web
+          secret: 123456
+        - id: ops-admin-web
+          secret: 123456
       #认证跳转到call-url的服务后端，带上code和state以及redirect_url地址到服务后端校验
       extras:
         call-uri: http://172.20.11.244:13080

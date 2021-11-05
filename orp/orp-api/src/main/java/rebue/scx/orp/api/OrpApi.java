@@ -19,7 +19,7 @@ public interface OrpApi {
     /**
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
-    Ro<?> getUserInfo(String orpType, String clientId, OrpCodeTo to);
+    Ro<?> authCode(String orpType, String clientId, OrpCodeTo to);
 
     /**
      * 通过授权码登录

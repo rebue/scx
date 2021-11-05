@@ -46,7 +46,7 @@ public class OrpApiImpl implements OrpApi {
      * 认证授权码(OP服务器收到认证请求后重定向redirectUrl，通过此方法向OP服务器发出获取access_token的请求)
      */
     @Override
-    public Ro<?> getUserInfo(final String orpType, final String clientId, final OrpCodeTo to) {
+    public Ro<?> authCode(final String orpType, final String clientId, final OrpCodeTo to) {
         return new Ro<>(ResultDic.SUCCESS, "获取用户信息成功", svc.authCode(orpType, clientId, to));
     }
 

@@ -22,7 +22,6 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>cap-api</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
@@ -36,6 +35,12 @@
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>sb-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.github.rebue.sbs</groupId>
+					<artifactId>shardingsphere-spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
