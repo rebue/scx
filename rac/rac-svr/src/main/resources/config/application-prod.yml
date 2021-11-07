@@ -20,13 +20,13 @@ spring:
         jdbc-url: jdbc:mysql://mysql1:3316/rac
         type: com.zaxxer.hikari.HikariDataSource
         username: rac
-        password: rac
+        password: xxxxxxxx
       slave:
         driver-class-name: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://mysql2:3326/rac
         type: com.zaxxer.hikari.HikariDataSource
         username: rac
-        password: rac
+        password: xxxxxxxx
     rules:
       readwrite-splitting:
         data-sources:
@@ -40,7 +40,7 @@ spring:
     password: guest
     virtual-host: /
   redis:
-    password: Redis@nnxy2021
+    password: xxxxxxxx
     sentinel:
       master: mymaster
       nodes:
