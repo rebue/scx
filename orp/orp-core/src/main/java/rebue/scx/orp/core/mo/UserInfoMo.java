@@ -1,4 +1,4 @@
-package rebue.scx.oap.dto;
+package rebue.scx.orp.core.mo;
 
 import java.io.Serializable;
 
@@ -18,7 +18,6 @@ public class UserInfoMo implements Serializable {
      * 
      */
     private static final long serialVersionUID = 1L;
-
     /**
      * 账户ID
      */

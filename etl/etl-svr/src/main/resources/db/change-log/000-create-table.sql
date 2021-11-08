@@ -7,6 +7,9 @@
 /*==============================================================*/
 /* Table: ETL_CONN                                              */
 /*==============================================================*/
+DROP TABLE IF EXISTS `ETL_SYNC_STRATEGY_DETAIL`;
+DROP TABLE IF EXISTS `ETL_SYNC_STRATEGY`;
+DROP TABLE IF EXISTS `ETL_CONN`;
 create table ETL_CONN
 (
    ID                   bigint unsigned not null  comment '连接器ID',

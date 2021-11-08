@@ -73,6 +73,12 @@
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>sb-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.liquibase</groupId>
+					<artifactId>liquibase-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

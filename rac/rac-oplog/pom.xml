@@ -15,10 +15,10 @@
 			<artifactId>rac-api</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.github.rebue.robotech</groupId>
-			<artifactId>robotech-api</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.github.rebue.robotech</groupId> -->
+<!-- 			<artifactId>robotech-api</artifactId> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-turing</artifactId>

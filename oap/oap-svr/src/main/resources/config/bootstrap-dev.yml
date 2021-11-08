@@ -7,26 +7,23 @@ server:
 
 spring:
   shardingsphere:
-    datasource:
-      names: master,slave
-      master:
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/oap
-        type: com.zaxxer.hikari.HikariDataSource
-        username: root
-        password: root
-      slave:
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/oap
-        type: com.zaxxer.hikari.HikariDataSource
-        username: root
-        password: root
-    rules:
-      readwrite-splitting:
-        data-sources:
-          masterslave:
-            write-data-source-name: master
-            read-data-source-names: slave    
+    enabled: false
+  datasource:
+    url: jdbc:mysql://mysql:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: root
+  liquibase:
+    # 升级数据库的配置文件的地址
+    change-log: classpath:config/db-change-log.yml
+    url: jdbc:mysql://mysql:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    user: root
+    password: root
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /  
 #  datasource:
 #    url: jdbc:mysql://127.0.0.1:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
 #    username: root

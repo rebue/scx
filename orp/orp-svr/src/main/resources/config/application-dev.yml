@@ -27,7 +27,7 @@ orp:
         - id: wxc9bcdf70da391cdd5
           secret: 4a215a29ccf5d91c2c8ea2af12a57e935
     oidc:
-      request-domain-name: https://auth.maiyuesoft.com
+      request-domain-name: http://172.20.11.244:13080
       is-check-state: true
       clients:
         - id: unified-auth

@@ -10,10 +10,18 @@ server:
   port: 9200
 
 spring:
+  shardingsphere:
+    enabled: false
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/rrl?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: root
-    password: root
+    url: jdbc:mysql://mysql:3306/rrl?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: rrl
+    password: rrl
+  liquibase:
+    # 升级数据库的配置文件的地址
+    change-log: classpath:config/db-change-log.yml
+    url: jdbc:mysql://mysql:3306/rrl?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    user: rrl
+    password: rrl
   rabbitmq:
     host: 127.0.0.1
     port: 5672

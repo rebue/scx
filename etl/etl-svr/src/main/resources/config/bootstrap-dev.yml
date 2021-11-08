@@ -6,9 +6,17 @@ server:
   port: 9367
 
 spring:
+  shardingsphere:
+    enabled: false
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/etl?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    url: jdbc:mysql://mysql:3306/etl?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     username: etl
+    password: etl
+  liquibase:
+    # 升级数据库的配置文件的地址
+    change-log: classpath:config/db-change-log.yml
+    url: jdbc:mysql://mysql:3306/etl?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    user: etl
     password: etl
   cloud:
     nacos:

@@ -9,7 +9,6 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import rebue.robotech.ro.Ro;
 import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.dto.OidcGetUserInfoTo;
-import rebue.scx.oap.dto.UserInfoMo;
 
 public interface OidcSvc {
 
@@ -19,6 +18,6 @@ public interface OidcSvc {
 
     Object token(String authorization, URL url, String requestBody, ServerHttpResponse response);
 
-    Ro<UserInfoMo> getUserInfo(OidcGetUserInfoTo userInfoTo);
+    Object getUserInfo(OidcGetUserInfoTo userInfoTo);
 
 }

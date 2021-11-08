@@ -22,7 +22,6 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.dto.OidcGetUserInfoTo;
-import rebue.scx.oap.dto.UserInfoMo;
 import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.oap.svc.impl.OidcSvcImpl;
 
@@ -69,7 +68,7 @@ public class OidcCtrl {
      * @return 用户基础信息
      */
     @GetMapping("/get-user-info")
-    public Mono<Ro<UserInfoMo>> getUserInfo(OidcGetUserInfoTo userInfoTo) {
+    public Mono<?> getUserInfo(OidcGetUserInfoTo userInfoTo) {
         return Mono.create(cb -> cb.success(oidcSvc.getUserInfo(userInfoTo)));
     }
 

@@ -26,7 +26,7 @@ import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.wheel.net.httpclient.HttpClient;
 
 @Slf4j
-public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAccessTokenTo, TokenResponse, TokenResponse, Void> {
+public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAccessTokenTo, TokenResponse, OrpUserInfoRa, OrpUserInfoRa> {
 
     private final String requestDomainName = _orpConfig.getRequestDomainName();
 
@@ -64,8 +64,7 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
      */
     @Override
     protected String getUserInfoUrl() {
-        // FIXME 获取用户信息
-        return "https://api.weixin.qq.com/sns/userinfo?%s";
+        return requestDomainName + "/oap-svr/oap/get-user-info?%s";
     }
 
     public OidcStrategy(final StrategyConfig orpConfig, final Map<String, ClientMo> clients, final StateCache stateCache, final HttpClient httpClient, Map<String, String> extras) {
@@ -120,21 +119,10 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
      * 获取AccessToken
      */
     @Override
-    protected TokenResponse getAccessToken(AuthCodeTo authCodeTo) {
-        // 发出获取AccessToken请求
-        TokenResponse getAccessTokenRo = sendGet(getAccessTokenUrl(), authCodeTo, TokenResponse.class);
-        // 检查获取AccessToken的结果是否正确
-        checkGetAccessTokenRo(getAccessTokenRo);
-        return getAccessTokenRo;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     @SneakyThrows
-    protected <T> T sendGet(String tokenEndpoint, Object requestPamams, Class<T> clazz) {
+    protected TokenResponse sendGetAccessToken(AuthCodeTo authCodeTo) {
         String        redirectUri   = "http://172.20.11.244:13080/orp-svr/orp/auth-code/oidc/unified-auth";
-        // String redirectUri = "http://172.20.11.244:13080/";
-        AuthCodeTo    authCodeTo    = (AuthCodeTo) requestPamams;
+        String        tokenEndpoint = getAccessTokenUrl();
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,
                 authCodeTo.getClientId(),
@@ -143,10 +131,23 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
                 redirectUri);
         if (tokenResponse.indicatesSuccess()) {
             log.info(StringUtils.rightPad("*** 获取token成功 ***", 100));
-            return (T) tokenResponse;
+            return tokenResponse;
         }
         log.info(StringUtils.rightPad("*** 获取token失败 ***", 100));
         return null;
+    }
+
+    /**
+     * 刷新token
+     */
+    @Override
+    protected void refreshAccessToken(TokenResponse getAccessTokenRo, OidcRefreshAccessTokenTo refreshAccessTokenTo) {
+        // // 发出刷新AccessToken请求
+        // REFRESH_ACCESS_TOKEN_RO refreshAccessTokenRo = sendGet(refreshAccessTokenUrl(), refreshAccessTokenTo, REFRESH_ACCESS_TOKEN_RO());
+        // // 检查刷新AccessToken的结果是否正确
+        // checkRefreshAccessTokenRo(refreshAccessTokenRo);
+        // // 更新AccessToken
+        // updateAccessToken(getAccessTokenRo, refreshAccessTokenRo);
     }
 
     /**
@@ -172,12 +173,6 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
     }
 
     @Override
-    protected void checkGetUserInfoRo(Void getUserInfoRo) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     protected OidcRefreshAccessTokenTo genRefreshAccessTokenTo(AuthCodeTo authCodeTo, TokenResponse getAccessTokenRo) {
         String value = getAccessTokenRo.toSuccessResponse().getTokens().getRefreshToken().getValue();
         return OidcRefreshAccessTokenTo.builder()
@@ -195,19 +190,42 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
     }
 
     @Override
+    protected <T> T sendGet(String url, Object requestPamams, Class<T> clazz, String encoding) {
+        // TODO Auto-generated method stub
+        return super.sendGet(url, requestPamams, clazz, encoding);
+    }
+
+    @Override
     @SneakyThrows
-    protected OrpUserInfoRa getUserInfo(TokenResponse tokenResponse) {
-        OrpUserInfoRa ra      = new OrpUserInfoRa();
+    protected OrpUserInfoRa genGetUserInfoTo(TokenResponse tokenResponse) {
         JWT           idToken = tokenResponse.toSuccessResponse().getTokens().toOIDCTokens().getIDToken();
-        ra.setId(idToken.getJWTClaimsSet().getSubject());
+        OrpUserInfoRa ra      = new OrpUserInfoRa();
+        // ra.setId(idToken.getJWTClaimsSet().getSubject());
         ra.setIdToken(idToken.serialize());
         ra.setAccessToken(tokenResponse.toSuccessResponse().getTokens().getAccessToken().getValue());
         return ra;
     }
 
+    // @Override
+    // protected OrpUserInfoRa getUserInfo(OrpUserInfoRa getUserInfoTo) {
+    // // 发出获取用户信息请求
+    // final OrpUserInfoRa getUserInfoRo = sendGetUserInfo(getUserInfoTo);
+    // // 检查获取AccessToken的结果是否正确
+    // checkGetUserInfoRo(getUserInfoRo);
+    // // 转换不同策略的用户信息为统一的用户信息
+    // return convertUserInfo(getUserInfoRo);
+    // }
+    //
+    // @Override
+    // protected <T> T sendGet(String url, Object requestPamams, Class<T> clazz) {
+    // T sendGet = super.sendGet(url, requestPamams, clazz);
+    // return sendGet;
+    // }
+
     @Override
-    protected TokenResponse genGetUserInfoTo(TokenResponse tokenResponse) {
-        return tokenResponse;
+    protected void checkGetUserInfoRo(OrpUserInfoRa getUserInfoRo) {
+        // TODO Auto-generated method stub
+
     }
 
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class OrpUserInfoRa implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    private String            result;
     /**
      * 用户ID
      */
@@ -69,4 +69,21 @@ public class OrpUserInfoRa implements Serializable {
      * 位置
      */
     private String            location;
+
+    /**
+     * 用户登录名称
+     *
+     */
+    private String            signInName;
+
+    /**
+     * 用户手机
+     */
+    private String            mobile;
+
+    /**
+     * 账户编码
+     *
+     */
+    private String            code;
 }

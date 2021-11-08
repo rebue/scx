@@ -52,6 +52,8 @@ import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 import net.minidev.json.JSONObject;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -111,10 +113,25 @@ public class OidcSvcImpl implements OidcSvc {
     private RacAccountApi            racAccountApi;
 
     /**
+     * 映射工厂(用于不同类型的对象之间复制属性)
+     */
+    private MapperFactory            _mapperFactory = new DefaultMapperFactory.Builder().build();
+
+    public OidcSvcImpl() {
+        log.info(StringUtils.rightPad("*** 初始化 映射工厂(用于不同类型的对象之间复制属性)***", 100));
+        _mapperFactory.classMap(RacAccountMo.class, UserInfoMo.class)
+                .field("signInMobile", "mobile")
+                .field("signInAvatar", "avatar")
+                .field("signInEmail", "email")
+                .field("signInNickname", "nickname")
+                .byDefault().register();
+    }
+
+    /**
      * 根据accessToken idToken获取用户基础信息
      */
     @Override
-    public Ro<UserInfoMo> getUserInfo(OidcGetUserInfoTo userInfoTo) {
+    public Object getUserInfo(OidcGetUserInfoTo userInfoTo) {
         long       now         = System.currentTimeMillis();
         String     accessToken = userInfoTo.getAccessToken();
         OapGrantMo userInfoMo  = accessTokenService.getUserInfo(accessToken);
@@ -133,8 +150,10 @@ public class OidcSvcImpl implements OidcSvc {
             return new Ro<>(ResultDic.PARAM_ERROR, "获取失败accessToken与idToken不对应");
         }
         RacAccountMo     mo     = racAccountApi.getById(accountId).getExtra().getOne();
-        final UserInfoMo userMo = OrikaUtils.map(mo, UserInfoMo.class);
-        return new Ro<>(ResultDic.SUCCESS, "获取信息成功", userMo);
+        final UserInfoMo userMo = _mapperFactory.getMapperFacade().map(mo, UserInfoMo.class);
+        userMo.setAccessToken(accessToken);
+        userMo.setIdToken(idToken);
+        return userMo;
     }
 
     @Override
@@ -239,7 +258,11 @@ public class OidcSvcImpl implements OidcSvc {
         if (!redirectUris.match(r)) {
             return Ro.fail("重定向地址错误");
         }
-        response.getCookies().remove(OidcConfig.AUTH_INFO);
+        response.addCookie(
+                ResponseCookie.from(OidcConfig.AUTH_INFO, "")
+                        .path("/")
+                        .maxAge(0)
+                        .build());
         response.addCookie(
                 ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign())
                         .path("/")

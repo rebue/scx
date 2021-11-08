@@ -75,7 +75,6 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
             _stateCache.set(getOrpType().name(), authTo.getClientId(), state);
             requestParams.put("state", state);
         }
-        String format = String.format(authUrl(), MapUtils.map2UrlParams(requestParams));
         return String.format(authUrl(), MapUtils.map2UrlParams(requestParams));
     }
 
@@ -224,12 +223,19 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
     @SneakyThrows
     protected GET_ACCESS_TOKEN_RO getAccessToken(final AuthCodeTo authCodeTo) {
         // 发出获取AccessToken请求
-        GET_ACCESS_TOKEN_RO getAccessTokenRo = sendGet(getAccessTokenUrl(), authCodeTo, GET_ACCESS_TOKEN_RO());
+        GET_ACCESS_TOKEN_RO getAccessTokenRo = sendGetAccessToken(authCodeTo);
         // 检查获取AccessToken的结果是否正确
         checkGetAccessTokenRo(getAccessTokenRo);
         // 刷新AccessToken
         refreshAccessToken(getAccessTokenRo, genRefreshAccessTokenTo(authCodeTo, getAccessTokenRo));
         return getAccessTokenRo;
+    }
+
+    /**
+     * 发送获取用户信息的请求
+     */
+    protected GET_ACCESS_TOKEN_RO sendGetAccessToken(AuthCodeTo authCodeTo) {
+        return sendGet(getAccessTokenUrl(), authCodeTo, GET_ACCESS_TOKEN_RO());
     }
 
     /**
