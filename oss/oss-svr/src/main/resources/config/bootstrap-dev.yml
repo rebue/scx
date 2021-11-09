@@ -20,7 +20,7 @@ server:
 
 spring:
   shardingsphere:
-    enabled: false
+    enabled: true
   datasource:
     url: jdbc:mysql://mysql:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     username: oss
