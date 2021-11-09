@@ -17,13 +17,13 @@ spring:
       names: master,slave
       master:
         driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://mysql1:3316/rac
+        jdbc-url: jdbc:mysql://mysql1:3306/rac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
         username: rac
         password: xxxxxxxx
       slave:
         driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://mysql2:3326/rac
+        jdbc-url: jdbc:mysql://mysql2:3306/rac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
         username: rac
         password: xxxxxxxx
@@ -34,8 +34,6 @@ spring:
             write-data-source-name: master
             read-data-source-names: slave
   liquibase:
-    # 升级数据库的配置文件的地址
-    change-log: classpath:config/db-change-log.yml
     url: jdbc:mysql://mysql1:3306/rac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     user: rac
     password: xxxxxxxx
