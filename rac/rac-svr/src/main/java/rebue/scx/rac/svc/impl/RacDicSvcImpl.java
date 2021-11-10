@@ -53,8 +53,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
-    implements RacDicSvc {
+        extends BaseSvcImpl<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicDelTo, RacDicOneTo, RacDicListTo, RacDicPageTo, RacDicMo, RacDicJo, RacDicMapper, RacDicDao>
+        implements RacDicSvc {
 
     /**
      * 本服务的单例
@@ -90,7 +90,7 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo add(final RacDicAddTo to) {
         final String realmId = to.getRealmId();
-        final String appId = to.getAppId();
+        final String appId   = to.getAppId();
         if ("".equals(realmId)) {
             to.setRealmId(null);
             to.setAppId(null);
@@ -114,8 +114,8 @@ public class RacDicSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacDicMo modifyById(final RacDicModifyTo to) {
         final String realmId = to.getRealmId();
-        final String appId = to.getAppId();
-        final String remark = to.getRemark();
+        final String appId   = to.getAppId();
+        final String remark  = to.getRemark();
         if ("".equals(realmId)) {
             to.setRealmId(null);
             to.setAppId(null);
@@ -137,12 +137,12 @@ public class RacDicSvcImpl
      */
     @Override
     public DicListWithItemRa listWithDic(final DicListWithItemTo qo) {
-        final DicListWithItemRa ra = new DicListWithItemRa();
-        final ISelect select = () -> _mapper.selectPageOrKeywords(qo);
+        final DicListWithItemRa  ra      = new DicListWithItemRa();
+        final ISelect            select  = () -> _mapper.selectPageOrKeywords(qo);
         final PageInfo<RacDicMo> dicPage = thisSvc.page(select, qo.getPageNum(), qo.getPageSize(), null);
-        final List<RacDicMo> dicList = dicPage.getList();
+        final List<RacDicMo>     dicList = dicPage.getList();
         // final List<RacDicItemMo> dicItemListAll = new ArrayList<RacDicItemMo>();
-        final List<Long> dicIds = new ArrayList<>();
+        final List<Long>         dicIds  = new ArrayList<>();
         for (final RacDicMo racDicMo : dicList) {
             dicIds.add(racDicMo.getId());
             // final RacDicItemMo moQo = new RacDicItemMo();
@@ -169,8 +169,11 @@ public class RacDicSvcImpl
         RacDicOneTo oneTo = new RacDicOneTo();
         oneTo.setDicKey(dicKey);
         RacDicMo dicMo = thisSvc.getOne(oneTo);
+        if (dicMo == null) {
+            return null;
+        }
         final RacDicMoEx oneMo = OrikaUtils.map(dicMo, RacDicMoEx.class);
-        RacDicItemMo mo = new RacDicItemMo();
+        RacDicItemMo     mo    = new RacDicItemMo();
         mo.setDicId(oneMo.getId());
         List<RacDicItemMo> list = racDicItemMapper.selectSelective(mo);
         oneMo.setDicItems(list);

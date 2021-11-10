@@ -13,18 +13,17 @@ curator:
 
 spring:
   shardingsphere:
-    enabled: true
     datasource:
       names: master,slave
       master:
         driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://mysql1:3306/oss
+        jdbc-url: jdbc:mysql://mysql1:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
         username: root
         password: xxxxxxxx
       slave:
         driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://mysql2:3306/oss
+        jdbc-url: jdbc:mysql://mysql2:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
         username: root
         password: xxxxxxxx
@@ -34,9 +33,13 @@ spring:
           masterslave:
             write-data-source-name: master
             read-data-source-names: slave
+  flyway:
+    enabled: false
+    clean-disabled: true
   liquibase:
+    #enabled: false
     # 升级数据库的配置文件的地址
-    change-log: classpath:config/db-change-log.yml
+    #change-log: 'classpath:db/changelog/db.changelog-master.yaml'
     url: jdbc:mysql://mysql1:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     user: root
     password: xxxxxxxx

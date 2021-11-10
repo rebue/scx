@@ -34,9 +34,10 @@ spring:
           masterslave:
             write-data-source-name: master
             read-data-source-names: slave
+  flyway:
+    enabled: false
+    clean-disabled: true  
   liquibase:
-    # 升级数据库的配置文件的地址
-    change-log: classpath:config/db-change-log.yml
     url: jdbc:mysql://mysql1:3306/rac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     user: root
     password: xxxxxxxx

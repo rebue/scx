@@ -20,6 +20,7 @@ public class CodeRepository {
     private static final String CODE_PREFIX = "cp:";
 
     @Autowired
+    // @Reference
     private StringRedisTemplate stringRedisTemplate;
 
     public Optional<CodeValue> getAndRemoveCode(String code) {

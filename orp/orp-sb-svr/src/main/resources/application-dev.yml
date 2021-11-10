@@ -1,0 +1,7 @@
+demo-configurations:
+  client-id: third-party-demo
+  client-secret: 123456
+  issuer: third-party-demo-issuer
+  auth-uri: http://172.20.11.244:13080/oap-svr/oap/authorize?scope=openid&response_type=code&client_id=third-party-demo&state=tr&redirect_uri=http%3A%2F%2Flocalhost:30010%2Fcallback
+  redirect: http://localhost:30010/callback
+  token-endpoint: http://172.20.11.244:13080/oap-svr/oap/token

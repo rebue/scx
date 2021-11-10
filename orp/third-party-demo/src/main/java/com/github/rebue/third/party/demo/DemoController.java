@@ -43,6 +43,7 @@ public class DemoController {
      */
     @GetMapping("/callback")
     public String callback(HttpServletResponse response, String code) throws Exception {
+        // 获取token
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 configurations.getTokenEndpoint(),
                 configurations.getClientId(),

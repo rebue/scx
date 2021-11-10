@@ -14,7 +14,7 @@ spring:
     password: root
   liquibase:
     # 升级数据库的配置文件的地址
-    change-log: classpath:config/db-change-log.yml
+    #change-log: classpath:config/db-change-log.yml
     url: jdbc:mysql://mysql:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     user: root
     password: root

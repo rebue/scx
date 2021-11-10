@@ -29,14 +29,17 @@ public class LevelProtectUtils {
     private String    LEVEL_PROTECT = "levelProtect";
 
     public Map<String, String> getConfigMap() {
-        RacDicMoEx          dicMo    = (RacDicMoEx) racDicSvc.getByDicKey(LEVEL_PROTECT);
-        List<RacDicItemMo>  dicItems = dicMo.getDicItems();
-        Map<String, String> map      = new HashMap<String, String>();
-        dicItems.stream().map(item -> {
-            map.put(item.getDicItemKey(), item.getDicItemValue());
-            return item;
-        }).distinct()
-                .collect(Collectors.toList());
+        RacDicMoEx          dicMo = (RacDicMoEx) racDicSvc.getByDicKey(LEVEL_PROTECT);
+        Map<String, String> map   = new HashMap<String, String>();
+        if (dicMo != null && dicMo.getDicItems() != null) {
+            List<RacDicItemMo> dicItems = dicMo.getDicItems();
+            dicItems.stream().map(item -> {
+                map.put(item.getDicItemKey(), item.getDicItemValue());
+                return item;
+            }).distinct()
+                    .collect(Collectors.toList());
+            return map;
+        }
         return map;
     }
 }

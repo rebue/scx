@@ -36,10 +36,18 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.mo.RacOrgMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
-import rebue.scx.rac.svc.*;
+import rebue.scx.rac.svc.RacAccountSvc;
+import rebue.scx.rac.svc.RacAppSvc;
+import rebue.scx.rac.svc.RacLockLogSvc;
+import rebue.scx.rac.svc.RacOpLogSvc;
+import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.svc.ex.RacSignInSvc;
 import rebue.scx.rac.svc.impl.RacAccountSvcImpl;
-import rebue.scx.rac.to.*;
+import rebue.scx.rac.to.RacAccountOneTo;
+import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.RacLockLogAddTo;
+import rebue.scx.rac.to.RacLockLogModifyTo;
+import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
@@ -121,6 +129,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 刷新等保配置
      */
+    // @PostConstruct
     @Override
     public void refreshUpdateLevelProtect() {
         Map<String, String> configMap = levelProtectUtils.getConfigMap();
@@ -141,6 +150,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     @Override
     public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
+        refreshUpdateLevelProtect();
         if (to.getLoginType() == 0) {
             SignInByAccountNameTo byAccountNameTo = new SignInByAccountNameTo();
             byAccountNameTo.setAppId(to.getAppId());
