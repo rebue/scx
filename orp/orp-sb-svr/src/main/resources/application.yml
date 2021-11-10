@@ -1,0 +1,6 @@
+server:
+  port: 30010
+
+spring:
+  profiles:
+    active: dev
