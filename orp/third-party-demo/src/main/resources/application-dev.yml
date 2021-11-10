@@ -2,6 +2,11 @@ demo-configurations:
   client-id: third-party-demo
   client-secret: 123456
   issuer: third-party-demo-issuer
-  auth-uri: http://172.20.11.244:13080/oap-svr/oap/authorize?scope=openid&response_type=code&client_id=third-party-demo&state=tr&redirect_uri=http%3A%2F%2Flocalhost:30010%2Fcallback
+  #获取认证地址
+  auth-uri: http://172.20.11.244:13080/oap-svr/oap/authorize
+  #登录后回调的地址为第三方服务端地址，带上code和state
   redirect: http://localhost:30010/callback
+  #获取token
   token-endpoint: http://172.20.11.244:13080/oap-svr/oap/token
+  #获取用户信息
+  get-user-endpoint: http://172.20.11.244:13080/oap-svr/oap/get-user-info

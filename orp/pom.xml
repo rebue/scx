@@ -17,7 +17,8 @@
 		<module>orp-svr</module>
 		<module>orp-core</module>
 <!-- 		<module>third-party-demo</module> -->
-  </modules>
+<!-- 		<module>orp-sb-svr</module> -->
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
