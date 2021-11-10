@@ -2,7 +2,7 @@
 
 # 生成workid使用
 curator:
-  connect-string: zookeeper_zoo1:2181,zookeeper_zoo2:2181,zookeeper_zoo3:2181
+  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
 spring:
   rabbitmq:
@@ -50,11 +50,17 @@ orp:
         - id: wxc9bcdf70da391cdd
           secret: 4a215a29ccf5d91c2c8ea2af12a57e93
     oidc:
+      request-domain-name: https://auth.maiyuesoft.com
       is-check-state: true
       clients:
         - id: unified-auth
           secret: 123456
+        - id: platform-admin-web
+          secret: 123456
+        - id: ops-admin-web
+          secret: 123456
+      #认证跳转到call-url的服务后端，带上code和state以及redirect_url地址到服务后端校验
       extras:
         call-uri: https://auth.maiyuesoft.com
         redirect-uri: https://auth.maiyuesoft.com
-        client-id: unified-auth
+        client-id: unified-auth          

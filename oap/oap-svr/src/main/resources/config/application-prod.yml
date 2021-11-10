@@ -61,4 +61,4 @@ spring:
     base-url: http://zipkin:9411
 
 oidc:
-  login-url: https://auth.nnxy.edu.cn/admin-web/unified-auth/#/sign-in/unified
+  login-url: https://auth.nnxy.edu.cn/admin-web/unified-auth/sign-in/unified
