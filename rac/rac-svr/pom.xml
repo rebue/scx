@@ -1,161 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.github.rebue.scx</groupId>
-        <artifactId>rac</artifactId>
-        <version>1.2.4</version>
-    </parent>
+	<parent>
+		<groupId>com.github.rebue.scx</groupId>
+		<artifactId>rac</artifactId>
+		<version>1.2.4</version>
+	</parent>
 
-    <artifactId>rac-svr</artifactId>
+	<artifactId>rac-svr</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.github.rebue.scx</groupId>
-            <artifactId>cap-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.rebue.scx</groupId>
-            <artifactId>rac-api</artifactId>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>cap-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-api</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.scx</groupId>
-            <artifactId>rac-oplog</artifactId>
-            <version>1.2.4</version>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>rac-oplog</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.scx</groupId>
-            <artifactId>jwt-api</artifactId>
-        </dependency>
-        <!--		<dependency>-->
-        <!--			<groupId>org.yaml</groupId>-->
-        <!--			<artifactId>snakeyaml</artifactId>-->
-        <!--			<version>1.27</version>-->
-        <!--		</dependency>-->
-        <dependency>
-            <groupId>com.github.rebue.wheel</groupId>
-            <artifactId>wheel-net</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+			<artifactId>jwt-api</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.wheel</groupId>
-            <artifactId>wheel-turing</artifactId>
-        </dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.yaml</groupId> -->
+		<!-- <artifactId>snakeyaml</artifactId> -->
+		<!-- <version>1.27</version> -->
+		<!-- </dependency> -->
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-net</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.robotech</groupId>
-            <artifactId>robotech-bll</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-turing</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>amqp-spring-boot-starter</artifactId>
-        </dependency>
-        
-        <!-- 此包顺序必须放在sb-spring-boot-starter前面，否则启动"APPLICATION FAILED TO START"，会报 -->
-        <!-- An attempt was made to call a method that does not exist. The attempt was made from the following location: -->
-        <!-- rebue.sbs.cache.CacheConfig.setCacheBuilder(CacheConfig.java:164) -->
-        <!-- The following method did not exist: -->
-        <!-- org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine.getSpecs()Ljava/util/Map; -->
-        <!-- The method's class, org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine, is available from the following locations: -->
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>cache-spring-boot-starter</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.robotech</groupId>
+			<artifactId>robotech-bll</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>minio-spring-boot-starter</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>amqp-spring-boot-starter</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>sb-spring-boot-starter</artifactId>
-        </dependency>
+		<!-- 此包顺序必须放在sb-spring-boot-starter前面，否则启动"APPLICATION FAILED TO START"，会报 -->
+		<!-- An attempt was made to call a method that does not exist. The attempt was made from the following location: -->
+		<!-- rebue.sbs.cache.CacheConfig.setCacheBuilder(CacheConfig.java:164) -->
+		<!-- The following method did not exist: -->
+		<!-- org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine.getSpecs()Ljava/util/Map; -->
+		<!-- The method's class, org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine, is available from the following locations: -->
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>cache-spring-boot-starter</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>sc-spring-boot-starter</artifactId>
-        </dependency>
+		<!-- 数据脱敏 -->
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>sensitive-spring-boot-starter</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-        </dependency>
+		<!-- 读写分离 -->
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>shardingsphere-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- 将shardingsphere中的curator-client的版本进行统一管理 -->
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-client</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>minio-spring-boot-starter</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>sb-spring-boot-starter</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>sc-spring-boot-starter</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+		<!-- 数据库版本控制 -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<!-- 经测试，liquibase目前不能使用8.0.23~8.0.27版本的mysql的jdbc库 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.22</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
 
-            <!-- 制作docker镜像的插件 -->
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <!-- 绑定到install阶段执行 -->
-                        <!-- <phase>install</phase> -->
-                        <!-- 绑定到deploy阶段执行 -->
-                        <!-- <phase>deploy</phase> -->
-                        <!-- 不绑定到任何阶段，也就不会执行 -->
-                        <phase></phase>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- 此选项指定在settings.xml文件中设置的server -->
-                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
-                    <!-- 部署到私服 -->
-                    <!-- <repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository> -->
-                    <!-- 部署到hub.docker.com -->
-                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
-                    <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                    <verbose>true</verbose>
-                    <googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- 制作docker镜像的插件 -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<!-- 绑定到install阶段执行 -->
+						<!-- <phase>install</phase> -->
+						<!-- 绑定到deploy阶段执行 -->
+						<!-- <phase>deploy</phase> -->
+						<!-- 不绑定到任何阶段，也就不会执行 -->
+						<phase></phase>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- 此选项指定在settings.xml文件中设置的server -->
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+					<!-- 部署到私服 -->
+					<!-- <repository>${my-docker.host}/${docker.image.prefix}/${project.artifactId}</repository> -->
+					<!-- 部署到hub.docker.com -->
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+					<verbose>true</verbose>
+					<googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

@@ -19,7 +19,6 @@
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rac-oplog</artifactId>
-			<version>1.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
@@ -73,12 +72,6 @@
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>sb-spring-boot-starter</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.liquibase</groupId>
-					<artifactId>liquibase-core</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>

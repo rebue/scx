@@ -32,15 +32,20 @@
 			<artifactId>robotech-bll</artifactId>
 		</dependency>
 
+		<!-- 此包顺序必须放在sb-spring-boot-starter前面，否则启动"APPLICATION FAILED TO START"，会报 -->
+		<!-- An attempt was made to call a method that does not exist. The attempt was made from the following location: -->
+		<!-- rebue.sbs.cache.CacheConfig.setCacheBuilder(CacheConfig.java:164) -->
+		<!-- The following method did not exist: -->
+		<!-- org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine.getSpecs()Ljava/util/Map; -->
+		<!-- The method's class, org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine, is available from the following locations: -->
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>cache-spring-boot-starter</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
 			<artifactId>sb-spring-boot-starter</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.github.rebue.sbs</groupId>
-					<artifactId>shardingsphere-spring-boot-starter</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
