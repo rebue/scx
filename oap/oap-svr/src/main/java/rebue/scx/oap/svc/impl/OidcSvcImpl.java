@@ -80,6 +80,7 @@ import rebue.scx.oap.svc.AccessTokenService;
 import rebue.scx.oap.svc.OapGrantSvc;
 import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.rac.api.RacAccountApi;
+import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
@@ -111,6 +112,8 @@ public class OidcSvcImpl implements OidcSvc {
     private RacSignInApi             racSignInApi;
     @DubboReference
     private RacAccountApi            racAccountApi;
+    @DubboReference
+    private RacAppApi                racAppApi;
 
     /**
      * 映射工厂(用于不同类型的对象之间复制属性)
@@ -183,9 +186,18 @@ public class OidcSvcImpl implements OidcSvc {
             if (!redirectUris.match(r)) {
                 return "codeFlowLoginPage重定向地址错误";
             }
+            OapAppMo oapAppMo    = oapAppRepository.selectByClientId(aRequest.getClientID().getValue());
+            String   callbackUrl = "";
+            try {
+                String url = racAppApi.getById(oapAppMo.getAppId()).getExtra().getOne().getUrl();
+                callbackUrl = getCallbackUrl(url);
+            } catch (Exception e) {
+                return "ClientID未配对App错误，rac不存在该应用/应用URL地址为空";
+            }
             hResponse.setStatusCode(HttpStatus.FOUND);
-            log.info("********* RedirectionURI*********:" + r + "\t");
-            hResponse.getHeaders().setLocation(URI.create(r));
+            String url = getURLDecoderString(r);
+            log.info("********* RedirectionURI*********:" + url + "\t");
+            hResponse.getHeaders().setLocation(URI.create(url + callbackUrl));
             return null;
         }
         log.info(StringUtils.rightPad("*** 未登录***", 100));
@@ -269,7 +281,7 @@ public class OidcSvcImpl implements OidcSvc {
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                         .build());
         log.info("********* 登录login重定向地址*********:" + r + "\t\t");
-        String redirectUrl = redirect.getLocation().toString().toString() + "&callbackUrl=" + getURLEncoderString(ra.getExtra().getRedirectUrl());
+        String redirectUrl = redirect.getLocation().toString().toString() + getCallbackUrl(ra.getExtra().getRedirectUrl());
         return Ro.success(URI.create(redirectUrl).toString());
     }
 
@@ -455,7 +467,7 @@ public class OidcSvcImpl implements OidcSvc {
     private static ResponseCookie createCookie(String value) {
         return ResponseCookie.from(OidcConfig.AUTH_INFO, value)
                 .path("/")
-                .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
+                .maxAge(-1)
                 .build();
     }
 
@@ -465,6 +477,17 @@ public class OidcSvcImpl implements OidcSvc {
             return null;
         }
         return jwtApi.verifyNotUpdate(cookie.getValue());
+    }
+
+    /**
+     * 获取登录后重定向的地址
+     *
+     * @return String
+     */
+    private static String getCallbackUrl(String parameter) {
+        String callbackUrl      = "&callbackUrl=";
+        String urlEncoderString = getURLEncoderString(parameter);
+        return callbackUrl + urlEncoderString;
     }
 
     /**
@@ -479,6 +502,24 @@ public class OidcSvcImpl implements OidcSvc {
         }
         try {
             result = java.net.URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * URL 解码
+     *
+     * @return str
+     */
+    private static String getURLDecoderString(String str) {
+        String result = "";
+        if (null == str) {
+            return "";
+        }
+        try {
+            result = URLDecoder.decode(str, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
