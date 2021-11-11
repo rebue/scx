@@ -18,20 +18,6 @@ spring:
     sentinel:
       transport:
         dashboard: sentinel-dashboard:80
-    gateway:
-      routes:
-        - id: sr
-          uri: http://nginx-html:20010
-          predicates:
-          - Path=/admin-web/**
-          filters:
-          - name: JwtPre
-        - id: welcome
-          uri: http://nginx-html:20010
-          predicates:
-            - Path=/
-          filters:
-            - name: JwtPre
   rabbitmq:
     host: rabbitmq
     port: 5672

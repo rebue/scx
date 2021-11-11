@@ -1,6 +1,6 @@
 # 配置中心中的配置
 minio:
-  endpoint: http://122.9.104.17:9000  
+  endpoint: http://minio:9000  
 # 文件路径是否需要全路径还是只需要去除Ip的相对路径地址
 # true 全路径http://127.0.0.1:9000/oss-svr/***
 # false 相对路径 /oss-svr/**

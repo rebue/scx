@@ -1,5 +1,13 @@
 # 配置中心中的配置
 
+msg:
+  sms:
+    simulation: true
+    masterSecret: xxxxxxxx
+    appkey: xxxxxxxxxxxxxxxxxxxxxxxx
+    tempId: xxxxxx
+    signId: xxxxx
+
 # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181

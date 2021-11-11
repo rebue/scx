@@ -1,5 +1,8 @@
 # 配置中心中的配置
 
+oidc:
+  login-url: https://auth.maiyuesoft.com/admin-web/unified-auth/sign-in/unified
+
 # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
@@ -12,30 +15,24 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://mysql1:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
-        username: root
-        password: xxxxxxxx
+        username: oap
+        password: oap
       slave:
         driver-class-name: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://mysql2:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
-        username: root
-        password: xxxxxxxx
+        username: oap
+        password: oap
     rules:
       readwrite-splitting:
         data-sources:
           masterslave:
             write-data-source-name: master
             read-data-source-names: slave
-  flyway:
-    enabled: false
-    clean-disabled: true
   liquibase:
-    #enabled: false
-    # 升级数据库的配置文件的地址
-    #change-log: 'classpath:db/changelog/db.changelog-master.yaml'
     url: jdbc:mysql://mysql1:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
-    user: root
-    password: xxxxxxxx
+    user: oap
+    password: oap
   rabbitmq:
     host: rabbitmq_rabbitmq
     port: 5672

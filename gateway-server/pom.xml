@@ -24,17 +24,7 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rac-api</artifactId>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.github.rebue.scx</groupId> -->
-<!-- 			<artifactId>rac-oplog</artifactId> -->
-<!-- 			<version>1.2.4</version> -->
-<!-- 			<exclusions> -->
-<!-- 				<exclusion> -->
-<!-- 					<groupId>org.liquibase</groupId> -->
-<!-- 					<artifactId>liquibase-core</artifactId> -->
-<!-- 				</exclusion> -->
-<!-- 			</exclusions> -->
-<!-- 		</dependency> -->
+
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>rrl-api</artifactId>
@@ -84,6 +74,12 @@
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 		</dependency>
+
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.cloud</groupId> -->
+		<!-- <artifactId>spring-cloud-starter-openfeign</artifactId> -->
+		<!-- </dependency> -->
 
 		<!-- 流量控制哨兵 -->
 		<dependency>
