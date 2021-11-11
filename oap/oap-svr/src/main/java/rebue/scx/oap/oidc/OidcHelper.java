@@ -6,7 +6,6 @@ import java.net.URLDecoder;
 
 import org.apache.commons.lang3.StringUtils;
 
-import rebue.scx.oap.exception.OidcAuthenticationException;
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
 import com.nimbusds.oauth2.sdk.ResponseMode;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
@@ -15,6 +14,7 @@ import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
+import rebue.scx.oap.exception.OidcAuthenticationException;
 
 @Slf4j
 public class OidcHelper {

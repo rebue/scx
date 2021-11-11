@@ -1,7 +1,6 @@
 package rebue.scx.oap.ctrl;
 
 import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,19 +8,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import rebue.scx.oap.api.OapRedirectUriApi;
-import rebue.scx.oap.mo.OapRedirectUriMo;
-import rebue.scx.oap.to.OapRedirectUriAddTo;
-import rebue.scx.oap.to.OapRedirectUriModifyTo;
-import rebue.scx.oap.to.OapRedirectUriPageTo;
-
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.oap.api.OapRedirectUriApi;
+import rebue.scx.oap.mo.OapRedirectUriMo;
+import rebue.scx.oap.to.OapRedirectUriAddTo;
+import rebue.scx.oap.to.OapRedirectUriModifyTo;
+import rebue.scx.oap.to.OapRedirectUriPageTo;
 
 /**
  * 第三方应用URL

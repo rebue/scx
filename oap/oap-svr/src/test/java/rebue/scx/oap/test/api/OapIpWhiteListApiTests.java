@@ -5,20 +5,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.github.dozermapper.core.Mapper;
-import rebue.scx.oap.api.OapIpWhiteListApi;
-import rebue.scx.oap.mo.OapIpWhiteListMo;
-import rebue.scx.oap.to.OapIpWhiteListAddTo;
-import rebue.scx.oap.to.OapIpWhiteListModifyTo;
-import rebue.scx.oap.to.OapIpWhiteListPageTo;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.oap.api.OapIpWhiteListApi;
+import rebue.scx.oap.mo.OapIpWhiteListMo;
+import rebue.scx.oap.to.OapIpWhiteListAddTo;
+import rebue.scx.oap.to.OapIpWhiteListModifyTo;
+import rebue.scx.oap.to.OapIpWhiteListPageTo;
 import rebue.wheel.core.RandomEx;
 
 /**

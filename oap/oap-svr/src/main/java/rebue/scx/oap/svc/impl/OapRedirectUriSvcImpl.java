@@ -1,12 +1,12 @@
 package rebue.scx.oap.svc.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
+import rebue.robotech.svc.BaseSvc;
+import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.oap.dao.OapRedirectUriDao;
 import rebue.scx.oap.jo.OapRedirectUriJo;
 import rebue.scx.oap.mapper.OapRedirectUriMapper;
@@ -18,9 +18,6 @@ import rebue.scx.oap.to.OapRedirectUriListTo;
 import rebue.scx.oap.to.OapRedirectUriModifyTo;
 import rebue.scx.oap.to.OapRedirectUriOneTo;
 import rebue.scx.oap.to.OapRedirectUriPageTo;
-
-import rebue.robotech.svc.BaseSvc;
-import rebue.robotech.svc.impl.BaseSvcImpl;
 
 /**
  * 第三方应用URL服务实现

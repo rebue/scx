@@ -1,7 +1,7 @@
 package rebue.scx.oap.svc;
 
 import org.springframework.validation.annotation.Validated;
-
+import rebue.robotech.svc.BaseSvc;
 import rebue.scx.oap.jo.OapIpWhiteListJo;
 import rebue.scx.oap.mo.OapIpWhiteListMo;
 import rebue.scx.oap.to.OapIpWhiteListAddTo;
@@ -10,8 +10,6 @@ import rebue.scx.oap.to.OapIpWhiteListListTo;
 import rebue.scx.oap.to.OapIpWhiteListModifyTo;
 import rebue.scx.oap.to.OapIpWhiteListOneTo;
 import rebue.scx.oap.to.OapIpWhiteListPageTo;
-
-import rebue.robotech.svc.BaseSvc;
 
 /**
  * 第三方应用IP白名单服务接口

@@ -1,7 +1,7 @@
 package rebue.scx.oap.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-
+import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.scx.oap.api.OapIpWhiteListApi;
 import rebue.scx.oap.jo.OapIpWhiteListJo;
 import rebue.scx.oap.mo.OapIpWhiteListMo;
@@ -12,8 +12,6 @@ import rebue.scx.oap.to.OapIpWhiteListListTo;
 import rebue.scx.oap.to.OapIpWhiteListModifyTo;
 import rebue.scx.oap.to.OapIpWhiteListOneTo;
 import rebue.scx.oap.to.OapIpWhiteListPageTo;
-
-import rebue.robotech.api.impl.BaseApiImpl;
 
 /**
  * 第三方应用IP白名单API实现

@@ -1,11 +1,10 @@
 package rebue.scx.oap.api;
 
+import rebue.robotech.api.BaseApi;
 import rebue.scx.oap.mo.OapIpWhiteListMo;
 import rebue.scx.oap.to.OapIpWhiteListAddTo;
 import rebue.scx.oap.to.OapIpWhiteListModifyTo;
 import rebue.scx.oap.to.OapIpWhiteListPageTo;
-
-import rebue.robotech.api.BaseApi;
 
 /**
  * 第三方应用IP白名单的API

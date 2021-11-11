@@ -2,16 +2,12 @@ package rebue.scx.oap.to;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 
 /**
@@ -39,16 +35,16 @@ public class OapAppModifyTo implements Serializable {
 
     /**
      * rac_app主键
-     *
      */
     @Length(max = 32, message = "rac_app主键的长度不能大于32")
     private String            appId;
+
     /**
      * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
-     *
      */
     @PositiveOrZero(message = "认证方式不能为负数")
     private Byte              authnType;
+
     /**
      * oidc client id
      *
@@ -97,14 +93,12 @@ public class OapAppModifyTo implements Serializable {
 
     /**
      * 白名单IP（list集合）
-     *
      */
     @NotEmpty(message = "白名单IP不能为空")
     private List<String>      ipAddrs;
 
     /**
      * 允许的重定向URI, 最后一个字符可以是通配符* （list集合）
-     *
      */
     @NotEmpty(message = "允许的重定向URI,不能为空")
     private List<String>      redirectUris;

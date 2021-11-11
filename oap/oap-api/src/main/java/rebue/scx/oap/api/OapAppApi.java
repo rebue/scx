@@ -1,16 +1,14 @@
 package rebue.scx.oap.api;
 
 import java.util.Optional;
-
+import rebue.robotech.api.BaseApi;
+import rebue.robotech.ro.Ro;
 import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.oap.mo.ex.OapAppListAndRacAppListRa;
 import rebue.scx.oap.to.OapAppAddTo;
 import rebue.scx.oap.to.OapAppListTo;
 import rebue.scx.oap.to.OapAppModifyTo;
 import rebue.scx.oap.to.OapAppPageTo;
-
-import rebue.robotech.api.BaseApi;
-import rebue.robotech.ro.Ro;
 
 /**
  * 第三方应用的API
@@ -32,7 +30,6 @@ public interface OapAppApi extends BaseApi<java.lang.Long, OapAppAddTo, OapAppMo
      * 查询应用的信息并附带第三方应用的信息
      *
      * @param qo 查询的具体条件(查询所有，及条件为空)
-     * 
      */
     Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo);
 }

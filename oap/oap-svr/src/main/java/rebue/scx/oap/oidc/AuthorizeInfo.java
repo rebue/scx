@@ -5,14 +5,14 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import rebue.scx.oap.exception.OidcAuthenticationException;
-import rebue.scx.oap.utils.Base64Util;
 import com.nimbusds.oauth2.sdk.id.State;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import rebue.scx.oap.exception.OidcAuthenticationException;
+import rebue.scx.oap.utils.Base64Util;
 
 
 @Data

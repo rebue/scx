@@ -3,11 +3,18 @@ package rebue.scx.oap.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
-
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.appId;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.clientId;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.createTimestamp;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.id;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.isEnabled;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.oapApp;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.objId;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.secret;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.updateTimestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,9 +38,10 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.oap.mo.OapAppMo;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.*;
 
 @Mapper
 public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
@@ -41,42 +49,35 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(OapAppDynamicSqlSupport.id, OapAppDynamicSqlSupport.appId, OapAppDynamicSqlSupport.isEnabled,
-            OapAppDynamicSqlSupport.clientId, OapAppDynamicSqlSupport.secret, OapAppDynamicSqlSupport.objId, OapAppDynamicSqlSupport.createTimestamp,
-            OapAppDynamicSqlSupport.updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, appId, isEnabled, clientId, secret, objId, createTimestamp, updateTimestamp);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<OapAppMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<OapAppMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("OapAppMoResult")
     Optional<OapAppMo> selectOne(SelectStatementProvider selectStatement);
@@ -84,179 +85,145 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "OapAppMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-            @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT),
-            @Result(column = "CLIENT_ID", property = "clientId", jdbcType = JdbcType.VARCHAR), @Result(column = "SECRET", property = "secret", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "OBJ_ID", property = "objId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "CREATE_TIMESTAMP", property = "createTimestamp", jdbcType = JdbcType.BIGINT),
-            @Result(column = "UPDATE_TIMESTAMP", property = "updateTimestamp", jdbcType = JdbcType.BIGINT)
+        @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "IS_ENABLED", property = "isEnabled", jdbcType = JdbcType.BIT),
+        @Result(column = "CLIENT_ID", property = "clientId", jdbcType = JdbcType.VARCHAR), @Result(column = "SECRET", property = "secret", jdbcType = JdbcType.VARCHAR),
+        @Result(column = "OBJ_ID", property = "objId", jdbcType = JdbcType.BIGINT), @Result(column = "CREATE_TIMESTAMP", property = "createTimestamp", jdbcType = JdbcType.BIGINT),
+        @Result(column = "UPDATE_TIMESTAMP", property = "updateTimestamp", jdbcType = JdbcType.BIGINT)
     })
     List<OapAppMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, OapAppDynamicSqlSupport.oapApp, completer);
+        return MyBatis3Utils.countFrom(this::count, oapApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, OapAppDynamicSqlSupport.oapApp, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, oapApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int deleteByPrimaryKey(Long id_) {
-        return delete(c -> c.where(OapAppDynamicSqlSupport.id, isEqualTo(id_)));
+        return delete(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insert(OapAppMo record) {
-        return MyBatis3Utils.insert(this::insert, record, OapAppDynamicSqlSupport.oapApp,
-                c -> c.map(OapAppDynamicSqlSupport.id).toProperty("id").map(OapAppDynamicSqlSupport.appId).toProperty("appId").map(OapAppDynamicSqlSupport.isEnabled)
-                        .toProperty("isEnabled").map(OapAppDynamicSqlSupport.clientId).toProperty("clientId").map(OapAppDynamicSqlSupport.secret)
-                        .toProperty("secret").map(OapAppDynamicSqlSupport.objId).toProperty("objId").map(OapAppDynamicSqlSupport.createTimestamp).toProperty("createTimestamp")
-                        .map(OapAppDynamicSqlSupport.updateTimestamp).toProperty("updateTimestamp"));
+        return MyBatis3Utils.insert(this::insert, record, oapApp,
+            c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(isEnabled).toProperty("isEnabled").map(clientId).toProperty("clientId").map(secret)
+                .toProperty("secret").map(objId).toProperty("objId").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insertMultiple(Collection<OapAppMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, OapAppDynamicSqlSupport.oapApp,
-                c -> c.map(OapAppDynamicSqlSupport.id).toProperty("id").map(OapAppDynamicSqlSupport.appId).toProperty("appId").map(OapAppDynamicSqlSupport.isEnabled)
-                        .toProperty("isEnabled").map(OapAppDynamicSqlSupport.clientId).toProperty("clientId").map(OapAppDynamicSqlSupport.secret)
-                        .toProperty("secret").map(OapAppDynamicSqlSupport.objId).toProperty("objId").map(OapAppDynamicSqlSupport.createTimestamp).toProperty("createTimestamp")
-                        .map(OapAppDynamicSqlSupport.updateTimestamp).toProperty("updateTimestamp"));
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, oapApp,
+            c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(isEnabled).toProperty("isEnabled").map(clientId).toProperty("clientId").map(secret)
+                .toProperty("secret").map(objId).toProperty("objId").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insertSelective(OapAppMo record) {
-        return MyBatis3Utils.insert(this::insert, record, OapAppDynamicSqlSupport.oapApp,
-                c -> c.map(OapAppDynamicSqlSupport.id).toPropertyWhenPresent("id", record::getId).map(OapAppDynamicSqlSupport.appId)
-                        .toPropertyWhenPresent("appId", record::getAppId).map(OapAppDynamicSqlSupport.isEnabled)
-                        .toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(OapAppDynamicSqlSupport.clientId).toPropertyWhenPresent("clientId", record::getClientId)
-                        .map(OapAppDynamicSqlSupport.secret)
-                        .toPropertyWhenPresent("secret", record::getSecret).map(OapAppDynamicSqlSupport.objId).toPropertyWhenPresent("objId", record::getObjId)
-                        .map(OapAppDynamicSqlSupport.createTimestamp)
-                        .toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp).map(OapAppDynamicSqlSupport.updateTimestamp)
-                        .toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp));
+        return MyBatis3Utils.insert(this::insert, record, oapApp,
+            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId).toPropertyWhenPresent("appId", record::getAppId).map(isEnabled)
+                .toPropertyWhenPresent("isEnabled", record::getIsEnabled).map(clientId).toPropertyWhenPresent("clientId", record::getClientId).map(secret)
+                .toPropertyWhenPresent("secret", record::getSecret).map(objId).toPropertyWhenPresent("objId", record::getObjId).map(createTimestamp)
+                .toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp).map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<OapAppMo> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, OapAppDynamicSqlSupport.oapApp, completer);
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, oapApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<OapAppMo> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, OapAppDynamicSqlSupport.oapApp, completer);
+        return MyBatis3Utils.selectList(this::selectMany, selectList, oapApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<OapAppMo> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, OapAppDynamicSqlSupport.oapApp, completer);
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, oapApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<OapAppMo> selectByPrimaryKey(Long id_) {
-        return selectOne(c -> c.where(OapAppDynamicSqlSupport.id, isEqualTo(id_)));
+        return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, OapAppDynamicSqlSupport.oapApp, completer);
+        return MyBatis3Utils.update(this::update, oapApp, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(OapAppMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(OapAppDynamicSqlSupport.id).equalTo(record::getId).set(OapAppDynamicSqlSupport.appId).equalTo(record::getAppId).set(OapAppDynamicSqlSupport.isEnabled)
-                .equalTo(record::getIsEnabled).set(OapAppDynamicSqlSupport.clientId).equalTo(record::getClientId)
-                .set(OapAppDynamicSqlSupport.secret).equalTo(record::getSecret).set(OapAppDynamicSqlSupport.objId).equalTo(record::getObjId)
-                .set(OapAppDynamicSqlSupport.createTimestamp).equalTo(record::getCreateTimestamp).set(OapAppDynamicSqlSupport.updateTimestamp)
-                .equalTo(record::getUpdateTimestamp);
+        return dsl.set(id).equalTo(record::getId).set(appId).equalTo(record::getAppId).set(isEnabled).equalTo(record::getIsEnabled).set(clientId).equalTo(record::getClientId)
+            .set(secret).equalTo(record::getSecret).set(objId).equalTo(record::getObjId).set(createTimestamp).equalTo(record::getCreateTimestamp).set(updateTimestamp)
+            .equalTo(record::getUpdateTimestamp);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(OapAppMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(OapAppDynamicSqlSupport.id).equalToWhenPresent(record::getId).set(OapAppDynamicSqlSupport.appId).equalToWhenPresent(record::getAppId)
-                .set(OapAppDynamicSqlSupport.isEnabled).equalToWhenPresent(record::getIsEnabled).set(OapAppDynamicSqlSupport.clientId)
-                .equalToWhenPresent(record::getClientId).set(OapAppDynamicSqlSupport.secret).equalToWhenPresent(record::getSecret).set(OapAppDynamicSqlSupport.objId)
-                .equalToWhenPresent(record::getObjId).set(OapAppDynamicSqlSupport.createTimestamp)
-                .equalToWhenPresent(record::getCreateTimestamp).set(OapAppDynamicSqlSupport.updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
+        return dsl.set(id).equalToWhenPresent(record::getId).set(appId).equalToWhenPresent(record::getAppId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(clientId)
+            .equalToWhenPresent(record::getClientId).set(secret).equalToWhenPresent(record::getSecret).set(objId).equalToWhenPresent(record::getObjId).set(createTimestamp)
+            .equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int updateByPrimaryKey(OapAppMo record) {
-        return update(c -> c.set(OapAppDynamicSqlSupport.appId).equalTo(record::getAppId).set(OapAppDynamicSqlSupport.isEnabled).equalTo(record::getIsEnabled)
-                .set(OapAppDynamicSqlSupport.clientId).equalTo(record::getClientId).set(OapAppDynamicSqlSupport.secret)
-                .equalTo(record::getSecret).set(OapAppDynamicSqlSupport.objId).equalTo(record::getObjId).set(OapAppDynamicSqlSupport.createTimestamp)
-                .equalTo(record::getCreateTimestamp).set(OapAppDynamicSqlSupport.updateTimestamp)
-                .equalTo(record::getUpdateTimestamp).where(OapAppDynamicSqlSupport.id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalTo(record::getAppId).set(isEnabled).equalTo(record::getIsEnabled).set(clientId).equalTo(record::getClientId).set(secret)
+            .equalTo(record::getSecret).set(objId).equalTo(record::getObjId).set(createTimestamp).equalTo(record::getCreateTimestamp).set(updateTimestamp)
+            .equalTo(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int updateByPrimaryKeySelective(OapAppMo record) {
-        return update(c -> c.set(OapAppDynamicSqlSupport.appId).equalToWhenPresent(record::getAppId).set(OapAppDynamicSqlSupport.isEnabled).equalToWhenPresent(record::getIsEnabled)
-                .set(OapAppDynamicSqlSupport.clientId)
-                .equalToWhenPresent(record::getClientId).set(OapAppDynamicSqlSupport.secret).equalToWhenPresent(record::getSecret).set(OapAppDynamicSqlSupport.objId)
-                .equalToWhenPresent(record::getObjId).set(OapAppDynamicSqlSupport.createTimestamp)
-                .equalToWhenPresent(record::getCreateTimestamp).set(OapAppDynamicSqlSupport.updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp)
-                .where(OapAppDynamicSqlSupport.id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalToWhenPresent(record::getAppId).set(isEnabled).equalToWhenPresent(record::getIsEnabled).set(clientId)
+            .equalToWhenPresent(record::getClientId).set(secret).equalToWhenPresent(record::getSecret).set(objId).equalToWhenPresent(record::getObjId).set(createTimestamp)
+            .equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default BasicColumn[] getColumns() {
         return selectList;
     }
@@ -264,57 +231,43 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int deleteSelective(OapAppMo record) {
         return delete(
-                c -> c.where(OapAppDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapAppDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId))
-                        .and(OapAppDynamicSqlSupport.isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-                        .and(OapAppDynamicSqlSupport.clientId, isEqualToWhenPresent(record::getClientId))
-                        .and(OapAppDynamicSqlSupport.secret, isEqualToWhenPresent(record::getSecret)).and(OapAppDynamicSqlSupport.objId, isEqualToWhenPresent(record::getObjId))
-                        .and(OapAppDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
-                        .and(OapAppDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<OapAppMo> selectOne(OapAppMo record) {
         return selectOne(
-                c -> c.where(OapAppDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapAppDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId))
-                        .and(OapAppDynamicSqlSupport.isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-                        .and(OapAppDynamicSqlSupport.clientId, isEqualToWhenPresent(record::getClientId))
-                        .and(OapAppDynamicSqlSupport.secret, isEqualToWhenPresent(record::getSecret)).and(OapAppDynamicSqlSupport.objId, isEqualToWhenPresent(record::getObjId))
-                        .and(OapAppDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
-                        .and(OapAppDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default long countSelective(OapAppMo record) {
         return count(
-                c -> c.where(OapAppDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapAppDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId))
-                        .and(OapAppDynamicSqlSupport.isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-                        .and(OapAppDynamicSqlSupport.clientId, isEqualToWhenPresent(record::getClientId))
-                        .and(OapAppDynamicSqlSupport.secret, isEqualToWhenPresent(record::getSecret)).and(OapAppDynamicSqlSupport.objId, isEqualToWhenPresent(record::getObjId))
-                        .and(OapAppDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
-                        .and(OapAppDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default boolean existByPrimaryKey(Long id_) {
-        return count(c -> c.where(OapAppDynamicSqlSupport.id, isEqualTo(id_))) > 0;
+        return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default boolean existSelective(OapAppMo record) {
         return countSelective(record) > 0;
     }
@@ -322,30 +275,25 @@ public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<OapAppMo> selectSelective(OapAppMo record) {
         return select(
-                c -> c.where(OapAppDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapAppDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId))
-                        .and(OapAppDynamicSqlSupport.isEnabled, isEqualToWhenPresent(record::getIsEnabled))
-                        .and(OapAppDynamicSqlSupport.clientId, isEqualToWhenPresent(record::getClientId))
-                        .and(OapAppDynamicSqlSupport.secret, isEqualToWhenPresent(record::getSecret)).and(OapAppDynamicSqlSupport.objId, isEqualToWhenPresent(record::getObjId))
-                        .and(OapAppDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp))
-                        .and(OapAppDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(clientId, isEqualToWhenPresent(record::getClientId)).and(secret, isEqualToWhenPresent(record::getSecret)).and(objId, isEqualToWhenPresent(record::getObjId))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<OapAppMo> selectIn(List<Long> ids) {
-        return select(c -> c.where(OapAppDynamicSqlSupport.id, isIn(ids)));
+        return select(c -> c.where(id, isIn(ids)));
     }
 
     /**
      * 根据应用ID查询对应的认证信息
-     * 
+     *
      * @param appIds
-     * 
+     *
      * @return
      */
     default List<OapAppMo> listInAppIdList(List<String> appIds) {

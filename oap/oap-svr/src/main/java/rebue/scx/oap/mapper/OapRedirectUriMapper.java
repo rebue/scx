@@ -3,11 +3,15 @@ package rebue.scx.oap.mapper;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
-
+import static rebue.scx.oap.mapper.OapRedirectUriDynamicSqlSupport.appId;
+import static rebue.scx.oap.mapper.OapRedirectUriDynamicSqlSupport.createTimestamp;
+import static rebue.scx.oap.mapper.OapRedirectUriDynamicSqlSupport.id;
+import static rebue.scx.oap.mapper.OapRedirectUriDynamicSqlSupport.oapRedirectUri;
+import static rebue.scx.oap.mapper.OapRedirectUriDynamicSqlSupport.redirectUri;
+import static rebue.scx.oap.mapper.OapRedirectUriDynamicSqlSupport.updateTimestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,10 +35,10 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
-import rebue.scx.oap.mo.OapRedirectUriMo;
-
 import rebue.robotech.mybatis.MapperRootInterface;
+import rebue.scx.oap.mo.OapRedirectUriMo;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.oap.mapper.OapRedirectUriDynamicSqlSupport.*;
 
 @Mapper
 public interface OapRedirectUriMapper extends MapperRootInterface<OapRedirectUriMo, Long> {
@@ -42,7 +46,7 @@ public interface OapRedirectUriMapper extends MapperRootInterface<OapRedirectUri
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    BasicColumn[] selectList = BasicColumn.columnList(OapRedirectUriDynamicSqlSupport.id, OapRedirectUriDynamicSqlSupport.appId, OapRedirectUriDynamicSqlSupport.redirectUri, OapRedirectUriDynamicSqlSupport.createTimestamp, OapRedirectUriDynamicSqlSupport.updateTimestamp);
+    BasicColumn[] selectList = BasicColumn.columnList(id, appId, redirectUri, createTimestamp, updateTimestamp);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -96,114 +100,114 @@ public interface OapRedirectUriMapper extends MapperRootInterface<OapRedirectUri
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, OapRedirectUriDynamicSqlSupport.oapRedirectUri, completer);
+        return MyBatis3Utils.countFrom(this::count, oapRedirectUri, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, OapRedirectUriDynamicSqlSupport.oapRedirectUri, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, oapRedirectUri, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int deleteByPrimaryKey(Long id_) {
-        return delete(c -> c.where(OapRedirectUriDynamicSqlSupport.id, isEqualTo(id_)));
+        return delete(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insert(OapRedirectUriMo record) {
-        return MyBatis3Utils.insert(this::insert, record, OapRedirectUriDynamicSqlSupport.oapRedirectUri, c -> c.map(OapRedirectUriDynamicSqlSupport.id).toProperty("id").map(OapRedirectUriDynamicSqlSupport.appId).toProperty("appId").map(OapRedirectUriDynamicSqlSupport.redirectUri).toProperty("redirectUri")
-            .map(OapRedirectUriDynamicSqlSupport.createTimestamp).toProperty("createTimestamp").map(OapRedirectUriDynamicSqlSupport.updateTimestamp).toProperty("updateTimestamp"));
+        return MyBatis3Utils.insert(this::insert, record, oapRedirectUri, c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(redirectUri).toProperty("redirectUri")
+            .map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertMultiple(Collection<OapRedirectUriMo> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, OapRedirectUriDynamicSqlSupport.oapRedirectUri, c -> c.map(OapRedirectUriDynamicSqlSupport.id).toProperty("id").map(OapRedirectUriDynamicSqlSupport.appId).toProperty("appId").map(OapRedirectUriDynamicSqlSupport.redirectUri)
-            .toProperty("redirectUri").map(OapRedirectUriDynamicSqlSupport.createTimestamp).toProperty("createTimestamp").map(OapRedirectUriDynamicSqlSupport.updateTimestamp).toProperty("updateTimestamp"));
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, oapRedirectUri, c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(redirectUri)
+            .toProperty("redirectUri").map(createTimestamp).toProperty("createTimestamp").map(updateTimestamp).toProperty("updateTimestamp"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int insertSelective(OapRedirectUriMo record) {
-        return MyBatis3Utils.insert(this::insert, record, OapRedirectUriDynamicSqlSupport.oapRedirectUri,
-            c -> c.map(OapRedirectUriDynamicSqlSupport.id).toPropertyWhenPresent("id", record::getId).map(OapRedirectUriDynamicSqlSupport.appId).toPropertyWhenPresent("appId", record::getAppId).map(OapRedirectUriDynamicSqlSupport.redirectUri)
-                .toPropertyWhenPresent("redirectUri", record::getRedirectUri).map(OapRedirectUriDynamicSqlSupport.createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp)
-                .map(OapRedirectUriDynamicSqlSupport.updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp));
+        return MyBatis3Utils.insert(this::insert, record, oapRedirectUri,
+            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId).toPropertyWhenPresent("appId", record::getAppId).map(redirectUri)
+                .toPropertyWhenPresent("redirectUri", record::getRedirectUri).map(createTimestamp).toPropertyWhenPresent("createTimestamp", record::getCreateTimestamp)
+                .map(updateTimestamp).toPropertyWhenPresent("updateTimestamp", record::getUpdateTimestamp));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<OapRedirectUriMo> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, OapRedirectUriDynamicSqlSupport.oapRedirectUri, completer);
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, oapRedirectUri, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<OapRedirectUriMo> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, OapRedirectUriDynamicSqlSupport.oapRedirectUri, completer);
+        return MyBatis3Utils.selectList(this::selectMany, selectList, oapRedirectUri, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<OapRedirectUriMo> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, OapRedirectUriDynamicSqlSupport.oapRedirectUri, completer);
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, oapRedirectUri, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default Optional<OapRedirectUriMo> selectByPrimaryKey(Long id_) {
-        return selectOne(c -> c.where(OapRedirectUriDynamicSqlSupport.id, isEqualTo(id_)));
+        return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, OapRedirectUriDynamicSqlSupport.oapRedirectUri, completer);
+        return MyBatis3Utils.update(this::update, oapRedirectUri, completer);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateAllColumns(OapRedirectUriMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(OapRedirectUriDynamicSqlSupport.id).equalTo(record::getId).set(OapRedirectUriDynamicSqlSupport.appId).equalTo(record::getAppId).set(OapRedirectUriDynamicSqlSupport.redirectUri).equalTo(record::getRedirectUri).set(OapRedirectUriDynamicSqlSupport.createTimestamp)
-            .equalTo(record::getCreateTimestamp).set(OapRedirectUriDynamicSqlSupport.updateTimestamp).equalTo(record::getUpdateTimestamp);
+        return dsl.set(id).equalTo(record::getId).set(appId).equalTo(record::getAppId).set(redirectUri).equalTo(record::getRedirectUri).set(createTimestamp)
+            .equalTo(record::getCreateTimestamp).set(updateTimestamp).equalTo(record::getUpdateTimestamp);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(OapRedirectUriMo record, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(OapRedirectUriDynamicSqlSupport.id).equalToWhenPresent(record::getId).set(OapRedirectUriDynamicSqlSupport.appId).equalToWhenPresent(record::getAppId).set(OapRedirectUriDynamicSqlSupport.redirectUri).equalToWhenPresent(record::getRedirectUri)
-            .set(OapRedirectUriDynamicSqlSupport.createTimestamp).equalToWhenPresent(record::getCreateTimestamp).set(OapRedirectUriDynamicSqlSupport.updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
+        return dsl.set(id).equalToWhenPresent(record::getId).set(appId).equalToWhenPresent(record::getAppId).set(redirectUri).equalToWhenPresent(record::getRedirectUri)
+            .set(createTimestamp).equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKey(OapRedirectUriMo record) {
-        return update(c -> c.set(OapRedirectUriDynamicSqlSupport.appId).equalTo(record::getAppId).set(OapRedirectUriDynamicSqlSupport.redirectUri).equalTo(record::getRedirectUri).set(OapRedirectUriDynamicSqlSupport.createTimestamp).equalTo(record::getCreateTimestamp)
-            .set(OapRedirectUriDynamicSqlSupport.updateTimestamp).equalTo(record::getUpdateTimestamp).where(OapRedirectUriDynamicSqlSupport.id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalTo(record::getAppId).set(redirectUri).equalTo(record::getRedirectUri).set(createTimestamp).equalTo(record::getCreateTimestamp)
+            .set(updateTimestamp).equalTo(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default int updateByPrimaryKeySelective(OapRedirectUriMo record) {
-        return update(c -> c.set(OapRedirectUriDynamicSqlSupport.appId).equalToWhenPresent(record::getAppId).set(OapRedirectUriDynamicSqlSupport.redirectUri).equalToWhenPresent(record::getRedirectUri).set(OapRedirectUriDynamicSqlSupport.createTimestamp)
-            .equalToWhenPresent(record::getCreateTimestamp).set(OapRedirectUriDynamicSqlSupport.updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp).where(OapRedirectUriDynamicSqlSupport.id, isEqualTo(record::getId)));
+        return update(c -> c.set(appId).equalToWhenPresent(record::getAppId).set(redirectUri).equalToWhenPresent(record::getRedirectUri).set(createTimestamp)
+            .equalToWhenPresent(record::getCreateTimestamp).set(updateTimestamp).equalToWhenPresent(record::getUpdateTimestamp).where(id, isEqualTo(record::getId)));
     }
 
     /**
@@ -218,8 +222,8 @@ public interface OapRedirectUriMapper extends MapperRootInterface<OapRedirectUri
      */
     default int deleteSelective(OapRedirectUriMo record) {
         return delete(
-            c -> c.where(OapRedirectUriDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapRedirectUriDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId)).and(OapRedirectUriDynamicSqlSupport.redirectUri, isEqualToWhenPresent(record::getRedirectUri))
-                .and(OapRedirectUriDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(OapRedirectUriDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(redirectUri, isEqualToWhenPresent(record::getRedirectUri))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
@@ -227,8 +231,8 @@ public interface OapRedirectUriMapper extends MapperRootInterface<OapRedirectUri
      */
     default Optional<OapRedirectUriMo> selectOne(OapRedirectUriMo record) {
         return selectOne(
-            c -> c.where(OapRedirectUriDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapRedirectUriDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId)).and(OapRedirectUriDynamicSqlSupport.redirectUri, isEqualToWhenPresent(record::getRedirectUri))
-                .and(OapRedirectUriDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(OapRedirectUriDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(redirectUri, isEqualToWhenPresent(record::getRedirectUri))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
@@ -236,15 +240,15 @@ public interface OapRedirectUriMapper extends MapperRootInterface<OapRedirectUri
      */
     default long countSelective(OapRedirectUriMo record) {
         return count(
-            c -> c.where(OapRedirectUriDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapRedirectUriDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId)).and(OapRedirectUriDynamicSqlSupport.redirectUri, isEqualToWhenPresent(record::getRedirectUri))
-                .and(OapRedirectUriDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(OapRedirectUriDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(redirectUri, isEqualToWhenPresent(record::getRedirectUri))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default boolean existByPrimaryKey(Long id_) {
-        return count(c -> c.where(OapRedirectUriDynamicSqlSupport.id, isEqualTo(id_))) > 0;
+        return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
 
     /**
@@ -259,14 +263,14 @@ public interface OapRedirectUriMapper extends MapperRootInterface<OapRedirectUri
      */
     default List<OapRedirectUriMo> selectSelective(OapRedirectUriMo record) {
         return select(
-            c -> c.where(OapRedirectUriDynamicSqlSupport.id, isEqualToWhenPresent(record::getId)).and(OapRedirectUriDynamicSqlSupport.appId, isEqualToWhenPresent(record::getAppId)).and(OapRedirectUriDynamicSqlSupport.redirectUri, isEqualToWhenPresent(record::getRedirectUri))
-                .and(OapRedirectUriDynamicSqlSupport.createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(OapRedirectUriDynamicSqlSupport.updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(redirectUri, isEqualToWhenPresent(record::getRedirectUri))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     default List<OapRedirectUriMo> selectIn(List<Long> ids) {
-        return select(c -> c.where(OapRedirectUriDynamicSqlSupport.id, isIn(ids)));
+        return select(c -> c.where(id, isIn(ids)));
     }
 }

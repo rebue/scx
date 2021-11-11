@@ -4,16 +4,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.github.dozermapper.core.Mapper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import rebue.scx.oap.mo.OapGrantMo;
 import rebue.scx.oap.svc.OapGrantSvc;
 import rebue.scx.oap.to.OapGrantAddTo;
 import rebue.scx.oap.to.OapGrantModifyTo;
 import rebue.scx.oap.to.OapGrantPageTo;
-
-import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.core.RandomEx;
 
 /**

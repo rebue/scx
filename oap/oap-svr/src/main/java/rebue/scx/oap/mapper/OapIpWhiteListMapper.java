@@ -1,19 +1,17 @@
 package rebue.scx.oap.mapper;
 
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
+import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static rebue.scx.oap.mapper.OapIpWhiteListDynamicSqlSupport.appId;
 import static rebue.scx.oap.mapper.OapIpWhiteListDynamicSqlSupport.createTimestamp;
 import static rebue.scx.oap.mapper.OapIpWhiteListDynamicSqlSupport.id;
 import static rebue.scx.oap.mapper.OapIpWhiteListDynamicSqlSupport.ipAddr;
 import static rebue.scx.oap.mapper.OapIpWhiteListDynamicSqlSupport.oapIpWhiteList;
 import static rebue.scx.oap.mapper.OapIpWhiteListDynamicSqlSupport.updateTimestamp;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
-import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,10 +35,10 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-
-import rebue.scx.oap.mo.OapIpWhiteListMo;
-
 import rebue.robotech.mybatis.MapperRootInterface;
+import rebue.scx.oap.mo.OapIpWhiteListMo;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static rebue.scx.oap.mapper.OapIpWhiteListDynamicSqlSupport.*;
 
 @Mapper
 public interface OapIpWhiteListMapper extends MapperRootInterface<OapIpWhiteListMo, Long> {

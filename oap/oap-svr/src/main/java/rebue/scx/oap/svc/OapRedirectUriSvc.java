@@ -1,7 +1,7 @@
 package rebue.scx.oap.svc;
 
 import org.springframework.validation.annotation.Validated;
-
+import rebue.robotech.svc.BaseSvc;
 import rebue.scx.oap.jo.OapRedirectUriJo;
 import rebue.scx.oap.mo.OapRedirectUriMo;
 import rebue.scx.oap.to.OapRedirectUriAddTo;
@@ -10,8 +10,6 @@ import rebue.scx.oap.to.OapRedirectUriListTo;
 import rebue.scx.oap.to.OapRedirectUriModifyTo;
 import rebue.scx.oap.to.OapRedirectUriOneTo;
 import rebue.scx.oap.to.OapRedirectUriPageTo;
-
-import rebue.robotech.svc.BaseSvc;
 
 /**
  * 第三方应用URL服务接口

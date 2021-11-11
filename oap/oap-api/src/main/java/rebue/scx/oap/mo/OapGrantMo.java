@@ -1,16 +1,12 @@
 package rebue.scx.oap.mo;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
@@ -60,12 +56,9 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     private String            refreshToken;
 
     /**
-     * 创建时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "创建时间不能为空")
-    @PositiveOrZero(message = "创建时间不能为负数")
+    @PositiveOrZero(message = "不能为负数")
     private Long              createTimestamp;
 
     /**
@@ -146,8 +139,6 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 创建时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getCreateTimestamp() {
@@ -155,8 +146,6 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * 创建时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setCreateTimestamp(Long createTimestamp) {
@@ -175,8 +164,8 @@ public class OapGrantMo implements Serializable, Mo<Long> {
         sb.append(", id=").append(id);
         sb.append(", accountId=").append(accountId);
         sb.append(", accessToken=").append(accessToken);
-        sb.append(", accessTokenJson=").append(accessTokenJson);
         sb.append(", refreshToken=").append(refreshToken);
+        sb.append(", accessTokenJson=").append(accessTokenJson);
         sb.append(", accessTokenExpireTimestamp=").append(accessTokenExpireTimestamp);
         sb.append(", refreshTokenExpiresTimestamp=").append(refreshTokenExpiresTimestamp);
         sb.append(", createTimestamp=").append(createTimestamp);
@@ -227,7 +216,6 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotBlank(groups = AddGroup.class, message = "不能为空")
     @Length(max = 255, message = "的长度不能大于255")
     private String accessTokenJson;
 
@@ -246,26 +234,18 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * access token 过期时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "access不能为空")
-    @PositiveOrZero(message = "access不能为负数")
+    @PositiveOrZero(message = "不能为负数")
     private Long accessTokenExpireTimestamp;
 
     /**
-     * refresh token 过期时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "refresh不能为空")
-    @PositiveOrZero(message = "refresh不能为负数")
+    @PositiveOrZero(message = "不能为负数")
     private Long refreshTokenExpiresTimestamp;
 
     /**
-     * access token 过期时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getAccessTokenExpireTimestamp() {
@@ -273,8 +253,6 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * access token 过期时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setAccessTokenExpireTimestamp(Long accessTokenExpireTimestamp) {
@@ -282,8 +260,6 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * refresh token 过期时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public Long getRefreshTokenExpiresTimestamp() {
@@ -291,8 +267,6 @@ public class OapGrantMo implements Serializable, Mo<Long> {
     }
 
     /**
-     * refresh token 过期时间
-     *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     public void setRefreshTokenExpiresTimestamp(Long refreshTokenExpiresTimestamp) {

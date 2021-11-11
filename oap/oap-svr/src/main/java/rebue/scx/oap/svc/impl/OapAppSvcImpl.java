@@ -5,15 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
-
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.PojoRa;
@@ -67,14 +64,15 @@ import rebue.wheel.core.util.OrikaUtils;
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
  *
+ * @mbg.dontOverWriteAnnotation
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @Slf4j
 public class OapAppSvcImpl
-        extends BaseSvcImpl<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo, OapAppMapper, OapAppDao>
-        implements OapAppSvc {
+    extends BaseSvcImpl<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo, OapAppMapper, OapAppDao>
+    implements OapAppSvc {
 
     /**
      * 本服务的单例
@@ -94,6 +92,7 @@ public class OapAppSvcImpl
 
     @DubboReference
     private RacAppApi         racAppApi;
+
     @DubboReference
     private RacAccountApi     racAccountApi;
 
@@ -130,10 +129,10 @@ public class OapAppSvcImpl
         final OapAppMo mo = OrikaUtils.map(to, OapAppMo.class);
         mo.setCreateTimestamp(System.currentTimeMillis());
         mo.setUpdateTimestamp(System.currentTimeMillis());
-        OapAppMo            amo   = thisSvc.addMo(mo);
-        final OapAppMoEx    addMo = OrikaUtils.map(amo, OapAppMoEx.class);
+        OapAppMo amo = thisSvc.addMo(mo);
+        final OapAppMoEx addMo = OrikaUtils.map(amo, OapAppMoEx.class);
         // 添加关联白名单IP
-        OapIpWhiteListAddTo ipTo  = new OapIpWhiteListAddTo();
+        OapIpWhiteListAddTo ipTo = new OapIpWhiteListAddTo();
         ipTo.setAppId(addMo.getId());
         ipTo.setCreateTimestamp(System.currentTimeMillis());
         ipTo.setUpdateTimestamp(System.currentTimeMillis());
@@ -201,9 +200,9 @@ public class OapAppSvcImpl
         final OapAppMo mo = OrikaUtils.map(to, OapAppMo.class);
         // 固定关联rac_app主键，不可修改
         mo.setAppId(null);
-        OapAppMo            modifyMoById = thisSvc.modifyMoById(mo);
+        OapAppMo modifyMoById = thisSvc.modifyMoById(mo);
         // 先删除
-        OapIpWhiteListDelTo ipDelTo      = new OapIpWhiteListDelTo();
+        OapIpWhiteListDelTo ipDelTo = new OapIpWhiteListDelTo();
         ipDelTo.setAppId(modifyMoById.getId());
         oapIpWhiteListSvc.delSelective(ipDelTo);
         OapRedirectUriDelTo uriDelTo = new OapRedirectUriDelTo();
@@ -273,7 +272,7 @@ public class OapAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(Long id) {
         // 先删除依赖
-        OapAppMo            appMo   = thisSvc.getById(id);
+        OapAppMo appMo = thisSvc.getById(id);
         OapIpWhiteListDelTo ipDelTo = new OapIpWhiteListDelTo();
         ipDelTo.setAppId(id);
         oapIpWhiteListSvc.delSelective(ipDelTo);
@@ -296,7 +295,6 @@ public class OapAppSvcImpl
         if (mod.getResult().getCode() != 1) {
             throw new RuntimeExceptionX("删除记录异常");
         }
-
     }
 
     /**
@@ -308,8 +306,8 @@ public class OapAppSvcImpl
     public Ro<?> getByAppId(String id) {
         OapAppOneTo oneTo = new OapAppOneTo();
         oneTo.setAppId(id);
-        OapAppMo             one = thisSvc.getOne(oneTo);
-        Ro<PojoRa<RacAppMo>> ro  = racAppApi.getById(id);
+        OapAppMo one = thisSvc.getOne(oneTo);
+        Ro<PojoRa<RacAppMo>> ro = racAppApi.getById(id);
         if (one == null) {
             OapAppMo mo = new OapAppMo();
             // 相关连的rac应用信息
@@ -333,33 +331,29 @@ public class OapAppSvcImpl
      * 查询应用的信息并附带第三方应用的信息
      *
      * @param qo 查询的具体条件(查询所有，及条件为空)
-     * 
      */
     @Override
     public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
-        final OapAppListAndRacAppListRa ra         = new OapAppListAndRacAppListRa();
-        final Long                      accountId  = qo.getAccountId();
-        final RacAccountMo              accountMo  = racAccountApi.getById(accountId).getExtra().getOne();
-        Set<String>                     set        = new HashSet<>();
-        List<Long>                      accountIds = new ArrayList<Long>();
+        final OapAppListAndRacAppListRa ra = new OapAppListAndRacAppListRa();
+        final Long accountId = qo.getAccountId();
+        final RacAccountMo accountMo = racAccountApi.getById(accountId).getExtra().getOne();
+        Set<String> set = new HashSet<>();
+        List<Long> accountIds = new ArrayList<Long>();
         if (accountMo.getUnionId() != null) {
             // 存在映射帐号则一起查询拥有的应用
-            accountIds = racAccountApi.getAccountByUnionId(accountMo.getUnionId()).getExtra()
-                    .getList().stream().map(RacAccountMo::getId).collect(Collectors.toList());
+            accountIds = racAccountApi.getAccountByUnionId(accountMo.getUnionId()).getExtra().getList().stream().map(RacAccountMo::getId).collect(Collectors.toList());
         }
         else {
             // 不存在映射帐号则查询当前账户拥有的应用
             accountIds.add(accountId);
         }
-        List<String>   appIds     = new ArrayList<String>();
+        List<String> appIds = new ArrayList<String>();
         // 查询应用
-        List<RacAppMo> racAppList = racAppApi.selectAppByAccountIds(accountIds).getExtra()
-                .getList().stream().map(item -> {
-                                              item.setMenu(null);
-                                              appIds.add(item.getId());
-                                              return item;
-                                          })
-                .collect(Collectors.toList());
+        List<RacAppMo> racAppList = racAppApi.selectAppByAccountIds(accountIds).getExtra().getList().stream().map(item -> {
+            item.setMenu(null);
+            appIds.add(item.getId());
+            return item;
+        }).collect(Collectors.toList());
         ra.setRacAppList(racAppList);
         // 查询认证应用
         if (appIds.size() > 0) {
@@ -384,14 +378,13 @@ public class OapAppSvcImpl
     @Override
     public List<OapAppMo> listInAppIdList(List<String> appIds) {
         return _mapper.listInAppIdList(appIds);
-
     }
 
     /**
      * 通过appId查询app的ip
-     * 
+     *
      * @param appId
-     * 
+     *
      * @return
      */
     private List<String> getIpApprs(Long appId) {
@@ -405,9 +398,9 @@ public class OapAppSvcImpl
 
     /**
      * 通过appId查询app的uri
-     * 
+     *
      * @param appId
-     * 
+     *
      * @return
      */
     private List<String> getUris(Long appId) {
@@ -418,5 +411,4 @@ public class OapAppSvcImpl
         }).collect(Collectors.toList());
         return uris;
     }
-
 }

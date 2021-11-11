@@ -1,13 +1,11 @@
 package rebue.scx.oap.jo;
 
 import java.io.Serializable;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -123,8 +121,8 @@ public class OapAppJo implements Serializable {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Basic(optional = false)
-    @Column(name = "IS_ENABLED", nullable = false, length = 1)
+    @Basic(optional = true)
+    @Column(name = "IS_ENABLED", nullable = true, length = 1)
     private Boolean isEnabled;
 
     /**

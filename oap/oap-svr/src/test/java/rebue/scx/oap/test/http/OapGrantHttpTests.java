@@ -1,24 +1,21 @@
 package rebue.scx.oap.test.http;
 
 import java.io.IOException;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
-import rebue.scx.oap.mo.OapGrantMo;
-import rebue.scx.oap.to.OapGrantAddTo;
-import rebue.scx.oap.to.OapGrantModifyTo;
-
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.IdRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
+import rebue.scx.oap.mo.OapGrantMo;
+import rebue.scx.oap.to.OapGrantAddTo;
+import rebue.scx.oap.to.OapGrantModifyTo;
 import rebue.wheel.core.RandomEx;
 import rebue.wheel.net.httpclient.HttpClient;
 import rebue.wheel.net.httpclient.impl.OkHttpClientImpl;

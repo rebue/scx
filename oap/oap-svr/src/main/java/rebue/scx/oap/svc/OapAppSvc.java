@@ -1,9 +1,7 @@
 package rebue.scx.oap.svc;
 
 import java.util.List;
-
 import org.springframework.validation.annotation.Validated;
-
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.oap.jo.OapAppJo;
@@ -32,6 +30,7 @@ import rebue.scx.oap.to.OapAppPageTo;
  */
 @Validated
 public interface OapAppSvc extends BaseSvc<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppDelTo, OapAppOneTo, OapAppListTo, OapAppPageTo, OapAppMo, OapAppJo> {
+
     /**
      * 获取单个第三方应用的信息
      *
@@ -43,10 +42,8 @@ public interface OapAppSvc extends BaseSvc<java.lang.Long, OapAppAddTo, OapAppMo
      * 查询应用的信息并附带第三方应用的信息
      *
      * @param qo 查询的具体条件(查询所有，及条件为空)
-     * 
      */
     Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo);
 
     List<OapAppMo> listInAppIdList(List<String> appIds);
-
 }

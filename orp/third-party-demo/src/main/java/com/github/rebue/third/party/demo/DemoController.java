@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.github.rebue.orp.core.OidcCore;
+import com.github.rebue.orp.core.UserInfoMo;
 import com.github.rebue.third.party.demo.utils.OkHttpClientImpl;
 import com.github.rebue.third.party.demo.utils.UrlUtil;
 import com.nimbusds.jwt.JWT;
@@ -54,6 +55,7 @@ public class DemoController {
             JWT         idToken     = tokenResponse.toSuccessResponse().getTokens().toOIDCTokens().getIDToken();
             AccessToken accessToken = tokenResponse.toSuccessResponse().getTokens().toOIDCTokens().getAccessToken();
             // 获取账户信息
+            UserInfoMo  mo          = new UserInfoMo();
             String      userInfo    = okHttpClientImpl.get(getUrl(accessToken.getValue(), idToken.serialize()));
             JSONObject  parse       = JSONObjectUtils.parse(userInfo);
             Object      msg         = parse.get("msg");

@@ -1,11 +1,10 @@
 package rebue.scx.oap.api;
 
+import rebue.robotech.api.BaseApi;
 import rebue.scx.oap.mo.OapRedirectUriMo;
 import rebue.scx.oap.to.OapRedirectUriAddTo;
 import rebue.scx.oap.to.OapRedirectUriModifyTo;
 import rebue.scx.oap.to.OapRedirectUriPageTo;
-
-import rebue.robotech.api.BaseApi;
 
 /**
  * 第三方应用URL的API

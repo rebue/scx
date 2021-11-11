@@ -1,7 +1,7 @@
 package rebue.scx.oap.svc;
 
 import org.springframework.validation.annotation.Validated;
-
+import rebue.robotech.svc.BaseSvc;
 import rebue.scx.oap.jo.OapGrantJo;
 import rebue.scx.oap.mo.OapGrantMo;
 import rebue.scx.oap.to.OapGrantAddTo;
@@ -10,8 +10,6 @@ import rebue.scx.oap.to.OapGrantListTo;
 import rebue.scx.oap.to.OapGrantModifyTo;
 import rebue.scx.oap.to.OapGrantOneTo;
 import rebue.scx.oap.to.OapGrantPageTo;
-
-import rebue.robotech.svc.BaseSvc;
 
 /**
  * 三方应用账户信息服务接口

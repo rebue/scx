@@ -2,17 +2,13 @@ package rebue.scx.oap.to;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Data;
 import rebue.robotech.valid.AddGroup;
 
@@ -41,11 +37,11 @@ public class OapAppAddTo implements Serializable {
 
     /**
      * 认证方式(0:未认证;1:共用Cookie;2:OIDC/OAuth2;3:CAS)
-     *
      */
     @NotNull(groups = AddGroup.class, message = "认证方式不能为空")
     @PositiveOrZero(message = "认证方式不能为负数")
     private Byte              authnType;
+
     /**
      * oidc client id
      *
@@ -66,21 +62,18 @@ public class OapAppAddTo implements Serializable {
 
     /**
      * 建立时间戳(后端生成)
-     *
      */
     @PositiveOrZero(message = "建立时间戳不能为负数")
     private Long              createTimestamp;
 
     /**
      * 修改时间戳(后端生成)
-     *
      */
     @PositiveOrZero(message = "修改时间戳不能为负数")
     private Long              updateTimestamp;
 
     /**
      * 是否启用
-     *
      */
     private Boolean           isEnabled;
 
@@ -93,14 +86,12 @@ public class OapAppAddTo implements Serializable {
 
     /**
      * 白名单IP（list集合）
-     *
      */
     @NotEmpty(message = "白名单IP不能为空")
     private List<String>      ipAddrs;
 
     /**
      * 允许的重定向URI, 最后一个字符可以是通配符* （list集合）
-     *
      */
     @NotEmpty(message = "允许的重定向URI,不能为空")
     private List<String>      redirectUris;

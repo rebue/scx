@@ -1,16 +1,12 @@
 package rebue.scx.oap.mo;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import lombok.Getter;
 import lombok.Setter;
 import rebue.robotech.mo.Mo;
@@ -34,6 +30,7 @@ public class OapAppMo implements Serializable, Mo<Long> {
     @NotNull(groups = ModifyGroup.class, message = "主键不能为空")
     @PositiveOrZero(message = "主键不能为负数")
     private Long              id;
+
     /**
      * 相关连的rac应用信息
      */
@@ -96,7 +93,6 @@ public class OapAppMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -106,7 +102,6 @@ public class OapAppMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -246,8 +241,8 @@ public class OapAppMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
+        final int prime = 31;
+        int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
@@ -267,7 +262,6 @@ public class OapAppMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
     private Boolean isEnabled;
 
     /**

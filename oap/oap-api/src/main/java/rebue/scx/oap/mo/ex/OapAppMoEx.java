@@ -2,12 +2,11 @@ package rebue.scx.oap.mo.ex;
 
 import java.util.List;
 
-import rebue.scx.oap.mo.OapAppMo;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import rebue.scx.oap.mo.OapAppMo;
 
 @AllArgsConstructor
 @ToString
