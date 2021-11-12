@@ -1,6 +1,6 @@
 # 配置中心中的配置
 minio:
-  endpoint: http://122.9.104.17:9000  
+  endpoint: http://172.20.14.226:9000  
 # 文件路径是否需要全路径还是只需要去除Ip的相对路径地址
 # true 全路径http://127.0.0.1:9000/oss-svr/***
 # false 相对路径 /oss-svr/**
@@ -19,14 +19,14 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://mysql1:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
-        username: root
-        password: xxxxxxxx
+        username: oss
+        password: oss
       slave:
         driver-class-name: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://mysql2:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         type: com.zaxxer.hikari.HikariDataSource
-        username: root
-        password: xxxxxxxx
+        username: oss
+        password: oss
     rules:
       readwrite-splitting:
         data-sources:
@@ -41,8 +41,8 @@ spring:
     # 升级数据库的配置文件的地址
     #change-log: 'classpath:db/changelog/db.changelog-master.yaml'
     url: jdbc:mysql://mysql1:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
-    user: root
-    password: xxxxxxxx
+    user: oss
+    password: oss
   cloud:
     sentinel:
       enabled: false

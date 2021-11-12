@@ -1,28 +1,30 @@
 # 配置中心中的配置
-
 msg:
   sms:
     simulation: true
-    masterSecret: xxxxxxxx
-    appkey: xxxxxxxxxxxxxxxxxxxxxxxx
-    tempId: xxxxxx
-    signId: xxxxx
-
+    masterSecret: e92f7f27dbd27bf0f1157c61
+    appkey: 823ebe289daa183f863eee73
+    tempId: 202223
+    signId: 20492
 # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
 spring:
-  datasource:
-    url: jdbc:mysql://mysql:3306/msg-svr?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: msg
-    password: xxxxxxxx
   rabbitmq:
     host: rabbitmq
     port: 5672
     username: guest
     password: xxxxxxxx
     virtual-host: /
+  redis:
+    password: xxxxxxxx
+    sentinel:
+      master: mymaster
+      nodes:
+        - redis_sentinel1:26379
+        - redis_sentinel2:26379
+        - redis_sentinel3:26379
   cloud:
     sentinel:
       enabled: false
@@ -45,3 +47,5 @@ logging:
     '[org.springframework.dao]': debug
     '[org.springframework.cloud]': warn
     '[com.alibaba.nacos.client.config.impl.ClientWorker]': warn
+ 
+    

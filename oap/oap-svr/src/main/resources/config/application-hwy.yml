@@ -39,7 +39,7 @@ spring:
     user: root
     password: xxxxxxxx
   rabbitmq:
-    host: rabbitmq_rabbitmq
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
