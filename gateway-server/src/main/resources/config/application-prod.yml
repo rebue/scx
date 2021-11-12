@@ -15,6 +15,40 @@ curator:
 
 spring:
   cloud:
+    gateway:
+      discovery:
+        locator:
+          filters:
+            - StripPrefix=1
+            - name: SignPre
+              args:
+                filter-urls:
+                  - "'/ctid/**'"
+            - name: JwtPre
+              args:
+                filter-urls:
+                  - "'*:/sgn/**'"
+                  - "'*:/rac/**'"
+                  - "'*:/cap/**'"
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
+                ignore-urls:
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
+                  - "'POST:/rac/sign-in/**'"
+                  - "'*:/orp/**'"
+                  - "'POST:/cap/**'"
+                  - "'GET:/rac/account/get-cur-account-info'"
+                  #统一应用平台账户基础权限
+                  - "'GET:/oap/app/list-and-tripartite'"
+                  - "'GET:/rac/dic/**'"
+                  - "'GET:/rac/account/get-cur-account-info'"
+                  - "'GET:/rac/account/get-by-id'"
+                  - "'GET:/rac/account/exist-mobile-by-id'"
+                  - "'GET:/rac/op-log/page'"
+                  - "'PUT:/rac/account/modify-sign-in-by-old-pswd'"
+                  - "'POST:/rac/account/upload-avatar'"
+                  - "'POST:/rac/account/bind-mobile'"
     sentinel:
       transport:
         dashboard: sentinel-dashboard:80
