@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -51,7 +52,6 @@ import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
-import rebue.scx.rac.util.LevelProtectUtils;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.core.DateUtils;
 import rebue.wheel.core.util.RegexUtils;
@@ -78,11 +78,13 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 允许输入登录密码错误次数
      */
-    private static Long         ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN            = 5L;
+    @Value("${level-protect.password-errors}")
+    private Long                ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN            = 5L;
     /**
-     * 登录错误被锁定的时间
+     * 登录错误被锁定的时间分钟
      */
-    private static long         lockDuration                                 = DateUtils.getSecondUtilTomorrow();
+    @Value("${level-protect.lock-duration}")
+    private long                lockDuration                                 = DateUtils.getSecondUtilTomorrow() / 60;
     /**
      * 保存账户密码输入错误被锁定的key
      */
@@ -118,8 +120,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private RacAccountMapper    racAccountMapper;
     @Resource
     private RacAccountSvcImpl   accountSvcImpl;
-    @Resource
-    private LevelProtectUtils   levelProtectUtils;
 
     @DubboReference
     private CapApi              capApi;
@@ -131,16 +131,14 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     // @PostConstruct
     @Override
-    public void refreshUpdateLevelProtect() {
-        Map<String, String> configMap = levelProtectUtils.getConfigMap();
-        for (String key : configMap.keySet()) {
-            String str = configMap.get(key);
-            if (key.equals("passwordErrors")) {
-                ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN = Long.parseLong(str);
-            }
-            if (key.equals("lockDuration")) {
-                lockDuration = Long.parseLong(str) * 60L;
-            }
+    public void refreshUpdateLevelProtect(Map<String, String> hashedMap) {
+        String value = hashedMap.get("passwordErrors");
+        if (value != null) {
+            this.ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN = Long.parseLong(value);
+        }
+        value = hashedMap.get("lockDuration");
+        if (value != null) {
+            this.lockDuration = Long.parseLong(value);
         }
 
     }
@@ -150,7 +148,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
      */
     @Override
     public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
-        refreshUpdateLevelProtect();
         if (to.getLoginType() == 0) {
             SignInByAccountNameTo byAccountNameTo = new SignInByAccountNameTo();
             byAccountNameTo.setAppId(to.getAppId());
@@ -221,7 +218,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
-        refreshUpdateLevelProtect();
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
@@ -389,7 +385,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private Long incrWrongPswdTimesOfSignIn(final Long accountId) {
         log.info("递增账户输入错误登录密码的次数: {}", accountId);
         final Long result = stringRedisTemplate.opsForValue().increment(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId);
-        stringRedisTemplate.expire(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId, lockDuration, TimeUnit.SECONDS);
+        stringRedisTemplate.expire(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId, lockDuration * 60, TimeUnit.SECONDS);
         return result;
     }
 
@@ -431,7 +427,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         addTo.setRealmId(accountMo.getRealmId());
         addTo.setLockReason("登录密码连续输入错误5次");
         addTo.setLockDatetime(LocalDateTime.now());
-        LocalDateTime dateTime = LocalDateTime.now().plusSeconds(lockDuration);
+        LocalDateTime dateTime = LocalDateTime.now().plusSeconds(lockDuration * 60);
         addTo.setAutoUnlockDatetime(dateTime);
         racLockLogSvc.add(addTo);
     }

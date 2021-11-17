@@ -1,5 +1,7 @@
 package rebue.scx.rac.api.impl.ex;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.dubbo.config.annotation.DubboService;
@@ -70,16 +72,10 @@ public class RacSignInApiImpl implements RacSignInApi {
         }
     }
 
-    /**
-     * 刷新等堡配置
-     * 
-     * @return
-     */
     @Override
-    public Ro<?> refreshUpdateLevelProtect() {
-        svc.refreshUpdateLevelProtect();
+    public Ro<?> refreshUpdateLevelProtect(Map<String, String> hashedMap) {
+        svc.refreshUpdateLevelProtect(hashedMap);
         return new Ro<>(ResultDic.SUCCESS, "更新成功");
-
     }
 
 }

@@ -2,6 +2,7 @@ package rebue.scx.rac.svc;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -235,4 +236,9 @@ public interface RacAccountSvc
      * @param id 被解绑的账户ID
      */
     void unbindMobile(Long id);
+
+    /**
+     * 刷新等保配置
+     */
+    void refreshUpdateLevelProtect(Map<String, String> hashedMap);
 }

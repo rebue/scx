@@ -1,5 +1,7 @@
 package rebue.scx.rac.api.ex;
 
+import java.util.Map;
+
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
@@ -42,7 +44,9 @@ public interface RacSignInApi {
 
     /**
      * 刷新等堡配置
+     * 
+     * @param hashedMap
      */
-    Ro<?> refreshUpdateLevelProtect();
+    Ro<?> refreshUpdateLevelProtect(Map<String, String> hashedMap);
 
 }

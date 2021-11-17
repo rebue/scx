@@ -1,5 +1,7 @@
 package rebue.scx.rac.svc.ex;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
@@ -59,7 +61,9 @@ public interface RacSignInSvc {
 
     /**
      * 刷新等堡配置
+     * 
+     * @param hashedMap
      */
-    void refreshUpdateLevelProtect();
+    void refreshUpdateLevelProtect(Map<String, String> hashedMap);
 
 }

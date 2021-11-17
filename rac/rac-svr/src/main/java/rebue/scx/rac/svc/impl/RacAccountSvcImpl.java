@@ -78,7 +78,6 @@ import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
-import rebue.scx.rac.util.LevelProtectUtils;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
@@ -145,9 +144,6 @@ public class RacAccountSvcImpl extends
     @Resource
     private MinioClient          minioClient;
 
-    @Resource
-    private LevelProtectUtils    levelProtectUtils;
-
     @Value("${minio.endpoint:http://172.20.14.125:9000}")
     private String               minioEndpoint;
 
@@ -158,6 +154,24 @@ public class RacAccountSvcImpl extends
      */
     @Value("${minio.urlPrefixBool:true}")
     private Boolean              url_prefix_bool;
+    /**
+     * 密码过期时长/天
+     */
+    @Value("${level-protect.password-doverdue:180}")
+    private Long                 passwordDoverdue;
+
+    /**
+     * 刷新等保配置
+     */
+    // @PostConstruct
+    @Override
+    public void refreshUpdateLevelProtect(Map<String, String> hashedMap) {
+        String value = hashedMap.get("passwordDoverdue");
+        if (value != null) {
+            this.passwordDoverdue = Long.parseLong(value);
+        }
+
+    }
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -282,18 +296,8 @@ public class RacAccountSvcImpl extends
             // 根据生成的盐值进行摘要
             mo.setSignInPswd(PswdUtils.saltPswd(to.getNewSignInPswd(), mo.getSignInPswdSalt()));
             mo.setUpdateTimestamp(System.currentTimeMillis());
-            Map<String, String> configMap = levelProtectUtils.getConfigMap();
-            String              str       = configMap.get("passworDoverdue");
             // 默认6个月密码过期
-            mo.setExpirationDatetime(LocalDateTime.now().plusMonths(6));
-            if (str != null) {
-                try {
-                    long parseLong = Long.parseLong(str);
-                    mo.setExpirationDatetime(LocalDateTime.now().plusDays(parseLong));
-                } catch (Exception e) {
-                    throw new RuntimeExceptionX("设置密码过期时间配置不是数字，请联系管理员");
-                }
-            }
+            mo.setExpirationDatetime(LocalDateTime.now().plusDays(passwordDoverdue));
             mo.setId(to.getId());
             super.modifyMoById(mo);
             return new Ro<>(ResultDic.SUCCESS, "修改成功");

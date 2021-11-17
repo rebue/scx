@@ -7,3 +7,11 @@ minio:
   urlPrefixBool: true
   accessKey: minioadmin
   secretKey: minioadmin
+#登保配置  
+level-protect: 
+  lock-uration: 60
+  password-minLength: 6
+  password-character: 1
+  password-tips: false
+  password-errors: 5
+  password-doverdue: 90
