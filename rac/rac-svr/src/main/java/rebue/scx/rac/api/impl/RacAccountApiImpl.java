@@ -275,4 +275,9 @@ public class RacAccountApiImpl extends
     public Ro<PageRa<RacAccountMo>> getAccountByUser(RacAccountByUserTo to) {
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new PageRa<>(_svc.getAccountByUser(to)));
     }
+
+    @Override
+    public RacAccountMo getAccountMoById(Long id) {
+        return _svc.getAccountMoById(id);
+    }
 }

@@ -185,4 +185,6 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param id 被解绑的账户ID
      */
     Ro<?> unbindMobile(Long id);
+
+    RacAccountMo getAccountMoById(Long id);
 }

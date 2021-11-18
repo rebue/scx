@@ -2,6 +2,7 @@ package rebue.scx.rac.svc.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -26,6 +27,7 @@ import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.mo.RacOrgAccountMo;
 import rebue.scx.rac.mo.RacOrgLeafMo;
 import rebue.scx.rac.mo.RacOrgMo;
+import rebue.scx.rac.mo.ex.RacAccountNonDesensitizedMo;
 import rebue.scx.rac.mo.ex.RacOrgExMo;
 import rebue.scx.rac.svc.RacOrgSvc;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
@@ -166,7 +168,8 @@ public class RacOrgSvcImpl
                 throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
             }
             // 查询判断是否存在默认组织，没有则添加
-            final RacAccountMo accountMo = racAccountMapper.selectByPrimaryKey(accountId).get();
+            final Optional<RacAccountNonDesensitizedMo> demo      = racAccountMapper.selectByKey(accountId);
+            final RacAccountMo                          accountMo = OrikaUtils.map(demo, RacAccountMo.class);
             if (accountMo.getOrgId() == null) {
                 accountMo.setOrgId(to.getOrgId());
                 final int count = racAccountMapper.updateByPrimaryKey(accountMo);
@@ -186,8 +189,8 @@ public class RacOrgSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void modifyDefaultOrg(final RacOrgModifyDefaultOrgTo to) {
         // 获得当前账户的默认orgId
-        final RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
-        final RacAccountMo accountMo    = OrikaUtils.map(racAccountMo, RacAccountMo.class);
+        final RacAccountNonDesensitizedMo racAccountMo = racAccountMapper.selectByKey(to.getAccountId()).get();
+        final RacAccountMo                accountMo    = OrikaUtils.map(racAccountMo, RacAccountMo.class);
         // 修改账户的默认orgId
         accountMo.setOrgId(to.getOrgId());
         racAccountMapper.updateByPrimaryKeySelective(accountMo);
@@ -202,7 +205,7 @@ public class RacOrgSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void modifyOrgAccount(final RacModifyOrgAccountTo to) {
         // 获得当前账户的默认orgId
-        final RacAccountMo racAccountMo = racAccountMapper.selectByPrimaryKey(to.getAccountId()).get();
+        final RacAccountNonDesensitizedMo racAccountMo = racAccountMapper.selectByKey(to.getAccountId()).get();
         if (racAccountMo.getOrgId().equals(to.getModifyOrgId())) {
             // 更改默认组织
             final RacAccountMo accountMo = OrikaUtils.map(racAccountMo, RacAccountMo.class);

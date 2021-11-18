@@ -222,8 +222,8 @@ public class OrpSvcImpl implements OrpSvc {
         OrpUserInfoRa authCodeRa = authCode(orpType, clientId, to);
         switch (orpType) {
         case "ding-talk":
-            Ro<PojoRa<RacAccountMo>> byId = racAccountApi.getById(accountId);
-            if (byId.getExtra().getOne().getDdOpenId().equals(authCodeRa.getOpenId())) {
+            RacAccountMo byId = racAccountApi.getAccountMoById(accountId);
+            if (byId.getDdOpenId().equals(authCodeRa.getOpenId())) {
                 RacAccountModifyTo bindDingTalk = new RacAccountModifyTo();
                 bindDingTalk.setId(accountId);
                 bindDingTalk.setDdAvatar(authCodeRa.getAvatar());
@@ -237,8 +237,8 @@ public class OrpSvcImpl implements OrpSvc {
                 return new Ro<>(ResultDic.FAIL, "扫码用户不对");
             }
         case "wechat-open":
-            Ro<PojoRa<RacAccountMo>> byIdMo = racAccountApi.getById(accountId);
-            if (byIdMo.getExtra().getOne().getWxOpenId().equals(authCodeRa.getOpenId())) {
+            RacAccountMo byIdMo = racAccountApi.getAccountMoById(accountId);
+            if (byIdMo.getWxOpenId().equals(authCodeRa.getOpenId())) {
                 RacAccountModifyTo wechatOpen = new RacAccountModifyTo();
                 wechatOpen.setId(accountId);
                 wechatOpen.setWxAvatar(authCodeRa.getAvatar());
@@ -262,9 +262,8 @@ public class OrpSvcImpl implements OrpSvc {
      */
     @Override
     public Ro<?> verifiyAccount(String orpType, String clientId, Long accountId, OrpCodeTo to) {
-        OrpUserInfoRa            authCodeRa = authCode(orpType, clientId, to);
-        Ro<PojoRa<RacAccountMo>> byId       = racAccountApi.getById(accountId);
-        RacAccountMo             mo         = byId.getExtra().getOne();
+        OrpUserInfoRa authCodeRa = authCode(orpType, clientId, to);
+        RacAccountMo  mo         = racAccountApi.getAccountMoById(accountId);
         switch (orpType) {
         case "ding-talk":
             if (mo.getDdOpenId().equals(authCodeRa.getOpenId())) {

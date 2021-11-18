@@ -7,18 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.dozermapper.core.Mapper;
-
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.ro.Ro;
-import rebue.scx.cap.api.CapApi;
 import rebue.scx.cap.api.CapSMSSendingApi;
 import rebue.scx.cap.to.CapSMSTo;
-import rebue.scx.rac.mapper.RacAccountMapper;
-import rebue.scx.rac.mo.ex.RacAccountNonDesensitizedMo;
+import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.ex.RacSMSSendingSvc;
-import rebue.scx.rac.svc.impl.RacAccountSvcImpl;
 import rebue.scx.rac.to.ex.RacSMSTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 
@@ -38,28 +32,22 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
-@Slf4j
+// @Slf4j
 public class RacSMSSendingSvcImpl implements RacSMSSendingSvc {
 
     @Resource
-    private RacAccountSvc     accountSvc;
-
-    @Resource
-    private Mapper            dozerMapper;
-    @Resource
-    private RacAccountMapper  racAccountMapper;
-    @Resource
-    private RacAccountSvcImpl accountSvcImpl;
+    private RacAccountSvc    accountSvc;
 
     @DubboReference
-    private CapApi            capApi;
-    @DubboReference
-    private CapSMSSendingApi  capSMSSendingApi;
+    private CapSMSSendingApi capSMSSendingApi;
 
     @Override
     public Ro<?> sendTemplateSMS(RacSMSTo to) {
-        RacAccountNonDesensitizedMo mo = racAccountMapper.selectByKey(to.getAccountId()).orElse(null);
-        if (mo == null && mo.getSignInMobile() == null) {
+        RacAccountMo mo = accountSvc.getAccountMoById(to.getAccountId());
+        if (mo == null) {
+            throw new RuntimeExceptionX("该帐号不存在");
+        }
+        if (mo.getSignInMobile() == null) {
             throw new RuntimeExceptionX(mo.getSignInName() + "该帐号未绑定手机号");
         }
         CapSMSTo smsTo = new CapSMSTo();

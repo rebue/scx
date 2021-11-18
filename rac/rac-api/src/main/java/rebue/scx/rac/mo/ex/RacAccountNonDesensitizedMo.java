@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -29,8 +30,10 @@ import rebue.scx.rac.mo.RacUserMo;
  */
 @JsonInclude(Include.NON_NULL)
 @Data
+// 不进行序列化
+@JsonIgnoreProperties({ "signInPswd", "signInPswdSalt", "payPswd", "payPswdSalt"
+})
 public class RacAccountNonDesensitizedMo implements Serializable {
-
     /**
      * 账户ID
      *
@@ -38,6 +41,34 @@ public class RacAccountNonDesensitizedMo implements Serializable {
     @NotNull(groups = ModifyGroup.class, message = "账户ID不能为空")
     @PositiveOrZero(message = "账户ID不能为负数")
     private Long              id;
+
+    @Setter
+    @Getter
+    private Long              lockAccountId;
+
+    @Setter
+    @Getter
+    private Long              lockLogId;
+
+    @Setter
+    @Getter
+    private String            realName;
+
+    /**
+     * 锁定原因
+     */
+    @Setter
+    @Getter
+    @NotBlank(groups = AddGroup.class, message = "锁定原因不能为空")
+    @Length(max = 100, message = "锁定原因的长度不能大于100")
+    private String            lockReason;
+
+    /**
+     * 是否启用
+     *
+     */
+    @NotNull(groups = AddGroup.class, message = "是否启用不能为空")
+    private Boolean           isEnabled;
 
     /**
      * 登录名称
@@ -83,6 +114,13 @@ public class RacAccountNonDesensitizedMo implements Serializable {
      */
     @Length(max = 20, message = "登录账户昵称的长度不能大于20")
     private String            signInNickname;
+
+    /**
+     * 登录账户头像
+     *
+     */
+    @Length(max = 300, message = "登录账户头像的长度不能大于300")
+    private String            signInAvatar;
 
     /**
      * 微信的OpenId
@@ -165,35 +203,12 @@ public class RacAccountNonDesensitizedMo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        RacAccountNonDesensitizedMo other = (RacAccountNonDesensitizedMo) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        return result;
-    }
-
     /**
      * 组织ID
      *
      */
     @PositiveOrZero(message = "组织ID不能为负数")
-    private Long          orgId;
+    private Long              orgId;
 
     /**
      * 组织
@@ -201,14 +216,28 @@ public class RacAccountNonDesensitizedMo implements Serializable {
      */
     @Getter
     @Setter
-    private RacOrgMo      org;
+    private RacOrgMo          org;
+
+    /**
+     * 支付密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
+     *
+     */
+    @Length(max = 32, message = "支付密码的长度不能大于32")
+    private String            payPswd;
+
+    /**
+     * 支付密码组合码(与支付密码组合加密用，详见支付密码备注)
+     *
+     */
+    @Length(max = 6, message = "支付密码组合码的长度不能大于6")
+    private String            payPswdSalt;
 
     /**
      * 用户ID
      *
      */
     @PositiveOrZero(message = "用户ID不能为负数")
-    private Long          userId;
+    private Long              userId;
 
     /**
      * 用户
@@ -216,14 +245,14 @@ public class RacAccountNonDesensitizedMo implements Serializable {
      */
     @Getter
     @Setter
-    private RacUserMo     user;
+    private RacUserMo         user;
 
     /**
      * 备注
      *
      */
     @Length(max = 150, message = "备注的长度不能大于150")
-    private String        remark;
+    private String            remark;
 
     /**
      * 领域ID
@@ -231,7 +260,7 @@ public class RacAccountNonDesensitizedMo implements Serializable {
      */
     @NotBlank(groups = AddGroup.class, message = "领域ID不能为空")
     @Length(max = 32, message = "领域ID的长度不能大于32")
-    private String        realmId;
+    private String            realmId;
 
     /**
      * 领域
@@ -239,56 +268,56 @@ public class RacAccountNonDesensitizedMo implements Serializable {
      */
     @Getter
     @Setter
-    private RacRealmMo    realm;
+    private RacRealmMo        realm;
 
     /**
      * 账户编码
      *
      */
     @Length(max = 32, message = "账户编码的长度不能大于32")
-    private String        code;
+    private String            code;
 
     /**
      * 钉钉的OpenId
      *
      */
     @Length(max = 64, message = "钉钉的OpenId的长度不能大于64")
-    private String        ddOpenId;
+    private String            ddOpenId;
 
     /**
      * 钉钉的UnionId
      *
      */
     @Length(max = 64, message = "钉钉的UnionId的长度不能大于64")
-    private String        ddUnionId;
+    private String            ddUnionId;
 
     /**
      * 钉钉的UserId
      *
      */
     @Length(max = 64, message = "钉钉的UserId的长度不能大于64")
-    private String        ddUserId;
+    private String            ddUserId;
 
     /**
      * 钉钉昵称
      *
      */
     @Length(max = 100, message = "钉钉昵称的长度不能大于100")
-    private String        ddNickname;
+    private String            ddNickname;
 
     /**
      * 钉钉头像
      *
      */
     @Length(max = 300, message = "钉钉头像的长度不能大于300")
-    private String        ddAvatar;
+    private String            ddAvatar;
 
     /**
      * 联合账户ID
      *
      */
     @PositiveOrZero(message = "联合账户ID不能为负数")
-    private Long          unionId;
+    private Long              unionId;
 
     /**
      * 过期时间
@@ -296,6 +325,6 @@ public class RacAccountNonDesensitizedMo implements Serializable {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime expirationDatetime;
+    private LocalDateTime     expirationDatetime;
 
 }

@@ -54,6 +54,7 @@ import rebue.scx.rac.mo.RacPermCommandMo;
 import rebue.scx.rac.mo.RacRealmMo;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.mo.ex.RacAccountExMo;
+import rebue.scx.rac.mo.ex.RacAccountNonDesensitizedMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
@@ -280,7 +281,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to) {
-        RacAccountMo accountMo = thisSvc.getById(to.getId());
+        RacAccountMo accountMo = thisSvc.getAccountMoById(to.getId());
         if (accountMo.getSignInPswd().equals(PswdUtils.saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
             final RacAccountMo mo = new RacAccountMo();
             // 随机生成盐值
@@ -307,8 +308,8 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to) {
-        RacAccountMo srcMo = thisSvc.getById(to.getSrcId());
-        RacAccountMo dstMo = thisSvc.getById(to.getDstId());
+        RacAccountMo srcMo = thisSvc.getAccountMoById(to.getSrcId());
+        RacAccountMo dstMo = thisSvc.getAccountMoById(to.getDstId());
         if (srcMo.getUnionId() != null) {
             dstMo.setUnionId(srcMo.getUnionId());
             thisSvc.modifyMoById(dstMo);
@@ -387,7 +388,7 @@ public class RacAccountSvcImpl extends
         // RacAccountOneTo oneTo = OrikaUtils.map(to, RacAccountOneTo.class);
         // 解除绑定钉钉
         if (to.getDdUnionId() != null) {
-            RacAccountMo one = thisSvc.getById(to.getId());
+            RacAccountMo one = thisSvc.getAccountMoById(to.getId());
             if (one == null) {
                 throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
             }
@@ -398,7 +399,7 @@ public class RacAccountSvcImpl extends
         }
         else // 解除绑定微信
             if (to.getWxUnionId() != null) {
-                RacAccountMo one = thisSvc.getById(to.getId());
+                RacAccountMo one = thisSvc.getAccountMoById(to.getId());
                 if (one == null) {
                     throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
                 }
@@ -420,7 +421,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unbindDdModify(Long id) {
-        RacAccountMo one = thisSvc.getById(id);
+        RacAccountMo one = thisSvc.getAccountMoById(id);
         if (one == null) {
             throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
         }
@@ -438,7 +439,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unbindWxModify(Long id) {
-        RacAccountMo one = thisSvc.getById(id);
+        RacAccountMo one = thisSvc.getAccountMoById(id);
         if (one == null) {
             throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
         }
@@ -456,7 +457,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unbindMobile(Long id) {
-        RacAccountMo one = thisSvc.getById(id);
+        RacAccountMo one = thisSvc.getAccountMoById(id);
         if (one == null) {
             throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
         }
@@ -501,7 +502,7 @@ public class RacAccountSvcImpl extends
                     RacAccountOneTo one = new RacAccountOneTo();
                     one.setSignInMobile(to.getNewMobile());
                     one.setRealmId(mo.getRealmId());
-                    RacAccountMo oneMo = thisSvc.getOne(one);
+                    RacAccountMo oneMo = thisSvc.getAccountMoOne(one);
                     // 判断新手机号是否已被绑定
                     if (oneMo == null) {
                         // 判断旧手机号是否正确
@@ -522,7 +523,7 @@ public class RacAccountSvcImpl extends
                     RacAccountOneTo one = new RacAccountOneTo();
                     one.setSignInMobile(to.getMobile());
                     one.setRealmId(mo.getRealmId());
-                    RacAccountMo oneMo = thisSvc.getOne(one);
+                    RacAccountMo oneMo = thisSvc.getAccountMoOne(one);
                     if (oneMo != null) {
                         return new Ro<>(ResultDic.FAIL, "手机号绑定失败，该手机号已被绑定！", mo);
                     }
@@ -575,7 +576,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void enable(final RacDisableLogModifyTo to) {
-        final RacAccountMo eableAccount = thisSvc.getById(to.getAccountId());
+        final RacAccountMo eableAccount = thisSvc.getAccountMoById(to.getAccountId());
         if (eableAccount != null) {
             if (!eableAccount.getIsEnabled()) {
                 final RacAccountMo mo = new RacAccountMo();
@@ -604,7 +605,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void disable(final RacDisableLogAddTo to) {
-        final RacAccountMo disableAccount = thisSvc.getById(to.getAccountId());
+        final RacAccountMo disableAccount = thisSvc.getAccountMoById(to.getAccountId());
         if (disableAccount != null) {
             if (disableAccount.getIsEnabled()) {
                 final RacAccountMo mo = new RacAccountMo();
@@ -632,7 +633,7 @@ public class RacAccountSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> uploadAvatar(final Long curAccountId, final String appId, final String fileName, final String contentDisposition, final String contentType,
             final InputStream inputStream) {
-        RacAccountMo accountMo = thisSvc.getById(curAccountId);
+        RacAccountMo accountMo = thisSvc.getAccountMoById(curAccountId);
         RacAppMo     appMo     = appSvc.getById(appId);
         boolean      flag      = accountMo.getRealmId().equals(appMo.getRealmId());
         if (!flag) {
@@ -640,7 +641,7 @@ public class RacAccountSvcImpl extends
             oneTo.setRealmId(appMo.getRealmId());
             if (accountMo.getUnionId() != null) {
                 oneTo.setUnionId(accountMo.getUnionId());
-                RacAccountMo oneMo = thisSvc.getOne(oneTo);
+                RacAccountMo oneMo = thisSvc.getAccountMoOne(oneTo);
                 accountMo = oneMo;
             }
         }
@@ -856,5 +857,32 @@ public class RacAccountSvcImpl extends
     public Ro<ListRa<RacAccountMo>> getByUserId(Long id) {
         List<RacAccountMo> List = _mapper.getByUserId(id);
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(List));
+    }
+
+    /**
+     * 查询未脱敏帐号数据
+     */
+    @Override
+    public RacAccountMo getAccountMoById(Long id) {
+        RacAccountNonDesensitizedMo mo = _mapper.selectByKey(id).orElse(null);
+        if (mo != null) {
+            final RacAccountMo accountMo = OrikaUtils.map(mo, RacAccountMo.class);
+            return accountMo;
+        }
+        return null;
+    }
+
+    /**
+     * 查询未脱敏帐号数据
+     */
+    @Override
+    public RacAccountMo getAccountMoOne(RacAccountOneTo to) {
+        final RacAccountMo          qo = OrikaUtils.map(to, RacAccountMo.class);
+        RacAccountNonDesensitizedMo mo = _mapper.selectByOne(qo).orElse(null);
+        if (mo != null) {
+            final RacAccountMo accountMo = OrikaUtils.map(mo, RacAccountMo.class);
+            return accountMo;
+        }
+        return null;
     }
 }

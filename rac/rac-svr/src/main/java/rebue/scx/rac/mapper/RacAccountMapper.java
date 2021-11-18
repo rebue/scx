@@ -829,8 +829,31 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
      * @param accountId
      */
     default Optional<RacAccountNonDesensitizedMo> selectByKey(Long accountId) {
-        SelectStatementProvider select = SqlBuilder.select(racAccount.id, racAccount.signInMobile, racAccount.signInEmail).from(racAccount)
+        SelectStatementProvider select = SqlBuilder.select(racAccount.allColumns()).from(racAccount)
                 .where(racAccount.id, isEqualTo(accountId)).build()
+                .render(RenderingStrategies.MYBATIS3);
+        return this.selectOneNonDesensitizedMo(select);
+    }
+
+    default Optional<RacAccountNonDesensitizedMo> selectByOne(RacAccountMo record) {
+        SelectStatementProvider select = SqlBuilder.select(racAccount.allColumns()).from(racAccount)
+                .where(id, isEqualToWhenPresent(record::getId)).and(unionId, isEqualToWhenPresent(record::getUnionId))
+                .and(userId, isEqualToWhenPresent(record::getUserId)).and(remark, isEqualToWhenPresent(record::getRemark)).and(orgId, isEqualToWhenPresent(record::getOrgId))
+                .and(code, isEqualToWhenPresent(record::getCode)).and(realmId, isEqualToWhenPresent(record::getRealmId)).and(isEnabled, isEqualToWhenPresent(record::getIsEnabled))
+                .and(signInName, isEqualToWhenPresent(record::getSignInName)).and(signInMobile, isEqualToWhenPresent(record::getSignInMobile))
+                .and(signInEmail, isEqualToWhenPresent(record::getSignInEmail)).and(signInPswd, isEqualToWhenPresent(record::getSignInPswd))
+                .and(signInPswdSalt, isEqualToWhenPresent(record::getSignInPswdSalt)).and(payPswd, isEqualToWhenPresent(record::getPayPswd))
+                .and(payPswdSalt, isEqualToWhenPresent(record::getPayPswdSalt)).and(signInNickname, isEqualToWhenPresent(record::getSignInNickname))
+                .and(signInAvatar, isEqualToWhenPresent(record::getSignInAvatar)).and(wxOpenId, isEqualToWhenPresent(record::getWxOpenId))
+                .and(wxUnionId, isEqualToWhenPresent(record::getWxUnionId)).and(wxNickname, isEqualToWhenPresent(record::getWxNickname))
+                .and(wxAvatar, isEqualToWhenPresent(record::getWxAvatar)).and(qqOpenId, isEqualToWhenPresent(record::getQqOpenId))
+                .and(qqUnionId, isEqualToWhenPresent(record::getQqUnionId)).and(qqNickname, isEqualToWhenPresent(record::getQqNickname))
+                .and(qqAvatar, isEqualToWhenPresent(record::getQqAvatar)).and(ddOpenId, isEqualToWhenPresent(record::getDdOpenId))
+                .and(ddUnionId, isEqualToWhenPresent(record::getDdUnionId)).and(ddUserId, isEqualToWhenPresent(record::getDdUserId))
+                .and(ddNickname, isEqualToWhenPresent(record::getDdNickname)).and(ddAvatar, isEqualToWhenPresent(record::getDdAvatar))
+                .and(isTester, isEqualToWhenPresent(record::getIsTester)).and(expirationDatetime, isEqualToWhenPresent(record::getExpirationDatetime))
+                .and(createTimestamp, isEqualToWhenPresent(record::getCreateTimestamp)).and(updateTimestamp, isEqualToWhenPresent(record::getUpdateTimestamp))
+                .build()
                 .render(RenderingStrategies.MYBATIS3);
         return this.selectOneNonDesensitizedMo(select);
     }

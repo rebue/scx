@@ -158,7 +158,10 @@ public class OidcSvcImpl implements OidcSvc {
         if (!userInfoMo.getAccountId().equals(accountId)) {
             return new Ro<>(ResultDic.PARAM_ERROR, "获取失败accessToken与idToken不对应");
         }
-        RacAccountMo     mo     = racAccountApi.getById(accountId).getExtra().getOne();
+        RacAccountMo mo = racAccountApi.getAccountMoById(accountId);
+        if (mo == null) {
+            return new Ro<>(ResultDic.FAIL, "获取失败此用户不存在");
+        }
         final UserInfoMo userMo = _mapperFactory.getMapperFacade().map(mo, UserInfoMo.class);
         userMo.setAccessToken(accessToken);
         userMo.setIdToken(idToken);

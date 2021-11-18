@@ -236,4 +236,14 @@ public interface RacAccountSvc
      */
     void unbindMobile(Long id);
 
+    /**
+     * 查询未脱敏帐号数据
+     */
+    RacAccountMo getAccountMoById(Long id);
+
+    /**
+     * 查询未脱敏帐号数据
+     */
+    RacAccountMo getAccountMoOne(RacAccountOneTo to);
+
 }
