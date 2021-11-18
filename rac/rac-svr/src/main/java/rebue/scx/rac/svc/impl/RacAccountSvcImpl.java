@@ -41,6 +41,7 @@ import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.cap.api.CapSMSSendingApi;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.co.RacMinioCo;
+import rebue.scx.rac.config.LevelProtectProperties;
 import rebue.scx.rac.dao.RacAccountDao;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mapper.RacAccountMapper;
@@ -140,7 +141,8 @@ public class RacAccountSvcImpl extends
 
     @Resource
     private RacOrgSvc            racOrgSvc;
-
+    @Resource
+    LevelProtectProperties       levelProtectProperties;
     @Resource
     private MinioClient          minioClient;
 
@@ -154,23 +156,13 @@ public class RacAccountSvcImpl extends
      */
     @Value("${minio.urlPrefixBool:true}")
     private Boolean              url_prefix_bool;
+
     /**
      * 密码过期时长/天
      */
-    @Value("${level-protect.password-doverdue:180}")
-    private Long                 passwordDoverdue;
-
-    /**
-     * 刷新等保配置
-     */
-    // @PostConstruct
-    @Override
-    public void refreshUpdateLevelProtect(Map<String, String> hashedMap) {
-        String value = hashedMap.get("passwordDoverdue");
-        if (value != null) {
-            this.passwordDoverdue = Long.parseLong(value);
-        }
-
+    private Long getPasswordDoverdue() {
+        String value = levelProtectProperties.getPasswordDoverdue();
+        return Long.parseLong(value);
     }
 
     /**
@@ -297,7 +289,7 @@ public class RacAccountSvcImpl extends
             mo.setSignInPswd(PswdUtils.saltPswd(to.getNewSignInPswd(), mo.getSignInPswdSalt()));
             mo.setUpdateTimestamp(System.currentTimeMillis());
             // 默认6个月密码过期
-            mo.setExpirationDatetime(LocalDateTime.now().plusDays(passwordDoverdue));
+            mo.setExpirationDatetime(LocalDateTime.now().plusDays(getPasswordDoverdue()));
             mo.setId(to.getId());
             super.modifyMoById(mo);
             return new Ro<>(ResultDic.SUCCESS, "修改成功");
