@@ -55,6 +55,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     @Setter
     @Getter
+    @Desensitize(DesensitizeStrategy.USERNAME)
     private String            realName;
 
     /**

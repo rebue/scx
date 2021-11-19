@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapSMSSendingApi;
 import rebue.scx.cap.to.CapSMSTo;
+import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.ex.RacSMSSendingSvc;
 import rebue.scx.rac.to.ex.RacSMSTo;
+import rebue.scx.rac.to.ex.RacSMSVerificationTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 
 /**
@@ -54,6 +56,16 @@ public class RacSMSSendingSvcImpl implements RacSMSSendingSvc {
         smsTo.setPhoneNumber(mo.getSignInMobile());
         smsTo.setCaptchaVerification(to.getCaptchaVerification());
         return capSMSSendingApi.sendTemplateSMS(smsTo);
+    }
+
+    @Override
+    public Ro<?> msgSMSVerification(RacSMSVerificationTo to) {
+        RacAccountMo         mo             = accountSvc.getAccountMoById(to.getAccountId());
+        CapSMSVerificationTo verificationTo = new CapSMSVerificationTo();
+        verificationTo.setCaptchaVerification(to.getCaptchaVerification());
+        verificationTo.setCode(to.getCode());
+        verificationTo.setPhoneNumber(mo.getSignInMobile());
+        return capSMSSendingApi.msgSMSVerification(verificationTo);
     }
 
 }

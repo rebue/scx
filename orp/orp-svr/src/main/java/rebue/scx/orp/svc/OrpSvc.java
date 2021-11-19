@@ -5,6 +5,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.ra.OrpUserInfoRa;
+import rebue.scx.orp.to.ForgetSignInPswdTo;
 import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 
@@ -51,4 +52,6 @@ public interface OrpSvc {
      * @param to 只需要上传微信/钉钉的信息
      */
     Ro<?> verifiyAccount(String orpType, String clientId, Long accountId, OrpCodeTo to);
+
+    Ro<?> forgetSignInPswdTo(String orpType, String clientId, ForgetSignInPswdTo to);
 }

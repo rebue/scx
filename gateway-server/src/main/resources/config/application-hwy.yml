@@ -9,7 +9,7 @@ scx:
           - url: "POST:/rac/account/upload-avatar"
             limit: 200KB
 
-# 生成workid使用
+ # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
@@ -19,19 +19,40 @@ spring:
       transport:
         dashboard: sentinel-dashboard:80
     gateway:
-      routes:
-        - id: sr
-          uri: http://nginx-html:20010
-          predicates:
-          - Path=/admin-web/**
+      discovery:
+        locator:
           filters:
-          - name: JwtPre
-        - id: welcome
-          uri: http://nginx-html:20010
-          predicates:
-            - Path=/
-          filters:
+            - StripPrefix=1
+            - name: SignPre
+              args:
+                filter-urls:
+                  - "'/ctid/**'"
             - name: JwtPre
+              args:
+                filter-urls:
+                  - "'*:/sgn/**'"
+                  - "'*:/rac/**'"
+                  - "'*:/cap/**'"
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
+                ignore-urls:
+                  - "'*:/oss/**'"
+                  - "'*:/wxx/**'"
+                  - "'POST:/rac/sign-in/**'"
+                  - "'*:/orp/**'"
+                  - "'POST:/cap/**'"
+                  - "'GET:/rac/account/get-cur-account-info'"
+                  #统一应用平台账户基础权限
+                  - "'GET:/oap/app/list-and-tripartite'"
+                  - "'GET:/rac/dic/**'"
+                  - "'GET:/rac/account/get-cur-account-info'"
+                  - "'GET:/rac/account/get-by-id'"
+                  - "'GET:/rac/account/exist-mobile-by-id'"
+                  - "'GET:/rac/op-log/page'"
+                  - "'PUT:/rac/account/modify-sign-in-by-old-pswd'"
+                  - "'POST:/rac/account/upload-avatar'"
+                  - "'POST:/rac/account/bind-mobile'"
+                  - "'POST:/rac/sms/**'"
   rabbitmq:
     host: rabbitmq
     port: 5672

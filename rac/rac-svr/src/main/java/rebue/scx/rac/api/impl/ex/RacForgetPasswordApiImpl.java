@@ -28,11 +28,19 @@ public class RacForgetPasswordApiImpl implements RacForgetPasswordApi {
     }
 
     /**
-     * 忘记密码修改
+     * 忘记密码通过手机号校验修改
      */
     @Override
     public Ro<?> forgetSignInPswdToSetTo(ForgetSignInPswdToSetTo to) {
         return svc.forgetSignInPswdToSetTo(to);
+    }
+
+    /**
+     * 忘记密码通过微信钉钉校验修改密码
+     */
+    @Override
+    public Ro<?> orpForgetSignInPswdToSetTo(Long id, String pswd, String appId) {
+        return svc.forgetSignInPswdToSetTo(id, pswd, appId);
     }
 
 }

@@ -10,6 +10,7 @@ import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.api.OrpApi;
 import rebue.scx.orp.svc.OrpSvc;
+import rebue.scx.orp.to.ForgetSignInPswdTo;
 import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 
@@ -92,6 +93,11 @@ public class OrpApiImpl implements OrpApi {
         else {
             return new Ro<>(ResultDic.FAIL, "解除绑定失败:" + unbindModify.getMsg(), unbindModify);
         }
+    }
+
+    @Override
+    public Ro<?> forgetSignInPswdTo(String orpType, String clientId, ForgetSignInPswdTo to) {
+        return svc.forgetSignInPswdTo(orpType, clientId, to);
     }
 
 }

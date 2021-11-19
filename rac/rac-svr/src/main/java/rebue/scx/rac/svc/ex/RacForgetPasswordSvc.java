@@ -31,4 +31,9 @@ public interface RacForgetPasswordSvc {
      */
     Ro<?> forgetSignInPswdToSetTo(ForgetSignInPswdToSetTo to);
 
+    /**
+     * 忘记密码通过微信钉钉校验修改密码
+     */
+    Ro<?> forgetSignInPswdToSetTo(Long id, String pswd, String appId);
+
 }

@@ -34,7 +34,7 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.YamlUtils;
 
 /***
- * 配置信息
+ * 公众号钉钉号配置信息
  * 
  * @author yuanman
  *

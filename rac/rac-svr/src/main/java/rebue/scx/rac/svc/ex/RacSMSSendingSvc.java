@@ -4,6 +4,7 @@ import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.to.ex.RacSMSTo;
+import rebue.scx.rac.to.ex.RacSMSVerificationTo;
 
 /**
  * 发送短信服务接口
@@ -21,5 +22,7 @@ import rebue.scx.rac.to.ex.RacSMSTo;
 public interface RacSMSSendingSvc {
 
     Ro<?> sendTemplateSMS(RacSMSTo to);
+
+    Ro<?> msgSMSVerification(RacSMSVerificationTo to);
 
 }

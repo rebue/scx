@@ -340,4 +340,10 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
         return _httpClient.getWithJsonResponse(url, map, clazz, encoding);
     }
 
+    @Override
+    public StateCache getSstateCache() {
+        return this._stateCache;
+
+    }
+
 }

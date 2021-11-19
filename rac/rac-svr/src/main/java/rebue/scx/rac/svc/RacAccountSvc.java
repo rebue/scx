@@ -246,4 +246,9 @@ public interface RacAccountSvc
      */
     RacAccountMo getAccountMoOne(RacAccountOneTo to);
 
+    /**
+     * 密码过期时长/天
+     */
+    Long getPasswordDoverdue();
+
 }

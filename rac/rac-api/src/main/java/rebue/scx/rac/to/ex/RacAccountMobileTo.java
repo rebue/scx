@@ -32,14 +32,13 @@ public class RacAccountMobileTo implements Serializable {
     private Long              id;
 
     /**
-     * 手机号
+     * 手机号，绑定时必须传参
      */
-    @NotNull(message = "手机号不能为空")
     private String            mobile;
-    /**
-     * 新的手机号
-     */
-    private String            newMobile;
+    // /**
+    // * 新的手机号
+    // */
+    // private String newMobile;
     /**
      * 校验码
      */

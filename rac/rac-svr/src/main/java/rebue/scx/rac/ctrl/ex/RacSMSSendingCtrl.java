@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.api.ex.RacSMSSendingApi;
 import rebue.scx.rac.to.ex.RacSMSTo;
+import rebue.scx.rac.to.ex.RacSMSVerificationTo;
 
 /**
  * 短信发送控制器
@@ -31,12 +32,12 @@ public class RacSMSSendingCtrl {
         return Mono.create(callback -> callback.success(api.sendTemplateSMS(to)));
     }
 
-    // /**
-    // * 短信验证码校验
-    // *
-    // */
-    // @PostMapping("/cap/sms/verification")
-    // public Mono<Ro<?>> msgSMSVerification(@RequestBody CapSMSVerificationTo to) {
-    // return Mono.create(callback -> callback.success(api.msgSMSVerification(to)));
-    // }
+    /**
+     * 短信验证码校验
+     *
+     */
+    @PostMapping("/rac/sms/verification")
+    public Mono<Ro<?>> msgSMSVerification(@RequestBody RacSMSVerificationTo to) {
+        return Mono.create(callback -> callback.success(api.msgSMSVerification(to)));
+    }
 }

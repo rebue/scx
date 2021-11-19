@@ -112,8 +112,10 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
             return new Ro<>(ResultDic.FAIL, model.getMsg());
         }
         // 校验短信验证码
-        CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
-        verifiy.setPhoneNumber(to.getPhoneNumber());
+
+        RacAccountMo         accountMoById = accountSvc.getAccountMoById(to.getId());
+        CapSMSVerificationTo verifiy       = new CapSMSVerificationTo();
+        verifiy.setPhoneNumber(accountMoById.getSignInMobile());
         verifiy.setCode(to.getCode());
         Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
         if (verification.getResult().getCode() != 1) {
@@ -121,21 +123,7 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
             log.warn(msg + ": {}", to);
             return new Ro<>(ResultDic.WARN, msg);
         }
-        RacAccountMo accountMo = accountSvc.getById(to.getId());
-        if (accountMo == null) {
-            final String msg = "找不到此账户";
-            log.warn(msg + ": to-{}", to);
-            return new Ro<>(ResultDic.WARN, msg);
-        }
-        if (!accountMo.getSignInMobile().equals(to.getPhoneNumber())) {
-            final String msg = "账户该绑定的手机号与验证手机号不对应";
-            log.warn(msg + ": {}", to);
-            return new Ro<>(ResultDic.WARN, msg);
-        }
-        final RacAccountMo mo = new RacAccountMo();
-        mo.setId(to.getId());
-        mo.setSignInPswd(to.getSignInPswd());
-        accountSvc.modifyPswdById(mo);
+        setSignInPswd(to.getId(), to.getSignInPswd());
         // 成功后清理验证码
         capSMSSendingApi.deleteVerifiyCode(verifiy);
         capApi.deleteVerifiyCode(captchaVO);
@@ -151,4 +139,38 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
         return new Ro<>(ResultDic.SUCCESS, "修改成功");
     }
 
+    /**
+     * 忘记密码通过微信钉钉校验修改密码
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Ro<?> forgetSignInPswdToSetTo(Long id, String pswd, String appId) {
+
+        setSignInPswd(id, pswd);
+        // 成功后清理验证码
+        final RacOpLogAddTo appTo = new RacOpLogAddTo();
+        appTo.setAccountId(id);
+        appTo.setAgentId(null);
+        appTo.setAppId("unified-auth");
+        appTo.setOpType("修改密码");
+        appTo.setOpTitle("忘记密码");
+        appTo.setOpDetail("账户忘记密码而进行的修改密码操作");
+        appTo.setOpDatetime(LocalDateTime.now());
+        opLogApi.add(appTo);
+        return new Ro<>(ResultDic.SUCCESS, "修改成功");
+    }
+
+    /**
+     * 设置密码
+     * 
+     * @param id
+     * @param pswd
+     */
+    private void setSignInPswd(Long id, String pswd) {
+        RacAccountMo mo = new RacAccountMo();
+        mo.setId(id);
+        mo.setSignInPswd(pswd);
+        mo.setExpirationDatetime(LocalDateTime.now().plusDays(accountSvc.getPasswordDoverdue()));
+        accountSvc.modifyPswdById(mo);
+    }
 }

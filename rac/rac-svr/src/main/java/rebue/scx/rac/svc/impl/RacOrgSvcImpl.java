@@ -2,7 +2,6 @@ package rebue.scx.rac.svc.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -168,13 +167,13 @@ public class RacOrgSvcImpl
                 throw new RuntimeExceptionX("添加记录异常，影响行数为" + rowCount);
             }
             // 查询判断是否存在默认组织，没有则添加
-            final Optional<RacAccountNonDesensitizedMo> demo      = racAccountMapper.selectByKey(accountId);
-            final RacAccountMo                          accountMo = OrikaUtils.map(demo, RacAccountMo.class);
+            final RacAccountNonDesensitizedMo demo      = racAccountMapper.selectByKey(accountId).get();
+            final RacAccountMo                accountMo = OrikaUtils.map(demo, RacAccountMo.class);
             if (accountMo.getOrgId() == null) {
                 accountMo.setOrgId(to.getOrgId());
                 final int count = racAccountMapper.updateByPrimaryKey(accountMo);
                 if (count != 1) {
-                    throw new RuntimeExceptionX("添加默认组织关系记录异常，影响行数为" + rowCount);
+                    throw new RuntimeExceptionX("添加默认组织关系记录异常，影响行数为" + count);
                 }
             }
         }

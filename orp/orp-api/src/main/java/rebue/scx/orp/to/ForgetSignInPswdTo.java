@@ -1,4 +1,4 @@
-package rebue.scx.rac.to.ex;
+package rebue.scx.orp.to;
 
 import java.io.Serializable;
 
@@ -18,7 +18,7 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class ForgetSignInPswdToSetTo implements Serializable {
+public class ForgetSignInPswdTo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,20 +35,10 @@ public class ForgetSignInPswdToSetTo implements Serializable {
     @NotBlank(message = "新密码不能为空")
     @Length(max = 32, message = "新密码的长度不能大于32")
     private String            signInPswd;
-    // /**
-    // * 接受验证码手机号不需要
-    // */
-    // // @NotNull(message = "手机号不能为空")
-    // private String phoneNumber;
     /**
-     * 手机验证码
+     * 验证码
      */
     @NotNull(message = "验证码不能为空")
-    private String            code;
-    /**
-     * 图形验证码
-     */
-    @NotNull(message = "图形验证码不能为空")
-    private String            captchaVerification;
+    private String            state;
 
 }

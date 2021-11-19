@@ -161,7 +161,8 @@ public class RacAccountSvcImpl extends
     /**
      * 密码过期时长/天
      */
-    private Long getPasswordDoverdue() {
+    @Override
+    public Long getPasswordDoverdue() {
         String value = levelProtectProperties.getPasswordDoverdue();
         return Long.parseLong(value);
     }
@@ -475,20 +476,18 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> bindMobile(RacAccountMobileTo to) {
-        RacAccountMo         mo      = thisSvc.getById(to.getId());
-        CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
-        verifiy.setPhoneNumber(to.getMobile());
-        verifiy.setCode(to.getCode());
-        Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
-        if (verification.getResult().getCode() == 1) {
-            // 判断解帮还是绑定
-            if (to.getBindType().equals("1")) {
-                if (mo == null) {
-                    throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
-                }
-                if (!mo.getSignInMobile().equals(to.getMobile())) {
-                    throw new RuntimeExceptionX("解绑手机号与绑定的手机号不一致，请确认后再试！");
-                }
+        RacAccountMo mo = thisSvc.getAccountMoById(to.getId());
+        if (mo == null) {
+            throw new RuntimeExceptionX("查找不到该账户的信息，请确认后再试！");
+        }
+        // 判断解帮还是绑定
+        if (to.getBindType().equals("1")) {
+            // 解绑
+            CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
+            verifiy.setPhoneNumber(mo.getSignInMobile());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
+            if (verification.getResult().getCode() == 1) {
                 int unbindWechatOpen = _mapper.unbindMobile(mo.getId());
                 if (unbindWechatOpen != 1) {
                     throw new RuntimeExceptionX("解除绑定异常信息，请稍后再试");
@@ -496,28 +495,18 @@ public class RacAccountSvcImpl extends
                 capSMSSendingApi.deleteVerifiyCode(verifiy);
                 return new Ro<>(ResultDic.SUCCESS, "解绑手机成功");
             }
-            else {
-                // 更换手机号
-                if (mo.getSignInMobile() != null && to.getNewMobile() != null && to.getNewMobile().length() == 11) {
-                    RacAccountOneTo one = new RacAccountOneTo();
-                    one.setSignInMobile(to.getNewMobile());
-                    one.setRealmId(mo.getRealmId());
-                    RacAccountMo oneMo = thisSvc.getAccountMoOne(one);
-                    // 判断新手机号是否已被绑定
-                    if (oneMo == null) {
-                        // 判断旧手机号是否正确
-                        if (!mo.getSignInMobile().equals(to.getMobile())) {
-                            return new Ro<>(ResultDic.FAIL, "手机号更换失败，旧手机号不正确！", mo);
-                        }
-                        mo.setSignInMobile(to.getNewMobile());
-                        thisSvc.modifyMoById(mo);
-                        capSMSSendingApi.deleteVerifiyCode(verifiy);
-                        return new Ro<>(ResultDic.SUCCESS, "更换手机号成功", mo);
-                    }
-                    else {
-                        return new Ro<>(ResultDic.FAIL, "手机号更换失败，新手机号已被绑定！");
-                    }
-                }
+            return verification;
+        }
+        else {
+            // 绑定
+            if (to.getMobile() == null) {
+                throw new RuntimeExceptionX("绑定的手机号不能为空，请确认后再试！");
+            }
+            CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
+            verifiy.setPhoneNumber(to.getMobile());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
+            if (verification.getResult().getCode() == 1) {
                 // 绑定手机号
                 if (mo.getSignInMobile() == null) {
                     RacAccountOneTo one = new RacAccountOneTo();
@@ -534,8 +523,8 @@ public class RacAccountSvcImpl extends
                 }
                 return new Ro<>(ResultDic.FAIL, "绑定失败，该账户已绑定手机号：", mo.getSignInMobile());
             }
+            return verification;
         }
-        return verification;
     }
 
     /**

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 
 import rebue.robotech.ro.Ro;
+import rebue.scx.orp.to.ForgetSignInPswdTo;
 import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 
@@ -48,5 +49,16 @@ public interface OrpApi {
      * @param to 只需要上传微信/钉钉的信息
      */
     Ro<?> verifiyAccount(String orpType, String clientId, Long accountId, OrpCodeTo to);
+
+    /**
+     * 忘记密码通过微信钉钉校验修改密码
+     * 
+     * @param orpType
+     * @param clientId
+     * @param to
+     * 
+     * @return
+     */
+    Ro<?> forgetSignInPswdTo(String orpType, String clientId, ForgetSignInPswdTo to);
 
 }
