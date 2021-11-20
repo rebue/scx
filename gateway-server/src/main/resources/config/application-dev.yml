@@ -55,16 +55,4 @@ spring:
                   - "'PUT:/rac/account/modify-sign-in-by-old-pswd'"
                   - "'POST:/rac/account/upload-avatar'"
                   - "'POST:/rac/account/bind-mobile'"
-      routes:
-        - id: sr
-          uri: http://127.0.0.1:20010
-          predicates:
-          - Path=/admin-web/**
-          filters:
-          - name: JwtPre
-        - id: welcome
-          uri: http://127.0.0.1:20010
-          predicates:
-          - Path=/
-          filters:
-          - name: JwtPre
+                  - "'POST:/rac/sms/**'"

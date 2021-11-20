@@ -57,9 +57,4 @@ public interface RacSignInSvc {
      */
     Ro<SignUpOrInRa> signInByOidc(SignUpOrInWayDic signUpOrInWay, SignInByOidcTo to);
 
-    /**
-     * 刷新等堡配置
-     */
-    void refreshUpdateLevelProtect();
-
 }

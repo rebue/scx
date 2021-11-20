@@ -1,6 +1,7 @@
 package rebue.scx.orp.ctrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +34,7 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.YamlUtils;
 
 /***
- * 配置信息
+ * 公众号钉钉号配置信息
  * 
  * @author yuanman
  *
@@ -100,7 +100,7 @@ public class OrpNacosCtrl {
     @RacOpLog(opType = "添加配置信息", opTitle = "添加配置类型: #{#p0.configType}")
     @PostMapping("/orp/nacos/publish/add-config")
     public Mono<Ro<?>> addPublishConfig(@RequestBody final NacosAddTo to) {
-        Map<String, String> hashedMap = new HashedMap();
+        Map<String, String> hashedMap = new HashMap<String, String>();
         hashedMap.put("id", to.getNewAppKey());
         hashedMap.put("name", to.getNewName());
         hashedMap.put("secret", to.getNewAppSecret());
@@ -256,7 +256,7 @@ public class OrpNacosCtrl {
     public Map<String, Object> StrArrayToMap(String[] split) {
         List<String>        list       = new ArrayList<String>();
         @SuppressWarnings("unchecked")
-        Map<String, Object> map        = new HashedMap();
+        Map<String, Object> map        = new HashMap<String, Object>();
         boolean             searchFalg = false;
         boolean             setMapFalg = false;
         for (String str : split) {

@@ -33,13 +33,16 @@ import rebue.scx.oap.api.OapAppApi;
 import rebue.scx.oap.config.OidcConfig;
 import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.orp.config.OrpStrategies;
+import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.to.AuthCodeTo;
 import rebue.scx.orp.core.to.AuthTo;
 import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.scx.orp.svc.OrpSvc;
+import rebue.scx.orp.to.ForgetSignInPswdTo;
 import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacAppApi;
+import rebue.scx.rac.api.ex.RacForgetPasswordApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAccountMo;
@@ -55,36 +58,38 @@ import rebue.wheel.turing.JwtUtils;
 public class OrpSvcImpl implements OrpSvc {
 
     @Value("${oidc.client-id}")
-    private String        clientId;
+    private String               clientId;
 
     @Value("${oidc.client-secret}")
-    private String        clientSecret;
+    private String               clientSecret;
 
     @Value("${oidc.token-endpoint}")
-    private String        tokenEndpoint;
+    private String               tokenEndpoint;
 
     @Value("${oidc.public-key}")
-    private String        publicKeyStr;
+    private String               publicKeyStr;
 
     @Value("${oidc.redirect-uri}")
-    private String        redirectUri;
+    private String               redirectUri;
 
-    private RSAPublicKey  publicKey;
-
-    @DubboReference
-    private RacAppApi     racAppApi;
+    private RSAPublicKey         publicKey;
 
     @DubboReference
-    private RacAccountApi racAccountApi;
+    private RacAppApi            racAppApi;
 
     @DubboReference
-    private RacSignInApi  racSignInApi;
+    private RacAccountApi        racAccountApi;
 
     @DubboReference
-    private OapAppApi     oapAppApi;
+    private RacSignInApi         racSignInApi;
+    @DubboReference
+    private RacForgetPasswordApi racForgetPasswordApi;
+
+    @DubboReference
+    private OapAppApi            oapAppApi;
 
     @Resource
-    private OrpStrategies strategy;
+    private OrpStrategies        strategy;
 
     @PostConstruct
     private void init() throws Exception {
@@ -222,8 +227,8 @@ public class OrpSvcImpl implements OrpSvc {
         OrpUserInfoRa authCodeRa = authCode(orpType, clientId, to);
         switch (orpType) {
         case "ding-talk":
-            Ro<PojoRa<RacAccountMo>> byId = racAccountApi.getById(accountId);
-            if (byId.getExtra().getOne().getDdOpenId().equals(authCodeRa.getOpenId())) {
+            RacAccountMo byId = racAccountApi.getAccountMoById(accountId);
+            if (byId.getDdOpenId().equals(authCodeRa.getOpenId())) {
                 RacAccountModifyTo bindDingTalk = new RacAccountModifyTo();
                 bindDingTalk.setId(accountId);
                 bindDingTalk.setDdAvatar(authCodeRa.getAvatar());
@@ -237,8 +242,8 @@ public class OrpSvcImpl implements OrpSvc {
                 return new Ro<>(ResultDic.FAIL, "扫码用户不对");
             }
         case "wechat-open":
-            Ro<PojoRa<RacAccountMo>> byIdMo = racAccountApi.getById(accountId);
-            if (byIdMo.getExtra().getOne().getWxOpenId().equals(authCodeRa.getOpenId())) {
+            RacAccountMo byIdMo = racAccountApi.getAccountMoById(accountId);
+            if (byIdMo.getWxOpenId().equals(authCodeRa.getOpenId())) {
                 RacAccountModifyTo wechatOpen = new RacAccountModifyTo();
                 wechatOpen.setId(accountId);
                 wechatOpen.setWxAvatar(authCodeRa.getAvatar());
@@ -262,13 +267,14 @@ public class OrpSvcImpl implements OrpSvc {
      */
     @Override
     public Ro<?> verifiyAccount(String orpType, String clientId, Long accountId, OrpCodeTo to) {
-        OrpUserInfoRa            authCodeRa = authCode(orpType, clientId, to);
-        Ro<PojoRa<RacAccountMo>> byId       = racAccountApi.getById(accountId);
-        RacAccountMo             mo         = byId.getExtra().getOne();
+        OrpUserInfoRa authCodeRa = authCode(orpType, clientId, to);
+        RacAccountMo  mo         = racAccountApi.getAccountMoById(accountId);
         switch (orpType) {
         case "ding-talk":
             if (mo.getDdOpenId().equals(authCodeRa.getOpenId())) {
-                final String state = UUID.randomUUID().toString();
+                final String state      = UUID.randomUUID().toString();
+                StateCache   stateCache = strategy.getItems().get(orpType).getSstateCache();
+                stateCache.set(orpType, clientId, state);
                 return new Ro<>(ResultDic.SUCCESS, state);
             }
             else {
@@ -276,7 +282,9 @@ public class OrpSvcImpl implements OrpSvc {
             }
         case "wechat-open":
             if (mo.getWxOpenId().equals(authCodeRa.getOpenId())) {
-                final String state = UUID.randomUUID().toString();
+                final String state      = UUID.randomUUID().toString();
+                StateCache   stateCache = strategy.getItems().get(orpType).getSstateCache();
+                stateCache.set(orpType, clientId, state);
                 return new Ro<>(ResultDic.SUCCESS, state);
             }
             else {
@@ -285,6 +293,17 @@ public class OrpSvcImpl implements OrpSvc {
         default:
             throw new RuntimeExceptionX("不支持此方式: " + orpType);
         }
+    }
+
+    @Override
+    public Ro<?> forgetSignInPswdTo(String orpType, String clientId, ForgetSignInPswdTo to) {
+        StateCache stateCache = strategy.getItems().get(orpType).getSstateCache();
+        String     result     = stateCache.get(orpType, clientId, to.getState());
+        if (result == null) {
+            return new Ro<>(ResultDic.WARN, "校验信息已经过期");
+        }
+        Ro<?> mo = racForgetPasswordApi.orpForgetSignInPswdToSetTo(to.getId(), to.getSignInPswd(), null);
+        return mo;
     }
 
     /**

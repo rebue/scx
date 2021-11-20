@@ -32,6 +32,12 @@ import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.turing.JwtUtils;
 
+/**
+ * orp三方控制器
+ * 
+ * @author yuanman
+ *
+ */
 @RestController
 @RequestMapping("/orp")
 public class OrpCtrl {
@@ -41,6 +47,13 @@ public class OrpCtrl {
     @DubboReference
     private RacOpLogApi opLogApi;
 
+    /**
+     * 回调
+     * 
+     * @param response
+     * @param code
+     * 
+     */
     @GetMapping("/callback")
     public Mono<String> callback(final ServerHttpResponse response, @RequestParam("code") final String code) {
         return Mono.create(cb -> {
@@ -64,7 +77,6 @@ public class OrpCtrl {
      * @param clientId    客户端ID
      * @param redirectUri 扫码后回调的地址（/orp/get-user-info/{orpType}/{clientId}）
      * 
-     * @return
      */
     @GetMapping("/get-auth-url/{orpType}/{clientId}")
     public Mono<Ro<?>> getAuthUrl(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
@@ -79,7 +91,6 @@ public class OrpCtrl {
      * @param clientId 客户端ID
      * @param to
      * 
-     * @return
      */
     @GetMapping("/auth-code/{orpType}/{clientId}")
     public Mono<String> authCode(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
@@ -100,7 +111,9 @@ public class OrpCtrl {
 
     /**
      * 根据账户ID绑定微信钉钉的信息
-     *
+     * 
+     * @ignoreParams request
+     * 
      * @param to 只需要上传微信/钉钉的信息
      */
     // @RacOpLog(opType = "绑定微信/钉钉", opTitle = "绑定微信/钉钉: #{#p0}")

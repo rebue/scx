@@ -235,4 +235,20 @@ public interface RacAccountSvc
      * @param id 被解绑的账户ID
      */
     void unbindMobile(Long id);
+
+    /**
+     * 查询未脱敏帐号数据
+     */
+    RacAccountMo getAccountMoById(Long id);
+
+    /**
+     * 查询未脱敏帐号数据
+     */
+    RacAccountMo getAccountMoOne(RacAccountOneTo to);
+
+    /**
+     * 密码过期时长/天
+     */
+    Long getPasswordDoverdue();
+
 }

@@ -40,9 +40,4 @@ public interface RacSignInApi {
      */
     Ro<SignUpOrInRa> signInByOidc(SignUpOrInWayDic signUpOrInWay, SignInByOidcTo to);
 
-    /**
-     * 刷新等堡配置
-     */
-    Ro<?> refreshUpdateLevelProtect();
-
 }

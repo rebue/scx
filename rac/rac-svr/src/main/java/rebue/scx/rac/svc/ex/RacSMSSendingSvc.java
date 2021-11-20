@@ -3,11 +3,11 @@ package rebue.scx.rac.svc.ex;
 import org.springframework.validation.annotation.Validated;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.rac.to.ex.CheckAccountNumberTo;
-import rebue.scx.rac.to.ex.ForgetSignInPswdToSetTo;
+import rebue.scx.rac.to.ex.RacSMSTo;
+import rebue.scx.rac.to.ex.RacSMSVerificationTo;
 
 /**
- * 账户忘记密码服务接口
+ * 发送短信服务接口
  *
  * <pre>
  * 1. 在接口上方必须写上 @Validated 注解
@@ -19,21 +19,10 @@ import rebue.scx.rac.to.ex.ForgetSignInPswdToSetTo;
  * </pre>
  */
 @Validated
-public interface RacForgetPasswordSvc {
+public interface RacSMSSendingSvc {
 
-    /**
-     * 校验帐号存在
-     */
-    Ro<?> checkAccountNumber(CheckAccountNumberTo to, String appId);
+    Ro<?> sendTemplateSMS(RacSMSTo to);
 
-    /**
-     * 忘记密码修改
-     */
-    Ro<?> forgetSignInPswdToSetTo(ForgetSignInPswdToSetTo to);
-
-    /**
-     * 忘记密码通过微信钉钉校验修改密码
-     */
-    Ro<?> forgetSignInPswdToSetTo(Long id, String pswd, String appId);
+    Ro<?> msgSMSVerification(RacSMSVerificationTo to);
 
 }

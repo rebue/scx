@@ -16,6 +16,7 @@ import rebue.scx.rac.dao.RacUserDao;
 import rebue.scx.rac.jo.RacUserJo;
 import rebue.scx.rac.mapper.RacUserMapper;
 import rebue.scx.rac.mo.RacUserMo;
+import rebue.scx.rac.mo.ex.RacUserNonDesensitizedMo;
 import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserDelTo;
@@ -23,7 +24,9 @@ import rebue.scx.rac.to.RacUserListTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.to.RacUserPageTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
+import rebue.wheel.core.util.RegexUtils;
 
 /**
  * 用户服务实现
@@ -44,8 +47,9 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacUserSvcImpl
-    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
-    implements RacUserSvc {
+        extends
+        BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+        implements RacUserSvc {
 
     /**
      * 本服务的单例
@@ -89,8 +93,12 @@ public class RacUserSvcImpl
     public RacUserMo add(RacUserAddTo to) {
         to.setCreateTimestamp(System.currentTimeMillis());
         to.setUpdateTimestamp(System.currentTimeMillis());
-        final RacUserMo mo = OrikaUtils.map(to, getMoClass());
-        String idCard = mo.getIdCard();
+        final RacUserMo mo          = OrikaUtils.map(to, getMoClass());
+        String          idCard      = mo.getIdCard();
+        boolean         matchIdCard = RegexUtils.matchIdCard(idCard);
+        if (!matchIdCard) {
+            throw new RuntimeExceptionX("身份证号码格式不对，请确认！");
+        }
         if (idCard != null) {
             // 取身份证第17位数自动判断性别，0为女，1为男
             int parseInt = Integer.parseInt(idCard.substring(16, 17));
@@ -123,5 +131,32 @@ public class RacUserSvcImpl
     public PageInfo<RacUserMo> page(RacUserPageTo qo) {
         final ISelect select = () -> _mapper.listQo(qo);
         return super.page(select, qo.getPageNum(), qo.getPageSize(), qo.getOrderBy());
+    }
+
+    /**
+     * 查询未脱敏用户数据
+     */
+    @Override
+    public RacUserMo getUserMoById(Long id) {
+        RacUserNonDesensitizedMo mo = _mapper.selectByKey(id).orElse(null);
+        if (mo != null) {
+            final RacUserMo accountMo = OrikaUtils.map(mo, RacUserMo.class);
+            return accountMo;
+        }
+        return null;
+    }
+
+    /**
+     * 查询未脱敏用户数据
+     */
+    @Override
+    public RacUserMo getUserMoOne(RacUserOneTo to) {
+        final RacUserMo          qo = OrikaUtils.map(to, RacUserMo.class);
+        RacUserNonDesensitizedMo mo = _mapper.selectByOne(qo).orElse(null);
+        if (mo != null) {
+            final RacUserMo accountMo = OrikaUtils.map(mo, RacUserMo.class);
+            return accountMo;
+        }
+        return null;
     }
 }

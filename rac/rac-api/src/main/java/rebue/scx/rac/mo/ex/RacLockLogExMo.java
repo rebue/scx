@@ -2,6 +2,8 @@ package rebue.scx.rac.mo.ex;
 
 import lombok.ToString;
 import rebue.scx.rac.mo.RacLockLogMo;
+import rebue.wheel.api.annotation.Desensitize;
+import rebue.wheel.api.strategy.DesensitizeStrategy;
 
 /**
  * 操作日志翻页查询使用
@@ -24,11 +26,13 @@ public class RacLockLogExMo extends RacLockLogMo {
     /**
      * 登录手机号
      */
+    @Desensitize(DesensitizeStrategy.MOBILE)
     private String            signInMobile;
 
     /**
      * 登录邮箱
      */
+    @Desensitize(DesensitizeStrategy.EMAIL)
     private String            signInEmail;
 
     /**
@@ -109,11 +113,13 @@ public class RacLockLogExMo extends RacLockLogMo {
     /**
      * 解锁人登录手机号
      */
+    @Desensitize(DesensitizeStrategy.MOBILE)
     private String unlockSignInMobile;
 
     /**
      * 解锁人登录邮箱
      */
+    @Desensitize(DesensitizeStrategy.EMAIL)
     private String unlockSignInEmail;
 
     /**
@@ -145,12 +151,14 @@ public class RacLockLogExMo extends RacLockLogMo {
      * 代理解锁人登录手机
      *
      */
+    @Desensitize(DesensitizeStrategy.MOBILE)
     private String unlockAgentSignInMobile;
 
     /**
      * 代理解锁人登录邮箱
      *
      */
+    @Desensitize(DesensitizeStrategy.EMAIL)
     private String unlockAgentSignInEmail;
 
     /**

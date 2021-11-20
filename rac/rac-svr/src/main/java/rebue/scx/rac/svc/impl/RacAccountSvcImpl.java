@@ -41,6 +41,7 @@ import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.cap.api.CapSMSSendingApi;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.co.RacMinioCo;
+import rebue.scx.rac.config.LevelProtectProperties;
 import rebue.scx.rac.dao.RacAccountDao;
 import rebue.scx.rac.jo.RacAccountJo;
 import rebue.scx.rac.mapper.RacAccountMapper;
@@ -53,6 +54,7 @@ import rebue.scx.rac.mo.RacPermCommandMo;
 import rebue.scx.rac.mo.RacRealmMo;
 import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.mo.ex.RacAccountExMo;
+import rebue.scx.rac.mo.ex.RacAccountNonDesensitizedMo;
 import rebue.scx.rac.ra.GetCurAccountInfoRa;
 import rebue.scx.rac.ra.ListTransferOfOrgRa;
 import rebue.scx.rac.svc.RacAccountSvc;
@@ -78,7 +80,6 @@ import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
 import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
-import rebue.scx.rac.util.LevelProtectUtils;
 import rebue.scx.rac.util.PswdUtils;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
@@ -141,12 +142,10 @@ public class RacAccountSvcImpl extends
 
     @Resource
     private RacOrgSvc            racOrgSvc;
-
+    @Resource
+    LevelProtectProperties       levelProtectProperties;
     @Resource
     private MinioClient          minioClient;
-
-    @Resource
-    private LevelProtectUtils    levelProtectUtils;
 
     @Value("${minio.endpoint:http://172.20.14.125:9000}")
     private String               minioEndpoint;
@@ -158,6 +157,15 @@ public class RacAccountSvcImpl extends
      */
     @Value("${minio.urlPrefixBool:true}")
     private Boolean              url_prefix_bool;
+
+    /**
+     * 密码过期时长/天
+     */
+    @Override
+    public Long getPasswordDoverdue() {
+        String value = levelProtectProperties.getPasswordDoverdue();
+        return Long.parseLong(value);
+    }
 
     /**
      * 泛型MO的class(提供给基类调用-因为java中泛型擦除，JVM无法智能获取泛型的class)
@@ -274,7 +282,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to) {
-        RacAccountMo accountMo = thisSvc.getById(to.getId());
+        RacAccountMo accountMo = thisSvc.getAccountMoById(to.getId());
         if (accountMo.getSignInPswd().equals(PswdUtils.saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
             final RacAccountMo mo = new RacAccountMo();
             // 随机生成盐值
@@ -282,18 +290,8 @@ public class RacAccountSvcImpl extends
             // 根据生成的盐值进行摘要
             mo.setSignInPswd(PswdUtils.saltPswd(to.getNewSignInPswd(), mo.getSignInPswdSalt()));
             mo.setUpdateTimestamp(System.currentTimeMillis());
-            Map<String, String> configMap = levelProtectUtils.getConfigMap();
-            String              str       = configMap.get("passworDoverdue");
             // 默认6个月密码过期
-            mo.setExpirationDatetime(LocalDateTime.now().plusMonths(6));
-            if (str != null) {
-                try {
-                    long parseLong = Long.parseLong(str);
-                    mo.setExpirationDatetime(LocalDateTime.now().plusDays(parseLong));
-                } catch (Exception e) {
-                    throw new RuntimeExceptionX("设置密码过期时间配置不是数字，请联系管理员");
-                }
-            }
+            mo.setExpirationDatetime(LocalDateTime.now().plusDays(getPasswordDoverdue()));
             mo.setId(to.getId());
             super.modifyMoById(mo);
             return new Ro<>(ResultDic.SUCCESS, "修改成功");
@@ -311,8 +309,8 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacAccountMo addUnionIdMapper(RacAccountUnionIdTo to) {
-        RacAccountMo srcMo = thisSvc.getById(to.getSrcId());
-        RacAccountMo dstMo = thisSvc.getById(to.getDstId());
+        RacAccountMo srcMo = thisSvc.getAccountMoById(to.getSrcId());
+        RacAccountMo dstMo = thisSvc.getAccountMoById(to.getDstId());
         if (srcMo.getUnionId() != null) {
             dstMo.setUnionId(srcMo.getUnionId());
             thisSvc.modifyMoById(dstMo);
@@ -391,7 +389,7 @@ public class RacAccountSvcImpl extends
         // RacAccountOneTo oneTo = OrikaUtils.map(to, RacAccountOneTo.class);
         // 解除绑定钉钉
         if (to.getDdUnionId() != null) {
-            RacAccountMo one = thisSvc.getById(to.getId());
+            RacAccountMo one = thisSvc.getAccountMoById(to.getId());
             if (one == null) {
                 throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
             }
@@ -402,7 +400,7 @@ public class RacAccountSvcImpl extends
         }
         else // 解除绑定微信
             if (to.getWxUnionId() != null) {
-                RacAccountMo one = thisSvc.getById(to.getId());
+                RacAccountMo one = thisSvc.getAccountMoById(to.getId());
                 if (one == null) {
                     throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
                 }
@@ -424,7 +422,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unbindDdModify(Long id) {
-        RacAccountMo one = thisSvc.getById(id);
+        RacAccountMo one = thisSvc.getAccountMoById(id);
         if (one == null) {
             throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
         }
@@ -442,7 +440,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unbindWxModify(Long id) {
-        RacAccountMo one = thisSvc.getById(id);
+        RacAccountMo one = thisSvc.getAccountMoById(id);
         if (one == null) {
             throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
         }
@@ -460,7 +458,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void unbindMobile(Long id) {
-        RacAccountMo one = thisSvc.getById(id);
+        RacAccountMo one = thisSvc.getAccountMoById(id);
         if (one == null) {
             throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
         }
@@ -478,20 +476,18 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> bindMobile(RacAccountMobileTo to) {
-        RacAccountMo         mo      = thisSvc.getById(to.getId());
-        CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
-        verifiy.setPhoneNumber(to.getMobile());
-        verifiy.setCode(to.getCode());
-        Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
-        if (verification.getResult().getCode() == 1) {
-            // 判断解帮还是绑定
-            if (to.getBindType().equals("1")) {
-                if (mo == null) {
-                    throw new RuntimeExceptionX("查找不到该账户的绑定信息，请确认后再试！");
-                }
-                if (!mo.getSignInMobile().equals(to.getMobile())) {
-                    throw new RuntimeExceptionX("解绑手机号与绑定的手机号不一致，请确认后再试！");
-                }
+        RacAccountMo mo = thisSvc.getAccountMoById(to.getId());
+        if (mo == null) {
+            throw new RuntimeExceptionX("查找不到该账户的信息，请确认后再试！");
+        }
+        // 判断解帮还是绑定
+        if (to.getBindType().equals("1")) {
+            // 解绑
+            CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
+            verifiy.setPhoneNumber(mo.getSignInMobile());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
+            if (verification.getResult().getCode() == 1) {
                 int unbindWechatOpen = _mapper.unbindMobile(mo.getId());
                 if (unbindWechatOpen != 1) {
                     throw new RuntimeExceptionX("解除绑定异常信息，请稍后再试");
@@ -499,34 +495,24 @@ public class RacAccountSvcImpl extends
                 capSMSSendingApi.deleteVerifiyCode(verifiy);
                 return new Ro<>(ResultDic.SUCCESS, "解绑手机成功");
             }
-            else {
-                // 更换手机号
-                if (mo.getSignInMobile() != null && to.getNewMobile() != null && to.getNewMobile().length() == 11) {
-                    RacAccountOneTo one = new RacAccountOneTo();
-                    one.setSignInMobile(to.getNewMobile());
-                    one.setRealmId(mo.getRealmId());
-                    RacAccountMo oneMo = thisSvc.getOne(one);
-                    // 判断新手机号是否已被绑定
-                    if (oneMo == null) {
-                        // 判断旧手机号是否正确
-                        if (!mo.getSignInMobile().equals(to.getMobile())) {
-                            return new Ro<>(ResultDic.FAIL, "手机号更换失败，旧手机号不正确！", mo);
-                        }
-                        mo.setSignInMobile(to.getNewMobile());
-                        thisSvc.modifyMoById(mo);
-                        capSMSSendingApi.deleteVerifiyCode(verifiy);
-                        return new Ro<>(ResultDic.SUCCESS, "更换手机号成功", mo);
-                    }
-                    else {
-                        return new Ro<>(ResultDic.FAIL, "手机号更换失败，新手机号已被绑定！");
-                    }
-                }
+            return verification;
+        }
+        else {
+            // 绑定
+            if (to.getMobile() == null) {
+                throw new RuntimeExceptionX("绑定的手机号不能为空，请确认后再试！");
+            }
+            CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
+            verifiy.setPhoneNumber(to.getMobile());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
+            if (verification.getResult().getCode() == 1) {
                 // 绑定手机号
                 if (mo.getSignInMobile() == null) {
                     RacAccountOneTo one = new RacAccountOneTo();
                     one.setSignInMobile(to.getMobile());
                     one.setRealmId(mo.getRealmId());
-                    RacAccountMo oneMo = thisSvc.getOne(one);
+                    RacAccountMo oneMo = thisSvc.getAccountMoOne(one);
                     if (oneMo != null) {
                         return new Ro<>(ResultDic.FAIL, "手机号绑定失败，该手机号已被绑定！", mo);
                     }
@@ -537,8 +523,8 @@ public class RacAccountSvcImpl extends
                 }
                 return new Ro<>(ResultDic.FAIL, "绑定失败，该账户已绑定手机号：", mo.getSignInMobile());
             }
+            return verification;
         }
-        return verification;
     }
 
     /**
@@ -579,7 +565,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void enable(final RacDisableLogModifyTo to) {
-        final RacAccountMo eableAccount = thisSvc.getById(to.getAccountId());
+        final RacAccountMo eableAccount = thisSvc.getAccountMoById(to.getAccountId());
         if (eableAccount != null) {
             if (!eableAccount.getIsEnabled()) {
                 final RacAccountMo mo = new RacAccountMo();
@@ -608,7 +594,7 @@ public class RacAccountSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void disable(final RacDisableLogAddTo to) {
-        final RacAccountMo disableAccount = thisSvc.getById(to.getAccountId());
+        final RacAccountMo disableAccount = thisSvc.getAccountMoById(to.getAccountId());
         if (disableAccount != null) {
             if (disableAccount.getIsEnabled()) {
                 final RacAccountMo mo = new RacAccountMo();
@@ -636,7 +622,7 @@ public class RacAccountSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> uploadAvatar(final Long curAccountId, final String appId, final String fileName, final String contentDisposition, final String contentType,
             final InputStream inputStream) {
-        RacAccountMo accountMo = thisSvc.getById(curAccountId);
+        RacAccountMo accountMo = thisSvc.getAccountMoById(curAccountId);
         RacAppMo     appMo     = appSvc.getById(appId);
         boolean      flag      = accountMo.getRealmId().equals(appMo.getRealmId());
         if (!flag) {
@@ -644,7 +630,7 @@ public class RacAccountSvcImpl extends
             oneTo.setRealmId(appMo.getRealmId());
             if (accountMo.getUnionId() != null) {
                 oneTo.setUnionId(accountMo.getUnionId());
-                RacAccountMo oneMo = thisSvc.getOne(oneTo);
+                RacAccountMo oneMo = thisSvc.getAccountMoOne(oneTo);
                 accountMo = oneMo;
             }
         }
@@ -860,5 +846,32 @@ public class RacAccountSvcImpl extends
     public Ro<ListRa<RacAccountMo>> getByUserId(Long id) {
         List<RacAccountMo> List = _mapper.getByUserId(id);
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(List));
+    }
+
+    /**
+     * 查询未脱敏帐号数据
+     */
+    @Override
+    public RacAccountMo getAccountMoById(Long id) {
+        RacAccountNonDesensitizedMo mo = _mapper.selectByKey(id).orElse(null);
+        if (mo != null) {
+            final RacAccountMo accountMo = OrikaUtils.map(mo, RacAccountMo.class);
+            return accountMo;
+        }
+        return null;
+    }
+
+    /**
+     * 查询未脱敏帐号数据
+     */
+    @Override
+    public RacAccountMo getAccountMoOne(RacAccountOneTo to) {
+        final RacAccountMo          qo = OrikaUtils.map(to, RacAccountMo.class);
+        RacAccountNonDesensitizedMo mo = _mapper.selectByOne(qo).orElse(null);
+        if (mo != null) {
+            final RacAccountMo accountMo = OrikaUtils.map(mo, RacAccountMo.class);
+            return accountMo;
+        }
+        return null;
     }
 }

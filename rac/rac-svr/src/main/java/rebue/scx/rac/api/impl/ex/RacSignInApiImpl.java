@@ -70,16 +70,4 @@ public class RacSignInApiImpl implements RacSignInApi {
         }
     }
 
-    /**
-     * 刷新等堡配置
-     * 
-     * @return
-     */
-    @Override
-    public Ro<?> refreshUpdateLevelProtect() {
-        svc.refreshUpdateLevelProtect();
-        return new Ro<>(ResultDic.SUCCESS, "更新成功");
-
-    }
-
 }

@@ -15,6 +15,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.msg.svc.TemplateMessageSendingSvc;
 import rebue.scx.msg.to.MsgSMSVerificationTo;
 import rebue.scx.msg.util.SmsUtil;
+import rebue.wheel.core.util.RegexUtils;
 
 @Service
 public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc {
@@ -49,7 +50,13 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
      */
     @Override
     public Ro<?> sendTemplateSMS(String phoneNumber, String code) {
-        return sms.sendSMSCode(phoneNumber, code);
+        boolean matchMobile = RegexUtils.matchMobile(phoneNumber);
+        if (matchMobile) {
+            return sms.sendSMSCode(phoneNumber, code);
+        }
+        else {
+            return new Ro<>(ResultDic.FAIL, "发送失败", "请输入正确的手机号");
+        }
     }
 
     /**

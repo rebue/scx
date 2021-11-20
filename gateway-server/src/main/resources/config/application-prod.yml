@@ -49,6 +49,8 @@ spring:
                   - "'PUT:/rac/account/modify-sign-in-by-old-pswd'"
                   - "'POST:/rac/account/upload-avatar'"
                   - "'POST:/rac/account/bind-mobile'"
+                  - "'POST:/rac/sms/**'"
+                  
     sentinel:
       transport:
         dashboard: sentinel-dashboard:80

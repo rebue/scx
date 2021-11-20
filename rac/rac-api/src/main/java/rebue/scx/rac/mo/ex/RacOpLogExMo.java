@@ -2,6 +2,8 @@ package rebue.scx.rac.mo.ex;
 
 import lombok.ToString;
 import rebue.scx.rac.mo.RacOpLogMo;
+import rebue.wheel.api.annotation.Desensitize;
+import rebue.wheel.api.strategy.DesensitizeStrategy;
 
 /**
  * 操作日志翻页查询使用
@@ -49,12 +51,14 @@ public class RacOpLogExMo extends RacOpLogMo {
      * 登录手机
      *
      */
+    @Desensitize(DesensitizeStrategy.MOBILE)
     private String            signInMobile;
 
     /**
      * 登录邮箱
      *
      */
+    @Desensitize(DesensitizeStrategy.EMAIL)
     private String            signInEmail;
 
     /**
@@ -81,12 +85,14 @@ public class RacOpLogExMo extends RacOpLogMo {
      * 代理人登录手机
      *
      */
+    @Desensitize(DesensitizeStrategy.MOBILE)
     private String            agentSignInMobile;
 
     /**
      * 代理人登录邮箱
      *
      */
+    @Desensitize(DesensitizeStrategy.EMAIL)
     private String            agentSignInEmail;
 
     /**
@@ -113,7 +119,7 @@ public class RacOpLogExMo extends RacOpLogMo {
         this.appName             = appName;
         this.remark              = remark;
         this.menu                = menu;
-        this.realmId            = realmId;
+        this.realmId             = realmId;
         this.signInName          = signInName;
         this.signInNickname      = signInNickname;
         this.signInMobile        = signInMobile;

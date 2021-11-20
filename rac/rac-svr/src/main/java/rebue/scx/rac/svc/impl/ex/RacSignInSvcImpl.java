@@ -3,7 +3,6 @@ package rebue.scx.rac.svc.impl.ex;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -30,6 +29,7 @@ import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
+import rebue.scx.rac.config.LevelProtectProperties;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mapper.RacAccountMapper;
 import rebue.scx.rac.mo.RacAccountMo;
@@ -51,9 +51,7 @@ import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
-import rebue.scx.rac.util.LevelProtectUtils;
 import rebue.scx.rac.util.PswdUtils;
-import rebue.wheel.core.DateUtils;
 import rebue.wheel.core.util.RegexUtils;
 
 /**
@@ -78,11 +76,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 允许输入登录密码错误次数
      */
-    private static Long         ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN            = 5L;
-    /**
-     * 登录错误被锁定的时间
-     */
-    private static long         lockDuration                                 = DateUtils.getSecondUtilTomorrow();
+    // private Long ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN = 5L;
     /**
      * 保存账户密码输入错误被锁定的key
      */
@@ -109,6 +103,8 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
     @Resource
     StringRedisTemplate         stringRedisTemplate;
+    @Resource
+    LevelProtectProperties      levelProtectProperties;
 
     @Resource
     private Mapper              dozerMapper;
@@ -118,8 +114,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private RacAccountMapper    racAccountMapper;
     @Resource
     private RacAccountSvcImpl   accountSvcImpl;
-    @Resource
-    private LevelProtectUtils   levelProtectUtils;
 
     @DubboReference
     private CapApi              capApi;
@@ -127,30 +121,28 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private CapSMSSendingApi    capSMSSendingApi;
 
     /**
-     * 刷新等保配置
+     * 
+     * 允许输入登录密码错误次数
      */
-    // @PostConstruct
-    @Override
-    public void refreshUpdateLevelProtect() {
-        Map<String, String> configMap = levelProtectUtils.getConfigMap();
-        for (String key : configMap.keySet()) {
-            String str = configMap.get(key);
-            if (key.equals("passwordErrors")) {
-                ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN = Long.parseLong(str);
-            }
-            if (key.equals("lockDuration")) {
-                lockDuration = Long.parseLong(str) * 60L;
-            }
-        }
-
+    private Long getPasswordErrors() {
+        String value = levelProtectProperties.getPasswordErrors();
+        return Long.parseLong(value);
     }
 
     /**
      * 
+     * 登录错误被锁定的时间分钟
+     */
+    private Long getLockDuration() {
+        String value = levelProtectProperties.getLockDuration();
+        return Long.parseLong(value);
+    }
+
+    /**
+     * OIDC
      */
     @Override
     public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
-        refreshUpdateLevelProtect();
         if (to.getLoginType() == 0) {
             SignInByAccountNameTo byAccountNameTo = new SignInByAccountNameTo();
             byAccountNameTo.setAppId(to.getAppId());
@@ -199,7 +191,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             }
             log.info("检查账户今天输错密码是否超过限定次数");
             final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
-            if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
+            if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= getPasswordErrors()) {
                 final String msg = "账户今天已被锁定，请明天再试";
                 log.warn(msg + ": to-{}", to);
                 return new Ro<>(ResultDic.WARN, msg);
@@ -221,7 +213,6 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<SignUpOrInRa> signInByAccountName(final SignInByAccountNameTo to) {
-        refreshUpdateLevelProtect();
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(to.getAppId());
         if (appMo == null) {
@@ -262,7 +253,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
         log.info("检查账户输错密码是否超过限定次数");
         final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
-        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
+        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= getPasswordErrors()) {
             final String msg = "账户已被锁定，请明天再试";
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.WARN, msg);
@@ -271,7 +262,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         final Long allowErrCount;
         log.info("校验密码是否正确");
         if (!accountMo.getSignInPswd().equals(PswdUtils.saltPswd(to.getSignInPswd(), accountMo.getSignInPswdSalt()))) {
-            allowErrCount = ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN - incrWrongPswdTimesOfSignIn(accountMo.getId());
+            allowErrCount = getPasswordErrors() - incrWrongPswdTimesOfSignIn(accountMo.getId());
             String msg;
             if (allowErrCount == 0) {
                 keepSignInLockRecord(accountMo.getId());
@@ -362,7 +353,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
 
         log.info("检查账户输错密码是否超过限定次数");
         final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
-        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= ALLOW_WRONG_PSWD_TIMES_OF_SIGN_IN) {
+        if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= getPasswordErrors()) {
             final String msg = "账户已被锁定，请明天再试";
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.WARN, msg);
@@ -389,7 +380,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     private Long incrWrongPswdTimesOfSignIn(final Long accountId) {
         log.info("递增账户输入错误登录密码的次数: {}", accountId);
         final Long result = stringRedisTemplate.opsForValue().increment(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId);
-        stringRedisTemplate.expire(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId, lockDuration, TimeUnit.SECONDS);
+        stringRedisTemplate.expire(REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX + accountId, getLockDuration() * 60, TimeUnit.SECONDS);
         return result;
     }
 
@@ -431,7 +422,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         addTo.setRealmId(accountMo.getRealmId());
         addTo.setLockReason("登录密码连续输入错误5次");
         addTo.setLockDatetime(LocalDateTime.now());
-        LocalDateTime dateTime = LocalDateTime.now().plusSeconds(lockDuration);
+        LocalDateTime dateTime = LocalDateTime.now().plusSeconds(getLockDuration() * 60);
         addTo.setAutoUnlockDatetime(dateTime);
         racLockLogSvc.add(addTo);
     }
