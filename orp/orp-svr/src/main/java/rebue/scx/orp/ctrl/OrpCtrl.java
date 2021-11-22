@@ -210,6 +210,8 @@ public class OrpCtrl {
     /**
      * 通过授权码登录
      * 
+     * @ignoreParams request
+     * 
      * @param appId    应用ID
      * @param orpType  orp的类型（钉钉：ding-talk，微信：wechat-open）
      * @param clientId 客户端ID
@@ -221,10 +223,12 @@ public class OrpCtrl {
     public Mono<Void> signInByCode(
             @PathVariable("orpType") final String orpType,
             @PathVariable("clientId") final String clientId, @PathVariable("appId") final String appId,
-            final OrpCodeTo to, final ServerHttpResponse response) {
-        final Ro<SignUpOrInRa> ro   = api.signInByCode(appId, orpType, clientId, to);
-        final SignUpOrInRa     ra   = ro.getExtra();
-        boolean                flag = ro.getResult().getCode() == 1;
+            final OrpCodeTo to, final ServerHttpRequest request, final ServerHttpResponse response) {
+        MultiValueMap<String, HttpCookie> cookies = request.getCookies();
+
+        final Ro<SignUpOrInRa>            ro      = api.signInByCode(appId, orpType, clientId, to);
+        final SignUpOrInRa                ra      = ro.getExtra();
+        boolean                           flag    = ro.getResult().getCode() == 1;
         if (flag) {
             final RacOpLogAddTo appTo = new RacOpLogAddTo();
             switch (orpType) {
@@ -293,5 +297,4 @@ public class OrpCtrl {
         }
         return result;
     }
-
 }
