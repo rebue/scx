@@ -1,6 +1,5 @@
 package rebue.scx.msg.ctrl;
 
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RefreshScope
 public class NormalMessageSendingCtrl {
 
 }
