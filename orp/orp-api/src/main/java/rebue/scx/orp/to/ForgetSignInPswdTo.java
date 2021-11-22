@@ -39,6 +39,6 @@ public class ForgetSignInPswdTo implements Serializable {
      * 验证码
      */
     @NotNull(message = "验证码不能为空")
-    private String            state;
+    private String            verifiy;
 
 }

@@ -298,9 +298,9 @@ public class OrpSvcImpl implements OrpSvc {
     @Override
     public Ro<?> forgetSignInPswdTo(String orpType, String clientId, ForgetSignInPswdTo to) {
         StateCache stateCache = strategy.getItems().get(orpType).getSstateCache();
-        String     result     = stateCache.get(orpType, clientId, to.getState());
+        String     result     = stateCache.get(orpType, clientId, to.getVerifiy());
         if (result == null) {
-            return new Ro<>(ResultDic.WARN, "校验信息已经过期");
+            return new Ro<>(ResultDic.WARN, "参数错误或校验信息已经过期");
         }
         Ro<?> mo = racForgetPasswordApi.orpForgetSignInPswdToSetTo(to.getId(), to.getSignInPswd(), null);
         return mo;
