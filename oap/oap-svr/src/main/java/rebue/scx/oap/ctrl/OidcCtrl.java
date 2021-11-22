@@ -24,6 +24,7 @@ import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.dto.OidcGetUserInfoTo;
 import rebue.scx.oap.svc.OidcSvc;
 import rebue.scx.oap.svc.impl.OidcSvcImpl;
+import rebue.scx.rac.ann.RacOpLog;
 
 /**
  * OIDC登录
@@ -55,7 +56,6 @@ public class OidcCtrl {
      */
     @RequestMapping(value = "/authorize", method = { RequestMethod.GET, RequestMethod.POST
     })
-    @PostMapping("/authorize")
     public String authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response) {
         return oidcSvc.authorize(paramMap, request, response);
     }
@@ -83,6 +83,7 @@ public class OidcCtrl {
      * 
      */
     @PostMapping("/login")
+    @RacOpLog(opType = "认证登录", opTitle = "认证登录类型: #{#p0.loginType}")
     public Mono<Ro<String>> login(
             @RequestBody LoginDto loginData,
             ServerHttpRequest request,
