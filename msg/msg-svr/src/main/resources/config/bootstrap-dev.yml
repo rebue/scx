@@ -1,6 +1,9 @@
 # 开发环境的配置
 debug: true
 
+server:
+  port: 9898
+
 spring:
   cloud:
     nacos:

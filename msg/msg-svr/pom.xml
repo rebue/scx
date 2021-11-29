@@ -13,11 +13,11 @@
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
-		</dependency> -->
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<!-- <dependency> -->
 		<!-- <groupId>org.apache.httpcomponents</groupId> -->
@@ -44,6 +44,11 @@
 			<groupId>cn.jpush.api</groupId>
 			<artifactId>jiguang-common</artifactId>
 			<version>1.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rebue.scx</groupId>
+		       <artifactId>msg-forest</artifactId>
+		       <version>1.2.4</version>
 		</dependency>
 		<!-- For log4j -->
 		<!-- <dependency> -->
@@ -121,11 +126,16 @@
 			<artifactId>wheel-net</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
-			<scope>test</scope>
-		</dependency>
+         
+		</dependency> -->
+		<dependency>
+    <groupId>com.dtflys.forest</groupId>
+    <artifactId>forest-spring-boot-starter</artifactId>
+    <version>1.5.13</version>
+</dependency>
 	</dependencies>
 
 	<build>
