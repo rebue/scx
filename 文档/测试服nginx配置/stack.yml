@@ -16,7 +16,7 @@ services:
       # 网页存放目录
       - /usr/local/nginx-gate/html:/usr/share/nginx/html
     deploy:
-      replicas: 1
+      replicas: 3
 
 networks:
   default:

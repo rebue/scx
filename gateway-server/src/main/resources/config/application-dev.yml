@@ -56,3 +56,4 @@ spring:
                   - "'POST:/rac/account/upload-avatar'"
                   - "'POST:/rac/account/bind-mobile'"
                   - "'POST:/rac/sms/**'"
+                  - "'GET:/rac/excel/template-download/**'"

@@ -1,0 +1,11 @@
+{
+	"projectName": "资源访问控制微服务",
+	"outPath": "./src/main/resources/static/doc",
+	"allInOne": true,
+	"appKey": "20210903883336107159191552", 		// torna平台对接appKey,, @since 2.0.9
+	"secret": "U#cpOQXgp7P7V94^J3Kb0u*>PgZ@TMJT", 	// torna平台secret，@since 2.0.9
+	"appToken": "ed810c91fe1d4676a4c4fcc5343f7461", // torna平台appToken,@since 2.0.9
+	"openUrl": "http://172.20.14.125:7700/api", 	// torna平台地址，填写自己的私有化部署地址@since 2.0.9
+	"debugEnvName": "测试环境", 						// torna测试环境
+	"debugEnvUrl": "http://127.0.0.1:9605"			// torna测试调用微服务的地址
+}

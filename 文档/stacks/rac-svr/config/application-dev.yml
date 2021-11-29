@@ -1,0 +1,17 @@
+# 开发环境的配置
+minio:
+  endpoint: http://172.20.14.125:9000
+# 文件路径是否需要全路径还是只需要去除Ip的相对路径地址
+# true 全路径http://127.0.0.1:9000/oss-svr/***
+# false 相对路径 /oss-svr/**
+  urlPrefixBool: true
+  accessKey: minioadmin
+  secretKey: minioadmin
+#登保配置  
+level-protect: 
+  lock-uration: 60
+  password-minLength: 6
+  password-character: 1
+  password-tips: false
+  password-errors: 5
+  password-doverdue: 90

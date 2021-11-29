@@ -1,0 +1,40 @@
+# 开发环境的配置
+debug: true
+
+server:
+  # 自定义端口号，方便开发测试
+  port: 10085
+
+logging:
+  config: classpath:config/log4j2.xml
+  level:
+    root: info
+    rebue: trace
+    # 注意'OFF'必须大写并加引号
+    com.netflix.discovery: 'OFF'
+    com.alibaba.nacos: warn
+    org.springframework.amqp.rabbit.connection: warn
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos:8848
+      discovery:
+        server-addr: nacos:8848
+    sentinel:
+      enabled: false
+  sleuth:
+    enabled: false
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+
+curator:
+  connect-string: zoo:2181
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: gateway  # 或者配置“*”暴露全部端点

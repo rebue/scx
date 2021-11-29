@@ -1,0 +1,27 @@
+# 开发环境的配置
+debug: true
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      enabled: false
+  sleuth:
+    enabled: false
+
+curator:
+  connect-string: 127.0.0.1:2181
+
+logging:
+  config: classpath:config/log4j2.xml
+  level:
+    root: info
+    rebue: trace
+    com.netflix.discovery: warn
+    org.apache.http.impl.conn: warn
+    com.netflix.loadbalancer: warn
+    com.alibaba.nacos.client.config.impl.ClientWorker: warn

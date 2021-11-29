@@ -280,4 +280,9 @@ public class RacAccountApiImpl extends
     public RacAccountMo getAccountMoById(Long id) {
         return _svc.getAccountMoById(id);
     }
+
+    @Override
+    public Ro<ListRa<RacAccountMo>> listAll() {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.listAll()));
+    }
 }

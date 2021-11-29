@@ -187,4 +187,6 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
     Ro<?> unbindMobile(Long id);
 
     RacAccountMo getAccountMoById(Long id);
+
+    Ro<ListRa<RacAccountMo>> listAll();
 }

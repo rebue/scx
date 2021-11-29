@@ -1,0 +1,58 @@
+# 配置中心中的配置
+
+oidc:
+  login-url: https://auth.maiyuesoft.com/admin-web/unified-auth/sign-in/unified
+
+# 生成workid使用
+curator:
+  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
+
+spring:
+  shardingsphere:
+    datasource:
+      names: master,slave
+      master:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://mysql1:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+        type: com.zaxxer.hikari.HikariDataSource
+        username: oap
+        password: oap
+      slave:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://mysql2:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+        type: com.zaxxer.hikari.HikariDataSource
+        username: oap
+        password: oap
+    rules:
+      readwrite-splitting:
+        data-sources:
+          masterslave:
+            write-data-source-name: master
+            read-data-source-names: slave
+  liquibase:
+    url: jdbc:mysql://mysql1:3306/oap?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    user: oap
+    password: oap
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  redis:
+    password: xxxxxxxx
+    sentinel:
+      master: mymaster
+      nodes:
+        - redis_sentinel1:26379
+        - redis_sentinel2:26379
+        - redis_sentinel3:26379
+  # 链路追踪采集器
+  sleuth:
+    sampler:
+      # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+      probability: 1
+  # 链路追踪可视化服务器
+  zipkin:
+    # 服务器地址
+    base-url: http://zipkin:9411

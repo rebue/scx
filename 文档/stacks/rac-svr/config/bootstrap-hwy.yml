@@ -1,0 +1,11 @@
+# 生成环境的配置
+logging:
+  config: config/log4j2.xml
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 122.9.104.17:8848
+      discovery:
+        server-addr: 122.9.104.17:8848

@@ -1,5 +1,17 @@
 package rebue.scx.rac.test.svc;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -47,7 +59,7 @@ public class RacAccountSvcTests {
     @Disabled
     public void testCrud() {
         RacAccountAddTo addTo = null;
-        Long id = null;
+        Long            id    = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacAccountAddTo) RandomEx.randomPojo(RacAccountAddTo.class);
             addTo.setSignInPswdSalt("aaa");
@@ -74,5 +86,101 @@ public class RacAccountSvcTests {
         _svc.modifyById(modifyTo);
         log.info("删除账户的参数为：" + id);
         _svc.delById(id);
+    }
+
+    @Test
+    public void read() {
+        try {
+            FileInputStream inputStream = new FileInputStream("/home/yuanman/Desktop/账户信息收集表.xlsx");
+            Workbook        workbook    = new XSSFWorkbook(inputStream);
+            Sheet           sheetAt     = workbook.getSheetAt(0);
+            Row             row         = sheetAt.getRow(0);
+            Cell            cell        = row.getCell(0);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Workbook workbook = new SXSSFWorkbook(100);
+        // HSSFWorkbook
+        Sheet    sheet    = workbook.createSheet("账户信息");
+        Row      row      = sheet.createRow(0);
+        row.createCell(0).setCellValue("帐号编码");
+        row.createCell(1).setCellValue("登录昵称");
+        row.createCell(2).setCellValue("登录帐号");
+        row.createCell(3).setCellValue("登录密码");
+        row.createCell(4).setCellValue("备注");
+        row.createCell(5).setCellValue("姓名");
+        row.createCell(6).setCellValue("身份证号");
+        row.createCell(7).setCellValue("手机号码");
+        row.createCell(8).setCellValue("电子邮箱");
+        List<RacAccountMo> listAll = _svc.listAll();
+        int                size    = listAll.size();
+        for (int i = 0; i < listAll.size(); i++) {
+            Row createRow = sheet.createRow(i + 1);
+            createRow.createCell(0).setCellValue(listAll.get(i).getCode());
+            createRow.createCell(1).setCellValue(listAll.get(i).getSignInNickname());
+            createRow.createCell(2).setCellValue(listAll.get(i).getSignInName());
+            // createRow.createCell(3).setCellValue("登录密码");
+            createRow.createCell(4).setCellValue(listAll.get(i).getRemark());
+            // createRow.createCell(5).setCellValue("姓名");
+            // createRow.createCell(6).setCellValue("身份证号");
+            // createRow.createCell(7).setCellValue("手机号码");
+            // createRow.createCell(8).setCellValue("电子邮箱");
+        }
+        System.out.println(listAll.toString());
+        File    file       = new File("/home/yuanman/Desktop/账户信息收集表.xlsx");
+        boolean createFile = createFile(workbook, file);
+        if (!createFile) {
+            System.out.println("导出文件失败");
+        }
+    }
+
+    @Test
+    @Disabled
+    public void write() {
+        Workbook workbook = new SXSSFWorkbook(100);
+        // HSSFWorkbook
+        Sheet    sheet    = workbook.createSheet("账户信息");
+        Row      row      = sheet.createRow(0);
+        row.createCell(0).setCellValue("帐号编码");
+        row.createCell(1).setCellValue("登录昵称");
+        row.createCell(2).setCellValue("登录帐号");
+        row.createCell(3).setCellValue("登录密码");
+        row.createCell(4).setCellValue("备注");
+        row.createCell(5).setCellValue("姓名");
+        row.createCell(6).setCellValue("身份证号");
+        row.createCell(7).setCellValue("手机号码");
+        row.createCell(8).setCellValue("电子邮箱");
+        List<RacAccountMo> listAll = _svc.listAll();
+        int                size    = listAll.size();
+        for (int i = 0; i < listAll.size(); i++) {
+            Row createRow = sheet.createRow(i + 1);
+            createRow.createCell(0).setCellValue(listAll.get(i).getCode());
+            createRow.createCell(1).setCellValue(listAll.get(i).getSignInNickname());
+            createRow.createCell(2).setCellValue(listAll.get(i).getSignInName());
+            // createRow.createCell(3).setCellValue("登录密码");
+            createRow.createCell(4).setCellValue(listAll.get(i).getRemark());
+            // createRow.createCell(5).setCellValue("姓名");
+            // createRow.createCell(6).setCellValue("身份证号");
+            // createRow.createCell(7).setCellValue("手机号码");
+            // createRow.createCell(8).setCellValue("电子邮箱");
+        }
+        System.out.println(listAll.toString());
+        File    file       = new File("/home/yuanman/Desktop/账户信息收集表.xlsx");
+        boolean createFile = createFile(workbook, file);
+        if (!createFile) {
+            System.out.println("导出文件失败");
+        }
+    }
+
+    public static boolean createFile(Workbook workbook, File file) {
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            workbook.write(stream);
+            stream.close();
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 }

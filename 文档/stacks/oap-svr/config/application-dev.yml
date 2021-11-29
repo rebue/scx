@@ -1,0 +1,2 @@
+oidc:
+  login-url: http://172.20.11.244:13080/admin-web/unified-auth/sign-in/unified

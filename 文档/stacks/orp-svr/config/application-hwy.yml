@@ -1,0 +1,66 @@
+# 配置中心中的配置
+
+# 生成workid使用
+curator:
+  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
+
+spring:
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  redis:
+    password: xxxxxxxx
+    sentinel:
+      master: mymaster
+      nodes:
+        - redis_sentinel1:26379
+        - redis_sentinel2:26379
+        - redis_sentinel3:26379
+  # 链路追踪采集器
+  sleuth:
+    sampler:
+      # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+      probability: 1
+  # 链路追踪可视化服务器
+  zipkin:
+    # 服务器地址
+    base-url: http://zipkin:9411
+
+oidc:
+  client-id: unified-auth
+  client-secret: 123456
+  token-endpoint: https://auth.maiyuesoft.com/oap-svr/oap/token
+  redirect-uri: https://auth.maiyuesoft.com/orp-svr/orp/callback
+  public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx1PdAIB021x1DExsXPO7hgzE0EASZiFoQh5F4X0H8lZrdCVG+Qk6ek9Aowp4bUnAf93PiM4A0L9zjck8jOedd6gbRPifsqdtDWx4jlfy7nGUd3LUF3wFH7VwNlCTkMucetnxFuNtGMVM8rz/YCXAYv6pYi56vq7BWlNh373qhVhqxY6SBs2qo5hxWe/zpv6CqxAXSKjcCJVLQhe7jnfWGJbLPnwSTK/b/jVtic/e9rD7EdSfPF3rt5TSqEdsX0EHHUSLFLUbpDOQzSBXdyGsAHQdeytr/i5AVi3BOKV9k5h1ricIZta6KD7krxZk60o70fWDF+0DQVQD5upWEeRLdQIDAQAB
+  login-url: https://auth.maiyuesoft.com/admin-web/unified-auth/sign-in/unified
+orp:
+  state-cache-expiration: PT5M
+  strategies:
+    ding-talk:
+      is-check-state: true
+      clients:
+        - id: dingsahvlqybvb44jd50
+          secret: hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm80
+    wechat-open:
+      is-check-state: true
+      clients:
+        - id: wxc9bcdf70da391cdd
+          secret: 4a215a29ccf5d91c2c8ea2af12a57e93
+    oidc:
+      request-domain-name: https://auth.maiyuesoft.com
+      is-check-state: true
+      clients:
+        - id: unified-auth
+          secret: 123456
+        - id: platform-admin-web
+          secret: 123456
+        - id: ops-admin-web
+          secret: 123456
+      #认证跳转到call-url的服务后端，带上code和state以及redirect_url地址到服务后端校验
+      extras:
+        call-uri: https://auth.maiyuesoft.com
+        redirect-uri: https://auth.maiyuesoft.com
+        client-id: unified-auth          

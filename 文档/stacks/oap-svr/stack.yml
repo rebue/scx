@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   oap-svr:
-    image: nnzbz/spring-boot-app:1.0.4
+    image: nnzbz/spring-boot-app
     environment:
       # 最好使用此设定时区，其它镜像也可以使用
       - TZ=CST-8
@@ -12,6 +12,8 @@ services:
       # 配置文件目录
       - /usr/local/oap-svr/config/:/usr/local/myservice/config/
       - /usr/local/oap-svr/oap-svr-1.2.4.jar:/usr/local/myservice/myservice.jar
+    deploy:
+      replicas: 3
 networks:
   default:
     external: true

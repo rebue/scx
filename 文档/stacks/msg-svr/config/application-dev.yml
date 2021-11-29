@@ -1,0 +1,8 @@
+# 配置中心中的配置
+msg:
+  sms:
+    simulation: true
+    masterSecret: e92f7f27dbd27bf0f1157c61
+    appkey: 823ebe289daa183f863eee73
+    tempId: 202223
+    signId: 20492
