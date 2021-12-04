@@ -45,6 +45,7 @@ spring:
                   - "'*:/orp/**'"
                   - "'POST:/cap/**'"
                   - "'GET:/rac/account/get-cur-account-info'"
+                  - "'GET:/rac/nacos/level-protect/get/config'"
                   #统一应用平台账户基础权限
                   - "'GET:/oap/app/list-and-tripartite'"
                   - "'GET:/rac/dic/**'"

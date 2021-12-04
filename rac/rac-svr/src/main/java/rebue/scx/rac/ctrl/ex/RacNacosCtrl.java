@@ -61,10 +61,14 @@ public class RacNacosCtrl {
      */
     @GetMapping("/rac/nacos/level-protect/get/config")
     public Mono<Ro<?>> getNacosConfig() {
-        String              ymlStr = getConfig(racNacosProperties.getNacosConfigName(),
+        String ymlStr = getConfig(racNacosProperties.getNacosConfigName(),
                 racNacosProperties.getNacosConfig().getGroup(), ReadTimeOut);
-        Map<String, String> map    = getMap(ymlStr);
-        Ro<?>               ro     = new Ro<>(ResultDic.SUCCESS, "查询成功", map);
+        if (ymlStr == null) {
+            Ro<?> ro = new Ro<>(ResultDic.FAIL, "请联系管理员配置nacos");
+            return Mono.create(callback -> callback.success(ro));
+        }
+        Map<String, String> map = getMap(ymlStr);
+        Ro<?>               ro  = new Ro<>(ResultDic.SUCCESS, "查询成功", map);
         return Mono.create(callback -> callback.success(ro));
     }
 
