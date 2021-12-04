@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 0
-      author: zbz
+      author: yuanman
       comments: 初始化数据库
       changes:
         - sqlFile:
