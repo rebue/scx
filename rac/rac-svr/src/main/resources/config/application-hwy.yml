@@ -1,7 +1,7 @@
 # 配置中心中的配置
 #登保配置  
 level-protect: 
-  lock-uration: 60
+  lock-duration: 60
   password-minLength: 6
   password-character: 1
   password-tips: false
