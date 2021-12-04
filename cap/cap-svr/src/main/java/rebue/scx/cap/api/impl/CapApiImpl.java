@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
 import rebue.scx.cap.mo.CaptchaVO;
-import rebue.scx.cap.ra.CaptchaVORa;
 import rebue.scx.cap.svc.CaptchaService;
 
 @DubboService
@@ -16,15 +15,12 @@ public class CapApiImpl implements CapApi {
 
     @Override
     public Ro<?> getVo(final CaptchaVO mo) {
-        // TODO Auto-generated method stub
-        return null;
-
+        return captchaService.get(mo);
     }
 
     @Override
-    public Ro<CaptchaVORa> checkVo(final CaptchaVO to) {
-        // TODO Auto-generated method stub
-        return null;
+    public Ro<?> checkVo(final CaptchaVO to) {
+        return captchaService.check(to);
     }
 
     @Override
@@ -47,7 +43,6 @@ public class CapApiImpl implements CapApi {
     @Override
     public void deleteVerifiyCode(CaptchaVO captchaVO) {
         captchaService.deleteVerifiyCode(captchaVO);
-
     }
 
 }
