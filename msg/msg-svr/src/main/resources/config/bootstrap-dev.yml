@@ -17,7 +17,7 @@ spring:
     enabled: false
 
 curator:
-  connect-string: 127.0.0.1:2181
+  connect-string: zoo:2181
 
 logging:
   config: classpath:config/log4j2.xml

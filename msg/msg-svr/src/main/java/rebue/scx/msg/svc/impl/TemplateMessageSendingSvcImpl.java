@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.msg.config.SmsConfig;
 import rebue.scx.msg.svc.TemplateMessageSendingSvc;
 import rebue.scx.msg.to.MsgSMSVerificationTo;
 import rebue.scx.msg.util.SmsUtil;
@@ -22,7 +23,9 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
-    private SmsUtil             sms;
+    private SmsConfig           smsConfig;
+    // @Resource
+    // private SmsUtil smsUtil;
 
     /**
      * 模板短信
@@ -39,7 +42,7 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
         stringRedisTemplate.delete(keys);
         stringRedisTemplate.opsForValue().set(redisKey, code, 5 * 60L, TimeUnit.SECONDS);
         final String Verifiy = stringRedisTemplate.opsForValue().get(redisKey);
-        return sms.sendSMSCode(phoneNumber, code);
+        return SmsUtil.sendSMSCode(phoneNumber, code, smsConfig);
     }
 
     /**
@@ -52,7 +55,7 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
     public Ro<?> sendTemplateSMS(String phoneNumber, String code) {
         boolean matchMobile = RegexUtils.matchMobile(phoneNumber);
         if (matchMobile) {
-            return sms.sendSMSCode(phoneNumber, code);
+            return SmsUtil.sendSMSCode(phoneNumber, code, smsConfig);
         }
         else {
             return new Ro<>(ResultDic.FAIL, "发送失败", "请输入正确的手机号");

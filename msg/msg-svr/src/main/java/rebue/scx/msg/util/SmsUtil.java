@@ -2,53 +2,92 @@ package rebue.scx.msg.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Component;
+import com.baidubce.services.sms.SmsClient;
+import com.baidubce.services.sms.model.SendMessageV3Request;
+import com.baidubce.services.sms.model.SendMessageV3Response;
 
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jsms.api.SendSMSResult;
 import cn.jsms.api.common.SMSClient;
 import cn.jsms.api.common.model.SMSPayload;
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
+import rebue.scx.msg.config.SmsConfig;
 
-@Component // 交给spring管理
-@RefreshScope
+/**
+ * 
+ * @author yuanman
+ *
+ */
+@Slf4j
 public class SmsUtil {
-    // 是否模拟短信
-    @Value("${msg.sms.simulation:true}")
-    public Boolean    simulationSMS = true;
-    // masterSecret
-    @Value("${msg.sms.masterSecret:e92f7f27dbd27bf0f1157c61}")
-    public String     masterSecret  = "e92f7f27dbd27bf0f1157c61";
-    // appKey
-    @Value("${msg.sms.appKey:823ebe289daa183f863eee73}")
-    public String     appKey        = "823ebe289daa183f863eee73";
-    // 短信模板ID
-    @Value("${msg.sms.tempId:202223}")
-    public int        tempId        = 202223;
-    // 签名id
-    @Value("${msg.sms.signId:20492}")
-    public int        signId        = 20492;
-    // 初始化发短信客户端
-    private SMSClient smsClient     = new SMSClient(masterSecret, appKey);
 
     /**
      * 发送模板短信-验证码
      * 
      * @param phoneNumber
      * @param code
+     * @param smsConfig
      * 
      * @return
      */
-    public Ro<?> sendSMSCode(String phoneNumber, String code) {
+    public static Ro<?> sendSMSCode(String phoneNumber, String code, SmsConfig smsConfig) {
+        log.info("短信配置详情：" + smsConfig.toString());
         // 是否模拟短信
-        if (simulationSMS) {
+        if (smsConfig.getSimulation()) {
+            log.info("发送模拟短信");
             return new Ro<>(ResultDic.SUCCESS, "发送成功", code);
         }
+        switch (smsConfig.getSmsPlatform()) {
+        case "jiguang":
+            return sendJgSMS(phoneNumber, code, smsConfig);
+        case "baidu":
+            return sendBaiduSMS(phoneNumber, code, smsConfig);
+        default:
+            return new Ro<>(ResultDic.FAIL, "发送失败,没有该短信平台类型，请联系管理员");
+        }
+    }
+
+    private static Ro<?> sendBaiduSMS(String phoneNumber, String code, SmsConfig smsConfig) {
+        // 短信模板ID
+        String               tempId  = smsConfig.getTempId();
+        // 签名id
+        String               signId  = smsConfig.getSignId();
+        SmsClient            client  = smsConfig.getBaiduSMSClient();
+        SendMessageV3Request request = new SendMessageV3Request();
+        request.setMobile(phoneNumber);
+        request.setSignatureId(signId);
+        request.setTemplate(tempId);
+        Map<String, String> contentVar = new HashMap<>();
+        contentVar.put("code", code);
+        request.setContentVar(contentVar);
+        SendMessageV3Response response = client.sendMessage(request);
+        // 解析请求响应 response.isSuccess()为true 表示成功
+        if (response != null && response.isSuccess()) {
+            // submit success
+            return new Ro<>(ResultDic.SUCCESS, "发送成功,请注意接收手机短信");
+        }
+        else {
+            // fail
+            return new Ro<>(ResultDic.FAIL, "发送失败");
+        }
+    }
+
+    /**
+     * 发送极光模板短信
+     * 
+     */
+    private static Ro<?> sendJgSMS(String phoneNumber, String code, SmsConfig smsConfig) {
+        // 短信模板ID
+        int       tempId    = Integer.parseInt(smsConfig.getTempId());
+        // 签名id
+        int       signId    = Integer.parseInt(smsConfig.getSignId());
+        SMSClient smsClient = smsConfig.getJgSMSClient();
         try {
             // 构建发送短信
             SMSPayload    payload = SMSPayload.newBuilder()
@@ -60,7 +99,6 @@ public class SmsUtil {
             // 发送短信 会返回msg_id
             SendSMSResult res     = null;
             res = smsClient.sendTemplateSMS(payload);
-            // 执行业务/
             // 指向保存短信发送记录业务逻辑 可以直接扔到MQ
             /**
              * 第一个参数极光返回的消息id
@@ -69,7 +107,6 @@ public class SmsUtil {
              * 第四个发送时间
              * 保存到DB
              */
-            // insertSendSmsLog(res.getMessageId(),phoneNumber,code,0,System.currentTimeMillis()/1000);
             if (res != null && res.getMessageId() != null) {
                 // 执行业务/
                 System.out.println(res);
@@ -104,7 +141,7 @@ public class SmsUtil {
                     .build();
 
             // 发送短信
-            SendSMSResult res = smsClient.sendTemplateSMS(payload);
+            SendSMSResult res = new SMSClient(null, null).sendTemplateSMS(payload);
             // 执行业务/
             // 指向保存短信发送记录业务逻辑 可以直接扔到MQ
             /**
@@ -175,7 +212,7 @@ public class SmsUtil {
     public Boolean checkSign(String signature, String nonce, String timestamp) {
         // 加密进行比对
         String str           = String.format("appKey=%s&appMasterSecret=%s&nonce=%s×tamp=%s",
-                appKey, masterSecret, nonce, timestamp);
+                "appKey", "masterSecret", nonce, timestamp);
         String new_signature = encrypt(str);
         if (signature.equals(new_signature)) {
             return true;

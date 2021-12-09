@@ -12,19 +12,39 @@
 	<artifactId>msg-svr</artifactId>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>commons-httpclient</groupId> -->
-<!-- 			<artifactId>commons-httpclient</artifactId> -->
-<!-- 			<version>3.1</version> -->
-<!-- 		</dependency> -->
-		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.httpcomponents</groupId> -->
-		<!-- <artifactId>httpclient</artifactId> -->
-		<!-- <version>4.5.13</version> -->
-		<!-- </dependency> -->
-
+		<!-- https://mvnrepository.com/artifact/com.baidubce/bce-java-sdk -->
+		<dependency>
+			<groupId>com.baidubce</groupId>
+			<artifactId>bce-java-sdk</artifactId>
+			<version>0.10.185</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.zookeeper</groupId>
+					<artifactId>zookeeper</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 		<!-- 接入极光短信SDK -->
 		<dependency>
 			<groupId>cn.jpush.api</groupId>
@@ -47,8 +67,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
-		       <artifactId>msg-forest</artifactId>
-		       <version>1.2.4</version>
+			<artifactId>msg-forest</artifactId>
+			<version>1.2.4</version>
 		</dependency>
 		<!-- For log4j -->
 		<!-- <dependency> -->
@@ -62,10 +82,17 @@
 		<!-- <version>1.2.17</version> -->
 		<!-- </dependency> -->
 		<dependency>
+			<groupId>jdk.tools</groupId>
+			<artifactId>jdk.tools</artifactId>
+			<version>1.6</version>
+			<scope>system</scope>
+			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>msg-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.rebue.robotech</groupId>
 			<artifactId>robotech-bll</artifactId>
@@ -126,16 +153,12 @@
 			<artifactId>wheel-net</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-         
-		</dependency> -->
+		<!-- <dependency> <groupId>com.squareup.okhttp3</groupId> <artifactId>okhttp</artifactId> </dependency> -->
 		<dependency>
-    <groupId>com.dtflys.forest</groupId>
-    <artifactId>forest-spring-boot-starter</artifactId>
-    <version>1.5.13</version>
-</dependency>
+			<groupId>com.dtflys.forest</groupId>
+			<artifactId>forest-spring-boot-starter</artifactId>
+			<!-- <version>1.5.13</version> -->
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -2,8 +2,11 @@ package rebue.scx.msg.ctrl;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Mono;
+import rebue.robotech.ro.Ro;
 import rebue.scx.msg.api.TemplateMessageSendingApi;
 
 /**
@@ -17,13 +20,13 @@ public class TemplateMessageSendingCtrl {
     @Resource
     private TemplateMessageSendingApi api;
 
-    // /**
-    // * 发送短信
-    // */
-    // @PostMapping("/msg/sms/sending")
-    // public Mono<Ro<?>> msgSMSSending() {
-    // return Mono.create(callback -> callback.success(api.sendTemplateSMS("18775885903")));
-    // }
+    /**
+     * 发送短信
+     */
+    @PostMapping(value = "/msg/sms/sending")
+    public Mono<Ro<?>> msgSMSSending() {
+        return Mono.create(callback -> callback.success(api.sendTemplateSMS("18775885903")));
+    }
 
     // /**
     // * 短信验证码校验

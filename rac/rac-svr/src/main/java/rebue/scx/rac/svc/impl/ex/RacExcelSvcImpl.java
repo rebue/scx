@@ -586,7 +586,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         row.setHeight((short) (25 * 20));
         setCell(row, 0, "是否必填", headerStyle);
         setCell(row, 1, "否", headerStyle);
-        setCell(row, 2, "是", headerStyle);
+        setCell(row, 2, "否", headerStyle);
         setCell(row, 3, "是", headerStyle);
         setCell(row, 4, "是", headerStyle);
         setCell(row, 5, "否", headerStyle);
@@ -594,10 +594,14 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         setCell(row, 7, "否", headerStyle);
         setCell(row, 8, "否", headerStyle);
         setCell(row, 9, "否", headerStyle);
-        setCell(row, 10, "是", headerStyle);
-        setCell(row, 11, "是", headerStyle);
+        setCell(row, 10, "否，填则身份证也必须填写", headerStyle);
+        setCell(row, 11, "否", headerStyle);
         setCell(row, 12, "否", headerStyle);
         setCell(row, 13, "否", headerStyle);
+        setCell(row, 12, "否", headerStyle);
+        setCell(row, 13, "否", headerStyle);
+        setCell(row, 14, "选填", headerStyle);
+        setCell(row, 15, "否", headerStyle);
         Row row2 = sheet.createRow(1);
         row2.setHeight((short) (30 * 20));
         setCell(row2, 0, "序号", headerStyle);
@@ -609,11 +613,13 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         setCell(row2, 6, "微信unionId", headerStyle);
         setCell(row2, 7, "钉钉openId", headerStyle);
         setCell(row2, 8, "钉钉unionId", headerStyle);
-        setCell(row2, 9, "备注", headerStyle);
+        setCell(row2, 9, "用户ID", headerStyle);
         setCell(row2, 10, "姓名", headerStyle);
         setCell(row2, 11, "身份证号", headerStyle);
         setCell(row2, 12, "手机号码", headerStyle);
         setCell(row2, 13, "电子邮箱", headerStyle);
+        setCell(row2, 14, "组织ID", headerStyle);
+        setCell(row2, 15, "角色ID", headerStyle);
         // setRandomdata(sheet, 2, 1000, cellStyle1, cellStyle2);
         sheet.trackAllColumnsForAutoSizing();
         for (int i = 1; i < 10; i++) {
