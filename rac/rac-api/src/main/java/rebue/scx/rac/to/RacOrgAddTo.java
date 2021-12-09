@@ -28,6 +28,11 @@ public class RacOrgAddTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 组织ID
+     *
+     */
+    private Long              id;
+    /**
      * 树编码
      *
      */

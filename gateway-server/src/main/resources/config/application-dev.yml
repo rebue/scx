@@ -58,3 +58,4 @@ spring:
                   - "'POST:/rac/account/bind-mobile'"
                   - "'POST:/rac/sms/**'"
                   - "'GET:/rac/excel/template-download/**'"
+                  - "'GET:/rac/nacos/**'"

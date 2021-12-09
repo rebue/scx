@@ -51,13 +51,26 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.dic.OrgTypeDic;
+import rebue.scx.rac.mapper.RacAccountRoleMapper;
+import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.RacAccountRoleMo;
 import rebue.scx.rac.mo.RacOrgMo;
+import rebue.scx.rac.mo.RacUserMo;
 import rebue.scx.rac.svc.RacAccountSvc;
 import rebue.scx.rac.svc.RacOrgSvc;
+import rebue.scx.rac.svc.RacRoleSvc;
+import rebue.scx.rac.svc.RacUserSvc;
 import rebue.scx.rac.svc.ex.RacExcelSvc;
+import rebue.scx.rac.to.RacAccountAddTo;
+import rebue.scx.rac.to.RacAccountOneTo;
+import rebue.scx.rac.to.RacAccountRoleAddTo;
+import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgOneTo;
+import rebue.scx.rac.to.RacUserAddTo;
+import rebue.scx.rac.to.RacUserOneTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.RandomEx;
+import rebue.wheel.core.util.OrikaUtils;
 
 /**
  * Excel的实现类
@@ -79,9 +92,15 @@ import rebue.wheel.core.RandomEx;
 public class RacExcelSvcImpl implements RacExcelSvc {
 
     @Resource
-    private RacAccountSvc accountSvc;
+    private RacAccountSvc        accountSvc;
     @Resource
-    private RacOrgSvc     racOrgSvc;
+    private RacOrgSvc            racOrgSvc;
+    @Resource
+    private RacUserSvc           racUserSvc;
+    @Resource
+    private RacRoleSvc           racRoleSvc;
+    @Resource
+    private RacAccountRoleMapper racAccountRoleMapper;
 
     /**
      * excel模板文件下载
@@ -124,7 +143,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         String       workbookContent = null;
         try {
             workbook        = WorkbookFactory.create(inputStream);
-            workbookContent = getWorkbookOrgContent(workbook, 0);
+            workbookContent = getWorkbookfcAccountContent(workbook, 0);
             inputStream.close();
         } catch (IOException e) {
             throw new RuntimeExceptionX("错误");
@@ -134,12 +153,266 @@ public class RacExcelSvcImpl implements RacExcelSvc {
     }
 
     /**
-     * 获取excel表模板组织信息
+     * 获取excel表fc模板帐号信息
      * 
      * @param workbook    Workbook workbook = new SXSSFWorkbook();
      * @param sheetNumber excel表的sheet位置
      */
-    private String getWorkbookOrgContent(Workbook workbook, int sheetNumber) {
+    private String getWorkbookfcAccountContent(Workbook workbook, int sheetNumber) {
+        Sheet                              sheetAt    = workbook.getSheetAt(0);
+        Row                                row        = sheetAt.getRow(0);
+        // ID
+        Cell                               user_id1   = row.getCell(0);
+        // 登录名
+        Cell                               username1  = row.getCell(1);
+        // 手机号
+        Cell                               phone1     = row.getCell(4);
+        // 帐号昵称
+        Cell                               name1      = row.getCell(7);
+        // 组织Id
+        Cell                               dept_id1   = row.getCell(8);
+        // 启用锁定
+        Cell                               lock_flag1 = row.getCell(11);
+        // 遍历行row
+        Map<RacUserAddTo, RacAccountAddTo> map        = new HashMap<RacUserAddTo, RacAccountAddTo>();
+        int                                n          = 0;
+        for (int rownum = 1; rownum <= sheetAt.getLastRowNum(); rownum++) {
+            Row sheetRow = sheetAt.getRow(rownum);
+            if (sheetRow == null) {
+                continue;
+            }
+            // ID
+            Cell            user_id      = sheetRow.getCell(0);
+            // 登录名
+            Cell            username     = sheetRow.getCell(1);
+            // 手机号
+            Cell            phone        = sheetRow.getCell(4);
+            // 帐号昵称
+            Cell            name         = sheetRow.getCell(7);
+            // 组织Id
+            Cell            dept_id      = sheetRow.getCell(8);
+            // 启用锁定
+            Cell            lock_flag    = sheetRow.getCell(11);
+            // 姓名
+            Cell            stu_name     = sheetRow.getCell(30);
+            // 身份证号
+            Cell            id_no        = sheetRow.getCell(31);
+            // int value = Integer.parseInt(getValue(sheetRow.getCell(12))) + 1;
+            RacAccountAddTo accountAddTo = new RacAccountAddTo();
+            accountAddTo.setRealmId("default");
+            // String value2 = getValue(sheetRow.getCell(0));
+            // orgAddTo.setTreeCode(value2);
+            String id = getValue(sheetRow.getCell(0));
+            accountAddTo.setSignInNickname(getValue(name));
+            accountAddTo.setSignInMobile(getValue(phone));
+            accountAddTo.setCode(getValue(user_id));
+            accountAddTo.setSignInName(getValue(username));
+            accountAddTo.setIsTester(false);
+            accountAddTo.setOrgId((long) Integer.parseInt(getValue(dept_id)));
+            accountAddTo.setIsEnabled(getValue(lock_flag).equals("0") ? true : false);
+            RacUserAddTo userAddTo = new RacUserAddTo();
+            userAddTo.setIdCard(getValue(id_no));
+            userAddTo.setRealName(getValue(stu_name));
+
+            map.put(userAddTo, accountAddTo);
+        }
+        addfcAccount(map, 3);
+        return "添加完成";
+    }
+
+    /**
+     * 添加fc帐号
+     */
+    private int addfcAccount(Map<RacUserAddTo, RacAccountAddTo> map, int leng) {
+        Iterator<Map.Entry<RacUserAddTo, RacAccountAddTo>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<RacUserAddTo, RacAccountAddTo> entry     = it.next();
+            RacUserAddTo                             usermo    = entry.getKey();
+            RacAccountAddTo                          accountmo = entry.getValue();
+            final RacUserOneTo                       user      = OrikaUtils.map(usermo, RacUserOneTo.class);
+            RacUserMo                                userMoOne = null;
+            if (user.getIdCard() != null || user.getRealName() != null) {
+                userMoOne = racUserSvc.getUserMoOne(user);
+            }
+            if (userMoOne != null) {
+                RacAccountOneTo oneTo = new RacAccountOneTo();
+                oneTo.setCode(accountmo.getCode());
+                oneTo.setRealmId(accountmo.getRealmId());
+                RacAccountMo accountMoOne = accountSvc.getAccountMoOne(oneTo);
+                if (accountMoOne != null) {
+                    it.remove();
+                    continue;
+                }
+                else {
+                    String signInPswdSalt = "zGxxxC";
+                    String signInPswd     = "25d55ad283aa400af464c76d713c07ad";
+                    accountmo.setSignInPswd(signInPswd);
+                    accountmo.setSignInPswdSalt(signInPswdSalt);
+                    accountmo.setUserId(userMoOne.getId());
+                    RacAccountMo     add     = accountSvc.add(accountmo);
+                    RacAccountRoleMo rolenoe = new RacAccountRoleMo();
+                    rolenoe.setAccountId(add.getId());
+                    rolenoe.setRoleId(943048242716737536L);
+                    RacAccountRoleMo selectOne = racAccountRoleMapper.selectOne(rolenoe).orElse(null);
+                    if (selectOne != null) {
+                        it.remove();
+                        continue;
+                    }
+                    RacAccountRoleAddTo roleAddTo = new RacAccountRoleAddTo();
+                    roleAddTo.setAccountId(add.getId());
+                    List<Long> list = new ArrayList<Long>();
+                    list.add(943048242716737536L);
+                    roleAddTo.setRoleIds(list);
+                    racRoleSvc.addAccountRole(roleAddTo);
+                    it.remove();
+                    continue;
+                }
+            }
+            else {
+                if (usermo.getIdCard() != null && usermo.getIdCard().length() == 18) {
+                    RacUserMo adds = racUserSvc.add(usermo);
+                    accountmo.setUserId(adds.getId());
+                }
+                RacAccountOneTo oneTo = new RacAccountOneTo();
+                oneTo.setCode(accountmo.getCode());
+                oneTo.setRealmId(accountmo.getRealmId());
+                RacAccountMo accountMoOne = accountSvc.getAccountMoOne(oneTo);
+                if (accountMoOne != null) {
+                    it.remove();
+                }
+                else {
+                    String signInPswdSalt = "zGxxxC";
+                    String signInPswd     = "25d55ad283aa400af464c76d713c07ad";
+                    accountmo.setSignInPswd(signInPswd);
+                    accountmo.setSignInPswdSalt(signInPswdSalt);
+                    RacAccountMo     add2    = accountSvc.add(accountmo);
+                    RacAccountRoleMo rolenoe = new RacAccountRoleMo();
+                    rolenoe.setAccountId(add2.getId());
+                    rolenoe.setRoleId(943048242716737536L);
+                    RacAccountRoleMo selectOne = racAccountRoleMapper.selectOne(rolenoe).orElse(null);
+                    if (selectOne != null) {
+                        it.remove();
+                        continue;
+                    }
+                    RacAccountRoleAddTo roleAddTo = new RacAccountRoleAddTo();
+                    roleAddTo.setAccountId(add2.getId());
+                    List<Long> list = new ArrayList<Long>();
+                    list.add(943048242716737536L);
+                    roleAddTo.setRoleIds(list);
+                    racRoleSvc.addAccountRole(roleAddTo);
+                    it.remove();
+                }
+            }
+        }
+        if (map.isEmpty() || leng > 30) {
+            return 1;
+        }
+        return addfcAccount(map, leng + 3);
+    }
+
+    /**
+     * 获取excel表fc模板组织信息
+     * 
+     * @param workbook    Workbook workbook = new SXSSFWorkbook();
+     * @param sheetNumber excel表的sheet位置
+     */
+    private String getWorkbookfcOrgContent(Workbook workbook, int sheetNumber) {
+        Sheet                    sheetAt   = workbook.getSheetAt(0);
+        Row                      row       = sheetAt.getRow(0);
+        // ID
+        Cell                     dept_id   = row.getCell(0);
+        // 部门名称
+        Cell                     name      = row.getCell(1);
+        // 上级部门
+        Cell                     parent_id = row.getCell(6);
+        // 部门编码
+        Cell                     dept_code = row.getCell(9);
+        // 部门类型
+        Cell                     cell4     = row.getCell(12);
+        // 遍历行row
+        Map<String, RacOrgAddTo> map       = new HashMap<String, RacOrgAddTo>();
+        for (int rownum = 1; rownum <= sheetAt.getLastRowNum(); rownum++) {
+            Row sheetRow = sheetAt.getRow(rownum);
+            if (sheetRow == null) {
+                continue;
+            }
+
+            int         value    = Integer.parseInt(getValue(sheetRow.getCell(12))) + 1;
+            RacOrgAddTo orgAddTo = new RacOrgAddTo();
+            orgAddTo.setRealmId("default");
+            // String value2 = getValue(sheetRow.getCell(0));
+            // orgAddTo.setTreeCode(value2);
+            String id = getValue(sheetRow.getCell(0));
+            orgAddTo.setId((long) Integer.parseInt(getValue(sheetRow.getCell(0))));
+            orgAddTo.setCode(getValue(sheetRow.getCell(9)));
+            orgAddTo.setName(getValue(sheetRow.getCell(1)));
+            String value2 = getValue(sheetRow.getCell(6));
+            if (value2 != null) {
+                orgAddTo.setParentId((long) Integer.parseInt(value2));
+            }
+            // orgAddTo.setFullName(getValue(sheetRow.getCell(2)));
+            if (value <= 5) {
+                String desc    = OrgTypeDic.getItem((byte) value).getDesc();
+                int    orgType = Integer.parseInt(desc);
+                orgAddTo.setOrgType((byte) orgType);
+            }
+            else {
+                orgAddTo.setOrgType((byte) 90);
+            }
+            map.put(id, orgAddTo);
+        }
+        addfcOrg(map, 3);
+        return "添加完成";
+    }
+
+    /**
+     * 添加fc组织
+     */
+    private int addfcOrg(Map<String, RacOrgAddTo> map, int leng) {
+        Iterator<Map.Entry<String, RacOrgAddTo>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, RacOrgAddTo> entry = it.next();
+            RacOrgAddTo                    mo    = entry.getValue();
+            // int length = mo.getTreeCode().length();
+            if (mo.getParentId() != null) {
+                RacOrgMo one = racOrgSvc.getById(mo.getParentId());
+                if (one == null) {
+                    continue;
+                }
+                RacOrgMo one1 = racOrgSvc.getById(mo.getId());
+                if (one1 != null) {
+                    racOrgSvc.modifyMoById(one1);
+                    it.remove();
+                    continue;
+                }
+                mo.setParentId(one.getId());
+                racOrgSvc.add(mo);
+                it.remove();
+            }
+            else {
+                RacOrgMo one = racOrgSvc.getById(mo.getId());
+                if (one != null) {
+                    racOrgSvc.modifyMoById(one);
+                    it.remove();
+                    continue;
+                }
+                racOrgSvc.add(mo);
+                it.remove();
+            }
+        }
+        if (map.isEmpty() || leng > 30) {
+            return 1;
+        }
+        return addfcOrg(map, leng + 3);
+    }
+
+    /**
+     * 获取excel表nnxy模板组织信息
+     * 
+     * @param workbook    Workbook workbook = new SXSSFWorkbook();
+     * @param sheetNumber excel表的sheet位置
+     */
+    private String getWorkbooknnxyOrgContent(Workbook workbook, int sheetNumber) {
         Sheet                 sheetAt = workbook.getSheetAt(0);
         Row                   row     = sheetAt.getRow(0);
         // 树编码ID
@@ -190,23 +463,20 @@ public class RacExcelSvcImpl implements RacExcelSvc {
             System.out.println();
 
         }
-        addOrg(map, 3);
+        addnnxyOrg(map, 3);
         return "添加完成";
     }
 
     /**
-     * 添加组织
+     * 添加nnxy组织
      */
-    private int addOrg(Map<String, RacOrgMo> map, int leng) {
+    private int addnnxyOrg(Map<String, RacOrgMo> map, int leng) {
         Iterator<Map.Entry<String, RacOrgMo>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, RacOrgMo> entry  = it.next();
             RacOrgMo                    mo     = entry.getValue();
             int                         length = mo.getTreeCode().length();
             if (length == 3) {
-                // RacOrgOneTo to = new RacOrgOneTo();
-                // to.setRealmId(mo.getRealmId());
-                // to.setTreeCode(mo.getTreeCode().substring(0, length - 3));
                 racOrgSvc.addMo(mo);
                 it.remove();
             }
@@ -224,7 +494,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         if (map.isEmpty()) {
             return 1;
         }
-        return addOrg(map, leng + 3);
+        return addnnxyOrg(map, leng + 3);
     }
 
     /**
@@ -235,8 +505,9 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * @return
      */
     private static String getValue(Cell hssfCell) {
-        CellType cellType = hssfCell.getCellType();
-
+        if (hssfCell == null) {
+            return null;
+        }
         if (hssfCell.getCellType() == CellType.BOOLEAN) {
             return String.valueOf(hssfCell.getBooleanCellValue());
         }

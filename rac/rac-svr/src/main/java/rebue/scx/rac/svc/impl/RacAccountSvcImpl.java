@@ -205,7 +205,9 @@ public class RacAccountSvcImpl extends
         }
         if (StringUtils.isNotBlank(mo.getSignInPswd())) {
             // 随机生成盐值
-            mo.setSignInPswdSalt(PswdUtils.randomSalt());
+            if (!StringUtils.isNotBlank(mo.getSignInPswdSalt())) {
+                mo.setSignInPswdSalt(PswdUtils.randomSalt());
+            }
             // 根据生成的盐值进行摘要
             mo.setSignInPswd(PswdUtils.saltPswd(mo.getSignInPswd(), mo.getSignInPswdSalt()));
         }

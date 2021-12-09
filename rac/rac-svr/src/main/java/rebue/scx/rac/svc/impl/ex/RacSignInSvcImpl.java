@@ -192,7 +192,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             log.info("检查账户今天输错密码是否超过限定次数");
             final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
             if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= getPasswordErrors()) {
-                final String msg = "账户今天已被锁定，请明天再试";
+                final String msg = "账户今天已被锁定，请确认等待" + getLockDuration() + "分钟后再试";
                 log.warn(msg + ": to-{}", to);
                 return new Ro<>(ResultDic.WARN, msg);
             }
@@ -254,7 +254,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         log.info("检查账户输错密码是否超过限定次数");
         final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= getPasswordErrors()) {
-            final String msg = "账户已被锁定，请明天再试";
+            final String msg = "账户已被锁定，请确认等待" + getLockDuration() + "分钟后再试";
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.WARN, msg);
         }
@@ -266,7 +266,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             String msg;
             if (allowErrCount == 0) {
                 keepSignInLockRecord(accountMo.getId());
-                msg = "密码错误，账户已被锁定，请明天再试";
+                msg = "密码错误，账户已被锁定，请确认等待" + getLockDuration() + "分钟后再试";
             }
             else {
                 msg = "密码错误，还可以重试" + allowErrCount + "次";
@@ -354,7 +354,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
         log.info("检查账户输错密码是否超过限定次数");
         final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
         if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= getPasswordErrors()) {
-            final String msg = "账户已被锁定，请明天再试";
+            final String msg = "账户已被锁定，请确认等待" + getLockDuration() + "分钟后再试";
             log.warn(msg + ": to-{}", to);
             return new Ro<>(ResultDic.WARN, msg);
         }
