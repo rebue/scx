@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.baidubce.services.sms.SmsClient;
 import com.baidubce.services.sms.model.SendMessageV3Request;
@@ -66,6 +67,7 @@ public class SmsUtil {
         Map<String, String> contentVar = new HashMap<>();
         contentVar.put("code", code);
         request.setContentVar(contentVar);
+        request.setClientToken(UUID.randomUUID().toString());
         SendMessageV3Response response = client.sendMessage(request);
         // 解析请求响应 response.isSuccess()为true 表示成功
         if (response != null && response.isSuccess()) {

@@ -12,26 +12,29 @@ public class Configurations {
 
     @Getter
     @Value("${demo-configurations.client-id}")
-    private String clientId;
+    private String             clientId;
 
     @Getter
     @Value("${demo-configurations.client-secret}")
-    private String clientSecret;
+    private String             clientSecret;
 
     @Getter
     @Value("${demo-configurations.issuer}")
-    private String issuer;
+    private String             issuer;
 
     @Getter
     @Value("${demo-configurations.redirect}")
-    private String redirect;
+    private String             redirect;
 
     @Getter
     @Value("${demo-configurations.auth-uri}")
-    private String authUri;
+    private String             authUri;
 
     @Getter
     @Value("${demo-configurations.token-endpoint}")
-    private String tokenEndpoint;
+    private String             tokenEndpoint;
+    @Getter
+    @Value("${demo-configurations.token-endpoint}")
+    private String             userEndpoint;
 
 }

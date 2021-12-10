@@ -9,4 +9,4 @@ demo-configurations:
   #获取token
   token-endpoint: http://172.20.11.244:13080/oap-svr/oap/token
   #获取用户信息
-  get-user-endpoint: http://172.20.11.244:13080/oap-svr/oap/get-user-info
+  user-endpoint: http://172.20.11.244:13080/oap-svr/oap/get-user-info

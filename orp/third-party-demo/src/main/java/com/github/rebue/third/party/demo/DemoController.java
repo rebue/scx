@@ -76,7 +76,7 @@ public class DemoController {
 
     private String getUrl(String accessToken, String idToken) {
         // String uri = "https://auth.nnxy.edu.cn/oap-svr/oap/get-user-info";
-        String              uri = "http://172.20.11.244:13080/oap-svr/oap/get-user-info";
+        String              uri = configurations.getUserEndpoint();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("idToken", idToken);
         map.put("accessToken", accessToken);
