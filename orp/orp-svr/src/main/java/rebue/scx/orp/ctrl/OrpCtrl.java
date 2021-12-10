@@ -250,6 +250,11 @@ public class OrpCtrl {
             appTo.setAppId("unified-auth");
             appTo.setOpDatetime(LocalDateTime.now());
             opLogApi.add(appTo);
+            response.addCookie(
+                    ResponseCookie.from(OidcConfig.AUTH_INFO, "")
+                            .path("/")
+                            .maxAge(0)
+                            .build());
             JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), response);
             // to.setCallbackUrl(ra.getRedirectUrl());
             return getResponse(response, orpType + "-sign-in" + "&url=" + getURLEncoderString(ra.getRedirectUrl()), to.getCallbackUrl(), ro.getMsg(), flag);
