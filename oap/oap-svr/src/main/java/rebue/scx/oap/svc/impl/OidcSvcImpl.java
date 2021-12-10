@@ -327,6 +327,7 @@ public class OidcSvcImpl implements OidcSvc {
         response.addCookie(
                 ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign())
                         .path("/")
+                        .sameSite("None")
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                         .build());
         log.info("********* 登录login重定向地址*********:" + r + "\t\t");
@@ -521,6 +522,7 @@ public class OidcSvcImpl implements OidcSvc {
     private static ResponseCookie createCookie(String value) {
         return ResponseCookie.from(OidcConfig.AUTH_INFO, value)
                 .path("/")
+                .sameSite("None")
                 .maxAge(300)
                 .build();
     }

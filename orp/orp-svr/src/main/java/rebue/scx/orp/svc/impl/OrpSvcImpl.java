@@ -141,6 +141,7 @@ public class OrpSvcImpl implements OrpSvc {
         response.addCookie(
                 ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, idToken.serialize())
                         .path("/")
+                        .sameSite("None")
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                         .build());
         return Pair.of(app.getUrl(), null);
