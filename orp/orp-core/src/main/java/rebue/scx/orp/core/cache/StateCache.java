@@ -50,4 +50,9 @@ public class StateCache {
         _stringRedisTemplate.opsForValue().set(key, state, _expiration);
     }
 
+    public void delete(final String strategy, final String clientId, final String state) {
+        final String key = genKey(strategy, clientId, state);
+        _stringRedisTemplate.delete(key);
+    }
+
 }

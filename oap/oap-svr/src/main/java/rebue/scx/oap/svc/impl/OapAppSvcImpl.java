@@ -289,7 +289,7 @@ public class OapAppSvcImpl
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
         }
         if (rowCount != 1) {
-            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
+            throw new RuntimeExceptionX("已产生业务数据，不允许删除" + rowCount);
         }
         RacAppModifyTo modfiy = new RacAppModifyTo();
         modfiy.setId(appMo.getAppId());

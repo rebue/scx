@@ -91,7 +91,23 @@ public abstract class AbstractStrategy<GET_ACCESS_TOKEN_RO, REFRESH_ACCESS_TOKEN
         final OrpUserInfoRa       userInfo         = getUserInfo(genGetUserInfoTo(getAccessTokenRo));
         // 设置Token信息
         setTokenInfo(userInfo, getAccessTokenRo);
+        deleteStatement(authCodeTo);
         return userInfo;
+    }
+
+    /**
+     * 登录成功删除state
+     * 
+     * @param authCodeTo
+     */
+    private void deleteStatement(AuthCodeTo authCodeTo) {
+        if (_orpConfig.getIsCheckState()) {
+            if (StringUtils.isBlank(authCodeTo.getState())) {
+                throw new RuntimeExceptionX("state不能为空");
+            }
+            _stateCache.delete(getOrpType().name(), authCodeTo.getClientId(), authCodeTo.getState());
+        }
+
     }
 
     /**

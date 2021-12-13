@@ -1,4 +1,4 @@
 jwt:
   key-pair: jwt-dev-key-pair.pem
   issuer: rebue
-  expiration-duration: 30m
+  expiration-duration: 120m

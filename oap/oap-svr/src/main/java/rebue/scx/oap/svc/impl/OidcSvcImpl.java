@@ -57,6 +57,7 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import net.minidev.json.JSONObject;
 import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignInfo;
@@ -87,6 +88,7 @@ import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.mo.RacAccountMo;
+import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.wheel.core.util.OrikaUtils;
@@ -252,14 +254,8 @@ public class OidcSvcImpl implements OidcSvc {
      */
     private Ro<SignUpOrInRa> getSignUpOrInRa(final String appId, LoginDto loginData) {
         UnifiedLoginTo oneTo = OrikaUtils.map(loginData, UnifiedLoginTo.class);
-        oneTo.setAppId(OIDCAppDic.unified_auth.getDesc());
+        oneTo.setAppId(appId);
         Ro<SignUpOrInRa> ra = racSignInApi.unifiedLogin(oneTo);
-        // UnifiedLoginTo to = new UnifiedLoginTo();
-        // to.setAppId(appId);
-        // to.setLoginName(loginData.getLoginName());
-        // to.setPassword(loginData.getPassword());
-        // Ro<SignUpOrInRa> ra = racSignInApi.unifiedLogin(to);
-        //
         return ra;
     }
 
@@ -273,7 +269,7 @@ public class OidcSvcImpl implements OidcSvc {
             add.setOpDatetime(LocalDateTime.now());
             add.setReason("未获取到session信息");
             oapAuthLogSvc.add(add);
-            return Ro.fail("未获取到session信息");
+            return Ro.fail("会话信息已失效,请刷新页面！");
         }
 
         String   uri      = sessionInfo.getRedirectUri();
@@ -290,7 +286,7 @@ public class OidcSvcImpl implements OidcSvc {
             oapAuthLogSvc.add(add);
             return Ro.fail("clientId 不存在");
         }
-        Ro<SignUpOrInRa> ra = getSignUpOrInRa(app.getAppId(), loginData);
+        Ro<SignUpOrInRa> ra = getSignUpOrInRa(OIDCAppDic.unified_auth.getDesc(), loginData);
         if (ra.getResult().getCode() != 1) {
             OapAuthLogAddTo add = new OapAuthLogAddTo();
             add.setIsSuccess(false);
@@ -299,6 +295,9 @@ public class OidcSvcImpl implements OidcSvc {
             oapAuthLogSvc.add(add);
             return Ro.fail(ra.getMsg());
         }
+        Ro<PojoRa<RacAppMo>> byId = racAppApi.getById(app.getAppId());
+        RacAppMo             one  = byId.getExtra().getOne();
+        ra.getExtra().setRedirectUrl(one.getUrl());
         if (ra.getExtra().getRedirectUrl() == null) {
             OapAuthLogAddTo add = new OapAuthLogAddTo();
             add.setIsSuccess(false);
@@ -524,7 +523,7 @@ public class OidcSvcImpl implements OidcSvc {
         return ResponseCookie.from(OidcConfig.AUTH_INFO, value)
                 .path("/")
                 .sameSite("None").secure(true)
-                .maxAge(300)
+                .maxAge(30 * 60)
                 .build();
     }
 

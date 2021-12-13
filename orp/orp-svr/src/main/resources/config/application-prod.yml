@@ -8,7 +8,7 @@ oidc:
   login-url: https://auth.maiyuesoft.com/admin-web/unified-auth/sign-in/unified
 
 orp:
-  state-cache-expiration: PT5M
+  state-cache-expiration: PT30M
   strategies:
     ding-talk:
       is-check-state: true

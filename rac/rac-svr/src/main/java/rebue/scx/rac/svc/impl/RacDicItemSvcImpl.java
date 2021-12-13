@@ -47,8 +47,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacDicItemSvcImpl extends
-    BaseSvcImpl<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemMapper, RacDicItemDao>
-    implements RacDicItemSvc {
+        BaseSvcImpl<java.lang.Long, RacDicItemAddTo, RacDicItemModifyTo, RacDicItemDelTo, RacDicItemOneTo, RacDicItemListTo, RacDicItemPageTo, RacDicItemMo, RacDicItemJo, RacDicItemMapper, RacDicItemDao>
+        implements RacDicItemSvc {
 
     /**
      * 本服务的单例
@@ -109,7 +109,7 @@ public class RacDicItemSvcImpl extends
                     break;
                 }
                 else {
-                    count = count + 1;
+                    count    = count + 1;
                     treeCode = StringUtils.leftPad(count.toString(), 3, '0');
                 }
             }
@@ -118,12 +118,12 @@ public class RacDicItemSvcImpl extends
         else // 字典项下添加字典项
         {
             final RacDicItemMo itemMo = thisSvc.getById(to.getParentId());
-            final RacDicItemMo qo = new RacDicItemMo();
+            final RacDicItemMo qo     = new RacDicItemMo();
             qo.setDicId(to.getDicId());
             // .substring(0, itemMo.getTreeCode().length() == 3 ? itemMo.getTreeCode().length() : itemMo.getTreeCode().length() - 3));
             qo.setTreeCode(itemMo.getTreeCode());
             // 去除本身记录 -1
-            Long count = _mapper.countDicItemSelective(qo);
+            Long   count    = _mapper.countDicItemSelective(qo);
             String treeCode = StringUtils.leftPad(count.toString(), 3, '0');
             while (true) {
                 final RacDicItemOneTo oneTo = new RacDicItemOneTo();
@@ -134,7 +134,7 @@ public class RacDicItemSvcImpl extends
                     break;
                 }
                 else {
-                    count = count + 1;
+                    count    = count + 1;
                     treeCode = StringUtils.leftPad(count.toString(), 3, '0');
                 }
             }
@@ -155,10 +155,10 @@ public class RacDicItemSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(Long id) {
-        RacDicItemMo itemMo = _mapper.selectByPrimaryKey(id).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        RacDicItemMo itemMo   = _mapper.selectByPrimaryKey(id).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 查询删除该数据对其他数据的影响记录数据
         // 删除字典项
-        final int rowCount = _mapper.deleteByPrimaryKey(id);
+        final int    rowCount = _mapper.deleteByPrimaryKey(id);
         // 删除字典项下的字典项
         _mapper.deleteDicItemSelective(itemMo);
         // 对余下有影响的数据进行排序
@@ -172,7 +172,7 @@ public class RacDicItemSvcImpl extends
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
         }
         if (rowCount != 1) {
-            throw new RuntimeExceptionX("删除记录异常，影响行数为" + rowCount);
+            throw new RuntimeExceptionX("已产生业务数据，不允许删除" + rowCount);
         }
     }
 
@@ -185,11 +185,11 @@ public class RacDicItemSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(RacDicItemModifyTo qo) {
         // 获取需要上移动的记录
-        RacDicItemMo upMo = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        RacDicItemMo    upMo  = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取需要下移动的记录，即树编码-1
         RacDicItemOneTo oneTo = new RacDicItemOneTo();
         oneTo.setDicId(upMo.getDicId());
-        int length = upMo.getTreeCode().length();
+        int length  = upMo.getTreeCode().length();
         int treeInt = Integer.parseInt(upMo.getTreeCode());
         treeInt = treeInt - 1;
         final String tree = StringUtils.leftPad(treeInt + "", length, '0');
@@ -215,11 +215,11 @@ public class RacDicItemSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(RacDicItemModifyTo qo) {
         // 获取需要下移动的记录
-        RacDicItemMo downMo = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        RacDicItemMo    downMo = _mapper.selectByPrimaryKey(qo.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取需要上移动的记录，即树编码+1
-        RacDicItemOneTo oneTo = new RacDicItemOneTo();
+        RacDicItemOneTo oneTo  = new RacDicItemOneTo();
         oneTo.setDicId(downMo.getDicId());
-        int length = downMo.getTreeCode().length();
+        int length  = downMo.getTreeCode().length();
         int treeInt = Integer.parseInt(downMo.getTreeCode());
         treeInt = treeInt + 1;
         final String tree = StringUtils.leftPad(treeInt + "", length, '0');

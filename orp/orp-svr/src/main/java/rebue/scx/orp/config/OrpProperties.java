@@ -16,7 +16,7 @@ public class OrpProperties {
     /**
      * 缓存state超时(默认5分钟)
      */
-    private Duration                        stateCacheExpiration = Duration.ofMinutes(5L);
+    private Duration                        stateCacheExpiration = Duration.ofMinutes(30L);
 
     /**
      * 策略集合
