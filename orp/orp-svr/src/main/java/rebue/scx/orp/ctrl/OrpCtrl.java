@@ -100,9 +100,14 @@ public class OrpCtrl {
         return Mono.create(cb -> {
             response.setStatusCode(HttpStatus.FOUND);
             response.addCookie(
+                    ResponseCookie.from(OidcConfig.AUTH_INFO, "")
+                            .path("/").sameSite("None").secure(true)
+                            .maxAge(0)
+                            .build());
+            response.addCookie(
                     ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, extra.getIdToken())
                             .path("/")
-                            .sameSite("None")
+                            .sameSite("None").secure(true)
                             .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                             .build());
             response.getHeaders().setLocation(URI.create(to.getCallbackUrl()));
@@ -254,7 +259,7 @@ public class OrpCtrl {
             response.addCookie(
                     ResponseCookie.from(OidcConfig.AUTH_INFO, "")
                             .path("/")
-                            .sameSite("None")
+                            .sameSite("None").secure(true)
                             .maxAge(0)
                             .build());
             JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), response);

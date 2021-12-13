@@ -2,6 +2,8 @@ package rebue.scx.oap.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.Data;
 
 @Data
@@ -11,11 +13,13 @@ public class OidcGetUserInfoTo implements Serializable {
     /**
      * 调用凭证
      */
+    @NotBlank(message = "accessToken不能为空")
     private String            accessToken;
 
     /**
      * 普通用户的标识，对当帐号唯一
      */
+    @NotBlank(message = "idToken不能为空")
     private String            idToken;
 
     /**

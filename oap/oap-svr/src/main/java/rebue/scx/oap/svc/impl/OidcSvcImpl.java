@@ -63,6 +63,7 @@ import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.oap.config.OidcConfig;
+import rebue.scx.oap.dic.OIDCAppDic;
 import rebue.scx.oap.dto.CodeValue;
 import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.dto.OidcGetUserInfoTo;
@@ -251,7 +252,7 @@ public class OidcSvcImpl implements OidcSvc {
      */
     private Ro<SignUpOrInRa> getSignUpOrInRa(final String appId, LoginDto loginData) {
         UnifiedLoginTo oneTo = OrikaUtils.map(loginData, UnifiedLoginTo.class);
-        oneTo.setAppId(appId);
+        oneTo.setAppId(OIDCAppDic.unified_auth.getDesc());
         Ro<SignUpOrInRa> ra = racSignInApi.unifiedLogin(oneTo);
         // UnifiedLoginTo to = new UnifiedLoginTo();
         // to.setAppId(appId);
@@ -321,13 +322,13 @@ public class OidcSvcImpl implements OidcSvc {
         }
         response.addCookie(
                 ResponseCookie.from(OidcConfig.AUTH_INFO, "")
-                        .path("/")
+                        .path("/").sameSite("None").secure(true)
                         .maxAge(0)
                         .build());
         response.addCookie(
                 ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign())
                         .path("/")
-                        .sameSite("None")
+                        .sameSite("None").secure(true)
                         .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
                         .build());
         log.info("********* 登录login重定向地址*********:" + r + "\t\t");
@@ -522,7 +523,7 @@ public class OidcSvcImpl implements OidcSvc {
     private static ResponseCookie createCookie(String value) {
         return ResponseCookie.from(OidcConfig.AUTH_INFO, value)
                 .path("/")
-                .sameSite("None")
+                .sameSite("None").secure(true)
                 .maxAge(300)
                 .build();
     }

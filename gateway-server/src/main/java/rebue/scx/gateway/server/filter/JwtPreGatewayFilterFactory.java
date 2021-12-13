@@ -160,7 +160,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 final ServerHttpResponse                    response        = exchange.getResponse();
                 final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
                 final ResponseCookie                        jwtTokenCookie  = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getSign())
-                        .sameSite("None").maxAge(
+                        .sameSite("None").secure(true).maxAge(
                                 Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime()))
                         .path("/").build();
                 responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
