@@ -111,6 +111,14 @@ public class OrpNacosCtrl {
         String                    type            = ConfigType.YAML.getType();
         String                    ymlStr          = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList = YamlUtils.getAsMapList(ymlStr, key);
+        dingTalkMapList.stream().map(item -> {
+            String str    = item.get("id");
+            String newstr = hashedMap.get("id");
+            if (str.equals(newstr)) {
+                throw new RuntimeExceptionX("该配置已存在！--" + newstr);
+            }
+            return item;
+        }).collect(Collectors.toList());
         dingTalkMapList.add(hashedMap);
         ymlStr = YamlUtils.setAsMapList(ymlStr, key, dingTalkMapList);
 

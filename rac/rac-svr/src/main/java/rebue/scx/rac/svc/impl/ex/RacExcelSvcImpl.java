@@ -68,6 +68,8 @@ import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserOneTo;
+import rebue.scx.rac.util.FieldCollection;
+import rebue.scx.rac.util.ImporExcelUtil;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.RandomEx;
 import rebue.wheel.core.util.OrikaUtils;
@@ -138,10 +140,13 @@ public class RacExcelSvcImpl implements RacExcelSvc {
 
     @Override
     public Ro<?> getExcelContent(InputStream inputStream, String fileName) {
+        // 获取字段数组
+        String[]     cols            = FieldCollection.getAccountInformationCol();
         final String fileExt         = Files.getFileExtension(fileName);
         Workbook     workbook;
         String       workbookContent = null;
         try {
+            List<Map<String, Object>> readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, cols.length, cols);
             workbook        = WorkbookFactory.create(inputStream);
             workbookContent = getWorkbookfcAccountContent(workbook, 0);
             inputStream.close();
