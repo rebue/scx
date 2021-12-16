@@ -92,6 +92,7 @@ import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.wheel.core.util.OrikaUtils;
+import rebue.wheel.net.CookieUtils;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
@@ -302,9 +303,9 @@ public class OidcSvcImpl implements OidcSvc {
             OapAuthLogAddTo add = new OapAuthLogAddTo();
             add.setIsSuccess(false);
             add.setOpDatetime(LocalDateTime.now());
-            add.setReason("应用URL地址不能为空，请到平台管理设置应用主页地址");
+            add.setReason("应用URL地址不能为null，请到平台管理设置应用主页地址");
             oapAuthLogSvc.add(add);
-            return Ro.fail("应用URL地址不能为空，请到平台管理设置应用主页地址");
+            return Ro.fail("应用URL地址不能为null，请到平台管理设置应用主页地址");
         }
         AuthorizationCode code         = codeRepository.createCode(clientId, new Scope(scope), ra.getExtra().getId());
         HTTPResponse      redirect     = OidcHelper.authenticationSuccessUri(new URI(uri), new State(state), code);
@@ -319,17 +320,9 @@ public class OidcSvcImpl implements OidcSvc {
             oapAuthLogSvc.add(add);
             return Ro.fail("重定向地址错误");
         }
-        response.addCookie(
-                ResponseCookie.from(OidcConfig.AUTH_INFO, "")
-                        .path("/").sameSite("None").secure(true)
-                        .maxAge(0)
-                        .build());
-        response.addCookie(
-                ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign())
-                        .path("/")
-                        .sameSite("None").secure(true)
-                        .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                        .build());
+        CookieUtils.setCookie(response, OidcConfig.AUTH_INFO, "", 0);
+        CookieUtils.setCookie(response, JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign(),
+                OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE);
         log.info("********* 登录login重定向地址*********:" + r + "\t\t");
         String          redirectUrl = redirect.getLocation().toString().toString() + getCallbackUrl(ra.getExtra().getRedirectUrl());
         OapAuthLogAddTo add         = new OapAuthLogAddTo();
@@ -520,9 +513,9 @@ public class OidcSvcImpl implements OidcSvc {
     }
 
     private static ResponseCookie createCookie(String value) {
+
         return ResponseCookie.from(OidcConfig.AUTH_INFO, value)
                 .path("/")
-                .sameSite("None").secure(true)
                 .maxAge(30 * 60)
                 .build();
     }

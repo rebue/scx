@@ -10,14 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import rebue.wheel.api.exception.RuntimeExceptionX;
 
@@ -47,10 +46,10 @@ public class ImporExcelUtil {
         Workbook workbook = null;
         // 根据后缀创建不同的对象
         if (isXls(fileName)) {
-            workbook = new HSSFWorkbook(inputStream);
+            workbook = WorkbookFactory.create(inputStream);
         }
         else {
-            workbook = new XSSFWorkbook(inputStream);
+            workbook = WorkbookFactory.create(inputStream);
         }
         Sheet                     sheet      = workbook.getSheetAt(0);
         int                       lastRowNum = sheet.getLastRowNum();

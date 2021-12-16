@@ -2,8 +2,11 @@ demo-configurations:
   client-id: third-party-demo
   client-secret: 123456
   issuer: third-party-demo-issuer
-  auth-uri: https://auth.nnxy.edu.cn/oap-svr/oap/authorize?scope=openid&response_type=code&client_id=third-party-demo&state=tr&redirect_uri=http%3A%2F%2F10.200.101.16:30010%2Fcallback
-  redirect: http://10.200.101.16:30010/callback
-  token-endpoint: http://10.200.101.16:3456/oap-svr/oap/token
-
-#
+  #获取认证地址
+  auth-uri: http://172.20.11.244:10085/oap-svr/oap/authorize
+  #登录后回调的地址为第三方服务端地址，带上code和state
+  redirect: http://172.20.11.244:30010/callback
+  #获取token
+  token-endpoint: http://172.20.11.244:10085/oap-svr/oap/token
+  #获取用户信息
+  user-endpoint: http://172.20.11.244:10085/oap-svr/oap/get-user-info

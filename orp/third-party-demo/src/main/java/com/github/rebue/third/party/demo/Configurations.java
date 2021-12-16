@@ -34,7 +34,7 @@ public class Configurations {
     @Value("${demo-configurations.token-endpoint}")
     private String             tokenEndpoint;
     @Getter
-    @Value("${demo-configurations.token-endpoint}")
+    @Value("${demo-configurations.user-endpoint}")
     private String             userEndpoint;
 
 }

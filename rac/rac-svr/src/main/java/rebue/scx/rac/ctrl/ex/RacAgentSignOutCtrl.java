@@ -67,7 +67,7 @@ public class RacAgentSignOutCtrl {
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signOut(agentAccountId, agentAppId, urlBeforeAgent);
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.APP_ID_KEY, agentAppId).sameSite("None").secure(true).path("/").build();
+                final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.APP_ID_KEY, agentAppId).path("/").build();
                 resp.addCookie(responseCookie);
                 jwtSignWithCookie(ro.getExtra(), resp);
             }

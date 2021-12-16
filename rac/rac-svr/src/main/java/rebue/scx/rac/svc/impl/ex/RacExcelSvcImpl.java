@@ -32,7 +32,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.http.MediaType;
@@ -70,7 +69,6 @@ import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.util.FieldCollection;
 import rebue.scx.rac.util.ImporExcelUtil;
-import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.RandomEx;
 import rebue.wheel.core.util.OrikaUtils;
 
@@ -141,20 +139,82 @@ public class RacExcelSvcImpl implements RacExcelSvc {
     @Override
     public Ro<?> getExcelContent(InputStream inputStream, String fileName) {
         // 获取字段数组
-        String[]     cols            = FieldCollection.getAccountInformationCol();
-        final String fileExt         = Files.getFileExtension(fileName);
-        Workbook     workbook;
-        String       workbookContent = null;
+        String[]                  cols      = FieldCollection.getAccountInformationCol();
+        final String              fileExt   = Files.getFileExtension(fileName);
+        Workbook                  workbook;
+        List<Map<String, Object>> readExcel = new ArrayList<>();
         try {
-            List<Map<String, Object>> readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, cols.length, cols);
-            workbook        = WorkbookFactory.create(inputStream);
-            workbookContent = getWorkbookfcAccountContent(workbook, 0);
+            readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, cols.length, cols);
+            // workbook = WorkbookFactory.create(inputStream);
             inputStream.close();
+
         } catch (IOException e) {
-            throw new RuntimeExceptionX("错误");
             // e.printStackTrace();
         }
-        return Ro.success(workbookContent);
+        int                           i        = 0;
+        Iterator<Map<String, Object>> iterator = readExcel.iterator();
+        while (iterator.hasNext()) {
+            insertAccountRecord(iterator.next());
+            log.info(StringUtils.rightPad("*** 一条记录 ***第几条？ " + (i += 1), 100));
+            iterator.remove();
+
+        }
+        // for (Map<String, Object> map : readExcel) {
+        // }
+        // readExcel.clear();
+        return Ro.success("导入成功");
+    }
+
+    /**
+     * 
+     */
+    private void insertAccountRecord(Map<String, Object> map) {
+        // 获取字段数组
+        String[]        cols           = FieldCollection.getAccountInformationCol();
+        String          signInName     = (String) map.get(cols[0]);
+        String          signInNickname = (String) map.get(cols[1]);
+        String          idCard         = (String) map.get(cols[2]);
+        String          signInMobile   = (String) map.get(cols[3]);
+        String          signInEmail    = (String) map.get(cols[4]);
+        String          string         = map.get(cols[5]).toString();
+        boolean         empty          = StringUtils.isEmpty(string);
+        Integer         valueOf        = Integer.valueOf(string);
+        long            orgId          = Integer.parseInt(string);
+        String          orgName        = (String) map.get(cols[6]);
+        long            roleId         = Integer.valueOf((String) map.get(cols[7]));
+        String          roleName       = (String) map.get(cols[8]);
+        // 添加账户信息
+        // 1.无帐号 无用户 无角色
+        // 2.无帐号 无用户 有角色
+        // 3.无帐号 有用户 有角色
+        // 4.无帐号 有用户 无角色
+        // 5.有帐号 无用户 无角色
+        // 6.有帐号 无用户 有角色
+        // 7.有帐号 有用户 有角色
+        // 8.有帐号 有用户 无角色
+        RacAccountAddTo accountAddTo   = new RacAccountAddTo();
+        accountAddTo.setRealmId("default");
+        accountAddTo.setSignInNickname(signInNickname);
+        accountAddTo.setSignInMobile(signInMobile);
+        accountAddTo.setCode(signInEmail);
+        accountAddTo.setSignInName(signInName);
+        accountAddTo.setIsTester(false);
+        accountAddTo.setOrgId(orgId);
+        accountAddTo.setIsEnabled(true);
+        String signInPswdSalt = "zGxxxC";
+        String signInPswd     = "25d55ad283aa400af464c76d713c07ad";
+        accountAddTo.setSignInPswd(signInPswd);
+        accountAddTo.setSignInPswdSalt(signInPswdSalt);
+        // RacAccountMo add = accountSvc.add(accountAddTo);
+        log.info(StringUtils.rightPad("***  " + cols[0] + " : " + signInName.toString(), 100));
+        log.info(StringUtils.rightPad("***  " + cols[1] + " : " + signInNickname.toString(), 100));
+        log.info(StringUtils.rightPad("***  " + cols[2] + " : " + idCard.toString(), 100));
+        log.info(StringUtils.rightPad("***  " + cols[3] + " : " + signInMobile.toString(), 100));
+        log.info(StringUtils.rightPad("***  " + cols[4] + " : " + signInEmail.toString(), 100));
+        log.info(StringUtils.rightPad("***  " + cols[5] + " : " + orgId, 100));
+        log.info(StringUtils.rightPad("***  " + cols[6] + " : " + orgName.toString(), 100));
+        log.info(StringUtils.rightPad("***  " + cols[7] + " : " + roleId, 100));
+        log.info(StringUtils.rightPad("***  " + cols[8] + " : " + roleName.toString(), 100));
     }
 
     /**

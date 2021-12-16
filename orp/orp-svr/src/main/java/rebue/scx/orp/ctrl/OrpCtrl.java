@@ -10,7 +10,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.MultiValueMap;
@@ -30,6 +29,8 @@ import rebue.scx.rac.api.RacOpLogApi;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
+import rebue.wheel.core.LocalDateTimeUtils;
+import rebue.wheel.net.CookieUtils;
 import rebue.wheel.turing.JwtUtils;
 
 /**
@@ -99,17 +100,9 @@ public class OrpCtrl {
         OrpUserInfoRa extra    = (OrpUserInfoRa) authCode.getExtra();
         return Mono.create(cb -> {
             response.setStatusCode(HttpStatus.FOUND);
-            response.addCookie(
-                    ResponseCookie.from(OidcConfig.AUTH_INFO, "")
-                            .path("/").sameSite("None").secure(true)
-                            .maxAge(0)
-                            .build());
-            response.addCookie(
-                    ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, extra.getIdToken())
-                            .path("/")
-                            .sameSite("None").secure(true)
-                            .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                            .build());
+            CookieUtils.setCookie(response, OidcConfig.AUTH_INFO, "", 0, null, true);
+            CookieUtils.setCookie(response, JwtUtils.JWT_TOKEN_NAME, extra.getIdToken(),
+                    OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE, null, true);
             response.getHeaders().setLocation(URI.create(to.getCallbackUrl()));
             cb.success(null);
         });
@@ -256,12 +249,10 @@ public class OrpCtrl {
             appTo.setAppId("unified-auth");
             appTo.setOpDatetime(LocalDateTime.now());
             opLogApi.add(appTo);
-            response.addCookie(
-                    ResponseCookie.from(OidcConfig.AUTH_INFO, "")
-                            .path("/")
-                            .sameSite("None").secure(true)
-                            .maxAge(0)
-                            .build());
+
+            CookieUtils.setCookie(response, OidcConfig.AUTH_INFO, "", 0, null, true);
+            CookieUtils.setCookie(response, JwtUtils.JWT_TOKEN_NAME, ra.getSign(),
+                    ((LocalDateTimeUtils.getMillis(ra.getExpirationTime()) - System.currentTimeMillis()) / 1000), null, true);
             JwtUtils.addCookie(ra.getSign(), ra.getExpirationTime(), response);
             // to.setCallbackUrl(ra.getRedirectUrl());
             return getResponse(response, orpType + "-sign-in" + "&url=" + getURLEncoderString(ra.getRedirectUrl()), to.getCallbackUrl(), ro.getMsg(), flag);

@@ -2,6 +2,7 @@ package rebue.scx.gateway.server.filter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +36,7 @@ import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.spring.AntPathMatcherUtils;
+import rebue.wheel.net.CookieUtils;
 import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
@@ -159,11 +161,14 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 log.info("延长JWT签名时效");
                 final ServerHttpResponse                    response        = exchange.getResponse();
                 final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
-                final ResponseCookie                        jwtTokenCookie  = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getSign())
-                        .sameSite("None").secure(true).maxAge(
-                                Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime()))
-                        .path("/").build();
-                responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
+
+                CookieUtils.setCookie(response, JwtUtils.JWT_TOKEN_NAME, verifyRo.getSign(),
+                        Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime()).get(ChronoUnit.SECONDS), "/", false);
+                // final ResponseCookie jwtTokenCookie = ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, verifyRo.getSign())
+                // .sameSite("None").secure(true).maxAge(
+                // Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime()))
+                // .path("/").build();
+                // responseCookies.add(JwtUtils.JWT_TOKEN_NAME, jwtTokenCookie);
                 log.info("完成延长JWT签名时效");
 
                 return returnFilter(chain, exchange);

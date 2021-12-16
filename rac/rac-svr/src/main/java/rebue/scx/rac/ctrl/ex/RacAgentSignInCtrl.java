@@ -56,7 +56,7 @@ public class RacAgentSignInCtrl {
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signIn(to.getAccountId(), agentAccountId, to.getAppId(), appId, to.getCurUrl());
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
-                final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.APP_ID_KEY, to.getAppId()).sameSite("None").secure(true).path("/").build();
+                final ResponseCookie responseCookie = ResponseCookie.from(RacCookieCo.APP_ID_KEY, to.getAppId()).path("/").build();
                 resp.addCookie(responseCookie);
                 jwtSignWithCookie(ro.getExtra(), resp);
             }

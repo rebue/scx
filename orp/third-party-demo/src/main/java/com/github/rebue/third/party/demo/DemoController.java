@@ -54,9 +54,12 @@ public class DemoController {
         if (tokenResponse.indicatesSuccess()) {
             JWT         idToken     = tokenResponse.toSuccessResponse().getTokens().toOIDCTokens().getIDToken();
             AccessToken accessToken = tokenResponse.toSuccessResponse().getTokens().toOIDCTokens().getAccessToken();
+            String      value       = accessToken.getValue();
+            String      serialize   = idToken.serialize();
             // 获取账户信息
             UserInfoMo  mo          = new UserInfoMo();
             String      userInfo    = okHttpClientImpl.get(getUrl(accessToken.getValue(), idToken.serialize()));
+
             JSONObject  parse       = JSONObjectUtils.parse(userInfo);
             Object      msg         = parse.get("msg");
             if (msg != null) {
