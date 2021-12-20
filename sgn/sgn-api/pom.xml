@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.github.rebue.scx</groupId>
 		<artifactId>sgn</artifactId>
-		<version>1.2.4</version>
+		<version>1.2.5</version>
 	</parent>
 
 	<artifactId>sgn-api</artifactId>

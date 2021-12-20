@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.github.rebue.scx</groupId>
 		<artifactId>rac</artifactId>
-		<version>1.2.4</version>
+		<version>1.2.5</version>
 	</parent>
 	<artifactId>rac-oplog</artifactId>
 	<description>记录操作日志</description>
