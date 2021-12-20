@@ -7,17 +7,17 @@ import java.nio.charset.StandardCharsets;
 
 public class Main {
 
-    private static final String COPY_BAT_PATH = "C:\\Users\\lq\\Desktop\\maiyue-workspace\\rebue\\server\\scx\\文档\\copy.bat";
+    private static final String   COPY_BAT_PATH   = "C:\\Users\\lq\\Desktop\\maiyue-workspace\\rebue\\server\\scx\\文档\\copy.bat";
 
-    private static final String PATH_TO_SCX_SRC = "C:\\Users\\lq\\Desktop\\maiyue-workspace\\rebue\\server\\scx";
+    private static final String   PATH_TO_SCX_SRC = "C:\\Users\\lq\\Desktop\\maiyue-workspace\\rebue\\server\\scx";
 
-    private static final String OUTPUT_DIR = "C:\\Users\\lq\\Desktop\\services";
+    private static final String   OUTPUT_DIR      = "C:\\Users\\lq\\Desktop\\services";
 
-    private static final String VERSION = "1.2.4";
+    private static final String   VERSION         = "1.2.5";
 
-    private static final String NEW_LINE = "\r\n";
+    private static final String   NEW_LINE        = "\r\n";
 
-    private static final String[] SERVICES = new String[]{
+    private static final String[] SERVICES        = new String[] {
             "gateway-server",
             "cap",
             "jwt",
@@ -28,16 +28,14 @@ public class Main {
             "rrl"
     };
 
-    private static String outDir(String service)
-    {
+    private static String outDir(String service) {
         if (service.equals("gateway-server")) {
             return service;
         }
         return service + "-svr";
     }
 
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
         StringBuilder result = new StringBuilder("chdir /d C:").append(NEW_LINE);
         for (String service : SERVICES) {
             File file = new File(OUTPUT_DIR + "\\" + outDir(service) + "\\config");
@@ -81,16 +79,14 @@ public class Main {
         }
     }
 
-    private static String pathToTarget(String service)
-    {
+    private static String pathToTarget(String service) {
         if (service.equals("gateway-server")) {
             return "gateway-server\\target";
         }
         return service + "\\" + service + "-svr\\target";
     }
 
-    private static String jarName(String service)
-    {
+    private static String jarName(String service) {
         if (service.equals("gateway-server")) {
             return "gateway-server-" + VERSION + ".jar";
         }

@@ -3,7 +3,7 @@ FROM nnzbz/spring-boot-app:latest
 # 镜像的作者和邮箱
 LABEL maintainer="nnzbz@163.com"
 # 镜像的版本
-LABEL version="1.2.4"
+LABEL version="1.2.5"
 # 镜像的描述
 LABEL description="oap-svr"
 
