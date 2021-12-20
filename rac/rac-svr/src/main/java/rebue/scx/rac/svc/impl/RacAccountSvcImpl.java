@@ -200,9 +200,9 @@ public class RacAccountSvcImpl extends
         oneTo.setSignInName(null);
         oneTo.setSignInNickname(mo.getSignInNickname());
         count = thisSvc.countSelective(oneTo);
-        if (count > 0) {
-            throw new RuntimeExceptionX("该领域下已存在" + mo.getSignInNickname());
-        }
+        // if (count > 0) {
+        // throw new RuntimeExceptionX("该领域下已存在" + mo.getSignInNickname());
+        // }
         if (StringUtils.isNotBlank(mo.getSignInPswd())) {
             // 随机生成盐值
             if (!StringUtils.isNotBlank(mo.getSignInPswdSalt())) {

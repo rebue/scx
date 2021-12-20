@@ -382,6 +382,22 @@ public class OidcSvcImpl implements OidcSvc {
             log.info(StringUtils.rightPad("*** token校验code is empty ***", 100));
             return tokenError(response, OidcTokenError.INVALID_GRANT, "code is empty");
         }
+        // FIXME 该判断压测使用，测试完成请及时删除
+        // if (false || code.equals("xxxxceshicode")) {
+        // SignedJWT idToken = jwtApi.rawSign(new JwtSignTo(String.valueOf("946286404184440832"), "uiapcfaf425f5ba000a"));
+        // if (idToken == null) {
+        // return tokenError(response, OidcTokenError.SERVER_ERROR, "22222222222222222222222");
+        // }
+        //
+        // BearerAccessToken accessToken = new BearerAccessToken(OidcConfig.ACCESS_TOKEN_LIFETIME, new Scope("openid"));
+        // RefreshToken refreshToken = new RefreshToken();
+        //
+        // accessTokenService.saveToken(946286404184440832L, accessToken, refreshToken);
+        //
+        // OIDCTokens tokens = new OIDCTokens(idToken, accessToken, refreshToken);
+        // return makeTokenResponse(new OIDCTokenResponse(tokens), response);
+        // }
+
         CodeValue codeValue = codeRepository.getAndRemoveCode(code).orElse(null);
         if (codeValue == null) {
             log.info(StringUtils.rightPad("*** token校验code 是无效的 ***", 100));

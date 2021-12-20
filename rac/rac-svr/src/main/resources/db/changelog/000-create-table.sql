@@ -47,7 +47,6 @@ create table RAC_ACCOUNT
    CREATE_TIMESTAMP     bigint unsigned not null  comment '建立时间戳',
    UPDATE_TIMESTAMP     bigint unsigned not null  comment '修改时间戳',
    primary key (ID),
-   unique key AK_REALM_AND_LOGIN_NICKNAME (SIGN_IN_NICKNAME, REALM_ID),
    unique key AK_REALM_AND_LOGIN_NAME (SIGN_IN_NAME, REALM_ID),
    unique key AK_REALM_AND_LOGIN_MOBILE (SIGN_IN_MOBILE, REALM_ID),
    unique key AK_REALM_AND_LOGIN_EMAIL (SIGN_IN_EMAIL, REALM_ID),
