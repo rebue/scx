@@ -24,6 +24,7 @@ import rebue.scx.rac.to.RacUserListTo;
 import rebue.scx.rac.to.RacUserModifyTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.to.RacUserPageTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.util.OrikaUtils;
 import rebue.wheel.core.util.RegexUtils;
 
@@ -96,8 +97,7 @@ public class RacUserSvcImpl
         String          idCard      = mo.getIdCard();
         boolean         matchIdCard = RegexUtils.matchIdCard(idCard);
         if (!matchIdCard) {
-            return null;
-            // throw new RuntimeExceptionX("身份证号码格式不对，请确认！");
+            throw new RuntimeExceptionX("身份证号码格式不对，请确认！");
         }
         if (idCard != null) {
             // 取身份证第17位数自动判断性别，0为女，1为男

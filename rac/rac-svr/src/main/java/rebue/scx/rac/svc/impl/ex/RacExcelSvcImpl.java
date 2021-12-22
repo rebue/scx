@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,9 +19,7 @@ import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormat;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -64,12 +60,14 @@ import rebue.scx.rac.to.RacAccountOneTo;
 import rebue.scx.rac.to.RacAccountRoleAddTo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgOneTo;
+import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.util.FieldCollection;
 import rebue.scx.rac.util.ImporExcelUtil;
 import rebue.wheel.core.RandomEx;
 import rebue.wheel.core.util.OrikaUtils;
+import rebue.wheel.core.util.RegexUtils;
 
 /**
  * Excel的实现类
@@ -101,6 +99,8 @@ public class RacExcelSvcImpl implements RacExcelSvc {
     private RacRoleSvc           racRoleSvc;
     @Resource
     private RacAccountRoleMapper racAccountRoleMapper;
+
+    private static String        Realm_ID = "default";
 
     /**
      * excel模板文件下载
@@ -165,22 +165,170 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         log.info(StringUtils.rightPad("*** 剩余记录size ： " + size + " 条", 100));
         Iterator<Map<String, Object>> iterator = readExcel.iterator();
         while (iterator.hasNext()) {
-            boolean insertRecord = insertAccountRecord(iterator.next());
-            /// boolean insertRecord = insertOrgRecord(iterator.next());
-            log.info(StringUtils.rightPad("*** 一条记录 ***第几条？ " + (i += 1), 100));
-            if (insertRecord) {
-                iterator.remove();
-            }
+            Map<String, Object> next = iterator.next();
+            log.info(StringUtils.rightPad("*** 当前记录 " + (i += 1) + " : " + next.toString(), 100));
+            RacUserMo    userMo    = insertUserRecord(next);
+            RacOrgMo     orgMo     = seleteOrgRecord(next);
+            RacAccountMo accountMo = insertAccountRecord(next, userMo, orgMo);
+            RacRoleMo    roleMo    = seleteRoleRecord(next);
+            insertAccountRoleRecord(roleMo, accountMo);
+            iterator.remove();
         }
-        boolean empty = readExcel.isEmpty();
-        int     siz2  = readExcel.size();
-        log.info(StringUtils.rightPad("*** 剩余记录size2 ： " + siz2 + " 条", 100));
-        if (empty) {
+    }
+
+    /**
+     * 查询角色
+     * 
+     * @param map
+     * 
+     */
+    private RacRoleMo seleteRoleRecord(Map<String, Object> map) {
+        // 获取字段数组
+        String[] cols     = FieldCollection.getAccountInformationCol();
+        String   roleId   = (String) map.get(cols[8]);
+        String   roleName = (String) map.get(cols[9]);
+        if (!StringUtils.isEmpty(roleId)) {
+            long valueOf = Integer.parseInt(roleId);
+            return racRoleSvc.getById(valueOf);
+        }
+        if (!StringUtils.isEmpty(roleName)) {
+            RacRoleOneTo oneTo = new RacRoleOneTo();
+            oneTo.setRealmId(Realm_ID);
+            oneTo.setName(roleName);
+            return racRoleSvc.getOne(oneTo);
+        }
+        return null;
+    }
+
+    /**
+     * 插入帐号角色关系
+     * 
+     * @param roleMo
+     * @param accountMo
+     */
+    private void insertAccountRoleRecord(RacRoleMo roleMo, RacAccountMo accountMo) {
+        if (roleMo == null || accountMo == null) {
             return;
         }
-        List<Map<String, Object>> list = new ArrayList<>();
-        list = readExcel;
-        // recursionAdd(list, 0);
+        // 是否存在关联角色
+        RacAccountRoleMo rolenoe = new RacAccountRoleMo();
+        rolenoe.setAccountId(accountMo.getId());
+        rolenoe.setRoleId(roleMo.getId());
+        RacAccountRoleMo selectOne = racAccountRoleMapper.selectOne(rolenoe).orElse(null);
+        if (selectOne != null) {
+            return;
+        }
+        RacAccountRoleAddTo roleAddTo = new RacAccountRoleAddTo();
+        List<Long>          list      = new ArrayList<Long>();
+        roleAddTo.setAccountId(accountMo.getId());
+        list.add(roleMo.getId());
+        roleAddTo.setRoleIds(list);
+        racRoleSvc.addAccountRole(roleAddTo);
+    }
+
+    /**
+     * 查询组织
+     * 
+     * @param map
+     * 
+     * @return RacOrgMo
+     */
+    private RacOrgMo seleteOrgRecord(Map<String, Object> map) {
+        // 获取字段数组
+        String[] cols    = FieldCollection.getAccountInformationCol();
+        // 对应组织中的code
+        String   orgId   = (String) map.get(cols[6]);
+        String   orgName = (String) map.get(cols[7]);
+        // 过滤都为空
+        if (StringUtils.isEmpty(orgId) && StringUtils.isEmpty(orgName)) {
+            return null;
+        }
+        if (!StringUtils.isEmpty(orgId)) {
+            final RacOrgOneTo oneTo = new RacOrgOneTo();
+            oneTo.setRealmId(Realm_ID);
+            oneTo.setName(orgName);
+            oneTo.setCode(orgId);
+            RacOrgMo one = racOrgSvc.getOne(oneTo);
+            if (one != null) {
+                return one;
+            }
+        }
+        if (!StringUtils.isEmpty(orgName)) {
+            final RacOrgOneTo oneName = new RacOrgOneTo();
+            oneName.setRealmId(Realm_ID);
+            oneName.setName(orgName);
+            RacOrgMo orgMo = racOrgSvc.getOne(oneName);
+            if (orgMo != null) {
+                return orgMo;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 插入用户信息（新建用户,已存在则不用插入）
+     * 
+     * @param map
+     * 
+     * @return RacUserMo
+     */
+    private RacUserMo insertUserRecord(Map<String, Object> map) {
+        // 获取字段数组
+        String[] cols           = FieldCollection.getAccountInformationCol();
+        String   index          = (String) map.get(cols[0]);
+        String   signInName     = (String) map.get(cols[1]);
+        String   signInNickname = (String) map.get(cols[2]);
+        String   idCard         = (String) map.get(cols[3]);
+        String   signInMobile   = (String) map.get(cols[4]);
+        String   signInEmail    = (String) map.get(cols[5]);
+        // 过滤姓名或身份证为空
+        if (StringUtils.isEmpty(signInNickname) || StringUtils.isEmpty(idCard)) {
+            return null;
+        }
+        // 校验身份证
+        boolean matchIdCard = RegexUtils.matchIdCard(idCard);
+        if (!matchIdCard) {
+            return null;
+        }
+        if (idCard.length() != 18) {
+            return null;
+        }
+        RacUserAddTo userAddTo = new RacUserAddTo();
+        userAddTo.setRealName(signInNickname);
+        userAddTo.setIdCard(idCard);
+        // 用户是否存在，存在则返回，不存在则添加并返回
+        RacUserMo    userMoOne = null;
+        RacUserOneTo user      = new RacUserOneTo();
+        user.setIdCard(idCard);
+        userMoOne = racUserSvc.getUserMoOne(user);
+        if (userMoOne != null) {
+            return userMoOne;
+        }
+        if (!StringUtils.isEmpty(signInMobile)) {
+            RacUserOneTo userMobile = new RacUserOneTo();
+            userMobile.setMobile(signInMobile);
+            userMoOne = racUserSvc.getUserMoOne(userMobile);
+            if (userMoOne != null) {
+                return userMoOne;
+            }
+            else {
+                userAddTo.setMobile(signInMobile);
+            }
+        }
+        if (!StringUtils.isEmpty(signInEmail)) {
+            RacUserOneTo userEmail = new RacUserOneTo();
+            userEmail.setEmail(signInEmail);
+            userMoOne = racUserSvc.getUserMoOne(userEmail);
+            if (userMoOne != null) {
+                return userMoOne;
+            }
+            else {
+                userAddTo.setMobile(signInEmail);
+            }
+        }
+        RacUserMo userMo = racUserSvc.add(userAddTo);
+        return userMo;
+
     }
 
     /**
@@ -198,14 +346,13 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         String   parentId   = (String) map.get(cols[3]);
         String   parentName = (String) map.get(cols[4]);
         String   orgType    = (String) map.get(cols[5]);
-        log.info(StringUtils.rightPad("***  " + index.toString() + " : " + map.toString(), 100));
 
         // 1.无组织 无上级组织
         // 2.无组织 有上级组织
         // 2.有组织 无上级组织
         // 4.有组织 有上级组织
         RacOrgAddTo addTo = new RacOrgAddTo();
-        addTo.setRealmId("default");
+        addTo.setRealmId(Realm_ID);
         addTo.setName(orgName);
         addTo.setCode(orgId);
         Byte valueOf = Byte.valueOf(orgType);
@@ -225,7 +372,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         }
         else {
             RacOrgOneTo oneTo = new RacOrgOneTo();
-            oneTo.setRealmId("default");
+            oneTo.setRealmId(Realm_ID);
             oneTo.setCode(parentId);
             RacOrgMo mo = racOrgSvc.getOne(oneTo);
             if (mo != null) {
@@ -237,7 +384,6 @@ public class RacExcelSvcImpl implements RacExcelSvc {
                     return true;
                 }
                 racOrgSvc.add(addTo);
-                log.info(StringUtils.rightPad("*** 添加", 100));
                 return true;
             }
             return false;
@@ -246,559 +392,98 @@ public class RacExcelSvcImpl implements RacExcelSvc {
     }
 
     /**
-     * 插入帐号信息（新建帐号 新建用户 关联组织 关联角色）
+     * 插入帐号信息（新建帐号 ，更新帐号， 关联用户 ，关联组织）
+     * 
+     * @param orgMo2
+     * @param userMo
+     * 
+     * @return RacAccountMo
      */
-    private boolean insertAccountRecord(Map<String, Object> map) {
+    private RacAccountMo insertAccountRecord(Map<String, Object> map, RacUserMo userMo, RacOrgMo orgMo) {
         // 获取字段数组
-        String[] cols  = FieldCollection.getAccountInformationCol();
-        String   index = (String) map.get(cols[0]);
-        log.info(StringUtils.rightPad("***  " + index.toString() + " : " + map.toString(), 100));
-        String signInName     = (String) map.get(cols[1]);
-        String signInNickname = (String) map.get(cols[2]);
-        String idCard         = (String) map.get(cols[3]);
-        String signInMobile   = (String) map.get(cols[4]);
-        String signInEmail    = (String) map.get(cols[5]);
-
+        String[] cols           = FieldCollection.getAccountInformationCol();
+        String   index          = (String) map.get(cols[0]);
+        String   signInName     = (String) map.get(cols[1]);
+        String   signInNickname = (String) map.get(cols[2]);
+        String   signInMobile   = (String) map.get(cols[4]);
+        String   signInEmail    = (String) map.get(cols[5]);
+        // 过滤登录名为空
         if (StringUtils.isEmpty(signInName)) {
-            return true;
+            return null;
         }
-        RacAccountAddTo accountAddTo        = new RacAccountAddTo();
+        RacAccountAddTo accountAddTo = new RacAccountAddTo();
+        accountAddTo.setRealmId(Realm_ID);
         // 查询是否存在该帐号
         RacAccountOneTo accountSignInNameTo = new RacAccountOneTo();
         accountSignInNameTo.setSignInName(signInName);
         accountSignInNameTo.setRealmId(accountAddTo.getRealmId());
-        RacAccountMo accountMo = racAccountSvc.getOne(accountSignInNameTo);
+        RacAccountMo accountMo = racAccountSvc.getAccountMoOne(accountSignInNameTo);
         // 帐号是否存在
         if (accountMo != null) {
-            return true;
-        }
-        RacUserAddTo userAddTo = new RacUserAddTo();
-        if (!StringUtils.isEmpty(signInNickname)) {
-            accountAddTo.setSignInNickname(signInNickname);
-            userAddTo.setRealName(signInNickname);
+            return updateAccount(accountMo, userMo, orgMo);
         }
         if (!StringUtils.isEmpty(signInMobile)) {
             RacAccountOneTo accountMobileTo = new RacAccountOneTo();
             accountMobileTo.setSignInMobile(signInMobile);
             accountMobileTo.setRealmId(accountAddTo.getRealmId());
-            RacAccountMo accountMobileMo = racAccountSvc.getOne(accountMobileTo);
+            RacAccountMo accountMobileMo = racAccountSvc.getAccountMoOne(accountMobileTo);
             if (accountMobileMo != null) {
-                return true;
+                return updateAccount(accountMobileMo, userMo, orgMo);
             }
             accountAddTo.setSignInMobile(signInMobile);
-            userAddTo.setMobile(signInMobile);
         }
         if (!StringUtils.isEmpty(signInEmail)) {
             RacAccountOneTo accountEmailTo = new RacAccountOneTo();
             accountEmailTo.setSignInEmail(signInEmail);
             accountEmailTo.setRealmId(accountAddTo.getRealmId());
-            RacAccountMo accountEmailMo = racAccountSvc.getOne(accountEmailTo);
+            RacAccountMo accountEmailMo = racAccountSvc.getAccountMoOne(accountEmailTo);
             if (accountEmailMo != null) {
-                return true;
+                return updateAccount(accountEmailMo, userMo, orgMo);
             }
             accountAddTo.setSignInEmail(signInEmail);
-            userAddTo.setEmail(signInEmail);
-        }
-        // 是否添加用户
-        RacUserMo userMoOne = null;
-        if (!StringUtils.isEmpty(idCard)) {
-            if (idCard.length() == 18) {
-                RacUserOneTo user = new RacUserOneTo();
-                user.setIdCard(idCard);
-                userMoOne = racUserSvc.getUserMoOne(user);
-                if (userMoOne == null) {
-                    if (userAddTo.getMobile() != null) {
-                        RacUserOneTo userMobile = new RacUserOneTo();
-                        userMobile.setIdCard(idCard);
-                        userMoOne = racUserSvc.getUserMoOne(userMobile);
-                        if (userMoOne == null) {
-                            if (userAddTo.getEmail() != null) {
-                                RacUserOneTo userEmail = new RacUserOneTo();
-                                userEmail.setIdCard(idCard);
-                                userMoOne = racUserSvc.getUserMoOne(userEmail);
-                                if (userMoOne == null) {
-                                    userAddTo.setIdCard(idCard);
-                                    userMoOne = racUserSvc.add(userAddTo);
-                                }
-                                // 找到邮箱
-                                else {
-                                    // 帐号关联用户
-                                    accountAddTo.setUserId(userMoOne.getId());
-                                }
-                            }
-                        }
-                        // 找到手机号
-                        else {
-                            // 帐号关联用户
-                            accountAddTo.setUserId(userMoOne.getId());
-                        }
-                    }
-                    else if (userAddTo.getEmail() != null) {
-                        RacUserOneTo userEmail = new RacUserOneTo();
-                        userEmail.setIdCard(idCard);
-                        userMoOne = racUserSvc.getUserMoOne(userEmail);
-                        if (userMoOne == null) {
-                            userAddTo.setIdCard(idCard);
-                            userMoOne = racUserSvc.add(userAddTo);
-                        }
-                        // 找到邮箱
-                        else {
-                            // 帐号关联用户
-                            accountAddTo.setUserId(userMoOne.getId());
-                        }
-                    }
-                    else {
-                        userAddTo.setIdCard(idCard);
-                        userMoOne = racUserSvc.add(userAddTo);
-                    }
-                }
-                else {
-                    // 找到身份证号
-                    // 帐号关联用户
-                    accountAddTo.setUserId(userMoOne.getId());
-                }
-            }
-
         }
 
-        accountAddTo.setRealmId("default");
         accountAddTo.setSignInName(signInName);
         accountAddTo.setIsTester(false);
-        accountAddTo.setIsEnabled(false);
+        accountAddTo.setIsEnabled(true);
         // // 设置默认密码12345678
         String signInPswdSalt = "zGxxxC";
         String signInPswd     = "25d55ad283aa400af464c76d713c07ad";
         accountAddTo.setSignInPswd(signInPswd);
         accountAddTo.setSignInPswdSalt(signInPswdSalt);
-        //
-        // 对应组织中的code
-        String orgId    = (String) map.get(cols[6]);
-        String orgName  = (String) map.get(cols[7]);
-        String roleId   = (String) map.get(cols[8]);
-        String roleName = (String) map.get(cols[9]);
-
-        // RacRoleAddTo roleAddTo = new RacRoleAddTo();
-        RacRoleMo roleMo = null;
-        // 查询是否存在角色关系
-        if (!StringUtils.isEmpty(roleId)) {
-            long valueOf = Integer.parseInt(roleId);
-            roleMo = racRoleSvc.getById(valueOf);
+        if (!StringUtils.isEmpty(signInNickname)) {
+            accountAddTo.setSignInNickname(signInNickname);
         }
-
-        // 是否存在组织关系
-        RacOrgMo orgMo = null;
-        if (!StringUtils.isEmpty(orgId)) {
-            RacOrgOneTo orgOneTo = new RacOrgOneTo();
-            orgOneTo.setCode(orgId);
-            orgOneTo.setRealmId(accountAddTo.getRealmId());
-            orgMo = racOrgSvc.getOne(orgOneTo);
+        // 判断是否关联用户组织
+        if (userMo != null) {
+            accountAddTo.setUserId(userMo.getId());
         }
-        // 是否关联组织
         if (orgMo != null) {
-            accountAddTo.setOrgId(orgMo.getId());
+            accountAddTo.setOrgId(userMo.getId());
         }
-        // 是否关联角色
-        if (roleMo != null) {
-            RacAccountMo     mo      = racAccountSvc.add(accountAddTo);
-            RacAccountRoleMo rolenoe = new RacAccountRoleMo();
-            rolenoe.setAccountId(accountMo.getId());
-            rolenoe.setRoleId(roleMo.getId());
-            RacAccountRoleMo selectOne = racAccountRoleMapper.selectOne(rolenoe).orElse(null);
-            if (selectOne != null) {
-                return true;
-            }
-            RacAccountRoleAddTo roleAddTo = new RacAccountRoleAddTo();
-            List<Long>          list      = new ArrayList<Long>();
-            roleAddTo.setAccountId(accountMo.getId());
-            list.add(roleMo.getId());
-            roleAddTo.setRoleIds(list);
-            racRoleSvc.addAccountRole(roleAddTo);
-            return true;
-        }
-        // 不关联角色不关联组织的帐号
         RacAccountMo mo = racAccountSvc.add(accountAddTo);
 
-        return true;
+        return mo;
     }
 
-    // /**
-    // * 获取excel表fc模板帐号信息
-    // *
-    // * @param workbook Workbook workbook = new SXSSFWorkbook();
-    // * @param sheetNumber excel表的sheet位置
-    // */
-    // private String getWorkbookfcAccountContent(Workbook workbook, int sheetNumber) {
-    // Sheet sheetAt = workbook.getSheetAt(0);
-    // Row row = sheetAt.getRow(0);
-    // // ID
-    // Cell user_id1 = row.getCell(0);
-    // // 登录名
-    // Cell username1 = row.getCell(1);
-    // // 手机号
-    // Cell phone1 = row.getCell(4);
-    // // 帐号昵称
-    // Cell name1 = row.getCell(7);
-    // // 组织Id
-    // Cell dept_id1 = row.getCell(8);
-    // // 启用锁定
-    // Cell lock_flag1 = row.getCell(11);
-    // // 遍历行row
-    // Map<RacUserAddTo, RacAccountAddTo> map = new HashMap<RacUserAddTo, RacAccountAddTo>();
-    // int n = 0;
-    // for (int rownum = 1; rownum <= sheetAt.getLastRowNum(); rownum++) {
-    // Row sheetRow = sheetAt.getRow(rownum);
-    // if (sheetRow == null) {
-    // continue;
-    // }
-    // // ID
-    // Cell user_id = sheetRow.getCell(0);
-    // // 登录名
-    // Cell username = sheetRow.getCell(1);
-    // // 手机号
-    // Cell phone = sheetRow.getCell(4);
-    // // 帐号昵称
-    // Cell name = sheetRow.getCell(7);
-    // // 组织Id
-    // Cell dept_id = sheetRow.getCell(8);
-    // // 启用锁定
-    // Cell lock_flag = sheetRow.getCell(11);
-    // // 姓名
-    // Cell stu_name = sheetRow.getCell(30);
-    // // 身份证号
-    // Cell id_no = sheetRow.getCell(31);
-    // // int value = Integer.parseInt(getValue(sheetRow.getCell(12))) + 1;
-    // RacAccountAddTo accountAddTo = new RacAccountAddTo();
-    // accountAddTo.setRealmId("default");
-    // // String value2 = getValue(sheetRow.getCell(0));
-    // // orgAddTo.setTreeCode(value2);
-    // String id = getValue(sheetRow.getCell(0));
-    // accountAddTo.setSignInNickname(getValue(name));
-    // accountAddTo.setSignInMobile(getValue(phone));
-    // accountAddTo.setCode(getValue(user_id));
-    // accountAddTo.setSignInName(getValue(username));
-    // accountAddTo.setIsTester(false);
-    // accountAddTo.setOrgId((long) Integer.parseInt(getValue(dept_id)));
-    // accountAddTo.setIsEnabled(getValue(lock_flag).equals("0") ? true : false);
-    // RacUserAddTo userAddTo = new RacUserAddTo();
-    // userAddTo.setIdCard(getValue(id_no));
-    // userAddTo.setRealName(getValue(stu_name));
-    //
-    // map.put(userAddTo, accountAddTo);
-    // }
-    // addfcAccount(map, 3);
-    // return "添加完成";
-    // }
-    //
-    // /**
-    // * 添加fc帐号
-    // */
-    // private int addfcAccount(Map<RacUserAddTo, RacAccountAddTo> map, int leng) {
-    // Iterator<Map.Entry<RacUserAddTo, RacAccountAddTo>> it = map.entrySet().iterator();
-    // while (it.hasNext()) {
-    // Map.Entry<RacUserAddTo, RacAccountAddTo> entry = it.next();
-    // RacUserAddTo usermo = entry.getKey();
-    // RacAccountAddTo accountmo = entry.getValue();
-    // final RacUserOneTo user = OrikaUtils.map(usermo, RacUserOneTo.class);
-    // RacUserMo userMoOne = null;
-    // if (user.getIdCard() != null || user.getRealName() != null) {
-    // userMoOne = racUserSvc.getUserMoOne(user);
-    // }
-    // if (userMoOne != null) {
-    // RacAccountOneTo oneTo = new RacAccountOneTo();
-    // oneTo.setCode(accountmo.getCode());
-    // oneTo.setRealmId(accountmo.getRealmId());
-    // RacAccountMo accountMoOne = accountSvc.getAccountMoOne(oneTo);
-    // if (accountMoOne != null) {
-    // it.remove();
-    // continue;
-    // }
-    // else {
-    // String signInPswdSalt = "zGxxxC";
-    // String signInPswd = "25d55ad283aa400af464c76d713c07ad";
-    // accountmo.setSignInPswd(signInPswd);
-    // accountmo.setSignInPswdSalt(signInPswdSalt);
-    // accountmo.setUserId(userMoOne.getId());
-    // RacAccountMo add = accountSvc.add(accountmo);
-    // RacAccountRoleMo rolenoe = new RacAccountRoleMo();
-    // rolenoe.setAccountId(add.getId());
-    // rolenoe.setRoleId(943048242716737536L);
-    // RacAccountRoleMo selectOne = racAccountRoleMapper.selectOne(rolenoe).orElse(null);
-    // if (selectOne != null) {
-    // it.remove();
-    // continue;
-    // }
-    // RacAccountRoleAddTo roleAddTo = new RacAccountRoleAddTo();
-    // roleAddTo.setAccountId(add.getId());
-    // List<Long> list = new ArrayList<Long>();
-    // list.add(943048242716737536L);
-    // roleAddTo.setRoleIds(list);
-    // racRoleSvc.addAccountRole(roleAddTo);
-    // it.remove();
-    // continue;
-    // }
-    // }
-    // else {
-    // if (usermo.getIdCard() != null && usermo.getIdCard().length() == 18) {
-    // RacUserMo adds = racUserSvc.add(usermo);
-    // accountmo.setUserId(adds.getId());
-    // }
-    // RacAccountOneTo oneTo = new RacAccountOneTo();
-    // oneTo.setCode(accountmo.getCode());
-    // oneTo.setRealmId(accountmo.getRealmId());
-    // RacAccountMo accountMoOne = accountSvc.getAccountMoOne(oneTo);
-    // if (accountMoOne != null) {
-    // it.remove();
-    // }
-    // else {
-    // String signInPswdSalt = "zGxxxC";
-    // String signInPswd = "25d55ad283aa400af464c76d713c07ad";
-    // accountmo.setSignInPswd(signInPswd);
-    // accountmo.setSignInPswdSalt(signInPswdSalt);
-    // RacAccountMo add2 = accountSvc.add(accountmo);
-    // RacAccountRoleMo rolenoe = new RacAccountRoleMo();
-    // rolenoe.setAccountId(add2.getId());
-    // rolenoe.setRoleId(943048242716737536L);
-    // RacAccountRoleMo selectOne = racAccountRoleMapper.selectOne(rolenoe).orElse(null);
-    // if (selectOne != null) {
-    // it.remove();
-    // continue;
-    // }
-    // RacAccountRoleAddTo roleAddTo = new RacAccountRoleAddTo();
-    // roleAddTo.setAccountId(add2.getId());
-    // List<Long> list = new ArrayList<Long>();
-    // list.add(943048242716737536L);
-    // roleAddTo.setRoleIds(list);
-    // racRoleSvc.addAccountRole(roleAddTo);
-    // it.remove();
-    // }
-    // }
-    // }
-    // if (map.isEmpty() || leng > 30) {
-    // return 1;
-    // }
-    // return addfcAccount(map, leng + 3);
-    // }
-    //
-    // /**
-    // * 获取excel表fc模板组织信息
-    // *
-    // * @param workbook Workbook workbook = new SXSSFWorkbook();
-    // * @param sheetNumber excel表的sheet位置
-    // */
-    // private String getWorkbookfcOrgContent(Workbook workbook, int sheetNumber) {
-    // Sheet sheetAt = workbook.getSheetAt(0);
-    // Row row = sheetAt.getRow(0);
-    // // ID
-    // Cell dept_id = row.getCell(0);
-    // // 部门名称
-    // Cell name = row.getCell(1);
-    // // 上级部门
-    // Cell parent_id = row.getCell(6);
-    // // 部门编码
-    // Cell dept_code = row.getCell(9);
-    // // 部门类型
-    // Cell cell4 = row.getCell(12);
-    // // 遍历行row
-    // Map<String, RacOrgAddTo> map = new HashMap<String, RacOrgAddTo>();
-    // for (int rownum = 1; rownum <= sheetAt.getLastRowNum(); rownum++) {
-    // Row sheetRow = sheetAt.getRow(rownum);
-    // if (sheetRow == null) {
-    // continue;
-    // }
-    //
-    // int value = Integer.parseInt(getValue(sheetRow.getCell(12))) + 1;
-    // RacOrgAddTo orgAddTo = new RacOrgAddTo();
-    // orgAddTo.setRealmId("default");
-    // // String value2 = getValue(sheetRow.getCell(0));
-    // // orgAddTo.setTreeCode(value2);
-    // String id = getValue(sheetRow.getCell(0));
-    // orgAddTo.setId((long) Integer.parseInt(getValue(sheetRow.getCell(0))));
-    // orgAddTo.setCode(getValue(sheetRow.getCell(9)));
-    // orgAddTo.setName(getValue(sheetRow.getCell(1)));
-    // String value2 = getValue(sheetRow.getCell(6));
-    // if (value2 != null) {
-    // orgAddTo.setParentId((long) Integer.parseInt(value2));
-    // }
-    // // orgAddTo.setFullName(getValue(sheetRow.getCell(2)));
-    // if (value <= 5) {
-    // String desc = OrgTypeDic.getItem((byte) value).getDesc();
-    // int orgType = Integer.parseInt(desc);
-    // orgAddTo.setOrgType((byte) orgType);
-    // }
-    // else {
-    // orgAddTo.setOrgType((byte) 90);
-    // }
-    // map.put(id, orgAddTo);
-    // }
-    // addfcOrg(map, 3);
-    // return "添加完成";
-    // }
-    //
-    // /**
-    // * 添加fc组织
-    // */
-    // private int addfcOrg(Map<String, RacOrgAddTo> map, int leng) {
-    // Iterator<Map.Entry<String, RacOrgAddTo>> it = map.entrySet().iterator();
-    // while (it.hasNext()) {
-    // Map.Entry<String, RacOrgAddTo> entry = it.next();
-    // RacOrgAddTo mo = entry.getValue();
-    // // int length = mo.getTreeCode().length();
-    // if (mo.getParentId() != null) {
-    // RacOrgMo one = racOrgSvc.getById(mo.getParentId());
-    // if (one == null) {
-    // continue;
-    // }
-    // RacOrgMo one1 = racOrgSvc.getById(mo.getId());
-    // if (one1 != null) {
-    // racOrgSvc.modifyMoById(one1);
-    // it.remove();
-    // continue;
-    // }
-    // mo.setParentId(one.getId());
-    // racOrgSvc.add(mo);
-    // it.remove();
-    // }
-    // else {
-    // RacOrgMo one = racOrgSvc.getById(mo.getId());
-    // if (one != null) {
-    // racOrgSvc.modifyMoById(one);
-    // it.remove();
-    // continue;
-    // }
-    // racOrgSvc.add(mo);
-    // it.remove();
-    // }
-    // }
-    // if (map.isEmpty() || leng > 30) {
-    // return 1;
-    // }
-    // return addfcOrg(map, leng + 3);
-    // }
-    //
-    // /**
-    // * 获取excel表nnxy模板组织信息
-    // *
-    // * @param workbook Workbook workbook = new SXSSFWorkbook();
-    // * @param sheetNumber excel表的sheet位置
-    // */
-    // private String getWorkbooknnxyOrgContent(Workbook workbook, int sheetNumber) {
-    // Sheet sheetAt = workbook.getSheetAt(0);
-    // Row row = sheetAt.getRow(0);
-    // // 树编码ID
-    // Cell cell = row.getCell(0);
-    // // 部门名称
-    // Cell cell1 = row.getCell(1);
-    // // 部门全称
-    // Cell cell2 = row.getCell(2);
-    // // 部门级别
-    // Cell cell3 = row.getCell(3);
-    // Cell cell4 = row.getCell(4);
-    // // 遍历行row
-    // Map<String, RacOrgMo> map = new HashMap<String, RacOrgMo>();
-    // int n = 0;
-    // for (int rownum = 1; rownum <= sheetAt.getLastRowNum(); rownum++) {
-    // Row sheetRow = sheetAt.getRow(rownum);
-    // if (sheetRow == null) {
-    // continue;
-    // }
-    //
-    // int value = Integer.parseInt(getValue(sheetRow.getCell(3)));
-    // RacOrgMo orgAddTo = new RacOrgMo();
-    // orgAddTo.setRealmId("default");
-    // String value2 = getValue(sheetRow.getCell(0));
-    // orgAddTo.setTreeCode(value2);
-    // orgAddTo.setName(getValue(sheetRow.getCell(1)));
-    // orgAddTo.setFullName(getValue(sheetRow.getCell(2)));
-    // if (value <= 5) {
-    // String desc = OrgTypeDic.getItem((byte) value).getDesc();
-    // int orgType = Integer.parseInt(desc);
-    // orgAddTo.setOrgType((byte) orgType);
-    // }
-    // else {
-    // orgAddTo.setOrgType((byte) 90);
-    // }
-    // map.put(orgAddTo.getTreeCode(), orgAddTo);
-    // // 遍历列cell
-    // for (int cellnum = 0; cellnum <= sheetRow.getLastCellNum(); cellnum++) {
-    // if (cellnum == 3) {
-    // String valueLevel = getValue(sheetRow.getCell(cellnum));
-    // }
-    // Cell cell11 = sheetRow.getCell(cellnum);
-    // if (cell11 == null) {
-    // continue;
-    // }
-    // System.out.print(" " + getValue(cell11));
-    // }
-    // System.out.println();
-    //
-    // }
-    // addnnxyOrg(map, 3);
-    // return "添加完成";
-    // }
-    //
-    // /**
-    // * 添加nnxy组织
-    // */
-    // private int addnnxyOrg(Map<String, RacOrgMo> map, int leng) {
-    // Iterator<Map.Entry<String, RacOrgMo>> it = map.entrySet().iterator();
-    // while (it.hasNext()) {
-    // Map.Entry<String, RacOrgMo> entry = it.next();
-    // RacOrgMo mo = entry.getValue();
-    // int length = mo.getTreeCode().length();
-    // if (length == 3) {
-    // racOrgSvc.addMo(mo);
-    // it.remove();
-    // }
-    // else
-    // if (leng == length) {
-    // RacOrgOneTo to = new RacOrgOneTo();
-    // to.setRealmId(mo.getRealmId());
-    // to.setTreeCode(mo.getTreeCode().substring(0, length - 3));
-    // RacOrgMo one = racOrgSvc.getOne(to);
-    // mo.setParentId(one.getId());
-    // racOrgSvc.addMo(mo);
-    // it.remove();
-    // }
-    // }
-    // if (map.isEmpty()) {
-    // return 1;
-    // }
-    // return addnnxyOrg(map, leng + 3);
-    // }
-
     /**
-     * 静态
+     * 更新帐号关联关系
      * 
-     * @param hssfCell
+     * @param mo
+     * @param userMo
+     * @param orgMo
      * 
-     * @return
+     * @return RacAccountMo
      */
-    private static String getValue(Cell hssfCell) {
-        if (hssfCell == null) {
-            return null;
+    private RacAccountMo updateAccount(RacAccountMo mo, RacUserMo userMo, RacOrgMo orgMo) {
+        if (userMo != null) {
+            mo.setUserId(userMo.getId());
         }
-        if (hssfCell.getCellType() == CellType.BOOLEAN) {
-            return String.valueOf(hssfCell.getBooleanCellValue());
+        if (orgMo != null) {
+            mo.setOrgId(userMo.getId());
         }
-        else if (hssfCell.getCellType() == CellType.FORMULA) {
-            return String.valueOf(hssfCell.getDateCellValue());
-        }
-        else if (hssfCell.getCellType() == CellType.NUMERIC) {
-            if (DateUtil.isCellDateFormatted(hssfCell)) {
-                LocalDateTime localDateTimeCellValue = hssfCell.getLocalDateTimeCellValue();
-                return localDateTimeCellValue.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-            }
-            return String.valueOf((int) hssfCell.getNumericCellValue());
-        }
-        else if (hssfCell.getCellType() == CellType.BLANK) {
-            return null;
-        }
-        else if (hssfCell.getCellType() == CellType.STRING) {
-            return String.valueOf(hssfCell.getStringCellValue());
-        }
-        else {
-            return String.valueOf("");
-        }
+        RacAccountMo modifyMoById = racAccountSvc.modifyMoById(mo);
+        return modifyMoById;
     }
 
     /**
