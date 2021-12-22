@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -27,7 +26,7 @@
 		<module>cap</module>
 		<module>bat-generator</module>
 		<module>etl</module>
-		<module>msg</module>
+		<!-- <module>msg</module> -->
 	</modules>
 
 	<dependencyManagement>
@@ -60,6 +59,11 @@
 			<dependency>
 				<groupId>com.github.rebue.scx</groupId>
 				<artifactId>cap-api</artifactId>
+				<version>1.2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.scx</groupId>
+				<artifactId>msg-api</artifactId>
 				<version>1.2.5</version>
 			</dependency>
 		</dependencies>
