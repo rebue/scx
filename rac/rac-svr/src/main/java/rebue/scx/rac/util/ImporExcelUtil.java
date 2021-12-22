@@ -55,9 +55,12 @@ public class ImporExcelUtil {
         int                       lastRowNum = sheet.getLastRowNum();
         List<Map<String, Object>> list       = new ArrayList<>();
         for (int i = startIndex; i <= lastRowNum; i++) {
-            Map<String, Object> map  = new HashMap<>();
-            Row                 row  = sheet.getRow(i);
-            boolean             flag = false;
+            Map<String, Object> map = new HashMap<>();
+            Row                 row = sheet.getRow(i);
+            if (row == null) {
+                continue;
+            }
+            boolean flag = false;
             for (int j = 0; j < colWide; j++) {
                 String key  = cols[j];
                 Cell   cell = row.getCell(j);
@@ -86,9 +89,11 @@ public class ImporExcelUtil {
     }
 
     /**
-     * 静态
+     * 获取Excel表，单元格的值
      * 
      * @param hssfCell
+     * 
+     * @return string
      */
     private static String getValue(Cell hssfCell) {
         if (hssfCell == null) {
