@@ -532,7 +532,7 @@ public class OidcSvcImpl implements OidcSvc {
 
         return ResponseCookie.from(OidcConfig.AUTH_INFO, value)
                 .path("/")
-                .maxAge(30 * 60)
+                .maxAge(5 * 60)
                 .build();
     }
 
