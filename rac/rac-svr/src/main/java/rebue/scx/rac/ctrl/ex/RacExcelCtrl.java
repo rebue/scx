@@ -85,7 +85,7 @@ public class RacExcelCtrl {
             return filePart.content().map(dataBuffer -> dataBuffer.asInputStream(true))
                     .reduce(SequenceInputStream::new)
                     .map(inputStream -> {
-                        return api.getExcelContent(inputStream, fileName);
+                        return api.getExcelContent(inputStream, type, fileName);
                     });
         }).next();
     }

@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +40,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.nacos.shaded.com.google.common.net.HttpHeaders;
-import com.google.common.io.Files;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -65,6 +66,7 @@ import rebue.scx.rac.to.RacUserAddTo;
 import rebue.scx.rac.to.RacUserOneTo;
 import rebue.scx.rac.util.FieldCollection;
 import rebue.scx.rac.util.ImporExcelUtil;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.RandomEx;
 import rebue.wheel.core.util.OrikaUtils;
 import rebue.wheel.core.util.RegexUtils;
@@ -109,11 +111,14 @@ public class RacExcelSvcImpl implements RacExcelSvc {
     public Mono<Void> getExcelTemplate(final String type, final ServerHttpResponse response) {
         ZeroCopyHttpOutputMessage zeroCopyResponse = (ZeroCopyHttpOutputMessage) response;
         String                    fileName         = "账户信息收集表.xlsx";
-        File                      targetFile       = null;
+        if ("org".equals(type)) {
+            fileName = "组织信息收集表.xlsx";
+        }
+        File targetFile = null;
         try {
             targetFile = File.createTempFile("cateringConsole", "xlsx");
             Workbook workbook = new SXSSFWorkbook();
-            setAccountSheet(workbook, 0);
+            setSheet(workbook, type, 0);
             FileOutputStream stream = new FileOutputStream(targetFile);
             workbook.write(stream);
             workbook.close();
@@ -137,28 +142,77 @@ public class RacExcelSvcImpl implements RacExcelSvc {
     }
 
     @Override
-    public Ro<?> getExcelContent(InputStream inputStream, String fileName) {
+    public Ro<?> getExcelContent(InputStream inputStream, String type, String fileName) {
         // 获取字段数组
         String[]                  cols      = FieldCollection.getAccountInformationCol();
         String[]                  orgCols   = FieldCollection.getOrgInformationCol();
-        final String              fileExt   = Files.getFileExtension(fileName);
-        Workbook                  workbook;
         List<Map<String, Object>> readExcel = new ArrayList<>();
         try {
-            readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, cols.length, cols);
-            // readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, orgCols.length, orgCols);
+            int i = 0;
+            switch (type) {
+            case "accout":
+                readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, cols.length, cols);
+                recursionAdd(readExcel, i);
+                break;
+            case "account":
+                readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, orgCols.length, orgCols);
+                orgAdd(readExcel, i);
+                break;
+            default:
+                throw new RuntimeExceptionX("不支持该类型: " + type);
+            }
             inputStream.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int i = 0;
-        recursionAdd(readExcel, i);
         return Ro.success("导入成功");
     }
 
     /**
+     * 添加组织
      * 
+     * @param readExcel
+     * @param i
+     */
+    private void orgAdd(List<Map<String, Object>> readExcel, int i) {
+        String[] cols = FieldCollection.getOrgInformationCol();
+        Collections.sort(readExcel, new Comparator<Map<String, Object>>() {
+
+            @Override
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                String value1     = (String) o1.get(cols[1]);
+                String value2     = (String) o2.get(cols[1]);
+                long   parseLong2 = Long.valueOf(value2);
+                long   parseLong  = Long.valueOf(value1);
+
+                if (parseLong == parseLong2) {
+                    if (value1.length() == value2.length()) {
+                        return 0;
+                    }
+                    if (value1.length() > value2.length()) {
+                        return 1;
+                    }
+                    return -1;
+                }
+                boolean b = parseLong > parseLong2;
+                return b ? 1 : -1;
+            };
+        });
+        int size = readExcel.size();
+        log.info(StringUtils.rightPad("*** 剩余记录size ： " + size + " 条", 100));
+        Iterator<Map<String, Object>> iterator = readExcel.iterator();
+        while (iterator.hasNext()) {
+            Map<String, Object> next = iterator.next();
+            log.info(StringUtils.rightPad("*** 当前记录 " + (i += 1) + " : " + next.toString(), 100));
+            RacOrgMo orgMo = insertOrgRecord(next);
+            iterator.remove();
+        }
+
+    }
+
+    /**
+     * 遍历添加账户信息
      */
     private void recursionAdd(List<Map<String, Object>> readExcel, int i) {
         int size = readExcel.size();
@@ -206,6 +260,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * @param roleMo
      * @param accountMo
      */
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private void insertAccountRoleRecord(RacRoleMo roleMo, RacAccountMo accountMo) {
         if (roleMo == null || accountMo == null) {
             return;
@@ -272,11 +327,10 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * 
      * @return RacUserMo
      */
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private RacUserMo insertUserRecord(Map<String, Object> map) {
         // 获取字段数组
         String[] cols           = FieldCollection.getAccountInformationCol();
-        String   index          = (String) map.get(cols[0]);
-        String   signInName     = (String) map.get(cols[1]);
         String   signInNickname = (String) map.get(cols[2]);
         String   idCard         = (String) map.get(cols[3]);
         String   signInMobile   = (String) map.get(cols[4]);
@@ -336,7 +390,9 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * 
      * @return
      */
-    private boolean insertOrgRecord(Map<String, Object> map) {
+    @SuppressWarnings("unused")
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    private RacOrgMo insertOrgRecord(Map<String, Object> map) {
         // 获取字段数组
         String[] cols       = FieldCollection.getOrgInformationCol();
         // 添加组织信息
@@ -346,29 +402,50 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         String   parentId   = (String) map.get(cols[3]);
         String   parentName = (String) map.get(cols[4]);
         String   orgType    = (String) map.get(cols[5]);
-
+        // 过滤都为空
+        if (StringUtils.isEmpty(orgId) && StringUtils.isEmpty(orgName)) {
+            return null;
+        }
+        // 过滤已存在
+        RacOrgAddTo addTo = new RacOrgAddTo();
+        if (!StringUtils.isEmpty(orgName)) {
+            final RacOrgOneTo oneTo = new RacOrgOneTo();
+            oneTo.setRealmId(Realm_ID);
+            oneTo.setName(orgName);
+            oneTo.setCode(orgId);
+            RacOrgMo one = racOrgSvc.getOne(oneTo);
+            if (one != null) {
+                return one;
+            }
+            addTo.setName(orgName);
+        }
+        if (!StringUtils.isEmpty(orgId)) {
+            final RacOrgOneTo oneTo = new RacOrgOneTo();
+            oneTo.setRealmId(Realm_ID);
+            oneTo.setCode(orgId);
+            RacOrgMo one = racOrgSvc.getOne(oneTo);
+            if (one != null) {
+                return one;
+            }
+            addTo.setCode(orgId);
+        }
+        // 未存在
         // 1.无组织 无上级组织
         // 2.无组织 有上级组织
         // 2.有组织 无上级组织
         // 4.有组织 有上级组织
-        RacOrgAddTo addTo = new RacOrgAddTo();
         addTo.setRealmId(Realm_ID);
-        addTo.setName(orgName);
-        addTo.setCode(orgId);
-        Byte valueOf = Byte.valueOf(orgType);
-        addTo.setOrgType(valueOf);
-        // if (index.equals("120")) {
-        // index = "120";
-        // }
+        if (orgType.trim().matches("\\d{1,3}")) {
+            Byte valueOf = Byte.valueOf(orgType);
+            addTo.setOrgType(valueOf);
+        }
+        else {
+            addTo.setOrgType((byte) 1);
+        }
         if (parentId.isEmpty()) {
-            final RacOrgOneTo oneTo = OrikaUtils.map(addTo, RacOrgOneTo.class);
-            RacOrgMo          one   = racOrgSvc.getOne(oneTo);
-            if (one != null) {
-                return true;
-            }
             addTo.setFullName(addTo.getName());
-            racOrgSvc.add(addTo);
-            return true;
+            RacOrgMo add = racOrgSvc.add(addTo);
+            return add;
         }
         else {
             RacOrgOneTo oneTo = new RacOrgOneTo();
@@ -381,12 +458,17 @@ public class RacExcelSvcImpl implements RacExcelSvc {
                 final RacOrgOneTo oneMo = OrikaUtils.map(addTo, RacOrgOneTo.class);
                 RacOrgMo          one   = racOrgSvc.getOne(oneMo);
                 if (one != null) {
-                    return true;
+                    return one;
                 }
-                racOrgSvc.add(addTo);
-                return true;
+                RacOrgMo add = racOrgSvc.add(addTo);
+                return add;
             }
-            return false;
+            // 按道理而言不会走到这里
+            else {
+                addTo.setFullName(addTo.getName());
+                RacOrgMo add = racOrgSvc.add(addTo);
+                return add;
+            }
         }
 
     }
@@ -399,16 +481,16 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * 
      * @return RacAccountMo
      */
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private RacAccountMo insertAccountRecord(Map<String, Object> map, RacUserMo userMo, RacOrgMo orgMo) {
         // 获取字段数组
         String[] cols           = FieldCollection.getAccountInformationCol();
-        String   index          = (String) map.get(cols[0]);
         String   signInName     = (String) map.get(cols[1]);
         String   signInNickname = (String) map.get(cols[2]);
         String   signInMobile   = (String) map.get(cols[4]);
         String   signInEmail    = (String) map.get(cols[5]);
         // 过滤登录名为空
-        if (StringUtils.isEmpty(signInName)) {
+        if (StringUtils.isEmpty(signInName) || StringUtils.isEmpty(signInNickname)) {
             return null;
         }
         RacAccountAddTo accountAddTo = new RacAccountAddTo();
@@ -490,9 +572,10 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * 给excel表设置账户信息
      * 
      * @param workbook    Workbook workbook = new SXSSFWorkbook();
+     * @param type
      * @param sheetNumber excel表的sheet位置
      */
-    private void setAccountSheet(Workbook workbook, int sheetNumber) {
+    private void setSheet(Workbook workbook, String type, int sheetNumber) {
         // 表头样式
         CellStyle headerStyle = workbook.createCellStyle();
         // 字体
@@ -531,50 +614,35 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         // cellStyle2.setBorderTop(BorderStyle.THIN);
         cellStyle2.setWrapText(true);
         cellStyle2.setFillForegroundColor(HSSFColorPredefined.GREY_50_PERCENT.getIndex());
-        SXSSFSheet sheet      = (SXSSFSheet) workbook.createSheet("账户信息");
 
+        SXSSFSheet sheet;
         DataFormat dataFormat = workbook.createDataFormat();
         // setBorder.setDataFormat(dataFormat.getFormat("@"));
-        sheet.setColumnWidth(0, 12 * 256);
-        Row row = sheet.createRow(0);
-        row.setHeight((short) (25 * 20));
-        setCell(row, 0, "是否必填", headerStyle);
-        setCell(row, 1, "否", headerStyle);
-        setCell(row, 2, "否", headerStyle);
-        setCell(row, 3, "是", headerStyle);
-        setCell(row, 4, "是", headerStyle);
-        setCell(row, 5, "否", headerStyle);
-        setCell(row, 6, "否", headerStyle);
-        setCell(row, 7, "否", headerStyle);
-        setCell(row, 8, "否", headerStyle);
-        setCell(row, 9, "否", headerStyle);
-        setCell(row, 10, "否，填则身份证也必须填写", headerStyle);
-        setCell(row, 11, "否", headerStyle);
-        setCell(row, 12, "否", headerStyle);
-        setCell(row, 13, "否", headerStyle);
-        setCell(row, 12, "否", headerStyle);
-        setCell(row, 13, "否", headerStyle);
-        setCell(row, 14, "选填", headerStyle);
-        setCell(row, 15, "否", headerStyle);
-        Row row2 = sheet.createRow(1);
-        row2.setHeight((short) (30 * 20));
-        setCell(row2, 0, "序号", headerStyle);
-        setCell(row2, 1, "帐号编码", headerStyle);
-        setCell(row2, 2, "登录昵称", headerStyle);
-        setCell(row2, 3, "登录帐号", headerStyle);
-        setCell(row2, 4, "登录密码", headerStyle);
-        setCell(row2, 5, "微信openId", headerStyle);
-        setCell(row2, 6, "微信unionId", headerStyle);
-        setCell(row2, 7, "钉钉openId", headerStyle);
-        setCell(row2, 8, "钉钉unionId", headerStyle);
-        setCell(row2, 9, "用户ID", headerStyle);
-        setCell(row2, 10, "姓名", headerStyle);
-        setCell(row2, 11, "身份证号", headerStyle);
-        setCell(row2, 12, "手机号码", headerStyle);
-        setCell(row2, 13, "电子邮箱", headerStyle);
-        setCell(row2, 14, "组织ID", headerStyle);
-        setCell(row2, 15, "角色ID", headerStyle);
-        // setRandomdata(sheet, 2, 1000, cellStyle1, cellStyle2);
+
+        switch (type) {
+        case "account":
+            sheet = (SXSSFSheet) workbook.createSheet("账户信息");
+            sheet.setColumnWidth(0, 12 * 256);
+            Row row1 = sheet.createRow(0);
+            row1.setHeight((short) (30 * 20));
+            String[] accountNameInformationCol = FieldCollection.getAccountNameInformationCol();
+            for (int i = 0; i < accountNameInformationCol.length; i++) {
+                setCell(row1, i, accountNameInformationCol[i], headerStyle);
+            }
+            break;
+        case "org":
+            sheet = (SXSSFSheet) workbook.createSheet("组织信息");
+            sheet.setColumnWidth(0, 12 * 256);
+            Row row2 = sheet.createRow(0);
+            row2.setHeight((short) (30 * 20));
+            String[] orgNameInformationCol = FieldCollection.getOrgNameInformationCol();
+            for (int i = 0; i < orgNameInformationCol.length; i++) {
+                setCell(row2, i, orgNameInformationCol[i], headerStyle);
+            }
+            break;
+        default:
+            throw new RuntimeExceptionX("不支持该类型: " + type);
+        }
         sheet.trackAllColumnsForAutoSizing();
         for (int i = 1; i < 10; i++) {
             sheet.autoSizeColumn(i);
@@ -590,6 +658,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * @param cellStyle   表格样式
      * @param cellStyle2
      */
+    @SuppressWarnings("unused")
     private void setRandomdata(Sheet sheet, int startRowNum, int endRowNum, CellStyle cellStyle1, CellStyle cellStyle2) {
         for (int i = startRowNum; i < endRowNum; i++) {
             CellStyle style = null;

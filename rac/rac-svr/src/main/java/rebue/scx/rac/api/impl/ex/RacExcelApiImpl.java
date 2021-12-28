@@ -37,7 +37,7 @@ public class RacExcelApiImpl implements RacExcelApi {
     }
 
     @Override
-    public Ro<?> getExcelContent(InputStream inputStream, String fileName) {
-        return svc.getExcelContent(inputStream, fileName);
+    public Ro<?> getExcelContent(InputStream inputStream, String type, String fileName) {
+        return svc.getExcelContent(inputStream, type, fileName);
     }
 }

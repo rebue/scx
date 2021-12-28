@@ -5,8 +5,8 @@ minio:
 # true 全路径http://127.0.0.1:9000/oss-svr/***
 # false 相对路径 /oss-svr/**
   urlPrefixBool: true
-  accessKey: minioadmin
-  secretKey: minioadmin
+ # accessKey: minioadmin
+  #secretKey: minioadmin
 #登保配置  
 level-protect: 
   lock-duration: 60

@@ -21,6 +21,6 @@ public interface RacExcelApi {
 
     Mono<?> getExcelContent(Flux<FilePart> filePartFlux);
 
-    Ro<?> getExcelContent(InputStream inputStream, String fileName);
+    Ro<?> getExcelContent(InputStream inputStream, String type, String fileName);
 
 }

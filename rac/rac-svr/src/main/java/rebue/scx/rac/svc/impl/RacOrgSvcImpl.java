@@ -126,6 +126,7 @@ public class RacOrgSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacOrgMo add(final RacOrgAddTo to) {
         final RacOrgMo mo = OrikaUtils.map(to, getMoClass());
+        mo.setId(_idWorker.getId());
         // mo中需要添加一个树编码
         if (to.getParentId() == null) {
             final RacOrgMo qo = new RacOrgMo();
@@ -143,6 +144,9 @@ public class RacOrgSvcImpl
             final Long   count     = thisSvc.countSelective(qo);
             final String treeCode2 = StringUtils.leftPad(count.toString(), 3, '0');
             mo.setTreeCode(treeCode1 + treeCode2);
+        }
+        if (StringUtils.isEmpty(to.getCode())) {
+            mo.setCode(mo.getId().toString());
         }
         return thisSvc.addMo(mo);
     }

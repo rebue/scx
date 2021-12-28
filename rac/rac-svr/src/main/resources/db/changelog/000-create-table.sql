@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/12/22 17:10:37                          */
+/* Created on:     2021/12/27 17:01:21                          */
 /*==============================================================*/
 
 
@@ -265,7 +265,7 @@ create table RAC_ORG
    primary key (ID),
    unique key AK_REALM_AND_ORG_FULL_NAME (FULL_NAME, REALM_ID),
    unique key AK_REALM_AND_ORG_CODE (CODE, REALM_ID),
-   unique key AK_REALM_AND_ORG_NAME (NAME, REALM_ID)
+   unique key AK_ORG_NAME_AND_ORG_CODE (NAME, CODE, REALM_ID)
 );
 
 alter table RAC_ORG comment '组织';
