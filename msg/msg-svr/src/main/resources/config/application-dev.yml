@@ -8,3 +8,9 @@ msg:
     app-secret: e92f7f27dbd27bf0f1157c61
     tempId: 202223
     signId: 20492
+  email:
+    #短信平台jiguang/baidu
+    email-platform: jiguang
+    simulation: false
+    app-key: 10001275A644497:c3a12648939a4cde9ca2e4a5
+    tempId: 10522

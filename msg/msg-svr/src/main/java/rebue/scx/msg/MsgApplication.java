@@ -18,7 +18,6 @@ import com.dtflys.forest.springboot.annotation.ForestScan;
 @Configuration
 @ForestScan(basePackages = "rebue.msg.fapi")
 public class MsgApplication {
-
 	public static void main(final String[] args) {
 		SpringApplication.run(MsgApplication.class, args);
 	}
