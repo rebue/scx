@@ -30,8 +30,8 @@ public class EmailConfig {
      */
     private String  appSecret;
     
-    //private String emailTempletEndpoint;
-    //private String emailOrdinaryEndpoint;
+    private String emailTempletEndpoint;
+    private String emailOrdinaryEndpoint;
     
 
 }

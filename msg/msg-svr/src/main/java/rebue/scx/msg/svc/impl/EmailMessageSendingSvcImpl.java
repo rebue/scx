@@ -49,7 +49,7 @@ public String SendEmailOrdinary(String title,String text,String[] datas){
 	  String authString = emailConfig.getAppKey()+":"+emailConfig.getAppSecret();
 	  authString = EmailUtil.encoderAndDecode(authString);
 	  String appKey = "Basic "+authString;
-	  final String result = msgFapi.SendEmailOrdinary(json,appKey);
+	  final String result = msgFapi.SendEmailOrdinary(json,emailConfig.getEmailOrdinaryEndpoint(),appKey);
 	
      return result; 
         }
@@ -68,7 +68,7 @@ public String SendEmailOrdinary(String title,String text,String[] datas){
 	  String authString = emailConfig.getAppKey()+":"+emailConfig.getAppSecret();
 	  authString = EmailUtil.encoderAndDecode(authString);
 	  String appKey = "Basic "+authString;
-	  final String result = msgFapi.sendEmailTemplet(jsonString,appKey);
+	  final String result = msgFapi.sendEmailTemplet(jsonString,emailConfig.getEmailTempletEndpoint(),appKey);
 	  return result; 
   }
   

@@ -18,11 +18,11 @@ public interface msgFapi {
 	 * @param json
 	 * @return
 	 */
-	@Post(url="https://api.ums.jiguang.cn/v1/sent",headers = {"Accept-Charset: UTF-8",
+	@Post(url="${1}",headers = {"Accept-Charset: UTF-8",
 			"Content-Type: application/json",
 			"Authorization: ${appKey}",
 	})
-	String SendEmailOrdinary(@JSONBody() Object json,@Var("appKey")String appKey);
+	String SendEmailOrdinary(@JSONBody() Object json,Object url,@Var("appKey")String appKey);
 
 
 	/**
@@ -30,9 +30,9 @@ public interface msgFapi {
 	 * @param json
 	 * @return
 	 */
-	@Post(url="https://api.ums.jiguang.cn/v1/template/sent",headers = {"Accept-Charset: UTF-8",
+	@Post(url="${1}",headers = {"Accept-Charset: UTF-8",
             "Content-Type: application/json",
             "Authorization:${appKey}",
               })
-String sendEmailTemplet(@JSONBody() Object json,@Var("appKey")String appKey);
+String sendEmailTemplet(@JSONBody() Object json,String url,@Var("appKey")String appKey);
 }
