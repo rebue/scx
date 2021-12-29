@@ -1,10 +1,17 @@
 package rebue.scx.oap.svc.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.oap.dao.OapAuthLogDao;
@@ -18,6 +25,8 @@ import rebue.scx.oap.to.OapAuthLogListTo;
 import rebue.scx.oap.to.OapAuthLogModifyTo;
 import rebue.scx.oap.to.OapAuthLogOneTo;
 import rebue.scx.oap.to.OapAuthLogPageTo;
+import rebue.scx.rac.api.RacOpLogApi;
+import rebue.scx.rac.to.RacOpLogPageTo;
 
 /**
  * 认证记录服务实现
@@ -38,8 +47,8 @@ import rebue.scx.oap.to.OapAuthLogPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class OapAuthLogSvcImpl extends
-    BaseSvcImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogMapper, OapAuthLogDao>
-    implements OapAuthLogSvc {
+        BaseSvcImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogMapper, OapAuthLogDao>
+        implements OapAuthLogSvc {
 
     /**
      * 本服务的单例
@@ -50,6 +59,9 @@ public class OapAuthLogSvcImpl extends
     @Lazy
     @Resource
     private OapAuthLogSvc thisSvc;
+
+    @DubboReference
+    private RacOpLogApi   racOpLogApi;
 
     /**
      * 从接口获取本服务的单例(提供给基类调用)
@@ -69,5 +81,27 @@ public class OapAuthLogSvcImpl extends
     @Override
     protected Class<OapAuthLogMo> getMoClass() {
         return OapAuthLogMo.class;
+    }
+
+    /**
+     * 认证概况及账户概况
+     */
+    @Override
+    public Map<String, Long> countSurvey(OapAuthLogPageTo qo) {
+        Map<String, Long> map = new HashMap<String, Long>();
+        qo.setIsSuccess(false);
+        long countFail = _mapper.countSurvey(qo);
+        map.put("认证失败", countFail);
+        qo.setIsSuccess(true);
+        long countSuccess = _mapper.countSurvey(qo);
+        map.put("认证成功", countSuccess);
+        map.put("认证总数", countSuccess + countFail);
+        RacOpLogPageTo to = new RacOpLogPageTo();
+        to.setEndDate(qo.getEndDate());
+        to.setStartDate(qo.getStartDate());
+        Ro<Map<String, Long>> countSurvey = racOpLogApi.countSurvey(to);
+        Map<String, Long>     extra       = countSurvey.getExtra();
+        map.putAll(extra);
+        return map;
     }
 }

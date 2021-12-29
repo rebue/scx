@@ -1,6 +1,9 @@
 package rebue.scx.oap.svc;
 
+import java.util.Map;
+
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.oap.jo.OapAuthLogJo;
 import rebue.scx.oap.mo.OapAuthLogMo;
@@ -27,5 +30,7 @@ import rebue.scx.oap.to.OapAuthLogPageTo;
  */
 @Validated
 public interface OapAuthLogSvc
-    extends BaseSvc<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo> {
+        extends BaseSvc<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo> {
+
+    Map<String, Long> countSurvey(OapAuthLogPageTo qo);
 }
