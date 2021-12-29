@@ -3,10 +3,12 @@ package rebue.scx.rac.ctrl.ex;
 import static rebue.scx.rac.ctrl.ex.SignUpOrInCtrlCommon.jwtSignWithCookie;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +23,15 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
+import rebue.scx.rac.co.RacCookieCo;
 import rebue.scx.rac.co.RacJwtSignCo;
 import rebue.scx.rac.mo.RacAccountMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacAccountPageTo;
+import rebue.scx.rac.to.UnifiedLoginTo;
 import rebue.scx.rac.to.ex.SignInByAccountNameTo;
 import rebue.scx.rac.to.ex.UnlockSignInTo;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.turing.JwtUtils;
 
 /**
@@ -48,6 +53,31 @@ public class RacSignInCtrl {
     public Mono<Ro<SignUpOrInRa>> signInByAccountName(@RequestBody final SignInByAccountNameTo to, final ServerHttpResponse resp) {
         return Mono.create(callback -> {
             final Ro<SignUpOrInRa> ro = api.signInByAccountName(to);
+            if (ResultDic.SUCCESS.equals(ro.getResult())) {
+                jwtSignWithCookie(ro.getExtra(), resp);
+            }
+            callback.success(ro);
+        });
+    }
+
+    /**
+     * 通过手机号验证登录
+     * 
+     * @ignoreParams request
+     */
+    @PostMapping("/rac/sign-in/sign-in-by-mobile-code")
+    @RacOpLog(opType = "登录", opTitle = "通过手机号验证登录: #{#p0.accountName}")
+    public Mono<Ro<SignUpOrInRa>> signInByMobileCode(@RequestBody final UnifiedLoginTo to, final ServerHttpRequest request, final ServerHttpResponse resp) {
+        // 从Headers中获取应用ID
+        final List<String> list  = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
+        final String       appId = list != null && list.size() > 0 ? list.get(0) : null;
+        if (StringUtils.isBlank(appId)) {
+            throw new RuntimeExceptionX("在Headers中找不到应用ID");
+        }
+        to.setAppId(appId);
+        to.setLoginType((byte) 1);
+        return Mono.create(callback -> {
+            final Ro<SignUpOrInRa> ro = api.unifiedLogin(to);
             if (ResultDic.SUCCESS.equals(ro.getResult())) {
                 jwtSignWithCookie(ro.getExtra(), resp);
             }
