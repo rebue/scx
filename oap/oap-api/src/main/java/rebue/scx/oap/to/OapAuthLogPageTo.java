@@ -2,11 +2,14 @@ package rebue.scx.oap.to;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import rebue.robotech.to.PageTo;
@@ -32,6 +35,16 @@ public class OapAuthLogPageTo extends PageTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private Boolean           isSuccess;
+    /**
+     * 时间段查询 startDate开始时间 endtDate结束时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime     startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime     endDate;
 
     /**
      * 操作时间

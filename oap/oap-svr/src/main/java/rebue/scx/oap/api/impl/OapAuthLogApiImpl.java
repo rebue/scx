@@ -1,7 +1,11 @@
 package rebue.scx.oap.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
+
 import rebue.robotech.api.impl.BaseApiImpl;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.ra.IdRa;
+import rebue.robotech.ro.Ro;
 import rebue.scx.oap.api.OapAuthLogApi;
 import rebue.scx.oap.jo.OapAuthLogJo;
 import rebue.scx.oap.mo.OapAuthLogMo;
@@ -20,6 +24,11 @@ import rebue.scx.oap.to.OapAuthLogPageTo;
  */
 @DubboService
 public class OapAuthLogApiImpl extends
-    BaseApiImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogSvc>
-    implements OapAuthLogApi {
+        BaseApiImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogSvc>
+        implements OapAuthLogApi {
+
+    @Override
+    public Ro<?> countSurvey(OapAuthLogPageTo qo) {
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", new IdRa<>(_svc.countSurvey(qo)));
+    }
 }

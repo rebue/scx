@@ -1,5 +1,7 @@
 package rebue.scx.rac.api;
 
+import java.util.Map;
+
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rac.mo.RacOpLogMo;
@@ -20,5 +22,5 @@ public interface RacOpLogApi extends BaseApi<java.lang.Long, RacOpLogAddTo, RacO
      *
      * @param qo
      */
-    Ro<?> countSurvey(RacOpLogPageTo qo);
+    Ro<Map<String, Long>> countSurvey(RacOpLogPageTo qo);
 }
