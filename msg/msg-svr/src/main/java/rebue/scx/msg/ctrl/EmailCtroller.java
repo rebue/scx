@@ -21,6 +21,7 @@ import com.alibaba.nacos.shaded.com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j;
 import ma.glasnost.orika.impl.generator.specification.Convert;
 import rebue.scx.msg.api.EmailMessageSendingApi;
+import rebue.scx.msg.svc.impl.EmailMessageSendingSvcImpl;
 
 
 
@@ -33,6 +34,8 @@ import rebue.scx.msg.api.EmailMessageSendingApi;
  //private EmailUtil emailUtil;
  @Resource
  private EmailMessageSendingApi api;
+ @Resource
+ private EmailMessageSendingSvcImpl impl;
  
  final String[] data = {"2530364891@qq.com"};
  /**
@@ -43,8 +46,7 @@ import rebue.scx.msg.api.EmailMessageSendingApi;
   */
  @GetMapping("/email/custom")
  public String sendEmailCustom(@RequestParam("title")String title,@RequestParam("text")String text,@RequestParam("datas")String[] datas) {
-
-    return api.SendEmailCustom(title, text, datas);
+   return  impl.SendEmailOrdinary(title, text, datas);
  }
  /**
   * 邮箱的普通发送

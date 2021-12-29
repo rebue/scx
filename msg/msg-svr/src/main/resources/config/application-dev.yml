@@ -9,8 +9,9 @@ msg:
     tempId: 202223
     signId: 20492
   email:
-    #短信平台jiguang/baidu
-    email-platform: jiguang
+    #email-templet-endpoint: https://api.ums.jiguang.cn/v1/template/sent
+    #email-ordinary-endpoint: https://api.ums.jiguang.cn/v1/sent
     simulation: false
-    app-key: 10001275A644497:c3a12648939a4cde9ca2e4a5
+    app-key: 10001275A644497
+    app-secret: c3a12648939a4cde9ca2e4a5
     tempId: 10522

@@ -12,7 +12,7 @@ public class EmailConfig {
 	 /**
      * 短信平台
      */
-    private String  emailPlatform;
+    //private String  emailPlatform;
     /**
      * 是否模拟短信
      */
@@ -25,5 +25,13 @@ public class EmailConfig {
      * 短信模板ID
      */
     private String  tempId;
+    /**
+     * appSecret
+     */
+    private String  appSecret;
+    
+    //private String emailTempletEndpoint;
+    //private String emailOrdinaryEndpoint;
+    
 
 }

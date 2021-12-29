@@ -14,9 +14,9 @@ public class EmailMessageSendingApiImpl implements EmailMessageSendingApi {
     protected EmailMessageSendingSvc svc;
     
 	@Override
-	public String SendEmailCustom(String title, String text, String[] datas) {
+	public String SendEmailOrdinary(String title, String text, String[] datas) {
 		// TODO Auto-generated method stub
-		return svc.SendEmailCustom(title, text, datas);
+		return svc.SendEmailOrdinary(title, text, datas);
 	}
 
 	@Override
