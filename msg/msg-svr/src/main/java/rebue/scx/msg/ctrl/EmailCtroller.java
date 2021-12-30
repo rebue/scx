@@ -4,6 +4,8 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import rebue.scx.msg.to.EmailOrdinary;
+import rebue.scx.msg.to.EmailTemplate;
 
 import javax.annotation.Resource;
 import javax.ws.rs.PathParam;
@@ -22,6 +24,7 @@ import com.alibaba.nacos.shaded.com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j;
 import ma.glasnost.orika.impl.generator.specification.Convert;
 import rebue.scx.msg.api.EmailMessageSendingApi;
+
 import rebue.scx.msg.svc.impl.EmailMessageSendingSvcImpl;
 
 
@@ -42,23 +45,20 @@ import rebue.scx.msg.svc.impl.EmailMessageSendingSvcImpl;
  /**
   * @title 邮箱标题
   * @text 邮箱内容
-  * 普通短信发送
+  * 普通邮箱发送
   * @return
   */
  @PostMapping("/email/ordinary")
- public String sendEmailOrdinary(@RequestParam("title")String title,@RequestParam("text")String text,@RequestParam("datas")String[] datas) {
-   return  impl.sendEmailOrdinary(title, text, datas);
+ public String sendEmailOrdinary(EmailOrdinary emailOrdinary) {
+   return  impl.sendEmailOrdinary(emailOrdinary);
  }
  /**
   * 邮箱的模板发送
   * @return
   */
- @PostMapping("/email/tempale")
- public String sendEmailTempale(@RequestParam("datas")String[] datas) {
-    Random random = new Random();
-    String varString = random.nextInt(9)+0+"";
-    log.info("var"+varString);
-    return api.SendEmailTemple(datas,varString);
+ @PostMapping("/email/template")
+ public String sendEmailTempale(EmailTemplate emailTemplate) {
+    return api.SendEmailTemple(emailTemplate);
  }
 }
 

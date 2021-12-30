@@ -17,7 +17,7 @@ public interface msgFapi {
             "Content-Type: application/json",
             "Authorization: ${appKey}",
     })
-    String SendEmailOrdinary(@JSONBody() Object json, Object url, @Var("appKey") String appKey);
+    String sendEmailOrdinary(@JSONBody() Object json, Object url, @Var("appKey") String appKey);
 
     /**
      * 模板邮箱发送

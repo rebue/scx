@@ -1,5 +1,8 @@
 package rebue.scx.msg.svc;
 
+import rebue.scx.msg.to.EmailOrdinary;
+import rebue.scx.msg.to.EmailTemplate;
+
 public interface EmailMessageSendingSvc {
     /**
      * 普通邮箱发送
@@ -10,7 +13,7 @@ public interface EmailMessageSendingSvc {
      * 
      * @return
      */
-    public String sendEmailOrdinary(String title, String text, String[] datas);
+    public String sendEmailOrdinary(EmailOrdinary emailOrdinary);
 
     /**
      * 模板邮箱发送
@@ -20,6 +23,6 @@ public interface EmailMessageSendingSvc {
      * 
      * @return
      */
-    public String sendEmailTemple(String[] datas, String var);
+    public String sendEmailTemple(EmailTemplate emailTemplate);
 
 }

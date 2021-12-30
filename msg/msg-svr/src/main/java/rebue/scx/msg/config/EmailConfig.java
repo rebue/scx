@@ -24,7 +24,7 @@ public class EmailConfig {
     /**
      * 短信模板ID
      */
-    private String  tempId;
+    private Integer  tempId;
     /**
      * appSecret
      */
