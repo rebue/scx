@@ -42,8 +42,6 @@
 			<groupId>com.dingtalk.open</groupId>
 			<artifactId>taobao-sdk-java-auto</artifactId>
 			<version>20210908</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/taobao-sdk-java-auto_1479188381469-20210908.jar</systemPath>
 		</dependency>
 
 		<dependency>
