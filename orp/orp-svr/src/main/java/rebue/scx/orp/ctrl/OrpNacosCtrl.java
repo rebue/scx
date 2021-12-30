@@ -26,9 +26,9 @@ import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.ra.YamlRa;
-import rebue.scx.orp.to.NacosAddTo;
-import rebue.scx.orp.to.NacosDelTo;
-import rebue.scx.orp.to.NacosModifyTo;
+import rebue.scx.orp.to.OrpNacosAddTo;
+import rebue.scx.orp.to.OrpNacosDelTo;
+import rebue.scx.orp.to.OrpNacosModifyTo;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.YamlUtils;
@@ -57,6 +57,9 @@ public class OrpNacosCtrl {
      */
     private Long   ReadTimeOut = 4000L;
 
+    // @DubboReference
+    // private NacosApi<OrpNacosAddTo, OrpNacosModifyTo, OrpNacosDelTo> nacosApi;
+
     /**
      * 获取配置文件名
      * 
@@ -71,6 +74,7 @@ public class OrpNacosCtrl {
      */
     @GetMapping("/orp/get/nacos/config")
     public Mono<Ro<?>> getNacosConfig() {
+        // Ro<?> nacosConfig = nacosApi.getNacosConfig("orp-svr");
         List<Object>              list              = new ArrayList<Object>();
         String                    ymlStr            = getConfig(getNacosConfigName(), group, ReadTimeOut);
         List<Map<String, String>> dingTalkMapList   = YamlUtils.getAsMapList(ymlStr, "orp.strategies.ding-talk.clients");
@@ -99,7 +103,8 @@ public class OrpNacosCtrl {
      */
     @RacOpLog(opType = "添加配置信息", opTitle = "添加配置类型: #{#p0.configType}")
     @PostMapping("/orp/nacos/publish/add-config")
-    public Mono<Ro<?>> addPublishConfig(@RequestBody final NacosAddTo to) {
+    public Mono<Ro<?>> addPublishConfig(@RequestBody final OrpNacosAddTo to) {
+        // Ro<?> addPublishConfig = nacosApi.addPublishConfig("orp-svr", to);
         Map<String, String> hashedMap = new HashMap<String, String>();
         hashedMap.put("id", to.getNewAppKey());
         hashedMap.put("name", to.getNewName());
@@ -131,6 +136,7 @@ public class OrpNacosCtrl {
             Ro<Boolean> ro = new Ro<>(ResultDic.FAIL, "提交失败", config);
             return Mono.create(callback -> callback.success(ro));
         }
+        // return Mono.create(callback -> callback.success(addPublishConfig));
     }
 
     /**
@@ -140,7 +146,8 @@ public class OrpNacosCtrl {
      */
     @RacOpLog(opType = "修改配置信息", opTitle = "修改配置类型: #{#p0.configType}")
     @PostMapping("/orp/nacos/publish/modify-config")
-    public Mono<Ro<?>> publishConfig(@RequestBody final NacosModifyTo to) {
+    public Mono<Ro<?>> publishConfig(@RequestBody final OrpNacosModifyTo to) {
+        // Ro<?> updatePublishConfig = nacosApi.updatePublishConfig("orp-svr", to);
         if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
             throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
         }
@@ -179,6 +186,7 @@ public class OrpNacosCtrl {
             Ro<Boolean> ro = new Ro<>(ResultDic.FAIL, "提交失败", config);
             return Mono.create(callback -> callback.success(ro));
         }
+        // return Mono.create(callback -> callback.success(updatePublishConfig));
     }
 
     /**
@@ -188,7 +196,8 @@ public class OrpNacosCtrl {
      */
     @RacOpLog(opType = "删除配置信息", opTitle = "删除配置类型: #{#p0.configType}")
     @PostMapping("/orp/nacos/publish/del-config")
-    public Mono<Ro<?>> delPublishConfig(@RequestBody final NacosDelTo to) {
+    public Mono<Ro<?>> delPublishConfig(@RequestBody final OrpNacosDelTo to) {
+        // Ro<?> delPublishConfig = nacosApi.delPublishConfig("orp-svr", to);
         if (!(to.getConfigType().equals("ding-talk") || to.getConfigType().equals("wechat-open"))) {
             throw new RuntimeExceptionX("该类型配置不支持修改！--" + to.getConfigType());
         }
@@ -220,6 +229,7 @@ public class OrpNacosCtrl {
             Ro<Boolean> ro = new Ro<>(ResultDic.FAIL, "提交失败", config);
             return Mono.create(callback -> callback.success(ro));
         }
+        // return Mono.create(callback -> callback.success(delPublishConfig));
     }
 
     /**

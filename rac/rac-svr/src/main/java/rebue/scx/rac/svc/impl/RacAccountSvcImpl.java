@@ -735,7 +735,8 @@ public class RacAccountSvcImpl extends
         if (accountMo.getOrgId() != null) {
             final RacOrgMo racOrgMo = racOrgSvc.getById(accountMo.getOrgId());
             ra.setOrgId(accountMo.getOrgId());
-            ra.setOrgFullName(racOrgMo.getName());
+            ra.setOrgFullName(racOrgMo.getFullName());
+            ra.setOrgName(racOrgMo.getName());
         }
         RacAccountMo agentAccountMo = null;
         if (agentAccountId != null) {

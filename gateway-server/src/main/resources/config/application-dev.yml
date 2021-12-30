@@ -59,3 +59,4 @@ spring:
                   - "'POST:/rac/sms/**'"
                   - "'GET:/rac/excel/template-download/**'"
                   - "'GET:/rac/nacos/**'"
+                  - "'POST:/rac/sign-in/sign-in-by-mobile-code'"

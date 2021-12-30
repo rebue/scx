@@ -32,7 +32,7 @@ public class FieldCollection {
     public static String[] getAccountNameInformationCol() {
         String[] col = new String[10];
         col[0] = "序号";
-        col[1] = "登录帐号(必填)";
+        col[1] = "登录帐号(必填且唯一)";
         col[2] = "姓名(必填)";
         col[3] = "身份证号";
         col[4] = "手机号码";
@@ -64,8 +64,8 @@ public class FieldCollection {
     public static String[] getOrgNameInformationCol() {
         String[] col = new String[6];
         col[0] = "序号";
-        col[1] = "组织ID/部门代码";
-        col[2] = "组织名称/部门名称";
+        col[1] = "组织ID/部门代码(必填且唯一)";
+        col[2] = "组织名称/部门名称(必填)";
         col[3] = "上级组织ID/上级部门代码";
         col[4] = "上级组织名称/上级部门名称";
         col[5] = "组织类型/部门类型(1,20,21,80,90)";

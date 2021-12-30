@@ -64,6 +64,10 @@ public class GetCurAccountInfoRa extends RacAccountMo implements Serializable {
      * 账户组织全名
      */
     private String                 orgFullName;
+    /**
+     * 账户组织名称
+     */
+    private String                 orgName;
 
     /**
      * 是否测试者

@@ -1,4 +1,4 @@
-package rebue.scx.orp.to;
+package rebue.scx.rac.to.nacos;
 
 import java.io.Serializable;
 
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class NacosDelTo implements Serializable {
+public class NacosAddTo implements Serializable {
     /**
     *
     */
@@ -32,13 +32,19 @@ public class NacosDelTo implements Serializable {
     @NotNull(message = "配置类型不能为空")
     private String            configType;
     /**
-     * 旧的appKey
+     * 新的appKey
      */
-    @NotNull(message = "旧的appKey不能为空")
-    private String            oldAppKey;
+    @NotNull(message = "新的appKey不能为空")
+    private String            newAppKey;
     /**
-     * 旧的appSecret
+     * 新的appSecret
      */
-    private String            oldAppSecret;
+    @NotNull(message = "新的appSecret不能为空")
+    private String            newAppSecret;
+    /**
+     * 新的name
+     */
+    @NotNull(message = "新的name不能为空")
+    private String            newName;
 
 }

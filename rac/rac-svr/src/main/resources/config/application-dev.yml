@@ -15,3 +15,13 @@ level-protect:
   password-tips: false
   password-errors: 5
   password-doverdue: 90
+nacos:
+  active: dev
+  server-addr: 127.0.0.1:8848
+  server-name:
+    rac-svr:
+      file-extension: yaml
+      group: REBUE
+    orp-svr:
+      file-extension: yaml
+      group: REBUE 

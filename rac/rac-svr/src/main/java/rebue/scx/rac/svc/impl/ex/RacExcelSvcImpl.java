@@ -150,11 +150,11 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         try {
             int i = 0;
             switch (type) {
-            case "accout":
+            case "account":
                 readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, cols.length, cols);
                 recursionAdd(readExcel, i);
                 break;
-            case "account":
+            case "org":
                 readExcel = ImporExcelUtil.readExcel(inputStream, fileName, 1, orgCols.length, orgCols);
                 orgAdd(readExcel, i);
                 break;

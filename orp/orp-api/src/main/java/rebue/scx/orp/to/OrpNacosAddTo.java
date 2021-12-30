@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class NacosModifyTo implements Serializable {
+public class OrpNacosAddTo implements Serializable {
     /**
     *
     */
@@ -32,32 +32,19 @@ public class NacosModifyTo implements Serializable {
     @NotNull(message = "配置类型不能为空")
     private String            configType;
     /**
-     * 旧的appKey
-     */
-    @NotNull(message = "旧的appKey不能为空")
-    private String            oldAppKey;
-    /**
-     * 旧的name
-     */
-    @NotNull(message = "旧的name不能为空")
-    private String            oldName;
-    /**
-     * 旧的appSecret
-     */
-    private String            oldAppSecret;
-    /**
      * 新的appKey
      */
     @NotNull(message = "新的appKey不能为空")
     private String            newAppKey;
     /**
+     * 新的appSecret
+     */
+    @NotNull(message = "新的appSecret不能为空")
+    private String            newAppSecret;
+    /**
      * 新的name
      */
     @NotNull(message = "新的name不能为空")
     private String            newName;
-    /**
-     * 新的appSecret
-     */
-    private String            newAppSecret;
 
 }
