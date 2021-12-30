@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -69,18 +70,10 @@
 			<artifactId>jiguang-common</artifactId>
 			<version>1.0.8</version>
 		</dependency>
-		<!-- For log4j -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.slf4j</groupId> -->
-		<!-- <artifactId>slf4j-log4j12</artifactId> -->
-		<!-- <version>1.7.7</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>log4j</groupId> -->
-		<!-- <artifactId>log4j</artifactId> -->
-		<!-- <version>1.2.17</version> -->
-		<!-- </dependency> -->
+		
 		<!-- https://mvnrepository.com/artifact/jdk.tools/jdk.tools -->
+		<!-- 切换到jar包所在路径 运行命令 -->
+		<!-- mvn install:install-file -Dfile=tools.jar -DgroupId=jdk.tools -DartifactId=jdk.tools -Dversion=1.6 -Dpackaging=jar -->
 		<dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
