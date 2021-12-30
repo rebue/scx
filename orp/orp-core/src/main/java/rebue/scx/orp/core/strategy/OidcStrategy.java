@@ -138,19 +138,6 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
     }
 
     /**
-     * 刷新token
-     */
-    @Override
-    protected void refreshAccessToken(TokenResponse getAccessTokenRo, OidcRefreshAccessTokenTo refreshAccessTokenTo) {
-        // // 发出刷新AccessToken请求
-        // REFRESH_ACCESS_TOKEN_RO refreshAccessTokenRo = sendGet(refreshAccessTokenUrl(), refreshAccessTokenTo, REFRESH_ACCESS_TOKEN_RO());
-        // // 检查刷新AccessToken的结果是否正确
-        // checkRefreshAccessTokenRo(refreshAccessTokenRo);
-        // // 更新AccessToken
-        // updateAccessToken(getAccessTokenRo, refreshAccessTokenRo);
-    }
-
-    /**
      * 填充AuthCodeTo默认的值
      */
     @Override
@@ -172,6 +159,19 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
         }
     }
 
+    /**
+     * 刷新token
+     */
+    @Override
+    protected void refreshAccessToken(TokenResponse getAccessTokenRo, OidcRefreshAccessTokenTo refreshAccessTokenTo) {
+        // // 发出刷新AccessToken请求
+        // REFRESH_ACCESS_TOKEN_RO refreshAccessTokenRo = sendGet(refreshAccessTokenUrl(), refreshAccessTokenTo, REFRESH_ACCESS_TOKEN_RO());
+        // // 检查刷新AccessToken的结果是否正确
+        // checkRefreshAccessTokenRo(refreshAccessTokenRo);
+        // // 更新AccessToken
+        // updateAccessToken(getAccessTokenRo, refreshAccessTokenRo);
+    }
+
     @Override
     protected OidcRefreshAccessTokenTo genRefreshAccessTokenTo(AuthCodeTo authCodeTo, TokenResponse getAccessTokenRo) {
         String value = getAccessTokenRo.toSuccessResponse().getTokens().getRefreshToken().getValue();
@@ -184,14 +184,12 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
 
     @Override
     protected void updateAccessToken(TokenResponse getAccessTokenRo, TokenResponse refreshAccessTokenRo) {
-        // getAccessTokenRo.setAccessToken(refreshAccessTokenRo.getAccessToken());
         AccessToken accessToken = getAccessTokenRo.toSuccessResponse().getTokens().getAccessToken();
         accessToken = refreshAccessTokenRo.toSuccessResponse().getTokens().getAccessToken();
     }
 
     @Override
     protected <T> T sendGet(String url, Object requestPamams, Class<T> clazz, String encoding) {
-        // TODO Auto-generated method stub
         return super.sendGet(url, requestPamams, clazz, encoding);
     }
 
@@ -200,27 +198,10 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
     protected OrpUserInfoRa genGetUserInfoTo(TokenResponse tokenResponse) {
         JWT           idToken = tokenResponse.toSuccessResponse().getTokens().toOIDCTokens().getIDToken();
         OrpUserInfoRa ra      = new OrpUserInfoRa();
-        // ra.setId(idToken.getJWTClaimsSet().getSubject());
         ra.setIdToken(idToken.serialize());
         ra.setAccessToken(tokenResponse.toSuccessResponse().getTokens().getAccessToken().getValue());
         return ra;
     }
-
-    // @Override
-    // protected OrpUserInfoRa getUserInfo(OrpUserInfoRa getUserInfoTo) {
-    // // 发出获取用户信息请求
-    // final OrpUserInfoRa getUserInfoRo = sendGetUserInfo(getUserInfoTo);
-    // // 检查获取AccessToken的结果是否正确
-    // checkGetUserInfoRo(getUserInfoRo);
-    // // 转换不同策略的用户信息为统一的用户信息
-    // return convertUserInfo(getUserInfoRo);
-    // }
-    //
-    // @Override
-    // protected <T> T sendGet(String url, Object requestPamams, Class<T> clazz) {
-    // T sendGet = super.sendGet(url, requestPamams, clazz);
-    // return sendGet;
-    // }
 
     @Override
     protected void checkGetUserInfoRo(OrpUserInfoRa getUserInfoRo) {

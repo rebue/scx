@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
@@ -47,29 +46,6 @@ public class OrpCtrl {
     private OrpApi      api;
     @DubboReference
     private RacOpLogApi opLogApi;
-
-    /**
-     * 回调
-     * 
-     * @param response
-     * @param code
-     * 
-     */
-    @GetMapping("/callback")
-    public Mono<String> callback(final ServerHttpResponse response, @RequestParam("code") final String code) {
-        return Mono.create(cb -> {
-
-            final Pair<String, String> pair = api.callback(code, response);
-            if (pair.getLeft() != null) {
-                response.setStatusCode(HttpStatus.FOUND);
-                response.getHeaders().setLocation(URI.create(pair.getLeft()));
-                cb.success(null);
-            }
-            else {
-                cb.success(pair.getRight());
-            }
-        });
-    }
 
     /**
      * 获取认证Url(获取认证Url后前端跳转此URL)

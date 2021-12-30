@@ -2,9 +2,7 @@ package rebue.scx.orp.api.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -19,11 +17,6 @@ public class OrpApiImpl implements OrpApi {
 
     @Resource
     private OrpSvc svc;
-
-    @Override
-    public Pair<String, String> callback(final String code, ServerHttpResponse response) {
-        return svc.callback(code, response);
-    }
 
     /**
      * 获取认证Url(获取认证Url后前端跳转此URL)

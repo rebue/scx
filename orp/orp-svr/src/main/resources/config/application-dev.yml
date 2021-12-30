@@ -1,8 +1,8 @@
 oidc:
-  client-id: unified-auth
-  client-secret: 123456
-  token-endpoint: http://172.20.11.244:13080/oap-svr/oap/token
-  redirect-uri: http://172.20.11.244:13080/orp-svr/orp/callback
+  #client-id: unified-auth
+  #client-secret: 123456
+  #token-endpoint: http://172.20.11.244:13080/oap-svr/oap/token
+  #redirect-uri: http://172.20.11.244:13080/orp-svr/orp/callback
   public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx1PdAIB021x1DExsXPO7hgzE0EASZiFoQh5F4X0H8lZrdCVG+Qk6ek9Aowp4bUnAf93PiM4A0L9zjck8jOedd6gbRPifsqdtDWx4jlfy7nGUd3LUF3wFH7VwNlCTkMucetnxFuNtGMVM8rz/YCXAYv6pYi56vq7BWlNh373qhVhqxY6SBs2qo5hxWe/zpv6CqxAXSKjcCJVLQhe7jnfWGJbLPnwSTK/b/jVtic/e9rD7EdSfPF3rt5TSqEdsX0EHHUSLFLUbpDOQzSBXdyGsAHQdeytr/i5AVi3BOKV9k5h1ricIZta6KD7krxZk60o70fWDF+0DQVQD5upWEeRLdQIDAQAB
   login-url: http://172.20.11.244:13080/admin-web/unified-auth/sign-in/unified
 
@@ -13,19 +13,14 @@ orp:
       is-check-state: true
       clients:
         - id: dingsahvlqybvb44jd50
-          name: dwdfw
+          name: auth.maiyuesoft.com域名的钉钉
           secret: hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm80
-        - id: dingsahvlqybvb44jd55
-          name: dwdfw
-          secret: hWt9A-ebYcR30DoXqJHLcka62jpR3ZKMc6GFizNW-5xczbahLr0yf7plEO7ewm85
     wechat-open:
       is-check-state: true
       clients:
         - id: wxc9bcdf70da391cdd
-          name: dwdfw
+          name: auth.maiyuesoft.com域名的微信
           secret: 4a215a29ccf5d91c2c8ea2af12a57e93
-        - id: wxc9bcdf70da391cdd5
-          secret: 4a215a29ccf5d91c2c8ea2af12a57e935
     oidc:
       request-domain-name: http://172.20.11.244:13080
       is-check-state: true
@@ -38,6 +33,6 @@ orp:
           secret: 123456
       #认证跳转到call-url的服务后端，带上code和state以及redirect_url地址到服务后端校验
       extras:
-        call-uri: http://172.20.11.244:13080
-        redirect-uri: http://172.20.11.244:13080
-        client-id: unified-auth
+        #call-uri: http://172.20.11.244:13080
+        #redirect-uri: http://172.20.11.244:13080
+        #client-id: unified-auth

@@ -51,6 +51,7 @@ spring:
                   - "'POST:/rac/account/upload-avatar'"
                   - "'POST:/rac/account/bind-mobile'"
                   - "'POST:/rac/sms/**'"
+                  - "'POST:/rac/sign-in/sign-in-by-mobile-code'"
                   
     sentinel:
       transport:

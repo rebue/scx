@@ -1,7 +1,8 @@
 jwt:
   key-pair: jwt-dev-key-pair.pem
   issuer: rebue
-  expiration-duration: 30m
+  #签名有效时间
+  expiration-duration: 120m
 
 # 生成workid使用
 curator:

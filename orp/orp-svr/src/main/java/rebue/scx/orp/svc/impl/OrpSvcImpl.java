@@ -9,29 +9,19 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 
-import com.github.rebue.orp.core.OidcCore;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.SignedJWT;
-import com.nimbusds.oauth2.sdk.TokenResponse;
-import com.nimbusds.openid.connect.sdk.OIDCTokenResponse;
-import com.nimbusds.openid.connect.sdk.token.OIDCTokens;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.oap.api.OapAppApi;
-import rebue.scx.oap.config.OidcConfig;
-import rebue.scx.oap.mo.OapAppMo;
 import rebue.scx.orp.config.OrpStrategies;
 import rebue.scx.orp.core.cache.StateCache;
 import rebue.scx.orp.core.to.AuthCodeTo;
@@ -46,31 +36,17 @@ import rebue.scx.rac.api.ex.RacForgetPasswordApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
 import rebue.scx.rac.dic.SignUpOrInWayDic;
 import rebue.scx.rac.mo.RacAccountMo;
-import rebue.scx.rac.mo.RacAppMo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 import rebue.scx.rac.to.RacAccountModifyTo;
 import rebue.scx.rac.to.ex.SignInByOidcTo;
 import rebue.wheel.api.exception.RuntimeExceptionX;
-import rebue.wheel.turing.JwtUtils;
 
 @Slf4j
 @Service
 public class OrpSvcImpl implements OrpSvc {
 
-    @Value("${oidc.client-id}")
-    private String               clientId;
-
-    @Value("${oidc.client-secret}")
-    private String               clientSecret;
-
-    @Value("${oidc.token-endpoint}")
-    private String               tokenEndpoint;
-
     @Value("${oidc.public-key}")
     private String               publicKeyStr;
-
-    @Value("${oidc.redirect-uri}")
-    private String               redirectUri;
 
     private RSAPublicKey         publicKey;
 
@@ -97,60 +73,6 @@ public class OrpSvcImpl implements OrpSvc {
         final X509EncodedKeySpec spec    = new X509EncodedKeySpec(decoded);
         final KeyFactory         kf      = KeyFactory.getInstance("RSA");
         publicKey = (RSAPublicKey) kf.generatePublic(spec);
-    }
-
-    /**
-     * @return [redirectUri, 错误信息]
-     */
-    @Override
-    @SneakyThrows
-    public Pair<String, String> callback(final String code, ServerHttpResponse response) {
-        TokenResponse tokenResponse = OidcCore.tokenRequest(
-                tokenEndpoint,
-                clientId,
-                clientSecret,
-                code,
-                redirectUri);
-        if (!tokenResponse.indicatesSuccess()) {
-            log.info("111 callback");
-            return Pair.of(null, tokenResponse.toErrorResponse().getErrorObject().getDescription());
-        }
-        OIDCTokenResponse sr      = (OIDCTokenResponse) tokenResponse.toSuccessResponse();
-        OIDCTokens        tokens  = sr.getOIDCTokens();
-        JWT               idToken = tokens.getIDToken();
-        if (!validateIdToken(idToken)) {
-            return Pair.of(null, "服务器内部错误");
-        }
-
-        OapAppMo oapAppMo = oapAppApi.selectOneByClientId(clientId).orElse(null);
-        if (oapAppMo == null) {
-            return Pair.of(null, "应用不存在");
-        }
-        Ro<PojoRa<RacAppMo>> appRo = racAppApi.getById(oapAppMo.getAppId());
-        RacAppMo             app;
-        if (!appRo.isSuccess()
-                || appRo.getExtra() == null
-                || (app = appRo.getExtra().getOne()) == null) {
-            return Pair.of(null, "应用不存在");
-        }
-        if (app.getUrl() == null) {
-            return Pair.of(null, "应用url为空");
-        }
-        log.info("222 response appurl = " + app.getUrl());
-        // todo 这里可以存储 accessToken refreshToken tokens.toJSONObject().toJSONString()
-        response.addCookie(
-                ResponseCookie.from(JwtUtils.JWT_TOKEN_NAME, idToken.serialize())
-                        .path("/")
-                        .sameSite("None")
-                        .maxAge(OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE)
-                        .build());
-        response.addCookie(
-                ResponseCookie.from(OidcConfig.AUTH_INFO, "")
-                        .path("/")
-                        .sameSite("None")
-                        .maxAge(0)
-                        .build());
-        return Pair.of(app.getUrl(), null);
     }
 
     private boolean validateIdToken(final JWT idToken) throws Exception {

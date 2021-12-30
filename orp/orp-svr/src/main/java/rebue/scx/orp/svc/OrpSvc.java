@@ -1,8 +1,5 @@
 package rebue.scx.orp.svc;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-
 import rebue.robotech.ro.Ro;
 import rebue.scx.orp.ra.OrpUserInfoRa;
 import rebue.scx.orp.to.ForgetSignInPswdTo;
@@ -10,8 +7,6 @@ import rebue.scx.orp.to.OrpCodeTo;
 import rebue.scx.rac.ra.SignUpOrInRa;
 
 public interface OrpSvc {
-
-    Pair<String, String> callback(String code, ServerHttpResponse response);
 
     /**
      * 获取认证Url(获取认证Url后前端跳转此URL)

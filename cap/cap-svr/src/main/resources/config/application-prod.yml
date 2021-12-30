@@ -10,7 +10,7 @@ captcha:
   pic-click: classpath:images/pic-click
   #验证码类型default两种都实例化。
   cache-type: redis
-  #验证码类型default两种都实例化。
+ #local定时清除过期缓存(单位秒),设置为0代表不执行
   timing-clear: 60
   #验证码类型default两种都实例化。
   type: default

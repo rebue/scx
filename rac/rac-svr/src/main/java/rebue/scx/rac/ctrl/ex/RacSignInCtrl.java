@@ -66,7 +66,7 @@ public class RacSignInCtrl {
      * @ignoreParams request
      */
     @PostMapping("/rac/sign-in/sign-in-by-mobile-code")
-    @RacOpLog(opType = "登录", opTitle = "通过手机号验证登录: #{#p0.accountName}")
+    @RacOpLog(opType = "登录", opTitle = "通过手机号验证登录: #{#p0.phoneNumber}")
     public Mono<Ro<SignUpOrInRa>> signInByMobileCode(@RequestBody final UnifiedLoginTo to, final ServerHttpRequest request, final ServerHttpResponse resp) {
         // 从Headers中获取应用ID
         final List<String> list  = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);

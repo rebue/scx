@@ -1,19 +1,28 @@
 # 配置中心中的配置
 #登保配置  
 level-protect: 
+  #输入密码错误被锁定时长/分钟
   lock-duration: 60
+  #帐号设置密码长度
   password-minLength: 6
+  #密码设置几种字符
   password-character: 1
+  #第一次登录是否修改密码，且密码有效期超过是否修改
   password-tips: false
+  #允许输入密码错误的次数
   password-errors: 5
+  #密码有效期
   password-doverdue: 90
 minio:
+#minio请求地址
   endpoint: http://minio:9000  
 # 文件路径是否需要全路径还是只需要去除Ip的相对路径地址
 # true 全路径http://127.0.0.1:9000/oss-svr/***
 # false 相对路径 /oss-svr/**
   urlPrefixBool: false
+  #minio帐号
   accessKey: AKIAIOSFODNN7EXAMPLE
+  #minio密码
   secretKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 # 生成workid使用
 curator:

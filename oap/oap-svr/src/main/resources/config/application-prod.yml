@@ -1,6 +1,7 @@
 # 配置中心中的配置
 
 oidc:
+  #统一认证登录页地址
   login-url: https://auth.maiyuesoft.com/admin-web/unified-auth/sign-in/unified
 
 # 生成workid使用
