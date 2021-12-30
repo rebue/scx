@@ -1,9 +1,15 @@
 package rebue.scx.msg.to;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 @Data
+@JsonInclude(Include.NON_NULL)
 public class EmailOrdinary {
+	
+	  private static final long serialVersionUID = 1L;
 	/**
 	 * 邮箱标题
 	 */
