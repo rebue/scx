@@ -29,12 +29,11 @@ public class EmailMessageSendingSvcImpl implements EmailMessageSendingSvc {
      * @return
      */
     @Override
-    public String SendEmailOrdinary(String title, String text, String[] datas) {
-
-        final String json       = EmailUtil.OrdinaryJson(title, text, datas);
+    public String sendEmailOrdinary(String title, String text, String[] datas) {
+        final String json       = EmailUtil.getOrdinaryJson(title, text, datas);
         // auth_string
         String       authString = emailConfig.getAppKey() + ":" + emailConfig.getAppSecret();
-        authString = EmailUtil.encoderAndDecode(authString);
+        authString = EmailUtil.getEncoderToString(authString);
         String       appKey = "Basic " + authString;
         final String result = msgFapi.SendEmailOrdinary(json, emailConfig.getEmailOrdinaryEndpoint(), appKey);
 
@@ -50,11 +49,11 @@ public class EmailMessageSendingSvcImpl implements EmailMessageSendingSvc {
      * @return
      */
     @Override
-    public String SendEmailTemple(String[] datas, String var) {
-        String jsonString = EmailUtil.TempleJson(datas, var, emailConfig.getTempId());
+    public String sendEmailTemple(String[] datas, String var) {
+        String jsonString = EmailUtil.getTempleJson(datas, var, emailConfig.getTempId());
         // auth_string
         String authString = emailConfig.getAppKey() + ":" + emailConfig.getAppSecret();
-        authString = EmailUtil.encoderAndDecode(authString);
+        authString = EmailUtil.getEncoderToString(authString);
         String       appKey = "Basic " + authString;
         final String result = msgFapi.sendEmailTemplet(jsonString, emailConfig.getEmailTempletEndpoint(), appKey);
         return result;

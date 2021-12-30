@@ -47,7 +47,7 @@ import rebue.scx.msg.svc.impl.EmailMessageSendingSvcImpl;
   */
  @PostMapping("/email/ordinary")
  public String sendEmailOrdinary(@RequestParam("title")String title,@RequestParam("text")String text,@RequestParam("datas")String[] datas) {
-   return  impl.SendEmailOrdinary(title, text, datas);
+   return  impl.sendEmailOrdinary(title, text, datas);
  }
  /**
   * 邮箱的模板发送

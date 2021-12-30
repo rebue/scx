@@ -15,12 +15,12 @@ public class EmailMessageSendingApiImpl implements EmailMessageSendingApi {
 
     @Override
     public String SendEmailOrdinary(String title, String text, String[] datas) {
-        return svc.SendEmailOrdinary(title, text, datas);
+        return svc.sendEmailOrdinary(title, text, datas);
     }
 
     @Override
     public String SendEmailTemple(String[] datas, String var) {
-        return svc.SendEmailTemple(datas, var);
+        return svc.sendEmailTemple(datas, var);
     }
 
 }

@@ -10,7 +10,7 @@ public interface EmailMessageSendingSvc {
      * 
      * @return
      */
-    public String SendEmailOrdinary(String title, String text, String[] datas);
+    public String sendEmailOrdinary(String title, String text, String[] datas);
 
     /**
      * 模板邮箱发送
@@ -20,6 +20,6 @@ public interface EmailMessageSendingSvc {
      * 
      * @return
      */
-    public String SendEmailTemple(String[] datas, String var);
+    public String sendEmailTemple(String[] datas, String var);
 
 }
