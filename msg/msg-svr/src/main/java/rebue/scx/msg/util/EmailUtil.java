@@ -11,6 +11,12 @@ package rebue.scx.msg.util;
  import lombok.extern.log4j.Log4j;
  @Log4j
  public class EmailUtil{
+	 
+	 /**
+	  * 极光短信作者认证的编码
+	  * @param text
+	  * @return
+	  */
  	  public static String encoderAndDecode(String text) {
  		  final Base64.Decoder decoder = Base64.getDecoder();
  		  final Base64.Encoder encoder = Base64.getEncoder();
@@ -30,7 +36,14 @@ package rebue.scx.msg.util;
  		}
  		  return encodedText;
  	}
- 	//极光普通短信发送的json字符串生成
+
+ 	  /**
+ 	   * 极光普通短信发送的json字符串生成
+ 	   * @param title
+ 	   * @param text
+ 	   * @param datas
+ 	   * @return
+ 	   */
  	public static String OrdinaryJson(String title,String text,String[] datas) {
  		 final Map<String, Object> map = new HashMap<String, Object>();
  		  //自定义通道
@@ -51,7 +64,13 @@ package rebue.scx.msg.util;
  		  final String json = JSONObject.toJSONString(maps);  
  		return json;
  	}
- 	//极光模板json
+ 	/**
+ 	 * 极光模板生成json
+ 	 * @param datas
+ 	 * @param var
+ 	 * @param templet
+ 	 * @return
+ 	 */
  	 public static String TempleJson(String[] datas,String var,String templet){
  		  
  		  final String daString = JSONObject.toJSONString(datas);
