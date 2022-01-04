@@ -4,12 +4,15 @@ import java.time.Duration;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * state缓存
  * 
  * @author zbz
  *
  */
+@Slf4j
 public class StateCache {
     /**
      * State的Key的前缀
@@ -38,20 +41,22 @@ public class StateCache {
     }
 
     public String get(final String strategy, final String clientId, final String state) {
-        final String key    = genKey(strategy, clientId, state);
+        final String key = genKey(strategy, clientId, state);
+        log.info("获取存储state的key值：  " + key + "   ");
         final String result = _stringRedisTemplate.opsForValue().get(key);
-        // FIXME 登录成功后 state 未进行删除处理
-        _stringRedisTemplate.delete(key);
+        log.info("获取存储state的value值：  " + result + "   ");
         return result;
     }
 
     public void set(final String strategy, final String clientId, final String state) {
         final String key = genKey(strategy, clientId, state);
+        log.info("存储state的key值：  " + key + "   ");
         _stringRedisTemplate.opsForValue().set(key, state, _expiration);
     }
 
     public void delete(final String strategy, final String clientId, final String state) {
         final String key = genKey(strategy, clientId, state);
+        log.info("删除存储state的key值：  " + key + "   ");
         _stringRedisTemplate.delete(key);
     }
 

@@ -121,7 +121,8 @@ public class OidcStrategy extends AbstractStrategy<TokenResponse, OidcRefreshAcc
     @Override
     @SneakyThrows
     protected TokenResponse sendGetAccessToken(AuthCodeTo authCodeTo) {
-        String        redirectUri   = "http://172.20.11.244:13080/orp-svr/orp/auth-code/oidc/unified-auth";
+        String redirectUri = "http://172.20.11.244:13080/orp-svr/orp/auth-code/oidc/unified-auth";
+        log.info(StringUtils.rightPad("*** 开始获取token ***参数" + authCodeTo.toString(), 100));
         String        tokenEndpoint = getAccessTokenUrl();
         TokenResponse tokenResponse = OidcCore.tokenRequest(
                 tokenEndpoint,

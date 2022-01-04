@@ -13,6 +13,17 @@ level-protect:
   password-errors: 5
   #密码有效期
   password-doverdue: 90
+  #ncaos配置
+nacos:
+  active: prod
+  server-addr: 127.0.0.1:8848
+  server-name:
+    rac-svr:
+      file-extension: yaml
+      group: REBUE
+    orp-svr:
+      file-extension: yaml
+      group: REBUE 
 minio:
 #minio请求地址
   endpoint: http://minio:9000  

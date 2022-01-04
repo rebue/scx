@@ -70,10 +70,13 @@ public class OrpCtrl {
      * 
      */
     @GetMapping("/auth-code/{orpType}/{clientId}")
-    public Mono<String> authCode(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
+    public Mono<Ro<?>> authCode(@PathVariable("orpType") final String orpType, @PathVariable("clientId") final String clientId,
             final OrpCodeTo to, final ServerHttpResponse response) {
-        Ro<?>         authCode = api.authCode(orpType, clientId, to);
-        OrpUserInfoRa extra    = (OrpUserInfoRa) authCode.getExtra();
+        Ro<?> authCode = api.authCode(orpType, clientId, to);
+        if (authCode.getExtra() == null) {
+            throw new RuntimeExceptionX("****获取用户信息失败******");
+        }
+        OrpUserInfoRa extra = (OrpUserInfoRa) authCode.getExtra();
         return Mono.create(cb -> {
             response.setStatusCode(HttpStatus.FOUND);
             CookieUtils.setCookie(response, OidcConfig.AUTH_INFO, "", 0, null, true);

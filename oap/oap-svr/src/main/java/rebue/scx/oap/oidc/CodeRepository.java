@@ -45,7 +45,7 @@ public class CodeRepository {
         AuthorizationCode code  = new AuthorizationCode(16);
         CodeValue         cv    = new CodeValue(clientId, scope, accountId);
         String            jsStr = JSONObject.toJSONString(cv);
-        stringRedisTemplate.opsForValue().set(CODE_PREFIX + code.getValue(), jsStr, Duration.ofMinutes(1));
+        stringRedisTemplate.opsForValue().set(CODE_PREFIX + code.getValue(), jsStr, Duration.ofMinutes(5));
         return code;
     }
 
