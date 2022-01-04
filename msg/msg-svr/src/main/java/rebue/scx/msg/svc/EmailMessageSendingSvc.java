@@ -1,7 +1,7 @@
 package rebue.scx.msg.svc;
 
+import rebue.robotech.ro.Ro;
 import rebue.scx.msg.to.EmailOrdinary;
-import rebue.scx.msg.to.EmailTemplate;
 
 public interface EmailMessageSendingSvc {
     /**
@@ -23,6 +23,6 @@ public interface EmailMessageSendingSvc {
      * 
      * @return
      */
-    public String sendEmailTemple(EmailTemplate emailTemplate);
+    public Ro<?> sendEmailTemple(String[] datas, String code);
 
 }

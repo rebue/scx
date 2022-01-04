@@ -33,7 +33,7 @@ public class EmailUtil {
             encodedText = encoder.encodeToString(textByte);
         } catch (Exception e) {
             log.info("编码失败");
-            throw new RuntimeExceptionX("       编码失败        " );
+            throw new RuntimeExceptionX("       编码失败        ");
         }
         return encodedText;
     }
@@ -77,9 +77,8 @@ public class EmailUtil {
      * 
      * @return
      */
-    public static String getTempleJson(EmailTemplate emailTemplate,Integer templet) {
+    public static String getTempleJson(EmailTemplate emailTemplate, Integer templet) {
 
-        
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("instance", "email");
         map.put("data", emailTemplate.getDatas());
@@ -91,9 +90,9 @@ public class EmailUtil {
         map3.put("aud_email", list);
         map3.put("template_id", templet);
         map3.put("template_para", map2);
-        
+
         String json = JSONObject.toJSONString(map3);
-        
+
         return json;
     }
 

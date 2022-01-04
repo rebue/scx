@@ -1,12 +1,12 @@
 package rebue.scx.msg.api;
 
+import rebue.robotech.ro.Ro;
 import rebue.scx.msg.to.EmailOrdinary;
-import rebue.scx.msg.to.EmailTemplate;
 
 public interface EmailMessageSendingApi {
-	
-	 public String SendEmailOrdinary(EmailOrdinary emailOrdinary);
-	 
-	  public String SendEmailTemple(EmailTemplate emailTemplate);
+
+    public String sendEmailOrdinary(EmailOrdinary emailOrdinary);
+
+    public Ro<?> sendEmailTemple(String[] datas, String code);
 
 }

@@ -17,16 +17,16 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class CapSMSVerificationTo extends CapBaseTo implements Serializable {
+public class CapEmailVerificationTo extends CapBaseTo implements Serializable {
     /**
     *
     */
     private static final long serialVersionUID = 1L;
     /**
-     * 手机号
+     * 邮箱
      */
-    @NotNull(message = "手机号不能为空")
-    private String            phoneNumber;
+    @NotNull(message = "邮箱不能为空")
+    private String            email;
     /**
      * 验证码
      */

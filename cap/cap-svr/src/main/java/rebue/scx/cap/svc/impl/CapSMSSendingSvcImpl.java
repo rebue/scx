@@ -14,8 +14,11 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.svc.CapSMSSendingSvc;
 import rebue.scx.cap.svc.CaptchaService;
+import rebue.scx.cap.to.CapEmailTo;
+import rebue.scx.cap.to.CapEmailVerificationTo;
 import rebue.scx.cap.to.CapSMSTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
+import rebue.scx.msg.api.EmailMessageSendingApi;
 import rebue.scx.msg.api.TemplateMessageSendingApi;
 
 /**
@@ -27,17 +30,20 @@ import rebue.scx.msg.api.TemplateMessageSendingApi;
  */
 @Service
 public class CapSMSSendingSvcImpl implements CapSMSSendingSvc {
-    private static String             cacheType      = "redis";
-    private static String             SMS_KEY_PREFIX = "sms:";
+    private static String             cacheType        = "redis";
+    private static String             SMS_KEY_PREFIX   = "CapSMSSendingSvcImpl+sms:";
+    private static String             EMAIL_KEY_PREFIX = "CapSMSSendingSvcImpl+email:";
     @DubboReference
     private TemplateMessageSendingApi templateMessageSendingApi;
+    @DubboReference
+    private EmailMessageSendingApi    emailMessageSendingApi;
 
     @Autowired
     private CaptchaService            captchaService;
     /**
      * 验证码自然过期时间
      */
-    private Long                      EXPIRE_TIME    = 5 * 60L;
+    private Long                      EXPIRE_TIME      = 5 * 60L;
 
     /**
      * 模板短信
@@ -95,13 +101,51 @@ public class CapSMSSendingSvcImpl implements CapSMSSendingSvc {
     }
 
     /**
+     * 模板邮箱
+     */
+    @Override
+    public Ro<?> sendTemplateEmail(CapEmailTo to) {
+        final CaptchaVO captchaVO = new CaptchaVO();
+        captchaVO.setCaptchaVerification(to.getCaptchaVerification());
+        final Ro<?> model = captchaService.verification(captchaVO);
+        // 图形校验通过才发送短信
+        if (model.getResult().getCode() == 1) {
+            final String email    = to.getEmail();
+            final String code     = getSixRandom();
+            final String redisKey = EMAIL_KEY_PREFIX + email + code;
+            // 距离上次获取验证码超过60秒后才可以重新获取验证码
+            Set<String>  keys     = CaptchaServiceFactory.getCache(cacheType)
+                    .keys(StringUtils.rightPad(EMAIL_KEY_PREFIX + email, EMAIL_KEY_PREFIX.length() + email.length() + 6, "?"));
+            Ro<?>        waitTime = isWaitTime(keys);
+            if (waitTime != null) {
+                return waitTime;
+            }
+            // 删除旧的邮箱验证码缓存
+            CaptchaServiceFactory.getCache(cacheType).delete(keys);
+            CaptchaServiceFactory.getCache(cacheType).set(redisKey, code, EXPIRE_TIME);
+            Ro<?> sendTemplateSMS = emailMessageSendingApi.sendEmailTemple(new String[] { email
+            }, code);
+            return sendTemplateSMS;
+        }
+        else {
+            return new Ro<>(ResultDic.FAIL, "图形验证码校验失败");
+        }
+    }
+
+    @Override
+    public Ro<?> msgEmailVerification(CapEmailVerificationTo to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
      * 校验成功后删除手机验证码缓存
      * 
      * @param phoneNumber
      * @param code
      */
     @Override
-    public void deleteVerifiyCode(final CapSMSVerificationTo to) {
+    public void deleteVerifiyMobileCode(final CapSMSVerificationTo to) {
         final String phoneNumber = to.getPhoneNumber();
         final String code        = to.getCode();
         final String redisKey    = SMS_KEY_PREFIX + phoneNumber + code;
