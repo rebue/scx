@@ -36,8 +36,6 @@ import org.springframework.http.ZeroCopyHttpOutputMessage;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.nacos.shaded.com.google.common.net.HttpHeaders;
 
@@ -86,7 +84,7 @@ import rebue.wheel.core.util.RegexUtils;
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
  */
-@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+// @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @Slf4j
 public class RacExcelSvcImpl implements RacExcelSvc {
@@ -260,7 +258,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * @param roleMo
      * @param accountMo
      */
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private void insertAccountRoleRecord(RacRoleMo roleMo, RacAccountMo accountMo) {
         if (roleMo == null || accountMo == null) {
             return;
@@ -317,7 +315,19 @@ public class RacExcelSvcImpl implements RacExcelSvc {
                 return orgMo;
             }
         }
-        return null;
+
+        RacOrgAddTo addTo = new RacOrgAddTo();
+        if (!StringUtils.isEmpty(orgName)) {
+            addTo.setName(orgName);
+        }
+        if (!StringUtils.isEmpty(orgId)) {
+            addTo.setCode(orgId);
+        }
+        addTo.setRealmId(Realm_ID);
+        addTo.setOrgType((byte) 1);
+        addTo.setFullName(addTo.getName());
+        RacOrgMo add = racOrgSvc.add(addTo);
+        return add;
     }
 
     /**
@@ -327,7 +337,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * 
      * @return RacUserMo
      */
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private RacUserMo insertUserRecord(Map<String, Object> map) {
         // 获取字段数组
         String[] cols           = FieldCollection.getAccountInformationCol();
@@ -391,7 +401,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * @return
      */
     @SuppressWarnings("unused")
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private RacOrgMo insertOrgRecord(Map<String, Object> map) {
         // 获取字段数组
         String[] cols       = FieldCollection.getOrgInformationCol();
@@ -481,7 +491,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * 
      * @return RacAccountMo
      */
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private RacAccountMo insertAccountRecord(Map<String, Object> map, RacUserMo userMo, RacOrgMo orgMo) {
         // 获取字段数组
         String[] cols           = FieldCollection.getAccountInformationCol();
@@ -541,7 +551,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
             accountAddTo.setUserId(userMo.getId());
         }
         if (orgMo != null) {
-            accountAddTo.setOrgId(userMo.getId());
+            accountAddTo.setOrgId(orgMo.getId());
         }
         RacAccountMo mo = racAccountSvc.add(accountAddTo);
 
@@ -562,7 +572,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
             mo.setUserId(userMo.getId());
         }
         if (orgMo != null) {
-            mo.setOrgId(userMo.getId());
+            mo.setOrgId(orgMo.getId());
         }
         RacAccountMo modifyMoById = racAccountSvc.modifyMoById(mo);
         return modifyMoById;
