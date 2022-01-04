@@ -1,8 +1,6 @@
 package rebue.scx.msg.svc.impl;
 
 import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -27,23 +25,23 @@ public class TemplateMessageSendingSvcImpl implements TemplateMessageSendingSvc 
     // @Resource
     // private SmsUtil smsUtil;
 
-    /**
-     * 模板短信
-     * 
-     * @param phoneNumber
-     */
-    @Override
-    public Ro<?> sendTemplateSMS(String phoneNumber) {
-        final String code     = getSixRandom();
-        final String redisKey = phoneNumber + code;
-        // 重新获取验证码
-        // 删除旧的验证码缓存
-        Set<String>  keys     = stringRedisTemplate.keys(StringUtils.rightPad(phoneNumber, 17, "?"));
-        stringRedisTemplate.delete(keys);
-        stringRedisTemplate.opsForValue().set(redisKey, code, 5 * 60L, TimeUnit.SECONDS);
-        final String Verifiy = stringRedisTemplate.opsForValue().get(redisKey);
-        return SmsUtil.sendSMSCode(phoneNumber, code, smsConfig);
-    }
+    // /**
+    // * 模板短信
+    // *
+    // * @param phoneNumber
+    // */
+    // @Override
+    // public Ro<?> sendTemplateSMS(String phoneNumber) {
+    // final String code = getSixRandom();
+    // final String redisKey = phoneNumber + code;
+    // // 重新获取验证码
+    // // 删除旧的验证码缓存
+    // Set<String> keys = stringRedisTemplate.keys(StringUtils.rightPad(phoneNumber, 17, "?"));
+    // stringRedisTemplate.delete(keys);
+    // stringRedisTemplate.opsForValue().set(redisKey, code, 5 * 60L, TimeUnit.SECONDS);
+    // final String Verifiy = stringRedisTemplate.opsForValue().get(redisKey);
+    // return SmsUtil.sendSMSCode(phoneNumber, code, smsConfig);
+    // }
 
     /**
      * 模板短信

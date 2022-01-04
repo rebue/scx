@@ -15,14 +15,14 @@ public class TemplateMessageSendingApiImpl implements TemplateMessageSendingApi 
     protected TemplateMessageSendingSvc svc;
 
     /**
-     * 模板短信
+     * 模板短信已弃用
      * 
      * @param phoneNumber
-     * @param code
      */
     @Override
     public Ro<?> sendTemplateSMS(String phoneNumber) {
-        return svc.sendTemplateSMS(phoneNumber);
+        return null;
+        // return svc.sendTemplateSMS(phoneNumber);
     }
 
     /**

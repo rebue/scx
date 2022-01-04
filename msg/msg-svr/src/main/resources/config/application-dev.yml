@@ -3,7 +3,7 @@ msg:
   sms:
     #短信平台jiguang/baidu
     sms-platform: jiguang
-    simulation: false
+    simulation: true
     app-key: 823ebe289daa183f863eee73
     app-secret: e92f7f27dbd27bf0f1157c61
     tempId: 202223

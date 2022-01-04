@@ -13,7 +13,7 @@ public interface TemplateMessageSendingSvc {
      * @param phoneNumber
      * @param code
      */
-    Ro<?> sendTemplateSMS(String phoneNumber);
+    // Ro<?> sendTemplateSMS(String phoneNumber);
 
     /**
      * 短信验证码校验
