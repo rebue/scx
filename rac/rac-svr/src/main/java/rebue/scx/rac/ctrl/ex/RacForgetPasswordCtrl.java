@@ -57,7 +57,7 @@ public class RacForgetPasswordCtrl {
     }
 
     /**
-     * 忘记密码通过手机号修改密码
+     * 忘记密码通过消息修改密码
      */
     @PostMapping("/sign-in-pswd-to-set")
     public Mono<Ro<?>> forgetSignInPswdToSetTo(@RequestBody final ForgetSignInPswdToSetTo to) {

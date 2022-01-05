@@ -28,7 +28,7 @@ public class RacForgetPasswordApiImpl implements RacForgetPasswordApi {
     }
 
     /**
-     * 忘记密码通过手机号校验修改
+     * 忘记密码通过消息校验修改
      */
     @Override
     public Ro<?> forgetSignInPswdToSetTo(ForgetSignInPswdToSetTo to) {

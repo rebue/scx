@@ -35,11 +35,14 @@ public class ForgetSignInPswdToSetTo implements Serializable {
     @NotBlank(message = "新密码不能为空")
     @Length(max = 32, message = "新密码的长度不能大于32")
     private String            signInPswd;
-    // /**
-    // * 接受验证码手机号不需要
-    // */
-    // // @NotNull(message = "手机号不能为空")
-    // private String phoneNumber;
+    /**
+     * 找回方式类型默认为0
+     * 0：通过手机号找回
+     * 1：通过邮箱找回
+     */
+    @NotNull(message = "找回方式类型不能为空")
+    @PositiveOrZero(message = "登录类型不能为负数")
+    private byte              forgetTpye;
     /**
      * 手机验证码
      */

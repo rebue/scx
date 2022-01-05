@@ -15,6 +15,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
 import rebue.scx.cap.api.CapMessageSendingApi;
 import rebue.scx.cap.mo.CaptchaVO;
+import rebue.scx.cap.to.CapEmailVerificationTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.api.RacOpLogApi;
 import rebue.scx.rac.mo.RacAccountMo;
@@ -47,14 +48,14 @@ import rebue.wheel.core.util.RegexUtils;
 public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
 
     @Resource
-    private RacAccountSvc    accountSvc;
+    private RacAccountSvc        accountSvc;
     @Resource
-    private RacAppSvc        appSvc;
+    private RacAppSvc            appSvc;
     @Resource
-    private RacOpLogApi      opLogApi;
+    private RacOpLogApi          opLogApi;
 
     @DubboReference
-    private CapApi           capApi;
+    private CapApi               capApi;
     @DubboReference
     private CapMessageSendingApi capSMSSendingApi;
 
@@ -68,7 +69,7 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
         captchaVO.setCaptchaVerification(to.getCaptchaVerification());
         final Ro<?> model = capApi.verification(captchaVO);
         if (model.getResult().getCode() != 1) {
-            return new Ro<>(ResultDic.FAIL, model.getMsg());
+            return model;
         }
         log.info("根据应用ID获取应用信息");
         final RacAppMo appMo = appSvc.getById(appId);
@@ -85,7 +86,6 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
         else if (RegexUtils.matchMobile(to.getSignInName())) {
             accountMo = accountSvc.getOneByMobile(appMo.getRealmId(), to.getSignInName());
         }
-
         if (accountMo == null) {
             accountMo = accountSvc.getOneBySignInName(appMo.getRealmId(), to.getSignInName());
         }
@@ -100,7 +100,7 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
     }
 
     /**
-     * 忘记密码通过手机号修改密码
+     * 忘记密码通过信息验证码修改密码
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -109,34 +109,63 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
         captchaVO.setCaptchaVerification(to.getCaptchaVerification());
         final Ro<?> model = capApi.verification(captchaVO);
         if (model.getResult().getCode() != 1) {
-            return new Ro<>(ResultDic.FAIL, model.getMsg());
+            return model;
         }
-        // 校验短信验证码
-
-        RacAccountMo         accountMoById = accountSvc.getAccountMoById(to.getId());
-        CapSMSVerificationTo verifiy       = new CapSMSVerificationTo();
-        verifiy.setPhoneNumber(accountMoById.getSignInMobile());
-        verifiy.setCode(to.getCode());
-        Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
-        if (verification.getResult().getCode() != 1) {
-            final String msg = verification.getMsg();
-            log.warn(msg + ": {}", to);
-            return new Ro<>(ResultDic.WARN, msg);
+        if (to.getForgetTpye() == 0) {
+            // 校验短信验证码
+            RacAccountMo         accountMoById = accountSvc.getAccountMoById(to.getId());
+            CapSMSVerificationTo verifiy       = new CapSMSVerificationTo();
+            verifiy.setPhoneNumber(accountMoById.getSignInMobile());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgSMSVerification(verifiy);
+            if (verification.getResult().getCode() != 1) {
+                final String msg = verification.getMsg();
+                log.warn(msg + ": {}", to);
+                return new Ro<>(ResultDic.WARN, msg);
+            }
+            setSignInPswd(to.getId(), to.getSignInPswd());
+            // 成功后清理验证码
+            capSMSSendingApi.deleteVerifiyMobilCode(verifiy);
+            capApi.deleteVerifiyCode(captchaVO);
+            final RacOpLogAddTo appTo = new RacOpLogAddTo();
+            appTo.setAccountId(to.getId());
+            appTo.setAgentId(null);
+            appTo.setAppId("unified-auth");
+            appTo.setOpType("修改密码");
+            appTo.setOpTitle("忘记密码");
+            appTo.setOpDetail("账户忘记密码而进行的修改密码操作");
+            appTo.setOpDatetime(LocalDateTime.now());
+            opLogApi.add(appTo);
+            return new Ro<>(ResultDic.SUCCESS, "修改成功");
         }
-        setSignInPswd(to.getId(), to.getSignInPswd());
-        // 成功后清理验证码
-        capSMSSendingApi.deleteVerifiyMobilCode(verifiy);
-        capApi.deleteVerifiyCode(captchaVO);
-        final RacOpLogAddTo appTo = new RacOpLogAddTo();
-        appTo.setAccountId(to.getId());
-        appTo.setAgentId(null);
-        appTo.setAppId("unified-auth");
-        appTo.setOpType("修改密码");
-        appTo.setOpTitle("忘记密码");
-        appTo.setOpDetail("账户忘记密码而进行的修改密码操作");
-        appTo.setOpDatetime(LocalDateTime.now());
-        opLogApi.add(appTo);
-        return new Ro<>(ResultDic.SUCCESS, "修改成功");
+        if (to.getForgetTpye() == 1) {
+            // 校验邮箱验证码
+            RacAccountMo           accountMoById = accountSvc.getAccountMoById(to.getId());
+            CapEmailVerificationTo verifiy       = new CapEmailVerificationTo();
+            verifiy.setEmail(accountMoById.getSignInEmail());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgEmailVerification(verifiy);
+            if (verification.getResult().getCode() != 1) {
+                final String msg = verification.getMsg();
+                log.warn(msg + ": {}", to);
+                return new Ro<>(ResultDic.WARN, msg);
+            }
+            setSignInPswd(to.getId(), to.getSignInPswd());
+            // 成功后清理验证码
+            capSMSSendingApi.deleteVerifiyEmailCode(verifiy);
+            capApi.deleteVerifiyCode(captchaVO);
+            final RacOpLogAddTo appTo = new RacOpLogAddTo();
+            appTo.setAccountId(to.getId());
+            appTo.setAgentId(null);
+            appTo.setAppId("unified-auth");
+            appTo.setOpType("修改密码");
+            appTo.setOpTitle("忘记密码");
+            appTo.setOpDetail("账户忘记密码而进行的修改密码操作");
+            appTo.setOpDatetime(LocalDateTime.now());
+            opLogApi.add(appTo);
+            return new Ro<>(ResultDic.SUCCESS, "修改成功");
+        }
+        return new Ro<>(ResultDic.FAIL, "暂不支持该类型找回密码");
     }
 
     /**
