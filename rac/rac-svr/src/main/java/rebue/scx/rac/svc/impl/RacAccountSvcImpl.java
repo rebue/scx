@@ -39,6 +39,7 @@ import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.cap.api.CapMessageSendingApi;
+import rebue.scx.cap.to.CapEmailVerificationTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.co.RacMinioCo;
 import rebue.scx.rac.config.LevelProtectProperties;
@@ -76,6 +77,7 @@ import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.RacOrgAccountAddTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountEmailTo;
 import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
@@ -501,9 +503,6 @@ public class RacAccountSvcImpl extends
         }
         else {
             // 绑定
-            if (to.getMobile() == null) {
-                throw new RuntimeExceptionX("绑定的手机号不能为空，请确认后再试！");
-            }
             CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
             verifiy.setPhoneNumber(to.getMobile());
             verifiy.setCode(to.getCode());
@@ -524,6 +523,62 @@ public class RacAccountSvcImpl extends
                     return new Ro<>(ResultDic.SUCCESS, "手机号绑定成功", mo);
                 }
                 return new Ro<>(ResultDic.FAIL, "绑定失败，该账户已绑定手机号：", mo.getSignInMobile());
+            }
+            return verification;
+        }
+    }
+
+    /**
+     * 账户绑定/解绑邮箱
+     *
+     * @param to 账户ID/邮箱/校验码
+     */
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public Ro<?> bindMobile(RacAccountEmailTo to) {
+        RacAccountMo mo = thisSvc.getAccountMoById(to.getId());
+        if (mo == null) {
+            throw new RuntimeExceptionX("查找不到该账户的信息，请确认后再试！");
+        }
+        // 判断解帮还是绑定
+        if (to.getBindType().equals("1")) {
+            // 解绑
+            CapEmailVerificationTo verifiy = new CapEmailVerificationTo();
+            verifiy.setEmail(mo.getSignInEmail());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgEmailVerification(verifiy);
+            if (verification.getResult().getCode() == 1) {
+                int unbindWechatOpen = _mapper.unbindEmail(mo.getId());
+                if (unbindWechatOpen != 1) {
+                    throw new RuntimeExceptionX("解除绑定异常信息，请稍后再试");
+                }
+                capSMSSendingApi.deleteVerifiyEmailCode(verifiy);
+                return new Ro<>(ResultDic.SUCCESS, "解绑邮箱成功");
+            }
+            return verification;
+        }
+        else {
+            // 绑定
+            CapEmailVerificationTo verifiy = new CapEmailVerificationTo();
+            verifiy.setEmail(to.getEmail());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgEmailVerification(verifiy);
+            if (verification.getResult().getCode() == 1) {
+                // 绑定邮箱
+                if (mo.getSignInEmail() == null) {
+                    RacAccountOneTo one = new RacAccountOneTo();
+                    one.setSignInEmail(to.getEmail());
+                    one.setRealmId(mo.getRealmId());
+                    RacAccountMo oneMo = thisSvc.getAccountMoOne(one);
+                    if (oneMo != null) {
+                        return new Ro<>(ResultDic.FAIL, "邮箱绑定失败，该邮箱已被绑定！", mo);
+                    }
+                    mo.setSignInEmail(to.getEmail());
+                    thisSvc.modifyMoById(mo);
+                    capSMSSendingApi.deleteVerifiyEmailCode(verifiy);
+                    return new Ro<>(ResultDic.SUCCESS, "邮箱绑定成功", mo);
+                }
+                return new Ro<>(ResultDic.FAIL, "绑定失败，该账户已绑定邮箱：", mo.getSignInEmail());
             }
             return verification;
         }

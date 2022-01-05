@@ -86,6 +86,31 @@ public class RacSignInCtrl {
     }
 
     /**
+     * 通过邮箱验证登录
+     * 
+     * @ignoreParams request
+     */
+    @PostMapping("/rac/sign-in/sign-in-by-email-code")
+    @RacOpLog(opType = "登录", opTitle = "通过手机号验证登录: #{#p0.email}")
+    public Mono<Ro<SignUpOrInRa>> signInByEmailCode(@RequestBody final UnifiedLoginTo to, final ServerHttpRequest request, final ServerHttpResponse resp) {
+        // 从Headers中获取应用ID
+        final List<String> list  = request.getHeaders().get(RacCookieCo.HEADERS_APP_ID_KEY);
+        final String       appId = list != null && list.size() > 0 ? list.get(0) : null;
+        if (StringUtils.isBlank(appId)) {
+            throw new RuntimeExceptionX("在Headers中找不到应用ID");
+        }
+        to.setAppId(appId);
+        to.setLoginType((byte) 2);
+        return Mono.create(callback -> {
+            final Ro<SignUpOrInRa> ro = api.unifiedLogin(to);
+            if (ResultDic.SUCCESS.equals(ro.getResult())) {
+                jwtSignWithCookie(ro.getExtra(), resp);
+            }
+            callback.success(ro);
+        });
+    }
+
+    /**
      * 通过关键字获取输入密码错误而被锁定的账户记录
      * 
      * @param keywords

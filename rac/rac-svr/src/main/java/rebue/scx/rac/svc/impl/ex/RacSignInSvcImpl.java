@@ -25,6 +25,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
 import rebue.scx.cap.api.CapMessageSendingApi;
 import rebue.scx.cap.mo.CaptchaVO;
+import rebue.scx.cap.to.CapEmailVerificationTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.jwt.api.JwtApi;
 import rebue.scx.jwt.ra.JwtSignRa;
@@ -80,45 +81,45 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     /**
      * 保存账户密码输入错误被锁定的key
      */
-    public static final String  PASSWORD_LOCK_OF_SIGN_IN                     = "passwordLockOfSignIn";
+    public static final String   PASSWORD_LOCK_OF_SIGN_IN                     = "passwordLockOfSignIn";
 
     /**
      * 缓存当天连续输入登录密码错误的次数的Key的前缀
      * 后面跟账户ID拼接成Key
      * Value为失败次数
      */
-    private static final String REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.sign-in.wrong-pswd-times::";
+    private static final String  REDIS_KEY_WRONG_PSWD_TIMES_OF_SIGN_IN_PREFIX = "rebue.scx.rac.sign-in.wrong-pswd-times::";
 
     @DubboReference(application = "jwt-svr")
-    private JwtApi              jwtApi;
+    private JwtApi               jwtApi;
 
     @Resource
-    private RacAccountSvc       accountSvc;
+    private RacAccountSvc        accountSvc;
     @Resource
-    private RacAppSvc           appSvc;
+    private RacAppSvc            appSvc;
     @Resource
-    private RacOpLogSvc         opLogSvc;
+    private RacOpLogSvc          opLogSvc;
     @Resource
-    private RacLockLogSvc       racLockLogSvc;
+    private RacLockLogSvc        racLockLogSvc;
 
     @Resource
-    StringRedisTemplate         stringRedisTemplate;
+    StringRedisTemplate          stringRedisTemplate;
     @Resource
-    LevelProtectProperties      levelProtectProperties;
+    LevelProtectProperties       levelProtectProperties;
 
     @Resource
-    private Mapper              dozerMapper;
+    private Mapper               dozerMapper;
     @Resource
-    private RacOrgSvc           racOrgSvc;
+    private RacOrgSvc            racOrgSvc;
     @Resource
-    private RacAccountMapper    racAccountMapper;
+    private RacAccountMapper     racAccountMapper;
     @Resource
-    private RacAccountSvcImpl   accountSvcImpl;
+    private RacAccountSvcImpl    accountSvcImpl;
 
     @DubboReference
-    private CapApi              capApi;
+    private CapApi               capApi;
     @DubboReference
-    private CapMessageSendingApi    capSMSSendingApi;
+    private CapMessageSendingApi capSMSSendingApi;
 
     /**
      * 
@@ -139,7 +140,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     }
 
     /**
-     * OIDC
+     * OIDC登录
      */
     @Override
     public Ro<SignUpOrInRa> unifiedLogin(final UnifiedLoginTo to) {
@@ -198,6 +199,44 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             }
             // 成功后清理验证码
             capSMSSendingApi.deleteVerifiyMobilCode(verifiy);
+            capApi.deleteVerifiyCode(captchaVO);
+            return returnSuccessSignIn(accountMo, appMo);
+        }
+        if (to.getLoginType() == 2) {
+            // 校验邮箱验证码
+            CapEmailVerificationTo verifiy = new CapEmailVerificationTo();
+            verifiy.setEmail(to.getEmail());
+            verifiy.setCode(to.getCode());
+            Ro<?> verification = capSMSSendingApi.msgEmailVerification(verifiy);
+            if (verification.getResult().getCode() != 1) {
+                final String msg = verification.getMsg();
+                log.warn(msg + ": {}", to);
+                return new Ro<>(ResultDic.WARN, msg);
+            }
+            final RacAppMo appMo = appSvc.getById(to.getAppId());
+            if (appMo == null) {
+                final String msg = "未发现此应用的信息";
+                log.warn(msg + ": {}", to.getAppId());
+                return new Ro<>(ResultDic.WARN, msg + to.getAppId());
+            }
+            RacAccountMo accountMo = null;
+            if (RegexUtils.matchEmail(to.getEmail())) {
+                accountMo = accountSvc.getOneByEmail(appMo.getRealmId(), to.getEmail());
+            }
+            if (accountMo == null) {
+                final String msg = "找不到此账户";
+                log.warn(msg + ": to-{}", to);
+                return new Ro<>(ResultDic.WARN, msg + ": " + to.getPhoneNumber());
+            }
+            log.info("检查账户今天输错密码是否超过限定次数");
+            final Long wrongPswdTimesOfSignIn = getWrongPswdTimesOfSignIn(accountMo.getId());
+            if (wrongPswdTimesOfSignIn != null && wrongPswdTimesOfSignIn >= getPasswordErrors()) {
+                final String msg = "账户今天已被锁定，请确认等待" + getLockDuration() + "分钟后再试";
+                log.warn(msg + ": to-{}", to);
+                return new Ro<>(ResultDic.WARN, msg);
+            }
+            // 成功后清理验证码
+            capSMSSendingApi.deleteVerifiyEmailCode(verifiy);
             capApi.deleteVerifiyCode(captchaVO);
             return returnSuccessSignIn(accountMo, appMo);
         }

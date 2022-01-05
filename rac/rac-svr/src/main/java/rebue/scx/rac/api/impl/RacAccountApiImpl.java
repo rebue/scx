@@ -27,6 +27,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountEmailTo;
 import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
@@ -124,6 +125,14 @@ public class RacAccountApiImpl extends
      */
     @Override
     public Ro<?> bindMobile(RacAccountMobileTo to) {
+        return _svc.bindMobile(to);
+    }
+
+    /**
+     * 绑定邮箱
+     */
+    @Override
+    public Ro<?> bindEmail(RacAccountEmailTo to) {
         return _svc.bindMobile(to);
     }
 

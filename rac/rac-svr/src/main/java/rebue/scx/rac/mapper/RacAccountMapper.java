@@ -761,6 +761,19 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
     }
 
     /**
+     * 解除邮箱绑定
+     * 
+     * @param id
+     * 
+     * @return
+     */
+    default int unbindEmail(Long id) {
+        UpdateStatementProvider update = SqlBuilder.update(racAccount).set(signInEmail).equalToNull().where(racAccount.id, isEqualTo(id)).build()
+                .render(RenderingStrategies.MYBATIS3);
+        return this.update(update);
+    }
+
+    /**
      * 根据用户ID查询用户下的账户的信息
      *
      * @param id
@@ -857,4 +870,5 @@ public interface RacAccountMapper extends MapperRootInterface<RacAccountMo, Long
                 .render(RenderingStrategies.MYBATIS3);
         return this.selectOneNonDesensitizedMo(select);
     }
+
 }

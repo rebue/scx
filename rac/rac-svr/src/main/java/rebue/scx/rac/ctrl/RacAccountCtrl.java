@@ -50,6 +50,7 @@ import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.PostParameterTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountEmailTo;
 import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
@@ -112,17 +113,6 @@ public class RacAccountCtrl {
         return Mono.create(callback -> callback.success(api.addUnionIdMapper(to)));
     }
 
-    // /**
-    // * 修改账户unionId映射
-    // *
-    // * @param to 修改的具体信息
-    // *
-    // */
-    // @RacOpLog(opType = "修改账户unionId", opTitle = "修改账户unionId: #{#p0.srcId}")
-    // @PostMapping("/rac/account/modify-union-mapper")
-    // public Mono<Ro<?>> modifyUnionIdMapper(@RequestBody final RacAccountUnionIdTo to) {
-    // return Mono.create(callback -> callback.success(api.modifyUnionIdMapper(to)));
-    // }
     /**
      * 删除账户unionId映射
      *
@@ -187,6 +177,17 @@ public class RacAccountCtrl {
     @PostMapping("/rac/account/bind-mobile")
     public Mono<Ro<?>> bindMobile(@RequestBody final RacAccountMobileTo to) {
         return Mono.create(callback -> callback.success(api.bindMobile(to)));
+    }
+
+    /**
+     * 账户绑定/解绑邮箱
+     *
+     * @param to 账户ID/邮箱/校验码/绑定类型
+     */
+    @RacOpLog(opType = "账户绑定/解绑邮箱", opTitle = "账户绑定/解绑邮箱: #{#p0.id}")
+    @PostMapping("/rac/account/bind-email")
+    public Mono<Ro<?>> bindEmail(@RequestBody final RacAccountEmailTo to) {
+        return Mono.create(callback -> callback.success(api.bindEmail(to)));
     }
 
     /**

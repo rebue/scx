@@ -36,6 +36,10 @@ public class UnifiedLoginTo {
      */
     private String phoneNumber;
     /**
+     * 邮箱验证码登录的邮箱
+     */
+    private String email;
+    /**
      * 验证码
      */
     private String code;

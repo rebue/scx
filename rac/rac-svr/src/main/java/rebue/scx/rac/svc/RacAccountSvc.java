@@ -29,6 +29,7 @@ import rebue.scx.rac.to.RacAccountPageTo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
 import rebue.scx.rac.to.ex.RacAccountByUserTo;
+import rebue.scx.rac.to.ex.RacAccountEmailTo;
 import rebue.scx.rac.to.ex.RacAccountMobileTo;
 import rebue.scx.rac.to.ex.RacAccountResetPasswordTo;
 import rebue.scx.rac.to.ex.RacAccountUnionIdTo;
@@ -250,5 +251,7 @@ public interface RacAccountSvc
      * 密码过期时长/天
      */
     Long getPasswordDoverdue();
+
+    Ro<?> bindMobile(RacAccountEmailTo to);
 
 }

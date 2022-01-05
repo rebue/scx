@@ -20,16 +20,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class RacAccountMobileTo extends RacAccountBindTo implements Serializable {
+public class RacAccountBindTo implements Serializable {
     /**
     * 
     */
     private static final long serialVersionUID = 1L;
-
     /**
-     * 手机号，绑定时必须传参
+     * ID
      */
-    @NotNull(message = "手机号不能为空")
-    private String            mobile;
+    @NotNull(message = "账户ID不能为空")
+    private Long              id;
+    /**
+     * 校验码
+     */
+    @NotNull(message = "验证码不能为空")
+    private String            code;
+    /**
+     * 绑定类型（绑定：0，解绑：1）
+     */
+    @NotNull(message = "绑定类型不能为空")
+    private String            bindType;
 
 }
