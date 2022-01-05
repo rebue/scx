@@ -26,12 +26,6 @@ public class CapApiImpl implements CapApi {
     @Override
     public Ro<?> verification(final CaptchaVO captchaVO) {
         final Ro<?> model = captchaService.verification(captchaVO);
-        // if (model.getResult().getCode() == 1) {
-        // return new Ro<>(ResultDic.SUCCESS, model.getMsg());
-        // }
-        // else {
-        // return new Ro<>(ResultDic.FAIL, model.getMsg());
-        // }
         return model;
     }
 

@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
-import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.api.CapMessageSendingApi;
 import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.jwt.api.JwtApi;
@@ -118,7 +118,7 @@ public class RacSignInSvcImpl implements RacSignInSvc {
     @DubboReference
     private CapApi              capApi;
     @DubboReference
-    private CapSMSSendingApi    capSMSSendingApi;
+    private CapMessageSendingApi    capSMSSendingApi;
 
     /**
      * 
@@ -151,19 +151,19 @@ public class RacSignInSvcImpl implements RacSignInSvc {
             Ro<SignUpOrInRa> ro = signInByAccountName(byAccountNameTo);
             return ro;
         }
+        if (!(to.getCaptchaVerification() != null)) {
+            final String msg = "图形验证码为空";
+            log.warn(msg + ": to-{}", to);
+            return new Ro<>(ResultDic.WARN, msg);
+        }
+        // 校验图形验证码
+        final CaptchaVO captchaVO = new CaptchaVO();
+        captchaVO.setCaptchaVerification(to.getCaptchaVerification());
+        final Ro<?> model = capApi.verification(captchaVO);
+        if (model.getResult().getCode() != 1) {
+            return new Ro<>(ResultDic.FAIL, model.getMsg());
+        }
         if (to.getLoginType() == 1) {
-            if (!(to.getCaptchaVerification() != null)) {
-                final String msg = "图形验证码为空";
-                log.warn(msg + ": to-{}", to);
-                return new Ro<>(ResultDic.WARN, msg);
-            }
-            // 校验图形验证码
-            final CaptchaVO captchaVO = new CaptchaVO();
-            captchaVO.setCaptchaVerification(to.getCaptchaVerification());
-            final Ro<?> model = capApi.verification(captchaVO);
-            if (model.getResult().getCode() != 1) {
-                return new Ro<>(ResultDic.FAIL, model.getMsg());
-            }
             // 校验短信验证码
             CapSMSVerificationTo verifiy = new CapSMSVerificationTo();
             verifiy.setPhoneNumber(to.getPhoneNumber());
@@ -197,11 +197,10 @@ public class RacSignInSvcImpl implements RacSignInSvc {
                 return new Ro<>(ResultDic.WARN, msg);
             }
             // 成功后清理验证码
-            capSMSSendingApi.deleteVerifiyCode(verifiy);
+            capSMSSendingApi.deleteVerifiyMobilCode(verifiy);
             capApi.deleteVerifiyCode(captchaVO);
             return returnSuccessSignIn(accountMo, appMo);
         }
-        // return ro.isSuccess() ? Optional.of(accountSvc.getById(ro.getExtra().getId())) : Optional.empty();
         final String msg = "未支持此方式登录";
         log.warn(msg + ": {}", to);
         return new Ro<>(ResultDic.WARN, msg);

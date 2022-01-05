@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.api.CapApi;
-import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.api.CapMessageSendingApi;
 import rebue.scx.cap.mo.CaptchaVO;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.api.RacOpLogApi;
@@ -56,7 +56,7 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
     @DubboReference
     private CapApi           capApi;
     @DubboReference
-    private CapSMSSendingApi capSMSSendingApi;
+    private CapMessageSendingApi capSMSSendingApi;
 
     /**
      * 校验帐号存在
@@ -125,7 +125,7 @@ public class RacForgetPasswordImpl implements RacForgetPasswordSvc {
         }
         setSignInPswd(to.getId(), to.getSignInPswd());
         // 成功后清理验证码
-        capSMSSendingApi.deleteVerifiyCode(verifiy);
+        capSMSSendingApi.deleteVerifiyMobilCode(verifiy);
         capApi.deleteVerifiyCode(captchaVO);
         final RacOpLogAddTo appTo = new RacOpLogAddTo();
         appTo.setAccountId(to.getId());

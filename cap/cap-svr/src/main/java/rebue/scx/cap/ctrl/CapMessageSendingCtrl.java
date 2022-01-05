@@ -8,23 +8,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
-import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.api.CapMessageSendingApi;
 import rebue.scx.cap.to.CapEmailTo;
 import rebue.scx.cap.to.CapEmailVerificationTo;
 import rebue.scx.cap.to.CapSMSTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 
 /**
- * 短信发送
+ * 消息发送
  * 
  * @author yuanman
  *
  */
 @RestController
-public class CapSMSSendingCtrl {
+public class CapMessageSendingCtrl {
 
     @Resource
-    private CapSMSSendingApi api;
+    private CapMessageSendingApi api;
 
     /**
      * 发送短信

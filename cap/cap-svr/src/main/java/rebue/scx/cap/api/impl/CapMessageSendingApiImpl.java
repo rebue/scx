@@ -5,17 +5,17 @@ import javax.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.cap.api.CapSMSSendingApi;
-import rebue.scx.cap.svc.CapSMSSendingSvc;
+import rebue.scx.cap.api.CapMessageSendingApi;
+import rebue.scx.cap.svc.CapMessageSendingSvc;
 import rebue.scx.cap.to.CapEmailTo;
 import rebue.scx.cap.to.CapEmailVerificationTo;
 import rebue.scx.cap.to.CapSMSTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 
 @DubboService
-public class CapSMSSendingApiImpl implements CapSMSSendingApi {
+public class CapMessageSendingApiImpl implements CapMessageSendingApi {
     @Resource
-    protected CapSMSSendingSvc svc;
+    protected CapMessageSendingSvc svc;
 
     /**
      * 模板短信
@@ -44,18 +44,35 @@ public class CapSMSSendingApiImpl implements CapSMSSendingApi {
      * @param code
      */
     @Override
-    public void deleteVerifiyCode(final CapSMSVerificationTo to) {
+    public void deleteVerifiyMobilCode(final CapSMSVerificationTo to) {
         svc.deleteVerifiyMobileCode(to);
     }
 
+    /**
+     * 发送模板邮箱
+     */
     @Override
     public Ro<?> sendTemplateEmail(CapEmailTo to) {
         return svc.sendTemplateEmail(to);
     }
 
+    /**
+     * 校验邮箱
+     */
     @Override
     public Ro<?> msgEmailVerification(CapEmailVerificationTo to) {
         return svc.msgEmailVerification(to);
+    }
+
+    /**
+     * 校验成功后删除邮箱验证码缓存
+     * 
+     * @param email
+     * @param code
+     */
+    @Override
+    public void deleteVerifiyEmailCode(CapEmailVerificationTo to) {
+        svc.deleteVerifiyEmailCode(to);
     }
 
 }

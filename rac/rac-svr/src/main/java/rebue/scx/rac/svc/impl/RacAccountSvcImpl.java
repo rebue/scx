@@ -38,7 +38,7 @@ import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
-import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.api.CapMessageSendingApi;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.co.RacMinioCo;
 import rebue.scx.rac.config.LevelProtectProperties;
@@ -117,7 +117,7 @@ public class RacAccountSvcImpl extends
     private RacAccountSvc        thisSvc;
 
     @DubboReference
-    private CapSMSSendingApi     capSMSSendingApi;
+    private CapMessageSendingApi capSMSSendingApi;
 
     @Resource
     private RacUserSvc           userSvc;
@@ -494,7 +494,7 @@ public class RacAccountSvcImpl extends
                 if (unbindWechatOpen != 1) {
                     throw new RuntimeExceptionX("解除绑定异常信息，请稍后再试");
                 }
-                capSMSSendingApi.deleteVerifiyCode(verifiy);
+                capSMSSendingApi.deleteVerifiyMobilCode(verifiy);
                 return new Ro<>(ResultDic.SUCCESS, "解绑手机成功");
             }
             return verification;
@@ -520,7 +520,7 @@ public class RacAccountSvcImpl extends
                     }
                     mo.setSignInMobile(to.getMobile());
                     thisSvc.modifyMoById(mo);
-                    capSMSSendingApi.deleteVerifiyCode(verifiy);
+                    capSMSSendingApi.deleteVerifiyMobilCode(verifiy);
                     return new Ro<>(ResultDic.SUCCESS, "手机号绑定成功", mo);
                 }
                 return new Ro<>(ResultDic.FAIL, "绑定失败，该账户已绑定手机号：", mo.getSignInMobile());
@@ -813,7 +813,6 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public RacAccountMo getById(Long id) {
-        // TODO Auto-generated method stub
         RacAccountMo accountMo = super.getById(id);
         if (accountMo.getUserId() != null) {
             RacUserMo userMo = userSvc.getById(accountMo.getUserId());

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.mo.CaptchaVO;
-import rebue.scx.cap.svc.CapSMSSendingSvc;
+import rebue.scx.cap.svc.CapMessageSendingSvc;
 import rebue.scx.cap.svc.CaptchaService;
 import rebue.scx.cap.to.CapEmailTo;
 import rebue.scx.cap.to.CapEmailVerificationTo;
@@ -22,14 +22,14 @@ import rebue.scx.msg.api.EmailMessageSendingApi;
 import rebue.scx.msg.api.TemplateMessageSendingApi;
 
 /**
- * 短信实现
+ * 消息实现
  * 请使用redis缓存，本地缓存无keys方法
  * 
  * @author yuanman
  *
  */
 @Service
-public class CapSMSSendingSvcImpl implements CapSMSSendingSvc {
+public class CapMessageSendingSvcImpl implements CapMessageSendingSvc {
     private static String             cacheType        = "redis";
     private static String             SMS_KEY_PREFIX   = "CapSMSSendingSvcImpl+sms:";
     private static String             EMAIL_KEY_PREFIX = "CapSMSSendingSvcImpl+email:";
@@ -94,7 +94,6 @@ public class CapSMSSendingSvcImpl implements CapSMSSendingSvc {
         }
         boolean bool = code.equals(verifiy);
         if (bool) {
-            // CaptchaServiceFactory.getCache(cacheType).delete(redisKey);
             return new Ro<>(ResultDic.SUCCESS, "短信校验成功", bool);
         }
         return new Ro<>(ResultDic.FAIL, "短信校验失败", bool);
@@ -108,7 +107,7 @@ public class CapSMSSendingSvcImpl implements CapSMSSendingSvc {
         final CaptchaVO captchaVO = new CaptchaVO();
         captchaVO.setCaptchaVerification(to.getCaptchaVerification());
         final Ro<?> model = captchaService.verification(captchaVO);
-        // 图形校验通过才发送短信
+        // 图形校验通过才发送邮箱
         if (model.getResult().getCode() == 1) {
             final String email    = to.getEmail();
             final String code     = getSixRandom();
@@ -134,8 +133,19 @@ public class CapSMSSendingSvcImpl implements CapSMSSendingSvc {
 
     @Override
     public Ro<?> msgEmailVerification(CapEmailVerificationTo to) {
-        // TODO Auto-generated method stub
-        return null;
+        final String email    = to.getEmail();
+        final String code     = to.getCode();
+        final String redisKey = EMAIL_KEY_PREFIX + email + code;
+        final String verifiy  = CaptchaServiceFactory.getCache(cacheType).get(redisKey);
+        if (verifiy == null) {
+            return new Ro<>(ResultDic.FAIL, "邮箱验证码已失效过期或验证码错误");
+        }
+        boolean bool = code.equals(verifiy);
+        if (bool) {
+            // CaptchaServiceFactory.getCache(cacheType).delete(redisKey);
+            return new Ro<>(ResultDic.SUCCESS, "邮箱校验成功", bool);
+        }
+        return new Ro<>(ResultDic.FAIL, "邮箱校验失败", bool);
     }
 
     /**
@@ -149,6 +159,20 @@ public class CapSMSSendingSvcImpl implements CapSMSSendingSvc {
         final String phoneNumber = to.getPhoneNumber();
         final String code        = to.getCode();
         final String redisKey    = SMS_KEY_PREFIX + phoneNumber + code;
+        CaptchaServiceFactory.getCache(cacheType).delete(redisKey);
+    }
+
+    /**
+     * 校验成功后删除邮箱验证码缓存
+     * 
+     * @param email
+     * @param code
+     */
+    @Override
+    public void deleteVerifiyEmailCode(final CapEmailVerificationTo to) {
+        final String email    = to.getEmail();
+        final String code     = to.getCode();
+        final String redisKey = EMAIL_KEY_PREFIX + email + code;
         CaptchaServiceFactory.getCache(cacheType).delete(redisKey);
     }
 

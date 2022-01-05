@@ -1,6 +1,4 @@
-package rebue.scx.cap.svc;
-
-import org.springframework.validation.annotation.Validated;
+package rebue.scx.cap.api;
 
 import rebue.robotech.ro.Ro;
 import rebue.scx.cap.to.CapEmailTo;
@@ -8,13 +6,17 @@ import rebue.scx.cap.to.CapEmailVerificationTo;
 import rebue.scx.cap.to.CapSMSTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 
-@Validated
-public interface CapSMSSendingSvc {
+/**
+ * 消息发送API
+ * 
+ * @author yuanman
+ *
+ */
+public interface CapMessageSendingApi {
     /**
      * 模板短信
      * 
      * @param to
-     * @param code
      */
     Ro<?> sendTemplateSMS(CapSMSTo to);
 
@@ -30,7 +32,7 @@ public interface CapSMSSendingSvc {
      * @param phoneNumber
      * @param code
      */
-    void deleteVerifiyMobileCode(CapSMSVerificationTo to);
+    void deleteVerifiyMobilCode(CapSMSVerificationTo to);
 
     /**
      * 发送模板邮箱
@@ -50,4 +52,11 @@ public interface CapSMSSendingSvc {
      */
     Ro<?> msgEmailVerification(CapEmailVerificationTo to);
 
+    /**
+     * 校验成功后删除邮箱验证码缓存
+     * 
+     * @param email
+     * @param code
+     */
+    void deleteVerifiyEmailCode(CapEmailVerificationTo to);
 }

@@ -19,8 +19,6 @@ import rebue.scx.cap.mo.CaptchaVO;
 @CrossOrigin
 public class CaptchaCtrl {
 
-    // @Autowired
-    // private CaptchaService captchaService;
     @Resource
     private CapApi capApi;
 
@@ -46,12 +44,6 @@ public class CaptchaCtrl {
     @PostMapping("/cap/captcha/check")
     public Mono<Ro<?>> check(@RequestBody final CaptchaVO to) {
         return Mono.create(callback -> callback.success(capApi.checkVo(to)));
-    }
-
-    // 测试使用
-    // @PostMapping("/cap/captcha/verify")
-    public Mono<Ro<?>> verify(@RequestBody final CaptchaVO data) {
-        return Mono.create(callback -> callback.success(capApi.verification(data)));
     }
 
 }

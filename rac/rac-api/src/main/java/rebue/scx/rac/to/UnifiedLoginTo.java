@@ -8,8 +8,9 @@ public class UnifiedLoginTo {
      * 登录类型
      * 0：帐号密码登录
      * 1：手机验证码登录
-     * 2：微信扫码登录
-     * 3：钉钉扫码登录
+     * 2：邮箱验证码登录
+     * 3：微信扫码登录
+     * 4：钉钉扫码登录
      */
     private byte   loginType;
     /**

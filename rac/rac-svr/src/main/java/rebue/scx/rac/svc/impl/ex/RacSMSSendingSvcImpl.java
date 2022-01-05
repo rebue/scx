@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import rebue.robotech.ro.Ro;
-import rebue.scx.cap.api.CapSMSSendingApi;
+import rebue.scx.cap.api.CapMessageSendingApi;
 import rebue.scx.cap.to.CapSMSTo;
 import rebue.scx.cap.to.CapSMSVerificationTo;
 import rebue.scx.rac.mo.RacAccountMo;
@@ -41,7 +41,7 @@ public class RacSMSSendingSvcImpl implements RacSMSSendingSvc {
     private RacAccountSvc    accountSvc;
 
     @DubboReference
-    private CapSMSSendingApi capSMSSendingApi;
+    private CapMessageSendingApi capSMSSendingApi;
 
     @Override
     public Ro<?> sendTemplateSMS(RacSMSTo to) {
