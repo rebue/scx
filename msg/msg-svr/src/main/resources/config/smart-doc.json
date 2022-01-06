@@ -1,5 +1,11 @@
 {
 	"projectName": "MSG微服务",
 	"outPath": "./src/main/resources/static/doc",
-	"allInOne": true
+	"allInOne": true,
+	"appKey": "20210617855105369637126144",             
+    "secret": "71T56-65R2Hc>Afu2YfBRcogROjezZTD",       
+    "appToken": "98ee93e2bfb747658fa818572f60cc50",      
+    "openUrl": "http://127.0.0.1:7700/api",             
+    "debugEnvName": "测试环境",                           
+    "debugEnvUrl": "http://127.0.0.1:9898"            
 }
