@@ -88,11 +88,17 @@ public class OrpCtrl {
     }
 
     /**
+     * 
      * 根据账户ID绑定微信钉钉的信息
      * 
      * @ignoreParams request
      * 
-     * @param to 只需要上传微信/钉钉的信息
+     * @param orpType   （钉钉：ding-talk，微信：wechat-open）
+     * @param clientId
+     * @param accountId
+     * @param to        只需要上传微信/钉钉的信息
+     * @param request
+     * @param response
      */
     // @RacOpLog(opType = "绑定微信/钉钉", opTitle = "绑定微信/钉钉: #{#p0}")
     @GetMapping("/account-bind/{orpType}/{clientId}/{accountId}")
@@ -127,9 +133,16 @@ public class OrpCtrl {
     }
 
     /**
+     * 
      * 解除绑定微信钉钉的信息
-     *
-     * @param to 只需要上传微信/钉钉的信息
+     * 
+     * @param orpType   （钉钉：ding-talk，微信：wechat-open）
+     * @param clientId
+     * @param accountId
+     * @param to        只需要上传微信/钉钉的信息
+     * @param response
+     * 
+     * @return
      */
     // @RacOpLog(opType = "解绑微信/钉钉", opTitle = "解绑微信/钉钉: #{#p0}")
     @GetMapping("/account-unbind/{orpType}/{clientId}/{accountId}")
