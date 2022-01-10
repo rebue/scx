@@ -10,24 +10,27 @@ minio:
   accessKey: minioadmin
   secretKey: minioadmin
 
-robotech:
-  # 用于生成ID，多服务实例情况下不要设置为0，应不同实例分配一个唯一的id，这样以此生成的ID才不会重复 
-  appid: 1
+#robotech:
+#  # 用于生成ID，多服务实例情况下不要设置为0，应不同实例分配一个唯一的id，这样以此生成的ID才不会重复 
+#  appid: 1
 
 server:
   # 自定义端口号，方便开发测试
   port: 9536
 
+curator:
+  connect-string: zoo:2181
+
 spring:
   shardingsphere:
-    enabled: true
+    enabled: false
   datasource:
     url: jdbc:mysql://mysql:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     username: oss
     password: oss
   liquibase:
     # 升级数据库的配置文件的地址
-    change-log: classpath:config/db-change-log.yml
+    change-log: classpath:db/changelog/db.changelog-master.yaml
     url: jdbc:mysql://mysql:3306/oss?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     user: oss
     password: oss

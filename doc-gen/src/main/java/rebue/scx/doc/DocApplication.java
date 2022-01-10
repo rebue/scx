@@ -22,12 +22,12 @@ import static rebue.scx.doc.Utils.concat;
  */
 public class DocApplication {
 
-    private static final String filePathPrefix = "C:\\Users\\lq\\Desktop\\maiyue-workspace\\rebue\\server\\scx";
+    private static final String filePathPrefix = "/home/yuanman/git/scx";
 
     /**
      * 生成文件的保存路径
      */
-    private static final String SAVE_FILE_PATH = "C:\\Users\\lq\\Desktop";
+    private static final String SAVE_FILE_PATH = "/home/yuanman/Documents";
     /**
      * 生成的文件类型
      */
@@ -48,15 +48,15 @@ public class DocApplication {
     public static void main(final String[] args)
     {
         String filePathSuffix = concat("src", "main", "resources", "config");
-        genFile("rac", concat(filePathPrefix, "rac", "rac-svr", filePathSuffix), "hwy");
-        genFile("oap", concat(filePathPrefix, "oap", "oap-svr", filePathSuffix), "hwy");
-        genFile("oss", concat(filePathPrefix, "oss", "oss-svr", filePathSuffix), "hwy");
-        genFile("rrl", concat(filePathPrefix, "rrl", "rrl-svr", filePathSuffix), "hwy");
+        genFile("rac", concat(filePathPrefix, "rac", "rac-svr", filePathSuffix), "dev");
+        genFile("oap", concat(filePathPrefix, "oap", "oap-svr", filePathSuffix), "dev");
+        genFile("oss", concat(filePathPrefix, "oss", "oss-svr", filePathSuffix), "dev");
+        genFile("rrl", concat(filePathPrefix, "rrl", "rrl-svr", filePathSuffix), "dev");
     }
 
     private static String transformUrl(String raw)
     {
-        return raw.replace("mysql:3306", "122.9.104.17:3306");
+        return raw.replace("mysql:3306", "127.0.0.1:3306");
     }
 
     private static String transformUsername(String raw)

@@ -55,7 +55,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.hibernate</groupId> -->
+<!-- 			<artifactId>hibernate-entitymanager</artifactId> -->
+<!-- 		</dependency> -->
 		<!-- 读写分离 -->
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
@@ -116,7 +119,7 @@
 					<execution>
 						<id>default</id>
 						<!-- 绑定到install阶段执行 -->
-<!-- 						<phase>install</phase> -->
+						<!-- <phase>install</phase> -->
 						<!-- 绑定到deploy阶段执行 -->
 						<!-- <phase>deploy</phase> -->
 						<!-- 不绑定到任何阶段，也就不会执行 -->
