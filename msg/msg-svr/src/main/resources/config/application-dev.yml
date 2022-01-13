@@ -15,3 +15,13 @@ msg:
     app-key: 10001275A644497
     app-secret: c3a12648939a4cde9ca2e4a5
     tempId: 10522
+  smtp:
+   #连接登录的smtp服务器地址
+    host: smtp.qq.com
+    #mtp登陆的账号、密码 ；帐号需开启smtp登陆功能支持
+    user: 1343782084@qq.com
+    #访问SMTP服务时需要提供的密码,不是邮箱登陆密码，一般都有独立smtp的登陆密码
+    password: lahuhmmiawojgefa
+    #默认发送的消息，{{code}}将会被替换
+    temple-content: 您的邮箱验证码为：{{code}}，有效期5分钟。如非本人操作请忽略此邮箱。谢谢！
+    
