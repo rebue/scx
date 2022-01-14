@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -16,14 +17,20 @@
 			<groupId>com.github.rebue.scx</groupId>
 			<artifactId>msg-forest</artifactId>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
-<dependency>
-    <groupId>com.sun.mail</groupId>
-    <artifactId>javax.mail</artifactId>
-    <version>1.6.2</version>
-</dependency>
-
-
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+			<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.baidubce/bce-java-sdk -->
 		<dependency>
 			<groupId>com.baidubce</groupId>
@@ -77,7 +84,7 @@
 			<artifactId>jiguang-common</artifactId>
 			<version>1.0.8</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/jdk.tools/jdk.tools -->
 		<!-- 切换到jar包所在路径 运行命令 -->
 		<!-- mvn install:install-file -Dfile=tools.jar -DgroupId=jdk.tools -DartifactId=jdk.tools -Dversion=1.6 -Dpackaging=jar -->
@@ -103,10 +110,10 @@
 		<!-- The following method did not exist: -->
 		<!-- org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine.getSpecs()Ljava/util/Map; -->
 		<!-- The method's class, org.springframework.boot.autoconfigure.cache.CacheProperties$Caffeine, is available from the following locations: -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.github.rebue.sbs</groupId> -->
-<!-- 			<artifactId>cache-spring-boot-starter</artifactId> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.rebue.sbs</groupId> -->
+		<!-- <artifactId>cache-spring-boot-starter</artifactId> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>com.github.rebue.sbs</groupId>
@@ -122,20 +129,20 @@
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.github.pagehelper</groupId> -->
-<!-- 			<artifactId>pagehelper-spring-boot-starter</artifactId> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.pagehelper</groupId> -->
+		<!-- <artifactId>pagehelper-spring-boot-starter</artifactId> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>mysql</groupId> -->
-<!-- 			<artifactId>mysql-connector-java</artifactId> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>mysql</groupId> -->
+		<!-- <artifactId>mysql-connector-java</artifactId> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -147,16 +154,17 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-net</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.dtflys.forest</groupId> -->
-<!-- 			<artifactId>forest-spring-boot-starter</artifactId> -->
-			<!-- <version>1.5.13</version> --> 
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.dtflys.forest</groupId> -->
+		<!-- <artifactId>forest-spring-boot-starter</artifactId> -->
+		<!-- <version>1.5.13</version> -->
+		<!-- </dependency> -->
 	</dependencies>
 
 	<build>

@@ -34,11 +34,29 @@ msg:
     password: lahuhmmiawojgefa
     #默认发送的消息，{{code}}将会被替换
     temple-content: 您的邮箱验证码为：{{code}}，有效期5分钟。如非本人操作请忽略此邮箱。谢谢！
+
 # 生成workid使用
 curator:
   connect-string: zoo1:2181,zoo2:2181,zoo3:2181
 
 spring:
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    jndi-name: mail/Session
+    username: 1343782084@qq.com
+    password: lahuhmmiawojgefa
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 3500
+          writetimeout: 4000
+          starttls:
+            enable: true
+            required: true
   rabbitmq:
     host: rabbitmq
     port: 5672

@@ -26,7 +26,7 @@ import rebue.scx.msg.to.EmailTemplate;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 
 @Log4j
-public class EmailUtil {
+public class JGEmailUtil {
 
     /**
      * 极光邮箱作者appkey-secret的编码

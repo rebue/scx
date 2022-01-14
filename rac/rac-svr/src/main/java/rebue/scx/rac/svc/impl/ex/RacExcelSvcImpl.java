@@ -36,6 +36,8 @@ import org.springframework.http.ZeroCopyHttpOutputMessage;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.nacos.shaded.com.google.common.net.HttpHeaders;
 
@@ -84,7 +86,7 @@ import rebue.wheel.core.util.RegexUtils;
  *    propagation(传播模式)=REQUIRED，readOnly=false，isolation(事务隔离级别)=READ_COMMITTED
  * </pre>
  */
-// @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @Slf4j
 public class RacExcelSvcImpl implements RacExcelSvc {
@@ -337,7 +339,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * 
      * @return RacUserMo
      */
-    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private RacUserMo insertUserRecord(Map<String, Object> map) {
         // 获取字段数组
         String[] cols           = FieldCollection.getAccountInformationCol();
@@ -401,7 +403,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
      * @return
      */
     @SuppressWarnings("unused")
-    // @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     private RacOrgMo insertOrgRecord(Map<String, Object> map) {
         // 获取字段数组
         String[] cols       = FieldCollection.getOrgInformationCol();

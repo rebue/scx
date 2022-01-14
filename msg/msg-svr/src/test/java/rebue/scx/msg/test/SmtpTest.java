@@ -37,7 +37,7 @@ public class SmtpTest extends TestCase {
     }
 
     @Test
-    public static void testCrud() {
+    public void testCrud() {
         Map<String, String>       genMailMap = genMailMap("1782271387@qq.com", "发送邮件方式修改测试001", "56789");
         List<Map<String, String>> list       = new ArrayList<Map<String, String>>();
         list.add(genMailMap);

@@ -5,6 +5,13 @@ server:
   port: 9898
 
 spring:
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    jndi-name: mail/Session
+    username: 1343782084@qq.com
+    password: lahuhmmiawojgefa
+    default-encoding: UTF-8
   cloud:
     nacos:
       config:
