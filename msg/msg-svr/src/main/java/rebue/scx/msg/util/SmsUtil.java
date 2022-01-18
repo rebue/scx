@@ -54,6 +54,14 @@ public class SmsUtil {
         }
     }
 
+    /**
+     * 
+     * 发送百度模板短信
+     * 
+     * @param phoneNumber 手机号
+     * @param code        验证码
+     * @param smsConfig   配置
+     */
     private static Ro<?> sendBaiduSMS(String phoneNumber, String code, SmsConfig smsConfig) {
         // 短信模板ID
         String               tempId  = smsConfig.getTempId();
@@ -81,8 +89,12 @@ public class SmsUtil {
     }
 
     /**
+     * 
      * 发送极光模板短信
      * 
+     * @param phoneNumber 手机号
+     * @param code        验证码
+     * @param smsConfig   配置
      */
     private static Ro<?> sendJgSMS(String phoneNumber, String code, SmsConfig smsConfig) {
         // 短信模板ID

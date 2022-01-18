@@ -12,6 +12,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 发送邮箱
  * 
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@Slf4j
 public class MailUtil {
 
     @Autowired
@@ -61,6 +64,8 @@ public class MailUtil {
      */
     public void sendMail(String mailAddrs, String title, String text,
             Map<String, String> mapImg, Map<String, String> mapAttachment) throws MessagingException {
+        log.info("邮件详情：" + "mailAddrs: " + mailAddrs + "  title: " + title + "  text: " + text
+                + "  mapImg: " + mapImg + "  mapAttachment: " + mapAttachment);
         MimeMessage       mimeMessage = javaMailSenderImpl.createMimeMessage();
         // FIXME 多数据源未配置
         String            username    = javaMailSenderImpl.getUsername();

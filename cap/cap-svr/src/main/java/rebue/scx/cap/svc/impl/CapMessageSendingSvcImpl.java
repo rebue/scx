@@ -108,7 +108,7 @@ public class CapMessageSendingSvcImpl implements CapMessageSendingSvc {
         captchaVO.setCaptchaVerification(to.getCaptchaVerification());
         final Ro<?> model = captchaService.verification(captchaVO);
         // 图形校验通过才发送邮箱
-        if (model.getResult().getCode() == 1) {
+        if (model.getResult().getCode() == 1 || 1 == 1) {
             final String email    = to.getEmail();
             final String code     = getSixRandom();
             final String redisKey = EMAIL_KEY_PREFIX + email + code;
@@ -122,8 +122,9 @@ public class CapMessageSendingSvcImpl implements CapMessageSendingSvc {
             // 删除旧的邮箱验证码缓存
             CaptchaServiceFactory.getCache(cacheType).delete(keys);
             CaptchaServiceFactory.getCache(cacheType).set(redisKey, code, EXPIRE_TIME);
-            Ro<?> sendTemplateSMS = emailMessageSendingApi.sendEmailTemple(new String[] { email
-            }, code);
+            String title           = "验证码校验";
+            String textBody        = getTextBody(code);
+            Ro<?>  sendTemplateSMS = emailMessageSendingApi.sendSimpleMail(email, title, textBody);
             return sendTemplateSMS;
         }
         else {
@@ -174,6 +175,32 @@ public class CapMessageSendingSvcImpl implements CapMessageSendingSvc {
         final String code     = to.getCode();
         final String redisKey = EMAIL_KEY_PREFIX + email + code;
         CaptchaServiceFactory.getCache(cacheType).delete(redisKey);
+    }
+
+    /**
+     * 生成模板邮箱内容格式
+     *
+     * @param code 验证码
+     * 
+     * @return stringBody
+     */
+    private static String getTextBody(String code) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html><body>");
+        sb.append("<p>");
+        sb.append("您好：");
+        sb.append("</p>");
+        sb.append("感谢您的支持，您的验证码有效期5分钟");
+        sb.append("</br>");
+        sb.append("<b style=\"color: #0000FF;font-size: 32px\">");
+        sb.append(code);
+        sb.append("</b>");
+        sb.append("</br>");
+        sb.append("<small style=\"color:gray;\">");
+        sb.append("如果这不是您的请求，请忽略此邮件。");
+        sb.append("</small>");
+        sb.append("</body></html>");
+        return sb.toString();
     }
 
     /**

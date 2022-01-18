@@ -30,24 +30,6 @@ public class EmailMessageSendingSvcImpl implements EmailMessageSendingSvc {
     private MailUtil    mailUtil;
 
     /**
-     * 简易邮箱发送
-     * 
-     * @param mailAddrs 收件人,收件人2...
-     * @param title     邮件标题
-     * @param text      邮件正文
-     * 
-     * @throws MessagingException
-     */
-    public Ro<?> sendSimpleMail(String mailAddrs, String title, String text) {
-        try {
-            mailUtil.sendMail(mailAddrs, title, text);
-        } catch (MessagingException e) {
-            return new Ro<>(ResultDic.FAIL, "发送失败", e.getMessage());
-        }
-        return new Ro<>(ResultDic.SUCCESS, "发送成功");
-    }
-
-    /**
      * 普通邮箱处理
      * 
      * @param title 标题
@@ -98,6 +80,16 @@ public class EmailMessageSendingSvcImpl implements EmailMessageSendingSvc {
             String message = jsonObject.get("message") + "";
             return new Ro<>(ResultDic.FAIL, "发送失败", message + ",请联系管理员");
         }
+    }
+
+    @Override
+    public Ro<?> sendSimpleMail(String mailAddrs, String title, String text) {
+        try {
+            mailUtil.sendMail(mailAddrs, title, text);
+        } catch (MessagingException e) {
+            return new Ro<>(ResultDic.FAIL, "发送失败", e.getMessage());
+        }
+        return new Ro<>(ResultDic.SUCCESS, "发送成功");
     }
 
 }
