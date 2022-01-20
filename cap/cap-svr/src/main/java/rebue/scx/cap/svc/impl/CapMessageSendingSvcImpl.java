@@ -108,7 +108,7 @@ public class CapMessageSendingSvcImpl implements CapMessageSendingSvc {
         captchaVO.setCaptchaVerification(to.getCaptchaVerification());
         final Ro<?> model = captchaService.verification(captchaVO);
         // 图形校验通过才发送邮箱
-        if (model.getResult().getCode() == 1 || 1 == 1) {
+        if (model.getResult().getCode() == 1) {
             final String email    = to.getEmail();
             final String code     = getSixRandom();
             final String redisKey = EMAIL_KEY_PREFIX + email + code;
