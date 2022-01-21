@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
 import rebue.robotech.ro.Ro;
+import rebue.scx.oap.ann.OapAuthLog;
 import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.dto.OidcGetUserInfoTo;
 import rebue.scx.oap.svc.OidcSvc;
@@ -84,6 +85,7 @@ public class OidcCtrl {
      */
     @PostMapping("/login")
     @RacOpLog(opType = "认证登录", opTitle = "认证登录类型: #{#p0.loginType}")
+    @OapAuthLog
     public Mono<Ro<String>> login(
             @RequestBody LoginDto loginData,
             ServerHttpRequest request,

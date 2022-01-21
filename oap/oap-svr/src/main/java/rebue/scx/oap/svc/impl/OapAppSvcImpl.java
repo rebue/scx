@@ -1,9 +1,7 @@
 package rebue.scx.oap.svc.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -341,7 +339,6 @@ public class OapAppSvcImpl
         final OapAppListAndRacAppListRa ra         = new OapAppListAndRacAppListRa();
         final Long                      accountId  = qo.getAccountId();
         final RacAccountMo              accountMo  = racAccountApi.getById(accountId).getExtra().getOne();
-        Set<String>                     set        = new HashSet<>();
         List<Long>                      accountIds = new ArrayList<Long>();
         if (accountMo.getUnionId() != null) {
             // 存在映射帐号则一起查询拥有的应用

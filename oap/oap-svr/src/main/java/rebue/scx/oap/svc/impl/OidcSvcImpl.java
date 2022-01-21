@@ -265,11 +265,6 @@ public class OidcSvcImpl implements OidcSvc {
     public Ro<String> login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response) {
         AuthorizeInfo sessionInfo = getSessionInfo(request).orElse(null);
         if (sessionInfo == null) {
-            OapAuthLogAddTo add = new OapAuthLogAddTo();
-            add.setIsSuccess(false);
-            add.setOpDatetime(LocalDateTime.now());
-            add.setReason("未获取到session信息");
-            oapAuthLogSvc.add(add);
             return Ro.fail("会话信息已失效,请刷新页面！");
         }
 
@@ -280,31 +275,16 @@ public class OidcSvcImpl implements OidcSvc {
 
         OapAppMo app      = oapAppRepository.selectByClientId(clientId);
         if (app == null) {
-            OapAuthLogAddTo add = new OapAuthLogAddTo();
-            add.setIsSuccess(false);
-            add.setOpDatetime(LocalDateTime.now());
-            add.setReason("clientId 不存在");
-            oapAuthLogSvc.add(add);
             return Ro.fail("clientId 不存在");
         }
         Ro<SignUpOrInRa> ra = getSignUpOrInRa(OIDCAppDic.unified_auth.getDesc(), loginData);
         if (ra.getResult().getCode() != 1) {
-            OapAuthLogAddTo add = new OapAuthLogAddTo();
-            add.setIsSuccess(false);
-            add.setOpDatetime(LocalDateTime.now());
-            add.setReason(ra.getMsg());
-            oapAuthLogSvc.add(add);
             return Ro.fail(ra.getMsg());
         }
         Ro<PojoRa<RacAppMo>> byId = racAppApi.getById(app.getAppId());
         RacAppMo             one  = byId.getExtra().getOne();
         ra.getExtra().setRedirectUrl(one.getUrl());
         if (ra.getExtra().getRedirectUrl() == null) {
-            OapAuthLogAddTo add = new OapAuthLogAddTo();
-            add.setIsSuccess(false);
-            add.setOpDatetime(LocalDateTime.now());
-            add.setReason("应用URL地址不能为null，请到平台管理设置应用主页地址");
-            oapAuthLogSvc.add(add);
             return Ro.fail("应用URL地址不能为null，请到平台管理设置应用主页地址");
         }
         AuthorizationCode code         = codeRepository.createCode(clientId, new Scope(scope), ra.getExtra().getId());
@@ -313,24 +293,15 @@ public class OidcSvcImpl implements OidcSvc {
         // 查询安全域名
         RedirectUris      redirectUris = oapRedirectUriRepository.getRedirectUris(clientId);
         if (!redirectUris.match(r)) {
-            OapAuthLogAddTo add = new OapAuthLogAddTo();
-            add.setIsSuccess(false);
-            add.setOpDatetime(LocalDateTime.now());
-            add.setReason("重定向地址错误");
-            oapAuthLogSvc.add(add);
             return Ro.fail("重定向地址错误");
         }
         CookieUtils.setCookie(response, OidcConfig.AUTH_INFO, "", 0);
         CookieUtils.setCookie(response, JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign(),
                 OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE);
         log.info("********* 登录login重定向地址*********:" + r + "\t\t");
-        String          redirectUrl = redirect.getLocation().toString().toString() + getCallbackUrl(ra.getExtra().getRedirectUrl());
-        OapAuthLogAddTo add         = new OapAuthLogAddTo();
-        add.setIsSuccess(true);
-        add.setOpDatetime(LocalDateTime.now());
-        add.setReason("登录成功");
-        oapAuthLogSvc.add(add);
+        String redirectUrl = redirect.getLocation().toString().toString() + getCallbackUrl(ra.getExtra().getRedirectUrl());
         return Ro.success(URI.create(redirectUrl).toString());
+
     }
 
     /**
