@@ -165,6 +165,8 @@ public class RacExcelSvcImpl implements RacExcelSvc {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            System.gc();
         }
         return Ro.success("导入成功");
     }
@@ -227,7 +229,13 @@ public class RacExcelSvcImpl implements RacExcelSvc {
             RacRoleMo    roleMo    = seleteRoleRecord(next);
             insertAccountRoleRecord(roleMo, accountMo);
             iterator.remove();
+            userMo    = null;
+            orgMo     = null;
+            accountMo = null;
+            roleMo    = null;
+            accountMo = null;
         }
+        readExcel = null;
     }
 
     /**

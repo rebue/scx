@@ -7,7 +7,7 @@ oidc:
 
 orp:
   #state有效时间
-  state-cache-expiration: PT30M
+  state-cache-expiration: PT10M
   strategies:
     ding-talk:
       is-check-state: true
