@@ -12,7 +12,7 @@ import rebue.scx.oap.dto.OidcGetUserInfoTo;
 
 public interface OidcSvc {
 
-    String authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response);
+    Ro<String> authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response);
 
     Ro<String> login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response);
 

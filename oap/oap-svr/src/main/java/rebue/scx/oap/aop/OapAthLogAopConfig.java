@@ -33,12 +33,15 @@ public class OapAthLogAopConfig {
             addAuthLog(ro);
             return Mono.just(ro);
         }
-        @SuppressWarnings("unchecked")
-        final Mono<Ro<?>> mono = (Mono<Ro<?>>) result;
-        return mono.flatMap(ro -> {
-            addAuthLog(ro);
-            return mono;
-        });
+        if (result != null) {
+            @SuppressWarnings("unchecked")
+            final Mono<Ro<?>> mono = (Mono<Ro<?>>) result;
+            return mono.flatMap(ro -> {
+                addAuthLog(ro);
+                return mono;
+            });
+        }
+        return result;
     }
 
     /**

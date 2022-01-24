@@ -5,7 +5,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +82,6 @@ import rebue.scx.oap.svc.AccessTokenService;
 import rebue.scx.oap.svc.OapAuthLogSvc;
 import rebue.scx.oap.svc.OapGrantSvc;
 import rebue.scx.oap.svc.OidcSvc;
-import rebue.scx.oap.to.OapAuthLogAddTo;
 import rebue.scx.rac.api.RacAccountApi;
 import rebue.scx.rac.api.RacAppApi;
 import rebue.scx.rac.api.ex.RacSignInApi;
@@ -174,7 +172,7 @@ public class OidcSvcImpl implements OidcSvc {
 
     @Override
     @SneakyThrows
-    public String authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response) {
+    public Ro<String> authorize(Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response) {
         Map<String, List<String>> params       = paramMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> Collections.singletonList(e.getValue())));
         AuthenticationRequest     aRequest     = AuthenticationRequest.parse(params);
         ResponseType              responseType = aRequest.getResponseType();
@@ -182,17 +180,12 @@ public class OidcSvcImpl implements OidcSvc {
             return codeFlowLoginPage(aRequest, request, response);
         }
         else {
-            OapAuthLogAddTo add = new OapAuthLogAddTo();
-            add.setIsSuccess(false);
-            add.setOpDatetime(LocalDateTime.now());
-            add.setReason("Invalid authentication request");
-            oapAuthLogSvc.add(add);
-            return "Invalid authentication request";
+            return Ro.fail("Invalid authentication request");
         }
     }
 
     @SneakyThrows
-    private String codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse) {
+    private Ro<String> codeFlowLoginPage(AuthenticationRequest aRequest, ServerHttpRequest hRequest, ServerHttpResponse hResponse) {
         JwtSignInfo jwtSignInfo;
         log.info(StringUtils.rightPad("*** 判断是否已登录***", 100));
         if ((jwtSignInfo = getAuthenticatedInfo(hRequest)) != null) {
@@ -202,12 +195,7 @@ public class OidcSvcImpl implements OidcSvc {
             String            r            = redirect.getLocation().toString();
             RedirectUris      redirectUris = oapRedirectUriRepository.getRedirectUris(aRequest.getClientID().getValue());
             if (!redirectUris.match(r)) {
-                OapAuthLogAddTo add = new OapAuthLogAddTo();
-                add.setIsSuccess(false);
-                add.setOpDatetime(LocalDateTime.now());
-                add.setReason("codeFlowLoginPage重定向地址错误");
-                oapAuthLogSvc.add(add);
-                return "codeFlowLoginPage重定向地址错误";
+                return Ro.fail("codeFlowLoginPage重定向地址错误");
             }
             OapAppMo oapAppMo    = oapAppRepository.selectByClientId(aRequest.getClientID().getValue());
             String   callbackUrl = "";
@@ -215,12 +203,7 @@ public class OidcSvcImpl implements OidcSvc {
                 String url = racAppApi.getById(oapAppMo.getAppId()).getExtra().getOne().getUrl();
                 callbackUrl = getCallbackUrl(url);
             } catch (Exception e) {
-                OapAuthLogAddTo add = new OapAuthLogAddTo();
-                add.setIsSuccess(false);
-                add.setOpDatetime(LocalDateTime.now());
-                add.setReason("ClientID未配对App错误，rac不存在该应用/应用URL地址为空");
-                oapAuthLogSvc.add(add);
-                return "ClientID未配对App错误，rac不存在该应用/应用URL地址为空";
+                return Ro.fail("ClientID未配对App错误，rac不存在该应用/应用URL地址为空");
             }
             hResponse.setStatusCode(HttpStatus.FOUND);
             String url = getURLDecoderString(r);

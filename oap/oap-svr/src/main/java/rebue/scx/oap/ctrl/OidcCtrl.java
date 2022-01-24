@@ -57,8 +57,10 @@ public class OidcCtrl {
      */
     @RequestMapping(value = "/authorize", method = { RequestMethod.GET, RequestMethod.POST
     })
-    public String authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response) {
-        return oidcSvc.authorize(paramMap, request, response);
+    @OapAuthLog
+    public Mono<Ro<String>> authorize(@RequestParam Map<String, String> paramMap, ServerHttpRequest request, ServerHttpResponse response) {
+        return Mono.create(cb -> cb.success(oidcSvc.authorize(paramMap, request, response)));
+        // return oidcSvc.authorize(paramMap, request, response);
     }
 
     /**
