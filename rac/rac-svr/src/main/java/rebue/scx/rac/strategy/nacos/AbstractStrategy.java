@@ -7,6 +7,7 @@ import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.google.common.base.CaseFormat;
 
+import lombok.SneakyThrows;
 import rebue.scx.rac.config.AllNacosConfig.NacosStrategyProperties;
 import rebue.scx.rac.dic.NacosTypeDic;
 import rebue.wheel.api.exception.RuntimeExceptionX;
@@ -21,6 +22,9 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
  * @param <DEL_TO>
  */
 public abstract class AbstractStrategy<RESULT_RO, ADD_TO, MODIFY_TO, DEL_TO> implements NacosStrategy<ADD_TO, MODIFY_TO, DEL_TO> {
+
+    protected ConfigService configService;
+
     /**
      * 读取nacos配置文件的超时时间
      */
@@ -30,12 +34,16 @@ public abstract class AbstractStrategy<RESULT_RO, ADD_TO, MODIFY_TO, DEL_TO> imp
     protected NacosStrategyProperties strategyProperies;
     protected NacosTypeDic            nameType;
 
+    @SneakyThrows
     public AbstractStrategy(NacosTypeDic nameType, String serverAddr, String active, NacosStrategyProperties strategyProperies) {
         this();
         this.nameType          = nameType;
         this.serverAddr        = serverAddr;
         this.active            = active;
         this.strategyProperies = strategyProperies;
+        Properties properties = new Properties();
+        properties.put("serverAddr", serverAddr);
+        this.configService = NacosFactory.createConfigService(properties);
     }
 
     public AbstractStrategy() {
@@ -106,10 +114,7 @@ public abstract class AbstractStrategy<RESULT_RO, ADD_TO, MODIFY_TO, DEL_TO> imp
     private String getConfig(String nacosConfigName, String group, Long timeoutMs) {
         String content = null;
         try {
-            Properties properties = new Properties();
-            properties.put("serverAddr", serverAddr);
-            ConfigService configService = NacosFactory.createConfigService(properties);
-            content = configService.getConfig(nacosConfigName, group, timeoutMs);
+            content = this.configService.getConfig(nacosConfigName, group, timeoutMs);
         } catch (NacosException e) {
             e.printStackTrace();
         }
@@ -147,10 +152,7 @@ public abstract class AbstractStrategy<RESULT_RO, ADD_TO, MODIFY_TO, DEL_TO> imp
         boolean isPublishOk = false;
         try {
             // 初始化配置服务，控制台通过示例代码自动获取下面参数
-            Properties properties = new Properties();
-            properties.put("serverAddr", serverAddr);
-            ConfigService configService = NacosFactory.createConfigService(properties);
-            isPublishOk = configService.publishConfig(dataId, group, content, type);
+            isPublishOk = this.configService.publishConfig(dataId, group, content, type);
         } catch (NacosException e) {
             e.printStackTrace();
         }

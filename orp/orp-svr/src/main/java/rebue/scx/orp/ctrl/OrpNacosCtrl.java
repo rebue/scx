@@ -1,27 +1,19 @@
 package rebue.scx.orp.ctrl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.config.ConfigType;
+import com.alibaba.nacos.api.exception.NacosException;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.yaml.snakeyaml.Yaml;
-
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.config.ConfigType;
-import com.alibaba.nacos.api.exception.NacosException;
-
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -33,6 +25,11 @@ import rebue.scx.rac.ann.RacOpLog;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.core.YamlUtils;
 
+import javax.annotation.PostConstruct;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 /***
  * 公众号钉钉号配置信息
  * 
@@ -42,6 +39,7 @@ import rebue.wheel.core.YamlUtils;
 @RestController
 @RefreshScope
 public class OrpNacosCtrl {
+
     @Value("${spring.cloud.nacos.config.server-addr:127.0.0.1:8848}")
     private String serverAddr;
     @Value("${spring.application.name:orp-svr}")
@@ -52,6 +50,24 @@ public class OrpNacosCtrl {
     private String fileExtension;
     @Value("${spring.cloud.nacos.config.group:REBUE}")
     private String group;
+
+    private ConfigService configService = null;
+
+    @EventListener
+    public void onRefreshScopeRefreshed(final RefreshScopeRefreshedEvent event)
+    {
+        getClass();
+    }
+
+    @SneakyThrows
+    @PostConstruct
+    void init()
+    {
+        Properties properties = new Properties();
+        properties.put("serverAddr", serverAddr);
+        configService = NacosFactory.createConfigService(properties);
+    }
+
     /**
      * 读取nacos配置文件的超时时间
      */
@@ -316,9 +332,6 @@ public class OrpNacosCtrl {
             // String serverAddr = "127.0.0.1:8848";
             // String dataId = "{dataId}";
             // String group = "{group}";
-            Properties properties = new Properties();
-            properties.put("serverAddr", serverAddr);
-            ConfigService configService = NacosFactory.createConfigService(properties);
             content = configService.getConfig(dataId, group, 5000);
         } catch (NacosException e) {
             // TODO Auto-generated catch block
@@ -343,9 +356,6 @@ public class OrpNacosCtrl {
             // String serverAddr = "127.0.0.1:8848";
             // String dataId = "{dataId}";
             // String group = "{group}";
-            Properties properties = new Properties();
-            properties.put("serverAddr", serverAddr);
-            ConfigService configService = NacosFactory.createConfigService(properties);
             isPublishOk = configService.publishConfig(dataId, group, content, type);
         } catch (NacosException e) {
             // TODO Auto-generated catch block
