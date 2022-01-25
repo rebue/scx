@@ -114,6 +114,11 @@ public class RacOpLogSvcImpl extends
         lockLogQo.setEndDate(qo.getEndDate());
         Map<String, Long> map2 = lockLogSvc.countSurvey(lockLogQo);
         map.putAll(map2);
+        Long countAccount = _mapper.countAccount();
+        map.put("帐号总数", countAccount);
+        Long countNormalAccount = _mapper.countNormalAccount();
+        map.put("帐号正常数", countNormalAccount);
+        map.put("帐号异常常数", countAccount - countNormalAccount);
         return map;
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.BaseSvc;
 import rebue.robotech.svc.impl.BaseSvcImpl;
 import rebue.scx.oap.dao.OapAuthLogDao;
@@ -26,7 +25,6 @@ import rebue.scx.oap.to.OapAuthLogModifyTo;
 import rebue.scx.oap.to.OapAuthLogOneTo;
 import rebue.scx.oap.to.OapAuthLogPageTo;
 import rebue.scx.rac.api.RacOpLogApi;
-import rebue.scx.rac.to.RacOpLogPageTo;
 
 /**
  * 认证记录服务实现
@@ -96,12 +94,12 @@ public class OapAuthLogSvcImpl extends
         long countSuccess = _mapper.countSurvey(qo);
         map.put("认证成功", countSuccess);
         map.put("认证总数", countSuccess + countFail);
-        RacOpLogPageTo to = new RacOpLogPageTo();
-        to.setEndDate(qo.getEndDate());
-        to.setStartDate(qo.getStartDate());
-        Ro<Map<String, Long>> countSurvey = racOpLogApi.countSurvey(to);
-        Map<String, Long>     extra       = countSurvey.getExtra();
-        map.putAll(extra);
+        // RacOpLogPageTo to = new RacOpLogPageTo();
+        // to.setEndDate(qo.getEndDate());
+        // to.setStartDate(qo.getStartDate());
+        // Ro<Map<String, Long>> countSurvey = racOpLogApi.countSurvey(to);
+        // Map<String, Long> extra = countSurvey.getExtra();
+        // map.putAll(extra);
         return map;
     }
 }

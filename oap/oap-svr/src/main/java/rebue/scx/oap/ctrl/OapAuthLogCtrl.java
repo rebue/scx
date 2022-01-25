@@ -111,7 +111,6 @@ public class OapAuthLogCtrl {
     /**
      * 账户认证概况
      * 传参查询时间
-     * 暂时不需要关键字keywords 取值为：账户添加/账户修改/账户删除/账户密码修改/启用账户/禁用账户
      *
      * @param qo
      */

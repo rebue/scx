@@ -5,6 +5,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isGreaterThanWhenPresent;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLessThanWhenPresent;
+import static rebue.scx.rac.mapper.RacAccountDynamicSqlSupport.racAccount;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.accountId;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.agentId;
 import static rebue.scx.rac.mapper.RacOpLogDynamicSqlSupport.appId;
@@ -63,30 +64,35 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacOpLogMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacOpLogMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacOpLogMoResult")
     Optional<RacOpLogMo> selectOne(SelectStatementProvider selectStatement);
@@ -94,24 +100,27 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacOpLogMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-        @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "ACCOUNT_ID", property = "accountId", jdbcType = JdbcType.BIGINT),
-        @Result(column = "AGENT_ID", property = "agentId", jdbcType = JdbcType.BIGINT), @Result(column = "OP_TYPE", property = "opType", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "OP_TITLE", property = "opTitle", jdbcType = JdbcType.VARCHAR), @Result(column = "OP_DETAIL", property = "opDetail", jdbcType = JdbcType.VARCHAR),
-        @Result(column = "OP_DATETIME", property = "opDatetime", jdbcType = JdbcType.TIMESTAMP)
+            @Result(column = "APP_ID", property = "appId", jdbcType = JdbcType.VARCHAR), @Result(column = "ACCOUNT_ID", property = "accountId", jdbcType = JdbcType.BIGINT),
+            @Result(column = "AGENT_ID", property = "agentId", jdbcType = JdbcType.BIGINT), @Result(column = "OP_TYPE", property = "opType", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "OP_TITLE", property = "opTitle", jdbcType = JdbcType.VARCHAR), @Result(column = "OP_DETAIL", property = "opDetail", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "OP_DATETIME", property = "opDatetime", jdbcType = JdbcType.TIMESTAMP)
     })
     List<RacOpLogMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racOpLog, completer);
     }
@@ -119,6 +128,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racOpLog, completer);
     }
@@ -126,6 +136,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> c.where(id, isEqualTo(id_)));
     }
@@ -133,35 +144,39 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int insert(RacOpLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racOpLog,
-            c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(accountId).toProperty("accountId").map(agentId).toProperty("agentId").map(opType)
-                .toProperty("opType").map(opTitle).toProperty("opTitle").map(opDetail).toProperty("opDetail").map(opDatetime).toProperty("opDatetime"));
+                c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(accountId).toProperty("accountId").map(agentId).toProperty("agentId").map(opType)
+                        .toProperty("opType").map(opTitle).toProperty("opTitle").map(opDetail).toProperty("opDetail").map(opDatetime).toProperty("opDatetime"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int insertMultiple(Collection<RacOpLogMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racOpLog,
-            c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(accountId).toProperty("accountId").map(agentId).toProperty("agentId").map(opType)
-                .toProperty("opType").map(opTitle).toProperty("opTitle").map(opDetail).toProperty("opDetail").map(opDatetime).toProperty("opDatetime"));
+                c -> c.map(id).toProperty("id").map(appId).toProperty("appId").map(accountId).toProperty("accountId").map(agentId).toProperty("agentId").map(opType)
+                        .toProperty("opType").map(opTitle).toProperty("opTitle").map(opDetail).toProperty("opDetail").map(opDatetime).toProperty("opDatetime"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int insertSelective(RacOpLogMo record) {
         return MyBatis3Utils.insert(this::insert, record, racOpLog,
-            c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId).toPropertyWhenPresent("appId", record::getAppId).map(accountId)
-                .toPropertyWhenPresent("accountId", record::getAccountId).map(agentId).toPropertyWhenPresent("agentId", record::getAgentId).map(opType)
-                .toPropertyWhenPresent("opType", record::getOpType).map(opTitle).toPropertyWhenPresent("opTitle", record::getOpTitle).map(opDetail)
-                .toPropertyWhenPresent("opDetail", record::getOpDetail).map(opDatetime).toPropertyWhenPresent("opDatetime", record::getOpDatetime));
+                c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(appId).toPropertyWhenPresent("appId", record::getAppId).map(accountId)
+                        .toPropertyWhenPresent("accountId", record::getAccountId).map(agentId).toPropertyWhenPresent("agentId", record::getAgentId).map(opType)
+                        .toPropertyWhenPresent("opType", record::getOpType).map(opTitle).toPropertyWhenPresent("opTitle", record::getOpTitle).map(opDetail)
+                        .toPropertyWhenPresent("opDetail", record::getOpDetail).map(opDatetime).toPropertyWhenPresent("opDatetime", record::getOpDatetime));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default Optional<RacOpLogMo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racOpLog, completer);
     }
@@ -169,6 +184,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacOpLogMo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racOpLog, completer);
     }
@@ -176,6 +192,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacOpLogMo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racOpLog, completer);
     }
@@ -183,6 +200,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default Optional<RacOpLogMo> selectByPrimaryKey(Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
@@ -190,6 +208,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racOpLog, completer);
     }
@@ -199,8 +218,8 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateAllColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(record::getId).set(appId).equalTo(record::getAppId).set(accountId).equalTo(record::getAccountId).set(agentId).equalTo(record::getAgentId)
-            .set(opType).equalTo(record::getOpType).set(opTitle).equalTo(record::getOpTitle).set(opDetail).equalTo(record::getOpDetail).set(opDatetime)
-            .equalTo(record::getOpDatetime);
+                .set(opType).equalTo(record::getOpType).set(opTitle).equalTo(record::getOpTitle).set(opDetail).equalTo(record::getOpDetail).set(opDatetime)
+                .equalTo(record::getOpDatetime);
     }
 
     /**
@@ -208,61 +227,70 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     static UpdateDSL<UpdateModel> updateSelectiveColumns(RacOpLogMo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(record::getId).set(appId).equalToWhenPresent(record::getAppId).set(accountId).equalToWhenPresent(record::getAccountId).set(agentId)
-            .equalToWhenPresent(record::getAgentId).set(opType).equalToWhenPresent(record::getOpType).set(opTitle).equalToWhenPresent(record::getOpTitle).set(opDetail)
-            .equalToWhenPresent(record::getOpDetail).set(opDatetime).equalToWhenPresent(record::getOpDatetime);
+                .equalToWhenPresent(record::getAgentId).set(opType).equalToWhenPresent(record::getOpType).set(opTitle).equalToWhenPresent(record::getOpTitle).set(opDetail)
+                .equalToWhenPresent(record::getOpDetail).set(opDatetime).equalToWhenPresent(record::getOpDatetime);
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int updateByPrimaryKey(RacOpLogMo record) {
         return update(c -> c.set(appId).equalTo(record::getAppId).set(accountId).equalTo(record::getAccountId).set(agentId).equalTo(record::getAgentId).set(opType)
-            .equalTo(record::getOpType).set(opTitle).equalTo(record::getOpTitle).set(opDetail).equalTo(record::getOpDetail).set(opDatetime).equalTo(record::getOpDatetime)
-            .where(id, isEqualTo(record::getId)));
+                .equalTo(record::getOpType).set(opTitle).equalTo(record::getOpTitle).set(opDetail).equalTo(record::getOpDetail).set(opDatetime).equalTo(record::getOpDatetime)
+                .where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int updateByPrimaryKeySelective(RacOpLogMo record) {
         return update(c -> c.set(appId).equalToWhenPresent(record::getAppId).set(accountId).equalToWhenPresent(record::getAccountId).set(agentId)
-            .equalToWhenPresent(record::getAgentId).set(opType).equalToWhenPresent(record::getOpType).set(opTitle).equalToWhenPresent(record::getOpTitle).set(opDetail)
-            .equalToWhenPresent(record::getOpDetail).set(opDatetime).equalToWhenPresent(record::getOpDatetime).where(id, isEqualTo(record::getId)));
+                .equalToWhenPresent(record::getAgentId).set(opType).equalToWhenPresent(record::getOpType).set(opTitle).equalToWhenPresent(record::getOpTitle).set(opDetail)
+                .equalToWhenPresent(record::getOpDetail).set(opDatetime).equalToWhenPresent(record::getOpDatetime).where(id, isEqualTo(record::getId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default int deleteSelective(RacOpLogMo record) {
         return delete(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
-                .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
-                .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
+                        .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType))
+                        .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+                        .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default Optional<RacOpLogMo> selectOne(RacOpLogMo record) {
         return selectOne(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
-                .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
-                .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
+                        .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType))
+                        .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+                        .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default long countSelective(RacOpLogMo record) {
         return count(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
-                .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
-                .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
+                        .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType))
+                        .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+                        .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
@@ -270,6 +298,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default boolean existSelective(RacOpLogMo record) {
         return countSelective(record) > 0;
     }
@@ -277,11 +306,13 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacOpLogMo> selectSelective(RacOpLogMo record) {
         return select(
-            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
-                .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType)).and(opTitle, isEqualToWhenPresent(record::getOpTitle))
-                .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
+                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(appId, isEqualToWhenPresent(record::getAppId)).and(accountId, isEqualToWhenPresent(record::getAccountId))
+                        .and(agentId, isEqualToWhenPresent(record::getAgentId)).and(opType, isEqualToWhenPresent(record::getOpType))
+                        .and(opTitle, isEqualToWhenPresent(record::getOpTitle))
+                        .and(opDetail, isEqualToWhenPresent(record::getOpDetail)).and(opDatetime, isEqualToWhenPresent(record::getOpDatetime)));
     }
 
     /**
@@ -292,26 +323,29 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      * @return
      */
     @Select({ // + " where 1=1 and a.realm_Id=#{record.realmId} "
-        "<script>" + "SELECT op.*,a.SIGN_IN_NAME,a.SIGN_IN_MOBILE,a.SIGN_IN_EMAIL,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
-            + " b.SIGN_IN_NAME agentSignInName, b.SIGN_IN_MOBILE agentSignInMobile, b.SIGN_IN_EMAIL agentSignInEmail, "
-            + " b.WX_NICKNAME agentwxNickname, b.QQ_NICKNAME agentqqNickname, b.SIGN_IN_NICKNAME agentSignInNickname, "
-            + " s.NAME appName,s.MENU menu,s.REALM_ID realmId, s.REMARK remark " + " FROM RAC_OP_LOG op " + " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
-            + " left join  RAC_ACCOUNT b on op.AGENT_ID=b.ID " + " left join RAC_APP s on op.app_id=s.id " + " where a.realm_Id=#{record.realmId} "
-            + "<if test='record.accountId!=null'> " + " and a.id=#{record.accountId} " + "</if> " + "<if test='record.keywords!=null'> "
-            + " and (a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
-            + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%'  "
-            + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
-            + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
-            + " or op.OP_TITLE like '%${record.keywords}%' ) " + "</if> " + "<if test='record.startDate!=null and record.endDate!=null'>"
-            + "  and op.OP_DATETIME between  '${record.startDate}' and  '${record.endDate}'  </if>" + "<if test='((record.opType!=null) and (record.opType.length>0))'> and "
-            + "<foreach collection='record.opType' open='(' close= ')'  separator='or' item='otype'> " + " op.OP_TYPE like concat('%',#{otype},'%') " + "</foreach>" + "</if>"
-            + "</script>"
+            "<script>" + "SELECT op.*,a.SIGN_IN_NAME,a.SIGN_IN_MOBILE,a.SIGN_IN_EMAIL,a.WX_NICKNAME,a.QQ_NICKNAME,a.SIGN_IN_NICKNAME, "
+                    + " b.SIGN_IN_NAME agentSignInName, b.SIGN_IN_MOBILE agentSignInMobile, b.SIGN_IN_EMAIL agentSignInEmail, "
+                    + " b.WX_NICKNAME agentwxNickname, b.QQ_NICKNAME agentqqNickname, b.SIGN_IN_NICKNAME agentSignInNickname, "
+                    + " s.NAME appName,s.MENU menu,s.REALM_ID realmId, s.REMARK remark " + " FROM RAC_OP_LOG op " + " left join  RAC_ACCOUNT a on op.ACCOUNT_ID=a.ID "
+                    + " left join  RAC_ACCOUNT b on op.AGENT_ID=b.ID " + " left join RAC_APP s on op.app_id=s.id " + " where a.realm_Id=#{record.realmId} "
+                    + "<if test='record.accountId!=null'> " + " and a.id=#{record.accountId} " + "</if> " + "<if test='record.keywords!=null'> "
+                    + " and (a.ID like '%${record.keywords}%' or a.SIGN_IN_NAME like '%${record.keywords}%' or a.SIGN_IN_MOBILE like '%${record.keywords}%' or a.SIGN_IN_EMAIL like '%${record.keywords}%' "
+                    + " or a.WX_NICKNAME like '%${record.keywords}%' or a.QQ_NICKNAME like '%${record.keywords}%' or a.SIGN_IN_NICKNAME like '%${record.keywords}%'  "
+                    + " or b.ID like '%${record.keywords}%' or b.SIGN_IN_NAME like '%${record.keywords}%' or b.SIGN_IN_MOBILE like '%${record.keywords}%' or b.SIGN_IN_EMAIL like '%${record.keywords}%' "
+                    + " or b.WX_NICKNAME like '%${record.keywords}%' or b.QQ_NICKNAME like '%${record.keywords}%' or b.SIGN_IN_NICKNAME like '%${record.keywords}%' "
+                    + " or op.OP_TITLE like '%${record.keywords}%' ) " + "</if> " + "<if test='record.startDate!=null and record.endDate!=null'>"
+                    + "  and op.OP_DATETIME between  '${record.startDate}' and  '${record.endDate}'  </if>"
+                    + "<if test='((record.opType!=null) and (record.opType.length>0))'> and "
+                    + "<foreach collection='record.opType' open='(' close= ')'  separator='or' item='otype'> " + " op.OP_TYPE like concat('%',#{otype},'%') " + "</foreach>"
+                    + "</if>"
+                    + "</script>"
     })
     List<RacOpLogExMo> selectEx(@Param(value = "record") RacOpLogPageTo record);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default List<RacOpLogMo> selectIn(List<Long> ids) {
         return select(c -> c.where(id, isIn(ids)));
     }
@@ -319,6 +353,7 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
+    @Override
     default BasicColumn[] getColumns() {
         return selectList;
     }
@@ -330,9 +365,33 @@ public interface RacOpLogMapper extends MapperRootInterface<RacOpLogMo, Long> {
      */
     default Long countSurvey(RacOpLogPageTo record) {
         SelectStatementProvider countSurvey = SqlBuilder.countFrom(racOpLog).where(racOpLog.opDatetime, isGreaterThanWhenPresent(record.getStartDate()))
-            .and(racOpLog.opDatetime, isLessThanWhenPresent(record.getEndDate())).and(racOpLog.opType, isEqualToWhenPresent(record.getKeywords())).build()
-            .render(RenderingStrategies.MYBATIS3);
-        long count = count(countSurvey);
+                .and(racOpLog.opDatetime, isLessThanWhenPresent(record.getEndDate())).and(racOpLog.opType, isEqualToWhenPresent(record.getKeywords())).build()
+                .render(RenderingStrategies.MYBATIS3);
+        long                    count       = count(countSurvey);
+        return count;
+    }
+
+    /**
+     * 账户总数
+     *
+     */
+    default Long countAccount() {
+        SelectStatementProvider countSurvey = SqlBuilder.countFrom(racAccount)
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        long                    count       = count(countSurvey);
+        return count;
+    }
+
+    /**
+     * 账户正常数
+     *
+     */
+    default Long countNormalAccount() {
+        SelectStatementProvider countSurvey = SqlBuilder.countFrom(racAccount).where(racAccount.isEnabled, isEqualTo(true))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        long                    count       = count(countSurvey);
         return count;
     }
 }

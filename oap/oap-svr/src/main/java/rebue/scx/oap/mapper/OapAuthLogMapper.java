@@ -303,7 +303,7 @@ public interface OapAuthLogMapper extends MapperRootInterface<OapAuthLogMo, Long
     }
 
     /**
-     * 今日账户概况
+     * 今日认证概况
      *
      * @param record
      */
