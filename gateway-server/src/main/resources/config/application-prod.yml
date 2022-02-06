@@ -9,10 +9,6 @@ scx:
           - url: "POST:/rac/account/upload-avatar"
             limit: 200KB
 
-# 生成workid使用
-curator:
-  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
-
 spring:
   cloud:
     gateway:
@@ -56,15 +52,6 @@ spring:
     sentinel:
       transport:
         dashboard: sentinel-dashboard:80
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-    virtual-host: /
-  # 链路追踪可视化服务器
-  zipkin:
-    base-url: zipkin:9411
   # 链路追踪采集器
   sleuth:
     sampler:

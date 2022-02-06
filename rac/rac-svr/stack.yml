@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  rac-svr:
+    image: nnzbz/spring-boot-app
+    hostname: rac-svr
+    init: true
+    environment:
+      - PROG_ARGS=--spring.profiles.active=prod
+      #- JAVA_OPTS=-Xms100M -Xmx100M
+    volumes:
+      - /usr/local/rac-svr/config/:/usr/local/myservice/config/:z
+      - /usr/local/rac-svr/rac-svr-1.2.5.jar:/usr/local/myservice/myservice.jar:z
+    deploy:
+      replicas: 1
+networks:
+  default:
+    external: true
+    name: rebue
