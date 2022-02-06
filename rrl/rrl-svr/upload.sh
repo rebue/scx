@@ -57,6 +57,7 @@ else
 	echo "services:" >>$LOC_FILE
 	echo "  $SVR_NAME:" >>$LOC_FILE
 	echo "    image: nnzbz/spring-boot-app" >>$LOC_FILE
+	echo "    hostname: $SVR_NAME" >>$LOC_FILE
 	echo "    init: true" >>$LOC_FILE
 	echo "    environment:" >>$LOC_FILE
 	echo "      - PROG_ARGS=--spring.profiles.active=prod" >> $LOC_FILE
