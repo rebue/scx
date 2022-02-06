@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  rrl-svr:
+    image: nnzbz/spring-boot-app
+    hostname: rrl-svr
+    init: true
+    environment:
+      - PROG_ARGS=--spring.profiles.active=prod
+      #- JAVA_OPTS=-Xms100M -Xmx100M
+    volumes:
+      - /usr/local/rrl-svr/config/:/usr/local/myservice/config/:z
+      - /usr/local/rrl-svr/rrl-svr-1.2.5.jar:/usr/local/myservice/myservice.jar:z
+    deploy:
+      replicas: 1
+networks:
+  default:
+    external: true
+    name: rebue
