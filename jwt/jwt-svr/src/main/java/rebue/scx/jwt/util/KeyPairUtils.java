@@ -1,4 +1,4 @@
-package rebue.scx.jwt.utils;
+package rebue.scx.jwt.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,20 +9,19 @@ import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 
-public class CreatePublicPrivateKey {
+public class KeyPairUtils {
 
-    public static KeyPair parseRsaKeyPair(InputStream in) throws IOException
-    {
-        PEMParser pemParser = new PEMParser(
+    public static KeyPair parseRsaKeyPair(final InputStream in) throws IOException {
+        final PEMParser pemParser = new PEMParser(
                 new InputStreamReader(in));
-        PEMKeyPair pemKeyPair;
+        PEMKeyPair      pemKeyPair;
         try {
             pemKeyPair = (PEMKeyPair) pemParser.readObject();
         } finally {
             pemParser.close();
         }
         // Convert to Java (JCA) format
-        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+        final JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
         return converter.getKeyPair(pemKeyPair);
     }
 

@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  jwt-svr:
+    image: nnzbz/spring-boot-app
+    init: true
+    environment:
+      - PROG_ARGS=--spring.profiles.active=prod
+      #- JAVA_OPTS=-Xms100M -Xmx100M
+    volumes:
+      - /usr/local/jwt-svr/config/:/usr/local/myservice/config/:z
+      - /usr/local/jwt-svr/jwt-svr-1.2.5.jar:/usr/local/myservice/myservice.jar:z
+    deploy:
+      replicas: 1
+networks:
+  default:
+    external: true
+    name: rebue

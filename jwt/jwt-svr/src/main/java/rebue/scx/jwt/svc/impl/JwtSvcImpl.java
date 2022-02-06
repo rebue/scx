@@ -20,7 +20,6 @@ import com.nimbusds.jwt.JWTClaimsSet.Builder;
 import com.nimbusds.jwt.SignedJWT;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import rebue.scx.jwt.config.JwtKey;
 import rebue.scx.jwt.config.JwtProperties;
 import rebue.scx.jwt.ra.JwtSignInfo;
@@ -28,7 +27,6 @@ import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.svc.JwtSvc;
 import rebue.scx.jwt.to.JwtSignTo;
 
-@Slf4j
 @Service
 @EnableConfigurationProperties(JwtProperties.class)
 public class JwtSvcImpl implements JwtSvc {
@@ -41,6 +39,11 @@ public class JwtSvcImpl implements JwtSvc {
 
     private static final ZoneId ZONE_ID = ZoneId.systemDefault();
 
+    /**
+     * JWT签名
+     *
+     * @param to 签名中储存的账户信息
+     */
     @Override
     @SneakyThrows
     public JwtSignRa sign(final JwtSignTo to) {
@@ -73,7 +76,8 @@ public class JwtSvcImpl implements JwtSvc {
     }
 
     /**
-     * 验证JWT签名 如果验证成功，重新生成新的签名，提供给应用刷新有效期
+     * 验证JWT签名
+     * 如果验证成功，重新生成新的签名，提供给应用刷新有效期
      */
     @Override
     public JwtSignRa verify(final String sign) {
@@ -90,6 +94,7 @@ public class JwtSvcImpl implements JwtSvc {
             // 如果验证成功，需要重新签名延长过期时间
             final String              subject  = signedJWT.getJWTClaimsSet().getSubject();
             final String              audience = signedJWT.getJWTClaimsSet().getAudience().get(0);
+            @SuppressWarnings("unchecked")
             final Map<String, Object> addition = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("addition");
             final JwtSignTo           signTo   = JwtSignTo.builder()
                     .accountId(subject)
@@ -102,8 +107,12 @@ public class JwtSvcImpl implements JwtSvc {
         }
     }
 
+    /**
+     * 验证JWT签名
+     * 如果验证成功，不重新生成新的签名
+     */
     @Override
-    public JwtSignInfo verifyNotUpdate(String sign) {
+    public JwtSignInfo verifyNotUpdate(final String sign) {
         try {
             final SignedJWT signedJWT = SignedJWT.parse(sign);
             if (System.currentTimeMillis() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
@@ -113,8 +122,8 @@ public class JwtSvcImpl implements JwtSvc {
             if (!verify) {
                 return null;
             }
-            final String subject = signedJWT.getJWTClaimsSet().getSubject();
-            JwtSignInfo  info    = new JwtSignInfo();
+            final String      subject = signedJWT.getJWTClaimsSet().getSubject();
+            final JwtSignInfo info    = new JwtSignInfo();
             info.setAccountId(Long.parseLong(subject));
             return info;
         } catch (final Exception e) {

@@ -1,28 +1,10 @@
 jwt:
-  key-pair: jwt-dev-key-pair.pem
+  key-pair: jwt.pem
   issuer: rebue
-  #签名有效时间
+  # 签名有效时间
   expiration-duration: 120m
 
-# 生成workid使用
-curator:
-  connect-string: zoo1:2181,zoo2:2181,zoo3:2181
-
 spring:
-  redis:
-    password: xxxxxxxx
-    sentinel:
-      master: mymaster
-      nodes:
-        - redis_sentinel1:26379
-        - redis_sentinel2:26379
-        - redis_sentinel3:26379
-  cloud:
-    sentinel:
-      enabled: false
-  # 链路追踪可视化服务器
-  zipkin:
-    base-url: zipkin:9411
   # 链路追踪采集器
   sleuth:
     sampler:
