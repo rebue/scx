@@ -21,7 +21,5 @@ nacos:
   server-name:
     rac-svr:
       file-extension: yaml
-      group: REBUE
     orp-svr:
       file-extension: yaml
-      group: REBUE 

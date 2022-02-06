@@ -1,7 +1,7 @@
 # 配置中心中的配置
 database:
-  schema: up
-  user: up
+  schema: rac
+  user: rac
   password: xxxxxxxx
 
 # 配置中心中的配置
@@ -26,10 +26,8 @@ nacos:
   server-name:
     rac-svr:
       file-extension: yaml
-      group: REBUE
     orp-svr:
       file-extension: yaml
-      group: REBUE 
 
 spring:
   # 链路追踪采集器

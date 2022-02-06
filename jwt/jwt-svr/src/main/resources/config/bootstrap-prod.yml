@@ -9,13 +9,10 @@ spring:
         server-addr: nacos1:8848,nacos2:8848,nacos3:8848
         shared-configs:
           - data-id: comm-zoo.yaml
-            group: REBUE
             refresh: true
           - data-id: comm-redis.yaml
-            group: REBUE
             refresh: true
           - data-id: comm-zipkin.yaml
-            group: REBUE
             refresh: true
       discovery:
         server-addr: ${spring.cloud.nacos.config.server-addr}

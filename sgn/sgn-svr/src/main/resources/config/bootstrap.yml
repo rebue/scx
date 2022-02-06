@@ -29,14 +29,9 @@ spring:
       spec: maximumSize=1024,expireAfterAccess=90m
   cloud:
     nacos:
-      discovery:
-        # 配置分组(默认为DEFAULT_GROUP)
-        group: REBUE
       config:
         # 默认是properties的方式
         file-extension: yaml
-        # 配置分组(默认为DEFAULT_GROUP)
-        group: REBUE
 
 dubbo:
   scan:
