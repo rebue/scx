@@ -10,6 +10,9 @@ services:
       - /usr/local/jwt-svr/config/:/usr/local/myservice/config/:z
       - /usr/local/jwt-svr/jwt-svr-1.2.5.jar:/usr/local/myservice/myservice.jar:z
     deploy:
+      placement:
+        constraints:
+          - node.labels.role==app
       replicas: 1
 networks:
   default:

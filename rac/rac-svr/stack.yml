@@ -11,6 +11,9 @@ services:
       - /usr/local/rac-svr/config/:/usr/local/myservice/config/:z
       - /usr/local/rac-svr/rac-svr-1.2.5.jar:/usr/local/myservice/myservice.jar:z
     deploy:
+      placement:
+        constraints:
+          - node.labels.role==app
       replicas: 1
 networks:
   default:

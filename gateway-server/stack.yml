@@ -11,6 +11,9 @@ services:
       - /usr/local/gateway-server/config/:/usr/local/myservice/config/:z
       - /usr/local/gateway-server/gateway-server-1.2.5.jar:/usr/local/myservice/myservice.jar:z
     deploy:
+      placement:
+        constraints:
+          - node.labels.role==web
       replicas: 1
 networks:
   default:
