@@ -11,7 +11,7 @@ services:
       # Agent的项目名称
       - SW_AGENT_NAME=rrl-svr
       # SkyWalking OAP 服务器的地址
-      - SW_AGENT_COLLECTOR_BACKEND_SERVICES=skywalking-oap:12800
+      - SW_AGENT_COLLECTOR_BACKEND_SERVICES=skywalking-oap:11800
       #- JAVA_OPTS=-Xms100M -Xmx100M
     volumes:
       # 初始化脚本
