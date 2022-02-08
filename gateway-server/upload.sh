@@ -1,4 +1,7 @@
 #!/bin/bash
+##################################################################
+# 注意: gateway-server的upload.sh与其它微服务的不同在于部署的角色是web  #
+##################################################################
 CURRENT_PATH=$(cd "$(dirname "$0")";pwd)
 cd $CURRENT_PATH
 SVR_NAME=$(basename `pwd`)
@@ -55,7 +58,7 @@ else
 	touch $LOC_FILE
 	echo "version: \"3.9\"" >>$LOC_FILE
 	echo "services:" >>$LOC_FILE
-	echo "  $SVR_NAME:" >>$LOC_FILE
+	echo "  svr:" >>$LOC_FILE
 	echo "    image: nnzbz/spring-boot-app" >>$LOC_FILE
 	echo "    hostname: $SVR_NAME" >>$LOC_FILE
 	echo "    init: true" >>$LOC_FILE
