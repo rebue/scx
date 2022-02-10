@@ -17,6 +17,7 @@ services:
       # 初始化脚本
       - /usr/local/gateway-server/init.sh:/usr/local/myservice/init.sh:z
       # SkyWalking Agent的配置文件
+      - /usr/local/gateway-server/config/custom.config:/usr/local/skywalking/agent/config/custom.config:z
       - /usr/local/gateway-server/config/apm-trace-ignore-plugin.config:/usr/local/skywalking/agent/config/apm-trace-ignore-plugin.config:z
       # 配置文件目录
       - /usr/local/gateway-server/config/:/usr/local/myservice/config/:z
