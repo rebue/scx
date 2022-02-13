@@ -47,9 +47,8 @@ import rebue.wheel.core.util.RegexUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacUserSvcImpl
-        extends
-        BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
-        implements RacUserSvc {
+    extends BaseSvcImpl<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserDelTo, RacUserOneTo, RacUserListTo, RacUserPageTo, RacUserMo, RacUserJo, RacUserMapper, RacUserDao>
+    implements RacUserSvc {
 
     /**
      * 本服务的单例
@@ -93,9 +92,9 @@ public class RacUserSvcImpl
     public RacUserMo add(RacUserAddTo to) {
         to.setCreateTimestamp(System.currentTimeMillis());
         to.setUpdateTimestamp(System.currentTimeMillis());
-        final RacUserMo mo          = OrikaUtils.map(to, getMoClass());
-        String          idCard      = mo.getIdCard();
-        boolean         matchIdCard = RegexUtils.matchIdCard(idCard);
+        final RacUserMo mo = OrikaUtils.map(to, getMoClass());
+        String idCard = mo.getIdCard();
+        boolean matchIdCard = RegexUtils.matchIdCard(idCard);
         if (!matchIdCard) {
             throw new RuntimeExceptionX("身份证号码格式不对，请确认！");
         }
@@ -151,7 +150,7 @@ public class RacUserSvcImpl
      */
     @Override
     public RacUserMo getUserMoOne(RacUserOneTo to) {
-        final RacUserMo          qo = OrikaUtils.map(to, RacUserMo.class);
+        final RacUserMo qo = OrikaUtils.map(to, RacUserMo.class);
         RacUserNonDesensitizedMo mo = _mapper.selectByOne(qo).orElse(null);
         if (mo != null) {
             final RacUserMo accountMo = OrikaUtils.map(mo, RacUserMo.class);

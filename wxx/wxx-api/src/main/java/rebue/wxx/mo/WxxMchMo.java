@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -159,6 +160,7 @@ public class WxxMchMo implements Serializable, Mo<String> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
+    @JsonIgnore
     public String getIdType() {
         return "String";
     }

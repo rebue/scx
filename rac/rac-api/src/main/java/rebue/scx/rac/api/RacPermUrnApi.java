@@ -7,6 +7,7 @@ import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.to.RacPermUrnAddTo;
 import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
+import rebue.scx.rac.to.RacPermUrnOneTo;
 import rebue.scx.rac.to.RacPermUrnPageTo;
 
 /**
@@ -14,7 +15,7 @@ import rebue.scx.rac.to.RacPermUrnPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacPermUrnApi extends BaseApi<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnPageTo, RacPermUrnMo> {
+public interface RacPermUrnApi extends BaseApi<java.lang.Long, RacPermUrnAddTo, RacPermUrnModifyTo, RacPermUrnOneTo, RacPermUrnPageTo, RacPermUrnMo> {
 
     /**
      * 获取账户的链接列表

@@ -24,6 +24,7 @@ import rebue.scx.rac.to.RacAppAddTo;
 import rebue.scx.rac.to.RacAppEnabledTo;
 import rebue.scx.rac.to.RacAppListTo;
 import rebue.scx.rac.to.RacAppModifyTo;
+import rebue.scx.rac.to.RacAppOneTo;
 import rebue.scx.rac.to.RacAppPageTo;
 
 /**
@@ -111,7 +112,7 @@ public class RacAppCtrl {
     }
 
     /**
-     * 获取单个应用的信息
+     * 通过ID获取单个应用的信息
      *
      * @param id 应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -151,5 +152,17 @@ public class RacAppCtrl {
     @GetMapping("/rac/app/list")
     public Mono<Ro<ListRa<RacAppMo>>> list(final RacAppListTo qo) {
         return Mono.create(callback -> callback.success(api.list(qo)));
+    }
+
+    /**
+     * 通过条件获取单个应用的信息
+     *
+     * @param id 应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/app/get-one")
+    public Mono<Ro<PojoRa<RacAppMo>>> getOne(final RacAppOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

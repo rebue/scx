@@ -35,6 +35,7 @@ public class OapAuthLogPageTo extends PageTo implements Serializable {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     private Boolean           isSuccess;
+
     /**
      * 时间段查询 startDate开始时间 endtDate结束时间
      */

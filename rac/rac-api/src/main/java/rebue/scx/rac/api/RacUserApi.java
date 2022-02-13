@@ -13,7 +13,7 @@ import rebue.scx.rac.to.RacUserPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacUserApi extends BaseApi<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserPageTo, RacUserMo> {
+public interface RacUserApi extends BaseApi<java.lang.Long, RacUserAddTo, RacUserModifyTo, RacUserOneTo, RacUserPageTo, RacUserMo> {
 
     /**
      * 根据姓名和身份张号查询用户信息

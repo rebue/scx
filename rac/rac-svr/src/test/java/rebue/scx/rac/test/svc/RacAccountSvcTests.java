@@ -59,7 +59,7 @@ public class RacAccountSvcTests {
     @Disabled
     public void testCrud() {
         RacAccountAddTo addTo = null;
-        Long            id    = null;
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (RacAccountAddTo) RandomEx.randomPojo(RacAccountAddTo.class);
             addTo.setSignInPswdSalt("aaa");
@@ -92,18 +92,18 @@ public class RacAccountSvcTests {
     public void read() {
         try {
             FileInputStream inputStream = new FileInputStream("/home/yuanman/Desktop/账户信息收集表.xlsx");
-            Workbook        workbook    = new XSSFWorkbook(inputStream);
-            Sheet           sheetAt     = workbook.getSheetAt(0);
-            Row             row         = sheetAt.getRow(0);
-            Cell            cell        = row.getCell(0);
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            Sheet sheetAt = workbook.getSheetAt(0);
+            Row row = sheetAt.getRow(0);
+            Cell cell = row.getCell(0);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Workbook workbook = new SXSSFWorkbook(100);
         // HSSFWorkbook
-        Sheet    sheet    = workbook.createSheet("账户信息");
-        Row      row      = sheet.createRow(0);
+        Sheet sheet = workbook.createSheet("账户信息");
+        Row row = sheet.createRow(0);
         row.createCell(0).setCellValue("帐号编码");
         row.createCell(1).setCellValue("登录昵称");
         row.createCell(2).setCellValue("登录帐号");
@@ -114,7 +114,7 @@ public class RacAccountSvcTests {
         row.createCell(7).setCellValue("手机号码");
         row.createCell(8).setCellValue("电子邮箱");
         List<RacAccountMo> listAll = _svc.listAll();
-        int                size    = listAll.size();
+        int size = listAll.size();
         for (int i = 0; i < listAll.size(); i++) {
             Row createRow = sheet.createRow(i + 1);
             createRow.createCell(0).setCellValue(listAll.get(i).getCode());
@@ -128,7 +128,7 @@ public class RacAccountSvcTests {
             // createRow.createCell(8).setCellValue("电子邮箱");
         }
         System.out.println(listAll.toString());
-        File    file       = new File("/home/yuanman/Desktop/账户信息收集表.xlsx");
+        File file = new File("/home/yuanman/Desktop/账户信息收集表.xlsx");
         boolean createFile = createFile(workbook, file);
         if (!createFile) {
             System.out.println("导出文件失败");
@@ -140,8 +140,8 @@ public class RacAccountSvcTests {
     public void write() {
         Workbook workbook = new SXSSFWorkbook(100);
         // HSSFWorkbook
-        Sheet    sheet    = workbook.createSheet("账户信息");
-        Row      row      = sheet.createRow(0);
+        Sheet sheet = workbook.createSheet("账户信息");
+        Row row = sheet.createRow(0);
         row.createCell(0).setCellValue("帐号编码");
         row.createCell(1).setCellValue("登录昵称");
         row.createCell(2).setCellValue("登录帐号");
@@ -152,7 +152,7 @@ public class RacAccountSvcTests {
         row.createCell(7).setCellValue("手机号码");
         row.createCell(8).setCellValue("电子邮箱");
         List<RacAccountMo> listAll = _svc.listAll();
-        int                size    = listAll.size();
+        int size = listAll.size();
         for (int i = 0; i < listAll.size(); i++) {
             Row createRow = sheet.createRow(i + 1);
             createRow.createCell(0).setCellValue(listAll.get(i).getCode());
@@ -166,7 +166,7 @@ public class RacAccountSvcTests {
             // createRow.createCell(8).setCellValue("电子邮箱");
         }
         System.out.println(listAll.toString());
-        File    file       = new File("/home/yuanman/Desktop/账户信息收集表.xlsx");
+        File file = new File("/home/yuanman/Desktop/账户信息收集表.xlsx");
         boolean createFile = createFile(workbook, file);
         if (!createFile) {
             System.out.println("导出文件失败");

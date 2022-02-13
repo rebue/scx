@@ -1,6 +1,7 @@
 package rebue.scx.oap.svc;
 
 import org.springframework.validation.annotation.Validated;
+
 import rebue.robotech.svc.BaseSvc;
 import rebue.scx.oap.jo.OapIpWhiteListJo;
 import rebue.scx.oap.mo.OapIpWhiteListMo;

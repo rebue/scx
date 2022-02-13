@@ -2,12 +2,17 @@ package rebue.scx.oap.mo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import rebue.robotech.mo.Mo;
 import rebue.robotech.valid.AddGroup;
 import rebue.robotech.valid.ModifyGroup;
@@ -184,6 +189,7 @@ public class OapAuthLogMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
+    @JsonIgnore
     public String getIdType() {
         return "Long";
     }

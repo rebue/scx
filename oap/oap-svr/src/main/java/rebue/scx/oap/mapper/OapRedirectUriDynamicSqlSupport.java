@@ -1,6 +1,7 @@
 package rebue.scx.oap.mapper;
 
 import java.sql.JDBCType;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 

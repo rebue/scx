@@ -45,8 +45,8 @@ import rebue.scx.rac.api.RacOpLogApi;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class OapAuthLogSvcImpl extends
-        BaseSvcImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogMapper, OapAuthLogDao>
-        implements OapAuthLogSvc {
+    BaseSvcImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogMapper, OapAuthLogDao>
+    implements OapAuthLogSvc {
 
     /**
      * 本服务的单例

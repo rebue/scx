@@ -49,7 +49,7 @@ public class RacAccountApiImpl extends
      * @param to 修改账户登录密码的具体数据
      */
     @Override
-    public Ro<?> resetPassword(RacAccountResetPasswordTo to) {
+    public Ro<?> resetPassword(final RacAccountResetPasswordTo to) {
         _svc.resetPassword(to);
         return new Ro<>(ResultDic.SUCCESS, "重置成功");
     }
@@ -60,7 +60,7 @@ public class RacAccountApiImpl extends
      * @param to 添加的具体信息
      */
     @Override
-    public Ro<?> addUnionIdMapper(RacAccountUnionIdTo to) {
+    public Ro<?> addUnionIdMapper(final RacAccountUnionIdTo to) {
         return new Ro<>(ResultDic.SUCCESS, "添加映射关系成功", _svc.addUnionIdMapper(to));
     }
 
@@ -70,7 +70,7 @@ public class RacAccountApiImpl extends
      * @param to 删除的具体信息
      */
     @Override
-    public Ro<?> delUnionIdMapper(RacAccountUnionIdTo to) {
+    public Ro<?> delUnionIdMapper(final RacAccountUnionIdTo to) {
         return new Ro<>(ResultDic.SUCCESS, "删除映射成功", _svc.delUnionIdMapper(to));
     }
 
@@ -80,7 +80,7 @@ public class RacAccountApiImpl extends
      * @param id 需要解除的账户ID
      */
     @Override
-    public Ro<?> disassociateUser(Long id) {
+    public Ro<?> disassociateUser(final Long id) {
         _svc.disassociateUser(id);
         return new Ro<>(ResultDic.SUCCESS, "解除关联成功");
     }
@@ -91,7 +91,7 @@ public class RacAccountApiImpl extends
      * @param id 被解绑的账户ID
      */
     @Override
-    public Ro<?> unbindDdModify(Long id) {
+    public Ro<?> unbindDdModify(final Long id) {
         _svc.unbindDdModify(id);
         return new Ro<>(ResultDic.SUCCESS, "解绑成功");
     }
@@ -102,7 +102,7 @@ public class RacAccountApiImpl extends
      * @param id 被解绑的账户ID
      */
     @Override
-    public Ro<?> unbindWxModify(Long id) {
+    public Ro<?> unbindWxModify(final Long id) {
         _svc.unbindWxModify(id);
         return new Ro<>(ResultDic.SUCCESS, "解绑成功");
     }
@@ -113,7 +113,7 @@ public class RacAccountApiImpl extends
      * @param id 被解绑的账户ID
      */
     @Override
-    public Ro<?> unbindMobile(Long id) {
+    public Ro<?> unbindMobile(final Long id) {
         _svc.unbindMobile(id);
         return new Ro<>(ResultDic.SUCCESS, "解绑成功");
     }
@@ -124,7 +124,7 @@ public class RacAccountApiImpl extends
      * @param to 账户ID/手机号/校验码
      */
     @Override
-    public Ro<?> bindMobile(RacAccountMobileTo to) {
+    public Ro<?> bindMobile(final RacAccountMobileTo to) {
         return _svc.bindMobile(to);
     }
 
@@ -132,7 +132,7 @@ public class RacAccountApiImpl extends
      * 绑定邮箱
      */
     @Override
-    public Ro<?> bindEmail(RacAccountEmailTo to) {
+    public Ro<?> bindEmail(final RacAccountEmailTo to) {
         return _svc.bindMobile(to);
     }
 
@@ -143,7 +143,7 @@ public class RacAccountApiImpl extends
      * @param mobile 手机号
      */
     @Override
-    public Ro<BooleanRa> existMobileById(Long id, int mobile) {
+    public Ro<BooleanRa> existMobileById(final Long id, final int mobile) {
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new BooleanRa(_svc.existMobileById(id, mobile)));
     }
 
@@ -155,7 +155,7 @@ public class RacAccountApiImpl extends
      * @return
      */
     @Override
-    public Ro<ListRa<RacAccountMo>> getAccountByUnionId(Long unionId) {
+    public Ro<ListRa<RacAccountMo>> getAccountByUnionId(final Long unionId) {
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.getAccountByUnionId(unionId)));
     }
 
@@ -176,7 +176,7 @@ public class RacAccountApiImpl extends
      * @param to 修改账户登录密码的具体数据
      */
     @Override
-    public Ro<?> modifySignInByOldPswd(RacAccountModifySignInByOldPswdTo to) {
+    public Ro<?> modifySignInByOldPswd(final RacAccountModifySignInByOldPswdTo to) {
         return _svc.modifySignInByOldPswd(to);
     }
 
@@ -186,7 +186,7 @@ public class RacAccountApiImpl extends
      * @param to 只需要上传微信/钉钉的信息
      */
     @Override
-    public Ro<?> bindModify(RacAccountModifyTo to) {
+    public Ro<?> bindModify(final RacAccountModifyTo to) {
         _svc.bindModify(to);
         return new Ro<>(ResultDic.SUCCESS, "绑定成功");
     }
@@ -197,7 +197,7 @@ public class RacAccountApiImpl extends
      * @param to 只需要上传微信/钉钉的信息
      */
     @Override
-    public Ro<?> unbindModify(RacAccountModifyTo to) {
+    public Ro<?> unbindModify(final RacAccountModifyTo to) {
         _svc.unbindModify(to);
         return new Ro<>(ResultDic.SUCCESS, "解除绑定成功");
     }
@@ -251,14 +251,8 @@ public class RacAccountApiImpl extends
      * @return
      */
     @Override
-    public Ro<ListRa<RacAccountMo>> getByUserId(Long id) {
+    public Ro<ListRa<RacAccountMo>> getByUserId(final Long id) {
         return _svc.getByUserId(id);
-    }
-
-    @Override
-    public RacAccountMo getOne(RacAccountOneTo oneTo) {
-        _svc.getOne(oneTo);
-        return _svc.getOne(oneTo);
     }
 
     /**
@@ -281,12 +275,12 @@ public class RacAccountApiImpl extends
      * @param to 查询的具体条件
      */
     @Override
-    public Ro<PageRa<RacAccountMo>> getAccountByUser(RacAccountByUserTo to) {
+    public Ro<PageRa<RacAccountMo>> getAccountByUser(final RacAccountByUserTo to) {
         return new Ro<>(ResultDic.SUCCESS, "查询成功", new PageRa<>(_svc.getAccountByUser(to)));
     }
 
     @Override
-    public RacAccountMo getAccountMoById(Long id) {
+    public RacAccountMo getAccountMoById(final Long id) {
         return _svc.getAccountMoById(id);
     }
 

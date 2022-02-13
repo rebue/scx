@@ -105,8 +105,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacAccountSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
-        implements RacAccountSvc {
+    BaseSvcImpl<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo, RacAccountMapper, RacAccountDao>
+    implements RacAccountSvc {
 
     /**
      * 本服务的单例
@@ -144,8 +144,10 @@ public class RacAccountSvcImpl extends
 
     @Resource
     private RacOrgSvc            racOrgSvc;
+
     @Resource
     LevelProtectProperties       levelProtectProperties;
+
     @Resource
     private MinioClient          minioClient;
 
@@ -266,10 +268,10 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public void resetPassword(RacAccountResetPasswordTo to) {
-        RacAccountMo mo             = OrikaUtils.map(to, RacAccountMo.class);
+        RacAccountMo mo = OrikaUtils.map(to, RacAccountMo.class);
         // 默认登录密码为：12345678
         // 设置固定盐值
-        String       signInPswdSalt = "zGxxxC";
+        String signInPswdSalt = "zGxxxC";
         mo.setSignInPswdSalt(signInPswdSalt);
         // 根据生成的盐值进行摘要
         String signInPswd = "25d55ad283aa400af464c76d713c07ad";
@@ -281,7 +283,6 @@ public class RacAccountSvcImpl extends
      * 根据旧登录密码更新新登录密码
      *
      * @param to 修改账户登录密码的具体数据
-     *
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -678,10 +679,10 @@ public class RacAccountSvcImpl extends
     @SneakyThrows
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> uploadAvatar(final Long curAccountId, final String appId, final String fileName, final String contentDisposition, final String contentType,
-            final InputStream inputStream) {
+        final InputStream inputStream) {
         RacAccountMo accountMo = thisSvc.getAccountMoById(curAccountId);
-        RacAppMo     appMo     = appSvc.getById(appId);
-        boolean      flag      = accountMo.getRealmId().equals(appMo.getRealmId());
+        RacAppMo appMo = appSvc.getById(appId);
+        boolean flag = accountMo.getRealmId().equals(appMo.getRealmId());
         if (!flag) {
             RacAccountOneTo oneTo = new RacAccountOneTo();
             oneTo.setRealmId(appMo.getRealmId());
@@ -691,14 +692,14 @@ public class RacAccountSvcImpl extends
                 accountMo = oneMo;
             }
         }
-        final Long    accountId = accountMo.getId();
-        final String  fileExt   = Files.getFileExtension(fileName);
-        final boolean found     = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
+        final Long accountId = accountMo.getId();
+        final String fileExt = Files.getFileExtension(fileName);
+        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
             final String policyJson = String.format(
-                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                    RacMinioCo.AVATAR_BUCKET);
+                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+                RacMinioCo.AVATAR_BUCKET);
             minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).config(policyJson).build());
         }
         final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).build());
@@ -708,7 +709,7 @@ public class RacAccountSvcImpl extends
         headers.put("Content-Type", contentType);
         final String objectName = accountId.toString() + "." + fileExt;
         minioClient.putObject(
-                PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
+            PutObjectArgs.builder().bucket(RacMinioCo.AVATAR_BUCKET).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
         final RacAccountMo mo = new RacAccountMo();
         mo.setId(accountId);
         // XXX 添加a参数并设置时间戳，以防前端接收到地址未改变，图片不刷新
@@ -767,10 +768,10 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public Ro<GetCurAccountInfoRa> getCurAccountInfo(final Long curAccountId, final Long agentAccountId, final String appId) {
-        final GetCurAccountInfoRa ra        = new GetCurAccountInfoRa();
-        RacAccountMo              accountMo = thisSvc.getById(curAccountId);
-        RacAppMo                  appMo     = appSvc.getById(appId);
-        boolean                   flag      = accountMo.getRealmId().equals(appMo.getRealmId());
+        final GetCurAccountInfoRa ra = new GetCurAccountInfoRa();
+        RacAccountMo accountMo = thisSvc.getById(curAccountId);
+        RacAppMo appMo = appSvc.getById(appId);
+        boolean flag = accountMo.getRealmId().equals(appMo.getRealmId());
         if (!flag) {
             RacAccountOneTo oneTo = new RacAccountOneTo();
             oneTo.setRealmId(appMo.getRealmId());
@@ -850,14 +851,14 @@ public class RacAccountSvcImpl extends
         existQo.setKeywords(to.getExistKeywords());
         final List<RacAccountMo> existAccountList = _mapper.list(existQo);
         // 查询可添加的所有用户
-        final RacAccountExMo     addableQo        = new RacAccountExMo();
+        final RacAccountExMo addableQo = new RacAccountExMo();
         addableQo.setRealmId(to.getRealmId());
         addableQo.setOrgId(to.getOrgId());
         addableQo.setKeywords(to.getAddableKeywords());
-        final ISelect                select      = () -> _mapper.getAddablAccountList(addableQo);
+        final ISelect select = () -> _mapper.getAddablAccountList(addableQo);
         final PageInfo<RacAccountMo> addableList = thisSvc.page(select, to.getPageNum(), to.getPageSize(), null);
         // 将所有记录添加到返回ListTransferOfOrgRa的对象中
-        final ListTransferOfOrgRa    ro          = new ListTransferOfOrgRa();
+        final ListTransferOfOrgRa ro = new ListTransferOfOrgRa();
         ro.setAddableList(addableList);
         ro.setExistList(existAccountList);
         return new Ro<>(ResultDic.SUCCESS, "查询账户列表成功", ro);
@@ -883,8 +884,8 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public PageInfo<RacAccountMo> getAccountByUser(RacAccountByUserTo to) {
-        final RacAccountPageTo qo        = OrikaUtils.map(to, RacAccountPageTo.class);
-        RacAccountMo           accountMo = thisSvc.getById(to.getAccountId());
+        final RacAccountPageTo qo = OrikaUtils.map(to, RacAccountPageTo.class);
+        RacAccountMo accountMo = thisSvc.getById(to.getAccountId());
         if (accountMo.getUserId() != null) {
             qo.setUserId(accountMo.getUserId());
         }
@@ -923,7 +924,7 @@ public class RacAccountSvcImpl extends
      */
     @Override
     public RacAccountMo getAccountMoOne(RacAccountOneTo to) {
-        final RacAccountMo          qo = OrikaUtils.map(to, RacAccountMo.class);
+        final RacAccountMo qo = OrikaUtils.map(to, RacAccountMo.class);
         RacAccountNonDesensitizedMo mo = _mapper.selectByOne(qo).orElse(null);
         if (mo != null) {
             final RacAccountMo accountMo = OrikaUtils.map(mo, RacAccountMo.class);

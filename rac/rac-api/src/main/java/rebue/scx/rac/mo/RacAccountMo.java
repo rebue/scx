@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -27,7 +28,6 @@ import rebue.wheel.api.strategy.DesensitizeStrategy;
  * 账户
  *
  * @mbg.dontOverWriteAnnotation
- * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @JsonInclude(Include.NON_NULL)
@@ -89,7 +89,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 11, message = "登录手机的长度不能大于11")
-    @Desensitize(DesensitizeStrategy.MOBILE)
     private String            signInMobile;
 
     /**
@@ -98,14 +97,13 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 50, message = "登录邮箱的长度不能大于50")
-    @Desensitize(DesensitizeStrategy.EMAIL)
     private String            signInEmail;
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -236,7 +234,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public Long getId() {
         return id;
     }
@@ -246,7 +243,6 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -325,9 +321,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -337,9 +333,9 @@ public class RacAccountMo implements Serializable, Mo<Long> {
 
     /**
      * 登录密码(小写(MD5(小写(MD5(密码明文))+小写(密码组合码))))
-     * 注意：
-     * 1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
-     * 2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
+     *              注意：
+     *              1. 计算方法中的密码在前端传过来时推荐先进行md5序列化，以避免在密码传递过程中使用明码被截获
+     *              2. 密码组合码在生成密码时随机生成并保存下来，和密码组合起来使用，增加破解的难度
      *
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
@@ -670,8 +666,8 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
+        final int prime = 31;
+        int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
@@ -682,6 +678,7 @@ public class RacAccountMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
+    @JsonIgnore
     public String getIdType() {
         return "Long";
     }

@@ -20,6 +20,7 @@ import rebue.scx.oap.api.OapAuthLogApi;
 import rebue.scx.oap.mo.OapAuthLogMo;
 import rebue.scx.oap.to.OapAuthLogAddTo;
 import rebue.scx.oap.to.OapAuthLogModifyTo;
+import rebue.scx.oap.to.OapAuthLogOneTo;
 import rebue.scx.oap.to.OapAuthLogPageTo;
 
 /**
@@ -40,7 +41,6 @@ public class OapAuthLogCtrl {
      * 添加认证记录
      *
      * @param to 添加的具体信息
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/oap/auth-log")
@@ -52,7 +52,6 @@ public class OapAuthLogCtrl {
      * 修改认证记录的信息
      *
      * @param to 修改的具体数据
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/oap/auth-log")
@@ -64,7 +63,6 @@ public class OapAuthLogCtrl {
      * 删除认证记录
      *
      * @param id 认证记录ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/oap/auth-log")
@@ -73,10 +71,9 @@ public class OapAuthLogCtrl {
     }
 
     /**
-     * 获取单个认证记录的信息
+     * 通过ID获取单个认证记录的信息
      *
      * @param id 认证记录ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oap/auth-log/get-by-id")
@@ -88,7 +85,6 @@ public class OapAuthLogCtrl {
      * 判断认证记录是否存在
      *
      * @param id 认证记录ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oap/auth-log/exist-by-id")
@@ -100,7 +96,6 @@ public class OapAuthLogCtrl {
      * 查询认证记录的信息
      *
      * @param qo 查询的具体条件
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/oap/auth-log/page")
@@ -117,5 +112,17 @@ public class OapAuthLogCtrl {
     @GetMapping("/oap/auth-log/count-survey")
     public Mono<Ro<?>> countSurvey(final OapAuthLogPageTo qo) {
         return Mono.create(callback -> callback.success(api.countSurvey(qo)));
+    }
+
+    /**
+     * 通过条件获取单个认证记录的信息
+     *
+     * @param id 认证记录ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/oap/auth-log/get-one")
+    public Mono<Ro<PojoRa<OapAuthLogMo>>> getOne(final OapAuthLogOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

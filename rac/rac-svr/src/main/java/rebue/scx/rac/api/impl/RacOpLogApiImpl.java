@@ -25,8 +25,8 @@ import rebue.scx.rac.to.RacOpLogPageTo;
  */
 @DubboService
 public class RacOpLogApiImpl
-        extends BaseApiImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogSvc>
-        implements RacOpLogApi {
+    extends BaseApiImpl<java.lang.Long, RacOpLogAddTo, RacOpLogModifyTo, RacOpLogDelTo, RacOpLogOneTo, RacOpLogListTo, RacOpLogPageTo, RacOpLogMo, RacOpLogJo, RacOpLogSvc>
+    implements RacOpLogApi {
 
     /**
      * 账户概况

@@ -30,7 +30,7 @@ import rebue.scx.oap.to.OapAuthLogPageTo;
  */
 @Validated
 public interface OapAuthLogSvc
-        extends BaseSvc<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo> {
+    extends BaseSvc<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo> {
 
     Map<String, Long> countSurvey(OapAuthLogPageTo qo);
 }

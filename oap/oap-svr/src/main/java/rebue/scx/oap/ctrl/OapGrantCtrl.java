@@ -1,6 +1,7 @@
 package rebue.scx.oap.ctrl;
 
 import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
@@ -18,6 +20,7 @@ import rebue.scx.oap.api.OapGrantApi;
 import rebue.scx.oap.mo.OapGrantMo;
 import rebue.scx.oap.to.OapGrantAddTo;
 import rebue.scx.oap.to.OapGrantModifyTo;
+import rebue.scx.oap.to.OapGrantOneTo;
 import rebue.scx.oap.to.OapGrantPageTo;
 
 /**
@@ -68,7 +71,7 @@ public class OapGrantCtrl {
     }
 
     /**
-     * 获取单个三方应用账户信息的信息
+     * 通过ID获取单个三方应用账户信息的信息
      *
      * @param id 三方应用账户信息ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -98,5 +101,17 @@ public class OapGrantCtrl {
     @GetMapping("/oap/grant/page")
     public Mono<Ro<PageRa<OapGrantMo>>> page(final OapGrantPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个三方应用账户信息的信息
+     *
+     * @param id 三方应用账户信息ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/oap/grant/get-one")
+    public Mono<Ro<PojoRa<OapGrantMo>>> getOne(final OapGrantOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

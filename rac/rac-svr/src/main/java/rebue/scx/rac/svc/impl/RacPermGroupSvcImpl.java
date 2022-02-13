@@ -46,8 +46,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class RacPermGroupSvcImpl extends
-        BaseSvcImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao>
-        implements RacPermGroupSvc {
+    BaseSvcImpl<java.lang.Long, RacPermGroupAddTo, RacPermGroupModifyTo, RacPermGroupDelTo, RacPermGroupOneTo, RacPermGroupListTo, RacPermGroupPageTo, RacPermGroupMo, RacPermGroupJo, RacPermGroupMapper, RacPermGroupDao>
+    implements RacPermGroupSvc {
 
     /**
      * 本服务的单例
@@ -88,7 +88,7 @@ public class RacPermGroupSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public RacPermGroupMo add(final RacPermGroupAddTo to) {
-        final RacPermGroupMo    mo = OrikaUtils.map(to, getMoClass());
+        final RacPermGroupMo mo = OrikaUtils.map(to, getMoClass());
         final RacPermGroupOneTo qo = new RacPermGroupOneTo();
         qo.setRealmId(to.getRealmId());
         final Long count = getThisSvc().countSelective(qo);
@@ -103,8 +103,8 @@ public class RacPermGroupSvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final Long id) {
-        final RacPermGroupMo qo       = getById(id);
-        final int            rowCount = _mapper.deleteByPrimaryKey(id);
+        final RacPermGroupMo qo = getById(id);
+        final int rowCount = _mapper.deleteByPrimaryKey(id);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("删除记录异常，记录已不存在或有变动");
         }
@@ -122,7 +122,7 @@ public class RacPermGroupSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveUp(final RacPermGroupModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacPermGroupMo qo          = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermGroupMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         final RacPermGroupMo permGroupQo = new RacPermGroupMo();
         permGroupQo.setSeqNo((byte) (qo.getSeqNo() - 1));
         permGroupQo.setRealmId(qo.getRealmId());
@@ -144,7 +144,7 @@ public class RacPermGroupSvcImpl extends
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void moveDown(final RacPermGroupModifyTo to) {
         // 获取当前这条数据的具体数据
-        final RacPermGroupMo qo          = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
+        final RacPermGroupMo qo = _mapper.selectByPrimaryKey(to.getId()).orElseThrow(() -> new RuntimeExceptionX("该记录查找不到，或已经发生变动！"));
         // 获取当前这条数据下面一条的具体数据
         final RacPermGroupMo permGroupQo = new RacPermGroupMo();
         permGroupQo.setSeqNo((byte) (qo.getSeqNo() + 1));

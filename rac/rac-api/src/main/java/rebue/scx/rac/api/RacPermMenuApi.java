@@ -8,6 +8,7 @@ import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.to.RacPermMenuAddTo;
 import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
+import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
 import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
@@ -16,7 +17,7 @@ import rebue.scx.rac.to.ex.RacPermMenusAddTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacPermMenuApi extends BaseApi<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuPageTo, RacPermMenuMo> {
+public interface RacPermMenuApi extends BaseApi<java.lang.Long, RacPermMenuAddTo, RacPermMenuModifyTo, RacPermMenuOneTo, RacPermMenuPageTo, RacPermMenuMo> {
 
     /**
      * 查询权限菜单的信息

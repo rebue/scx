@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -144,11 +145,11 @@ public class RacDicItemMo implements Serializable, Mo<Long> {
         sb.append(", dicId=").append(dicId);
         sb.append(", orgId=").append(orgId);
         sb.append(", dicItemKey=").append(dicItemKey);
+        sb.append(", dicItemValue=").append(dicItemValue);
         sb.append(", name=").append(name);
         sb.append(", treeCode=").append(treeCode);
         sb.append(", updateDatetime=").append(updateDatetime);
         sb.append(", remark=").append(remark);
-        sb.append(", dicItemValue=").append(dicItemValue);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -189,6 +190,7 @@ public class RacDicItemMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
+    @JsonIgnore
     public String getIdType() {
         return "Long";
     }

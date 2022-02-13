@@ -6,6 +6,7 @@ import rebue.scx.rac.mo.RacPermMo;
 import rebue.scx.rac.ra.PermListWithGroupRa;
 import rebue.scx.rac.to.RacPermAddTo;
 import rebue.scx.rac.to.RacPermModifyTo;
+import rebue.scx.rac.to.RacPermOneTo;
 import rebue.scx.rac.to.RacPermPageTo;
 
 /**
@@ -13,7 +14,7 @@ import rebue.scx.rac.to.RacPermPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacPermApi extends BaseApi<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermPageTo, RacPermMo> {
+public interface RacPermApi extends BaseApi<java.lang.Long, RacPermAddTo, RacPermModifyTo, RacPermOneTo, RacPermPageTo, RacPermMo> {
 
     /**
      * 查询带分组的权限列表

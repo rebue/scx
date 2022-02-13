@@ -4,6 +4,7 @@ import rebue.robotech.api.BaseApi;
 import rebue.wxx.mo.WxxAppMo;
 import rebue.wxx.to.WxxAppAddTo;
 import rebue.wxx.to.WxxAppModifyTo;
+import rebue.wxx.to.WxxAppOneTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
@@ -11,5 +12,5 @@ import rebue.wxx.to.WxxAppPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface WxxAppApi extends BaseApi<java.lang.String, WxxAppAddTo, WxxAppModifyTo, WxxAppPageTo, WxxAppMo> {
+public interface WxxAppApi extends BaseApi<java.lang.String, WxxAppAddTo, WxxAppModifyTo, WxxAppOneTo, WxxAppPageTo, WxxAppMo> {
 }

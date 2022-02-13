@@ -30,6 +30,7 @@ import rebue.scx.etl.to.EtlConnPageTo;
  */
 @Validated
 public interface EtlConnSvc extends BaseSvc<java.lang.Long, EtlConnAddTo, EtlConnModifyTo, EtlConnDelTo, EtlConnOneTo, EtlConnListTo, EtlConnPageTo, EtlConnMo, EtlConnJo> {
+
     /**
      * 根据连接器ID查询表名
      *
@@ -39,7 +40,7 @@ public interface EtlConnSvc extends BaseSvc<java.lang.Long, EtlConnAddTo, EtlCon
 
     /**
      * 根据连接器ID和表名查询列名
-     * 
+     *
      * @param id        数据库连接器ID
      * @param tableName 表名
      */
@@ -47,9 +48,9 @@ public interface EtlConnSvc extends BaseSvc<java.lang.Long, EtlConnAddTo, EtlCon
 
     /**
      * 测试连接
-     * 
+     *
      * @param id 数据库连接器ID
-     * 
+     *
      * @return
      */
     Ro<BooleanRa> testConnectionById(Long id);

@@ -20,6 +20,7 @@ import rebue.wxx.api.WxxAppApi;
 import rebue.wxx.mo.WxxAppMo;
 import rebue.wxx.to.WxxAppAddTo;
 import rebue.wxx.to.WxxAppModifyTo;
+import rebue.wxx.to.WxxAppOneTo;
 import rebue.wxx.to.WxxAppPageTo;
 
 /**
@@ -70,7 +71,7 @@ public class WxxAppCtrl {
     }
 
     /**
-     * 获取单个APP的信息
+     * 通过ID获取单个APP的信息
      *
      * @param id APPID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,5 +101,17 @@ public class WxxAppCtrl {
     @GetMapping("/wxx/app/page")
     public Mono<Ro<PageRa<WxxAppMo>>> page(final WxxAppPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个APP的信息
+     *
+     * @param id APPID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/wxx/app/get-one")
+    public Mono<Ro<PojoRa<WxxAppMo>>> getOne(final WxxAppOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

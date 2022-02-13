@@ -64,8 +64,8 @@ import rebue.wheel.core.util.OrikaUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class EtlSyncStrategySvcImpl extends
-        BaseSvcImpl<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo, EtlSyncStrategyMapper, EtlSyncStrategyDao>
-        implements EtlSyncStrategySvc {
+    BaseSvcImpl<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo, EtlSyncStrategyMapper, EtlSyncStrategyDao>
+    implements EtlSyncStrategySvc {
 
     /**
      * 本服务的单例
@@ -76,8 +76,10 @@ public class EtlSyncStrategySvcImpl extends
     @Lazy
     @Resource
     private EtlSyncStrategySvc       thisSvc;
+
     @Resource
     private EtlSyncStrategyDetailSvc syncStrategyDetailSvc;
+
     @Resource
     private EtlConnSvc               connSvc;
 
@@ -103,7 +105,6 @@ public class EtlSyncStrategySvcImpl extends
 
     /**
      * 启用/禁用策略
-     *
      */
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
@@ -122,25 +123,23 @@ public class EtlSyncStrategySvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public EtlSyncStrategyMo add(EtlSyncStrategyAddTo to) {
-        final EtlSyncStrategyMo         mo              = OrikaUtils.map(to, EtlSyncStrategyMo.class);
+        final EtlSyncStrategyMo mo = OrikaUtils.map(to, EtlSyncStrategyMo.class);
         // 添加策略
-        EtlSyncStrategyMo               strategyMo      = thisSvc.addMo(mo);
+        EtlSyncStrategyMo strategyMo = thisSvc.addMo(mo);
         // 添加策略详情
-        String                          srcTableNames   = to.getSrcTableNames();
-        Map<String, Object>             srcMap          = JSON.parseObject(srcTableNames);
-        String                          dstTableNames   = to.getDstTableNames();
-        Map<String, Object>             dstMap          = JSON.parseObject(dstTableNames);
-        String                          srcDstMapString = to.getSrcDstMap();
-        JSONObject                      srcDstMap       = JSON.parseObject(srcDstMapString);
-
-        Iterator<Entry<String, Object>> srcDstIt        = srcDstMap.entrySet().iterator();
+        String srcTableNames = to.getSrcTableNames();
+        Map<String, Object> srcMap = JSON.parseObject(srcTableNames);
+        String dstTableNames = to.getDstTableNames();
+        Map<String, Object> dstMap = JSON.parseObject(dstTableNames);
+        String srcDstMapString = to.getSrcDstMap();
+        JSONObject srcDstMap = JSON.parseObject(srcDstMapString);
+        Iterator<Entry<String, Object>> srcDstIt = srcDstMap.entrySet().iterator();
         while (srcDstIt.hasNext()) {
-            Map.Entry<String, Object> srcDst        = srcDstIt.next();
-            List<String>              srcList       = JSON.parseArray(srcMap.get(srcDst.getKey()).toString(), String.class);
-            List<String>              dstList       = JSON.parseArray(dstMap.get(srcDst.getValue()).toString().toString(), String.class);
-            Map<String, String>       srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), srcDst.getKey());
-            Map<String, String>       dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), (String) srcDst.getValue());
-
+            Map.Entry<String, Object> srcDst = srcDstIt.next();
+            List<String> srcList = JSON.parseArray(srcMap.get(srcDst.getKey()).toString(), String.class);
+            List<String> dstList = JSON.parseArray(dstMap.get(srcDst.getValue()).toString().toString(), String.class);
+            Map<String, String> srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), srcDst.getKey());
+            Map<String, String> dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), (String) srcDst.getValue());
             if (srcList.size() == dstList.size()) {
                 for (int i = 0; i < srcList.size(); i++) {
                     EtlSyncStrategyDetailAddTo detaillAddTo = new EtlSyncStrategyDetailAddTo();
@@ -169,27 +168,25 @@ public class EtlSyncStrategySvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public EtlSyncStrategyMo modifyById(EtlSyncStrategyModifyTo to) {
-        EtlSyncStrategyMo          strategyMo = thisSvc.getById(to.getId());
+        EtlSyncStrategyMo strategyMo = thisSvc.getById(to.getId());
         // 先删除策略详情
-        EtlSyncStrategyDetailDelTo delTo      = new EtlSyncStrategyDetailDelTo();
+        EtlSyncStrategyDetailDelTo delTo = new EtlSyncStrategyDetailDelTo();
         delTo.setStrategyId(strategyMo.getId());
         syncStrategyDetailSvc.delSelective(delTo);
-
         // 后添加策略详情
-        String                          srcTableNames   = to.getSrcTableNames();
-        JSONObject                      srcMap          = JSON.parseObject(srcTableNames);
-        String                          dstTableNames   = to.getDstTableNames();
-        JSONObject                      dstMap          = JSON.parseObject(dstTableNames);
-        String                          srcDstMapString = to.getSrcDstMap();
-        JSONObject                      srcDstMap       = JSON.parseObject(srcDstMapString);
-        Iterator<Entry<String, Object>> srcDstIt        = srcDstMap.entrySet().iterator();
+        String srcTableNames = to.getSrcTableNames();
+        JSONObject srcMap = JSON.parseObject(srcTableNames);
+        String dstTableNames = to.getDstTableNames();
+        JSONObject dstMap = JSON.parseObject(dstTableNames);
+        String srcDstMapString = to.getSrcDstMap();
+        JSONObject srcDstMap = JSON.parseObject(srcDstMapString);
+        Iterator<Entry<String, Object>> srcDstIt = srcDstMap.entrySet().iterator();
         while (srcDstIt.hasNext()) {
-            Map.Entry<String, Object> srcDst        = srcDstIt.next();
-            List<String>              srcList       = JSON.parseArray(srcMap.get(srcDst.getKey()).toString(), String.class);
-            List<String>              dstList       = JSON.parseArray(dstMap.get(srcDst.getValue()).toString().toString(), String.class);
-            Map<String, String>       srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), srcDst.getKey());
-            Map<String, String>       dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), (String) srcDst.getValue());
-
+            Map.Entry<String, Object> srcDst = srcDstIt.next();
+            List<String> srcList = JSON.parseArray(srcMap.get(srcDst.getKey()).toString(), String.class);
+            List<String> dstList = JSON.parseArray(dstMap.get(srcDst.getValue()).toString().toString(), String.class);
+            Map<String, String> srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), srcDst.getKey());
+            Map<String, String> dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), (String) srcDst.getValue());
             if (srcList.size() == dstList.size()) {
                 for (int i = 0; i < srcList.size(); i++) {
                     EtlSyncStrategyDetailAddTo detaillAddTo = new EtlSyncStrategyDetailAddTo();
@@ -233,9 +230,9 @@ public class EtlSyncStrategySvcImpl extends
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(Long id) {
-        EtlSyncStrategyMo          strategyMo = thisSvc.getById(id);
+        EtlSyncStrategyMo strategyMo = thisSvc.getById(id);
         // 先删除策略详情
-        EtlSyncStrategyDetailDelTo delTo      = new EtlSyncStrategyDetailDelTo();
+        EtlSyncStrategyDetailDelTo delTo = new EtlSyncStrategyDetailDelTo();
         delTo.setStrategyId(strategyMo.getId());
         syncStrategyDetailSvc.delSelective(delTo);
         // 后删除策略
@@ -248,18 +245,18 @@ public class EtlSyncStrategySvcImpl extends
     @Override
     public EtlSyncStrategyMo getById(Long id) {
         // TODO Auto-generated method stub
-        EtlSyncStrategyMo           strategyMo = super.getById(id);
-        EtlSyncStrategyDetailListTo listTo     = new EtlSyncStrategyDetailListTo();
+        EtlSyncStrategyMo strategyMo = super.getById(id);
+        EtlSyncStrategyDetailListTo listTo = new EtlSyncStrategyDetailListTo();
         listTo.setStrategyId(strategyMo.getId());
-        List<EtlSyncStrategyDetailMo> list         = syncStrategyDetailSvc.list(listTo);
-        Map<String, Set<String>>      srcFieldsMap = new HashMap<String, Set<String>>();
-        Map<String, Set<String>>      dstFieldsMap = new HashMap<String, Set<String>>();
+        List<EtlSyncStrategyDetailMo> list = syncStrategyDetailSvc.list(listTo);
+        Map<String, Set<String>> srcFieldsMap = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> dstFieldsMap = new HashMap<String, Set<String>>();
         list.stream().map(item -> {
-            final Set<String>               srcFieldNames = new HashSet<>();
-            final Set<String>               dstFieldNames = new HashSet<>();
-            Map<String, String>             srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), item.getSrcTableName());
-            Map<String, String>             dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), item.getDstTableName());
-            Iterator<Entry<String, String>> srcIterator   = srcColumnsMap.entrySet().iterator();
+            final Set<String> srcFieldNames = new HashSet<>();
+            final Set<String> dstFieldNames = new HashSet<>();
+            Map<String, String> srcColumnsMap = this.getColumnsMapByTableName(strategyMo.getSrcConnId(), item.getSrcTableName());
+            Map<String, String> dstColumnsMap = this.getColumnsMapByTableName(strategyMo.getDstConnId(), item.getDstTableName());
+            Iterator<Entry<String, String>> srcIterator = srcColumnsMap.entrySet().iterator();
             while (srcIterator.hasNext()) {
                 srcFieldNames.add(srcIterator.next().getKey());
             }
@@ -271,7 +268,6 @@ public class EtlSyncStrategySvcImpl extends
             dstFieldsMap.put(item.getDstTableName(), dstFieldNames);
             return item;
         }).collect(Collectors.toList());
-
         strategyMo.setStrategyDetailList(list);
         // 获取数据库下的所有表名
         List<String> srcTableNames = this.getTableNames(strategyMo.getSrcConnId());
@@ -285,32 +281,28 @@ public class EtlSyncStrategySvcImpl extends
 
     /**
      * 获取数据库的所有表名
-     * 
+     *
      * @param connId 连接器ID
-     * 
      */
     private List<String> getTableNames(Long connId) {
-        EtlConnMo    ConnMo = connSvc.getById(connId);
-        String       url    = JdbcUtils.getUrl(ConnMo.getHost(), ConnMo.getPort(), ConnMo.getDbName(),
-                SqlDic.getItem(ConnMo.getDbType()).getDesc());
-        List<String> list   = JdbcUtils.getTables(url, ConnMo.getUserName(), ConnMo.getUserPswd());
+        EtlConnMo ConnMo = connSvc.getById(connId);
+        String url = JdbcUtils.getUrl(ConnMo.getHost(), ConnMo.getPort(), ConnMo.getDbName(), SqlDic.getItem(ConnMo.getDbType()).getDesc());
+        List<String> list = JdbcUtils.getTables(url, ConnMo.getUserName(), ConnMo.getUserPswd());
         return list;
     }
 
     /**
      * 获取表字段名以及对应字段类型
-     * 
+     *
      * @param connId    连接器ID
      * @param tableName 查询的表名
-     * 
+     *
      * @return 返回Map<字段名, 字段类型>
      */
     private Map<String, String> getColumnsMapByTableName(Long connId, String tableName) {
-        EtlConnMo           ConnMo     = connSvc.getById(connId);
-        String              url        = JdbcUtils.getUrl(ConnMo.getHost(), ConnMo.getPort(), ConnMo.getDbName(),
-                SqlDic.getItem(ConnMo.getDbType()).getDesc());
+        EtlConnMo ConnMo = connSvc.getById(connId);
+        String url = JdbcUtils.getUrl(ConnMo.getHost(), ConnMo.getPort(), ConnMo.getDbName(), SqlDic.getItem(ConnMo.getDbType()).getDesc());
         Map<String, String> columnsMap = JdbcUtils.getColumnsByTableName(url, ConnMo.getUserName(), ConnMo.getUserPswd(), tableName);
         return columnsMap;
     }
-
 }

@@ -13,11 +13,9 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 
 import lombok.extern.slf4j.Slf4j;
@@ -107,7 +105,7 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 }
                 log.info("JWT签名校验成功");
 
-                boolean skip = path.equals("/") || path.startsWith("/admin-web");
+                final boolean skip = path.equals("/") || path.startsWith("/admin-web");
                 if (!skip) {
                     log.info("获取可访问的链接列表");
                     final Long   accountId = JwtUtils.getJwtAccountIdFromSign(sign);
@@ -115,14 +113,14 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                     if (appId == null) {
                         throw new RuntimeExceptionX("在Headers中找不到应用ID");
                     }
-                    RacAppMo appMo = racAppApi.getById(appId).getExtra().getOne();
-                    boolean  flag  = accountMo.getRealmId().equals(appMo.getRealmId());
+                    final RacAppMo appMo = racAppApi.getById(appId).getExtra().getOne();
+                    final boolean  flag  = accountMo.getRealmId().equals(appMo.getRealmId());
                     if (!flag) {
-                        RacAccountOneTo oneTo = new RacAccountOneTo();
+                        final RacAccountOneTo oneTo = new RacAccountOneTo();
                         oneTo.setRealmId(appMo.getRealmId());
                         if (accountMo.getUnionId() != null) {
                             oneTo.setUnionId(accountMo.getUnionId());
-                            RacAccountMo oneMo = racAccountApi.getOne(oneTo);
+                            final RacAccountMo oneMo = racAccountApi.getOne(oneTo).getExtra().getOne();
                             accountMo = oneMo;
                         }
                         else {
@@ -159,8 +157,8 @@ public class JwtPreGatewayFilterFactory extends AbstractGatewayFilterFactory<Jwt
                 }
 
                 log.info("延长JWT签名时效");
-                final ServerHttpResponse                    response        = exchange.getResponse();
-                final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
+                final ServerHttpResponse response = exchange.getResponse();
+                // final MultiValueMap<String, ResponseCookie> responseCookies = response.getCookies();
 
                 CookieUtils.setCookie(response, JwtUtils.JWT_TOKEN_NAME, verifyRo.getSign(),
                         Duration.between(LocalDateTime.now(), verifyRo.getExpirationTime()).get(ChronoUnit.SECONDS), "/", false);

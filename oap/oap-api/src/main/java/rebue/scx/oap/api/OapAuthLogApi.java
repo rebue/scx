@@ -5,6 +5,7 @@ import rebue.robotech.ro.Ro;
 import rebue.scx.oap.mo.OapAuthLogMo;
 import rebue.scx.oap.to.OapAuthLogAddTo;
 import rebue.scx.oap.to.OapAuthLogModifyTo;
+import rebue.scx.oap.to.OapAuthLogOneTo;
 import rebue.scx.oap.to.OapAuthLogPageTo;
 
 /**
@@ -12,7 +13,7 @@ import rebue.scx.oap.to.OapAuthLogPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface OapAuthLogApi extends BaseApi<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogPageTo, OapAuthLogMo> {
+public interface OapAuthLogApi extends BaseApi<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogOneTo, OapAuthLogPageTo, OapAuthLogMo> {
 
     Ro<?> countSurvey(OapAuthLogPageTo qo);
 }

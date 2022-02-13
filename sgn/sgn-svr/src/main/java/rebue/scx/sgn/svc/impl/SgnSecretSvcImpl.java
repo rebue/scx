@@ -50,15 +50,15 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
- *
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 @CacheConfig(cacheNames = CacheCo.SECRET_CACHE_NAME)
 public class SgnSecretSvcImpl extends
-    BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
-    implements SgnSecretSvc, ApplicationListener<ApplicationReadyEvent> {
+        BaseSvcImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretMapper, SgnSecretDao>
+        implements SgnSecretSvc, ApplicationListener<ApplicationReadyEvent> {
 
     /**
      * 本服务的单例
@@ -115,7 +115,6 @@ public class SgnSecretSvcImpl extends
     @Override
     @CacheEvict(allEntries = true)
     public void delCacheAll() {
-
     }
 
     /**
@@ -155,5 +154,4 @@ public class SgnSecretSvcImpl extends
     public SgnSecretMo getById(final Long id) {
         return super.getById(id);
     }
-
 }

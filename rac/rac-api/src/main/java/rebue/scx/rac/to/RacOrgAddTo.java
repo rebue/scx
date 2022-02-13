@@ -29,12 +29,11 @@ public class RacOrgAddTo implements Serializable {
 
     /**
      * 组织ID
-     *
      */
     private Long              id;
+
     /**
      * 树编码
-     *
      */
     @Length(max = 50, message = "树编码的长度不能大于50")
     private String            treeCode;

@@ -20,6 +20,7 @@ import rebue.scx.sgn.api.SgnSecretApi;
 import rebue.scx.sgn.mo.SgnSecretMo;
 import rebue.scx.sgn.to.SgnSecretAddTo;
 import rebue.scx.sgn.to.SgnSecretModifyTo;
+import rebue.scx.sgn.to.SgnSecretOneTo;
 import rebue.scx.sgn.to.SgnSecretPageTo;
 
 /**
@@ -70,7 +71,7 @@ public class SgnSecretCtrl {
     }
 
     /**
-     * 获取单个签名密钥的信息
+     * 通过ID获取单个签名密钥的信息
      *
      * @param id 签名密钥ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,5 +101,17 @@ public class SgnSecretCtrl {
     @GetMapping("/sgn/secret/page")
     public Mono<Ro<PageRa<SgnSecretMo>>> page(final SgnSecretPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个签名密钥的信息
+     *
+     * @param id 签名密钥ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/sgn/secret/get-one")
+    public Mono<Ro<PojoRa<SgnSecretMo>>> getOne(final SgnSecretOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

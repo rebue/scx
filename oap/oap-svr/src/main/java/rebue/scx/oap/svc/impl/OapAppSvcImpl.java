@@ -127,41 +127,37 @@ public class OapAppSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public OapAppMo add(OapAppAddTo to) {
+    public OapAppMo add(final OapAppAddTo to) {
         final OapAppMo mo = OrikaUtils.map(to, OapAppMo.class);
         mo.setCreateTimestamp(System.currentTimeMillis());
         mo.setUpdateTimestamp(System.currentTimeMillis());
-        OapAppMo            amo   = thisSvc.addMo(mo);
-        final OapAppMoEx    addMo = OrikaUtils.map(amo, OapAppMoEx.class);
+        final OapAppMo            amo   = thisSvc.addMo(mo);
+        final OapAppMoEx          addMo = OrikaUtils.map(amo, OapAppMoEx.class);
         // 添加关联白名单IP
-        OapIpWhiteListAddTo ipTo  = new OapIpWhiteListAddTo();
+        final OapIpWhiteListAddTo ipTo  = new OapIpWhiteListAddTo();
         ipTo.setAppId(addMo.getId());
-        ipTo.setCreateTimestamp(System.currentTimeMillis());
-        ipTo.setUpdateTimestamp(System.currentTimeMillis());
-        List<String> ipList = new ArrayList<String>();
-        for (String ip : to.getIpAddrs()) {
+        final List<String> ipList = new ArrayList<>();
+        for (final String ip : to.getIpAddrs()) {
             ipTo.setIpAddr(ip);
-            OapIpWhiteListMo ipMo = oapIpWhiteListSvc.add(ipTo);
+            final OapIpWhiteListMo ipMo = oapIpWhiteListSvc.add(ipTo);
             ipList.add(ipMo.getIpAddr());
         }
         // 添加关联重定向地址
-        OapRedirectUriAddTo uriTo = new OapRedirectUriAddTo();
+        final OapRedirectUriAddTo uriTo = new OapRedirectUriAddTo();
         uriTo.setAppId(addMo.getId());
-        uriTo.setCreateTimestamp(System.currentTimeMillis());
-        uriTo.setUpdateTimestamp(System.currentTimeMillis());
-        List<String> uriList = new ArrayList<String>();
-        for (String uri : to.getRedirectUris()) {
+        final List<String> uriList = new ArrayList<>();
+        for (final String uri : to.getRedirectUris()) {
             uriTo.setRedirectUri(uri);
-            OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
+            final OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
             uriList.add(uriMo.getRedirectUri());
         }
         addMo.setIpAddrs(ipList);
         addMo.setRedirectUris(uriList);
-        RacAppModifyTo modfiy = new RacAppModifyTo();
+        final RacAppModifyTo modfiy = new RacAppModifyTo();
         modfiy.setId(to.getAppId());
         modfiy.setIsCertified(true);
         modfiy.setAuthnType(to.getAuthnType());
-        Ro<?> mod = racAppApi.oapModifyById(modfiy);
+        final Ro<?> mod = racAppApi.oapModifyById(modfiy);
         if (mod.getResult().getCode() != 1) {
             throw new RuntimeExceptionX("添加记录异常");
         }
@@ -170,7 +166,7 @@ public class OapAppSvcImpl
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public OapAppMo addMo(OapAppMo mo) {
+    public OapAppMo addMo(final OapAppMo mo) {
         // 如果id为空那么自动生成分布式id
         if (mo.getId() == null || mo.getId() == 0) {
             mo.setId(_idWorker.getId());
@@ -198,50 +194,46 @@ public class OapAppSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public OapAppMo modifyById(OapAppModifyTo to) {
+    public OapAppMo modifyById(final OapAppModifyTo to) {
         final OapAppMo mo = OrikaUtils.map(to, OapAppMo.class);
         // 固定关联rac_app主键，不可修改
         mo.setAppId(null);
-        OapAppMo            modifyMoById = thisSvc.modifyMoById(mo);
+        final OapAppMo            modifyMoById = thisSvc.modifyMoById(mo);
         // 先删除
-        OapIpWhiteListDelTo ipDelTo      = new OapIpWhiteListDelTo();
+        final OapIpWhiteListDelTo ipDelTo      = new OapIpWhiteListDelTo();
         ipDelTo.setAppId(modifyMoById.getId());
         oapIpWhiteListSvc.delSelective(ipDelTo);
-        OapRedirectUriDelTo uriDelTo = new OapRedirectUriDelTo();
+        final OapRedirectUriDelTo uriDelTo = new OapRedirectUriDelTo();
         uriDelTo.setAppId(modifyMoById.getId());
         oapRedirectUriSvc.delSelective(uriDelTo);
         // 后添加
         // 添加关联白名单IP
-        OapIpWhiteListAddTo ipTo = new OapIpWhiteListAddTo();
+        final OapIpWhiteListAddTo ipTo = new OapIpWhiteListAddTo();
         ipTo.setAppId(modifyMoById.getId());
-        ipTo.setCreateTimestamp(System.currentTimeMillis());
-        ipTo.setUpdateTimestamp(System.currentTimeMillis());
-        List<String> ipList = new ArrayList<String>();
-        for (String ip : to.getIpAddrs()) {
+        final List<String> ipList = new ArrayList<>();
+        for (final String ip : to.getIpAddrs()) {
             ipTo.setIpAddr(ip);
-            OapIpWhiteListMo ipMo = oapIpWhiteListSvc.add(ipTo);
+            final OapIpWhiteListMo ipMo = oapIpWhiteListSvc.add(ipTo);
             ipList.add(ipMo.getIpAddr());
         }
         // 添加关联重定向地址
-        OapRedirectUriAddTo uriTo = new OapRedirectUriAddTo();
+        final OapRedirectUriAddTo uriTo = new OapRedirectUriAddTo();
         uriTo.setAppId(modifyMoById.getId());
-        uriTo.setCreateTimestamp(System.currentTimeMillis());
-        uriTo.setUpdateTimestamp(System.currentTimeMillis());
-        List<String> uriList = new ArrayList<String>();
-        for (String uri : to.getRedirectUris()) {
+        final List<String> uriList = new ArrayList<>();
+        for (final String uri : to.getRedirectUris()) {
             uriTo.setRedirectUri(uri);
-            OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
+            final OapRedirectUriMo uriMo = oapRedirectUriSvc.add(uriTo);
             uriList.add(uriMo.getRedirectUri());
         }
         final OapAppMoEx moEx = OrikaUtils.map(to, OapAppMoEx.class);
         moEx.setIpAddrs(ipList);
         moEx.setRedirectUris(uriList);
         if (to.getAuthnType() != null) {
-            RacAppModifyTo modfiy = new RacAppModifyTo();
+            final RacAppModifyTo modfiy = new RacAppModifyTo();
             modfiy.setId(to.getAppId());
             modfiy.setIsCertified(to.getAuthnType().equals(0) ? false : true);
             modfiy.setAuthnType(to.getAuthnType());
-            Ro<?> mod = racAppApi.oapModifyById(modfiy);
+            final Ro<?> mod = racAppApi.oapModifyById(modfiy);
             if (mod.getResult().getCode() != 1) {
                 throw new RuntimeExceptionX("修改记录异常");
             }
@@ -251,7 +243,7 @@ public class OapAppSvcImpl
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public OapAppMo modifyMoById(OapAppMo mo) {
+    public OapAppMo modifyMoById(final OapAppMo mo) {
         final int rowCount = _mapper.updateByPrimaryKeySelective(mo);
         if (rowCount == 0) {
             throw new RuntimeExceptionX("修改记录异常，记录已不存在或有变动");
@@ -260,7 +252,7 @@ public class OapAppSvcImpl
             throw new RuntimeExceptionX("修改记录异常，影响行数为" + rowCount);
         }
         // XXX 注意这里是this，而不是getThisSvc()，这是避免使用到了缓存
-        return this.getById(mo.getId());
+        return getById(mo.getId());
     }
 
     /**
@@ -272,13 +264,13 @@ public class OapAppSvcImpl
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void delById(Long id) {
+    public void delById(final Long id) {
         // 先删除依赖
-        OapAppMo            appMo   = thisSvc.getById(id);
-        OapIpWhiteListDelTo ipDelTo = new OapIpWhiteListDelTo();
+        final OapAppMo            appMo   = thisSvc.getById(id);
+        final OapIpWhiteListDelTo ipDelTo = new OapIpWhiteListDelTo();
         ipDelTo.setAppId(id);
         oapIpWhiteListSvc.delSelective(ipDelTo);
-        OapRedirectUriDelTo uriDelTo = new OapRedirectUriDelTo();
+        final OapRedirectUriDelTo uriDelTo = new OapRedirectUriDelTo();
         uriDelTo.setAppId(id);
         oapRedirectUriSvc.delSelective(uriDelTo);
         // 后删除主表
@@ -289,11 +281,11 @@ public class OapAppSvcImpl
         if (rowCount != 1) {
             throw new RuntimeExceptionX("已产生业务数据，不允许删除" + rowCount);
         }
-        RacAppModifyTo modfiy = new RacAppModifyTo();
+        final RacAppModifyTo modfiy = new RacAppModifyTo();
         modfiy.setId(appMo.getAppId());
         modfiy.setIsCertified(false);
         modfiy.setAuthnType((byte) 0);
-        Ro<?> mod = racAppApi.oapModifyById(modfiy);
+        final Ro<?> mod = racAppApi.oapModifyById(modfiy);
         if (mod.getResult().getCode() != 1) {
             throw new RuntimeExceptionX("删除记录异常");
         }
@@ -305,26 +297,26 @@ public class OapAppSvcImpl
      * @param id 通过rac_app的ID关联查询
      */
     @Override
-    public Ro<?> getByAppId(String id) {
-        OapAppOneTo oneTo = new OapAppOneTo();
+    public Ro<?> getByAppId(final String id) {
+        final OapAppOneTo oneTo = new OapAppOneTo();
         oneTo.setAppId(id);
-        OapAppMo             one = thisSvc.getOne(oneTo);
-        Ro<PojoRa<RacAppMo>> ro  = racAppApi.getById(id);
+        final OapAppMo             one = thisSvc.getOne(oneTo);
+        final Ro<PojoRa<RacAppMo>> ro  = racAppApi.getById(id);
         if (one == null) {
-            OapAppMo mo = new OapAppMo();
+            final OapAppMo mo = new OapAppMo();
             // 相关连的rac应用信息
             mo.setRacAppMo(ro.getExtra().getOne());
             mo.setClientId("uiap" + _idWorker.getIdStr());
             mo.setSecret(RandomEx.randomUUID());
-            return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", mo);
+            return new Ro<>(ResultDic.SUCCESS, "查询成功", mo);
         }
         final OapAppMoEx oneMo = OrikaUtils.map(one, OapAppMoEx.class);
         // 相关连的rac应用信息
         oneMo.setRacAppMo(ro.getExtra().getOne());
         // 查询白名单IP
-        oneMo.setIpAddrs(this.getIpApprs(oneMo.getId()));
+        oneMo.setIpAddrs(getIpApprs(oneMo.getId()));
         // 查询重定向地址
-        oneMo.setRedirectUris(this.getUris(oneMo.getId()));
+        oneMo.setRedirectUris(getUris(oneMo.getId()));
         oneMo.setSecret(null);
         return new Ro<OapAppMo>(ResultDic.SUCCESS, "查询成功", oneMo);
     }
@@ -335,11 +327,11 @@ public class OapAppSvcImpl
      * @param qo 查询的具体条件(查询所有，及条件为空)
      */
     @Override
-    public Ro<OapAppListAndRacAppListRa> listAndTripartite(OapAppListTo qo) {
+    public Ro<OapAppListAndRacAppListRa> listAndTripartite(final OapAppListTo qo) {
         final OapAppListAndRacAppListRa ra         = new OapAppListAndRacAppListRa();
         final Long                      accountId  = qo.getAccountId();
         final RacAccountMo              accountMo  = racAccountApi.getById(accountId).getExtra().getOne();
-        List<Long>                      accountIds = new ArrayList<Long>();
+        List<Long>                      accountIds = new ArrayList<>();
         if (accountMo.getUnionId() != null) {
             // 存在映射帐号则一起查询拥有的应用
             accountIds = racAccountApi.getAccountByUnionId(accountMo.getUnionId()).getExtra().getList().stream().map(RacAccountMo::getId).collect(Collectors.toList());
@@ -348,17 +340,17 @@ public class OapAppSvcImpl
             // 不存在映射帐号则查询当前账户拥有的应用
             accountIds.add(accountId);
         }
-        List<String>   appIds     = new ArrayList<String>();
+        final List<String>   appIds     = new ArrayList<>();
         // 查询应用
-        List<RacAppMo> racAppList = racAppApi.selectAppByAccountIds(accountIds).getExtra().getList().stream().map(item -> {
-                                      item.setMenu(null);
-                                      appIds.add(item.getId());
-                                      return item;
-                                  }).collect(Collectors.toList());
+        final List<RacAppMo> racAppList = racAppApi.selectAppByAccountIds(accountIds).getExtra().getList().stream().map(item -> {
+                                            item.setMenu(null);
+                                            appIds.add(item.getId());
+                                            return item;
+                                        }).collect(Collectors.toList());
         ra.setRacAppList(racAppList);
         // 查询认证应用
         if (appIds.size() > 0) {
-            List<OapAppMo> oapAppList = thisSvc.listInAppIdList(appIds).stream().map(item -> {
+            final List<OapAppMo> oapAppList = thisSvc.listInAppIdList(appIds).stream().map(item -> {
                 // OapAppMoEx moEx = OrikaUtils.map(item, OapAppMoEx.class);
                 // moEx.setIpAddrs(this.getIpApprs(item.getId()));
                 // moEx.setRedirectUris(this.getUris(item.getId()));
@@ -367,17 +359,17 @@ public class OapAppSvcImpl
                 return item;
             }).collect(Collectors.toList());
             ra.setOapAppList(oapAppList);
-            List<RacAppTagMo> racAppLabelList = racAppApi.listInAppIdList(appIds).getExtra().getList();
+            final List<RacAppTagMo> racAppLabelList = racAppApi.listInAppIdList(appIds).getExtra().getList();
             ra.setRacAppLabelList(racAppLabelList);
         }
-        return new Ro<OapAppListAndRacAppListRa>(ResultDic.SUCCESS, "查询成功", ra);
+        return new Ro<>(ResultDic.SUCCESS, "查询成功", ra);
     }
 
     /**
      * 根据应用ID查询对应的认证信息
      */
     @Override
-    public List<OapAppMo> listInAppIdList(List<String> appIds) {
+    public List<OapAppMo> listInAppIdList(final List<String> appIds) {
         return _mapper.listInAppIdList(appIds);
     }
 
@@ -388,7 +380,7 @@ public class OapAppSvcImpl
      *
      * @return
      */
-    private List<String> getIpApprs(Long appId) {
+    private List<String> getIpApprs(final Long appId) {
         final OapIpWhiteListListTo ipOne = new OapIpWhiteListListTo();
         ipOne.setAppId(appId);
         final List<String> ipApprs = oapIpWhiteListSvc.list(ipOne).stream().map(ip -> {
@@ -404,7 +396,7 @@ public class OapAppSvcImpl
      *
      * @return
      */
-    private List<String> getUris(Long appId) {
+    private List<String> getUris(final Long appId) {
         final OapRedirectUriListTo uriOne = new OapRedirectUriListTo();
         uriOne.setAppId(appId);
         final List<String> uris = oapRedirectUriSvc.list(uriOne).stream().map(uri -> {

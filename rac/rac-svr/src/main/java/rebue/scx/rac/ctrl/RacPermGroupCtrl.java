@@ -21,6 +21,7 @@ import rebue.scx.rac.api.RacPermGroupApi;
 import rebue.scx.rac.mo.RacPermGroupMo;
 import rebue.scx.rac.to.RacPermGroupAddTo;
 import rebue.scx.rac.to.RacPermGroupModifyTo;
+import rebue.scx.rac.to.RacPermGroupOneTo;
 import rebue.scx.rac.to.RacPermGroupPageTo;
 
 /**
@@ -77,7 +78,7 @@ public class RacPermGroupCtrl {
     }
 
     /**
-     * 获取单个权限分组的信息
+     * 通过ID获取单个权限分组的信息
      *
      * @param id 权限分组ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -149,5 +150,17 @@ public class RacPermGroupCtrl {
     @PostMapping("/rac/perm-group/disable")
     public Mono<Ro<?>> disable(@RequestBody final RacPermGroupModifyTo qo) {
         return Mono.create(callback -> callback.success(api.disable(qo)));
+    }
+
+    /**
+     * 通过条件获取单个权限分组的信息
+     *
+     * @param id 权限分组ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/perm-group/get-one")
+    public Mono<Ro<PojoRa<RacPermGroupMo>>> getOne(final RacPermGroupOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

@@ -22,6 +22,7 @@ import rebue.scx.rac.mo.RacDicMo;
 import rebue.scx.rac.ra.DicListWithItemRa;
 import rebue.scx.rac.to.RacDicAddTo;
 import rebue.scx.rac.to.RacDicModifyTo;
+import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
 
@@ -98,7 +99,7 @@ public class RacDicCtrl {
     }
 
     /**
-     * 获取单个字典的信息
+     * 通过ID获取单个字典的信息
      *
      * @param id 字典ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -127,5 +128,17 @@ public class RacDicCtrl {
     @GetMapping("/rac/dic/exist-by-id")
     public Mono<Ro<BooleanRa>> existById(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.existById(id)));
+    }
+
+    /**
+     * 通过条件获取单个字典的信息
+     *
+     * @param id 字典ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/dic/get-one")
+    public Mono<Ro<PojoRa<RacDicMo>>> getOne(final RacDicOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

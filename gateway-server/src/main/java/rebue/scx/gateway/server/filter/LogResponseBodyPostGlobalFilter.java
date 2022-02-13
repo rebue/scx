@@ -1,8 +1,12 @@
 package rebue.scx.gateway.server.filter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -19,19 +23,17 @@ import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rebue.scx.gateway.server.co.CachedKeyCo;
 import rebue.scx.gateway.server.co.GatewayServerCo;
 import rebue.scx.gateway.server.pub.RrlPub;
 import rebue.scx.rrl.to.RrlRespLogAddTo;
-import rebue.wheel.core.LocalDateTimeUtils;
-
-import javax.annotation.Resource;
-import java.nio.charset.Charset;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * 记录响应包括Body在内的详细信息
@@ -44,12 +46,12 @@ import java.time.format.DateTimeFormatter;
 public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
 
     @Resource
-    private RrlPub                                 rrlPub;
+    private RrlPub                         rrlPub;
 
     @Resource
-    private ObjectMapper                           objectMapper;
+    private ObjectMapper                   objectMapper;
 
-    private static final DateTimeFormatter         _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private static final DateTimeFormatter _dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     /**
      * 注意我开始使用@Order注解没有起作用，所以以实现Ordered接口的方式设置最高的优先级
@@ -83,43 +85,43 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
                     log.debug("准备响应，要解析Body记录日志，Body是Flux");
                     final Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
                     return super.writeWith(fluxBody.map(//
-                        dataBuffer -> {
-                            // probably should reuse buffers
-                            final byte[] content = new byte[dataBuffer.readableByteCount()];
-                            dataBuffer.read(content);
-                            // 释放掉内存
-                            DataBufferUtils.release(dataBuffer);
+                            dataBuffer -> {
+                                // probably should reuse buffers
+                                final byte[] content = new byte[dataBuffer.readableByteCount()];
+                                dataBuffer.read(content);
+                                // 释放掉内存
+                                DataBufferUtils.release(dataBuffer);
 
-                            String bodyString = null;
-                            if (content != null && content.length > 0) {
-                                bodyString = new String(content, Charset.forName("UTF-8"));
-                            }
-                            log.debug("Body解析完成");
+                                String bodyString = null;
+                                if (content != null && content.length > 0) {
+                                    bodyString = new String(content, Charset.forName("UTF-8"));
+                                }
+                                log.debug("Body解析完成");
 
-                            final HttpStatus                        responseStatusCode = originalResponse.getStatusCode();
-                            final HttpHeaders                       responseHeaders    = originalResponse.getHeaders();
-                            final MultiValueMap<String, ResponseCookie> responseCookies = originalResponse.getCookies();
+                                final HttpStatus                    responseStatusCode = originalResponse.getStatusCode();
+                                final HttpHeaders                   responseHeaders    = originalResponse.getHeaders();
+                                final MultiValueMap<String, ResponseCookie> responseCookies = originalResponse.getCookies();
 
-                            // 获取会话ID
-                            final Long      sessionId          = exchange.getAttribute(CachedKeyCo.SESSION_ID);
-                            // 获取请求时间
-                            final LocalDateTime requestTime    = exchange.getAttribute(CachedKeyCo.REQUEST_TIME);
-                            final String    requestTimeString  = _dateTimeFormatter.format(requestTime);
-                            // 当前响应时间
-                            final LocalDateTime responseTime   = LocalDateTime.now();
-                            final String    responseTimeString = _dateTimeFormatter.format(responseTime);
-                            // 处理耗时(毫秒)
-                            final Long      spendMillis        = Duration.between(requestTime, responseTime).toMillis();
+                                // 获取会话ID
+                                final Long  sessionId          = exchange.getAttribute(CachedKeyCo.SESSION_ID);
+                                // 获取请求时间
+                                final LocalDateTime requestTime = exchange.getAttribute(CachedKeyCo.REQUEST_TIME);
+                                final String requestTimeString = _dateTimeFormatter.format(requestTime);
+                                // 当前响应时间
+                                final LocalDateTime responseTime = LocalDateTime.now();
+                                final String responseTimeString = _dateTimeFormatter.format(responseTime);
+                                // 处理耗时(毫秒)
+                                final Long  spendMillis        = Duration.between(requestTime, responseTime).toMillis();
 
-                            // 记录文件日志
-                            logFile(responseStatusCode, responseHeaders, sessionId, requestTimeString, responseTimeString,
-                                spendMillis, responseCookies, bodyString);
+                                // 记录文件日志
+                                logFile(responseStatusCode, responseHeaders, sessionId, requestTimeString, responseTimeString,
+                                        spendMillis, responseCookies, bodyString);
 
-                            // 记录数据库日志
-                            logRrl(responseStatusCode, responseHeaders, sessionId, responseTime, responseCookies, bodyString);
+                                // 记录数据库日志
+                                logRrl(responseStatusCode, responseHeaders, sessionId, responseTime, responseCookies, bodyString);
 
-                            return bufferFactory.wrap(content);
-                        }));
+                                return bufferFactory.wrap(content);
+                            }));
                 }
                 // if body is not a flux. never got there.
                 log.warn("Body不是Flux，有这个可能吗？");
@@ -133,7 +135,7 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
      * 记录文件日志
      */
     private void logFile(final HttpStatus responseStatusCode, final HttpHeaders responseHeaders, final Long sessionId, final String requestTimeString,
-                         final String responseTimeString, final Long spendMillis, final MultiValueMap<String, ResponseCookie> responseCookies, final String bodyString) {
+            final String responseTimeString, final Long spendMillis, final MultiValueMap<String, ResponseCookie> responseCookies, final String bodyString) {
         // 文件日志
         final StringBuilder sb = new StringBuilder();
         sb.append("请求处理完成，准备响应!!!\r\n======================= 请求及响应详情 =======================\r\n");
@@ -151,16 +153,16 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
         if (responseHeaders != null && !responseHeaders.isEmpty()) {
             sb.append("\r\n* 响应Headers:");
             responseHeaders.forEach(
-                (name, values) -> {
-                    values.forEach(value -> sb.append("\r\n*    ").append(name).append(":").append(value));
-                });
+                    (name, values) -> {
+                        values.forEach(value -> sb.append("\r\n*    ").append(name).append(":").append(value));
+                    });
         }
         if (responseCookies != null && !responseCookies.isEmpty()) {
             sb.append("\r\n* 响应Cookies:");
             responseCookies.forEach(
-                (name, values) -> {
-                    values.forEach(value -> sb.append("\r\n*    ").append(name).append(":").append(value));
-                });
+                    (name, values) -> {
+                        values.forEach(value -> sb.append("\r\n*    ").append(name).append(":").append(value));
+                    });
         }
         if (StringUtils.isNotBlank(bodyString)) {
             sb.append("\r\n* 响应主体:\r\n");
@@ -168,7 +170,7 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
             String jsonText = null;
             try {
                 jsonText = objectMapper.writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
+                        .writeValueAsString(objectMapper.readValue(bodyString, Object.class));
                 jsonText = "*    " + jsonText.replaceAll("\n", "\n*    ");
             } catch (final JsonProcessingException e) {
                 jsonText = "*    " + bodyString;
@@ -176,8 +178,8 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
             sb.append(jsonText);
         }
         sb.append(StringUtils.rightPad(
-            "\r\n===================================================================================",
-            100));
+                "\r\n===================================================================================",
+                100));
         log.info(sb.toString());
     }
 
@@ -185,7 +187,7 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
      * 记录数据库日志
      */
     private void logRrl(final HttpStatus responseStatusCode, final HttpHeaders responseHeaders, final Long sessionId,
-                        final LocalDateTime responseTime, final MultiValueMap<String, ResponseCookie> responseCookies, final String bodyString) {
+            final LocalDateTime responseTime, final MultiValueMap<String, ResponseCookie> responseCookies, final String bodyString) {
         // 数据库日志
         // 构造消息对象
         final RrlRespLogAddTo to = new RrlRespLogAddTo();
@@ -199,7 +201,6 @@ public class LogResponseBodyPostGlobalFilter implements GlobalFilter, Ordered {
         if (StringUtils.isNotBlank(bodyString)) {
             to.setBody(bodyString);
         }
-        to.setCreateTimestamp(LocalDateTimeUtils.getMillis(responseTime));
         rrlPub.addRespLog(to);
     }
 }

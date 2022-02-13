@@ -13,6 +13,7 @@ import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.rrl.api.RrlReqLogApi;
 import rebue.scx.rrl.mo.RrlReqLogMo;
+import rebue.scx.rrl.to.RrlReqLogOneTo;
 import rebue.scx.rrl.to.RrlReqLogPageTo;
 
 /**
@@ -31,7 +32,7 @@ public class RrlReqLogCtrl {
     private RrlReqLogApi api;
 
     /**
-     * 获取单个请求日志的信息
+     * 通过ID获取单个请求日志的信息
      *
      * @param id 请求日志ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -61,5 +62,17 @@ public class RrlReqLogCtrl {
     @GetMapping("/rrl/req-log/page")
     public Mono<Ro<PageRa<RrlReqLogMo>>> page(final RrlReqLogPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个请求日志的信息
+     *
+     * @param id 请求日志ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rrl/req-log/get-one")
+    public Mono<Ro<PojoRa<RrlReqLogMo>>> getOne(final RrlReqLogOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

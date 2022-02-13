@@ -45,16 +45,16 @@ public class RacOpLogSub {
             key = RacAmpqCo.ADD_OP_LOG), //
             ackMode = "AUTO")
     public void addOpLog(final RacOpLogAddTo to) {
-        Long         accountId = to.getAccountId();
-        RacAccountMo accountMo = racAccountApi.getById(accountId).getExtra().getOne();
-        RacAppMo     appMo     = racAppApi.getById(to.getAppId()).getExtra().getOne();
-        boolean      flag      = accountMo.getRealmId().equals(appMo.getRealmId());
+        Long           accountId = to.getAccountId();
+        RacAccountMo   accountMo = racAccountApi.getById(accountId).getExtra().getOne();
+        final RacAppMo appMo     = racAppApi.getById(to.getAppId()).getExtra().getOne();
+        final boolean  flag      = accountMo.getRealmId().equals(appMo.getRealmId());
         if (!flag) {
-            RacAccountOneTo oneTo = new RacAccountOneTo();
+            final RacAccountOneTo oneTo = new RacAccountOneTo();
             oneTo.setRealmId(appMo.getRealmId());
             if (accountMo.getUnionId() != null) {
                 oneTo.setUnionId(accountMo.getUnionId());
-                RacAccountMo oneMo = racAccountApi.getOne(oneTo);
+                final RacAccountMo oneMo = racAccountApi.getOne(oneTo).getExtra().getOne();
                 accountMo = oneMo;
                 accountId = accountMo.getId();
                 to.setAccountId(accountId);

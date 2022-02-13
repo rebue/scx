@@ -22,6 +22,7 @@ import rebue.scx.rac.api.RacRealmApi;
 import rebue.scx.rac.mo.RacRealmMo;
 import rebue.scx.rac.to.RacRealmAddTo;
 import rebue.scx.rac.to.RacRealmModifyTo;
+import rebue.scx.rac.to.RacRealmOneTo;
 import rebue.scx.rac.to.RacRealmPageTo;
 
 /**
@@ -78,7 +79,7 @@ public class RacRealmCtrl {
     }
 
     /**
-     * 获取单个领域的信息
+     * 通过ID获取单个领域的信息
      *
      * @param id 领域ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -118,5 +119,17 @@ public class RacRealmCtrl {
     @GetMapping("/rac/realm/list-all")
     public Mono<Ro<ListRa<RacRealmMo>>> listAll() {
         return Mono.create(callback -> callback.success(api.listAll()));
+    }
+
+    /**
+     * 通过条件获取单个领域的信息
+     *
+     * @param id 领域ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/realm/get-one")
+    public Mono<Ro<PojoRa<RacRealmMo>>> getOne(final RacRealmOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

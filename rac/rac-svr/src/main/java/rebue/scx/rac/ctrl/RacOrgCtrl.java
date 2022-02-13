@@ -25,6 +25,7 @@ import rebue.scx.rac.to.RacOrgAccountDelTo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
+import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacModifyOrgAccountTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
@@ -128,7 +129,7 @@ public class RacOrgCtrl {
     }
 
     /**
-     * 获取单个组织的信息
+     * 通过ID获取单个组织的信息
      *
      * @param id 组织ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -188,5 +189,17 @@ public class RacOrgCtrl {
     @GetMapping("/rac/org/page")
     public Mono<Ro<PageRa<RacOrgMo>>> page(final RacOrgPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个组织的信息
+     *
+     * @param id 组织ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/org/get-one")
+    public Mono<Ro<PojoRa<RacOrgMo>>> getOne(final RacOrgOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

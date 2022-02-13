@@ -20,6 +20,7 @@ import rebue.wxx.api.WxxMchApi;
 import rebue.wxx.mo.WxxMchMo;
 import rebue.wxx.to.WxxMchAddTo;
 import rebue.wxx.to.WxxMchModifyTo;
+import rebue.wxx.to.WxxMchOneTo;
 import rebue.wxx.to.WxxMchPageTo;
 
 /**
@@ -70,7 +71,7 @@ public class WxxMchCtrl {
     }
 
     /**
-     * 获取单个商户的信息
+     * 通过ID获取单个商户的信息
      *
      * @param id 商户ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,5 +101,17 @@ public class WxxMchCtrl {
     @GetMapping("/wxx/mch/page")
     public Mono<Ro<PageRa<WxxMchMo>>> page(final WxxMchPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个商户的信息
+     *
+     * @param id 商户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/wxx/mch/get-one")
+    public Mono<Ro<PojoRa<WxxMchMo>>> getOne(final WxxMchOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

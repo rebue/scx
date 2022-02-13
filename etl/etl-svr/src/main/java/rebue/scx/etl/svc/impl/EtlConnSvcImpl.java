@@ -52,9 +52,8 @@ import rebue.wheel.core.JdbcUtils;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class EtlConnSvcImpl
-        extends
-        BaseSvcImpl<java.lang.Long, EtlConnAddTo, EtlConnModifyTo, EtlConnDelTo, EtlConnOneTo, EtlConnListTo, EtlConnPageTo, EtlConnMo, EtlConnJo, EtlConnMapper, EtlConnDao>
-        implements EtlConnSvc {
+    extends BaseSvcImpl<java.lang.Long, EtlConnAddTo, EtlConnModifyTo, EtlConnDelTo, EtlConnOneTo, EtlConnListTo, EtlConnPageTo, EtlConnMo, EtlConnJo, EtlConnMapper, EtlConnDao>
+    implements EtlConnSvc {
 
     /**
      * 本服务的单例
@@ -93,26 +92,25 @@ public class EtlConnSvcImpl
      */
     @Override
     public Ro<?> getTablesName(Long id) {
-        EtlConnMo    connMo = thisSvc.getById(id);
-        String       url    = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
+        EtlConnMo connMo = thisSvc.getById(id);
+        String url = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
         List<String> tables = JdbcUtils.getTables(url, connMo.getUserName(), connMo.getUserPswd());
         return new Ro<>(ResultDic.SUCCESS, "查询表格成功", new ListRa<>(tables));
     }
 
     /**
      * 根据连接器ID和表名查询列名
-     * 
+     *
      * @param id        数据库连接器ID
      * @param tableName 表名
      */
     @Override
     public Ro<?> getColumnsByTableName(Long id, String tableName) {
-        EtlConnMo                       connMo                 = thisSvc.getById(id);
-        String                          url                    = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(),
-                SqlDic.getItem(connMo.getDbType()).getDesc());
-        Map<String, String>             columnsByTableNameMap  = JdbcUtils.getColumnsByTableName(url, connMo.getUserName(), connMo.getUserPswd(), tableName);
-        Iterator<Entry<String, String>> iterator               = columnsByTableNameMap.entrySet().iterator();
-        List<String>                    columnsByTableNameList = new ArrayList<String>();
+        EtlConnMo connMo = thisSvc.getById(id);
+        String url = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
+        Map<String, String> columnsByTableNameMap = JdbcUtils.getColumnsByTableName(url, connMo.getUserName(), connMo.getUserPswd(), tableName);
+        Iterator<Entry<String, String>> iterator = columnsByTableNameMap.entrySet().iterator();
+        List<String> columnsByTableNameList = new ArrayList<String>();
         while (iterator.hasNext()) {
             columnsByTableNameList.add(iterator.next().getKey());
         }
@@ -121,17 +119,16 @@ public class EtlConnSvcImpl
 
     /**
      * 测试连接
-     * 
+     *
      * @param id 数据库连接器ID
-     * 
+     *
      * @return
      */
     @Override
     public Ro<BooleanRa> testConnectionById(Long id) {
         EtlConnMo connMo = thisSvc.getById(id);
-        String    url    = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
-        Boolean   bool   = JdbcUtils.getTestConnection(url, connMo.getUserName(), connMo.getUserPswd());
+        String url = JdbcUtils.getUrl(connMo.getHost(), connMo.getPort(), connMo.getDbName(), SqlDic.getItem(connMo.getDbType()).getDesc());
+        Boolean bool = JdbcUtils.getTestConnection(url, connMo.getUserName(), connMo.getUserPswd());
         return new Ro<>(bool ? ResultDic.SUCCESS : ResultDic.WARN, bool ? "测试成功" : "测试失败", new BooleanRa(bool));
     }
-
 }

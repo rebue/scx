@@ -6,6 +6,7 @@ import rebue.scx.rac.mo.RacDicMo;
 import rebue.scx.rac.ra.DicListWithItemRa;
 import rebue.scx.rac.to.RacDicAddTo;
 import rebue.scx.rac.to.RacDicModifyTo;
+import rebue.scx.rac.to.RacDicOneTo;
 import rebue.scx.rac.to.RacDicPageTo;
 import rebue.scx.rac.to.ex.DicListWithItemTo;
 
@@ -14,7 +15,7 @@ import rebue.scx.rac.to.ex.DicListWithItemTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacDicApi extends BaseApi<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicPageTo, RacDicMo> {
+public interface RacDicApi extends BaseApi<java.lang.Long, RacDicAddTo, RacDicModifyTo, RacDicOneTo, RacDicPageTo, RacDicMo> {
 
     /**
      * 查询字典的信息

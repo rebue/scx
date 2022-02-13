@@ -12,9 +12,11 @@ import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.oapApp;
 import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.objId;
 import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.secret;
 import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.updateTimestamp;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,10 +40,9 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
 import rebue.robotech.mybatis.MapperRootInterface;
 import rebue.scx.oap.mo.OapAppMo;
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static rebue.scx.oap.mapper.OapAppDynamicSqlSupport.*;
 
 @Mapper
 public interface OapAppMapper extends MapperRootInterface<OapAppMo, Long> {

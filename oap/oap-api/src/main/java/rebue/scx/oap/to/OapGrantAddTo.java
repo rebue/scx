@@ -1,12 +1,16 @@
 package rebue.scx.oap.to;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 /**
@@ -49,12 +53,6 @@ public class OapGrantAddTo implements Serializable {
     @NotBlank(message = "oidc不能为空")
     @Length(max = 50, message = "oidc的长度不能大于50")
     private String            refreshToken;
-
-    /**
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @PositiveOrZero(message = "不能为负数")
-    private Long              createTimestamp;
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行

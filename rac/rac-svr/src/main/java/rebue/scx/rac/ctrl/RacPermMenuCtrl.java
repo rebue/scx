@@ -23,6 +23,7 @@ import rebue.scx.rac.mo.RacPermMenuMo;
 import rebue.scx.rac.to.RacPermMenuAddTo;
 import rebue.scx.rac.to.RacPermMenuListTo;
 import rebue.scx.rac.to.RacPermMenuModifyTo;
+import rebue.scx.rac.to.RacPermMenuOneTo;
 import rebue.scx.rac.to.RacPermMenuPageTo;
 import rebue.scx.rac.to.ex.RacPermMenusAddTo;
 
@@ -85,7 +86,7 @@ public class RacPermMenuCtrl {
     }
 
     /**
-     * 获取单个权限菜单的信息
+     * 通过ID获取单个权限菜单的信息
      *
      * @param id 权限菜单ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -125,5 +126,17 @@ public class RacPermMenuCtrl {
     @GetMapping("/rac/perm-menu/page")
     public Mono<Ro<PageRa<RacPermMenuMo>>> page(final RacPermMenuPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个权限菜单的信息
+     *
+     * @param id 权限菜单ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/perm-menu/get-one")
+    public Mono<Ro<PojoRa<RacPermMenuMo>>> getOne(final RacPermMenuOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

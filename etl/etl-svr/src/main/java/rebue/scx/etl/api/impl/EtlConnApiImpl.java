@@ -3,9 +3,7 @@ package rebue.scx.etl.api.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import rebue.robotech.api.impl.BaseApiImpl;
-import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.BooleanRa;
-import rebue.robotech.ra.ListRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.etl.api.EtlConnApi;
 import rebue.scx.etl.jo.EtlConnJo;
@@ -25,20 +23,7 @@ import rebue.scx.etl.to.EtlConnPageTo;
  */
 @DubboService
 public class EtlConnApiImpl extends
-        BaseApiImpl<java.lang.Long, EtlConnAddTo, EtlConnModifyTo, EtlConnDelTo, EtlConnOneTo, EtlConnListTo, EtlConnPageTo, EtlConnMo, EtlConnJo, EtlConnSvc>
-        implements EtlConnApi {
-
-    /**
-     * 查询数据库连接器的信息
-     *
-     * @param qo 查询的具体条件
-     * 
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @Override
-    public Ro<ListRa<EtlConnMo>> list(EtlConnListTo qo) {
-        return new Ro<>(ResultDic.SUCCESS, "查询成功", new ListRa<>(_svc.list(qo)));
-    }
+    BaseApiImpl<java.lang.Long, EtlConnAddTo, EtlConnModifyTo, EtlConnDelTo, EtlConnOneTo, EtlConnListTo, EtlConnPageTo, EtlConnMo, EtlConnJo, EtlConnSvc> implements EtlConnApi {
 
     /**
      * 根据连接器ID查询表名
@@ -52,7 +37,7 @@ public class EtlConnApiImpl extends
 
     /**
      * 根据连接器ID和表名查询列名
-     * 
+     *
      * @param id        数据库连接器ID
      * @param tableName 表名
      */
@@ -63,14 +48,13 @@ public class EtlConnApiImpl extends
 
     /**
      * 测试连接
-     * 
+     *
      * @param id 数据库连接器ID
-     * 
+     *
      * @return
      */
     @Override
     public Ro<BooleanRa> testConnectionById(Long id) {
         return _svc.testConnectionById(id);
     }
-
 }

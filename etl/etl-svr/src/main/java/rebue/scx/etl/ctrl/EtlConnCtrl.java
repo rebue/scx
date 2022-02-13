@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
-import rebue.robotech.ra.ListRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ro.Ro;
 import rebue.scx.etl.api.EtlConnApi;
 import rebue.scx.etl.mo.EtlConnMo;
 import rebue.scx.etl.to.EtlConnAddTo;
-import rebue.scx.etl.to.EtlConnListTo;
 import rebue.scx.etl.to.EtlConnModifyTo;
+import rebue.scx.etl.to.EtlConnOneTo;
 import rebue.scx.etl.to.EtlConnPageTo;
 
 /**
@@ -42,7 +41,6 @@ public class EtlConnCtrl {
      * 添加数据库连接器
      *
      * @param to 添加的具体信息
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PostMapping("/etl/conn")
@@ -54,7 +52,6 @@ public class EtlConnCtrl {
      * 修改数据库连接器的信息
      *
      * @param to 修改的具体数据
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @PutMapping("/etl/conn")
@@ -66,7 +63,6 @@ public class EtlConnCtrl {
      * 删除数据库连接器
      *
      * @param id 数据库连接器ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @DeleteMapping("/etl/conn")
@@ -75,10 +71,9 @@ public class EtlConnCtrl {
     }
 
     /**
-     * 获取单个数据库连接器的信息
+     * 通过ID获取单个数据库连接器的信息
      *
      * @param id 数据库连接器ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/etl/conn/get-by-id")
@@ -90,7 +85,6 @@ public class EtlConnCtrl {
      * 判断数据库连接器是否存在
      *
      * @param id 数据库连接器ID
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/etl/conn/exist-by-id")
@@ -102,19 +96,6 @@ public class EtlConnCtrl {
      * 查询数据库连接器的信息
      *
      * @param qo 查询的具体条件
-     * 
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @GetMapping("/etl/conn/list")
-    public Mono<Ro<ListRa<EtlConnMo>>> page(final EtlConnListTo qo) {
-        return Mono.create(callback -> callback.success(api.list(qo)));
-    }
-
-    /**
-     * 查询数据库连接器的信息
-     *
-     * @param qo 查询的具体条件
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @GetMapping("/etl/conn/page")
@@ -126,7 +107,6 @@ public class EtlConnCtrl {
      * 根据连接器ID查询表名
      *
      * @param id 数据库连接器ID
-     * 
      */
     @GetMapping("/etl/conn/get-table-name-by-id")
     public Mono<Ro<?>> getTablesName(@RequestParam("id") final java.lang.Long id) {
@@ -135,7 +115,7 @@ public class EtlConnCtrl {
 
     /**
      * 根据连接器ID和表名查询列名
-     * 
+     *
      * @param id        数据库连接器ID
      * @param tableName 表名
      */
@@ -146,13 +126,25 @@ public class EtlConnCtrl {
 
     /**
      * 测试连接
-     * 
+     *
      * @param id 数据库连接器ID
-     * 
+     *
      * @return Boolean
      */
     @GetMapping("/etl/conn/test-connection-by-id")
     public Mono<Ro<BooleanRa>> testConnectionById(@RequestParam("id") final java.lang.Long id) {
         return Mono.create(callback -> callback.success(api.testConnectionById(id)));
+    }
+
+    /**
+     * 通过条件获取单个数据库连接器的信息
+     *
+     * @param id 数据库连接器ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/etl/conn/get-one")
+    public Mono<Ro<PojoRa<EtlConnMo>>> getOne(final EtlConnOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

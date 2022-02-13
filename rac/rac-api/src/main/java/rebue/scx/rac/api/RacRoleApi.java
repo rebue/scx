@@ -13,6 +13,7 @@ import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleAppAddTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
+import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
 import rebue.scx.rac.to.RacRolePermAddTo;
 import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
@@ -22,7 +23,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacRoleApi extends BaseApi<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRolePageTo, RacRoleMo> {
+public interface RacRoleApi extends BaseApi<java.lang.Long, RacRoleAddTo, RacRoleModifyTo, RacRoleOneTo, RacRolePageTo, RacRoleMo> {
 
     /**
      * 查询角色

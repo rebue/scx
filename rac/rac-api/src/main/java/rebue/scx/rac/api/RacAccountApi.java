@@ -30,7 +30,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountPageTo, RacAccountMo> {
+public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountOneTo, RacAccountPageTo, RacAccountMo> {
 
     /**
      * 修改账户登录密码
@@ -111,8 +111,6 @@ public interface RacAccountApi extends BaseApi<java.lang.Long, RacAccountAddTo, 
      * @param to 修改账户登录密码的具体数据
      */
     Ro<?> resetPassword(RacAccountResetPasswordTo to);
-
-    RacAccountMo getOne(RacAccountOneTo oneTo);
 
     /**
      * 根据账户ID领域ID关键字查询该领域下账户(用户的下帐号)的信息

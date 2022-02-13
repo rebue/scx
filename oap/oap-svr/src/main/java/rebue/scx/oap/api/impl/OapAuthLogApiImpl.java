@@ -24,8 +24,8 @@ import rebue.scx.oap.to.OapAuthLogPageTo;
  */
 @DubboService
 public class OapAuthLogApiImpl extends
-        BaseApiImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogSvc>
-        implements OapAuthLogApi {
+    BaseApiImpl<java.lang.Long, OapAuthLogAddTo, OapAuthLogModifyTo, OapAuthLogDelTo, OapAuthLogOneTo, OapAuthLogListTo, OapAuthLogPageTo, OapAuthLogMo, OapAuthLogJo, OapAuthLogSvc>
+    implements OapAuthLogApi {
 
     @Override
     public Ro<?> countSurvey(OapAuthLogPageTo qo) {

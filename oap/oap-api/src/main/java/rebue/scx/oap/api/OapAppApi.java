@@ -1,6 +1,7 @@
 package rebue.scx.oap.api;
 
 import java.util.Optional;
+
 import rebue.robotech.api.BaseApi;
 import rebue.robotech.ro.Ro;
 import rebue.scx.oap.mo.OapAppMo;
@@ -8,6 +9,7 @@ import rebue.scx.oap.mo.ex.OapAppListAndRacAppListRa;
 import rebue.scx.oap.to.OapAppAddTo;
 import rebue.scx.oap.to.OapAppListTo;
 import rebue.scx.oap.to.OapAppModifyTo;
+import rebue.scx.oap.to.OapAppOneTo;
 import rebue.scx.oap.to.OapAppPageTo;
 
 /**
@@ -15,7 +17,7 @@ import rebue.scx.oap.to.OapAppPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface OapAppApi extends BaseApi<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppPageTo, OapAppMo> {
+public interface OapAppApi extends BaseApi<java.lang.Long, OapAppAddTo, OapAppModifyTo, OapAppOneTo, OapAppPageTo, OapAppMo> {
 
     Optional<OapAppMo> selectOneByClientId(String clientId);
 

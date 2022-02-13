@@ -20,6 +20,7 @@ import rebue.scx.etl.api.EtlSyncStrategyDetailApi;
 import rebue.scx.etl.mo.EtlSyncStrategyDetailMo;
 import rebue.scx.etl.to.EtlSyncStrategyDetailAddTo;
 import rebue.scx.etl.to.EtlSyncStrategyDetailModifyTo;
+import rebue.scx.etl.to.EtlSyncStrategyDetailOneTo;
 import rebue.scx.etl.to.EtlSyncStrategyDetailPageTo;
 
 /**
@@ -70,7 +71,7 @@ public class EtlSyncStrategyDetailCtrl {
     }
 
     /**
-     * 获取单个同步策略详情的信息
+     * 通过ID获取单个同步策略详情的信息
      *
      * @param id 同步策略详情ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,5 +101,17 @@ public class EtlSyncStrategyDetailCtrl {
     @GetMapping("/etl/sync-strategy-detail/page")
     public Mono<Ro<PageRa<EtlSyncStrategyDetailMo>>> page(final EtlSyncStrategyDetailPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个同步策略详情的信息
+     *
+     * @param id 同步策略详情ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/etl/sync-strategy-detail/get-one")
+    public Mono<Ro<PojoRa<EtlSyncStrategyDetailMo>>> getOne(final EtlSyncStrategyDetailOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

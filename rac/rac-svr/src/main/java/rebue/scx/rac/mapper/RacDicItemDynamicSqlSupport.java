@@ -41,6 +41,13 @@ public final class RacDicItemDynamicSqlSupport {
     public static final SqlColumn<String> dicItemKey = racDicItem.dicItemKey;
 
     /**
+    * 字典项值
+    *
+    * @mbg.generated 自动生成，如需修改，请删除本行
+    */
+    public static final SqlColumn<String> dicItemValue = racDicItem.dicItemValue;
+
+    /**
     * 字典项名称
     *
     * @mbg.generated 自动生成，如需修改，请删除本行
@@ -68,13 +75,6 @@ public final class RacDicItemDynamicSqlSupport {
     */
     public static final SqlColumn<String> remark = racDicItem.remark;
 
-    /**
-    * 字典项值
-    *
-    * @mbg.generated 自动生成，如需修改，请删除本行
-    */
-    public static final SqlColumn<String> dicItemValue = racDicItem.dicItemValue;
-
     public static final class RacDicItem extends SqlTable {
         public final SqlColumn<Long> id = column("ID", JDBCType.BIGINT);
 
@@ -84,6 +84,8 @@ public final class RacDicItemDynamicSqlSupport {
 
         public final SqlColumn<String> dicItemKey = column("DIC_ITEM_KEY", JDBCType.VARCHAR);
 
+        public final SqlColumn<String> dicItemValue = column("DIC_ITEM_VALUE", JDBCType.VARCHAR);
+
         public final SqlColumn<String> name = column("NAME", JDBCType.VARCHAR);
 
         public final SqlColumn<String> treeCode = column("TREE_CODE", JDBCType.VARCHAR);
@@ -91,8 +93,6 @@ public final class RacDicItemDynamicSqlSupport {
         public final SqlColumn<LocalDateTime> updateDatetime = column("UPDATE_DATETIME", JDBCType.TIMESTAMP);
 
         public final SqlColumn<String> remark = column("REMARK", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> dicItemValue = column("DIC_ITEM_VALUE", JDBCType.VARCHAR);
 
         public RacDicItem() {
             super("RAC_DIC_ITEM");

@@ -47,8 +47,7 @@ public class SgnSecretSvcTests {
     @Test
     public void testCrud() {
         SgnSecretAddTo addTo = null;
-        Long           id    = null;
-
+        Long id = null;
         for (int i = 0; i < 20; i++) {
             addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
             // XXX 生成公钥并保存
@@ -60,7 +59,6 @@ public class SgnSecretSvcTests {
             Assertions.assertNotNull(addRo);
             id = addRo.getId();
         }
-
         final List<SgnSecretMo> listResult = _svc.listCacheAll();
         log.info("查询签名密钥的返回值为: {}", listResult);
         Assertions.assertNotNull(listResult);

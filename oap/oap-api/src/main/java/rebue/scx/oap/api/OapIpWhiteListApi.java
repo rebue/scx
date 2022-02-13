@@ -4,6 +4,7 @@ import rebue.robotech.api.BaseApi;
 import rebue.scx.oap.mo.OapIpWhiteListMo;
 import rebue.scx.oap.to.OapIpWhiteListAddTo;
 import rebue.scx.oap.to.OapIpWhiteListModifyTo;
+import rebue.scx.oap.to.OapIpWhiteListOneTo;
 import rebue.scx.oap.to.OapIpWhiteListPageTo;
 
 /**
@@ -11,5 +12,5 @@ import rebue.scx.oap.to.OapIpWhiteListPageTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface OapIpWhiteListApi extends BaseApi<java.lang.Long, OapIpWhiteListAddTo, OapIpWhiteListModifyTo, OapIpWhiteListPageTo, OapIpWhiteListMo> {
+public interface OapIpWhiteListApi extends BaseApi<java.lang.Long, OapIpWhiteListAddTo, OapIpWhiteListModifyTo, OapIpWhiteListOneTo, OapIpWhiteListPageTo, OapIpWhiteListMo> {
 }

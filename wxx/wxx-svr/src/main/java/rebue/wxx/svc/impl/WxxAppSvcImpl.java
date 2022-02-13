@@ -41,14 +41,14 @@ import rebue.wxx.to.WxxAppPageTo;
  * </pre>
  *
  * @mbg.dontOverWriteAnnotation
- *
+ * 
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class WxxAppSvcImpl
-    extends BaseSvcImpl<java.lang.String, WxxAppAddTo, WxxAppModifyTo, WxxAppDelTo, WxxAppOneTo, WxxAppListTo, WxxAppPageTo, WxxAppMo, WxxAppJo, WxxAppMapper, WxxAppDao>
-    implements WxxAppSvc, ApplicationListener<ApplicationReadyEvent> {
+        extends BaseSvcImpl<java.lang.String, WxxAppAddTo, WxxAppModifyTo, WxxAppDelTo, WxxAppOneTo, WxxAppListTo, WxxAppPageTo, WxxAppMo, WxxAppJo, WxxAppMapper, WxxAppDao>
+        implements WxxAppSvc, ApplicationListener<ApplicationReadyEvent> {
 
     @Resource
     private WxxAppCacheSvc appCacheSvc;
@@ -94,7 +94,8 @@ public class WxxAppSvcImpl
         // appCacheSvc.delCacheAll();
         // 再查询列表逐个放入缓存
         thisSvc.listAll().forEach(mo -> {
-            appCacheSvc.putToCache(OrikaUtils.map(mo, WxxAppCco.class));    // 放入缓存
+            // 放入缓存
+            appCacheSvc.putToCache(OrikaUtils.map(mo, WxxAppCco.class));
         });
     }
 
@@ -102,24 +103,26 @@ public class WxxAppSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public WxxAppMo modifyMoById(final WxxAppMo mo) {
         final WxxAppMo result = super.modifyMoById(mo);
-        appCacheSvc.putToCache(OrikaUtils.map(mo, WxxAppCco.class));    // 放入缓存
+        // 放入缓存
+        appCacheSvc.putToCache(OrikaUtils.map(mo, WxxAppCco.class));
         return result;
     }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void delById(final String id) {
-        appCacheSvc.delById(id);    // 删除缓存
+        // 删除缓存
+        appCacheSvc.delById(id);
         super.delById(id);
     }
 
     @Override
     public WxxAppMo getById(final String id) {
         final WxxAppMo result = super.getById(id);
-        appCacheSvc.putToCache(OrikaUtils.map(result, WxxAppCco.class));    // 放入缓存
+        // 放入缓存
+        appCacheSvc.putToCache(OrikaUtils.map(result, WxxAppCco.class));
         return result;
     }
-
     // @Override
     // public List<WxxAppCco> listCcoAll() {
     // final RebueRedisCacheWriter cache = (RebueRedisCacheWriter) cacheManager.getCache(CacheCo.WXX_APP_CACHE_NAME).getNativeCache();

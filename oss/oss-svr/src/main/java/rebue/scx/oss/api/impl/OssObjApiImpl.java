@@ -24,7 +24,7 @@ import rebue.scx.oss.to.OssObjPageTo;
  */
 @DubboService
 public class OssObjApiImpl extends BaseApiImpl<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo, OssObjSvc>
-        implements OssObjApi {
+    implements OssObjApi {
 
     /**
      * 上传文件
@@ -37,7 +37,7 @@ public class OssObjApiImpl extends BaseApiImpl<java.lang.Long, OssObjAddTo, OssO
      */
     @Override
     public Ro<?> upload(final String path, final Long curAccountId, final String fileName, final String contentDisposition, final String contentType,
-            final InputStream inputStream) {
+        final InputStream inputStream) {
         return _svc.upload(path, curAccountId, fileName, contentDisposition, contentType, inputStream);
     }
 

@@ -51,7 +51,7 @@ import rebue.scx.rac.to.ex.RacListTransferOfOrgTo;
  */
 @Validated
 public interface RacAccountSvc
-        extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
+    extends BaseSvc<java.lang.Long, RacAccountAddTo, RacAccountModifyTo, RacAccountDelTo, RacAccountOneTo, RacAccountListTo, RacAccountPageTo, RacAccountMo, RacAccountJo> {
 
     /**
      * 修改账户登录密码
@@ -253,5 +253,4 @@ public interface RacAccountSvc
     Long getPasswordDoverdue();
 
     Ro<?> bindMobile(RacAccountEmailTo to);
-
 }

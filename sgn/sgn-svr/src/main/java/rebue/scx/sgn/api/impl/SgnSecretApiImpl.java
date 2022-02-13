@@ -23,5 +23,4 @@ import rebue.scx.sgn.to.SgnSecretPageTo;
 public class SgnSecretApiImpl
     extends BaseApiImpl<java.lang.Long, SgnSecretAddTo, SgnSecretModifyTo, SgnSecretDelTo, SgnSecretOneTo, SgnSecretListTo, SgnSecretPageTo, SgnSecretMo, SgnSecretJo, SgnSecretSvc>
     implements SgnSecretApi {
-
 }

@@ -24,16 +24,15 @@ import rebue.scx.etl.to.EtlSyncStrategyPageTo;
  */
 @DubboService
 public class EtlSyncStrategyApiImpl extends
-        BaseApiImpl<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo, EtlSyncStrategySvc>
-        implements EtlSyncStrategyApi {
+    BaseApiImpl<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo, EtlSyncStrategySvc>
+    implements EtlSyncStrategyApi {
+
     /**
      * 启用/禁用策略
-     *
      */
     @Override
     public Ro<?> enable(EtlSyncStrategyModifyEnableTo to) {
         _svc.enable(to);
         return new Ro<>(ResultDic.SUCCESS, "启用/禁用成功");
     }
-
 }

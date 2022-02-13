@@ -12,6 +12,7 @@ import rebue.scx.rac.to.RacOrgAccountDelTo;
 import rebue.scx.rac.to.RacOrgAddTo;
 import rebue.scx.rac.to.RacOrgListTo;
 import rebue.scx.rac.to.RacOrgModifyTo;
+import rebue.scx.rac.to.RacOrgOneTo;
 import rebue.scx.rac.to.RacOrgPageTo;
 import rebue.scx.rac.to.ex.RacModifyOrgAccountTo;
 import rebue.scx.rac.to.ex.RacOrgListByAccountIdTo;
@@ -22,7 +23,7 @@ import rebue.scx.rac.to.ex.RacOrgModifyDefaultOrgTo;
  *
  * @mbg.generated 自动生成的注释，如需修改本注释，请删除本行
  */
-public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgPageTo, RacOrgMo> {
+public interface RacOrgApi extends BaseApi<java.lang.Long, RacOrgAddTo, RacOrgModifyTo, RacOrgOneTo, RacOrgPageTo, RacOrgMo> {
 
     /**
      * 添加组织账户关系

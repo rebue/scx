@@ -37,5 +37,4 @@ public interface SgnSecretSvc
     List<SgnSecretMo> listCacheAll();
 
     void delCacheAll();
-
 }

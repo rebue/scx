@@ -29,10 +29,10 @@ import rebue.scx.etl.to.EtlSyncStrategyPageTo;
  */
 @Validated
 public interface EtlSyncStrategySvc extends
-        BaseSvc<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo> {
+    BaseSvc<java.lang.Long, EtlSyncStrategyAddTo, EtlSyncStrategyModifyTo, EtlSyncStrategyDelTo, EtlSyncStrategyOneTo, EtlSyncStrategyListTo, EtlSyncStrategyPageTo, EtlSyncStrategyMo, EtlSyncStrategyJo> {
+
     /**
      * 启用/禁用策略
-     *
      */
     EtlSyncStrategyMo enable(EtlSyncStrategyModifyEnableTo to);
 }

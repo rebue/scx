@@ -47,5 +47,4 @@ public interface RacUserSvc extends BaseSvc<java.lang.Long, RacUserAddTo, RacUse
      * 查询未脱敏用户数据
      */
     RacUserMo getUserMoOne(RacUserOneTo to);
-
 }

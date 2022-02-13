@@ -22,6 +22,7 @@ import rebue.scx.rac.mo.RacPermCommandMo;
 import rebue.scx.rac.to.RacPermCommandAddTo;
 import rebue.scx.rac.to.RacPermCommandListTo;
 import rebue.scx.rac.to.RacPermCommandModifyTo;
+import rebue.scx.rac.to.RacPermCommandOneTo;
 import rebue.scx.rac.to.RacPermCommandPageTo;
 
 /**
@@ -72,7 +73,7 @@ public class RacPermCommandCtrl {
     }
 
     /**
-     * 获取单个权限命令的信息
+     * 通过ID获取单个权限命令的信息
      *
      * @param id 权限命令ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -112,5 +113,17 @@ public class RacPermCommandCtrl {
     @GetMapping("/rac/perm-command/list")
     public Mono<Ro<ListRa<RacPermCommandMo>>> list(final RacPermCommandListTo qo) {
         return Mono.create(callback -> callback.success(api.list(qo)));
+    }
+
+    /**
+     * 通过条件获取单个权限命令的信息
+     *
+     * @param id 权限命令ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/perm-command/get-one")
+    public Mono<Ro<PojoRa<RacPermCommandMo>>> getOne(final RacPermCommandOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

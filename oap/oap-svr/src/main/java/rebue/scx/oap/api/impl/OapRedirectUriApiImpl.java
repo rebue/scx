@@ -1,6 +1,7 @@
 package rebue.scx.oap.api.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
+
 import rebue.robotech.api.impl.BaseApiImpl;
 import rebue.scx.oap.api.OapRedirectUriApi;
 import rebue.scx.oap.jo.OapRedirectUriJo;

@@ -23,6 +23,7 @@ import rebue.scx.rac.mo.RacPermUrnMo;
 import rebue.scx.rac.to.RacPermUrnAddTo;
 import rebue.scx.rac.to.RacPermUrnListTo;
 import rebue.scx.rac.to.RacPermUrnModifyTo;
+import rebue.scx.rac.to.RacPermUrnOneTo;
 import rebue.scx.rac.to.RacPermUrnPageTo;
 
 /**
@@ -84,7 +85,7 @@ public class RacPermUrnCtrl {
     }
 
     /**
-     * 获取单个权限URN的信息
+     * 通过ID获取单个权限URN的信息
      *
      * @param id 权限URNID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -124,5 +125,17 @@ public class RacPermUrnCtrl {
     @GetMapping("/rac/perm-urn/list")
     public Mono<Ro<ListRa<RacPermUrnMo>>> list(final RacPermUrnListTo qo) {
         return Mono.create(callback -> callback.success(api.list(qo)));
+    }
+
+    /**
+     * 通过条件获取单个权限URN的信息
+     *
+     * @param id 权限URNID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/perm-urn/get-one")
+    public Mono<Ro<PojoRa<RacPermUrnMo>>> getOne(final RacPermUrnOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

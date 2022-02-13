@@ -20,6 +20,7 @@ import rebue.scx.rac.api.RacOpLogApi;
 import rebue.scx.rac.mo.RacOpLogMo;
 import rebue.scx.rac.to.RacOpLogAddTo;
 import rebue.scx.rac.to.RacOpLogModifyTo;
+import rebue.scx.rac.to.RacOpLogOneTo;
 import rebue.scx.rac.to.RacOpLogPageTo;
 
 /**
@@ -70,7 +71,7 @@ public class RacOpLogCtrl {
     }
 
     /**
-     * 获取单个操作日志的信息
+     * 通过ID获取单个操作日志的信息
      *
      * @param id 操作日志ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -112,5 +113,17 @@ public class RacOpLogCtrl {
     @GetMapping("/rac/op-log/count-survey")
     public Mono<Ro<?>> countSurvey(final RacOpLogPageTo qo) {
         return Mono.create(callback -> callback.success(api.countSurvey(qo)));
+    }
+
+    /**
+     * 通过条件获取单个操作日志的信息
+     *
+     * @param id 操作日志ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/op-log/get-one")
+    public Mono<Ro<PojoRa<RacOpLogMo>>> getOne(final RacOpLogOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

@@ -54,15 +54,6 @@ public class RrlRespLogAddTo implements Serializable {
     private String            body;
 
     /**
-     * 响应时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "响应时间戳不能为空")
-    @PositiveOrZero(message = "响应时间戳不能为负数")
-    private Long              createTimestamp;
-
-    /**
      * COOKIES
      *
      * @mbg.generated 自动生成，如需修改，请删除本行

@@ -29,6 +29,7 @@ import rebue.scx.rac.to.RacRoleAddTo;
 import rebue.scx.rac.to.RacRoleAppAddTo;
 import rebue.scx.rac.to.RacRoleListTo;
 import rebue.scx.rac.to.RacRoleModifyTo;
+import rebue.scx.rac.to.RacRoleOneTo;
 import rebue.scx.rac.to.RacRolePageTo;
 import rebue.scx.rac.to.RacRolePermAddTo;
 import rebue.scx.rac.to.ex.RacListTransferOfRoleTo;
@@ -131,7 +132,7 @@ public class RacRoleCtrl {
     }
 
     /**
-     * 获取单个角色的信息
+     * 通过ID获取单个角色的信息
      *
      * @param id 角色ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -243,5 +244,17 @@ public class RacRoleCtrl {
     @GetMapping("/rac/role/list")
     public Mono<Ro<ListRa<RacRoleMo>>> list(final RacRoleListTo qo) {
         return Mono.create(callback -> callback.success(api.list(qo)));
+    }
+
+    /**
+     * 通过条件获取单个角色的信息
+     *
+     * @param id 角色ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/role/get-one")
+    public Mono<Ro<PojoRa<RacRoleMo>>> getOne(final RacRoleOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

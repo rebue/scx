@@ -2,6 +2,7 @@ package rebue.scx.oap.mapper;
 
 import java.sql.JDBCType;
 import java.time.LocalDateTime;
+
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 

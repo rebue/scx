@@ -50,35 +50,30 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<RacAccountRoleMo> insertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<RacAccountRoleMo> multipleInsertStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("RacAccountRoleMoResult")
     Optional<RacAccountRoleMo> selectOne(SelectStatementProvider selectStatement);
@@ -86,24 +81,21 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "RacAccountRoleMoResult", value = { @Result(column = "ID", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-            @Result(column = "ROLE_ID", property = "roleId", jdbcType = JdbcType.BIGINT), @Result(column = "ACCOUNT_ID", property = "accountId", jdbcType = JdbcType.BIGINT)
+        @Result(column = "ROLE_ID", property = "roleId", jdbcType = JdbcType.BIGINT), @Result(column = "ACCOUNT_ID", property = "accountId", jdbcType = JdbcType.BIGINT)
     })
     List<RacAccountRoleMo> selectMany(SelectStatementProvider selectStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, racAccountRole, completer);
     }
@@ -111,7 +103,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, racAccountRole, completer);
     }
@@ -119,7 +110,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> c.where(id, isEqualTo(id_)));
     }
@@ -127,7 +117,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insert(RacAccountRoleMo record) {
         return MyBatis3Utils.insert(this::insert, record, racAccountRole, c -> c.map(id).toProperty("id").map(roleId).toProperty("roleId").map(accountId).toProperty("accountId"));
     }
@@ -135,25 +124,22 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insertMultiple(Collection<RacAccountRoleMo> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, racAccountRole,
-                c -> c.map(id).toProperty("id").map(roleId).toProperty("roleId").map(accountId).toProperty("accountId"));
+            c -> c.map(id).toProperty("id").map(roleId).toProperty("roleId").map(accountId).toProperty("accountId"));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int insertSelective(RacAccountRoleMo record) {
         return MyBatis3Utils.insert(this::insert, record, racAccountRole, c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(roleId)
-                .toPropertyWhenPresent("roleId", record::getRoleId).map(accountId).toPropertyWhenPresent("accountId", record::getAccountId));
+            .toPropertyWhenPresent("roleId", record::getRoleId).map(accountId).toPropertyWhenPresent("accountId", record::getAccountId));
     }
 
     /**
-     * @mbg.generated 自动生成，如需修改，请删除本行O
+     * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<RacAccountRoleMo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, racAccountRole, completer);
     }
@@ -161,7 +147,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAccountRoleMo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, racAccountRole, completer);
     }
@@ -169,7 +154,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAccountRoleMo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, racAccountRole, completer);
     }
@@ -177,7 +161,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<RacAccountRoleMo> selectByPrimaryKey(Long id_) {
         return selectOne(c -> c.where(id, isEqualTo(id_)));
     }
@@ -185,7 +168,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, racAccountRole, completer);
     }
@@ -207,7 +189,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int updateByPrimaryKey(RacAccountRoleMo record) {
         return update(c -> c.set(roleId).equalTo(record::getRoleId).set(accountId).equalTo(record::getAccountId).where(id, isEqualTo(record::getId)));
     }
@@ -215,7 +196,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int updateByPrimaryKeySelective(RacAccountRoleMo record) {
         return update(c -> c.set(roleId).equalToWhenPresent(record::getRoleId).set(accountId).equalToWhenPresent(record::getAccountId).where(id, isEqualTo(record::getId)));
     }
@@ -223,37 +203,30 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default int deleteSelective(RacAccountRoleMo record) {
         return delete(
-                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId,
-                        isEqualToWhenPresent(record::getAccountId)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default Optional<RacAccountRoleMo> selectOne(RacAccountRoleMo record) {
         return selectOne(
-                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId,
-                        isEqualToWhenPresent(record::getAccountId)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default long countSelective(RacAccountRoleMo record) {
         return count(
-                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId,
-                        isEqualToWhenPresent(record::getAccountId)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default boolean existByPrimaryKey(Long id_) {
         return count(c -> c.where(id, isEqualTo(id_))) > 0;
     }
@@ -261,7 +234,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default boolean existSelective(RacAccountRoleMo record) {
         return countSelective(record) > 0;
     }
@@ -269,17 +241,14 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAccountRoleMo> selectSelective(RacAccountRoleMo record) {
         return select(
-                c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId,
-                        isEqualToWhenPresent(record::getAccountId)));
+            c -> c.where(id, isEqualToWhenPresent(record::getId)).and(roleId, isEqualToWhenPresent(record::getRoleId)).and(accountId, isEqualToWhenPresent(record::getAccountId)));
     }
 
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default List<RacAccountRoleMo> selectIn(List<Long> ids) {
         return select(c -> c.where(id, isIn(ids)));
     }
@@ -287,7 +256,6 @@ public interface RacAccountRoleMapper extends MapperRootInterface<RacAccountRole
     /**
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
-    @Override
     default BasicColumn[] getColumns() {
         return selectList;
     }

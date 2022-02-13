@@ -1,6 +1,7 @@
 package rebue.scx.oap.ctrl;
 
 import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import reactor.core.publisher.Mono;
 import rebue.robotech.ra.BooleanRa;
 import rebue.robotech.ra.IdRa;
@@ -18,6 +20,7 @@ import rebue.scx.oap.api.OapRedirectUriApi;
 import rebue.scx.oap.mo.OapRedirectUriMo;
 import rebue.scx.oap.to.OapRedirectUriAddTo;
 import rebue.scx.oap.to.OapRedirectUriModifyTo;
+import rebue.scx.oap.to.OapRedirectUriOneTo;
 import rebue.scx.oap.to.OapRedirectUriPageTo;
 
 /**
@@ -68,7 +71,7 @@ public class OapRedirectUriCtrl {
     }
 
     /**
-     * 获取单个第三方应用URL的信息
+     * 通过ID获取单个第三方应用URL的信息
      *
      * @param id 第三方应用URLID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -98,5 +101,17 @@ public class OapRedirectUriCtrl {
     @GetMapping("/oap/redirect-uri/page")
     public Mono<Ro<PageRa<OapRedirectUriMo>>> page(final OapRedirectUriPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个第三方应用URL的信息
+     *
+     * @param id 第三方应用URLID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/oap/redirect-uri/get-one")
+    public Mono<Ro<PojoRa<OapRedirectUriMo>>> getOne(final OapRedirectUriOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

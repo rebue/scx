@@ -65,8 +65,8 @@ import rebue.scx.oss.to.OssObjPageTo;
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 @Service
 public class OssObjSvcImpl
-        extends BaseSvcImpl<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo, OssObjMapper, OssObjDao>
-        implements OssObjSvc {
+    extends BaseSvcImpl<java.lang.Long, OssObjAddTo, OssObjModifyTo, OssObjDelTo, OssObjOneTo, OssObjListTo, OssObjPageTo, OssObjMo, OssObjJo, OssObjMapper, OssObjDao>
+    implements OssObjSvc {
 
     /**
      * 本服务的单例
@@ -83,6 +83,7 @@ public class OssObjSvcImpl
 
     @Value("${minio.endpoint:http://127.0.0.1:9000}")
     private String        minioEndpoint;
+
     /**
      * 文件路径是否需要全路径还是只需要去除Ip的相对路径地址
      * true 全路径http://127.0.0.1:9000/oss-svr/***
@@ -130,17 +131,17 @@ public class OssObjSvcImpl
     @SneakyThrows
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> upload(final String path, final Long curAccountId, final String fileName, final String contentDisposition, final String contentType,
-            final InputStream inputStream) {
-        final Long    id         = _idWorker.getId();
-        final String  fileExt    = Files.getFileExtension(fileName);
-        final String  objectName = id.toString() + "." + fileExt;
-        final String  bucketName = getBucketName(path);
-        final boolean found      = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+        final InputStream inputStream) {
+        final Long id = _idWorker.getId();
+        final String fileExt = Files.getFileExtension(fileName);
+        final String objectName = id.toString() + "." + fileExt;
+        final String bucketName = getBucketName(path);
+        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             final String policyJson = String.format(
-                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                    bucketName);
+                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+                bucketName);
             minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(policyJson).build());
         }
         final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(bucketName).build());
@@ -148,9 +149,7 @@ public class OssObjSvcImpl
         final Map<String, String> headers = new HashMap<>();
         headers.put("Content-Disposition", contentDisposition);
         headers.put("Content-Type", contentType);
-        minioClient.putObject(
-                PutObjectArgs.builder().bucket(bucketName).contentType(contentType).headers(headers).object(objectName)
-                        .stream(inputStream, -1, 10485760).build());
+        minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).contentType(contentType).headers(headers).object(objectName).stream(inputStream, -1, 10485760).build());
         OssObjMo mo = new OssObjMo();
         mo.setId(id);
         mo.setObjName(fileName);
@@ -178,15 +177,15 @@ public class OssObjSvcImpl
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public Ro<?> addText(final Long curAccountId, final String fileName, final String contentDisposition, final String contentType, final String text) {
         final InputStream inputStream = new ByteArrayInputStream(text.getBytes());
-        final Long        id          = _idWorker.getId();
-        final String      fileExt     = Files.getFileExtension(FILE_NAME);
-        final String      objectName  = id.toString() + "." + fileExt;
-        final boolean     found       = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
+        final Long id = _idWorker.getId();
+        final String fileExt = Files.getFileExtension(FILE_NAME);
+        final String objectName = id.toString() + "." + fileExt;
+        final boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
             final String policyJson = String.format(
-                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
-                    OssMinioCo.OBJ_BUCKET);
+                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::%1$s\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::%1$s/*\"]}]}\n",
+                OssMinioCo.OBJ_BUCKET);
             minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).config(policyJson).build());
         }
         final String bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).build());
@@ -225,10 +224,10 @@ public class OssObjSvcImpl
             // 否则则代表对象存在。
             minioClient.statObject(StatObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(fileName).build());
             // 获取文件的输入流。
-            InputStream           stream = minioClient.getObject(GetObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(fileName).build());
+            InputStream stream = minioClient.getObject(GetObjectArgs.builder().bucket(OssMinioCo.OBJ_BUCKET).object(fileName).build());
             // 读取输入流直到EOF并打印到控制台。
-            BufferedInputStream   bis    = new BufferedInputStream(stream);
-            ByteArrayOutputStream baos   = new ByteArrayOutputStream();
+            BufferedInputStream bis = new BufferedInputStream(stream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             for (int result = bis.read(); result != -1; result = bis.read()) {
                 baos.write((byte) result);
             }
@@ -270,9 +269,9 @@ public class OssObjSvcImpl
 
     /**
      * 判断是否使用自定义的桶，否则使用默认
-     * 
+     *
      * @param path
-     * 
+     *
      * @return
      */
     private static String getBucketName(final String path) {

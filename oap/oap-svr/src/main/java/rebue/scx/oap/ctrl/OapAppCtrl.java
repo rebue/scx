@@ -1,6 +1,7 @@
 package rebue.scx.oap.ctrl;
 
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ra.BooleanRa;
@@ -23,6 +25,7 @@ import rebue.scx.oap.mo.ex.OapAppListAndRacAppListRa;
 import rebue.scx.oap.to.OapAppAddTo;
 import rebue.scx.oap.to.OapAppListTo;
 import rebue.scx.oap.to.OapAppModifyTo;
+import rebue.scx.oap.to.OapAppOneTo;
 import rebue.scx.oap.to.OapAppPageTo;
 import rebue.scx.rac.ann.RacOpLog;
 import rebue.wheel.core.RandomEx;
@@ -82,7 +85,7 @@ public class OapAppCtrl {
     }
 
     /**
-     * 获取单个第三方应用的信息
+     * 通过ID获取单个第三方应用的信息
      *
      * @param id 第三方应用ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -151,5 +154,17 @@ public class OapAppCtrl {
         }
         qo.setAccountId(curAccountId);
         return Mono.create(callback -> callback.success(api.listAndTripartite(qo)));
+    }
+
+    /**
+     * 通过条件获取单个第三方应用的信息
+     *
+     * @param id 第三方应用ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/oap/app/get-one")
+    public Mono<Ro<PojoRa<OapAppMo>>> getOne(final OapAppOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

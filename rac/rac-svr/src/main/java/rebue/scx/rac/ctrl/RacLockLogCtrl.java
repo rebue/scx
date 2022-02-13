@@ -20,6 +20,7 @@ import rebue.scx.rac.api.RacLockLogApi;
 import rebue.scx.rac.mo.RacLockLogMo;
 import rebue.scx.rac.to.RacLockLogAddTo;
 import rebue.scx.rac.to.RacLockLogModifyTo;
+import rebue.scx.rac.to.RacLockLogOneTo;
 import rebue.scx.rac.to.RacLockLogPageTo;
 
 /**
@@ -48,7 +49,7 @@ public class RacLockLogCtrl {
     }
 
     /**
-     * 获取单个锁定日志的信息
+     * 通过ID获取单个锁定日志的信息
      *
      * @param id 锁定日志ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,5 +101,17 @@ public class RacLockLogCtrl {
     @PutMapping("/rac/lock-log")
     public Mono<Ro<?>> modify(@RequestBody final RacLockLogModifyTo to) {
         return Mono.create(callback -> callback.success(api.modify(to)));
+    }
+
+    /**
+     * 通过条件获取单个锁定日志的信息
+     *
+     * @param id 锁定日志ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/lock-log/get-one")
+    public Mono<Ro<PojoRa<RacLockLogMo>>> getOne(final RacLockLogOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

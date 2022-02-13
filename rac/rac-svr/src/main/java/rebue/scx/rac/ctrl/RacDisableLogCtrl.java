@@ -20,6 +20,7 @@ import rebue.scx.rac.api.RacDisableLogApi;
 import rebue.scx.rac.mo.RacDisableLogMo;
 import rebue.scx.rac.to.RacDisableLogAddTo;
 import rebue.scx.rac.to.RacDisableLogModifyTo;
+import rebue.scx.rac.to.RacDisableLogOneTo;
 import rebue.scx.rac.to.RacDisableLogPageTo;
 
 /**
@@ -70,7 +71,7 @@ public class RacDisableLogCtrl {
     }
 
     /**
-     * 获取单个账户启/禁用日志的信息
+     * 通过ID获取单个账户启/禁用日志的信息
      *
      * @param id 账户启/禁用日志ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -100,5 +101,17 @@ public class RacDisableLogCtrl {
     @GetMapping("/rac/disable-log/page")
     public Mono<Ro<PageRa<RacDisableLogMo>>> page(final RacDisableLogPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个账户启/禁用日志的信息
+     *
+     * @param id 账户启/禁用日志ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/disable-log/get-one")
+    public Mono<Ro<PojoRa<RacDisableLogMo>>> getOne(final RacDisableLogOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

@@ -24,40 +24,39 @@ public class AccessTokenService {
     @Autowired
     private OapGrantSvc    oapGrantSvc;
 
-    public void saveToken(long accountId, BearerAccessToken accessToken, RefreshToken refreshToken) {
-        long       now = System.currentTimeMillis();
-        OapGrantMo mo  = new OapGrantMo();
+    public void saveToken(final long accountId, final BearerAccessToken accessToken, final RefreshToken refreshToken) {
+        final long       now = System.currentTimeMillis();
+        final OapGrantMo mo  = new OapGrantMo();
         mo.setAccountId(accountId);
-        List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
-        for (OapGrantMo oapGrantMo : list) {
-            boolean shouldDelete = oapGrantMo.getAccessTokenExpireTimestamp() == null
+        final List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
+        for (final OapGrantMo oapGrantMo : list) {
+            final boolean shouldDelete = oapGrantMo.getAccessTokenExpireTimestamp() == null
                     || now > oapGrantMo.getAccessTokenExpireTimestamp();
             if (shouldDelete) {
                 oapGrantMapper.deleteByPrimaryKey(oapGrantMo.getId());
             }
         }
-        OapGrantAddTo oapGrantMo = new OapGrantAddTo();
+        final OapGrantAddTo oapGrantMo = new OapGrantAddTo();
         oapGrantMo.setAccountId(accountId);
         oapGrantMo.setAccessToken(accessToken.getValue());
         oapGrantMo.setRefreshToken(refreshToken.getValue());
-        oapGrantMo.setCreateTimestamp(now);
         oapGrantMo.setAccessTokenJson(accessToken.toJSONString());
         oapGrantMo.setAccessTokenExpireTimestamp(now + OidcConfig.ACCESS_TOKEN_LIFETIME * 1000);
         oapGrantMo.setRefreshTokenExpiresTimestamp(now + OidcConfig.REFRESH_TOKEN_LIFETIME * 1000);
         oapGrantSvc.add(oapGrantMo);
     }
 
-    public void updateToken(OapGrantMo mo) {
+    public void updateToken(final OapGrantMo mo) {
         oapGrantMapper.updateByPrimaryKey(mo);
     }
 
-    public OapGrantMo getByRefreshToken(String refreshToken) {
-        OapGrantMo mo = new OapGrantMo();
+    public OapGrantMo getByRefreshToken(final String refreshToken) {
+        final OapGrantMo mo = new OapGrantMo();
         mo.setRefreshToken(refreshToken);
-        List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
-        long             now  = System.currentTimeMillis();
-        for (OapGrantMo item : list) {
-            boolean shouldDelete = item.getRefreshTokenExpiresTimestamp() == null
+        final List<OapGrantMo> list = oapGrantMapper.selectSelective(mo);
+        final long             now  = System.currentTimeMillis();
+        for (final OapGrantMo item : list) {
+            final boolean shouldDelete = item.getRefreshTokenExpiresTimestamp() == null
                     || now > item.getRefreshTokenExpiresTimestamp();
             if (shouldDelete) {
                 oapGrantMapper.deleteByPrimaryKey(item.getId());
@@ -69,8 +68,8 @@ public class AccessTokenService {
         return null;
     }
 
-    public OapGrantMo getUserInfo(String accessToken) {
-        OapGrantMo mo = new OapGrantMo();
+    public OapGrantMo getUserInfo(final String accessToken) {
+        final OapGrantMo mo = new OapGrantMo();
         mo.setAccessToken(accessToken);
         return oapGrantMapper.selectOne(mo).orElse(null);
     }

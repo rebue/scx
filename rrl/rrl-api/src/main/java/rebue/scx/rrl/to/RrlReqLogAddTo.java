@@ -113,15 +113,6 @@ public class RrlReqLogAddTo implements Serializable {
     private String            uri;
 
     /**
-     * 请求时间戳
-     *
-     * @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    @NotNull(message = "请求时间戳不能为空")
-    @PositiveOrZero(message = "请求时间戳不能为负数")
-    private Long              createTimestamp;
-
-    /**
      * COOKIES
      *
      * @mbg.generated 自动生成，如需修改，请删除本行

@@ -83,7 +83,7 @@ public class RacUserCtrl {
     }
 
     /**
-     * 获取单个用户的信息
+     * 通过ID获取单个用户的信息
      *
      * @param id 用户ID
      * @mbg.generated 自动生成，如需修改，请删除本行
@@ -113,5 +113,17 @@ public class RacUserCtrl {
     @GetMapping("/rac/user/page")
     public Mono<Ro<PageRa<RacUserMo>>> page(final RacUserPageTo qo) {
         return Mono.create(callback -> callback.success(api.page(qo)));
+    }
+
+    /**
+     * 通过条件获取单个用户的信息
+     *
+     * @param id 用户ID
+     *
+     * @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    @GetMapping("/rac/user/get-one")
+    public Mono<Ro<PojoRa<RacUserMo>>> getOne(final RacUserOneTo qo) {
+        return Mono.create(callback -> callback.success(api.getOne(qo)));
     }
 }

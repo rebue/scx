@@ -7,6 +7,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -37,7 +38,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * 手机
      *
      * @mbg.dontOverWriteAnnotation 不覆盖原来的注解
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 11, message = "手机的长度不能大于11")
@@ -55,7 +55,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * 电子邮箱
      *
      * @mbg.dontOverWriteAnnotation 不覆盖原来的注解
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 50, message = "电子邮箱的长度不能大于50")
@@ -73,7 +72,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * 用户实名
      *
      * @mbg.dontOverWriteAnnotation 不覆盖原来的注解
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 100, message = "用户实名的长度不能大于100")
@@ -91,7 +89,6 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * 身份证号
      *
      * @mbg.dontOverWriteAnnotation 不覆盖原来的注解
-     * 
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Length(max = 18, message = "身份证号的长度不能大于18")
@@ -374,8 +371,8 @@ public class RacUserMo implements Serializable, Mo<Long> {
      */
     @Override
     public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
+        final int prime = 31;
+        int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
@@ -386,6 +383,7 @@ public class RacUserMo implements Serializable, Mo<Long> {
      * @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
+    @JsonIgnore
     public String getIdType() {
         return "Long";
     }
