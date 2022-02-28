@@ -6,14 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import rebue.robotech.dic.Dic;
 import rebue.robotech.dic.DicUtils;
-import rebue.scx.rac.dic.OrgTypeDic;
 
 /**
  * OIDC登录默认查询应用账户
  */
 @AllArgsConstructor
 @Getter
-public enum OIDCAppDic implements Dic {
+public enum OidcAppDic implements Dic {
     /**
      * 1: 统一应用
      */
@@ -41,8 +40,8 @@ public enum OIDCAppDic implements Dic {
      * 否则Jackson将调用默认的反序列化方法，而不会调用本方法
      */
     @JsonCreator // Jackson在反序列化时，调用 @JsonCreator 标注的构造器或者工厂方法来创建对象
-    public static OrgTypeDic getItem(final byte pcode) {
-        final OrgTypeDic result = (OrgTypeDic) DicUtils.getItem(OrgTypeDic.class, pcode);
+    public static OidcAppDic getItem(final byte pcode) {
+        final OidcAppDic result = (OidcAppDic) DicUtils.getItem(OidcAppDic.class, pcode);
         if (result == null) {
             throw new IllegalArgumentException("输入的code(" + pcode + ")不在枚举的取值范围内");
         }

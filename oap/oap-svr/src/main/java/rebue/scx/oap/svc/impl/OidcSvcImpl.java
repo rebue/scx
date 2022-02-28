@@ -63,7 +63,7 @@ import rebue.scx.jwt.ra.JwtSignInfo;
 import rebue.scx.jwt.ra.JwtSignRa;
 import rebue.scx.jwt.to.JwtSignTo;
 import rebue.scx.oap.config.OidcConfig;
-import rebue.scx.oap.dic.OIDCAppDic;
+import rebue.scx.oap.dic.OidcAppDic;
 import rebue.scx.oap.dto.CodeValue;
 import rebue.scx.oap.dto.LoginDto;
 import rebue.scx.oap.dto.OidcGetUserInfoTo;
@@ -260,7 +260,7 @@ public class OidcSvcImpl implements OidcSvc {
         if (app == null) {
             return Ro.fail("clientId 不存在");
         }
-        Ro<SignUpOrInRa> ra = getSignUpOrInRa(OIDCAppDic.unified_auth.getDesc(), loginData);
+        Ro<SignUpOrInRa> ra = getSignUpOrInRa(OidcAppDic.unified_auth.getDesc(), loginData);
         if (ra.getResult().getCode() != 1) {
             return Ro.fail(ra.getMsg());
         }

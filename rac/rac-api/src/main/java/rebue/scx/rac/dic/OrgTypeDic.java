@@ -8,12 +8,12 @@ import rebue.robotech.dic.Dic;
 import rebue.robotech.dic.DicUtils;
 
 /**
- * 组织级别组织类型(1.集团;20.政府单位;21.公司;80.部门;90.小组)
- * 1: 1
- * 2: 20
- * 3: 21
- * 4: 80
- * 5: 90
+ * 组织类型的字典
+ * 1: 集团
+ * 20: 政府单位
+ * 21: 公司
+ * 80: 部门
+ * 90: 小组
  */
 @AllArgsConstructor
 @Getter
@@ -21,23 +21,23 @@ public enum OrgTypeDic implements Dic {
     /**
      * 1: 集团
      */
-    one((byte) 1, "1"),
+    GROUP((byte) 1, "集团"),
     /**
-     * 2: 政府单位
+     * 20: 政府单位
      */
-    two((byte) 2, "20"),
+    CORP((byte) 20, "政府单位"),
     /**
-     * 3: 公司
+     * 21: 公司
      */
-    three((byte) 3, "21"),
+    UNIT((byte) 21, "公司"),
     /**
-     * 4: 部门
+     * 80: 部门
      */
-    four((byte) 4, "80"),
+    DEPT((byte) 80, "部门"),
     /**
-     * 5: 小组
+     * 90: 小组
      */
-    five((byte) 5, "90");
+    TEAM((byte) 90, "小组");
 
     private final byte   code;
     private final String desc;
