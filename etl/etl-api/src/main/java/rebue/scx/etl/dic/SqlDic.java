@@ -1,4 +1,4 @@
-package rebue.scx.oap.dic;
+package rebue.scx.etl.dic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -8,15 +8,22 @@ import rebue.robotech.dic.Dic;
 import rebue.robotech.dic.DicUtils;
 
 /**
- * OIDC登录默认查询应用账户
+ * 数据库类型的字典
+ * 
+ * 0: mysql
+ * 1: oracle
  */
 @AllArgsConstructor
 @Getter
-public enum OidcAppDic implements Dic {
+public enum SqlDic implements Dic {
     /**
-     * 1: 统一应用
+     * 0: mysql
      */
-    unified_auth(1, "unified-auth");
+    MYSQL(0, "mysql"),
+    /**
+     * 1: oracle
+     */
+    ORACLE(1, "oracle");
 
     private final Integer code;
     private final String  desc;
@@ -40,11 +47,12 @@ public enum OidcAppDic implements Dic {
      * 否则Jackson将调用默认的反序列化方法，而不会调用本方法
      */
     @JsonCreator // Jackson在反序列化时，调用 @JsonCreator 标注的构造器或者工厂方法来创建对象
-    public static OidcAppDic getItem(final Integer pcode) {
-        final OidcAppDic result = (OidcAppDic) DicUtils.getItem(OidcAppDic.class, pcode);
+    public static SqlDic getItem(final Integer pcode) {
+        final SqlDic result = (SqlDic) DicUtils.getItem(SqlDic.class, pcode);
         if (result == null) {
             throw new IllegalArgumentException("输入的code(" + pcode + ")不在枚举的取值范围内");
         }
         return result;
     }
+
 }

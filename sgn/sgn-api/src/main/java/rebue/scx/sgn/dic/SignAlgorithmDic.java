@@ -19,18 +19,18 @@ public enum SignAlgorithmDic implements Dic {
     /**
      * 1: 通用签名
      */
-    MD5((byte) 1, "MD5签名"),
+    MD5(1, "MD5签名"),
     /**
      * 2: 微信支付签名
      */
-    WX_PAY((byte) 2, "微信支付签名"),
+    WX_PAY(2, "微信支付签名"),
     /**
      * 3: Sm3WithSm2签名
      */
-    SM3_WITH_SM2((byte) 3, "Sm3WithSm2签名");
+    SM3_WITH_SM2(3, "Sm3WithSm2签名");
 
-    private final byte   code;
-    private final String desc;
+    private final Integer code;
+    private final String  desc;
 
     @Override
     public String getName() {
@@ -51,7 +51,7 @@ public enum SignAlgorithmDic implements Dic {
      * 否则Jackson将调用默认的反序列化方法，而不会调用本方法
      */
     @JsonCreator // Jackson在反序列化时，调用 @JsonCreator 标注的构造器或者工厂方法来创建对象
-    public static SignAlgorithmDic getItem(final byte pcode) {
+    public static SignAlgorithmDic getItem(final Integer pcode) {
         final SignAlgorithmDic result = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, pcode);
         if (result == null) {
             throw new IllegalArgumentException("输入的code(" + pcode + ")不在枚举的取值范围内");

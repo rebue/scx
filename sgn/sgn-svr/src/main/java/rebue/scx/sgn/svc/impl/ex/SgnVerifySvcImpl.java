@@ -76,7 +76,7 @@ public class SgnVerifySvcImpl implements SgnVerifySvc {
         // }
 
         // 根据设置的算法验证签名
-        final SignAlgorithmDic signAlgorithmDic = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, secretMo.getAlgorithm());
+        final SignAlgorithmDic signAlgorithmDic = (SignAlgorithmDic) DicUtils.getItem(SignAlgorithmDic.class, secretMo.getAlgorithm() + 0);
         switch (signAlgorithmDic) {
         case MD5:
             if (SignUtils.verify1(paramMap, secretMo.getSecret())) {

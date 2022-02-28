@@ -22,30 +22,30 @@ public enum SignUpOrInWayDic implements Dic {
     /**
      * 1: 登录名
      */
-    SIGN_IN_NAME((byte) 1, "登录名称"),
+    SIGN_IN_NAME(1, "登录名称"),
     /**
      * 2: 电子邮箱
      */
-    EMAIL((byte) 2, "电子邮箱"),
+    EMAIL(2, "电子邮箱"),
     /**
      * 3: 手机号码
      */
-    MOBILE((byte) 3, "手机号码"),
+    MOBILE(3, "手机号码"),
     /**
      * 4: QQ
      */
-    QQ((byte) 4, "QQ"),
+    QQ(4, "QQ"),
     /**
      * 5: 微信
      */
-    WECHAT((byte) 5, "微信"),
+    WECHAT(5, "微信"),
     /**
      * 6: 钉钉
      */
-    DINGTALK((byte) 6, "钉钉");
+    DINGTALK(6, "钉钉");
 
-    private final byte   code;
-    private final String desc;
+    private final Integer code;
+    private final String  desc;
 
     @Override
     public String getName() {
@@ -66,7 +66,7 @@ public enum SignUpOrInWayDic implements Dic {
      * 否则Jackson将调用默认的反序列化方法，而不会调用本方法
      */
     @JsonCreator // Jackson在反序列化时，调用 @JsonCreator 标注的构造器或者工厂方法来创建对象
-    public static SignUpOrInWayDic getItem(final byte pcode) {
+    public static SignUpOrInWayDic getItem(final Integer pcode) {
         final SignUpOrInWayDic result = (SignUpOrInWayDic) DicUtils.getItem(SignUpOrInWayDic.class, pcode);
         if (result == null) {
             throw new IllegalArgumentException("输入的code(" + pcode + ")不在枚举的取值范围内");

@@ -21,26 +21,26 @@ public enum OrgTypeDic implements Dic {
     /**
      * 1: 集团
      */
-    GROUP((byte) 1, "集团"),
+    GROUP(1, "集团"),
     /**
      * 20: 政府单位
      */
-    CORP((byte) 20, "政府单位"),
+    CORP(20, "政府单位"),
     /**
      * 21: 公司
      */
-    UNIT((byte) 21, "公司"),
+    UNIT(21, "公司"),
     /**
      * 80: 部门
      */
-    DEPT((byte) 80, "部门"),
+    DEPT(80, "部门"),
     /**
      * 90: 小组
      */
-    TEAM((byte) 90, "小组");
+    TEAM(90, "小组");
 
-    private final byte   code;
-    private final String desc;
+    private final Integer code;
+    private final String  desc;
 
     @Override
     public String getName() {
@@ -61,7 +61,7 @@ public enum OrgTypeDic implements Dic {
      * 否则Jackson将调用默认的反序列化方法，而不会调用本方法
      */
     @JsonCreator // Jackson在反序列化时，调用 @JsonCreator 标注的构造器或者工厂方法来创建对象
-    public static OrgTypeDic getItem(final byte pcode) {
+    public static OrgTypeDic getItem(final Integer pcode) {
         final OrgTypeDic result = (OrgTypeDic) DicUtils.getItem(OrgTypeDic.class, pcode);
         if (result == null) {
             throw new IllegalArgumentException("输入的code(" + pcode + ")不在枚举的取值范围内");

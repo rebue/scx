@@ -44,7 +44,7 @@ public class SgnVerifyApiTests {
     @Test
     public void testCrud() throws Exception {
         SgnSecretAddTo addTo = (SgnSecretAddTo) RandomEx.randomPojo(SgnSecretAddTo.class);
-        addTo.setAlgorithm(SignAlgorithmDic.MD5.getCode());
+        addTo.setAlgorithm(SignAlgorithmDic.MD5.getCode().byteValue());
         Long                      addId    = _secretApi.add(addTo).getExtra().getId();
 
         final Map<String, Object> paramMap = new LinkedHashMap<>();
@@ -83,7 +83,7 @@ public class SgnVerifyApiTests {
 
         final KeyPair keyPair = Sm2Utils.generateKeyPair();
         addTo = new SgnSecretAddTo();
-        addTo.setAlgorithm(SignAlgorithmDic.SM3_WITH_SM2.getCode());
+        addTo.setAlgorithm(SignAlgorithmDic.SM3_WITH_SM2.getCode().byteValue());
         addTo.setSecret(Sm2Utils.getPublicKeyString(keyPair));
         addId = _secretApi.add(addTo).getExtra().getId();
         paramMap.put("signId", addId);
