@@ -29,7 +29,7 @@ public class OapAthLogAopConfig {
         try {
             result = joinPoint.proceed();
         } catch (Throwable e) {
-            Ro<Object> ro = Ro.fail(e.getMessage());
+            Ro<Object> ro = Ro.newFail(e.getMessage());
             addAuthLog(ro);
             return Mono.just(ro);
         }

@@ -180,7 +180,7 @@ public class OidcSvcImpl implements OidcSvc {
             return codeFlowLoginPage(aRequest, request, response);
         }
         else {
-            return Ro.fail("Invalid authentication request");
+            return Ro.newFail("Invalid authentication request");
         }
     }
 
@@ -195,7 +195,7 @@ public class OidcSvcImpl implements OidcSvc {
             String            r            = redirect.getLocation().toString();
             RedirectUris      redirectUris = oapRedirectUriRepository.getRedirectUris(aRequest.getClientID().getValue());
             if (!redirectUris.match(r)) {
-                return Ro.fail("codeFlowLoginPage重定向地址错误");
+                return Ro.newFail("codeFlowLoginPage重定向地址错误");
             }
             OapAppMo oapAppMo    = oapAppRepository.selectByClientId(aRequest.getClientID().getValue());
             String   callbackUrl = "";
@@ -203,7 +203,7 @@ public class OidcSvcImpl implements OidcSvc {
                 String url = racAppApi.getById(oapAppMo.getAppId()).getExtra().getOne().getUrl();
                 callbackUrl = getCallbackUrl(url);
             } catch (Exception e) {
-                return Ro.fail("ClientID未配对App错误，rac不存在该应用/应用URL地址为空");
+                return Ro.newFail("ClientID未配对App错误，rac不存在该应用/应用URL地址为空");
             }
             hResponse.setStatusCode(HttpStatus.FOUND);
             String url = getURLDecoderString(r);
@@ -248,7 +248,7 @@ public class OidcSvcImpl implements OidcSvc {
     public Ro<String> login(LoginDto loginData, ServerHttpRequest request, ServerHttpResponse response) {
         AuthorizeInfo sessionInfo = getSessionInfo(request).orElse(null);
         if (sessionInfo == null) {
-            return Ro.fail("会话信息已失效,请刷新页面！");
+            return Ro.newFail("会话信息已失效,请刷新页面！");
         }
 
         String   uri      = sessionInfo.getRedirectUri();
@@ -258,17 +258,17 @@ public class OidcSvcImpl implements OidcSvc {
 
         OapAppMo app      = oapAppRepository.selectByClientId(clientId);
         if (app == null) {
-            return Ro.fail("clientId 不存在");
+            return Ro.newFail("clientId 不存在");
         }
         Ro<SignUpOrInRa> ra = getSignUpOrInRa(OidcAppDic.unified_auth.getDesc(), loginData);
         if (ra.getResult().getCode() != 1) {
-            return Ro.fail(ra.getMsg());
+            return Ro.newFail(ra.getMsg());
         }
         Ro<PojoRa<RacAppMo>> byId = racAppApi.getById(app.getAppId());
         RacAppMo             one  = byId.getExtra().getOne();
         ra.getExtra().setRedirectUrl(one.getUrl());
         if (ra.getExtra().getRedirectUrl() == null) {
-            return Ro.fail("应用URL地址不能为null，请到平台管理设置应用主页地址");
+            return Ro.newFail("应用URL地址不能为null，请到平台管理设置应用主页地址");
         }
         AuthorizationCode code         = codeRepository.createCode(clientId, new Scope(scope), ra.getExtra().getId());
         HTTPResponse      redirect     = OidcHelper.authenticationSuccessUri(new URI(uri), new State(state), code);
@@ -276,14 +276,14 @@ public class OidcSvcImpl implements OidcSvc {
         // 查询安全域名
         RedirectUris      redirectUris = oapRedirectUriRepository.getRedirectUris(clientId);
         if (!redirectUris.match(r)) {
-            return Ro.fail("重定向地址错误");
+            return Ro.newFail("重定向地址错误");
         }
         CookieUtils.setCookie(response, OidcConfig.AUTH_INFO, "", 0);
         CookieUtils.setCookie(response, JwtUtils.JWT_TOKEN_NAME, ra.getExtra().getSign(),
                 OidcConfig.CODE_FLOW_LOGIN_PAGE_COOKIE_AGE);
         log.info("********* 登录login重定向地址*********:" + r + "\t\t");
         String redirectUrl = redirect.getLocation().toString().toString() + getCallbackUrl(ra.getExtra().getRedirectUrl());
-        return Ro.success(URI.create(redirectUrl).toString());
+        return Ro.newSuccess(URI.create(redirectUrl).toString());
 
     }
 

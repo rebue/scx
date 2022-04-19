@@ -168,7 +168,7 @@ public class RacExcelSvcImpl implements RacExcelSvc {
         } finally {
             System.gc();
         }
-        return Ro.success("导入成功");
+        return Ro.newSuccess("导入成功");
     }
 
     /**
