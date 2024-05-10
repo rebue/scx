@@ -1,0 +1,22 @@
+# 基础配置
+server:
+  port: 19080
+
+spring:
+  application:
+    name: gateway-svr
+  profiles:
+    active: dev
+  config:
+    import:
+      - logging-${spring.profiles.active}.yml
+      - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
+  cloud:
+    consul:
+      config:
+        # 因为consul的kv路径为 ${prefixes}/${default-context}-${spring.profiles.active}/${data-key}
+        # 所以prod要在consul中添加 /gateway-svr-prod/data 的 key，value为application-prod.yml 文件的内容
+        prefixes: /
+        default-context: ${spring.application.name}
+        profile-separator: '-'
+        format: yaml

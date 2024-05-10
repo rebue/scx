@@ -1,0 +1,7 @@
+logging:
+  config: classpath:config/logback.xml
+  level:
+    root: INFO
+    rebue: TRACE
+    org.springframework.boot: INFO
+

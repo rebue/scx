@@ -12,6 +12,10 @@
     <groupId>com.github.rebue.scx.gateway</groupId>
     <artifactId>gateway</artifactId>
     <packaging>pom</packaging>
-    <description>Spring Cloud Gateway 网关</description>
+    <description>Spring Cloud Gateway 网关的聚合项目</description>
+
+    <modules>
+        <module>gateway-svr</module>
+    </modules>
 
 </project>

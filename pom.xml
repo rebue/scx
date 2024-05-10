@@ -9,6 +9,7 @@
     <version>3.5.29</version>
     <packaging>pom</packaging>
     <description>Spring Cloud的常用服务器</description>
+
     <modules>
         <module>gateway</module>
     </modules>
