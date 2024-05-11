@@ -12,6 +12,13 @@ spring:
       - logging-${spring.profiles.active}.yml
       - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
   cloud:
+    gateway:
+      discovery:
+        locator:
+          # 开启从注册中心动态创建路由的功能
+          enabled: true
+          # 使用小写服务名，默认是大写
+          lower-case-service-id: true
     consul:
       config:
         # 因为consul的kv路径为 ${prefixes}/${default-context}-${spring.profiles.active}/${data-key}

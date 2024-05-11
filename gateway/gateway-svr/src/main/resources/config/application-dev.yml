@@ -1,2 +1,13 @@
 # 开发环境的配置
 debug: true
+
+# Spring Cloud Gateway监控
+# https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway/actuator-api.html
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'  # 或者配置“gateway”只暴露gateway的端点
