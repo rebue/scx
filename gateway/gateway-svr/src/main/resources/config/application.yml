@@ -7,10 +7,6 @@ spring:
     name: gateway-svr
   profiles:
     active: dev
-  config:
-    import:
-      - logging-${spring.profiles.active}.yml
-      - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
   cloud:
     gateway:
       discovery:

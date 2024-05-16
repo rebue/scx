@@ -1,6 +1,12 @@
 # 开发环境的配置
 debug: true
 
+spring:
+  config:
+    import:
+      - logging-${spring.profiles.active}.yml
+      - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
+
 # Spring Cloud Gateway监控
 # https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway/actuator-api.html
 management:
