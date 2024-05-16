@@ -1,6 +1,6 @@
 # 基础配置
 server:
-  port: 19080
+  port: 19090
 
 spring:
   application:
