@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.rebue.scx</groupId>
@@ -23,4 +23,111 @@
         <wheel.version>3.5.29</wheel.version>
     </properties>
 
+    <url>https://github.com/rebue/scx</url>
+    <developers>
+        <developer>
+            <name>zhangbaizi</name>
+            <email>nnzbz@163.com</email>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/rebue/scx</connection>
+        <developerConnection>scm:git:https://github.com/rebue/scx.git</developerConnection>
+        <url>https://github.com/rebue/scx.git</url>
+    </scm>
+
+    <profiles>
+        <profile>
+            <id>deploy-private</id>
+            <!-- 部署私服 -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>my-snapshots</id>
+                    <name>my-snapshots</name>
+                    <url>${my-snapshots.url}</url>
+                    <uniqueVersion>true</uniqueVersion>
+                </snapshotRepository>
+                <repository>
+                    <id>my-releases</id>
+                    <name>my-releases</name>
+                    <url>${my-releases.url}</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+
+        <profile>
+            <id>deploy-public</id>
+            <!-- 部署中央仓库 -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>oss</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>oss</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+
+            <build>
+                <plugins>
+                    <!-- 创建源码包 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 创建文档包 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.6.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 部署时用GPG数字签名 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- 指定密钥的名称(可能会有多个生成的密钥) -->
+                                    <keyname>${gpg.keyname}</keyname>
+                                    <!-- 如果gpg服务有密钥，在settings.xml文件中配置 -->
+                                    <passphraseServerId>gpg</passphraseServerId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
