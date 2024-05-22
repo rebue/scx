@@ -13,12 +13,12 @@
 
     <groupId>com.github.rebue.scx.gateway</groupId>
     <artifactId>gateway-svr</artifactId>
-    <version>3.5.29</version>
+    <version>3.5.30</version>
     <description>Spring Cloud Gateway 网关</description>
 
     <properties>
         <docker.image.prefix>docker.io/nnzbz</docker.image.prefix>
-        <wheel.version>3.5.29</wheel.version>
+        <wheel.version>3.5.30</wheel.version>
     </properties>
 
     <url>https://github.com/rebue/scx</url>
@@ -128,9 +128,9 @@
                     <execution>
                         <id>default</id>
                         <!-- 绑定到install阶段执行 -->
-                        <phase>install</phase>
+                        <!--                        <phase>install</phase>-->
                         <!-- 不绑定到任何阶段，也就不会执行 -->
-                        <!--                        <phase></phase>-->
+                        <phase></phase>
                         <goals>
                             <goal>build</goal>
                             <goal>push</goal>
