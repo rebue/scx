@@ -1,5 +1,4 @@
 spring:
   config:
     import:
-      - logging-${spring.profiles.active}.yml
       - optional:consul:consul_svr:8500/${spring.application.name}-${spring.profiles.active}

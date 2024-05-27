@@ -4,7 +4,6 @@ debug: true
 spring:
   config:
     import:
-      - logging-${spring.profiles.active}.yml
       - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
 
 # Spring Cloud Gateway监控
