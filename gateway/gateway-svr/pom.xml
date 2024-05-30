@@ -81,7 +81,7 @@
 
         <!-- 配置中心 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
+        <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-config</artifactId>
         </dependency>
 
