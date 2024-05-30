@@ -3,5 +3,9 @@ logging:
   level:
     root: INFO
     rebue: TRACE
+    org.springframework: INFO
     org.springframework.boot: INFO
-
+    org.springframework.boot.actuate.endpoint.web: INFO
+    org.springframework.http: INFO
+    org.springframework.web: INFO
+    io.netty: INFO
