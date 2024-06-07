@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.5</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.github.rebue.scx.gateway</groupId>
     <artifactId>gateway-svr</artifactId>
-    <version>3.5.32</version>
+    <version>3.5.33</version>
     <description>Spring Cloud Gateway 网关</description>
 
     <properties>
         <docker.image.prefix>docker.io/nnzbz</docker.image.prefix>
-        <wheel.version>3.5.32</wheel.version>
+        <wheel.version>3.5.33</wheel.version>
     </properties>
 
     <url>https://github.com/rebue/scx</url>
@@ -81,7 +81,7 @@
 
         <!-- 配置中心 -->
         <dependency>
-        <groupId>org.springframework.cloud</groupId>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-config</artifactId>
         </dependency>
 
