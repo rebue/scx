@@ -13,12 +13,12 @@
 
     <groupId>com.github.rebue.scx.gateway</groupId>
     <artifactId>gateway-svr</artifactId>
-    <version>3.5.35</version>
+    <version>3.5.36</version>
     <description>Spring Cloud Gateway 网关</description>
 
     <properties>
         <docker.image.prefix>docker.io/nnzbz</docker.image.prefix>
-        <wheel.version>3.5.35</wheel.version>
+        <wheel.version>3.5.36</wheel.version>
     </properties>
 
     <url>https://github.com/rebue/scx</url>
