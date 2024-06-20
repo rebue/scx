@@ -19,6 +19,9 @@ spring:
           # 使用小写服务名，默认是大写
           lower-case-service-id: true
     consul:
+      discovery:
+        instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}:${server.port}
+        prefer-ip-address: true
       config:
         # 因为consul的kv路径为 ${prefixes}/${default-context}-${spring.profiles.active}/${data-key}
         # 所以prod要在consul中添加 /gateway-svr-prod/data 的 key，value为application-prod.yml 文件的内容
