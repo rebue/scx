@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.rebue.scx</groupId>
         <artifactId>scx</artifactId>
-        <version>3.5.37</version>
+        <version>3.5.38</version>
     </parent>
 
     <groupId>com.github.rebue.scx.gateway</groupId>
