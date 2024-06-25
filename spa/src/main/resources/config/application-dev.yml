@@ -1,0 +1,19 @@
+# 开发环境的配置
+debug: true
+
+server:
+  port: 17060
+
+spring:
+  config:
+    import:
+      - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

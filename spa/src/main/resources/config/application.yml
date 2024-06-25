@@ -1,0 +1,17 @@
+# 基础配置
+server:
+  port: 0
+
+spring:
+  application:
+    name: spa-svr
+  profiles:
+    active: dev
+  config:
+    import:
+      - logging-${spring.profiles.active}.yml
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}:${server.port}
+        prefer-ip-address: true
