@@ -10,7 +10,7 @@
 
     <groupId>rebue.scx.spa</groupId>
     <artifactId>spa</artifactId>
-    <version>3.5.38</version>
+    <version>3.3.2</version>
     <name>Spring Boot Admin</name>
     <description>Spring Boot Admin</description>
 
