@@ -15,7 +15,7 @@
     <description>Spring Boot Admin</description>
 
     <properties>
-        <docker.image.prefix>docker.io/nnzbz</docker.image.prefix>
+        <docker.image.prefix>nnzbz</docker.image.prefix>
         <wheel.version>3.5.38</wheel.version>
     </properties>
 
