@@ -8,6 +8,9 @@ spring:
   config:
     import:
       - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
+  cloud:
+    consul:
+      host: consul
 
 management:
   endpoints:

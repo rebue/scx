@@ -1,4 +1,4 @@
-package com.github.rebbue.scx.spa;
+package com.github.rebue.scx.sba;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,8 +9,8 @@ import de.codecentric.boot.admin.server.config.EnableAdminServer;
 @SpringBootApplication
 @EnableAdminServer
 @EnableDiscoveryClient
-public class SpaApplication {
+public class SbaApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpaApplication.class, args);
+        SpringApplication.run(SbaApplication.class, args);
     }
 }

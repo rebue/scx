@@ -18,7 +18,7 @@
 
     <properties>
         <docker.image.prefix>nnzbz</docker.image.prefix>
-        <wheel.version>3.5.38</wheel.version>
+        <wheel.version>3.5.39</wheel.version>
     </properties>
 
     <dependencyManagement>
