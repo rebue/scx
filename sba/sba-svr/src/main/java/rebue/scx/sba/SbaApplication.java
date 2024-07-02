@@ -1,4 +1,4 @@
-package com.github.rebue.scx.sba;
+package rebue.scx.sba;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

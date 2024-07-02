@@ -4,20 +4,19 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.github.rebue.scx.sba</groupId>
     <artifactId>sba-svr</artifactId>
     <version>3.3.2</version>
-    <packaging>pom</packaging>
     <name>Spring Boot Admin</name>
     <description>Spring Boot Admin</description>
 
     <properties>
         <docker.image.prefix>nnzbz</docker.image.prefix>
-        <wheel.version>3.5.39</wheel.version>
+        <wheel.version>3.5.40</wheel.version>
     </properties>
 
     <dependencyManagement>
@@ -52,6 +51,13 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

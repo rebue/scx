@@ -10,6 +10,7 @@ spring:
       - optional:consul:consul:8500/${spring.application.name}-${spring.profiles.active}
   cloud:
     consul:
+      enabled: false
       host: consul
 
 management:

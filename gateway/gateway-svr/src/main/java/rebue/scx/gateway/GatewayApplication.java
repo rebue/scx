@@ -1,4 +1,4 @@
-package com.github.rebue.scx.gateway;
+package rebue.scx.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
