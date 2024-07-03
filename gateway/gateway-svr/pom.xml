@@ -125,7 +125,7 @@
                         <!-- 绑定到install阶段执行 -->
                         <!--                        <phase>install</phase>-->
                         <!-- 不绑定到任何阶段，也就不会执行 -->
-                        <phase></phase>
+                        <phase>none</phase>
                         <goals>
                             <goal>build</goal>
                             <goal>push</goal>
@@ -137,8 +137,6 @@
                     <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
                     <!-- 部署到私服，${docker.host}在settings.xml中统一配置 -->
                     <repository>${docker.host}/${docker.image.prefix}/${project.artifactId}</repository>
-                    <!-- 部署到hub.docker.com -->
-                    <!--                    <repository>${docker.image.prefix}/${project.artifactId}</repository>-->
                     <tag>${project.version}</tag>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
