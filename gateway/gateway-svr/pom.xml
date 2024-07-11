@@ -13,7 +13,7 @@
 
     <groupId>com.github.rebue.scx.gateway</groupId>
     <artifactId>gateway-svr</artifactId>
-    <version>4.1.2</version>
+    <version>4.1.4</version>
     <description>Spring Cloud Gateway 网关</description>
 
     <properties>
@@ -45,6 +45,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
+            <version>4.1.4</version>
         </dependency>
 
         <!-- 注册中心 -->
@@ -70,6 +71,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- spring 推荐使用caffeine作为默认缓存 -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
 
         <dependency>
