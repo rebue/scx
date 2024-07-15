@@ -8,7 +8,6 @@ public class GatewayApplication {
 
     public static void main(String[] args) {
         try {
-            System.setProperty("spring.devtools.restart.enabled", "false");
             SpringApplication.run(GatewayApplication.class, args);
         } catch (Throwable e) {
             if (!e.getClass().getName().contains("SilentExitException")) {
