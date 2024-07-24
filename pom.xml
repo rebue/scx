@@ -6,7 +6,7 @@
 
     <groupId>com.github.rebue.scx</groupId>
     <artifactId>scx</artifactId>
-    <version>3.5.40</version>
+    <version>3.5.41</version>
     <packaging>pom</packaging>
     <description>Spring Cloud的常用服务器</description>
 
@@ -21,7 +21,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <wheel.version>3.5.40</wheel.version>
+        <wheel.version>3.5.41</wheel.version>
     </properties>
 
     <url>https://github.com/rebue/scx</url>
