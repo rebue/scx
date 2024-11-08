@@ -8,6 +8,7 @@
     <artifactId>scx</artifactId>
     <version>3.5.45</version>
     <packaging>pom</packaging>
+    <name>rebue-scx</name>
     <description>Spring Cloud的常用服务器</description>
 
     <modules>
