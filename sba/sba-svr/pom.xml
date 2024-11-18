@@ -10,7 +10,7 @@
 
     <groupId>com.github.rebue.scx.sba</groupId>
     <artifactId>sba-svr</artifactId>
-    <version>3.3.2</version>
+    <version>3.3.6</version>
     <name>Spring Boot Admin</name>
     <description>Spring Boot Admin</description>
 
