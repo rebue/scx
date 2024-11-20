@@ -12,8 +12,8 @@
     <description>Spring Cloud的常用服务器</description>
 
     <modules>
-        <module>gateway</module>
         <module>sba</module>
+        <module>gateway</module>
     </modules>
 
     <properties>

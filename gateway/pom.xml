@@ -13,8 +13,8 @@
     <artifactId>gateway</artifactId>
     <version>4.1.5</version>
     <packaging>pom</packaging>
-    <name>Spring Cloud Gateway</name>
-    <description>Spring Cloud Gateway 网关的聚合项目</description>
+    <name>rebue-spring-cloud-gateway</name>
+    <description>Rebue Spring Cloud Gateway</description>
 
     <modules>
         <module>gateway-svr</module>

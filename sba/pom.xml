@@ -11,8 +11,8 @@
     <artifactId>sba</artifactId>
     <version>3.3.6</version>
     <packaging>pom</packaging>
-    <name>Spring Boot Admin</name>
-    <description>Spring Boot Admin</description>
+    <name>rebue-spring-boot-admin</name>
+    <description>Rebue Spring Boot Admin</description>
 
     <modules>
         <module>sba-svr</module>

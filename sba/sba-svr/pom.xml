@@ -11,8 +11,8 @@
     <groupId>com.github.rebue.scx.sba</groupId>
     <artifactId>sba-svr</artifactId>
     <version>3.3.6</version>
-    <name>Spring Boot Admin</name>
-    <description>Spring Boot Admin</description>
+    <name>rebue-spring-boot-admin-svr</name>
+    <description>Rebue Spring Boot Admin Server</description>
 
     <properties>
         <docker.image.prefix>nnzbz</docker.image.prefix>
