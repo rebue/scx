@@ -4,12 +4,12 @@
     <parent>
         <groupId>com.github.rebue.scx</groupId>
         <artifactId>scx</artifactId>
-        <version>3.5.47</version>
+        <version>3.5.48</version>
     </parent>
 
     <groupId>com.github.rebue.scx.sba</groupId>
     <artifactId>sba</artifactId>
-    <version>3.3.6</version>
+    <version>3.4.2</version>
     <packaging>pom</packaging>
     <name>rebue-spring-boot-admin</name>
     <description>Rebue Spring Boot Admin</description>

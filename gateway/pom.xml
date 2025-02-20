@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.github.rebue.scx</groupId>
         <artifactId>scx</artifactId>
-        <version>3.5.47</version>
+        <version>3.5.48</version>
     </parent>
 
     <groupId>com.github.rebue.scx.gateway</groupId>
     <artifactId>gateway</artifactId>
-    <version>4.1.5</version>
+    <version>4.2.0</version>
     <packaging>pom</packaging>
     <name>rebue-spring-cloud-gateway</name>
     <description>Rebue Spring Cloud Gateway</description>
