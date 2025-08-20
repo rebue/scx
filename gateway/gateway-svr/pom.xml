@@ -19,7 +19,10 @@
 
     <properties>
         <docker.image.prefix>nnzbz</docker.image.prefix>
+
         <wheel.version>3.8.59</wheel.version>
+
+        <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -209,7 +212,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.6.0</version>
+                        <version>${maven-javadoc-plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>

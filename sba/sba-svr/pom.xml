@@ -14,9 +14,31 @@
     <name>rebue-spring-boot-admin-svr</name>
     <description>Rebue Spring Boot Admin Server</description>
 
+    <url>https://github.com/rebue/scx</url>
+    <developers>
+        <developer>
+            <name>zhangbaizi</name>
+            <email>nnzbz@163.com</email>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/rebue/scx</connection>
+        <developerConnection>scm:git:https://github.com/rebue/scx.git</developerConnection>
+        <url>https://github.com/rebue/scx.git</url>
+    </scm>
+
     <properties>
         <docker.image.prefix>nnzbz</docker.image.prefix>
+
         <wheel.version>3.8.59</wheel.version>
+
+        <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -53,25 +75,6 @@
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>
     </dependencies>
-
-    <url>https://github.com/rebue/scx</url>
-    <developers>
-        <developer>
-            <name>zhangbaizi</name>
-            <email>nnzbz@163.com</email>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
-    <scm>
-        <connection>scm:git:https://github.com/rebue/scx</connection>
-        <developerConnection>scm:git:https://github.com/rebue/scx.git</developerConnection>
-        <url>https://github.com/rebue/scx.git</url>
-    </scm>
 
     <build>
         <plugins>
@@ -169,7 +172,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.6.0</version>
+                        <version>${maven-javadoc-plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>

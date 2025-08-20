@@ -37,6 +37,10 @@
         <url>https://github.com/rebue/scx.git</url>
     </scm>
 
+    <properties>
+        <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
+    </properties>
+
     <profiles>
         <profile>
             <id>deploy-private</id>
@@ -90,7 +94,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.6.0</version>
+                        <version>${maven-javadoc-plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
