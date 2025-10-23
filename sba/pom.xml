@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.rebue.scx</groupId>
         <artifactId>scx</artifactId>
-        <version>3.8.62</version>
+        <version>3.8.63</version>
     </parent>
 
     <groupId>com.github.rebue.scx.sba</groupId>
