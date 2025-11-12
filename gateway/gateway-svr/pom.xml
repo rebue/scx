@@ -20,7 +20,7 @@
     <properties>
         <docker.image.prefix>nnzbz</docker.image.prefix>
 
-        <wheel.version>3.8.63</wheel.version>
+        <wheel.version>3.8.64</wheel.version>
 
         <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
     </properties>
