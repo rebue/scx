@@ -4,13 +4,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.7</version>
+        <version>3.5.9</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.github.rebue.scx.sba</groupId>
     <artifactId>sba-svr</artifactId>
-    <version>3.4.4</version>
+    <version>3.5.6</version>
     <name>rebue-spring-boot-admin-svr</name>
     <description>Rebue Spring Boot Admin Server</description>
 

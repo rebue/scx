@@ -11,7 +11,7 @@
 
     <groupId>com.github.rebue.scx.gateway</groupId>
     <artifactId>gateway</artifactId>
-    <version>4.2.0</version>
+    <version>4.3.3</version>
     <packaging>pom</packaging>
     <name>rebue-spring-cloud-gateway</name>
     <description>Rebue Spring Cloud Gateway</description>
